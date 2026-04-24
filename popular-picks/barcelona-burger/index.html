@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Burger Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/burger+in+Barcelona", "picks": [{"anchorId": "chivuos", "rank": 1, "name": "Chivuo's", "label": "1. Chivuo's", "ctaUrl": "https://maps.google.com/?q=Chivuo's+Gothic+Quarter+Barcelona", "mapQuery": "Chivuo's, Gothic Quarter, Barcelona", "lat": 41.38139, "lng": 2.17066}, {"anchorId": "bacoa-burger", "rank": 2, "name": "Bacoa Burger", "label": "2. Bacoa Burger", "ctaUrl": "https://maps.google.com/?q=Bacoa+Burger+El+Raval+Barcelona", "mapQuery": "Bacoa Burger, El Raval, Barcelona", "lat": 41.38573, "lng": 2.16781}, {"anchorId": "foc-i-oli", "rank": 3, "name": "Foc i Oli", "label": "3. Foc i Oli", "ctaUrl": "https://maps.google.com/?q=Foc+i+Oli+El+Born+Barcelona", "mapQuery": "Foc i Oli, El Born, Barcelona", "lat": 41.38075, "lng": 2.17937}, {"anchorId": "big-als", "rank": 4, "name": "Big Al's", "label": "4. Big Al's", "ctaUrl": "https://maps.google.com/?q=Big+Al's+Sant+Antoni+Barcelona", "mapQuery": "Big Al's, Sant Antoni, Barcelona", "lat": 41.38977, "lng": 2.15243}, {"anchorId": "depaula-burgers", "rank": 5, "name": "DePaula Burgers", "label": "5. DePaula Burgers", "ctaUrl": "https://maps.google.com/?q=DePaula+Burgers+Poblenou+Barcelona", "mapQuery": "DePaula Burgers, Poblenou, Barcelona", "lat": 41.39704, "lng": 2.19698}, {"anchorId": "timesburg", "rank": 6, "name": "Timesburg", "label": "6. Timesburg", "ctaUrl": "https://maps.google.com/?q=Timesburg+Sant+Antoni+Barcelona", "mapQuery": "Timesburg, Sant Antoni, Barcelona", "lat": 41.38012, "lng": 2.1557}, {"anchorId": "la-vespa-burger", "rank": 7, "name": "La Vespa Burger", "label": "7. La Vespa Burger", "ctaUrl": "https://maps.google.com/?q=La+Vespa+Burger+Gràcia+Barcelona", "mapQuery": "La Vespa Burger, Gràcia, Barcelona", "lat": 41.39655, "lng": 2.16333}, {"anchorId": "goiko-grill", "rank": 8, "name": "Goiko Grill", "label": "8. Goiko Grill", "ctaUrl": "https://maps.google.com/?q=Goiko+Grill+Eixample+Barcelona", "mapQuery": "Goiko Grill, Eixample, Barcelona", "lat": 41.38692, "lng": 2.1583}, {"anchorId": "oval", "rank": 9, "name": "Oval", "label": "9. Oval", "ctaUrl": "https://maps.google.com/?q=Oval+Eixample+Esquerra+Barcelona", "mapQuery": "Oval, Eixample Esquerra, Barcelona", "lat": 41.38676, "lng": 2.15783}, {"anchorId": "vicio", "rank": 10, "name": "Vicio", "label": "10. Vicio", "ctaUrl": "https://maps.google.com/?q=Vicio+Eixample+Barcelona", "mapQuery": "Vicio, Eixample, Barcelona", "lat": 41.3789, "lng": 2.14441}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

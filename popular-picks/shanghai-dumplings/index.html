@@ -1573,73 +1573,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Dumplings Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/dumplings+in+Shanghai", "picks": [{"anchorId": "jia-jia-tang-bao", "rank": 1, "name": "Jia Jia Tang Bao", "label": "1. Jia Jia Tang Bao", "ctaUrl": "https://maps.google.com/?q=Jia+Jia+Tang+Bao+Huangpu+(People's+Square)+Shanghai", "mapQuery": "Jia Jia Tang Bao, Huangpu (People's Square), Shanghai", "lat": 31.236942, "lng": 121.472718}, {"anchorId": "yangs-fry-dumpling", "rank": 2, "name": "Yang's Fry-Dumpling", "label": "2. Yang's Fry-Dumpling", "ctaUrl": "https://maps.google.com/?q=Yang's+Fry-Dumpling+Huangpu+(multiple+locations)+Shanghai", "mapQuery": "Yang's Fry-Dumpling, Huangpu (multiple locations), Shanghai", "lat": 31.236879, "lng": 121.472895}, {"anchorId": "fu-chun-xiao-long-bao", "rank": 3, "name": "Fu Chun Xiao Long Bao", "label": "3. Fu Chun Xiao Long Bao", "ctaUrl": "https://maps.google.com/?q=Fu+Chun+Xiao+Long+Bao+Jing'an+Shanghai", "mapQuery": "Fu Chun Xiao Long Bao, Jing'an, Shanghai", "lat": 31.226992, "lng": 121.439499}, {"anchorId": "din-tai-fung", "rank": 4, "name": "Din Tai Fung", "label": "4. Din Tai Fung", "ctaUrl": "https://maps.google.com/?q=Din+Tai+Fung+Xuhui+(IAPM+Mall)+Shanghai", "mapQuery": "Din Tai Fung, Xuhui (IAPM Mall), Shanghai", "lat": 31.196901, "lng": 121.432657}, {"anchorId": "dalong-jiaozi", "rank": 5, "name": "Dalong Jiaozi", "label": "5. Dalong Jiaozi", "ctaUrl": "https://maps.google.com/?q=Dalong+Jiaozi+Putuo+Shanghai", "mapQuery": "Dalong Jiaozi, Putuo, Shanghai", "lat": 31.240743, "lng": 121.411681}, {"anchorId": "de-xing-guan", "rank": 6, "name": "De Xing Guan", "label": "6. De Xing Guan", "ctaUrl": "https://maps.google.com/?q=De+Xing+Guan+Huangpu+(near+The+Bund)+Shanghai", "mapQuery": "De Xing Guan, Huangpu (near The Bund), Shanghai", "lat": 31.237856, "lng": 121.48839}, {"anchorId": "lu-bo-lang", "rank": 7, "name": "Lu Bo Lang", "label": "7. Lu Bo Lang", "ctaUrl": "https://maps.google.com/?q=Lu+Bo+Lang+Huangpu+(Yu+Garden)+Shanghai", "mapQuery": "Lu Bo Lang, Huangpu (Yu Garden), Shanghai", "lat": 31.229555, "lng": 121.491689}, {"anchorId": "xiao-shaoxing", "rank": 8, "name": "Xiao Shaoxing", "label": "8. Xiao Shaoxing", "ctaUrl": "https://maps.google.com/?q=Xiao+Shaoxing+Huangpu+(Yunnan+South+Rd)+Shanghai", "mapQuery": "Xiao Shaoxing, Huangpu (Yunnan South Rd), Shanghai", "lat": 31.230784, "lng": 121.483935}, {"anchorId": "wan-shou-zhai", "rank": 9, "name": "Wan Shou Zhai", "label": "9. Wan Shou Zhai", "ctaUrl": "https://maps.google.com/?q=Wan+Shou+Zhai+Hongkou+Shanghai", "mapQuery": "Wan Shou Zhai, Hongkou, Shanghai", "lat": 31.260662, "lng": 121.482087}, {"anchorId": "da-hu-chun", "rank": 10, "name": "Da Hu Chun", "label": "10. Da Hu Chun", "ctaUrl": "https://maps.google.com/?q=Da+Hu+Chun+Huangpu+(Yunnan+South+Rd)+Shanghai", "mapQuery": "Da Hu Chun, Huangpu (Yunnan South Rd), Shanghai", "lat": 31.230671, "lng": 121.48421}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

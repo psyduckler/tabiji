@@ -1567,73 +1567,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Pittsburgh", "picks": [{"anchorId": "caliente-pizza-draft-house", "rank": 1, "name": "Caliente Pizza & Draft House", "label": "1. Caliente Pizza & Draft House", "ctaUrl": "https://maps.google.com/?q=Caliente+Pizza+&+Draft+House+Various+(Strip+District,+Lawrenceville,+etc.)+Pittsburgh", "mapQuery": "Caliente Pizza & Draft House, Various (Strip District, Lawrenceville, etc.), Pittsburgh", "lat": 40.45785, "lng": -79.97746}, {"anchorId": "driftwood-oven", "rank": 2, "name": "Driftwood Oven", "label": "2. Driftwood Oven", "ctaUrl": "https://maps.google.com/?q=Driftwood+Oven+Lawrenceville+Pittsburgh", "mapQuery": "Driftwood Oven, Lawrenceville, Pittsburgh", "lat": 40.47055, "lng": -79.96781}, {"anchorId": "mineos-pizza-house", "rank": 3, "name": "Mineo's Pizza House", "label": "3. Mineo's Pizza House", "ctaUrl": "https://maps.google.com/?q=Mineo's+Pizza+House+Squirrel+Hill+Pittsburgh", "mapQuery": "Mineo's Pizza House, Squirrel Hill, Pittsburgh", "lat": 40.42857, "lng": -79.90793}, {"anchorId": "iron-born-pizza", "rank": 4, "name": "Iron Born Pizza", "label": "4. Iron Born Pizza", "ctaUrl": "https://maps.google.com/?q=Iron+Born+Pizza+Strip+District+Pittsburgh", "mapQuery": "Iron Born Pizza, Strip District, Pittsburgh", "lat": 40.45279, "lng": -79.9796}, {"anchorId": "pizza-taglio", "rank": 5, "name": "Pizza Taglio", "label": "5. Pizza Taglio", "ctaUrl": "https://maps.google.com/?q=Pizza+Taglio+East+Liberty+Pittsburgh", "mapQuery": "Pizza Taglio, East Liberty, Pittsburgh", "lat": 40.45237, "lng": -79.91979}, {"anchorId": "badamos-pizza", "rank": 6, "name": "Badamo's Pizza", "label": "6. Badamo's Pizza", "ctaUrl": "https://maps.google.com/?q=Badamo's+Pizza+North+Side+Pittsburgh", "mapQuery": "Badamo's Pizza, North Side, Pittsburgh", "lat": 40.4533, "lng": -80.01026}, {"anchorId": "aiellos-pizza", "rank": 7, "name": "Aiello's Pizza", "label": "7. Aiello's Pizza", "ctaUrl": "https://maps.google.com/?q=Aiello's+Pizza+Squirrel+Hill+Pittsburgh", "mapQuery": "Aiello's Pizza, Squirrel Hill, Pittsburgh", "lat": 40.43585, "lng": -79.92383}, {"anchorId": "spirit", "rank": 8, "name": "Spirit", "label": "8. Spirit", "ctaUrl": "https://maps.google.com/?q=Spirit+Lawrenceville+Pittsburgh", "mapQuery": "Spirit, Lawrenceville, Pittsburgh", "lat": 40.47706, "lng": -79.96316}, {"anchorId": "rockaway-pizzeria", "rank": 9, "name": "Rockaway Pizzeria", "label": "9. Rockaway Pizzeria", "ctaUrl": "https://maps.google.com/?q=Rockaway+Pizzeria+Lawrenceville+Pittsburgh", "mapQuery": "Rockaway Pizzeria, Lawrenceville, Pittsburgh", "lat": 40.47274, "lng": -79.9657}, {"anchorId": "fioris-pizzaria", "rank": 10, "name": "Fiori's Pizzaria", "label": "10. Fiori's Pizzaria", "ctaUrl": "https://maps.google.com/?q=Fiori's+Pizzaria+Brookline+Pittsburgh", "mapQuery": "Fiori's Pizzaria, Brookline, Pittsburgh", "lat": 40.39955, "lng": -80.01594}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

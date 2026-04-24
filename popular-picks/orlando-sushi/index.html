@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Orlando", "picks": [{"anchorId": "kadence", "rank": 1, "name": "Kadence", "label": "1. Kadence", "ctaUrl": "https://maps.google.com/?q=Kadence+Audubon+Park+Orlando", "mapQuery": "Kadence, Audubon Park, Orlando", "lat": 28.578642, "lng": -81.341103}, {"anchorId": "kabooki-sushi", "rank": 2, "name": "Kabooki Sushi", "label": "2. Kabooki Sushi", "ctaUrl": "https://maps.google.com/?q=Kabooki+Sushi+Milk+District+Orlando", "mapQuery": "Kabooki Sushi, Milk District, Orlando", "lat": 28.5528, "lng": -81.34278}, {"anchorId": "seito-sushi-new-japanese", "rank": 3, "name": "Seito Sushi & New Japanese", "label": "3. Seito Sushi & New Japanese", "ctaUrl": "https://maps.google.com/?q=Seito+Sushi+&+New+Japanese+Baldwin+Park+Orlando", "mapQuery": "Seito Sushi & New Japanese, Baldwin Park, Orlando", "lat": 28.58309, "lng": -81.33405}, {"anchorId": "sushi-pop-gyu", "rank": 4, "name": "Sushi Pop Gyu", "label": "4. Sushi Pop Gyu", "ctaUrl": "https://maps.google.com/?q=Sushi+Pop+Gyu+Winter+Park+Orlando", "mapQuery": "Sushi Pop Gyu, Winter Park, Orlando", "lat": 28.59992, "lng": -81.36209}, {"anchorId": "domu-sushi-izakaya", "rank": 5, "name": "Domu Sushi & Izakaya", "label": "5. Domu Sushi & Izakaya", "ctaUrl": "https://maps.google.com/?q=Domu+Sushi+&+Izakaya+Audubon+Park+Orlando", "mapQuery": "Domu Sushi & Izakaya, Audubon Park, Orlando", "lat": 28.57898, "lng": -81.34289}, {"anchorId": "hanamizuki-japanese-restaurant", "rank": 6, "name": "Hanamizuki Japanese Restaurant", "label": "6. Hanamizuki Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Hanamizuki+Japanese+Restaurant+Dr.+Phillips+Orlando", "mapQuery": "Hanamizuki Japanese Restaurant, Dr. Phillips, Orlando", "lat": 28.47353, "lng": -81.44297}, {"anchorId": "amura-japanese-restaurant", "rank": 7, "name": "Amura Japanese Restaurant", "label": "7. Amura Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Amura+Japanese+Restaurant+Dr.+Phillips+Orlando", "mapQuery": "Amura Japanese Restaurant, Dr. Phillips, Orlando", "lat": 28.4206, "lng": -81.47291}, {"anchorId": "sushi-katana", "rank": 8, "name": "Sushi Katana", "label": "8. Sushi Katana", "ctaUrl": "https://maps.google.com/?q=Sushi+Katana+Hunter's+Creek+Orlando", "mapQuery": "Sushi Katana, Hunter's Creek, Orlando", "lat": 28.34917, "lng": -81.41908}, {"anchorId": "oishii-sushi-thai", "rank": 9, "name": "Oishii Sushi & Thai", "label": "9. Oishii Sushi & Thai", "ctaUrl": "https://maps.google.com/?q=Oishii+Sushi+&+Thai+Near+UCF+(East+Orlando)+Orlando", "mapQuery": "Oishii Sushi & Thai, Near UCF (East Orlando), Orlando", "lat": 28.60101, "lng": -81.20577}, {"anchorId": "susuru-juju-izakaya", "rank": 10, "name": "Susuru Juju Izakaya", "label": "10. Susuru Juju Izakaya", "ctaUrl": "https://maps.google.com/?q=Susuru+Juju+Izakaya+Mills+50+District+Orlando", "mapQuery": "Susuru Juju Izakaya, Mills 50 District, Orlando", "lat": 28.56391, "lng": -81.36531}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+San+Jose", "picks": [{"anchorId": "kiwami-sushi", "rank": 1, "name": "Kiwami Sushi", "label": "1. Kiwami Sushi", "ctaUrl": "https://maps.google.com/?q=Kiwami+Sushi+Escazú+San+Jose", "mapQuery": "Kiwami Sushi, Escazú, San Jose", "lat": 9.92348, "lng": -84.14816}, {"anchorId": "miyako-restaurant", "rank": 2, "name": "Miyako Restaurant", "label": "2. Miyako Restaurant", "ctaUrl": "https://maps.google.com/?q=Miyako+Restaurant+La+Sabana+San+Jose", "mapQuery": "Miyako Restaurant, La Sabana, San Jose", "lat": 9.9363, "lng": -84.103}, {"anchorId": "yoshii-sushi-japanese-kitchen", "rank": 3, "name": "Yoshii Sushi & Japanese Kitchen", "label": "3. Yoshii Sushi & Japanese Kitchen", "ctaUrl": "https://maps.google.com/?q=Yoshii+Sushi+&+Japanese+Kitchen+San+Pedro+San+Jose", "mapQuery": "Yoshii Sushi & Japanese Kitchen, San Pedro, San Jose", "lat": 9.93175, "lng": -84.0538}, {"anchorId": "fukuri-sushi-poke", "rank": 4, "name": "Fukuri Sushi & Poke", "label": "4. Fukuri Sushi & Poke", "ctaUrl": "https://maps.google.com/?q=Fukuri+Sushi+&+Poke+Lindora,+Santa+Ana+San+Jose", "mapQuery": "Fukuri Sushi & Poke, Lindora, Santa Ana, San Jose", "lat": 9.95758, "lng": -84.17061}, {"anchorId": "nigiri-sushi", "rank": 5, "name": "Nigiri Sushi", "label": "5. Nigiri Sushi", "ctaUrl": "https://maps.google.com/?q=Nigiri+Sushi+Escazú+San+Jose", "mapQuery": "Nigiri Sushi, Escazú, San Jose", "lat": 9.92561, "lng": -84.14413}, {"anchorId": "arigato-sushi-teppanyaki", "rank": 6, "name": "Arigato Sushi & Teppanyaki", "label": "6. Arigato Sushi & Teppanyaki", "ctaUrl": "https://maps.google.com/?q=Arigato+Sushi+&+Teppanyaki+Curridabat+San+Jose", "mapQuery": "Arigato Sushi & Teppanyaki, Curridabat, San Jose", "lat": 9.90795, "lng": -84.01955}, {"anchorId": "mirai-sushi-noodle", "rank": 7, "name": "Mirai Sushi & Noodle", "label": "7. Mirai Sushi & Noodle", "ctaUrl": "https://maps.google.com/?q=Mirai+Sushi+&+Noodle+San+Pedro+San+Jose", "mapQuery": "Mirai Sushi & Noodle, San Pedro, San Jose", "lat": 9.93701, "lng": -84.0535}, {"anchorId": "umi-sushi-japanese-food", "rank": 8, "name": "Umi Sushi & Japanese Food", "label": "8. Umi Sushi & Japanese Food", "ctaUrl": "https://maps.google.com/?q=Umi+Sushi+&+Japanese+Food+La+Sabana+San+Jose", "mapQuery": "Umi Sushi & Japanese Food, La Sabana, San Jose", "lat": 9.93587, "lng": -84.10255}, {"anchorId": "sushi-bambú", "rank": 9, "name": "Sushi Bambú", "label": "9. Sushi Bambú", "ctaUrl": "https://maps.google.com/?q=Sushi+Bambú+Barrio+Escalante+San+Jose", "mapQuery": "Sushi Bambú, Barrio Escalante, San Jose", "lat": 9.93481, "lng": -84.06997}, {"anchorId": "sushi-club-costa-rica", "rank": 10, "name": "Sushi Club Costa Rica", "label": "10. Sushi Club Costa Rica", "ctaUrl": "https://maps.google.com/?q=Sushi+Club+Costa+Rica+Curridabat+San+Jose", "mapQuery": "Sushi Club Costa Rica, Curridabat, San Jose", "lat": 9.90999, "lng": -84.0203}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

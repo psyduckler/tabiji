@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Seattle", "picks": [{"anchorId": "delancey", "rank": 1, "name": "Delancey", "label": "1. Delancey", "ctaUrl": "https://maps.google.com/?q=Delancey+Ballard+Seattle", "mapQuery": "Delancey, Ballard, Seattle", "lat": 47.6791, "lng": -122.3852}, {"anchorId": "serious-pie", "rank": 2, "name": "Serious Pie", "label": "2. Serious Pie", "ctaUrl": "https://maps.google.com/?q=Serious+Pie+Downtown+/+South+Lake+Union+Seattle", "mapQuery": "Serious Pie, Downtown / South Lake Union, Seattle", "lat": 47.6145, "lng": -122.3392}, {"anchorId": "bar-del-corso", "rank": 3, "name": "Bar del Corso", "label": "3. Bar del Corso", "ctaUrl": "https://maps.google.com/?q=Bar+del+Corso+Beacon+Hill+Seattle", "mapQuery": "Bar del Corso, Beacon Hill, Seattle", "lat": 47.575, "lng": -122.3129}, {"anchorId": "moto-pizza", "rank": 4, "name": "MOTO Pizza", "label": "4. MOTO Pizza", "ctaUrl": "https://maps.google.com/?q=MOTO+Pizza+West+Seattle+Seattle", "mapQuery": "MOTO Pizza, West Seattle, Seattle", "lat": 47.5658, "lng": -122.3869}, {"anchorId": "breezy-town-pizza", "rank": 5, "name": "Breezy Town Pizza", "label": "5. Breezy Town Pizza", "ctaUrl": "https://maps.google.com/?q=Breezy+Town+Pizza+Beacon+Hill+Seattle", "mapQuery": "Breezy Town Pizza, Beacon Hill, Seattle", "lat": 47.5647, "lng": -122.309}, {"anchorId": "pizzeria-credo", "rank": 6, "name": "Pizzeria Credo", "label": "6. Pizzeria Credo", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Credo+University+District+Seattle", "mapQuery": "Pizzeria Credo, University District, Seattle", "lat": 47.6609, "lng": -122.3134}, {"anchorId": "the-independent-pizzeria", "rank": 7, "name": "The Independent Pizzeria", "label": "7. The Independent Pizzeria", "ctaUrl": "https://maps.google.com/?q=The+Independent+Pizzeria+Madrona+Seattle", "mapQuery": "The Independent Pizzeria, Madrona, Seattle", "lat": 47.6083, "lng": -122.2902}, {"anchorId": "pagliacci-pizza", "rank": 8, "name": "Pagliacci Pizza", "label": "8. Pagliacci Pizza", "ctaUrl": "https://maps.google.com/?q=Pagliacci+Pizza+Multiple+(e.g.,+University+District)+Seattle", "mapQuery": "Pagliacci Pizza, Multiple (e.g., University District), Seattle", "lat": 47.6609, "lng": -122.3133}, {"anchorId": "hot-mamas-pizza", "rank": 9, "name": "Hot Mama's Pizza", "label": "9. Hot Mama's Pizza", "ctaUrl": "https://maps.google.com/?q=Hot+Mama's+Pizza+Capitol+Hill+Seattle", "mapQuery": "Hot Mama's Pizza, Capitol Hill, Seattle", "lat": 47.6141, "lng": -122.3175}, {"anchorId": "pizza-coop-and-ale-house", "rank": 10, "name": "Pizza Coop and Ale House", "label": "10. Pizza Coop and Ale House", "ctaUrl": "https://maps.google.com/?q=Pizza+Coop+and+Ale+House+Woodinville+Seattle", "mapQuery": "Pizza Coop and Ale House, Woodinville, Seattle", "lat": 47.761, "lng": -122.0915}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

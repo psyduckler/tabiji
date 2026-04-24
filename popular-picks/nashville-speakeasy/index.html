@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+Nashville", "picks": [{"anchorId": "the-patterson-house", "rank": 1, "name": "The Patterson House", "label": "1. The Patterson House", "ctaUrl": "https://maps.google.com/?q=The+Patterson+House+Midtown+Nashville", "mapQuery": "The Patterson House, Midtown, Nashville", "lat": 36.14811, "lng": -86.79093}, {"anchorId": "attaboy-nashville", "rank": 2, "name": "Attaboy Nashville", "label": "2. Attaboy Nashville", "ctaUrl": "https://maps.google.com/?q=Attaboy+Nashville+East+Nashville+Nashville", "mapQuery": "Attaboy Nashville, East Nashville, Nashville", "lat": 36.17066, "lng": -86.75825}, {"anchorId": "red-phone-booth", "rank": 3, "name": "Red Phone Booth", "label": "3. Red Phone Booth", "ctaUrl": "https://maps.google.com/?q=Red+Phone+Booth+Downtown+Nashville", "mapQuery": "Red Phone Booth, Downtown, Nashville", "lat": 36.16278, "lng": -86.77583}, {"anchorId": "hidden-bar", "rank": 4, "name": "Hidden Bar", "label": "4. Hidden Bar", "ctaUrl": "https://maps.google.com/?q=Hidden+Bar+Downtown+Nashville", "mapQuery": "Hidden Bar, Downtown, Nashville", "lat": 36.16335, "lng": -86.77979}, {"anchorId": "green-light-bar", "rank": 5, "name": "Green Light Bar", "label": "5. Green Light Bar", "ctaUrl": "https://maps.google.com/?q=Green+Light+Bar+Downtown+Nashville", "mapQuery": "Green Light Bar, Downtown, Nashville", "lat": 36.16371, "lng": -86.77991}, {"anchorId": "skulls-rainbow-room", "rank": 6, "name": "Skull's Rainbow Room", "label": "6. Skull's Rainbow Room", "ctaUrl": "https://maps.google.com/?q=Skull's+Rainbow+Room+Printers+Alley+(Downtown)+Nashville", "mapQuery": "Skull's Rainbow Room, Printers Alley (Downtown), Nashville", "lat": 36.16345, "lng": -86.7781}, {"anchorId": "blind-barber", "rank": 7, "name": "Blind Barber", "label": "7. Blind Barber", "ctaUrl": "https://maps.google.com/?q=Blind+Barber+Gulch+Nashville", "mapQuery": "Blind Barber, Gulch, Nashville", "lat": 36.14207, "lng": -86.7844}, {"anchorId": "the-bar-at-bastion", "rank": 8, "name": "The Bar at Bastion", "label": "8. The Bar at Bastion", "ctaUrl": "https://maps.google.com/?q=The+Bar+at+Bastion+Wedgewood-Houston+(WeHo)+Nashville", "mapQuery": "The Bar at Bastion, Wedgewood-Houston (WeHo), Nashville", "lat": 36.13098, "lng": -86.77334}, {"anchorId": "old-glory", "rank": 9, "name": "Old Glory", "label": "9. Old Glory", "ctaUrl": "https://maps.google.com/?q=Old+Glory+Edgehill+Village+Nashville", "mapQuery": "Old Glory, Edgehill Village, Nashville", "lat": 36.14389, "lng": -86.79155}, {"anchorId": "bar-otaku", "rank": 10, "name": "Bar Otaku", "label": "10. Bar Otaku", "ctaUrl": "https://maps.google.com/?q=Bar+Otaku+Gulch+Nashville", "mapQuery": "Bar Otaku, Gulch, Nashville", "lat": 36.1428, "lng": -86.7854}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

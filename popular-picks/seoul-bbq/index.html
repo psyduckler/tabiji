@@ -1546,73 +1546,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bbq Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bbq+in+Seoul", "picks": [{"anchorId": "maple-tree-house-itaewon", "rank": 1, "name": "Maple Tree House Itaewon", "label": "1. Maple Tree House Itaewon", "ctaUrl": "https://maps.google.com/?q=Maple+Tree+House+Itaewon+Itaewon+Seoul", "mapQuery": "Maple Tree House Itaewon, Itaewon, Seoul", "lat": 37.5367, "lng": 126.993}, {"anchorId": "saemaul-sikdang-hongdae", "rank": 2, "name": "Saemaul Sikdang Hongdae", "label": "2. Saemaul Sikdang Hongdae", "ctaUrl": "https://maps.google.com/?q=Saemaul+Sikdang+Hongdae+Hongdae+Seoul", "mapQuery": "Saemaul Sikdang Hongdae, Hongdae, Seoul", "lat": 37.5501, "lng": 126.9205}, {"anchorId": "gogang-apgujeong", "rank": 3, "name": "Gogang Apgujeong", "label": "3. Gogang Apgujeong", "ctaUrl": "https://maps.google.com/?q=Gogang+Apgujeong+Apgujeong+Seoul", "mapQuery": "Gogang Apgujeong, Apgujeong, Seoul", "lat": 37.5255, "lng": 127.0374}, {"anchorId": "byeokje-galbi-sinsa", "rank": 4, "name": "Byeokje Galbi Sinsa", "label": "4. Byeokje Galbi Sinsa", "ctaUrl": "https://maps.google.com/?q=Byeokje+Galbi+Sinsa+Sinsa-dong+Seoul", "mapQuery": "Byeokje Galbi Sinsa, Sinsa-dong, Seoul", "lat": 37.5186, "lng": 127.0267}, {"anchorId": "wangbijib-myeongdong-main", "rank": 5, "name": "Wangbijib Myeongdong Main", "label": "5. Wangbijib Myeongdong Main", "ctaUrl": "https://maps.google.com/?q=Wangbijib+Myeongdong+Main+Myeongdong+Seoul", "mapQuery": "Wangbijib Myeongdong Main, Myeongdong, Seoul", "lat": 37.562, "lng": 126.9877}, {"anchorId": "namoosairo-itaewon", "rank": 6, "name": "Namoosairo Itaewon", "label": "6. Namoosairo Itaewon", "ctaUrl": "https://maps.google.com/?q=Namoosairo+Itaewon+Itaewon+Seoul", "mapQuery": "Namoosairo Itaewon, Itaewon, Seoul", "lat": 37.5365, "lng": 126.9935}, {"anchorId": "palsaik-samgyupsal-hongdae", "rank": 7, "name": "Palsaik Samgyupsal Hongdae", "label": "7. Palsaik Samgyupsal Hongdae", "ctaUrl": "https://maps.google.com/?q=Palsaik+Samgyupsal+Hongdae+Hongdae+Seoul", "mapQuery": "Palsaik Samgyupsal Hongdae, Hongdae, Seoul", "lat": 37.5562, "lng": 126.9248}, {"anchorId": "doma-myeongdong", "rank": 8, "name": "Doma Myeongdong", "label": "8. Doma Myeongdong", "ctaUrl": "https://maps.google.com/?q=Doma+Myeongdong+Myeongdong+Seoul", "mapQuery": "Doma Myeongdong, Myeongdong, Seoul", "lat": 37.5619, "lng": 126.9859}, {"anchorId": "hanam-pig-house-gangnam-station", "rank": 9, "name": "Hanam Pig House Gangnam Station", "label": "9. Hanam Pig House Gangnam Station", "ctaUrl": "https://maps.google.com/?q=Hanam+Pig+House+Gangnam+Station+Gangnam+Seoul", "mapQuery": "Hanam Pig House Gangnam Station, Gangnam, Seoul", "lat": 37.4984, "lng": 127.027}, {"anchorId": "yeontabal-gangnam", "rank": 10, "name": "Yeontabal Gangnam", "label": "10. Yeontabal Gangnam", "ctaUrl": "https://maps.google.com/?q=Yeontabal+Gangnam+Gangnam+Seoul", "mapQuery": "Yeontabal Gangnam, Gangnam, Seoul", "lat": 37.4981, "lng": 127.0273}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

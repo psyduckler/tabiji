@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Wine Tasting Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/wine+tasting+in+Chicago", "picks": [{"anchorId": "websters-wine-bar", "rank": 1, "name": "Webster's Wine Bar", "label": "1. Webster's Wine Bar", "ctaUrl": "https://maps.google.com/?q=Webster's+Wine+Bar+Logan+Square/Bucktown+Chicago", "mapQuery": "Webster's Wine Bar, Logan Square/Bucktown, Chicago", "lat": 41.929, "lng": -87.6974}, {"anchorId": "city-winery-chicago", "rank": 2, "name": "City Winery Chicago", "label": "2. City Winery Chicago", "ctaUrl": "https://maps.google.com/?q=City+Winery+Chicago+West+Loop+Chicago", "mapQuery": "City Winery Chicago, West Loop, Chicago", "lat": 41.884576, "lng": -87.658253}, {"anchorId": "rootstock-wine-bar", "rank": 3, "name": "Rootstock Wine Bar", "label": "3. Rootstock Wine Bar", "ctaUrl": "https://maps.google.com/?q=Rootstock+Wine+Bar+Humboldt+Park+Chicago", "mapQuery": "Rootstock Wine Bar, Humboldt Park, Chicago", "lat": 41.90098, "lng": -87.69766}, {"anchorId": "the-press-room", "rank": 4, "name": "The Press Room", "label": "4. The Press Room", "ctaUrl": "https://maps.google.com/?q=The+Press+Room+West+Loop+Chicago", "mapQuery": "The Press Room, West Loop, Chicago", "lat": 41.88373, "lng": -87.65651}, {"anchorId": "volo-restaurant-wine-bar", "rank": 5, "name": "Volo Restaurant Wine Bar", "label": "5. Volo Restaurant Wine Bar", "ctaUrl": "https://maps.google.com/?q=Volo+Restaurant+Wine+Bar+Roscoe+Village+Chicago", "mapQuery": "Volo Restaurant Wine Bar, Roscoe Village, Chicago", "lat": 41.93922, "lng": -87.67929}, {"anchorId": "income-tax-bar", "rank": 6, "name": "Income Tax Bar", "label": "6. Income Tax Bar", "ctaUrl": "https://maps.google.com/?q=Income+Tax+Bar+Edgewater+Chicago", "mapQuery": "Income Tax Bar, Edgewater, Chicago", "lat": 41.98921, "lng": -87.66014}, {"anchorId": "domaine-wine-bar-lounge", "rank": 7, "name": "Domaine Wine Bar & Lounge", "label": "7. Domaine Wine Bar & Lounge", "ctaUrl": "https://maps.google.com/?q=Domaine+Wine+Bar+&+Lounge+Streeterville+Chicago", "mapQuery": "Domaine Wine Bar & Lounge, Streeterville, Chicago", "lat": 41.89886, "lng": -87.62562}, {"anchorId": "vajra", "rank": 8, "name": "Vajra", "label": "8. Vajra", "ctaUrl": "https://maps.google.com/?q=Vajra+Wicker+Park+Chicago", "mapQuery": "Vajra, Wicker Park, Chicago", "lat": 41.90565, "lng": -87.67191}, {"anchorId": "perman-wine-selections", "rank": 9, "name": "Perman Wine Selections", "label": "9. Perman Wine Selections", "ctaUrl": "https://maps.google.com/?q=Perman+Wine+Selections+Lincoln+Park+Chicago", "mapQuery": "Perman Wine Selections, Lincoln Park, Chicago", "lat": 41.9184, "lng": -87.64966}, {"anchorId": "goodfunk", "rank": 10, "name": "GoodFunk", "label": "10. GoodFunk", "ctaUrl": "https://maps.google.com/?q=GoodFunk+River+North+Chicago", "mapQuery": "GoodFunk, River North, Chicago", "lat": 41.8847, "lng": -87.63737}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

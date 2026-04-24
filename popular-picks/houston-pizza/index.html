@@ -1536,73 +1536,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Houston", "picks": [{"anchorId": "pizaros-pizza-napoletana", "rank": 1, "name": "Pizaro's Pizza Napoletana", "label": "1. Pizaro's Pizza Napoletana", "ctaUrl": "https://maps.google.com/?q=Pizaro's+Pizza+Napoletana+Memorial+/+Montrose+Houston", "mapQuery": "Pizaro's Pizza Napoletana, Memorial / Montrose, Houston", "lat": 29.761, "lng": -95.3995}, {"anchorId": "coltivare-pizza-garden", "rank": 2, "name": "Coltivare Pizza & Garden", "label": "2. Coltivare Pizza & Garden", "ctaUrl": "https://maps.google.com/?q=Coltivare+Pizza+&+Garden+Heights+Houston", "mapQuery": "Coltivare Pizza & Garden, Heights, Houston", "lat": 29.7915, "lng": -95.3957}, {"anchorId": "star-pizza", "rank": 3, "name": "Star Pizza", "label": "3. Star Pizza", "ctaUrl": "https://maps.google.com/?q=Star+Pizza+Heights+/+Upper+Kirby+Houston", "mapQuery": "Star Pizza, Heights / Upper Kirby, Houston", "lat": 29.782, "lng": -95.397}, {"anchorId": "franks-pizza", "rank": 4, "name": "Frank's Pizza", "label": "4. Frank's Pizza", "ctaUrl": "https://maps.google.com/?q=Frank's+Pizza+Downtown+Houston", "mapQuery": "Frank's Pizza, Downtown, Houston", "lat": 29.7621, "lng": -95.3626}, {"anchorId": "bollo-woodfired-pizza", "rank": 5, "name": "Bollo Woodfired Pizza", "label": "5. Bollo Woodfired Pizza", "ctaUrl": "https://maps.google.com/?q=Bollo+Woodfired+Pizza+Montrose+Houston", "mapQuery": "Bollo Woodfired Pizza, Montrose, Houston", "lat": 29.7423, "lng": -95.4059}, {"anchorId": "brothers-pizzeria", "rank": 6, "name": "Brothers Pizzeria", "label": "6. Brothers Pizzeria", "ctaUrl": "https://maps.google.com/?q=Brothers+Pizzeria+West+University+/+Galleria+Houston", "mapQuery": "Brothers Pizzeria, West University / Galleria, Houston", "lat": 29.7289, "lng": -95.419}, {"anchorId": "pinks-pizza", "rank": 7, "name": "Pink's Pizza", "label": "7. Pink's Pizza", "ctaUrl": "https://maps.google.com/?q=Pink's+Pizza+Heights+/+Midtown+Houston", "mapQuery": "Pink's Pizza, Heights / Midtown, Houston", "lat": 29.7997, "lng": -95.3857}, {"anchorId": "luna-pizzeria", "rank": 8, "name": "Luna Pizzeria", "label": "8. Luna Pizzeria", "ctaUrl": "https://maps.google.com/?q=Luna+Pizzeria+Galleria+/+Heights+Houston", "mapQuery": "Luna Pizzeria, Galleria / Heights, Houston", "lat": 29.7345, "lng": -95.4241}, {"anchorId": "tiny-champions", "rank": 9, "name": "Tiny Champions", "label": "9. Tiny Champions", "ctaUrl": "https://maps.google.com/?q=Tiny+Champions+Montrose+Houston", "mapQuery": "Tiny Champions, Montrose, Houston", "lat": 29.799, "lng": -95.385}, {"anchorId": "neapolitan-pizza", "rank": 10, "name": "Neapolitan Pizza", "label": "10. Neapolitan Pizza", "ctaUrl": "https://maps.google.com/?q=Neapolitan+Pizza+Medical+Center+Houston", "mapQuery": "Neapolitan Pizza, Medical Center, Houston", "lat": 29.7196, "lng": -95.3957}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

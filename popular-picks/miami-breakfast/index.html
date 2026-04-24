@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Breakfast Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/breakfast+in+Miami", "picks": [{"anchorId": "zak-the-baker", "rank": 1, "name": "Zak the Baker", "label": "1. Zak the Baker", "ctaUrl": "https://maps.google.com/?q=Zak+the+Baker+Wynwood+Miami", "mapQuery": "Zak the Baker, Wynwood, Miami", "lat": 25.79974, "lng": -80.19835}, {"anchorId": "versailles-restaurant", "rank": 2, "name": "Versailles Restaurant", "label": "2. Versailles Restaurant", "ctaUrl": "https://maps.google.com/?q=Versailles+Restaurant+Little+Havana+Miami", "mapQuery": "Versailles Restaurant, Little Havana, Miami", "lat": 25.77583, "lng": -80.25754}, {"anchorId": "news-cafe", "rank": 3, "name": "News Cafe", "label": "3. News Cafe", "ctaUrl": "https://maps.google.com/?q=News+Cafe+South+Beach+Miami", "mapQuery": "News Cafe, South Beach, Miami", "lat": 25.78018, "lng": -80.12933}, {"anchorId": "greenstreet-cafe", "rank": 4, "name": "Greenstreet Cafe", "label": "4. Greenstreet Cafe", "ctaUrl": "https://maps.google.com/?q=Greenstreet+Cafe+Coconut+Grove+Miami", "mapQuery": "Greenstreet Cafe, Coconut Grove, Miami", "lat": 25.72753, "lng": -80.25263}, {"anchorId": "bachour-bakery-bistro", "rank": 5, "name": "Bachour Bakery + Bistro", "label": "5. Bachour Bakery + Bistro", "ctaUrl": "https://maps.google.com/?q=Bachour+Bakery+++Bistro+Coral+Gables+Miami", "mapQuery": "Bachour Bakery + Bistro, Coral Gables, Miami", "lat": 25.7533, "lng": -80.2592}, {"anchorId": "all-day-cafe", "rank": 6, "name": "All Day Cafe", "label": "6. All Day Cafe", "ctaUrl": "https://maps.google.com/?q=All+Day+Cafe+Downtown+Miami+Miami", "mapQuery": "All Day Cafe, Downtown Miami, Miami", "lat": 25.78453, "lng": -80.19358}, {"anchorId": "blue-collar", "rank": 7, "name": "Blue Collar", "label": "7. Blue Collar", "ctaUrl": "https://maps.google.com/?q=Blue+Collar+MiMo+District+Miami", "mapQuery": "Blue Collar, MiMo District, Miami", "lat": 25.82737, "lng": -80.18731}, {"anchorId": "threefold-cafe", "rank": 8, "name": "Threefold Cafe", "label": "8. Threefold Cafe", "ctaUrl": "https://maps.google.com/?q=Threefold+Cafe+Coral+Gables+Miami", "mapQuery": "Threefold Cafe, Coral Gables, Miami", "lat": 25.75382, "lng": -80.25624}, {"anchorId": "b-bistro-bakery", "rank": 9, "name": "B Bistro + Bakery", "label": "9. B Bistro + Bakery", "ctaUrl": "https://maps.google.com/?q=B+Bistro+++Bakery+Brickell+Miami", "mapQuery": "B Bistro + Bakery, Brickell, Miami", "lat": 25.76615, "lng": -80.19379}, {"anchorId": "el-palacio-de-los-jugos", "rank": 10, "name": "El Palacio de los Jugos", "label": "10. El Palacio de los Jugos", "ctaUrl": "https://maps.google.com/?q=El+Palacio+de+los+Jugos+Allapattah+Miami", "mapQuery": "El Palacio de los Jugos, Allapattah, Miami", "lat": 25.75059, "lng": -80.25992}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

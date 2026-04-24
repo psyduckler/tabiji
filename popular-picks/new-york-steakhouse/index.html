@@ -1520,7 +1520,7 @@
   <h3>More New York guides</h3>
   <p class="related-subtitle">Other curated Reddit-backed picks from New York</p>
   <div class="related-picks-grid">
-    <a href="/popular-picks/best-cheap-eats-new-york/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
+    <a href="/popular-picks/new-york-cheap-eats/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
     <a href="/popular-picks/new-york-bagels/" class="related-pick-link">15 Best Bagels in New York</a>
     <a href="/popular-picks/new-york-pizza/" class="related-pick-link">19 Best Pizza Spots in New York City</a>
     <a href="/popular-picks/new-york-ramen/" class="related-pick-link">18 Best Ramen in New York City</a>
@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+New+York", "picks": [{"anchorId": "peter-luger-steak-house", "rank": 1, "name": "Peter Luger Steak House", "label": "1. Peter Luger Steak House", "ctaUrl": "https://maps.google.com/?q=Peter+Luger+Steak+House+Williamsburg,+Brooklyn+New+York", "mapQuery": "Peter Luger Steak House, Williamsburg, Brooklyn, New York", "lat": 40.7099, "lng": -73.9632}, {"anchorId": "keens-steakhouse", "rank": 2, "name": "Keens Steakhouse", "label": "2. Keens Steakhouse", "ctaUrl": "https://maps.google.com/?q=Keens+Steakhouse+Midtown+West+New+York", "mapQuery": "Keens Steakhouse, Midtown West, New York", "lat": 40.7513, "lng": -73.9877}, {"anchorId": "hawksmoor-nyc", "rank": 3, "name": "Hawksmoor NYC", "label": "3. Hawksmoor NYC", "ctaUrl": "https://maps.google.com/?q=Hawksmoor+NYC+Flatiron+New+York", "mapQuery": "Hawksmoor NYC, Flatiron, New York", "lat": 40.738, "lng": -73.9875}, {"anchorId": "4-charles-prime-rib", "rank": 4, "name": "4 Charles Prime Rib", "label": "4. 4 Charles Prime Rib", "ctaUrl": "https://maps.google.com/?q=4+Charles+Prime+Rib+West+Village+New+York", "mapQuery": "4 Charles Prime Rib, West Village, New York", "lat": 40.735, "lng": -74.0016}, {"anchorId": "gallaghers-steakhouse", "rank": 5, "name": "Gallagher's Steakhouse", "label": "5. Gallagher's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Gallagher's+Steakhouse+Theater+District+New+York", "mapQuery": "Gallagher's Steakhouse, Theater District, New York", "lat": 40.7607, "lng": -73.984}, {"anchorId": "quality-meats", "rank": 6, "name": "Quality Meats", "label": "6. Quality Meats", "ctaUrl": "https://maps.google.com/?q=Quality+Meats+Midtown+West+New+York", "mapQuery": "Quality Meats, Midtown West, New York", "lat": 40.7634, "lng": -73.9774}, {"anchorId": "the-old-homestead-steakhouse", "rank": 7, "name": "The Old Homestead Steakhouse", "label": "7. The Old Homestead Steakhouse", "ctaUrl": "https://maps.google.com/?q=The+Old+Homestead+Steakhouse+Gramercy+New+York", "mapQuery": "The Old Homestead Steakhouse, Gramercy, New York", "lat": 40.741, "lng": -74.0044}, {"anchorId": "bowery-meat-company", "rank": 8, "name": "Bowery Meat Company", "label": "8. Bowery Meat Company", "ctaUrl": "https://maps.google.com/?q=Bowery+Meat+Company+East+Village+New+York", "mapQuery": "Bowery Meat Company, East Village, New York", "lat": 40.723, "lng": -73.9926}, {"anchorId": "strip-house", "rank": 9, "name": "Strip House", "label": "9. Strip House", "ctaUrl": "https://maps.google.com/?q=Strip+House+Union+Square+New+York", "mapQuery": "Strip House, Union Square, New York", "lat": 40.7346, "lng": -73.9943}, {"anchorId": "st-anselm", "rank": 10, "name": "St. Anselm", "label": "10. St. Anselm", "ctaUrl": "https://maps.google.com/?q=St.+Anselm+Williamsburg,+Brooklyn+New+York", "mapQuery": "St. Anselm, Williamsburg, Brooklyn, New York", "lat": 40.7144, "lng": -73.9567}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

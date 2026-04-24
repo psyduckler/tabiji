@@ -108,7 +108,7 @@ _Hub pages should generally be kept regardless of volume — they're navigation,
 | 480 | austin-cooking-classes |
 | 480 | austin-speakeasy |
 | 480 | bangkok-rooftop-bars |
-| 480 | best-pizza-naples |
+| 480 | naples-pizza |
 | 480 | boston-cafes |
 | 480 | chiang-mai-thai-massage |
 | 480 | dallas-breakfast |

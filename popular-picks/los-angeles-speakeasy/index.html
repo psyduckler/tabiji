@@ -1555,73 +1555,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+Los+Angeles", "picks": [{"anchorId": "the-varnish", "rank": 1, "name": "The Varnish", "label": "1. The Varnish", "ctaUrl": "https://maps.google.com/?q=The+Varnish+DTLA+(Historic+Core)+Los+Angeles", "mapQuery": "The Varnish, DTLA (Historic Core), Los Angeles", "lat": 34.04562, "lng": -118.25143}, {"anchorId": "apotheke", "rank": 2, "name": "Apotheke", "label": "2. Apotheke", "ctaUrl": "https://maps.google.com/?q=Apotheke+DTLA+(Arts+District)+Los+Angeles", "mapQuery": "Apotheke, DTLA (Arts District), Los Angeles", "lat": 34.04169, "lng": -118.23696}, {"anchorId": "no-vacancy", "rank": 3, "name": "No Vacancy", "label": "3. No Vacancy", "ctaUrl": "https://maps.google.com/?q=No+Vacancy+Hollywood+Los+Angeles", "mapQuery": "No Vacancy, Hollywood, Los Angeles", "lat": 34.10174, "lng": -118.33706}, {"anchorId": "employees-only", "rank": 4, "name": "Employees Only", "label": "4. Employees Only", "ctaUrl": "https://maps.google.com/?q=Employees+Only+West+Hollywood+Los+Angeles", "mapQuery": "Employees Only, West Hollywood, Los Angeles", "lat": 34.09062, "lng": -118.35626}, {"anchorId": "melrose-umbrella-co", "rank": 5, "name": "Melrose Umbrella Co.", "label": "5. Melrose Umbrella Co.", "ctaUrl": "https://maps.google.com/?q=Melrose+Umbrella+Co.+Fairfax+District+Los+Angeles", "mapQuery": "Melrose Umbrella Co., Fairfax District, Los Angeles", "lat": 34.08375, "lng": -118.36181}, {"anchorId": "the-edison", "rank": 6, "name": "The Edison", "label": "6. The Edison", "ctaUrl": "https://maps.google.com/?q=The+Edison+DTLA+(Historic+Core)+Los+Angeles", "mapQuery": "The Edison, DTLA (Historic Core), Los Angeles", "lat": 34.05051, "lng": -118.25055}, {"anchorId": "blind-barber", "rank": 7, "name": "Blind Barber", "label": "7. Blind Barber", "ctaUrl": "https://maps.google.com/?q=Blind+Barber+Culver+City+Los+Angeles", "mapQuery": "Blind Barber, Culver City, Los Angeles", "lat": 34.0242, "lng": -118.3949}, {"anchorId": "good-times-at-davey-waynes", "rank": 8, "name": "Good Times at Davey Wayne's", "label": "8. Good Times at Davey Wayne's", "ctaUrl": "https://maps.google.com/?q=Good+Times+at+Davey+Wayne's+Hollywood+Los+Angeles", "mapQuery": "Good Times at Davey Wayne's, Hollywood, Los Angeles", "lat": 34.10098, "lng": -118.33161}, {"anchorId": "mama-lion", "rank": 9, "name": "Mama Lion", "label": "9. Mama Lion", "ctaUrl": "https://maps.google.com/?q=Mama+Lion+Koreatown+Los+Angeles", "mapQuery": "Mama Lion, Koreatown, Los Angeles", "lat": 34.06207, "lng": -118.30906}, {"anchorId": "break-room-86", "rank": 10, "name": "Break Room 86", "label": "10. Break Room 86", "ctaUrl": "https://maps.google.com/?q=Break+Room+86+Koreatown+Los+Angeles", "mapQuery": "Break Room 86, Koreatown, Los Angeles", "lat": 34.06023, "lng": -118.30909}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

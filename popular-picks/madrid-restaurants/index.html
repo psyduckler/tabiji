@@ -1548,73 +1548,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Madrid", "picks": [{"anchorId": "diverxo", "rank": 1, "name": "DiverXO", "label": "1. DiverXO", "ctaUrl": "https://maps.google.com/?q=DiverXO+Tetuán+Madrid", "mapQuery": "DiverXO, Tetuán, Madrid", "lat": 40.457199, "lng": -3.693633}, {"anchorId": "botín", "rank": 2, "name": "Botín", "label": "2. Botín", "ctaUrl": "https://maps.google.com/?q=Botín+La+Latina+/+Sol+Madrid", "mapQuery": "Botín, La Latina / Sol, Madrid", "lat": 40.413759, "lng": -3.707752}, {"anchorId": "casa-lucio", "rank": 3, "name": "Casa Lucio", "label": "3. Casa Lucio", "ctaUrl": "https://maps.google.com/?q=Casa+Lucio+La+Latina+Madrid", "mapQuery": "Casa Lucio, La Latina, Madrid", "lat": 40.412196, "lng": -3.708848}, {"anchorId": "sala-de-despiece", "rank": 4, "name": "Sala de Despiece", "label": "4. Sala de Despiece", "ctaUrl": "https://maps.google.com/?q=Sala+de+Despiece+Chamberí+Madrid", "mapQuery": "Sala de Despiece, Chamberí, Madrid", "lat": 40.435742, "lng": -3.697003}, {"anchorId": "streetxo-madrid", "rank": 5, "name": "StreetXo Madrid", "label": "5. StreetXo Madrid", "ctaUrl": "https://maps.google.com/?q=StreetXo+Madrid+Salamanca+Madrid", "mapQuery": "StreetXo Madrid, Salamanca, Madrid", "lat": 40.428738, "lng": -3.688849}, {"anchorId": "taberna-el-sur", "rank": 6, "name": "Taberna El Sur", "label": "6. Taberna El Sur", "ctaUrl": "https://maps.google.com/?q=Taberna+El+Sur+Lavapiés+Madrid", "mapQuery": "Taberna El Sur, Lavapiés, Madrid", "lat": 40.410196, "lng": -3.699313}, {"anchorId": "el-brillante", "rank": 7, "name": "El Brillante", "label": "7. El Brillante", "ctaUrl": "https://maps.google.com/?q=El+Brillante+Atocha+Madrid", "mapQuery": "El Brillante, Atocha, Madrid", "lat": 40.407204, "lng": -3.692645}, {"anchorId": "ten-con-ten", "rank": 8, "name": "Ten con Ten", "label": "8. Ten con Ten", "ctaUrl": "https://maps.google.com/?q=Ten+con+Ten+Salamanca+Madrid", "mapQuery": "Ten con Ten, Salamanca, Madrid", "lat": 40.424367, "lng": -3.69179}, {"anchorId": "la-tasquita-de-enfrente", "rank": 9, "name": "La Tasquita de Enfrente", "label": "9. La Tasquita de Enfrente", "ctaUrl": "https://maps.google.com/?q=La+Tasquita+de+Enfrente+Centro+/+Chueca+Madrid", "mapQuery": "La Tasquita de Enfrente, Centro / Chueca, Madrid", "lat": 40.420658, "lng": -3.702967}, {"anchorId": "santerra", "rank": 10, "name": "Santerra", "label": "10. Santerra", "ctaUrl": "https://maps.google.com/?q=Santerra+Salamanca+Madrid", "mapQuery": "Santerra, Salamanca, Madrid", "lat": 40.435777, "lng": -3.68411}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

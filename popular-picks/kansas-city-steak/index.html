@@ -1547,73 +1547,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Kansas+City", "picks": [{"anchorId": "stock-hill", "rank": 1, "name": "Stock Hill", "label": "1. Stock Hill", "ctaUrl": "https://maps.google.com/?q=Stock+Hill+Country+Club+Plaza+Kansas+City", "mapQuery": "Stock Hill, Country Club Plaza, Kansas City", "lat": 39.0436, "lng": -94.5857}, {"anchorId": "golden-ox", "rank": 2, "name": "Golden Ox", "label": "2. Golden Ox", "ctaUrl": "https://maps.google.com/?q=Golden+Ox+West+Bottoms+Kansas+City", "mapQuery": "Golden Ox, West Bottoms, Kansas City", "lat": 39.0967, "lng": -94.5979}, {"anchorId": "jess-jims-steak-house", "rank": 3, "name": "Jess & Jim's Steak House", "label": "3. Jess & Jim's Steak House", "ctaUrl": "https://maps.google.com/?q=Jess+&+Jim's+Steak+House+Martin+City+Kansas+City", "mapQuery": "Jess & Jim's Steak House, Martin City, Kansas City", "lat": 38.8953, "lng": -94.5828}, {"anchorId": "pierponts-at-union-station", "rank": 4, "name": "Pierpont's at Union Station", "label": "4. Pierpont's at Union Station", "ctaUrl": "https://maps.google.com/?q=Pierpont's+at+Union+Station+Union+Station+Kansas+City", "mapQuery": "Pierpont's at Union Station, Union Station, Kansas City", "lat": 39.0833, "lng": -94.5818}, {"anchorId": "antons", "rank": 5, "name": "Anton's", "label": "5. Anton's", "ctaUrl": "https://maps.google.com/?q=Anton's+Crossroads+Arts+District+Kansas+City", "mapQuery": "Anton's, Crossroads Arts District, Kansas City", "lat": 39.0534, "lng": -94.5925}, {"anchorId": "majestic-restaurant", "rank": 6, "name": "Majestic Restaurant", "label": "6. Majestic Restaurant", "ctaUrl": "https://maps.google.com/?q=Majestic+Restaurant+Downtown+Loop+Kansas+City", "mapQuery": "Majestic Restaurant, Downtown Loop, Kansas City", "lat": 39.1009, "lng": -94.5849}, {"anchorId": "rye-plaza", "rank": 7, "name": "Rye Plaza", "label": "7. Rye Plaza", "ctaUrl": "https://maps.google.com/?q=Rye+Plaza+Country+Club+Plaza+Kansas+City", "mapQuery": "Rye Plaza, Country Club Plaza, Kansas City", "lat": 39.0438, "lng": -94.5901}, {"anchorId": "801-chophouse", "rank": 8, "name": "801 Chophouse", "label": "8. 801 Chophouse", "ctaUrl": "https://maps.google.com/?q=801+Chophouse+Power+&+Light+District+Kansas+City", "mapQuery": "801 Chophouse, Power & Light District, Kansas City", "lat": 39.0988, "lng": -94.5804}, {"anchorId": "eddie-vs-prime-seafood", "rank": 9, "name": "Eddie V's Prime Seafood", "label": "9. Eddie V's Prime Seafood", "ctaUrl": "https://maps.google.com/?q=Eddie+V's+Prime+Seafood+Country+Club+Plaza+Kansas+City", "mapQuery": "Eddie V's Prime Seafood, Country Club Plaza, Kansas City", "lat": 39.0396, "lng": -94.5947}, {"anchorId": "hereford-house", "rank": 10, "name": "Hereford House", "label": "10. Hereford House", "ctaUrl": "https://maps.google.com/?q=Hereford+House+Zona+Rosa+Kansas+City", "mapQuery": "Hereford House, Zona Rosa, Kansas City", "lat": 39.2612, "lng": -94.6738}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Coffee Shops Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/coffee+shops+in+Nashville", "picks": [{"anchorId": "barista-parlor", "rank": 1, "name": "Barista Parlor (Golden Sound)", "label": "1. Barista Parlor (Golden Sound)", "ctaUrl": "https://maps.google.com/?q=Barista+Parlor+(Golden+Sound)+The+Gulch+Nashville", "mapQuery": "Barista Parlor (Golden Sound), The Gulch, Nashville", "lat": 36.1557, "lng": -86.782}, {"anchorId": "frothy-monkey", "rank": 2, "name": "Frothy Monkey (12South)", "label": "2. Frothy Monkey (12South)", "ctaUrl": "https://maps.google.com/?q=Frothy+Monkey+(12South)+12+South+Nashville", "mapQuery": "Frothy Monkey (12South), 12 South, Nashville", "lat": 36.1093, "lng": -86.8048}, {"anchorId": "crema-coffee-roasters", "rank": 3, "name": "Crema Coffee Roasters", "label": "3. Crema Coffee Roasters", "ctaUrl": "https://maps.google.com/?q=Crema+Coffee+Roasters+Downtown+Nashville", "mapQuery": "Crema Coffee Roasters, Downtown, Nashville", "lat": 36.155, "lng": -86.7761}, {"anchorId": "eighth-roast", "rank": 4, "name": "Eighth & Roast (Charlotte Ave)", "label": "4. Eighth & Roast (Charlotte Ave)", "ctaUrl": "https://maps.google.com/?q=Eighth+&+Roast+(Charlotte+Ave)+Sylvan+Park+Nashville", "mapQuery": "Eighth & Roast (Charlotte Ave), Sylvan Park, Nashville", "lat": 36.1539, "lng": -86.8123}, {"anchorId": "fido", "rank": 5, "name": "Fido", "label": "5. Fido", "ctaUrl": "https://maps.google.com/?q=Fido+Hillsboro+Village+Nashville", "mapQuery": "Fido, Hillsboro Village, Nashville", "lat": 36.1302, "lng": -86.8105}, {"anchorId": "bongo-java", "rank": 6, "name": "Bongo Java (East Nashville)", "label": "6. Bongo Java (East Nashville)", "ctaUrl": "https://maps.google.com/?q=Bongo+Java+(East+Nashville)+East+Nashville+Nashville", "mapQuery": "Bongo Java (East Nashville), East Nashville, Nashville", "lat": 36.1774, "lng": -86.745}, {"anchorId": "ugly-mugs-coffee-tea", "rank": 7, "name": "Ugly Mugs Coffee & Tea", "label": "7. Ugly Mugs Coffee & Tea", "ctaUrl": "https://maps.google.com/?q=Ugly+Mugs+Coffee+&+Tea+East+Nashville+Nashville", "mapQuery": "Ugly Mugs Coffee & Tea, East Nashville, Nashville", "lat": 36.1731, "lng": -86.741}, {"anchorId": "dose-coffee-wine", "rank": 8, "name": "Dose Coffee & Wine", "label": "8. Dose Coffee & Wine", "ctaUrl": "https://maps.google.com/?q=Dose+Coffee+&+Wine+Edgehill+Nashville", "mapQuery": "Dose Coffee & Wine, Edgehill, Nashville", "lat": 36.1024, "lng": -86.7587}, {"anchorId": "humphreys-street-coffee-social-club", "rank": 9, "name": "Humphreys Street Coffee & Social Club", "label": "9. Humphreys Street Coffee & Social Club", "ctaUrl": "https://maps.google.com/?q=Humphreys+Street+Coffee+&+Social+Club+South+Nashville+Nashville", "mapQuery": "Humphreys Street Coffee & Social Club, South Nashville, Nashville", "lat": 36.082, "lng": -86.772}, {"anchorId": "three-brothers-coffee", "rank": 10, "name": "Three Brothers Coffee", "label": "10. Three Brothers Coffee", "ctaUrl": "https://maps.google.com/?q=Three+Brothers+Coffee+Midtown+Nashville", "mapQuery": "Three Brothers Coffee, Midtown, Nashville", "lat": 36.1303, "lng": -86.8089}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

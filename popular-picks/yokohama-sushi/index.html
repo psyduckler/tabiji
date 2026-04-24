@@ -1539,73 +1539,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Yokohama", "picks": [{"anchorId": "sushi-yoshitake-yokohama", "rank": 1, "name": "Sushi Yoshitake Yokohama", "label": "1. Sushi Yoshitake Yokohama", "ctaUrl": "https://maps.google.com/?q=Sushi+Yoshitake+Yokohama+Minatomirai+Yokohama", "mapQuery": "Sushi Yoshitake Yokohama, Minatomirai, Yokohama", "lat": 35.4593, "lng": 139.63}, {"anchorId": "sushi-ikuta", "rank": 2, "name": "Sushi Ikuta", "label": "2. Sushi Ikuta", "ctaUrl": "https://maps.google.com/?q=Sushi+Ikuta+Kannai+Yokohama", "mapQuery": "Sushi Ikuta, Kannai, Yokohama", "lat": 35.4452, "lng": 139.6429}, {"anchorId": "sushi-miyakozushi", "rank": 3, "name": "Sushi Miyakozushi", "label": "3. Sushi Miyakozushi", "ctaUrl": "https://maps.google.com/?q=Sushi+Miyakozushi+Bashamichi+Yokohama", "mapQuery": "Sushi Miyakozushi, Bashamichi, Yokohama", "lat": 35.4502, "lng": 139.6384}, {"anchorId": "katsumidori-sushi-yokohama-sky-building", "rank": 4, "name": "Katsumidori Sushi Yokohama Sky Building", "label": "4. Katsumidori Sushi Yokohama Sky Building", "ctaUrl": "https://maps.google.com/?q=Katsumidori+Sushi+Yokohama+Sky+Building+Yokohama+Station+Yokohama", "mapQuery": "Katsumidori Sushi Yokohama Sky Building, Yokohama Station, Yokohama", "lat": 35.4665, "lng": 139.6225}, {"anchorId": "sushi-dokoro-yonehachi", "rank": 5, "name": "Sushi Dokoro Yonehachi", "label": "5. Sushi Dokoro Yonehachi", "ctaUrl": "https://maps.google.com/?q=Sushi+Dokoro+Yonehachi+Kannai+Yokohama", "mapQuery": "Sushi Dokoro Yonehachi, Kannai, Yokohama", "lat": 35.4429, "lng": 139.6433}, {"anchorId": "sushi-no-midori-yokohama-landmark-plaza", "rank": 6, "name": "Sushi no Midori Yokohama Landmark Plaza", "label": "6. Sushi no Midori Yokohama Landmark Plaza", "ctaUrl": "https://maps.google.com/?q=Sushi+no+Midori+Yokohama+Landmark+Plaza+Minatomirai+Yokohama", "mapQuery": "Sushi no Midori Yokohama Landmark Plaza, Minatomirai, Yokohama", "lat": 35.4548, "lng": 139.6328}, {"anchorId": "maguro-donya-miura-misaki-megumi-suisan-", "rank": 7, "name": "Maguro Donya Miura Misaki Megumi Suisan Yokohama Porta", "label": "7. Maguro Donya Miura Misaki Megumi Suisan Yokohama Porta", "ctaUrl": "https://maps.google.com/?q=Maguro+Donya+Miura+Misaki+Megumi+Suisan+Yokohama+Porta+Yokohama+Station+Yokohama", "mapQuery": "Maguro Donya Miura Misaki Megumi Suisan Yokohama Porta, Yokohama Station, Yokohama", "lat": 35.466, "lng": 139.6221}, {"anchorId": "sushi-izakaya-yamato", "rank": 8, "name": "Sushi Izakaya Yamato", "label": "8. Sushi Izakaya Yamato", "ctaUrl": "https://maps.google.com/?q=Sushi+Izakaya+Yamato+Noge+Yokohama", "mapQuery": "Sushi Izakaya Yamato, Noge, Yokohama", "lat": 35.4497, "lng": 139.6318}, {"anchorId": "sushi-goro", "rank": 9, "name": "Sushi Goro", "label": "9. Sushi Goro", "ctaUrl": "https://maps.google.com/?q=Sushi+Goro+Motomachi-Chukagai+Yokohama", "mapQuery": "Sushi Goro, Motomachi-Chukagai, Yokohama", "lat": 35.4417, "lng": 139.6548}, {"anchorId": "sushi-zanmai-yokohama-chuo-dori", "rank": 10, "name": "Sushi Zanmai Yokohama Chuo-dori", "label": "10. Sushi Zanmai Yokohama Chuo-dori", "ctaUrl": "https://maps.google.com/?q=Sushi+Zanmai+Yokohama+Chuo-dori+Kannai+Yokohama", "mapQuery": "Sushi Zanmai Yokohama Chuo-dori, Kannai, Yokohama", "lat": 35.4475, "lng": 139.6418}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Brunch Spots Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/brunch+spots+in+Austin", "picks": [{"anchorId": "josephine-house", "rank": 1, "name": "Josephine House", "label": "1. Josephine House", "ctaUrl": "https://maps.google.com/?q=Josephine+House+Clarksville+Austin", "mapQuery": "Josephine House, Clarksville, Austin", "lat": 30.278564, "lng": -97.755452}, {"anchorId": "launderette", "rank": 2, "name": "Launderette", "label": "2. Launderette", "ctaUrl": "https://maps.google.com/?q=Launderette+East+Austin+Austin", "mapQuery": "Launderette, East Austin, Austin", "lat": 30.25997, "lng": -97.72877}, {"anchorId": "matties-at-green-pastures", "rank": 3, "name": "Mattie's at Green Pastures", "label": "3. Mattie's at Green Pastures", "ctaUrl": "https://maps.google.com/?q=Mattie's+at+Green+Pastures+South+Austin+Austin", "mapQuery": "Mattie's at Green Pastures, South Austin, Austin", "lat": 30.245229, "lng": -97.766327}, {"anchorId": "odd-duck", "rank": 4, "name": "Odd Duck", "label": "4. Odd Duck", "ctaUrl": "https://maps.google.com/?q=Odd+Duck+South+Lamar+Austin", "mapQuery": "Odd Duck, South Lamar, Austin", "lat": 30.252064, "lng": -97.766774}, {"anchorId": "fonda-san-miguel", "rank": 5, "name": "Fonda San Miguel", "label": "5. Fonda San Miguel", "ctaUrl": "https://maps.google.com/?q=Fonda+San+Miguel+North+Austin+Austin", "mapQuery": "Fonda San Miguel, North Austin, Austin", "lat": 30.320496, "lng": -97.729111}, {"anchorId": "south-congress-cafe", "rank": 6, "name": "South Congress Cafe", "label": "6. South Congress Cafe", "ctaUrl": "https://maps.google.com/?q=South+Congress+Cafe+South+Congress+Austin", "mapQuery": "South Congress Cafe, South Congress, Austin", "lat": 30.245842, "lng": -97.755498}, {"anchorId": "snooze-an-am-eatery", "rank": 7, "name": "Snooze, an A.M. Eatery", "label": "7. Snooze, an A.M. Eatery", "ctaUrl": "https://maps.google.com/?q=Snooze,+an+A.M.+Eatery+South+Lamar+Austin", "mapQuery": "Snooze, an A.M. Eatery, South Lamar, Austin", "lat": 30.250553, "lng": -97.771239}, {"anchorId": "better-half-coffee-cocktails", "rank": 8, "name": "Better Half Coffee & Cocktails", "label": "8. Better Half Coffee & Cocktails", "ctaUrl": "https://maps.google.com/?q=Better+Half+Coffee+&+Cocktails+Clarksville+Austin", "mapQuery": "Better Half Coffee & Cocktails, Clarksville, Austin", "lat": 30.274381, "lng": -97.756285}, {"anchorId": "kerbey-lane-cafe", "rank": 9, "name": "Kerbey Lane Cafe", "label": "9. Kerbey Lane Cafe", "ctaUrl": "https://maps.google.com/?q=Kerbey+Lane+Cafe+Central+Austin+(Original)+Austin", "mapQuery": "Kerbey Lane Cafe, Central Austin (Original), Austin", "lat": 30.323537, "lng": -97.74088}, {"anchorId": "bouldin-creek-cafe", "rank": 10, "name": "Bouldin Creek Cafe", "label": "10. Bouldin Creek Cafe", "ctaUrl": "https://maps.google.com/?q=Bouldin+Creek+Cafe+South+Austin+Austin", "mapQuery": "Bouldin Creek Cafe, South Austin, Austin", "lat": 30.246473, "lng": -97.757827}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

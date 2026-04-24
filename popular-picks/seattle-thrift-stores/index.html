@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Seattle", "picks": [{"anchorId": "fremont-vintage-mall", "rank": 1, "name": "Fremont Vintage Mall", "label": "1. Fremont Vintage Mall", "ctaUrl": "https://maps.google.com/?q=Fremont+Vintage+Mall+Fremont+Seattle", "mapQuery": "Fremont Vintage Mall, Fremont, Seattle", "lat": 47.6517, "lng": -122.3486}, {"anchorId": "lucky-vintage", "rank": 2, "name": "Lucky Vintage", "label": "2. Lucky Vintage", "ctaUrl": "https://maps.google.com/?q=Lucky+Vintage+Ballard+Seattle", "mapQuery": "Lucky Vintage, Ballard, Seattle", "lat": 47.6687, "lng": -122.3838}, {"anchorId": "crossroads-trading", "rank": 3, "name": "Crossroads Trading (Capitol Hill)", "label": "3. Crossroads Trading (Capitol Hill)", "ctaUrl": "https://maps.google.com/?q=Crossroads+Trading+(Capitol+Hill)+Capitol+Hill+Seattle", "mapQuery": "Crossroads Trading (Capitol Hill), Capitol Hill, Seattle", "lat": 47.6253, "lng": -122.3211}, {"anchorId": "buffalo-exchange", "rank": 4, "name": "Buffalo Exchange (University District)", "label": "4. Buffalo Exchange (University District)", "ctaUrl": "https://maps.google.com/?q=Buffalo+Exchange+(University+District)+University+District+Seattle", "mapQuery": "Buffalo Exchange (University District), University District, Seattle", "lat": 47.6608, "lng": -122.3135}, {"anchorId": "lifelong-thrift", "rank": 5, "name": "Lifelong Thrift", "label": "5. Lifelong Thrift", "ctaUrl": "https://maps.google.com/?q=Lifelong+Thrift+Central+District+Seattle", "mapQuery": "Lifelong Thrift, Central District, Seattle", "lat": 47.6143, "lng": -122.3149}, {"anchorId": "goodwill-outlet", "rank": 6, "name": "Goodwill Outlet (Dearborn St.)", "label": "6. Goodwill Outlet (Dearborn St.)", "ctaUrl": "https://maps.google.com/?q=Goodwill+Outlet+(Dearborn+St.)+SODO/Beacon+Hill+Seattle", "mapQuery": "Goodwill Outlet (Dearborn St.), SODO/Beacon Hill, Seattle", "lat": 47.5901, "lng": -122.3323}, {"anchorId": "out-of-the-closet", "rank": 7, "name": "Out of the Closet (Capitol Hill)", "label": "7. Out of the Closet (Capitol Hill)", "ctaUrl": "https://maps.google.com/?q=Out+of+the+Closet+(Capitol+Hill)+Capitol+Hill+Seattle", "mapQuery": "Out of the Closet (Capitol Hill), Capitol Hill, Seattle", "lat": 47.6142, "lng": -122.3155}, {"anchorId": "value-village", "rank": 8, "name": "Value Village (Crown Hill)", "label": "8. Value Village (Crown Hill)", "ctaUrl": "https://maps.google.com/?q=Value+Village+(Crown+Hill)+Crown+Hill+Seattle", "mapQuery": "Value Village (Crown Hill), Crown Hill, Seattle", "lat": 47.7029, "lng": -122.3789}, {"anchorId": "red-light-vintage-costume", "rank": 9, "name": "Red Light Vintage & Costume", "label": "9. Red Light Vintage & Costume", "ctaUrl": "https://maps.google.com/?q=Red+Light+Vintage+&+Costume+University+District+Seattle", "mapQuery": "Red Light Vintage & Costume, University District, Seattle", "lat": 47.6596, "lng": -122.3153}, {"anchorId": "pretty-parlor", "rank": 10, "name": "Pretty Parlor", "label": "10. Pretty Parlor", "ctaUrl": "https://maps.google.com/?q=Pretty+Parlor+Capitol+Hill+Seattle", "mapQuery": "Pretty Parlor, Capitol Hill, Seattle", "lat": 47.6186, "lng": -122.3193}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

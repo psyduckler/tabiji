@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Breakfast Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/breakfast+in+Seattle", "picks": [{"anchorId": "portage-bay-cafe", "rank": 1, "name": "Portage Bay Cafe", "label": "1. Portage Bay Cafe", "ctaUrl": "https://maps.google.com/?q=Portage+Bay+Cafe+South+Lake+Union+Seattle", "mapQuery": "Portage Bay Cafe, South Lake Union, Seattle", "lat": 47.62, "lng": -122.3364}, {"anchorId": "biscuit-bitch", "rank": 2, "name": "Biscuit Bitch", "label": "2. Biscuit Bitch", "ctaUrl": "https://maps.google.com/?q=Biscuit+Bitch+Pioneer+Square+Seattle", "mapQuery": "Biscuit Bitch, Pioneer Square, Seattle", "lat": 47.6094, "lng": -122.3394}, {"anchorId": "glos", "rank": 3, "name": "Glo's", "label": "3. Glo's", "ctaUrl": "https://maps.google.com/?q=Glo's+Capitol+Hill+Seattle", "mapQuery": "Glo's, Capitol Hill, Seattle", "lat": 47.6214, "lng": -122.3168}, {"anchorId": "oddfellows-cafe-bar", "rank": 4, "name": "Oddfellows Cafe + Bar", "label": "4. Oddfellows Cafe + Bar", "ctaUrl": "https://maps.google.com/?q=Oddfellows+Cafe+++Bar+Capitol+Hill+Seattle", "mapQuery": "Oddfellows Cafe + Bar, Capitol Hill, Seattle", "lat": 47.6151, "lng": -122.3166}, {"anchorId": "the-wandering-goose", "rank": 5, "name": "The Wandering Goose", "label": "5. The Wandering Goose", "ctaUrl": "https://maps.google.com/?q=The+Wandering+Goose+Capitol+Hill+Seattle", "mapQuery": "The Wandering Goose, Capitol Hill, Seattle", "lat": 47.6225, "lng": -122.3115}, {"anchorId": "cafe-presse", "rank": 6, "name": "Cafe Presse", "label": "6. Cafe Presse", "ctaUrl": "https://maps.google.com/?q=Cafe+Presse+First+Hill+Seattle", "mapQuery": "Cafe Presse, First Hill, Seattle", "lat": 47.6143, "lng": -122.3148}, {"anchorId": "geralds-counter", "rank": 7, "name": "Gerald's Counter", "label": "7. Gerald's Counter", "ctaUrl": "https://maps.google.com/?q=Gerald's+Counter+Ballard+Seattle", "mapQuery": "Gerald's Counter, Ballard, Seattle", "lat": 47.6698, "lng": -122.3831}, {"anchorId": "fats-chicken-waffles", "rank": 8, "name": "Fat's Chicken & Waffles", "label": "8. Fat's Chicken & Waffles", "ctaUrl": "https://maps.google.com/?q=Fat's+Chicken+&+Waffles+Central+District+Seattle", "mapQuery": "Fat's Chicken & Waffles, Central District, Seattle", "lat": 47.608, "lng": -122.2995}, {"anchorId": "lost-lake-cafe-and-lounge", "rank": 9, "name": "Lost Lake Cafe and Lounge", "label": "9. Lost Lake Cafe and Lounge", "ctaUrl": "https://maps.google.com/?q=Lost+Lake+Cafe+and+Lounge+Capitol+Hill+Seattle", "mapQuery": "Lost Lake Cafe and Lounge, Capitol Hill, Seattle", "lat": 47.6154, "lng": -122.3168}, {"anchorId": "honest-biscuits", "rank": 10, "name": "Honest Biscuits", "label": "10. Honest Biscuits", "ctaUrl": "https://maps.google.com/?q=Honest+Biscuits+Pike+Place+Market+Seattle", "mapQuery": "Honest Biscuits, Pike Place Market, Seattle", "lat": 47.6087, "lng": -122.3411}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

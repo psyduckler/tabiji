@@ -1564,73 +1564,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Tacos Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/tacos+in+Lagos", "picks": [{"anchorId": "kokos-tacos", "rank": 1, "name": "Kokos Tacos", "label": "1. Kokos Tacos", "ctaUrl": "https://maps.google.com/?q=Kokos+Tacos+Lekki+Phase+1+Lagos", "mapQuery": "Kokos Tacos, Lekki Phase 1, Lagos", "lat": 6.44755, "lng": 3.47352}, {"anchorId": "taqueria-lagos", "rank": 2, "name": "Taqueria Lagos", "label": "2. Taqueria Lagos", "ctaUrl": "https://maps.google.com/?q=Taqueria+Lagos+Ikoyi+Lagos", "mapQuery": "Taqueria Lagos, Ikoyi, Lagos", "lat": 6.44474, "lng": 3.42436}, {"anchorId": "el-padrino", "rank": 3, "name": "El Padrino", "label": "3. El Padrino", "ctaUrl": "https://maps.google.com/?q=El+Padrino+Victoria+Island+Lagos", "mapQuery": "El Padrino, Victoria Island, Lagos", "lat": 6.42531, "lng": 3.43577}, {"anchorId": "sabor", "rank": 4, "name": "Sabor", "label": "4. Sabor", "ctaUrl": "https://maps.google.com/?q=Sabor+Victoria+Island+Lagos", "mapQuery": "Sabor, Victoria Island, Lagos", "lat": 6.4312, "lng": 3.4268}, {"anchorId": "food-shack", "rank": 5, "name": "Food Shack", "label": "5. Food Shack", "ctaUrl": "https://maps.google.com/?q=Food+Shack+Lekki+Phase+1+Lagos", "mapQuery": "Food Shack, Lekki Phase 1, Lagos", "lat": 6.4528, "lng": 3.4721}, {"anchorId": "rsvp-restaurant", "rank": 6, "name": "RSVP Restaurant", "label": "6. RSVP Restaurant", "ctaUrl": "https://maps.google.com/?q=RSVP+Restaurant+Victoria+Island+Lagos", "mapQuery": "RSVP Restaurant, Victoria Island, Lagos", "lat": 6.4357, "lng": 3.4251}, {"anchorId": "craft-gourmet-by-lou-baker", "rank": 7, "name": "Craft Gourmet by Lou Baker", "label": "7. Craft Gourmet by Lou Baker", "ctaUrl": "https://maps.google.com/?q=Craft+Gourmet+by+Lou+Baker+Victoria+Island+Lagos", "mapQuery": "Craft Gourmet by Lou Baker, Victoria Island, Lagos", "lat": 6.4278, "lng": 3.4345}, {"anchorId": "bungalow-restaurant", "rank": 8, "name": "Bungalow Restaurant", "label": "8. Bungalow Restaurant", "ctaUrl": "https://maps.google.com/?q=Bungalow+Restaurant+Victoria+Island+Lagos", "mapQuery": "Bungalow Restaurant, Victoria Island, Lagos", "lat": 6.4342, "lng": 3.4248}, {"anchorId": "hard-rock-cafe-lagos", "rank": 9, "name": "Hard Rock Cafe Lagos", "label": "9. Hard Rock Cafe Lagos", "ctaUrl": "https://maps.google.com/?q=Hard+Rock+Cafe+Lagos+Oniru,+Victoria+Island+Lagos", "mapQuery": "Hard Rock Cafe Lagos, Oniru, Victoria Island, Lagos", "lat": 6.431, "lng": 3.435}, {"anchorId": "johnny-rockets", "rank": 10, "name": "Johnny Rockets", "label": "10. Johnny Rockets", "ctaUrl": "https://maps.google.com/?q=Johnny+Rockets+Lekki+Phase+1+Lagos", "mapQuery": "Johnny Rockets, Lekki Phase 1, Lagos", "lat": 6.4528, "lng": 3.4735}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

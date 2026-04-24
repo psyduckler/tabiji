@@ -1566,73 +1566,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Phoenix", "picks": [{"anchorId": "pizzeria-bianco", "rank": 1, "name": "Pizzeria Bianco", "label": "1. Pizzeria Bianco", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Bianco+Downtown+Phoenix+Phoenix", "mapQuery": "Pizzeria Bianco, Downtown Phoenix, Phoenix", "lat": 33.44787, "lng": -112.06945}, {"anchorId": "the-parlor-pizzeria", "rank": 2, "name": "The Parlor Pizzeria", "label": "2. The Parlor Pizzeria", "ctaUrl": "https://maps.google.com/?q=The+Parlor+Pizzeria+Central+Phoenix+Phoenix", "mapQuery": "The Parlor Pizzeria, Central Phoenix, Phoenix", "lat": 33.50906, "lng": -112.02279}, {"anchorId": "federal-pizza", "rank": 3, "name": "Federal Pizza", "label": "3. Federal Pizza", "ctaUrl": "https://maps.google.com/?q=Federal+Pizza+North+Central+Phoenix+Phoenix", "mapQuery": "Federal Pizza, North Central Phoenix, Phoenix", "lat": 33.51336, "lng": -112.07222}, {"anchorId": "cibo-urban-pizzeria", "rank": 4, "name": "Cibo Urban Pizzeria", "label": "4. Cibo Urban Pizzeria", "ctaUrl": "https://maps.google.com/?q=Cibo+Urban+Pizzeria+Downtown+Phoenix+Phoenix", "mapQuery": "Cibo Urban Pizzeria, Downtown Phoenix, Phoenix", "lat": 33.45781, "lng": -112.07767}, {"anchorId": "craft-64", "rank": 5, "name": "Craft 64", "label": "5. Craft 64", "ctaUrl": "https://maps.google.com/?q=Craft+64+Old+Town+Scottsdale+Phoenix", "mapQuery": "Craft 64, Old Town Scottsdale, Phoenix", "lat": 33.49258, "lng": -111.93322}, {"anchorId": "grand-avenue-pizza-company", "rank": 6, "name": "Grand Avenue Pizza Company", "label": "6. Grand Avenue Pizza Company", "ctaUrl": "https://maps.google.com/?q=Grand+Avenue+Pizza+Company+Grand+Avenue+Arts+District+Phoenix", "mapQuery": "Grand Avenue Pizza Company, Grand Avenue Arts District, Phoenix", "lat": 33.45422, "lng": -112.0863}, {"anchorId": "forno-301", "rank": 7, "name": "Forno 301", "label": "7. Forno 301", "ctaUrl": "https://maps.google.com/?q=Forno+301+Downtown+Phoenix+Phoenix", "mapQuery": "Forno 301, Downtown Phoenix, Phoenix", "lat": 33.44976, "lng": -112.07548}, {"anchorId": "lou-malnatis-pizzeria", "rank": 8, "name": "Lou Malnati's Pizzeria (Camelback)", "label": "8. Lou Malnati's Pizzeria (Camelback)", "ctaUrl": "https://maps.google.com/?q=Lou+Malnati's+Pizzeria+(Camelback)+Camelback+East+Phoenix", "mapQuery": "Lou Malnati's Pizzeria (Camelback), Camelback East, Phoenix", "lat": 33.4908, "lng": -112.07221}, {"anchorId": "ghettyo-pizza", "rank": 9, "name": "Ghett'Yo Pizza", "label": "9. Ghett'Yo Pizza", "ctaUrl": "https://maps.google.com/?q=Ghett'Yo+Pizza+South+Phoenix+Phoenix", "mapQuery": "Ghett'Yo Pizza, South Phoenix, Phoenix", "lat": 33.44755, "lng": -112.05739}, {"anchorId": "doughbird-pizza-rotisserie", "rank": 10, "name": "Doughbird Pizza & Rotisserie", "label": "10. Doughbird Pizza & Rotisserie", "ctaUrl": "https://maps.google.com/?q=Doughbird+Pizza+&+Rotisserie+Arcadia+Phoenix", "mapQuery": "Doughbird Pizza & Rotisserie, Arcadia, Phoenix", "lat": 33.49479, "lng": -111.99616}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

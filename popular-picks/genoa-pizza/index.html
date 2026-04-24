@@ -1546,73 +1546,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Genoa", "picks": [{"anchorId": "pizzeria-da-teo", "rank": 1, "name": "Pizzeria da Teo", "label": "1. Pizzeria da Teo", "ctaUrl": "https://maps.google.com/?q=Pizzeria+da+Teo+Centro+Storico+Genoa", "mapQuery": "Pizzeria da Teo, Centro Storico, Genoa", "lat": 44.4093, "lng": 8.9329}, {"anchorId": "pizzeria-pingusto", "rank": 2, "name": "Pizzeria Pingusto", "label": "2. Pizzeria Pingusto", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Pingusto+San+Vincenzo+Genoa", "mapQuery": "Pizzeria Pingusto, San Vincenzo, Genoa", "lat": 44.4068, "lng": 8.9405}, {"anchorId": "pizzeria-savo", "rank": 3, "name": "Pizzeria Savo", "label": "3. Pizzeria Savo", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Savo+San+Vincenzo+Genoa", "mapQuery": "Pizzeria Savo, San Vincenzo, Genoa", "lat": 44.4063, "lng": 8.941}, {"anchorId": "pizzeria-del-ponte", "rank": 4, "name": "Pizzeria del Ponte", "label": "4. Pizzeria del Ponte", "ctaUrl": "https://maps.google.com/?q=Pizzeria+del+Ponte+Molo+Genoa", "mapQuery": "Pizzeria del Ponte, Molo, Genoa", "lat": 44.4103, "lng": 8.9374}, {"anchorId": "settebello-pizza-more", "rank": 5, "name": "Settebello Pizza & More", "label": "5. Settebello Pizza & More", "ctaUrl": "https://maps.google.com/?q=Settebello+Pizza+&+More+Centro+Storico+Genoa", "mapQuery": "Settebello Pizza & More, Centro Storico, Genoa", "lat": 44.4063, "lng": 8.9416}, {"anchorId": "pizzeria-alle-due-palme", "rank": 6, "name": "Pizzeria Alle Due Palme", "label": "6. Pizzeria Alle Due Palme", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Alle+Due+Palme+Sampierdarena+Genoa", "mapQuery": "Pizzeria Alle Due Palme, Sampierdarena, Genoa", "lat": 44.414, "lng": 8.9288}, {"anchorId": "pizzeria-il-grifone", "rank": 7, "name": "Pizzeria il Grifone", "label": "7. Pizzeria il Grifone", "ctaUrl": "https://maps.google.com/?q=Pizzeria+il+Grifone+Molo+Genoa", "mapQuery": "Pizzeria il Grifone, Molo, Genoa", "lat": 44.4077, "lng": 8.9329}, {"anchorId": "pizzeria-la-forchetta", "rank": 8, "name": "Pizzeria la Forchetta", "label": "8. Pizzeria la Forchetta", "ctaUrl": "https://maps.google.com/?q=Pizzeria+la+Forchetta+Centro+Storico+Genoa", "mapQuery": "Pizzeria la Forchetta, Centro Storico, Genoa", "lat": 44.4069, "lng": 8.9373}, {"anchorId": "antica-pizzeria-del-borgo", "rank": 9, "name": "Antica Pizzeria del Borgo", "label": "9. Antica Pizzeria del Borgo", "ctaUrl": "https://maps.google.com/?q=Antica+Pizzeria+del+Borgo+Molo+Genoa", "mapQuery": "Antica Pizzeria del Borgo, Molo, Genoa", "lat": 44.408, "lng": 8.937}, {"anchorId": "trattoria-da-maria", "rank": 10, "name": "Trattoria da Maria", "label": "10. Trattoria da Maria", "ctaUrl": "https://maps.google.com/?q=Trattoria+da+Maria+Centro+Storico+Genoa", "mapQuery": "Trattoria da Maria, Centro Storico, Genoa", "lat": 44.4084, "lng": 8.9327}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Manchester", "picks": [{"anchorId": "rudys-neapolitan-pizza", "rank": 1, "name": "Rudy's Neapolitan Pizza (Ancoats)", "label": "1. Rudy's Neapolitan Pizza (Ancoats)", "ctaUrl": "https://maps.google.com/?q=Rudy's+Neapolitan+Pizza+(Ancoats)+Ancoats+Manchester", "mapQuery": "Rudy's Neapolitan Pizza (Ancoats), Ancoats, Manchester", "lat": 53.4862, "lng": -2.2319}, {"anchorId": "ciaooo-pizzeria", "rank": 2, "name": "Ciaooo Pizzeria", "label": "2. Ciaooo Pizzeria", "ctaUrl": "https://maps.google.com/?q=Ciaooo+Pizzeria+Northern+Quarter+Manchester", "mapQuery": "Ciaooo Pizzeria, Northern Quarter, Manchester", "lat": 53.4839, "lng": -2.237}, {"anchorId": "nells-pizza", "rank": 3, "name": "Nell's Pizza (Kampus)", "label": "3. Nell's Pizza (Kampus)", "ctaUrl": "https://maps.google.com/?q=Nell's+Pizza+(Kampus)+Kampus+Manchester", "mapQuery": "Nell's Pizza (Kampus), Kampus, Manchester", "lat": 53.4774, "lng": -2.2359}, {"anchorId": "honest-crust-sourdough-pizza", "rank": 4, "name": "Honest Crust Sourdough Pizza", "label": "4. Honest Crust Sourdough Pizza", "ctaUrl": "https://maps.google.com/?q=Honest+Crust+Sourdough+Pizza+Arndale+Market+Manchester", "mapQuery": "Honest Crust Sourdough Pizza, Arndale Market, Manchester", "lat": 53.482, "lng": -2.2415}, {"anchorId": "purezza", "rank": 5, "name": "Purezza", "label": "5. Purezza", "ctaUrl": "https://maps.google.com/?q=Purezza+Northern+Quarter+Manchester", "mapQuery": "Purezza, Northern Quarter, Manchester", "lat": 53.4837, "lng": -2.2376}, {"anchorId": "crazy-pedros", "rank": 6, "name": "Crazy Pedro's (Northern Quarter)", "label": "6. Crazy Pedro's (Northern Quarter)", "ctaUrl": "https://maps.google.com/?q=Crazy+Pedro's+(Northern+Quarter)+Northern+Quarter+Manchester", "mapQuery": "Crazy Pedro's (Northern Quarter), Northern Quarter, Manchester", "lat": 53.482, "lng": -2.2348}, {"anchorId": "detroit-pizza", "rank": 7, "name": "Detroit Pizza", "label": "7. Detroit Pizza", "ctaUrl": "https://maps.google.com/?q=Detroit+Pizza+Ancoats+Manchester", "mapQuery": "Detroit Pizza, Ancoats, Manchester", "lat": 53.4877, "lng": -2.2307}, {"anchorId": "franco-manca", "rank": 8, "name": "Franco Manca (Deansgate)", "label": "8. Franco Manca (Deansgate)", "ctaUrl": "https://maps.google.com/?q=Franco+Manca+(Deansgate)+Deansgate+Manchester", "mapQuery": "Franco Manca (Deansgate), Deansgate, Manchester", "lat": 53.4812, "lng": -2.2465}, {"anchorId": "dough-brew", "rank": 9, "name": "Dough & Brew", "label": "9. Dough & Brew", "ctaUrl": "https://maps.google.com/?q=Dough+&+Brew+Chorlton+Manchester", "mapQuery": "Dough & Brew, Chorlton, Manchester", "lat": 53.447, "lng": -2.2858}, {"anchorId": "ramona", "rank": 10, "name": "Ramona", "label": "10. Ramona", "ctaUrl": "https://maps.google.com/?q=Ramona+Ancoats+Manchester", "mapQuery": "Ramona, Ancoats, Manchester", "lat": 53.4866, "lng": -2.2307}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

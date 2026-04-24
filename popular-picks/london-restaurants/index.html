@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+London", "picks": [{"anchorId": "dishoom-covent-garden", "rank": 1, "name": "Dishoom Covent Garden", "label": "1. Dishoom Covent Garden", "ctaUrl": "https://maps.google.com/?q=Dishoom+Covent+Garden+Covent+Garden+London", "mapQuery": "Dishoom Covent Garden, Covent Garden, London", "lat": 51.511796, "lng": -0.124555}, {"anchorId": "padella-borough-market", "rank": 2, "name": "Padella Borough Market", "label": "2. Padella Borough Market", "ctaUrl": "https://maps.google.com/?q=Padella+Borough+Market+Borough+Market+London", "mapQuery": "Padella Borough Market, Borough Market, London", "lat": 51.504285, "lng": -0.09068}, {"anchorId": "st-john-restaurant", "rank": 3, "name": "St. John Restaurant", "label": "3. St. John Restaurant", "ctaUrl": "https://maps.google.com/?q=St.+John+Restaurant+Clerkenwell+London", "mapQuery": "St. John Restaurant, Clerkenwell, London", "lat": 51.520442, "lng": -0.100985}, {"anchorId": "bao-soho", "rank": 4, "name": "Bao Soho", "label": "4. Bao Soho", "ctaUrl": "https://maps.google.com/?q=Bao+Soho+Soho+London", "mapQuery": "Bao Soho, Soho, London", "lat": 51.51341, "lng": -0.13783}, {"anchorId": "mildreds-soho", "rank": 5, "name": "Mildreds Soho", "label": "5. Mildreds Soho", "ctaUrl": "https://maps.google.com/?q=Mildreds+Soho+Soho+London", "mapQuery": "Mildreds Soho, Soho, London", "lat": 51.513142, "lng": -0.138139}, {"anchorId": "kricket-soho", "rank": 6, "name": "Kricket Soho", "label": "6. Kricket Soho", "ctaUrl": "https://maps.google.com/?q=Kricket+Soho+Soho+London", "mapQuery": "Kricket Soho, Soho, London", "lat": 51.510609, "lng": -0.135436}, {"anchorId": "gymkhana", "rank": 7, "name": "Gymkhana", "label": "7. Gymkhana", "ctaUrl": "https://maps.google.com/?q=Gymkhana+Mayfair+London", "mapQuery": "Gymkhana, Mayfair, London", "lat": 51.509015, "lng": -0.141528}, {"anchorId": "blacklock-soho", "rank": 8, "name": "Blacklock Soho", "label": "8. Blacklock Soho", "ctaUrl": "https://maps.google.com/?q=Blacklock+Soho+Soho+London", "mapQuery": "Blacklock Soho, Soho, London", "lat": 51.512603, "lng": -0.134015}, {"anchorId": "berenjak-soho", "rank": 9, "name": "Berenjak Soho", "label": "9. Berenjak Soho", "ctaUrl": "https://maps.google.com/?q=Berenjak+Soho+Soho+London", "mapQuery": "Berenjak Soho, Soho, London", "lat": 51.512683, "lng": -0.132646}, {"anchorId": "franco-manca-covent-garden", "rank": 10, "name": "Franco Manca Covent Garden", "label": "10. Franco Manca Covent Garden", "ctaUrl": "https://maps.google.com/?q=Franco+Manca+Covent+Garden+Covent+Garden+London", "mapQuery": "Franco Manca Covent Garden, Covent Garden, London", "lat": 51.511394, "lng": -0.123537}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

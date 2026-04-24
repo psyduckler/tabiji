@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Milan", "picks": [{"anchorId": "ratanà", "rank": 1, "name": "Ratanà", "label": "1. Ratanà", "ctaUrl": "https://maps.google.com/?q=Ratanà+Isola+Milan", "mapQuery": "Ratanà, Isola, Milan", "lat": 45.48833, "lng": 9.19159}, {"anchorId": "trattoria-milanese", "rank": 2, "name": "Trattoria Milanese", "label": "2. Trattoria Milanese", "ctaUrl": "https://maps.google.com/?q=Trattoria+Milanese+Centro+Storico+Milan", "mapQuery": "Trattoria Milanese, Centro Storico, Milan", "lat": 45.46272, "lng": 9.18431}, {"anchorId": "contraste-milano", "rank": 3, "name": "Contraste Milano", "label": "3. Contraste Milano", "ctaUrl": "https://maps.google.com/?q=Contraste+Milano+Porta+Venezia+Milan", "mapQuery": "Contraste Milano, Porta Venezia, Milan", "lat": 45.47953, "lng": 9.20817}, {"anchorId": "langosteria", "rank": 4, "name": "Langosteria", "label": "4. Langosteria", "ctaUrl": "https://maps.google.com/?q=Langosteria+Navigli+Milan", "mapQuery": "Langosteria, Navigli, Milan", "lat": 45.45663, "lng": 9.17145}, {"anchorId": "il-luogo-di-aimo-e-nadia", "rank": 5, "name": "Il Luogo di Aimo e Nadia", "label": "5. Il Luogo di Aimo e Nadia", "ctaUrl": "https://maps.google.com/?q=Il+Luogo+di+Aimo+e+Nadia+San+Siro+Milan", "mapQuery": "Il Luogo di Aimo e Nadia, San Siro, Milan", "lat": 45.47466, "lng": 9.13601}, {"anchorId": "antica-trattoria-della-pesa", "rank": 6, "name": "Antica Trattoria della Pesa", "label": "6. Antica Trattoria della Pesa", "ctaUrl": "https://maps.google.com/?q=Antica+Trattoria+della+Pesa+Isola+Milan", "mapQuery": "Antica Trattoria della Pesa, Isola, Milan", "lat": 45.48529, "lng": 9.18431}, {"anchorId": "gino-sorbillo-lievito-madre-al-duomo", "rank": 7, "name": "Gino Sorbillo Lievito Madre al Duomo", "label": "7. Gino Sorbillo Lievito Madre al Duomo", "ctaUrl": "https://maps.google.com/?q=Gino+Sorbillo+Lievito+Madre+al+Duomo+Duomo+Milan", "mapQuery": "Gino Sorbillo Lievito Madre al Duomo, Duomo, Milan", "lat": 45.46461, "lng": 9.19323}, {"anchorId": "potafiori", "rank": 8, "name": "Potafiori", "label": "8. Potafiori", "ctaUrl": "https://maps.google.com/?q=Potafiori+Bocconi/Porta+Romana+Milan", "mapQuery": "Potafiori, Bocconi/Porta Romana, Milan", "lat": 45.44917, "lng": 9.20239}, {"anchorId": "pizzeria-spontini", "rank": 9, "name": "Pizzeria Spontini", "label": "9. Pizzeria Spontini", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Spontini+Porta+Venezia+Milan", "mapQuery": "Pizzeria Spontini, Porta Venezia, Milan", "lat": 45.47805, "lng": 9.20573}, {"anchorId": "luini-panzerotti", "rank": 10, "name": "Luini Panzerotti", "label": "10. Luini Panzerotti", "ctaUrl": "https://maps.google.com/?q=Luini+Panzerotti+Duomo+Milan", "mapQuery": "Luini Panzerotti, Duomo, Milan", "lat": 45.46607, "lng": 9.19234}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

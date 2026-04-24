@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Coffee Shops Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/coffee+shops+in+Atlanta", "picks": [{"anchorId": "dancing-goats-coffee-bar", "rank": 1, "name": "Dancing Goats Coffee Bar", "label": "1. Dancing Goats Coffee Bar", "ctaUrl": "https://maps.google.com/?q=Dancing+Goats+Coffee+Bar+Old+Fourth+Ward+Atlanta", "mapQuery": "Dancing Goats Coffee Bar, Old Fourth Ward, Atlanta", "lat": 33.7745, "lng": -84.3644}, {"anchorId": "east-pole-coffee-co", "rank": 2, "name": "East Pole Coffee Co.", "label": "2. East Pole Coffee Co.", "ctaUrl": "https://maps.google.com/?q=East+Pole+Coffee+Co.+Midtown+Atlanta", "mapQuery": "East Pole Coffee Co., Midtown, Atlanta", "lat": 33.7997, "lng": -84.4101}, {"anchorId": "chrome-yellow-coffee", "rank": 3, "name": "Chrome Yellow Coffee", "label": "3. Chrome Yellow Coffee", "ctaUrl": "https://maps.google.com/?q=Chrome+Yellow+Coffee+Old+Fourth+Ward+Atlanta", "mapQuery": "Chrome Yellow Coffee, Old Fourth Ward, Atlanta", "lat": 33.7505, "lng": -84.3725}, {"anchorId": "brash-coffee", "rank": 4, "name": "Brash Coffee", "label": "4. Brash Coffee", "ctaUrl": "https://maps.google.com/?q=Brash+Coffee+Buckhead+Atlanta", "mapQuery": "Brash Coffee, Buckhead, Atlanta", "lat": 33.8475, "lng": -84.3724}, {"anchorId": "condesa-coffee", "rank": 5, "name": "Condesa Coffee", "label": "5. Condesa Coffee", "ctaUrl": "https://maps.google.com/?q=Condesa+Coffee+Old+Fourth+Ward+Atlanta", "mapQuery": "Condesa Coffee, Old Fourth Ward, Atlanta", "lat": 33.7592, "lng": -84.3719}, {"anchorId": "octane-coffee-bar", "rank": 6, "name": "Octane Coffee Bar", "label": "6. Octane Coffee Bar", "ctaUrl": "https://maps.google.com/?q=Octane+Coffee+Bar+West+Midtown+Atlanta", "mapQuery": "Octane Coffee Bar, West Midtown, Atlanta", "lat": 33.7847, "lng": -84.4098}, {"anchorId": "taproom-coffee-beer", "rank": 7, "name": "Taproom Coffee & Beer", "label": "7. Taproom Coffee & Beer", "ctaUrl": "https://maps.google.com/?q=Taproom+Coffee+&+Beer+Kirkwood+Atlanta", "mapQuery": "Taproom Coffee & Beer, Kirkwood, Atlanta", "lat": 33.757, "lng": -84.3168}, {"anchorId": "spiller-park-coffee", "rank": 8, "name": "Spiller Park Coffee", "label": "8. Spiller Park Coffee", "ctaUrl": "https://maps.google.com/?q=Spiller+Park+Coffee+Poncey-Highland+Atlanta", "mapQuery": "Spiller Park Coffee, Poncey-Highland, Atlanta", "lat": 33.7744, "lng": -84.3644}, {"anchorId": "finca-to-filter", "rank": 9, "name": "Finca to Filter", "label": "9. Finca to Filter", "ctaUrl": "https://maps.google.com/?q=Finca+to+Filter+Buckhead+Atlanta", "mapQuery": "Finca to Filter, Buckhead, Atlanta", "lat": 33.8427, "lng": -84.382}, {"anchorId": "academy-coffee", "rank": 10, "name": "Academy Coffee", "label": "10. Academy Coffee", "ctaUrl": "https://maps.google.com/?q=Academy+Coffee+Adair+Park+Atlanta", "mapQuery": "Academy Coffee, Adair Park, Atlanta", "lat": 33.7317, "lng": -84.4239}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

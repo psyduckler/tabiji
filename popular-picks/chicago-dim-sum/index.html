@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Dim Sum Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/dim+sum+in+Chicago", "picks": [{"anchorId": "minghin-cuisine", "rank": 1, "name": "MingHin Cuisine", "label": "1. MingHin Cuisine", "ctaUrl": "https://maps.google.com/?q=MingHin+Cuisine+Chinatown+Chicago", "mapQuery": "MingHin Cuisine, Chinatown, Chicago", "lat": 41.854917, "lng": -87.639434}, {"anchorId": "phoenix-restaurant", "rank": 2, "name": "Phoenix Restaurant", "label": "2. Phoenix Restaurant", "ctaUrl": "https://maps.google.com/?q=Phoenix+Restaurant+Chinatown+Chicago", "mapQuery": "Phoenix Restaurant, Chinatown, Chicago", "lat": 41.85532, "lng": -87.63969}, {"anchorId": "furama-restaurant", "rank": 3, "name": "Furama Restaurant", "label": "3. Furama Restaurant", "ctaUrl": "https://maps.google.com/?q=Furama+Restaurant+Uptown+Chicago", "mapQuery": "Furama Restaurant, Uptown, Chicago", "lat": 41.97022, "lng": -87.65997}, {"anchorId": "triple-crown-restaurant", "rank": 4, "name": "Triple Crown Restaurant", "label": "4. Triple Crown Restaurant", "ctaUrl": "https://maps.google.com/?q=Triple+Crown+Restaurant+Chinatown+Chicago", "mapQuery": "Triple Crown Restaurant, Chinatown, Chicago", "lat": 41.85304, "lng": -87.63661}, {"anchorId": "dolo-restaurant-and-bar", "rank": 5, "name": "Dolo Restaurant and Bar", "label": "5. Dolo Restaurant and Bar", "ctaUrl": "https://maps.google.com/?q=Dolo+Restaurant+and+Bar+Chinatown+Chicago", "mapQuery": "Dolo Restaurant and Bar, Chinatown, Chicago", "lat": 41.85195, "lng": -87.63185}, {"anchorId": "imperial-restaurant", "rank": 6, "name": "Imperial Restaurant", "label": "6. Imperial Restaurant", "ctaUrl": "https://maps.google.com/?q=Imperial+Restaurant+Chinatown+Chicago", "mapQuery": "Imperial Restaurant, Chinatown, Chicago", "lat": 41.85608, "lng": -87.63943}, {"anchorId": "cai", "rank": 7, "name": "Cai", "label": "7. Cai", "ctaUrl": "https://maps.google.com/?q=Cai+Chinatown+Chicago", "mapQuery": "Cai, Chinatown, Chicago", "lat": 41.85608, "lng": -87.63943}, {"anchorId": "duck-duck-goat", "rank": 8, "name": "Duck Duck Goat", "label": "8. Duck Duck Goat", "ctaUrl": "https://maps.google.com/?q=Duck+Duck+Goat+West+Loop+Chicago", "mapQuery": "Duck Duck Goat, West Loop, Chicago", "lat": 41.886, "lng": -87.6493}, {"anchorId": "yummy-yummy-restaurant", "rank": 9, "name": "Yummy Yummy Restaurant", "label": "9. Yummy Yummy Restaurant", "ctaUrl": "https://maps.google.com/?q=Yummy+Yummy+Restaurant+Chinatown+Chicago", "mapQuery": "Yummy Yummy Restaurant, Chinatown, Chicago", "lat": 41.85303, "lng": -87.64024}, {"anchorId": "dim-sum-bbq", "rank": 10, "name": "Dim Sum & BBQ", "label": "10. Dim Sum & BBQ", "ctaUrl": "https://maps.google.com/?q=Dim+Sum+&+BBQ+Albany+Park+Chicago", "mapQuery": "Dim Sum & BBQ, Albany Park, Chicago", "lat": 41.97573, "lng": -87.71212}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

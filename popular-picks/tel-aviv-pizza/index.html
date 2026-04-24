@@ -1574,73 +1574,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Tel+Aviv", "picks": [{"anchorId": "piazzola", "rank": 1, "name": "Piazzola", "label": "1. Piazzola", "ctaUrl": "https://maps.google.com/?q=Piazzola+Florentin+Tel+Aviv", "mapQuery": "Piazzola, Florentin, Tel Aviv", "lat": 32.060133, "lng": 34.767838}, {"anchorId": "hapizza", "rank": 2, "name": "HaPizza", "label": "2. HaPizza", "ctaUrl": "https://maps.google.com/?q=HaPizza+Central+Tel+Aviv+Tel+Aviv", "mapQuery": "HaPizza, Central Tel Aviv, Tel Aviv", "lat": 32.076326, "lng": 34.770284}, {"anchorId": "pizza-lila", "rank": 3, "name": "Pizza Lila", "label": "3. Pizza Lila", "ctaUrl": "https://maps.google.com/?q=Pizza+Lila+Florentin+Tel+Aviv", "mapQuery": "Pizza Lila, Florentin, Tel Aviv", "lat": 32.059432, "lng": 34.768058}, {"anchorId": "tony-vespa", "rank": 4, "name": "Tony Vespa", "label": "4. Tony Vespa", "ctaUrl": "https://maps.google.com/?q=Tony+Vespa+Rothschild+Blvd+Tel+Aviv", "mapQuery": "Tony Vespa, Rothschild Blvd, Tel Aviv", "lat": 32.062061, "lng": 34.770932}, {"anchorId": "arte-italian-pizza", "rank": 5, "name": "Arte Italian Pizza", "label": "5. Arte Italian Pizza", "ctaUrl": "https://maps.google.com/?q=Arte+Italian+Pizza+Kikar+Rabin+Tel+Aviv", "mapQuery": "Arte Italian Pizza, Kikar Rabin, Tel Aviv", "lat": 32.079219, "lng": 34.786526}, {"anchorId": "brooklyn-pizza", "rank": 6, "name": "Brooklyn Pizza", "label": "6. Brooklyn Pizza", "ctaUrl": "https://maps.google.com/?q=Brooklyn+Pizza+Dizengoff+Tel+Aviv", "mapQuery": "Brooklyn Pizza, Dizengoff, Tel Aviv", "lat": 32.088656, "lng": 34.775432}, {"anchorId": "phillys-pizza", "rank": 7, "name": "Philly's Pizza", "label": "7. Philly's Pizza", "ctaUrl": "https://maps.google.com/?q=Philly's+Pizza+Allenby+Tel+Aviv", "mapQuery": "Philly's Pizza, Allenby, Tel Aviv", "lat": 32.06354, "lng": 34.76759}, {"anchorId": "shalvata-pizza", "rank": 8, "name": "Shalvata Pizza", "label": "8. Shalvata Pizza", "ctaUrl": "https://maps.google.com/?q=Shalvata+Pizza+Tel+Aviv+Port+Tel+Aviv", "mapQuery": "Shalvata Pizza, Tel Aviv Port, Tel Aviv", "lat": 32.097061, "lng": 34.772591}, {"anchorId": "la-repubblica-di-ronimotti", "rank": 9, "name": "La Repubblica di Ronimotti", "label": "9. La Repubblica di Ronimotti", "ctaUrl": "https://maps.google.com/?q=La+Repubblica+di+Ronimotti+Yehuda+Hamaccabi+Tel+Aviv", "mapQuery": "La Repubblica di Ronimotti, Yehuda Hamaccabi, Tel Aviv", "lat": 32.091178, "lng": 34.787687}, {"anchorId": "pizza-book", "rank": 10, "name": "Pizza Book", "label": "10. Pizza Book", "ctaUrl": "https://maps.google.com/?q=Pizza+Book+Florentin+Tel+Aviv", "mapQuery": "Pizza Book, Florentin, Tel Aviv", "lat": 32.062095, "lng": 34.768652}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

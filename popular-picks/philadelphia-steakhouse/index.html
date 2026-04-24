@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+Philadelphia", "picks": [{"anchorId": "barclay-prime", "rank": 1, "name": "Barclay Prime", "label": "1. Barclay Prime", "ctaUrl": "https://maps.google.com/?q=Barclay+Prime+Rittenhouse+Square+Philadelphia", "mapQuery": "Barclay Prime, Rittenhouse Square, Philadelphia", "lat": 39.94939, "lng": -75.17062}, {"anchorId": "butcher-and-singer", "rank": 2, "name": "Butcher and Singer", "label": "2. Butcher and Singer", "ctaUrl": "https://maps.google.com/?q=Butcher+and+Singer+Center+City+Philadelphia", "mapQuery": "Butcher and Singer, Center City, Philadelphia", "lat": 39.95015, "lng": -75.16568}, {"anchorId": "del-friscos-double-eagle-steakhouse", "rank": 3, "name": "Del Frisco's Double Eagle Steakhouse", "label": "3. Del Frisco's Double Eagle Steakhouse", "ctaUrl": "https://maps.google.com/?q=Del+Frisco's+Double+Eagle+Steakhouse+Center+City+Philadelphia", "mapQuery": "Del Frisco's Double Eagle Steakhouse, Center City, Philadelphia", "lat": 39.95159, "lng": -75.16524}, {"anchorId": "the-prime-rib", "rank": 4, "name": "The Prime Rib", "label": "4. The Prime Rib", "ctaUrl": "https://maps.google.com/?q=The+Prime+Rib+Rittenhouse+Square+Philadelphia", "mapQuery": "The Prime Rib, Rittenhouse Square, Philadelphia", "lat": 39.95029, "lng": -75.1687}, {"anchorId": "alpen-rose", "rank": 5, "name": "Alpen Rose", "label": "5. Alpen Rose", "ctaUrl": "https://maps.google.com/?q=Alpen+Rose+Center+City+Philadelphia", "mapQuery": "Alpen Rose, Center City, Philadelphia", "lat": 39.95085, "lng": -75.16104}, {"anchorId": "urban-farmer-philadelphia", "rank": 6, "name": "Urban Farmer Philadelphia", "label": "6. Urban Farmer Philadelphia", "ctaUrl": "https://maps.google.com/?q=Urban+Farmer+Philadelphia+Logan+Square+Philadelphia", "mapQuery": "Urban Farmer Philadelphia, Logan Square, Philadelphia", "lat": 39.9546, "lng": -75.17062}, {"anchorId": "capital-grille", "rank": 7, "name": "Capital Grille", "label": "7. Capital Grille", "ctaUrl": "https://maps.google.com/?q=Capital+Grille+Center+City+Philadelphia", "mapQuery": "Capital Grille, Center City, Philadelphia", "lat": 39.95175, "lng": -75.16434}, {"anchorId": "fogo-de-chão", "rank": 8, "name": "Fogo de Chão", "label": "8. Fogo de Chão", "ctaUrl": "https://maps.google.com/?q=Fogo+de+Chão+Center+City+Philadelphia", "mapQuery": "Fogo de Chão, Center City, Philadelphia", "lat": 39.95176, "lng": -75.1584}, {"anchorId": "chima-steakhouse", "rank": 9, "name": "Chima Steakhouse", "label": "9. Chima Steakhouse", "ctaUrl": "https://maps.google.com/?q=Chima+Steakhouse+Center+City+Philadelphia", "mapQuery": "Chima Steakhouse, Center City, Philadelphia", "lat": 39.95383, "lng": -75.17173}, {"anchorId": "saloon-restaurant", "rank": 10, "name": "Saloon Restaurant", "label": "10. Saloon Restaurant", "ctaUrl": "https://maps.google.com/?q=Saloon+Restaurant+Bella+Vista+Philadelphia", "mapQuery": "Saloon Restaurant, Bella Vista, Philadelphia", "lat": 39.94056, "lng": -75.1557}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

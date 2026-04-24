@@ -1538,73 +1538,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cooking Classes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cooking+classes+in+Chicago", "picks": [{"anchorId": "the-chopping-block", "rank": 1, "name": "The Chopping Block", "label": "1. The Chopping Block", "ctaUrl": "https://maps.google.com/?q=The+Chopping+Block+Merchandise+Mart+Chicago", "mapQuery": "The Chopping Block, Merchandise Mart, Chicago", "lat": 41.8887, "lng": -87.6369}, {"anchorId": "read-it-eat-it", "rank": 2, "name": "Read It & Eat It", "label": "2. Read It & Eat It", "ctaUrl": "https://maps.google.com/?q=Read+It+&+Eat+It+Lincoln+Park+Chicago", "mapQuery": "Read It & Eat It, Lincoln Park, Chicago", "lat": 41.9213, "lng": -87.6439}, {"anchorId": "sur-la-table", "rank": 3, "name": "Sur La Table", "label": "3. Sur La Table", "ctaUrl": "https://maps.google.com/?q=Sur+La+Table+Old+Town+Chicago", "mapQuery": "Sur La Table, Old Town, Chicago", "lat": 41.91, "lng": -87.6416}, {"anchorId": "eataly-chicago", "rank": 4, "name": "Eataly Chicago", "label": "4. Eataly Chicago", "ctaUrl": "https://maps.google.com/?q=Eataly+Chicago+River+North+Chicago", "mapQuery": "Eataly Chicago, River North, Chicago", "lat": 41.8906, "lng": -87.6291}, {"anchorId": "the-social-table", "rank": 5, "name": "The Social Table", "label": "5. The Social Table", "ctaUrl": "https://maps.google.com/?q=The+Social+Table+West+Loop+Chicago", "mapQuery": "The Social Table, West Loop, Chicago", "lat": 41.8817, "lng": -87.6469}, {"anchorId": "the-kitchen-chicago", "rank": 6, "name": "The Kitchen Chicago", "label": "6. The Kitchen Chicago", "ctaUrl": "https://maps.google.com/?q=The+Kitchen+Chicago+West+Town+Chicago", "mapQuery": "The Kitchen Chicago, West Town, Chicago", "lat": 41.8953, "lng": -87.6749}, {"anchorId": "get-in-the-kitchen", "rank": 7, "name": "Get in the Kitchen!", "label": "7. Get in the Kitchen!", "ctaUrl": "https://maps.google.com/?q=Get+in+the+Kitchen!+Lakeview+Chicago", "mapQuery": "Get in the Kitchen!, Lakeview, Chicago", "lat": 41.9469, "lng": -87.6534}, {"anchorId": "pastry-chicago", "rank": 8, "name": "Pastry Chicago", "label": "8. Pastry Chicago", "ctaUrl": "https://maps.google.com/?q=Pastry+Chicago+West+Loop+Chicago", "mapQuery": "Pastry Chicago, West Loop, Chicago", "lat": 41.8841, "lng": -87.6622}, {"anchorId": "alliance-française-de-chicago", "rank": 9, "name": "Alliance Française de Chicago", "label": "9. Alliance Française de Chicago", "ctaUrl": "https://maps.google.com/?q=Alliance+Française+de+Chicago+Near+North+Side+Chicago", "mapQuery": "Alliance Française de Chicago, Near North Side, Chicago", "lat": 41.9056, "lng": -87.6322}, {"anchorId": "cook-au-vin", "rank": 10, "name": "Cook Au Vin", "label": "10. Cook Au Vin", "ctaUrl": "https://maps.google.com/?q=Cook+Au+Vin+Lincoln+Square+Chicago", "mapQuery": "Cook Au Vin, Lincoln Square, Chicago", "lat": 41.9687, "lng": -87.6835}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

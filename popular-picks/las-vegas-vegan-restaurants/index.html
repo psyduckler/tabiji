@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Vegan Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/vegan+restaurants+in+Las+Vegas", "picks": [{"anchorId": "crossroads-kitchen", "rank": 1, "name": "Crossroads Kitchen", "label": "1. Crossroads Kitchen", "ctaUrl": "https://maps.google.com/?q=Crossroads+Kitchen+The+Strip+(Resorts+World)+Las+Vegas", "mapQuery": "Crossroads Kitchen, The Strip (Resorts World), Las Vegas", "lat": 36.1362, "lng": -115.1661}, {"anchorId": "chef-kennys-vegan-dim-sum", "rank": 2, "name": "Chef Kenny's Vegan Dim Sum", "label": "2. Chef Kenny's Vegan Dim Sum", "ctaUrl": "https://maps.google.com/?q=Chef+Kenny's+Vegan+Dim+Sum+Chinatown+Las+Vegas", "mapQuery": "Chef Kenny's Vegan Dim Sum, Chinatown, Las Vegas", "lat": 36.1158, "lng": -115.2212}, {"anchorId": "tacotarian", "rank": 3, "name": "Tacotarian", "label": "3. Tacotarian", "ctaUrl": "https://maps.google.com/?q=Tacotarian+Arts+District+Las+Vegas", "mapQuery": "Tacotarian, Arts District, Las Vegas", "lat": 36.1557, "lng": -115.1504}, {"anchorId": "vegenation", "rank": 4, "name": "VegeNation", "label": "4. VegeNation", "ctaUrl": "https://maps.google.com/?q=VegeNation+Downtown+Las+Vegas+Las+Vegas", "mapQuery": "VegeNation, Downtown Las Vegas, Las Vegas", "lat": 36.1678, "lng": -115.1378}, {"anchorId": "the-modern-vegan", "rank": 5, "name": "The Modern Vegan", "label": "5. The Modern Vegan", "ctaUrl": "https://maps.google.com/?q=The+Modern+Vegan+Centennial+Hills+Las+Vegas", "mapQuery": "The Modern Vegan, Centennial Hills, Las Vegas", "lat": 36.0963, "lng": -115.1306}, {"anchorId": "nobutcher", "rank": 6, "name": "NoButcher", "label": "6. NoButcher", "ctaUrl": "https://maps.google.com/?q=NoButcher+Spring+Valley+Las+Vegas", "mapQuery": "NoButcher, Spring Valley, Las Vegas", "lat": 36.115, "lng": -115.2447}, {"anchorId": "garden-grill", "rank": 7, "name": "Garden Grill", "label": "7. Garden Grill", "ctaUrl": "https://maps.google.com/?q=Garden+Grill+Spring+Valley+Las+Vegas", "mapQuery": "Garden Grill, Spring Valley, Las Vegas", "lat": 36.1884, "lng": -115.2818}, {"anchorId": "simply-pure", "rank": 8, "name": "Simply Pure", "label": "8. Simply Pure", "ctaUrl": "https://maps.google.com/?q=Simply+Pure+Downtown+Container+Park+Las+Vegas", "mapQuery": "Simply Pure, Downtown Container Park, Las Vegas", "lat": 36.1691, "lng": -115.1388}, {"anchorId": "violettes-vegan-organic-cafe-juice-bar", "rank": 9, "name": "Violette's Vegan Organic Cafe & Juice Bar", "label": "9. Violette's Vegan Organic Cafe & Juice Bar", "ctaUrl": "https://maps.google.com/?q=Violette's+Vegan+Organic+Cafe+&+Juice+Bar+Centennial+Hills+Las+Vegas", "mapQuery": "Violette's Vegan Organic Cafe & Juice Bar, Centennial Hills, Las Vegas", "lat": 36.1158, "lng": -115.2928}, {"anchorId": "truth-tonic-wellness-cafe", "rank": 10, "name": "Truth & Tonic Wellness Cafe", "label": "10. Truth & Tonic Wellness Cafe", "ctaUrl": "https://maps.google.com/?q=Truth+&+Tonic+Wellness+Cafe+The+Strip+(Venetian+Resort)+Las+Vegas", "mapQuery": "Truth & Tonic Wellness Cafe, The Strip (Venetian Resort), Las Vegas", "lat": 36.1215, "lng": -115.1706}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

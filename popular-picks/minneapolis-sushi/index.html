@@ -1576,73 +1576,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Minneapolis", "picks": [{"anchorId": "kado-no-mise", "rank": 1, "name": "Kado no Mise", "label": "1. Kado no Mise", "ctaUrl": "https://maps.google.com/?q=Kado+no+Mise+North+Loop+Minneapolis", "mapQuery": "Kado no Mise, North Loop, Minneapolis", "lat": 44.985012, "lng": -93.270967}, {"anchorId": "kyatchi", "rank": 2, "name": "Kyatchi", "label": "2. Kyatchi", "ctaUrl": "https://maps.google.com/?q=Kyatchi+North+Loop+Minneapolis", "mapQuery": "Kyatchi, North Loop, Minneapolis", "lat": 44.98592, "lng": -93.27218}, {"anchorId": "akira-back-minneapolis", "rank": 3, "name": "Akira Back Minneapolis", "label": "3. Akira Back Minneapolis", "ctaUrl": "https://maps.google.com/?q=Akira+Back+Minneapolis+Downtown+Minneapolis", "mapQuery": "Akira Back Minneapolis, Downtown, Minneapolis", "lat": 44.974051, "lng": -93.267868}, {"anchorId": "sushi-fix", "rank": 4, "name": "Sushi Fix", "label": "4. Sushi Fix", "ctaUrl": "https://maps.google.com/?q=Sushi+Fix+North+Loop+Minneapolis", "mapQuery": "Sushi Fix, North Loop, Minneapolis", "lat": 44.98564, "lng": -93.27138}, {"anchorId": "wakame-sushi-asian-bistro", "rank": 5, "name": "Wakame Sushi & Asian Bistro", "label": "5. Wakame Sushi & Asian Bistro", "ctaUrl": "https://maps.google.com/?q=Wakame+Sushi+&+Asian+Bistro+Uptown+Minneapolis", "mapQuery": "Wakame Sushi & Asian Bistro, Uptown, Minneapolis", "lat": 44.94723, "lng": -93.30335}, {"anchorId": "hajime-japanese-restaurant", "rank": 6, "name": "Hajime Japanese Restaurant", "label": "6. Hajime Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Hajime+Japanese+Restaurant+Southeast+Como+Minneapolis", "mapQuery": "Hajime Japanese Restaurant, Southeast Como, Minneapolis", "lat": 44.98188, "lng": -93.21852}, {"anchorId": "midori-sushi-grill", "rank": 7, "name": "Midori Sushi & Grill", "label": "7. Midori Sushi & Grill", "ctaUrl": "https://maps.google.com/?q=Midori+Sushi+&+Grill+Prospect+Park+Minneapolis", "mapQuery": "Midori Sushi & Grill, Prospect Park, Minneapolis", "lat": 44.97547, "lng": -93.20846}, {"anchorId": "pinku-japanese-street-food", "rank": 8, "name": "PinKU Japanese Street Food", "label": "8. PinKU Japanese Street Food", "ctaUrl": "https://maps.google.com/?q=PinKU+Japanese+Street+Food+Northeast+Minneapolis", "mapQuery": "PinKU Japanese Street Food, Northeast, Minneapolis", "lat": 45.00627, "lng": -93.23812}, {"anchorId": "ichiban-japanese-steakhouse-sushi-bar", "rank": 9, "name": "Ichiban Japanese Steakhouse & Sushi Bar", "label": "9. Ichiban Japanese Steakhouse & Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Ichiban+Japanese+Steakhouse+&+Sushi+Bar+Downtown+East+Minneapolis", "mapQuery": "Ichiban Japanese Steakhouse & Sushi Bar, Downtown East, Minneapolis", "lat": 44.98402, "lng": -93.26189}, {"anchorId": "fuji-ya", "rank": 10, "name": "Fuji Ya", "label": "10. Fuji Ya", "ctaUrl": "https://maps.google.com/?q=Fuji+Ya+Downtown+Minneapolis", "mapQuery": "Fuji Ya, Downtown, Minneapolis", "lat": 44.97507, "lng": -93.26786}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

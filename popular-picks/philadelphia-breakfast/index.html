@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Breakfast Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/breakfast+in+Philadelphia", "picks": [{"anchorId": "sabrinas-cafe", "rank": 1, "name": "Sabrina's Cafe", "label": "1. Sabrina's Cafe", "ctaUrl": "https://maps.google.com/?q=Sabrina's+Cafe+Italian+Market+Philadelphia", "mapQuery": "Sabrina's Cafe, Italian Market, Philadelphia", "lat": 39.939226, "lng": -75.166645}, {"anchorId": "green-eggs-cafe", "rank": 2, "name": "Green Eggs Cafe", "label": "2. Green Eggs Cafe", "ctaUrl": "https://maps.google.com/?q=Green+Eggs+Cafe+Midtown+Village+Philadelphia", "mapQuery": "Green Eggs Cafe, Midtown Village, Philadelphia", "lat": 39.951525, "lng": -75.163345}, {"anchorId": "cafe-la-maude", "rank": 3, "name": "Cafe La Maude", "label": "3. Cafe La Maude", "ctaUrl": "https://maps.google.com/?q=Cafe+La+Maude+Northern+Liberties+Philadelphia", "mapQuery": "Cafe La Maude, Northern Liberties, Philadelphia", "lat": 39.967919, "lng": -75.138404}, {"anchorId": "the-dutch", "rank": 4, "name": "The Dutch", "label": "4. The Dutch", "ctaUrl": "https://maps.google.com/?q=The+Dutch+East+Passyunk+Philadelphia", "mapQuery": "The Dutch, East Passyunk, Philadelphia", "lat": 39.927161, "lng": -75.164789}, {"anchorId": "honeys-sit-n-eat", "rank": 5, "name": "Honey's Sit 'n Eat", "label": "5. Honey's Sit 'n Eat", "ctaUrl": "https://maps.google.com/?q=Honey's+Sit+'n+Eat+Northern+Liberties+Philadelphia", "mapQuery": "Honey's Sit 'n Eat, Northern Liberties, Philadelphia", "lat": 39.966432, "lng": -75.143734}, {"anchorId": "sams-morning-glory-diner", "rank": 6, "name": "Sam's Morning Glory Diner", "label": "6. Sam's Morning Glory Diner", "ctaUrl": "https://maps.google.com/?q=Sam's+Morning+Glory+Diner+Bella+Vista+Philadelphia", "mapQuery": "Sam's Morning Glory Diner, Bella Vista, Philadelphia", "lat": 39.940406, "lng": -75.158142}, {"anchorId": "winkel", "rank": 7, "name": "Winkel", "label": "7. Winkel", "ctaUrl": "https://maps.google.com/?q=Winkel+Washington+Square+West+Philadelphia", "mapQuery": "Winkel, Washington Square West, Philadelphia", "lat": 39.947195, "lng": -75.161048}, {"anchorId": "middle-child", "rank": 8, "name": "Middle Child", "label": "8. Middle Child", "ctaUrl": "https://maps.google.com/?q=Middle+Child+Washington+Square+West+Philadelphia", "mapQuery": "Middle Child, Washington Square West, Philadelphia", "lat": 39.949669, "lng": -75.160105}, {"anchorId": "high-street-philly", "rank": 9, "name": "High Street Philly", "label": "9. High Street Philly", "ctaUrl": "https://maps.google.com/?q=High+Street+Philly+Old+City+Philadelphia", "mapQuery": "High Street Philly, Old City, Philadelphia", "lat": 39.951045, "lng": -75.146497}, {"anchorId": "dutch-eating-place", "rank": 10, "name": "Dutch Eating Place", "label": "10. Dutch Eating Place", "ctaUrl": "https://maps.google.com/?q=Dutch+Eating+Place+Center+City+East+Philadelphia", "mapQuery": "Dutch Eating Place, Center City East, Philadelphia", "lat": 39.952549, "lng": -75.15858}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

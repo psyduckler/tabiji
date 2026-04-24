@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Atlanta", "picks": [{"anchorId": "bones-restaurant", "rank": 1, "name": "Bones Restaurant", "label": "1. Bones Restaurant", "ctaUrl": "https://maps.google.com/?q=Bones+Restaurant+Buckhead+Atlanta", "mapQuery": "Bones Restaurant, Buckhead, Atlanta", "lat": 33.8441, "lng": -84.3725}, {"anchorId": "marcel", "rank": 2, "name": "Marcel", "label": "2. Marcel", "ctaUrl": "https://maps.google.com/?q=Marcel+West+Midtown+Atlanta", "mapQuery": "Marcel, West Midtown, Atlanta", "lat": 33.7891, "lng": -84.4124}, {"anchorId": "chops-lobster-bar", "rank": 3, "name": "Chops Lobster Bar", "label": "3. Chops Lobster Bar", "ctaUrl": "https://maps.google.com/?q=Chops+Lobster+Bar+Buckhead+Atlanta", "mapQuery": "Chops Lobster Bar, Buckhead, Atlanta", "lat": 33.8378, "lng": -84.3857}, {"anchorId": "kevin-rathbun-steak", "rank": 4, "name": "Kevin Rathbun Steak", "label": "4. Kevin Rathbun Steak", "ctaUrl": "https://maps.google.com/?q=Kevin+Rathbun+Steak+Inman+Park+Atlanta", "mapQuery": "Kevin Rathbun Steak, Inman Park, Atlanta", "lat": 33.757, "lng": -84.3644}, {"anchorId": "hals-on-old-ivy", "rank": 5, "name": "Hal's on Old Ivy", "label": "5. Hal's on Old Ivy", "ctaUrl": "https://maps.google.com/?q=Hal's+on+Old+Ivy+Buckhead+Atlanta", "mapQuery": "Hal's on Old Ivy, Buckhead, Atlanta", "lat": 33.8465, "lng": -84.3787}, {"anchorId": "arnettes-chop-shop", "rank": 6, "name": "Arnette's Chop Shop", "label": "6. Arnette's Chop Shop", "ctaUrl": "https://maps.google.com/?q=Arnette's+Chop+Shop+Brookhaven+Atlanta", "mapQuery": "Arnette's Chop Shop, Brookhaven, Atlanta", "lat": 33.8821, "lng": -84.3392}, {"anchorId": "stk-atlanta", "rank": 7, "name": "STK Atlanta", "label": "7. STK Atlanta", "ctaUrl": "https://maps.google.com/?q=STK+Atlanta+Midtown+Atlanta", "mapQuery": "STK Atlanta, Midtown, Atlanta", "lat": 33.7844, "lng": -84.382}, {"anchorId": "cuts-steakhouse", "rank": 8, "name": "Cuts Steakhouse", "label": "8. Cuts Steakhouse", "ctaUrl": "https://maps.google.com/?q=Cuts+Steakhouse+Downtown+Atlanta", "mapQuery": "Cuts Steakhouse, Downtown, Atlanta", "lat": 33.7592, "lng": -84.3879}, {"anchorId": "kr-steakbar", "rank": 9, "name": "KR Steakbar", "label": "9. KR Steakbar", "ctaUrl": "https://maps.google.com/?q=KR+Steakbar+Peachtree+Hills+Atlanta", "mapQuery": "KR Steakbar, Peachtree Hills, Atlanta", "lat": 33.8291, "lng": -84.3719}, {"anchorId": "longhorn-steakhouse", "rank": 10, "name": "LongHorn Steakhouse", "label": "10. LongHorn Steakhouse", "ctaUrl": "https://maps.google.com/?q=LongHorn+Steakhouse+Buckhead+Atlanta", "mapQuery": "LongHorn Steakhouse, Buckhead, Atlanta", "lat": 33.8466, "lng": -84.3644}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

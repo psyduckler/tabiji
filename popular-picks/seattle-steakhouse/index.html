@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+Seattle", "picks": [{"anchorId": "el-gaucho-seattle", "rank": 1, "name": "El Gaucho Seattle", "label": "1. El Gaucho Seattle", "ctaUrl": "https://maps.google.com/?q=El+Gaucho+Seattle+Belltown+Seattle", "mapQuery": "El Gaucho Seattle, Belltown, Seattle", "lat": 47.611183, "lng": -122.348633}, {"anchorId": "metropolitan-grill", "rank": 2, "name": "Metropolitan Grill", "label": "2. Metropolitan Grill", "ctaUrl": "https://maps.google.com/?q=Metropolitan+Grill+Downtown+Seattle", "mapQuery": "Metropolitan Grill, Downtown, Seattle", "lat": 47.605333, "lng": -122.333167}, {"anchorId": "daniels-broiler-lake-union", "rank": 3, "name": "Daniel's Broiler - Lake Union", "label": "3. Daniel's Broiler - Lake Union", "ctaUrl": "https://maps.google.com/?q=Daniel's+Broiler+-+Lake+Union+Lake+Union+Seattle", "mapQuery": "Daniel's Broiler - Lake Union, Lake Union, Seattle", "lat": 47.632222, "lng": -122.336111}, {"anchorId": "bateau", "rank": 4, "name": "Bateau", "label": "4. Bateau", "ctaUrl": "https://maps.google.com/?q=Bateau+Capitol+Hill+Seattle", "mapQuery": "Bateau, Capitol Hill, Seattle", "lat": 47.615286, "lng": -122.317544}, {"anchorId": "the-capital-grille", "rank": 5, "name": "The Capital Grille", "label": "5. The Capital Grille", "ctaUrl": "https://maps.google.com/?q=The+Capital+Grille+Downtown+Seattle", "mapQuery": "The Capital Grille, Downtown, Seattle", "lat": 47.607421, "lng": -122.334005}, {"anchorId": "millers-guild", "rank": 6, "name": "Miller's Guild", "label": "6. Miller's Guild", "ctaUrl": "https://maps.google.com/?q=Miller's+Guild+Downtown+Seattle", "mapQuery": "Miller's Guild, Downtown, Seattle", "lat": 47.61367, "lng": -122.33796}, {"anchorId": "the-butchers-table", "rank": 7, "name": "The Butcher's Table", "label": "7. The Butcher's Table", "ctaUrl": "https://maps.google.com/?q=The+Butcher's+Table+Fremont+Seattle", "mapQuery": "The Butcher's Table, Fremont, Seattle", "lat": 47.666991, "lng": -122.355153}, {"anchorId": "ruths-chris-steak-house", "rank": 8, "name": "Ruth's Chris Steak House", "label": "8. Ruth's Chris Steak House", "ctaUrl": "https://maps.google.com/?q=Ruth's+Chris+Steak+House+Downtown+Seattle", "mapQuery": "Ruth's Chris Steak House, Downtown, Seattle", "lat": 47.61214, "lng": -122.33403}, {"anchorId": "andare-kitchen-bar", "rank": 9, "name": "Andare Kitchen & Bar", "label": "9. Andare Kitchen & Bar", "ctaUrl": "https://maps.google.com/?q=Andare+Kitchen+&+Bar+Belltown+Seattle", "mapQuery": "Andare Kitchen & Bar, Belltown, Seattle", "lat": 47.60877, "lng": -122.34149}, {"anchorId": "jaks-grill-laurelhurst", "rank": 10, "name": "Jak's Grill - Laurelhurst", "label": "10. Jak's Grill - Laurelhurst", "ctaUrl": "https://maps.google.com/?q=Jak's+Grill+-+Laurelhurst+Laurelhurst+Seattle", "mapQuery": "Jak's Grill - Laurelhurst, Laurelhurst, Seattle", "lat": 47.660144, "lng": -122.289139}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

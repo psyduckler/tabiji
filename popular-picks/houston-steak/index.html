@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Houston", "picks": [{"anchorId": "pappas-bros-steakhouse", "rank": 1, "name": "Pappas Bros. Steakhouse", "label": "1. Pappas Bros. Steakhouse", "ctaUrl": "https://maps.google.com/?q=Pappas+Bros.+Steakhouse+Galleria/Uptown+Houston", "mapQuery": "Pappas Bros. Steakhouse, Galleria/Uptown, Houston", "lat": 29.742, "lng": -95.4754}, {"anchorId": "georgia-james", "rank": 2, "name": "Georgia James", "label": "2. Georgia James", "ctaUrl": "https://maps.google.com/?q=Georgia+James+Heights+Houston", "mapQuery": "Georgia James, Heights, Houston", "lat": 29.7909, "lng": -95.4057}, {"anchorId": "bb-butchers-restaurant", "rank": 3, "name": "B&B Butchers & Restaurant", "label": "3. B&B Butchers & Restaurant", "ctaUrl": "https://maps.google.com/?q=B&B+Butchers+&+Restaurant+Washington+Ave+Houston", "mapQuery": "B&B Butchers & Restaurant, Washington Ave, Houston", "lat": 29.7738, "lng": -95.3857}, {"anchorId": "vic-anthonys-steakhouse", "rank": 4, "name": "Vic & Anthony's Steakhouse", "label": "4. Vic & Anthony's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Vic+&+Anthony's+Steakhouse+Downtown+Houston", "mapQuery": "Vic & Anthony's Steakhouse, Downtown, Houston", "lat": 29.76, "lng": -95.3582}, {"anchorId": "taste-of-texas", "rank": 5, "name": "Taste of Texas", "label": "5. Taste of Texas", "ctaUrl": "https://maps.google.com/?q=Taste+of+Texas+Spring+Branch+Houston", "mapQuery": "Taste of Texas, Spring Branch, Houston", "lat": 29.782, "lng": -95.5398}, {"anchorId": "doris-metropolitan", "rank": 6, "name": "Doris Metropolitan", "label": "6. Doris Metropolitan", "ctaUrl": "https://maps.google.com/?q=Doris+Metropolitan+Downtown+Houston", "mapQuery": "Doris Metropolitan, Downtown, Houston", "lat": 29.7663, "lng": -95.3905}, {"anchorId": "killens-stq", "rank": 7, "name": "Killen's STQ", "label": "7. Killen's STQ", "ctaUrl": "https://maps.google.com/?q=Killen's+STQ+Upper+Kirby+Houston", "mapQuery": "Killen's STQ, Upper Kirby, Houston", "lat": 29.7611, "lng": -95.5186}, {"anchorId": "steak-48", "rank": 8, "name": "Steak 48", "label": "8. Steak 48", "ctaUrl": "https://maps.google.com/?q=Steak+48+River+Oaks+Houston", "mapQuery": "Steak 48, River Oaks, Houston", "lat": 29.7424, "lng": -95.4485}, {"anchorId": "brenners-steakhouse", "rank": 9, "name": "Brenner's Steakhouse", "label": "9. Brenner's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Brenner's+Steakhouse+Memorial+Houston", "mapQuery": "Brenner's Steakhouse, Memorial, Houston", "lat": 29.7846, "lng": -95.5494}, {"anchorId": "perrys-steakhouse-grille", "rank": 10, "name": "Perry's Steakhouse & Grille", "label": "10. Perry's Steakhouse & Grille", "ctaUrl": "https://maps.google.com/?q=Perry's+Steakhouse+&+Grille+Memorial+City+Houston", "mapQuery": "Perry's Steakhouse & Grille, Memorial City, Houston", "lat": 29.7801, "lng": -95.5342}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

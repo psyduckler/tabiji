@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Fine Dining Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/fine+dining+in+Las+Vegas", "picks": [{"anchorId": "joël-robuchon", "rank": 1, "name": "Joël Robuchon", "label": "1. Joël Robuchon", "ctaUrl": "https://maps.google.com/?q=Joël+Robuchon+MGM+Grand+(South+Strip)+Las+Vegas", "mapQuery": "Joël Robuchon, MGM Grand (South Strip), Las Vegas", "lat": 36.1026, "lng": -115.1706}, {"anchorId": "guy-savoy", "rank": 2, "name": "Guy Savoy", "label": "2. Guy Savoy", "ctaUrl": "https://maps.google.com/?q=Guy+Savoy+Caesars+Palace+(Mid-Strip)+Las+Vegas", "mapQuery": "Guy Savoy, Caesars Palace (Mid-Strip), Las Vegas", "lat": 36.1166, "lng": -115.1764}, {"anchorId": "picasso", "rank": 3, "name": "Picasso", "label": "3. Picasso", "ctaUrl": "https://maps.google.com/?q=Picasso+Bellagio+(Mid-Strip)+Las+Vegas", "mapQuery": "Picasso, Bellagio (Mid-Strip), Las Vegas", "lat": 36.1126, "lng": -115.1765}, {"anchorId": "é-by-josé-andrés", "rank": 4, "name": "é by José Andrés", "label": "4. é by José Andrés", "ctaUrl": "https://maps.google.com/?q=é+by+José+Andrés+Cosmopolitan+(Mid-Strip)+Las+Vegas", "mapQuery": "é by José Andrés, Cosmopolitan (Mid-Strip), Las Vegas", "lat": 36.1099, "lng": -115.1738}, {"anchorId": "mizumi", "rank": 5, "name": "Mizumi", "label": "5. Mizumi", "ctaUrl": "https://maps.google.com/?q=Mizumi+Wynn+Las+Vegas+(North+Strip)+Las+Vegas", "mapQuery": "Mizumi, Wynn Las Vegas (North Strip), Las Vegas", "lat": 36.1264, "lng": -115.1666}, {"anchorId": "cut-by-wolfgang-puck", "rank": 6, "name": "CUT by Wolfgang Puck", "label": "6. CUT by Wolfgang Puck", "ctaUrl": "https://maps.google.com/?q=CUT+by+Wolfgang+Puck+The+Palazzo+at+The+Venetian+(North+Strip)+Las+Vegas", "mapQuery": "CUT by Wolfgang Puck, The Palazzo at The Venetian (North Strip), Las Vegas", "lat": 36.1243, "lng": -115.1691}, {"anchorId": "le-cirque", "rank": 7, "name": "Le Cirque", "label": "7. Le Cirque", "ctaUrl": "https://maps.google.com/?q=Le+Cirque+Bellagio+(Mid-Strip)+Las+Vegas", "mapQuery": "Le Cirque, Bellagio (Mid-Strip), Las Vegas", "lat": 36.1126, "lng": -115.1765}, {"anchorId": "sw-steakhouse", "rank": 8, "name": "SW Steakhouse", "label": "8. SW Steakhouse", "ctaUrl": "https://maps.google.com/?q=SW+Steakhouse+Wynn+Las+Vegas+(North+Strip)+Las+Vegas", "mapQuery": "SW Steakhouse, Wynn Las Vegas (North Strip), Las Vegas", "lat": 36.1262, "lng": -115.1664}, {"anchorId": "vetri-cucina", "rank": 9, "name": "Vetri Cucina", "label": "9. Vetri Cucina", "ctaUrl": "https://maps.google.com/?q=Vetri+Cucina+Palms+Casino+Resort+(Off-Strip)+Las+Vegas", "mapQuery": "Vetri Cucina, Palms Casino Resort (Off-Strip), Las Vegas", "lat": 36.1154, "lng": -115.1956}, {"anchorId": "raku", "rank": 10, "name": "Raku", "label": "10. Raku", "ctaUrl": "https://maps.google.com/?q=Raku+Chinatown+(Off-Strip)+Las+Vegas", "mapQuery": "Raku, Chinatown (Off-Strip), Las Vegas", "lat": 36.1205, "lng": -115.2091}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

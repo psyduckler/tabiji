@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Wine Tasting Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/wine+tasting+in+Sonoma", "picks": [{"anchorId": "scribe-winery", "rank": 1, "name": "Scribe Winery", "label": "1. Scribe Winery", "ctaUrl": "https://maps.google.com/?q=Scribe+Winery+Sonoma+Sonoma", "mapQuery": "Scribe Winery, Sonoma, Sonoma", "lat": 38.2541, "lng": -122.4513}, {"anchorId": "st-francis-winery-vineyards", "rank": 2, "name": "St. Francis Winery & Vineyards", "label": "2. St. Francis Winery & Vineyards", "ctaUrl": "https://maps.google.com/?q=St.+Francis+Winery+&+Vineyards+Santa+Rosa+Sonoma", "mapQuery": "St. Francis Winery & Vineyards, Santa Rosa, Sonoma", "lat": 38.4552, "lng": -122.5694}, {"anchorId": "gundlach-bundschu-winery", "rank": 3, "name": "Gundlach Bundschu Winery", "label": "3. Gundlach Bundschu Winery", "ctaUrl": "https://maps.google.com/?q=Gundlach+Bundschu+Winery+Sonoma+Sonoma", "mapQuery": "Gundlach Bundschu Winery, Sonoma, Sonoma", "lat": 38.2562, "lng": -122.451}, {"anchorId": "buena-vista-winery", "rank": 4, "name": "Buena Vista Winery", "label": "4. Buena Vista Winery", "ctaUrl": "https://maps.google.com/?q=Buena+Vista+Winery+Sonoma+Sonoma", "mapQuery": "Buena Vista Winery, Sonoma, Sonoma", "lat": 38.2831, "lng": -122.4842}, {"anchorId": "benziger-family-winery", "rank": 5, "name": "Benziger Family Winery", "label": "5. Benziger Family Winery", "ctaUrl": "https://maps.google.com/?q=Benziger+Family+Winery+Glen+Ellen+Sonoma", "mapQuery": "Benziger Family Winery, Glen Ellen, Sonoma", "lat": 38.3585, "lng": -122.5028}, {"anchorId": "viansa-sonoma-winery-vineyards", "rank": 6, "name": "Viansa Sonoma Winery & Vineyards", "label": "6. Viansa Sonoma Winery & Vineyards", "ctaUrl": "https://maps.google.com/?q=Viansa+Sonoma+Winery+&+Vineyards+Sonoma+Sonoma", "mapQuery": "Viansa Sonoma Winery & Vineyards, Sonoma, Sonoma", "lat": 38.1969, "lng": -122.4834}, {"anchorId": "larson-family-winery", "rank": 7, "name": "Larson Family Winery", "label": "7. Larson Family Winery", "ctaUrl": "https://maps.google.com/?q=Larson+Family+Winery+Sonoma+Sonoma", "mapQuery": "Larson Family Winery, Sonoma, Sonoma", "lat": 38.2045, "lng": -122.4795}, {"anchorId": "bartholomew-estate-winery", "rank": 8, "name": "Bartholomew Estate Winery", "label": "8. Bartholomew Estate Winery", "ctaUrl": "https://maps.google.com/?q=Bartholomew+Estate+Winery+Sonoma+Sonoma", "mapQuery": "Bartholomew Estate Winery, Sonoma, Sonoma", "lat": 38.2933, "lng": -122.4437}, {"anchorId": "cline-family-cellars", "rank": 9, "name": "Cline Family Cellars", "label": "9. Cline Family Cellars", "ctaUrl": "https://maps.google.com/?q=Cline+Family+Cellars+Sonoma+Sonoma", "mapQuery": "Cline Family Cellars, Sonoma, Sonoma", "lat": 38.2079, "lng": -122.4851}, {"anchorId": "patz-hall-winery", "rank": 10, "name": "Patz & Hall Winery", "label": "10. Patz & Hall Winery", "ctaUrl": "https://maps.google.com/?q=Patz+&+Hall+Winery+Sonoma+Sonoma", "mapQuery": "Patz & Hall Winery, Sonoma, Sonoma", "lat": 38.3129, "lng": -122.4746}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

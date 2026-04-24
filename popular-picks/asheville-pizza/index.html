@@ -1563,73 +1563,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Asheville", "picks": [{"anchorId": "all-souls-pizza", "rank": 1, "name": "All Souls Pizza", "label": "1. All Souls Pizza", "ctaUrl": "https://maps.google.com/?q=All+Souls+Pizza+River+Arts+District+(RAD)+Asheville", "mapQuery": "All Souls Pizza, River Arts District (RAD), Asheville", "lat": 35.593259, "lng": -82.564757}, {"anchorId": "white-labs-kitchen-tap", "rank": 2, "name": "White Labs Kitchen & Tap", "label": "2. White Labs Kitchen & Tap", "ctaUrl": "https://maps.google.com/?q=White+Labs+Kitchen+&+Tap+South+Slope+Asheville", "mapQuery": "White Labs Kitchen & Tap, South Slope, Asheville", "lat": 35.593026, "lng": -82.547668}, {"anchorId": "pizza-mind", "rank": 3, "name": "Pizza Mind", "label": "3. Pizza Mind", "ctaUrl": "https://maps.google.com/?q=Pizza+Mind+West+Asheville+Asheville", "mapQuery": "Pizza Mind, West Asheville, Asheville", "lat": 35.589136, "lng": -82.585257}, {"anchorId": "manicomio-pizza-food", "rank": 4, "name": "Manicomio Pizza & Food", "label": "4. Manicomio Pizza & Food", "ctaUrl": "https://maps.google.com/?q=Manicomio+Pizza+&+Food+Downtown+Asheville", "mapQuery": "Manicomio Pizza & Food, Downtown, Asheville", "lat": 35.592751, "lng": -82.553198}, {"anchorId": "pizzeria-ombra", "rank": 5, "name": "Pizzeria Ombra", "label": "5. Pizzeria Ombra", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Ombra+West+Asheville+Asheville", "mapQuery": "Pizzeria Ombra, West Asheville, Asheville", "lat": 35.58787, "lng": -82.59392}, {"anchorId": "standard-pizza-co", "rank": 6, "name": "Standard Pizza Co.", "label": "6. Standard Pizza Co.", "ctaUrl": "https://maps.google.com/?q=Standard+Pizza+Co.+Biltmore+Park+Asheville", "mapQuery": "Standard Pizza Co., Biltmore Park, Asheville", "lat": 35.494793, "lng": -82.553259}, {"anchorId": "grata-pizzeria", "rank": 7, "name": "Grata Pizzeria", "label": "7. Grata Pizzeria", "ctaUrl": "https://maps.google.com/?q=Grata+Pizzeria+Oakley+Asheville", "mapQuery": "Grata Pizzeria, Oakley, Asheville", "lat": 35.584319, "lng": -82.599728}, {"anchorId": "asheville-pizza-brewing-co", "rank": 8, "name": "Asheville Pizza & Brewing Co.", "label": "8. Asheville Pizza & Brewing Co.", "ctaUrl": "https://maps.google.com/?q=Asheville+Pizza+&+Brewing+Co.+Downtown+Asheville", "mapQuery": "Asheville Pizza & Brewing Co., Downtown, Asheville", "lat": 35.592505, "lng": -82.553907}, {"anchorId": "fahrenheit-pizza-brew", "rank": 9, "name": "Fahrenheit Pizza & Brew", "label": "9. Fahrenheit Pizza & Brew", "ctaUrl": "https://maps.google.com/?q=Fahrenheit+Pizza+&+Brew+South+Asheville+Asheville", "mapQuery": "Fahrenheit Pizza & Brew, South Asheville, Asheville", "lat": 35.53923, "lng": -82.53177}, {"anchorId": "del-vecchios-pizza-pasta", "rank": 10, "name": "Del Vecchio's Pizza & Pasta", "label": "10. Del Vecchio's Pizza & Pasta", "ctaUrl": "https://maps.google.com/?q=Del+Vecchio's+Pizza+&+Pasta+North+Asheville+Asheville", "mapQuery": "Del Vecchio's Pizza & Pasta, North Asheville, Asheville", "lat": 35.602509, "lng": -82.558352}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

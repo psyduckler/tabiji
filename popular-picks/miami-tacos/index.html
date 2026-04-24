@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Tacos Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/tacos+in+Miami", "picks": [{"anchorId": "coyo-taco", "rank": 1, "name": "Coyo Taco", "label": "1. Coyo Taco", "ctaUrl": "https://maps.google.com/?q=Coyo+Taco+Wynwood+Miami", "mapQuery": "Coyo Taco, Wynwood, Miami", "lat": 25.800049, "lng": -80.198967}, {"anchorId": "bodega-taqueria-y-tequila", "rank": 2, "name": "Bodega Taqueria y Tequila", "label": "2. Bodega Taqueria y Tequila", "ctaUrl": "https://maps.google.com/?q=Bodega+Taqueria+y+Tequila+South+Beach+Miami", "mapQuery": "Bodega Taqueria y Tequila, South Beach, Miami", "lat": 25.790933, "lng": -80.141555}, {"anchorId": "taquiza", "rank": 3, "name": "Taquiza", "label": "3. Taquiza", "ctaUrl": "https://maps.google.com/?q=Taquiza+South+Beach+Miami", "mapQuery": "Taquiza, South Beach, Miami", "lat": 25.787685, "lng": -80.130985}, {"anchorId": "tacology", "rank": 4, "name": "Tacology", "label": "4. Tacology", "ctaUrl": "https://maps.google.com/?q=Tacology+Brickell+Miami", "mapQuery": "Tacology, Brickell, Miami", "lat": 25.7645, "lng": -80.1932}, {"anchorId": "la-santa-taqueria", "rank": 5, "name": "La Santa Taqueria", "label": "5. La Santa Taqueria", "ctaUrl": "https://maps.google.com/?q=La+Santa+Taqueria+Little+River+Miami", "mapQuery": "La Santa Taqueria, Little River, Miami", "lat": 25.84594, "lng": -80.19124}, {"anchorId": "tacos-tattoos", "rank": 6, "name": "Tacos & Tattoos", "label": "6. Tacos & Tattoos", "ctaUrl": "https://maps.google.com/?q=Tacos+&+Tattoos+Kendall+Miami", "mapQuery": "Tacos & Tattoos, Kendall, Miami", "lat": 25.66986, "lng": -80.40775}, {"anchorId": "el-mero-mero", "rank": 7, "name": "El Mero Mero", "label": "7. El Mero Mero", "ctaUrl": "https://maps.google.com/?q=El+Mero+Mero+Doral+Miami", "mapQuery": "El Mero Mero, Doral, Miami", "lat": 25.82367, "lng": -80.37078}, {"anchorId": "antojitos-tacos-y-tequila", "rank": 8, "name": "Antojitos Tacos y Tequila", "label": "8. Antojitos Tacos y Tequila", "ctaUrl": "https://maps.google.com/?q=Antojitos+Tacos+y+Tequila+Midtown+Miami", "mapQuery": "Antojitos Tacos y Tequila, Midtown, Miami", "lat": 25.8071, "lng": -80.1947}, {"anchorId": "mi-taco", "rank": 9, "name": "Mi Taco", "label": "9. Mi Taco", "ctaUrl": "https://maps.google.com/?q=Mi+Taco+Little+Havana+Miami", "mapQuery": "Mi Taco, Little Havana, Miami", "lat": 25.766113, "lng": -80.223041}, {"anchorId": "taqueria-viva-mexico", "rank": 10, "name": "Taqueria Viva Mexico", "label": "10. Taqueria Viva Mexico", "ctaUrl": "https://maps.google.com/?q=Taqueria+Viva+Mexico+Little+Havana+Miami", "mapQuery": "Taqueria Viva Mexico, Little Havana, Miami", "lat": 25.7684, "lng": -80.2117}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

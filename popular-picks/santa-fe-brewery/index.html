@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Brewery Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/brewery+in+Santa+Fe", "picks": [{"anchorId": "santa-fe-brewing-company", "rank": 1, "name": "Santa Fe Brewing Company", "label": "1. Santa Fe Brewing Company", "ctaUrl": "https://maps.google.com/?q=Santa+Fe+Brewing+Company+Southside+Santa+Fe", "mapQuery": "Santa Fe Brewing Company, Southside, Santa Fe", "lat": 35.6171, "lng": -106.0028}, {"anchorId": "second-street-brewery", "rank": 2, "name": "Second Street Brewery (Rufina Taproom)", "label": "2. Second Street Brewery (Rufina Taproom)", "ctaUrl": "https://maps.google.com/?q=Second+Street+Brewery+(Rufina+Taproom)+Rufina+Arts+District+Santa+Fe", "mapQuery": "Second Street Brewery (Rufina Taproom), Rufina Arts District, Santa Fe", "lat": 35.6322, "lng": -106.0142}, {"anchorId": "rowley-farmhouse-ales", "rank": 3, "name": "Rowley Farmhouse Ales", "label": "3. Rowley Farmhouse Ales", "ctaUrl": "https://maps.google.com/?q=Rowley+Farmhouse+Ales+Southwest+Santa+Fe+Santa+Fe", "mapQuery": "Rowley Farmhouse Ales, Southwest Santa Fe, Santa Fe", "lat": 35.6444, "lng": -105.9961}, {"anchorId": "tumbleroot-brewery-distillery", "rank": 4, "name": "Tumbleroot Brewery & Distillery", "label": "4. Tumbleroot Brewery & Distillery", "ctaUrl": "https://maps.google.com/?q=Tumbleroot+Brewery+&+Distillery+Southside+Santa+Fe", "mapQuery": "Tumbleroot Brewery & Distillery, Southside, Santa Fe", "lat": 35.6293, "lng": -105.9995}, {"anchorId": "chili-line-brewing-company", "rank": 5, "name": "Chili Line Brewing Company", "label": "5. Chili Line Brewing Company", "ctaUrl": "https://maps.google.com/?q=Chili+Line+Brewing+Company+Railyard+District+Santa+Fe", "mapQuery": "Chili Line Brewing Company, Railyard District, Santa Fe", "lat": 35.6908, "lng": -105.9409}, {"anchorId": "blue-corn-brewery", "rank": 6, "name": "Blue Corn Brewery", "label": "6. Blue Corn Brewery", "ctaUrl": "https://maps.google.com/?q=Blue+Corn+Brewery+Southside+Santa+Fe", "mapQuery": "Blue Corn Brewery, Southside, Santa Fe", "lat": 35.6593, "lng": -106.0152}, {"anchorId": "tractor-brewing-company", "rank": 7, "name": "Tractor Brewing Company (Santa Fe)", "label": "7. Tractor Brewing Company (Santa Fe)", "ctaUrl": "https://maps.google.com/?q=Tractor+Brewing+Company+(Santa+Fe)+Rufina+Arts+District+Santa+Fe", "mapQuery": "Tractor Brewing Company (Santa Fe), Rufina Arts District, Santa Fe", "lat": 35.6321, "lng": -106.0142}, {"anchorId": "duel-brewing-company", "rank": 8, "name": "Duel Brewing Company", "label": "8. Duel Brewing Company", "ctaUrl": "https://maps.google.com/?q=Duel+Brewing+Company+Northeast+Santa+Fe+Santa+Fe", "mapQuery": "Duel Brewing Company, Northeast Santa Fe, Santa Fe", "lat": 35.643, "lng": -105.9961}, {"anchorId": "marble-brewery", "rank": 9, "name": "Marble Brewery (Santa Fe Taproom)", "label": "9. Marble Brewery (Santa Fe Taproom)", "ctaUrl": "https://maps.google.com/?q=Marble+Brewery+(Santa+Fe+Taproom)+Railyard+District+Santa+Fe", "mapQuery": "Marble Brewery (Santa Fe Taproom), Railyard District, Santa Fe", "lat": 35.6791, "lng": -105.9592}, {"anchorId": "beer-creek-brewing-co", "rank": 10, "name": "Beer Creek Brewing Co.", "label": "10. Beer Creek Brewing Co.", "ctaUrl": "https://maps.google.com/?q=Beer+Creek+Brewing+Co.+La+Cienega+(South+Santa+Fe)+Santa+Fe", "mapQuery": "Beer Creek Brewing Co., La Cienega (South Santa Fe), Santa Fe", "lat": 35.5487, "lng": -106.0594}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

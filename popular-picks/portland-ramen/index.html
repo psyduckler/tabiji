@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Ramen Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/ramen+in+Portland", "picks": [{"anchorId": "afuri-ramen-dumpling", "rank": 1, "name": "Afuri Ramen + Dumpling", "label": "1. Afuri Ramen + Dumpling", "ctaUrl": "https://maps.google.com/?q=Afuri+Ramen+++Dumpling+Central+Eastside+Portland", "mapQuery": "Afuri Ramen + Dumpling, Central Eastside, Portland", "lat": 45.51261, "lng": -122.65997}, {"anchorId": "marukin-ramen", "rank": 2, "name": "Marukin Ramen", "label": "2. Marukin Ramen", "ctaUrl": "https://maps.google.com/?q=Marukin+Ramen+Downtown+/+Pine+Street+Market+Portland", "mapQuery": "Marukin Ramen, Downtown / Pine Street Market, Portland", "lat": 45.52187, "lng": -122.67384}, {"anchorId": "kizuki-ramen-izakaya", "rank": 3, "name": "Kizuki Ramen & Izakaya", "label": "3. Kizuki Ramen & Izakaya", "ctaUrl": "https://maps.google.com/?q=Kizuki+Ramen+&+Izakaya+Pearl+District+Portland", "mapQuery": "Kizuki Ramen & Izakaya, Pearl District, Portland", "lat": 45.52844, "lng": -122.67885}, {"anchorId": "boxer-ramen", "rank": 4, "name": "Boxer Ramen", "label": "4. Boxer Ramen", "ctaUrl": "https://maps.google.com/?q=Boxer+Ramen+Downtown+Portland", "mapQuery": "Boxer Ramen, Downtown, Portland", "lat": 45.52044, "lng": -122.68412}, {"anchorId": "ramen-ryoma", "rank": 5, "name": "Ramen Ryoma", "label": "5. Ramen Ryoma", "ctaUrl": "https://maps.google.com/?q=Ramen+Ryoma+SE+Hawthorne+Portland", "mapQuery": "Ramen Ryoma, SE Hawthorne, Portland", "lat": 45.50904, "lng": -122.65176}, {"anchorId": "noraneko", "rank": 6, "name": "Noraneko", "label": "6. Noraneko", "ctaUrl": "https://maps.google.com/?q=Noraneko+SE+Morrison+Portland", "mapQuery": "Noraneko, SE Morrison, Portland", "lat": 45.51034, "lng": -122.65089}, {"anchorId": "kayos-ramen-bar", "rank": 7, "name": "Kayo's Ramen Bar", "label": "7. Kayo's Ramen Bar", "ctaUrl": "https://maps.google.com/?q=Kayo's+Ramen+Bar+North+Portland+Portland", "mapQuery": "Kayo's Ramen Bar, North Portland, Portland", "lat": 45.55397, "lng": -122.66579}, {"anchorId": "mirakutei-ramen-sushi", "rank": 8, "name": "Mirakutei Ramen & Sushi", "label": "8. Mirakutei Ramen & Sushi", "ctaUrl": "https://maps.google.com/?q=Mirakutei+Ramen+&+Sushi+SE+82nd+Ave+Portland", "mapQuery": "Mirakutei Ramen & Sushi, SE 82nd Ave, Portland", "lat": 45.51468, "lng": -122.65063}, {"anchorId": "ichidale-ramen", "rank": 9, "name": "Ichidale Ramen", "label": "9. Ichidale Ramen", "ctaUrl": "https://maps.google.com/?q=Ichidale+Ramen+SE+122nd+Ave+Portland", "mapQuery": "Ichidale Ramen, SE 122nd Ave, Portland", "lat": 45.49883, "lng": -122.54013}, {"anchorId": "akira-ramen-izakaya", "rank": 10, "name": "Akira Ramen & Izakaya", "label": "10. Akira Ramen & Izakaya", "ctaUrl": "https://maps.google.com/?q=Akira+Ramen+&+Izakaya+Downtown+Portland", "mapQuery": "Akira Ramen & Izakaya, Downtown, Portland", "lat": 45.52187, "lng": -122.67384}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

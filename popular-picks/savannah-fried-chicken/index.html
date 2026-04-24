@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Fried Chicken Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/fried+chicken+in+Savannah", "picks": [{"anchorId": "mrs-wilkes-dining-room", "rank": 1, "name": "Mrs. Wilkes Dining Room", "label": "1. Mrs. Wilkes Dining Room", "ctaUrl": "https://maps.google.com/?q=Mrs.+Wilkes+Dining+Room+Historic+District+Savannah", "mapQuery": "Mrs. Wilkes Dining Room, Historic District, Savannah", "lat": 32.0736, "lng": -81.0963}, {"anchorId": "sisters-of-the-new-south", "rank": 2, "name": "Sisters of the New South", "label": "2. Sisters of the New South", "ctaUrl": "https://maps.google.com/?q=Sisters+of+the+New+South+Midtown+Savannah", "mapQuery": "Sisters of the New South, Midtown, Savannah", "lat": 32.0308, "lng": -81.0664}, {"anchorId": "sweet-potatoes", "rank": 3, "name": "Sweet Potatoes", "label": "3. Sweet Potatoes", "ctaUrl": "https://maps.google.com/?q=Sweet+Potatoes+Starland+District+Savannah", "mapQuery": "Sweet Potatoes, Starland District, Savannah", "lat": 32.0003, "lng": -81.1118}, {"anchorId": "the-olde-pink-house", "rank": 4, "name": "The Olde Pink House", "label": "4. The Olde Pink House", "ctaUrl": "https://maps.google.com/?q=The+Olde+Pink+House+Historic+District+Savannah", "mapQuery": "The Olde Pink House, Historic District, Savannah", "lat": 32.0792, "lng": -81.0906}, {"anchorId": "crystal-beer-parlor", "rank": 5, "name": "Crystal Beer Parlor", "label": "5. Crystal Beer Parlor", "ctaUrl": "https://maps.google.com/?q=Crystal+Beer+Parlor+Historic+District+Savannah", "mapQuery": "Crystal Beer Parlor, Historic District, Savannah", "lat": 32.0739, "lng": -81.0991}, {"anchorId": "walls-bbq", "rank": 6, "name": "Wall's BBQ", "label": "6. Wall's BBQ", "ctaUrl": "https://maps.google.com/?q=Wall's+BBQ+Downtown+Savannah", "mapQuery": "Wall's BBQ, Downtown, Savannah", "lat": 32.0763, "lng": -81.0827}, {"anchorId": "paula-deens-lady-sons", "rank": 7, "name": "Paula Deen's Lady & Sons", "label": "7. Paula Deen's Lady & Sons", "ctaUrl": "https://maps.google.com/?q=Paula+Deen's+Lady+&+Sons+Historic+District+Savannah", "mapQuery": "Paula Deen's Lady & Sons, Historic District, Savannah", "lat": 32.0805, "lng": -81.0934}, {"anchorId": "the-wyld-dock-bar", "rank": 8, "name": "The Wyld Dock Bar", "label": "8. The Wyld Dock Bar", "ctaUrl": "https://maps.google.com/?q=The+Wyld+Dock+Bar+Moon+River+District+Savannah", "mapQuery": "The Wyld Dock Bar, Moon River District, Savannah", "lat": 32.0238, "lng": -81.1442}, {"anchorId": "back-in-the-day-bakery", "rank": 9, "name": "Back in the Day Bakery", "label": "9. Back in the Day Bakery", "ctaUrl": "https://maps.google.com/?q=Back+in+the+Day+Bakery+Starland+District+Savannah", "mapQuery": "Back in the Day Bakery, Starland District, Savannah", "lat": 32.0641, "lng": -81.0945}, {"anchorId": "treylor-park", "rank": 10, "name": "Treylor Park", "label": "10. Treylor Park", "ctaUrl": "https://maps.google.com/?q=Treylor+Park+Historic+District+Savannah", "mapQuery": "Treylor Park, Historic District, Savannah", "lat": 32.0818, "lng": -81.0905}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

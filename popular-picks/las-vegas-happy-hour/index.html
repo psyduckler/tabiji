@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Happy Hour Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/happy+hour+in+Las+Vegas", "picks": [{"anchorId": "lago-by-julian-serrano", "rank": 1, "name": "LAGO by Julian Serrano", "label": "1. LAGO by Julian Serrano", "ctaUrl": "https://maps.google.com/?q=LAGO+by+Julian+Serrano+The+Strip+(Bellagio)+Las+Vegas", "mapQuery": "LAGO by Julian Serrano, The Strip (Bellagio), Las Vegas", "lat": 36.1121, "lng": -115.1748}, {"anchorId": "javiers", "rank": 2, "name": "Javier's", "label": "2. Javier's", "ctaUrl": "https://maps.google.com/?q=Javier's+The+Strip+(Aria)+Las+Vegas", "mapQuery": "Javier's, The Strip (Aria), Las Vegas", "lat": 36.1077, "lng": -115.1767}, {"anchorId": "yardbird-southern-table-bar", "rank": 3, "name": "Yardbird Southern Table & Bar", "label": "3. Yardbird Southern Table & Bar", "ctaUrl": "https://maps.google.com/?q=Yardbird+Southern+Table+&+Bar+The+Strip+(Venetian)+Las+Vegas", "mapQuery": "Yardbird Southern Table & Bar, The Strip (Venetian), Las Vegas", "lat": 36.1217, "lng": -115.1697}, {"anchorId": "ocean-prime", "rank": 4, "name": "Ocean Prime", "label": "4. Ocean Prime", "ctaUrl": "https://maps.google.com/?q=Ocean+Prime+The+Strip+(Crystals+at+CityCenter)+Las+Vegas", "mapQuery": "Ocean Prime, The Strip (Crystals at CityCenter), Las Vegas", "lat": 36.1086, "lng": -115.1764}, {"anchorId": "estiatorio-milos", "rank": 5, "name": "Estiatorio Milos", "label": "5. Estiatorio Milos", "ctaUrl": "https://maps.google.com/?q=Estiatorio+Milos+The+Strip+(Venetian)+Las+Vegas", "mapQuery": "Estiatorio Milos, The Strip (Venetian), Las Vegas", "lat": 36.1217, "lng": -115.1697}, {"anchorId": "sparrow-wolf", "rank": 6, "name": "Sparrow + Wolf", "label": "6. Sparrow + Wolf", "ctaUrl": "https://maps.google.com/?q=Sparrow+++Wolf+Chinatown+Las+Vegas", "mapQuery": "Sparrow + Wolf, Chinatown, Las Vegas", "lat": 36.1264, "lng": -115.2096}, {"anchorId": "echo-rig-butcher-and-steakhouse", "rank": 7, "name": "Echo & Rig Butcher and Steakhouse", "label": "7. Echo & Rig Butcher and Steakhouse", "ctaUrl": "https://maps.google.com/?q=Echo+&+Rig+Butcher+and+Steakhouse+Summerlin+(Tivoli+Village)+Las+Vegas", "mapQuery": "Echo & Rig Butcher and Steakhouse, Summerlin (Tivoli Village), Las Vegas", "lat": 36.1601, "lng": -115.3093}, {"anchorId": "atomic-liquors", "rank": 8, "name": "Atomic Liquors", "label": "8. Atomic Liquors", "ctaUrl": "https://maps.google.com/?q=Atomic+Liquors+Downtown+Las+Vegas+Las+Vegas", "mapQuery": "Atomic Liquors, Downtown Las Vegas, Las Vegas", "lat": 36.1693, "lng": -115.1378}, {"anchorId": "golden-tiki", "rank": 9, "name": "Golden Tiki", "label": "9. Golden Tiki", "ctaUrl": "https://maps.google.com/?q=Golden+Tiki+Chinatown+Las+Vegas", "mapQuery": "Golden Tiki, Chinatown, Las Vegas", "lat": 36.1245, "lng": -115.2057}, {"anchorId": "frankies-tiki-room", "rank": 10, "name": "Frankie's Tiki Room", "label": "10. Frankie's Tiki Room", "ctaUrl": "https://maps.google.com/?q=Frankie's+Tiki+Room+West+Strip+/+Near+Arts+District+Las+Vegas", "mapQuery": "Frankie's Tiki Room, West Strip / Near Arts District, Las Vegas", "lat": 36.1471, "lng": -115.1539}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

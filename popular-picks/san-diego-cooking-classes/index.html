@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cooking Classes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cooking+classes+in+San+Diego", "picks": [{"anchorId": "great-news-cooking-school", "rank": 1, "name": "Great News! Cooking School", "label": "1. Great News! Cooking School", "ctaUrl": "https://maps.google.com/?q=Great+News!+Cooking+School+Pacific+Beach+San+Diego", "mapQuery": "Great News! Cooking School, Pacific Beach, San Diego", "lat": 32.80931, "lng": -117.24072}, {"anchorId": "hipcooks-san-diego", "rank": 2, "name": "Hipcooks San Diego", "label": "2. Hipcooks San Diego", "ctaUrl": "https://maps.google.com/?q=Hipcooks+San+Diego+North+Park+San+Diego", "mapQuery": "Hipcooks San Diego, North Park, San Diego", "lat": 32.74837, "lng": -117.13524}, {"anchorId": "sur-la-table-fashion-valley", "rank": 3, "name": "Sur La Table - Fashion Valley", "label": "3. Sur La Table - Fashion Valley", "ctaUrl": "https://maps.google.com/?q=Sur+La+Table+-+Fashion+Valley+Mission+Valley+San+Diego", "mapQuery": "Sur La Table - Fashion Valley, Mission Valley, San Diego", "lat": 32.77443, "lng": -117.15286}, {"anchorId": "the-good-seed-food-company", "rank": 4, "name": "The Good Seed Food Company", "label": "4. The Good Seed Food Company", "ctaUrl": "https://maps.google.com/?q=The+Good+Seed+Food+Company+La+Mesa+San+Diego", "mapQuery": "The Good Seed Food Company, La Mesa, San Diego", "lat": 32.77668, "lng": -117.02102}, {"anchorId": "san-diego-culinary-institute", "rank": 5, "name": "San Diego Culinary Institute", "label": "5. San Diego Culinary Institute", "ctaUrl": "https://maps.google.com/?q=San+Diego+Culinary+Institute+Kearny+Mesa+San+Diego", "mapQuery": "San Diego Culinary Institute, Kearny Mesa, San Diego", "lat": 32.83366, "lng": -117.13781}, {"anchorId": "cozymeal-san-diego", "rank": 6, "name": "Cozymeal San Diego", "label": "6. Cozymeal San Diego", "ctaUrl": "https://maps.google.com/?q=Cozymeal+San+Diego+Various+Locations+San+Diego", "mapQuery": "Cozymeal San Diego, Various Locations, San Diego", "lat": 32.7844, "lng": -117.1549}, {"anchorId": "mamma-mia-italian-cooking-classes", "rank": 7, "name": "Mamma Mia Italian Cooking Classes", "label": "7. Mamma Mia Italian Cooking Classes", "ctaUrl": "https://maps.google.com/?q=Mamma+Mia+Italian+Cooking+Classes+Carmel+Valley+San+Diego", "mapQuery": "Mamma Mia Italian Cooking Classes, Carmel Valley, San Diego", "lat": 32.94639, "lng": -117.24355}, {"anchorId": "sushi-sashimi-cooking-class-at-the-joint", "rank": 8, "name": "Sushi & Sashimi Cooking Class at The Joint", "label": "8. Sushi & Sashimi Cooking Class at The Joint", "ctaUrl": "https://maps.google.com/?q=Sushi+&+Sashimi+Cooking+Class+at+The+Joint+Ocean+Beach+San+Diego", "mapQuery": "Sushi & Sashimi Cooking Class at The Joint, Ocean Beach, San Diego", "lat": 32.74794, "lng": -117.24673}, {"anchorId": "the-wooden-spoon-kitchen-shop", "rank": 9, "name": "The Wooden Spoon Kitchen Shop", "label": "9. The Wooden Spoon Kitchen Shop", "ctaUrl": "https://maps.google.com/?q=The+Wooden+Spoon+Kitchen+Shop+Old+Town+San+Diego", "mapQuery": "The Wooden Spoon Kitchen Shop, Old Town, San Diego", "lat": 32.7533, "lng": -117.19958}, {"anchorId": "pinch-plate", "rank": 10, "name": "Pinch & Plate", "label": "10. Pinch & Plate", "ctaUrl": "https://maps.google.com/?q=Pinch+&+Plate+Various+(Often+North+Park/Little+Italy+pop-ups)+San+Diego", "mapQuery": "Pinch & Plate, Various (Often North Park/Little Italy pop-ups), San Diego", "lat": 32.74805, "lng": -117.13531}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

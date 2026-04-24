@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Sofia", "picks": [{"anchorId": "lopera-pizza-e-cucina", "rank": 1, "name": "L'Opera Pizza e Cucina", "label": "1. L'Opera Pizza e Cucina", "ctaUrl": "https://maps.google.com/?q=L'Opera+Pizza+e+Cucina+Lozenets+Sofia", "mapQuery": "L'Opera Pizza e Cucina, Lozenets, Sofia", "lat": 42.679198, "lng": 23.332304}, {"anchorId": "napoletana-pizzeria-trattoria", "rank": 2, "name": "Napoletana Pizzeria & Trattoria", "label": "2. Napoletana Pizzeria & Trattoria", "ctaUrl": "https://maps.google.com/?q=Napoletana+Pizzeria+&+Trattoria+Doctor's+Garden+Sofia", "mapQuery": "Napoletana Pizzeria & Trattoria, Doctor's Garden, Sofia", "lat": 42.697472, "lng": 23.332076}, {"anchorId": "pizza-lab", "rank": 3, "name": "Pizza Lab", "label": "3. Pizza Lab", "ctaUrl": "https://maps.google.com/?q=Pizza+Lab+Vitosha+Blvd+Sofia", "mapQuery": "Pizza Lab, Vitosha Blvd, Sofia", "lat": 42.694665, "lng": 23.319767}, {"anchorId": "la-strada", "rank": 4, "name": "La Strada", "label": "4. La Strada", "ctaUrl": "https://maps.google.com/?q=La+Strada+Ivan+Vazov+Sofia", "mapQuery": "La Strada, Ivan Vazov, Sofia", "lat": 42.68434, "lng": 23.308722}, {"anchorId": "olio-doliva", "rank": 5, "name": "Olio D'oliva", "label": "5. Olio D'oliva", "ctaUrl": "https://maps.google.com/?q=Olio+D'oliva+Lozenets+Sofia", "mapQuery": "Olio D'oliva, Lozenets, Sofia", "lat": 42.664421, "lng": 23.332308}, {"anchorId": "victoria", "rank": 6, "name": "Victoria", "label": "6. Victoria", "ctaUrl": "https://maps.google.com/?q=Victoria+Various+(e.g.,+Vitosha+Blvd)+Sofia", "mapQuery": "Victoria, Various (e.g., Vitosha Blvd), Sofia", "lat": 42.690858, "lng": 23.318465}, {"anchorId": "pizza-bar", "rank": 7, "name": "Pizza Bar", "label": "7. Pizza Bar", "ctaUrl": "https://maps.google.com/?q=Pizza+Bar+Studentski+Grad+Sofia", "mapQuery": "Pizza Bar, Studentski Grad, Sofia", "lat": 42.65179, "lng": 23.364491}, {"anchorId": "pizza-pasta-di-carpe-diem", "rank": 8, "name": "Pizza & Pasta di Carpe Diem", "label": "8. Pizza & Pasta di Carpe Diem", "ctaUrl": "https://maps.google.com/?q=Pizza+&+Pasta+di+Carpe+Diem+Lozenets+Sofia", "mapQuery": "Pizza & Pasta di Carpe Diem, Lozenets, Sofia", "lat": 42.679198, "lng": 23.332}, {"anchorId": "happy-bar-grill", "rank": 9, "name": "Happy Bar & Grill", "label": "9. Happy Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Happy+Bar+&+Grill+Various+(e.g.,+Vitosha+Blvd)+Sofia", "mapQuery": "Happy Bar & Grill, Various (e.g., Vitosha Blvd), Sofia", "lat": 42.695372, "lng": 23.319765}, {"anchorId": "dominos-pizza", "rank": 10, "name": "Domino's Pizza", "label": "10. Domino's Pizza", "ctaUrl": "https://maps.google.com/?q=Domino's+Pizza+Various+(e.g.,+Slaveikov+Square)+Sofia", "mapQuery": "Domino's Pizza, Various (e.g., Slaveikov Square), Sofia", "lat": 42.693309, "lng": 23.322971}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

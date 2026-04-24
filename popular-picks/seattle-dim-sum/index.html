@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Dim Sum Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/dim+sum+in+Seattle", "picks": [{"anchorId": "din-tai-fung", "rank": 1, "name": "Din Tai Fung", "label": "1. Din Tai Fung", "ctaUrl": "https://maps.google.com/?q=Din+Tai+Fung+University+Village+Seattle", "mapQuery": "Din Tai Fung, University Village, Seattle", "lat": 47.660124, "lng": -122.298782}, {"anchorId": "jade-garden", "rank": 2, "name": "Jade Garden", "label": "2. Jade Garden", "ctaUrl": "https://maps.google.com/?q=Jade+Garden+International+District+Seattle", "mapQuery": "Jade Garden, International District, Seattle", "lat": 47.59911, "lng": -122.3223}, {"anchorId": "harbor-city-restaurant", "rank": 3, "name": "Harbor City Restaurant", "label": "3. Harbor City Restaurant", "ctaUrl": "https://maps.google.com/?q=Harbor+City+Restaurant+International+District+Seattle", "mapQuery": "Harbor City Restaurant, International District, Seattle", "lat": 47.59972, "lng": -122.32598}, {"anchorId": "dough-zone-dumpling-house", "rank": 4, "name": "Dough Zone Dumpling House", "label": "4. Dough Zone Dumpling House", "ctaUrl": "https://maps.google.com/?q=Dough+Zone+Dumpling+House+International+District+Seattle", "mapQuery": "Dough Zone Dumpling House, International District, Seattle", "lat": 47.59861, "lng": -122.3275}, {"anchorId": "honey-court-seafood-restaurant", "rank": 5, "name": "Honey Court Seafood Restaurant", "label": "5. Honey Court Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Honey+Court+Seafood+Restaurant+International+District+Seattle", "mapQuery": "Honey Court Seafood Restaurant, International District, Seattle", "lat": 47.59926, "lng": -122.32439}, {"anchorId": "dim-sum-house", "rank": 6, "name": "Dim Sum House", "label": "6. Dim Sum House", "ctaUrl": "https://maps.google.com/?q=Dim+Sum+House+International+District+Seattle", "mapQuery": "Dim Sum House, International District, Seattle", "lat": 47.59828, "lng": -122.32296}, {"anchorId": "joyale-seafood-restaurant", "rank": 7, "name": "Joyale Seafood Restaurant", "label": "7. Joyale Seafood Restaurant", "ctaUrl": "https://maps.google.com/?q=Joyale+Seafood+Restaurant+International+District+Seattle", "mapQuery": "Joyale Seafood Restaurant, International District, Seattle", "lat": 47.59929, "lng": -122.32045}, {"anchorId": "pings-dumpling-house", "rank": 8, "name": "Ping's Dumpling House", "label": "8. Ping's Dumpling House", "ctaUrl": "https://maps.google.com/?q=Ping's+Dumpling+House+International+District+Seattle", "mapQuery": "Ping's Dumpling House, International District, Seattle", "lat": 47.5993, "lng": -122.32684}, {"anchorId": "house-of-hong", "rank": 9, "name": "House of Hong", "label": "9. House of Hong", "ctaUrl": "https://maps.google.com/?q=House+of+Hong+International+District+Seattle", "mapQuery": "House of Hong, International District, Seattle", "lat": 47.59881, "lng": -122.32168}, {"anchorId": "shanghai-garden", "rank": 10, "name": "Shanghai Garden", "label": "10. Shanghai Garden", "ctaUrl": "https://maps.google.com/?q=Shanghai+Garden+International+District+Seattle", "mapQuery": "Shanghai Garden, International District, Seattle", "lat": 47.5992, "lng": -122.32354}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -14,7 +14,7 @@ Tested slugs:
 - `amman-shawarma`
 - `ardennes-hiking`
 - `bangkok-rooftop-pools`
-- `best-restaurants-in-kigali`
+- `kigali-restaurants`
 - `bukchon-hanok-stays`
 - `croatia`
 - `fukuoka-yatai`
@@ -28,7 +28,7 @@ Tested slugs:
 - `aarhus-new-nordic-restaurants` — 11 warnings
 - `amman-shawarma` — 1 warning
 - `bangkok-rooftop-pools` — 7 warnings
-- `best-restaurants-in-kigali` — 1 warning
+- `kigali-restaurants` — 1 warning
 - `fukuoka-yatai` — 7 warnings
 
 These pages produced structured JSON that passed validation without fatal errors.

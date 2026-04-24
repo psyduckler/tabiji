@@ -1573,73 +1573,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Ramen Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/ramen+in+Nagoya", "picks": [{"anchorId": "menya-hanabi", "rank": 1, "name": "Menya Hanabi (麺屋はなび 高畑本店)", "label": "1. Menya Hanabi (麺屋はなび 高畑本店)", "ctaUrl": "https://maps.google.com/?q=Menya+Hanabi+(麺屋はなび+高畑本店)+Takabata+Nagoya", "mapQuery": "Menya Hanabi (麺屋はなび 高畑本店), Takabata, Nagoya", "lat": 35.138406, "lng": 136.852339}, {"anchorId": "ramen-nikyuku", "rank": 2, "name": "Ramen NIKYUKU (ラーメン二休)", "label": "2. Ramen NIKYUKU (ラーメン二休)", "ctaUrl": "https://maps.google.com/?q=Ramen+NIKYUKU+(ラーメン二休)+Sakae+Nagoya", "mapQuery": "Ramen NIKYUKU (ラーメン二休), Sakae, Nagoya", "lat": 35.172467, "lng": 136.902251}, {"anchorId": "ramen-kai", "rank": 3, "name": "Ramen Kai (らーめん 佳)", "label": "3. Ramen Kai (らーめん 佳)", "ctaUrl": "https://maps.google.com/?q=Ramen+Kai+(らーめん+佳)+Meieki+Nagoya", "mapQuery": "Ramen Kai (らーめん 佳), Meieki, Nagoya", "lat": 35.16972, "lng": 136.885695}, {"anchorId": "menya-koka", "rank": 4, "name": "Menya Koka (麺屋 幸先)", "label": "4. Menya Koka (麺屋 幸先)", "ctaUrl": "https://maps.google.com/?q=Menya+Koka+(麺屋+幸先)+Hisaya-Odori+Nagoya", "mapQuery": "Menya Koka (麺屋 幸先), Hisaya-Odori, Nagoya", "lat": 35.174621, "lng": 136.901524}, {"anchorId": "kuraichi-ramen", "rank": 5, "name": "Kuraichi Ramen (蔵壱ラーメン)", "label": "5. Kuraichi Ramen (蔵壱ラーメン)", "ctaUrl": "https://maps.google.com/?q=Kuraichi+Ramen+(蔵壱ラーメン)+Fushimi+Nagoya", "mapQuery": "Kuraichi Ramen (蔵壱ラーメン), Fushimi, Nagoya", "lat": 35.16911, "lng": 136.89737}, {"anchorId": "ajiho", "rank": 6, "name": "Ajiho (味仙)", "label": "6. Ajiho (味仙)", "ctaUrl": "https://maps.google.com/?q=Ajiho+(味仙)+Imaike+Nagoya", "mapQuery": "Ajiho (味仙), Imaike, Nagoya", "lat": 35.168545, "lng": 136.937798}, {"anchorId": "hachidaime-genda", "rank": 7, "name": "Hachidaime Genda (八代目 源太)", "label": "7. Hachidaime Genda (八代目 源太)", "ctaUrl": "https://maps.google.com/?q=Hachidaime+Genda+(八代目+源太)+Nishi-ku+Nagoya", "mapQuery": "Hachidaime Genda (八代目 源太), Nishi-ku, Nagoya", "lat": 35.176462, "lng": 136.886049}, {"anchorId": "ramen-tsubaki", "rank": 8, "name": "Ramen Tsubaki (らーめん 椿)", "label": "8. Ramen Tsubaki (らーめん 椿)", "ctaUrl": "https://maps.google.com/?q=Ramen+Tsubaki+(らーめん+椿)+Osu+Nagoya", "mapQuery": "Ramen Tsubaki (らーめん 椿), Osu, Nagoya", "lat": 35.161271, "lng": 136.901358}, {"anchorId": "sugakiya", "rank": 9, "name": "Sugakiya (スガキヤ)", "label": "9. Sugakiya (スガキヤ)", "ctaUrl": "https://maps.google.com/?q=Sugakiya+(スガキヤ)+Oasis+21+(Sakae)+Nagoya", "mapQuery": "Sugakiya (スガキヤ), Oasis 21 (Sakae), Nagoya", "lat": 35.170669, "lng": 136.908851}, {"anchorId": "nakamura-shokudou", "rank": 10, "name": "Nakamura Shokudou (中村商店)", "label": "10. Nakamura Shokudou (中村商店)", "ctaUrl": "https://maps.google.com/?q=Nakamura+Shokudou+(中村商店)+Sakae+Nagoya", "mapQuery": "Nakamura Shokudou (中村商店), Sakae, Nagoya", "lat": 35.16462, "lng": 136.9038}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

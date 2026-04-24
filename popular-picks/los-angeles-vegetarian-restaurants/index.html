@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Vegetarian Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/vegetarian+restaurants+in+Los+Angeles", "picks": [{"anchorId": "crossroads-kitchen", "rank": 1, "name": "Crossroads Kitchen", "label": "1. Crossroads Kitchen", "ctaUrl": "https://maps.google.com/?q=Crossroads+Kitchen+Beverly+Grove+Los+Angeles", "mapQuery": "Crossroads Kitchen, Beverly Grove, Los Angeles", "lat": 34.08381, "lng": -118.36838}, {"anchorId": "gracias-madre", "rank": 2, "name": "Gracias Madre", "label": "2. Gracias Madre", "ctaUrl": "https://maps.google.com/?q=Gracias+Madre+West+Hollywood+Los+Angeles", "mapQuery": "Gracias Madre, West Hollywood, Los Angeles", "lat": 34.08365, "lng": -118.37568}, {"anchorId": "pura-vita", "rank": 3, "name": "Pura Vita", "label": "3. Pura Vita", "ctaUrl": "https://maps.google.com/?q=Pura+Vita+West+Hollywood+Los+Angeles", "mapQuery": "Pura Vita, West Hollywood, Los Angeles", "lat": 34.09062, "lng": -118.36195}, {"anchorId": "sage-plant-based-bistro-brewery", "rank": 4, "name": "Sage Plant Based Bistro & Brewery", "label": "4. Sage Plant Based Bistro & Brewery", "ctaUrl": "https://maps.google.com/?q=Sage+Plant+Based+Bistro+&+Brewery+Echo+Park+Los+Angeles", "mapQuery": "Sage Plant Based Bistro & Brewery, Echo Park, Los Angeles", "lat": 34.07283, "lng": -118.26941}, {"anchorId": "nics-on-beverly", "rank": 5, "name": "Nic's On Beverly", "label": "5. Nic's On Beverly", "ctaUrl": "https://maps.google.com/?q=Nic's+On+Beverly+Beverly+Grove+Los+Angeles", "mapQuery": "Nic's On Beverly, Beverly Grove, Los Angeles", "lat": 34.07548, "lng": -118.37568}, {"anchorId": "little-pine", "rank": 6, "name": "Little Pine", "label": "6. Little Pine", "ctaUrl": "https://maps.google.com/?q=Little+Pine+Silver+Lake+Los+Angeles", "mapQuery": "Little Pine, Silver Lake, Los Angeles", "lat": 34.10303, "lng": -118.2662}, {"anchorId": "au-lac", "rank": 7, "name": "Au Lac", "label": "7. Au Lac", "ctaUrl": "https://maps.google.com/?q=Au+Lac+Downtown+LA+Los+Angeles", "mapQuery": "Au Lac, Downtown LA, Los Angeles", "lat": 34.05389, "lng": -118.25203}, {"anchorId": "cafe-gratitude", "rank": 8, "name": "Cafe Gratitude", "label": "8. Cafe Gratitude", "ctaUrl": "https://maps.google.com/?q=Cafe+Gratitude+Venice+Los+Angeles", "mapQuery": "Cafe Gratitude, Venice, Los Angeles", "lat": 33.99306, "lng": -118.47161}, {"anchorId": "doomies-home-cookin", "rank": 9, "name": "Doomies Home Cookin'", "label": "9. Doomies Home Cookin'", "ctaUrl": "https://maps.google.com/?q=Doomies+Home+Cookin'+Hollywood+Los+Angeles", "mapQuery": "Doomies Home Cookin', Hollywood, Los Angeles", "lat": 34.09575, "lng": -118.3262}, {"anchorId": "montys-good-burger", "rank": 10, "name": "Monty's Good Burger", "label": "10. Monty's Good Burger", "ctaUrl": "https://maps.google.com/?q=Monty's+Good+Burger+Koreatown+Los+Angeles", "mapQuery": "Monty's Good Burger, Koreatown, Los Angeles", "lat": 34.062, "lng": -118.30909}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

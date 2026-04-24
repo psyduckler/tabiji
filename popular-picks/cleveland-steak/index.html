@@ -1547,73 +1547,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Cleveland", "picks": [{"anchorId": "marble-room-steaks-and-raw-bar", "rank": 1, "name": "Marble Room Steaks and Raw Bar", "label": "1. Marble Room Steaks and Raw Bar", "ctaUrl": "https://maps.google.com/?q=Marble+Room+Steaks+and+Raw+Bar+Downtown+Cleveland", "mapQuery": "Marble Room Steaks and Raw Bar, Downtown, Cleveland", "lat": 41.5005, "lng": -81.6881}, {"anchorId": "red-the-steakhouse", "rank": 2, "name": "Red, The Steakhouse", "label": "2. Red, The Steakhouse", "ctaUrl": "https://maps.google.com/?q=Red,+The+Steakhouse+Downtown/Warehouse+District+Cleveland", "mapQuery": "Red, The Steakhouse, Downtown/Warehouse District, Cleveland", "lat": 41.5029, "lng": -81.6966}, {"anchorId": "hyde-park-prime-steakhouse", "rank": 3, "name": "Hyde Park Prime Steakhouse", "label": "3. Hyde Park Prime Steakhouse", "ctaUrl": "https://maps.google.com/?q=Hyde+Park+Prime+Steakhouse+Downtown+Cleveland", "mapQuery": "Hyde Park Prime Steakhouse, Downtown, Cleveland", "lat": 41.5033, "lng": -81.5976}, {"anchorId": "blue-point-grille", "rank": 4, "name": "Blue Point Grille", "label": "4. Blue Point Grille", "ctaUrl": "https://maps.google.com/?q=Blue+Point+Grille+Warehouse+District+Cleveland", "mapQuery": "Blue Point Grille, Warehouse District, Cleveland", "lat": 41.5039, "lng": -81.6999}, {"anchorId": "delmonicos-steakhouse", "rank": 5, "name": "Delmonico's Steakhouse", "label": "5. Delmonico's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Delmonico's+Steakhouse+Independence+Cleveland", "mapQuery": "Delmonico's Steakhouse, Independence, Cleveland", "lat": 41.3855, "lng": -81.6575}, {"anchorId": "dons-lighthouse-grille", "rank": 6, "name": "Don's Lighthouse Grille", "label": "6. Don's Lighthouse Grille", "ctaUrl": "https://maps.google.com/?q=Don's+Lighthouse+Grille+Lakewood+Cleveland", "mapQuery": "Don's Lighthouse Grille, Lakewood, Cleveland", "lat": 41.4886, "lng": -81.7766}, {"anchorId": "lockkeepers", "rank": 7, "name": "LockKeepers", "label": "7. LockKeepers", "ctaUrl": "https://maps.google.com/?q=LockKeepers+Valley+View+Cleveland", "mapQuery": "LockKeepers, Valley View, Cleveland", "lat": 41.3789, "lng": -81.6375}, {"anchorId": "cork-cleaver-social-kitchen", "rank": 8, "name": "Cork & Cleaver Social Kitchen", "label": "8. Cork & Cleaver Social Kitchen", "ctaUrl": "https://maps.google.com/?q=Cork+&+Cleaver+Social+Kitchen+Ohio+City+Cleveland", "mapQuery": "Cork & Cleaver Social Kitchen, Ohio City, Cleveland", "lat": 41.4883, "lng": -81.7061}, {"anchorId": "severance-restaurant", "rank": 9, "name": "Severance Restaurant", "label": "9. Severance Restaurant", "ctaUrl": "https://maps.google.com/?q=Severance+Restaurant+University+Circle+Cleveland", "mapQuery": "Severance Restaurant, University Circle, Cleveland", "lat": 41.5034, "lng": -81.6083}, {"anchorId": "the-bourbon-street-barrel-room", "rank": 10, "name": "The Bourbon Street Barrel Room", "label": "10. The Bourbon Street Barrel Room", "ctaUrl": "https://maps.google.com/?q=The+Bourbon+Street+Barrel+Room+Ohio+City+Cleveland", "mapQuery": "The Bourbon Street Barrel Room, Ohio City, Cleveland", "lat": 41.4871, "lng": -81.7056}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

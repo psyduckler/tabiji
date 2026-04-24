@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+Bristol", "picks": [{"anchorId": "the-spiny-lobster", "rank": 1, "name": "The Spiny Lobster", "label": "1. The Spiny Lobster", "ctaUrl": "https://maps.google.com/?q=The+Spiny+Lobster+Clifton+Village+Bristol", "mapQuery": "The Spiny Lobster, Clifton Village, Bristol", "lat": 51.4554, "lng": -2.6225}, {"anchorId": "fishers-restaurant", "rank": 2, "name": "Fishers Restaurant", "label": "2. Fishers Restaurant", "ctaUrl": "https://maps.google.com/?q=Fishers+Restaurant+Clifton+Village+Bristol", "mapQuery": "Fishers Restaurant, Clifton Village, Bristol", "lat": 51.4566, "lng": -2.6209}, {"anchorId": "wallfish-bistro", "rank": 3, "name": "Wallfish Bistro", "label": "3. Wallfish Bistro", "ctaUrl": "https://maps.google.com/?q=Wallfish+Bistro+Clifton+Village+Bristol", "mapQuery": "Wallfish Bistro, Clifton Village, Bristol", "lat": 51.455, "lng": -2.6234}, {"anchorId": "gambas", "rank": 4, "name": "Gambas", "label": "4. Gambas", "ctaUrl": "https://maps.google.com/?q=Gambas+Wapping+Wharf+Bristol", "mapQuery": "Gambas, Wapping Wharf, Bristol", "lat": 51.4485, "lng": -2.5976}, {"anchorId": "little-french", "rank": 5, "name": "Little French", "label": "5. Little French", "ctaUrl": "https://maps.google.com/?q=Little+French+Westbury+Park+Bristol", "mapQuery": "Little French, Westbury Park, Bristol", "lat": 51.4727, "lng": -2.6074}, {"anchorId": "salt-malt", "rank": 6, "name": "Salt & Malt", "label": "6. Salt & Malt", "ctaUrl": "https://maps.google.com/?q=Salt+&+Malt+Wapping+Wharf+Bristol", "mapQuery": "Salt & Malt, Wapping Wharf, Bristol", "lat": 51.448, "lng": -2.5979}, {"anchorId": "broken-dock-kitchen-bar", "rank": 7, "name": "Broken Dock Kitchen & Bar", "label": "7. Broken Dock Kitchen & Bar", "ctaUrl": "https://maps.google.com/?q=Broken+Dock+Kitchen+&+Bar+Harbourside+Bristol", "mapQuery": "Broken Dock Kitchen & Bar, Harbourside, Bristol", "lat": 51.4478, "lng": -2.597}, {"anchorId": "rockfish-bristol", "rank": 8, "name": "Rockfish Bristol", "label": "8. Rockfish Bristol", "ctaUrl": "https://maps.google.com/?q=Rockfish+Bristol+Harbourside+Bristol", "mapQuery": "Rockfish Bristol, Harbourside, Bristol", "lat": 51.4491, "lng": -2.5934}, {"anchorId": "catch22", "rank": 9, "name": "Catch22", "label": "9. Catch22", "ctaUrl": "https://maps.google.com/?q=Catch22+Baldwin+Street+Bristol", "mapQuery": "Catch22, Baldwin Street, Bristol", "lat": 51.4534, "lng": -2.5925}, {"anchorId": "marmo", "rank": 10, "name": "Marmo", "label": "10. Marmo", "ctaUrl": "https://maps.google.com/?q=Marmo+Old+City+Bristol", "mapQuery": "Marmo, Old City, Bristol", "lat": 51.4533, "lng": -2.5932}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

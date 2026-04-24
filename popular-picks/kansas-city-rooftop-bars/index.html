@@ -1574,73 +1574,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Rooftop Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/rooftop+bars+in+Kansas+City", "picks": [{"anchorId": "percheron-rooftop-bar", "rank": 1, "name": "Percheron Rooftop Bar", "label": "1. Percheron Rooftop Bar", "ctaUrl": "https://maps.google.com/?q=Percheron+Rooftop+Bar+Crossroads+Kansas+City", "mapQuery": "Percheron Rooftop Bar, Crossroads, Kansas City", "lat": 39.081702, "lng": -94.588071}, {"anchorId": "nine-zero-one", "rank": 2, "name": "Nine Zero One", "label": "2. Nine Zero One", "ctaUrl": "https://maps.google.com/?q=Nine+Zero+One+Downtown+Kansas+City", "mapQuery": "Nine Zero One, Downtown, Kansas City", "lat": 39.091157, "lng": -94.58431}, {"anchorId": "messenger-coffee-co-ibis-bakery-rooftop", "rank": 3, "name": "Messenger Coffee Co. + Ibis Bakery Rooftop", "label": "3. Messenger Coffee Co. + Ibis Bakery Rooftop", "ctaUrl": "https://maps.google.com/?q=Messenger+Coffee+Co.+++Ibis+Bakery+Rooftop+Crossroads+Kansas+City", "mapQuery": "Messenger Coffee Co. + Ibis Bakery Rooftop, Crossroads, Kansas City", "lat": 39.090333, "lng": -94.581691}, {"anchorId": "up-down-kc", "rank": 4, "name": "Up-Down KC", "label": "4. Up-Down KC", "ctaUrl": "https://maps.google.com/?q=Up-Down+KC+Crossroads+Kansas+City", "mapQuery": "Up-Down KC, Crossroads, Kansas City", "lat": 39.09153, "lng": -94.59012}, {"anchorId": "aura", "rank": 5, "name": "Aura (Hotel Indigo Kansas City Downtown)", "label": "5. Aura (Hotel Indigo Kansas City Downtown)", "ctaUrl": "https://maps.google.com/?q=Aura+(Hotel+Indigo+Kansas+City+Downtown)+Downtown+Kansas+City", "mapQuery": "Aura (Hotel Indigo Kansas City Downtown), Downtown, Kansas City", "lat": 39.09707, "lng": -94.58434}, {"anchorId": "sol-cantina", "rank": 6, "name": "Sol Cantina", "label": "6. Sol Cantina", "ctaUrl": "https://maps.google.com/?q=Sol+Cantina+Power+&+Light+Kansas+City", "mapQuery": "Sol Cantina, Power & Light, Kansas City", "lat": 39.0934, "lng": -94.58079}, {"anchorId": "canopy-hotel-rooftop", "rank": 7, "name": "Canopy Hotel Rooftop", "label": "7. Canopy Hotel Rooftop", "ctaUrl": "https://maps.google.com/?q=Canopy+Hotel+Rooftop+Power+&+Light+Kansas+City", "mapQuery": "Canopy Hotel Rooftop, Power & Light, Kansas City", "lat": 39.09886, "lng": -94.5888}, {"anchorId": "the-fontaine-hotel-rooftop-pool-bar", "rank": 8, "name": "The Fontaine Hotel Rooftop Pool Bar (The WET Deck)", "label": "8. The Fontaine Hotel Rooftop Pool Bar (The WET Deck)", "ctaUrl": "https://maps.google.com/?q=The+Fontaine+Hotel+Rooftop+Pool+Bar+(The+WET+Deck)+Country+Club+Plaza+Kansas+City", "mapQuery": "The Fontaine Hotel Rooftop Pool Bar (The WET Deck), Country Club Plaza, Kansas City", "lat": 39.03706, "lng": -94.59114}, {"anchorId": "johns-big-deck", "rank": 9, "name": "John's Big Deck", "label": "9. John's Big Deck", "ctaUrl": "https://maps.google.com/?q=John's+Big+Deck+Power+&+Light+District+Kansas+City", "mapQuery": "John's Big Deck, Power & Light District, Kansas City", "lat": 39.09787, "lng": -94.58784}, {"anchorId": "prime-social", "rank": 10, "name": "Prime Social", "label": "10. Prime Social", "ctaUrl": "https://maps.google.com/?q=Prime+Social+Downtown+Kansas+City", "mapQuery": "Prime Social, Downtown, Kansas City", "lat": 39.091157, "lng": -94.58431}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

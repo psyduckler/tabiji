@@ -1539,73 +1539,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Kebab Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/kebab+in+Cairo", "picks": [{"anchorId": "abou-shakra", "rank": 1, "name": "Abou Shakra", "label": "1. Abou Shakra", "ctaUrl": "https://maps.google.com/?q=Abou+Shakra+Mohandessin+Cairo", "mapQuery": "Abou Shakra, Mohandessin, Cairo", "lat": 30.0461, "lng": 31.1895}, {"anchorId": "el-dahan", "rank": 2, "name": "El Dahan", "label": "2. El Dahan", "ctaUrl": "https://maps.google.com/?q=El+Dahan+Sayeda+Zeinab+Cairo", "mapQuery": "El Dahan, Sayeda Zeinab, Cairo", "lat": 30.0336, "lng": 31.2407}, {"anchorId": "andrea-mariouteya", "rank": 3, "name": "Andrea Mariouteya", "label": "3. Andrea Mariouteya", "ctaUrl": "https://maps.google.com/?q=Andrea+Mariouteya+Giza+(Desert+Road)+Cairo", "mapQuery": "Andrea Mariouteya, Giza (Desert Road), Cairo", "lat": 29.9866, "lng": 30.988}, {"anchorId": "abu-el-sid", "rank": 4, "name": "Abu El Sid", "label": "4. Abu El Sid", "ctaUrl": "https://maps.google.com/?q=Abu+El+Sid+Zamalek+Cairo", "mapQuery": "Abu El Sid, Zamalek, Cairo", "lat": 30.0634, "lng": 31.2185}, {"anchorId": "el-refaaey", "rank": 5, "name": "El Refaaey", "label": "5. El Refaaey", "ctaUrl": "https://maps.google.com/?q=El+Refaaey+Korba,+Heliopolis+Cairo", "mapQuery": "El Refaaey, Korba, Heliopolis, Cairo", "lat": 30.0886, "lng": 31.3283}, {"anchorId": "kebabgy-el-sayed", "rank": 6, "name": "Kebabgy El Sayed", "label": "6. Kebabgy El Sayed", "ctaUrl": "https://maps.google.com/?q=Kebabgy+El+Sayed+Zamalek+Cairo", "mapQuery": "Kebabgy El Sayed, Zamalek, Cairo", "lat": 30.0592, "lng": 31.2227}, {"anchorId": "taboula", "rank": 7, "name": "Taboula", "label": "7. Taboula", "ctaUrl": "https://maps.google.com/?q=Taboula+Garden+City+Cairo", "mapQuery": "Taboula, Garden City, Cairo", "lat": 30.0416, "lng": 31.2319}, {"anchorId": "hamada-shobra", "rank": 8, "name": "Hamada Shobra", "label": "8. Hamada Shobra", "ctaUrl": "https://maps.google.com/?q=Hamada+Shobra+Shobra+Cairo", "mapQuery": "Hamada Shobra, Shobra, Cairo", "lat": 30.0706, "lng": 31.2505}, {"anchorId": "kababgy-abdou", "rank": 9, "name": "Kababgy Abdou", "label": "9. Kababgy Abdou", "ctaUrl": "https://maps.google.com/?q=Kababgy+Abdou+Downtown+Cairo", "mapQuery": "Kababgy Abdou, Downtown, Cairo", "lat": 30.052, "lng": 31.24}, {"anchorId": "gad-restaurants", "rank": 10, "name": "GAD Restaurants", "label": "10. GAD Restaurants", "ctaUrl": "https://maps.google.com/?q=GAD+Restaurants+Downtown+Cairo", "mapQuery": "GAD Restaurants, Downtown, Cairo", "lat": 30.0469, "lng": 31.2355}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

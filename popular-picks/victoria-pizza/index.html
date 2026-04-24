@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Victoria", "picks": [{"anchorId": "pizzeria-prima-strada", "rank": 1, "name": "Pizzeria Prima Strada", "label": "1. Pizzeria Prima Strada", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Prima+Strada+Cook+Street+Village+Victoria", "mapQuery": "Pizzeria Prima Strada, Cook Street Village, Victoria", "lat": 48.4172, "lng": -123.3595}, {"anchorId": "standard-pizza", "rank": 2, "name": "Standard Pizza", "label": "2. Standard Pizza", "ctaUrl": "https://maps.google.com/?q=Standard+Pizza+North+Park+Victoria", "mapQuery": "Standard Pizza, North Park, Victoria", "lat": 48.4285, "lng": -123.3642}, {"anchorId": "brick-mortar-small-batch-pizza", "rank": 3, "name": "Brick + Mortar Small Batch Pizza", "label": "3. Brick + Mortar Small Batch Pizza", "ctaUrl": "https://maps.google.com/?q=Brick+++Mortar+Small+Batch+Pizza+Fernwood+Victoria", "mapQuery": "Brick + Mortar Small Batch Pizza, Fernwood, Victoria", "lat": 48.4253, "lng": -123.3503}, {"anchorId": "lotteria-pizza", "rank": 4, "name": "Lotteria Pizza", "label": "4. Lotteria Pizza", "ctaUrl": "https://maps.google.com/?q=Lotteria+Pizza+Fairfield+Victoria", "mapQuery": "Lotteria Pizza, Fairfield, Victoria", "lat": 48.4206, "lng": -123.3571}, {"anchorId": "oreganos-pizza-bistro", "rank": 5, "name": "Oregano's Pizza & Bistro", "label": "5. Oregano's Pizza & Bistro", "ctaUrl": "https://maps.google.com/?q=Oregano's+Pizza+&+Bistro+North+Park+Victoria", "mapQuery": "Oregano's Pizza & Bistro, North Park, Victoria", "lat": 48.4357, "lng": -123.3585}, {"anchorId": "fireside-grill", "rank": 6, "name": "Fireside Grill", "label": "6. Fireside Grill", "ctaUrl": "https://maps.google.com/?q=Fireside+Grill+Saanich+Victoria", "mapQuery": "Fireside Grill, Saanich, Victoria", "lat": 48.487, "lng": -123.4116}, {"anchorId": "fifth-street-bar-grill", "rank": 7, "name": "Fifth Street Bar & Grill", "label": "7. Fifth Street Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Fifth+Street+Bar+&+Grill+Cook+Street+Village+Victoria", "mapQuery": "Fifth Street Bar & Grill, Cook Street Village, Victoria", "lat": 48.4243, "lng": -123.3592}, {"anchorId": "virtuous-pie", "rank": 8, "name": "Virtuous Pie", "label": "8. Virtuous Pie", "ctaUrl": "https://maps.google.com/?q=Virtuous+Pie+Downtown+Victoria", "mapQuery": "Virtuous Pie, Downtown, Victoria", "lat": 48.4328, "lng": -123.3615}, {"anchorId": "romeos-pizza", "rank": 9, "name": "Romeo's Pizza", "label": "9. Romeo's Pizza", "ctaUrl": "https://maps.google.com/?q=Romeo's+Pizza+Downtown+Victoria", "mapQuery": "Romeo's Pizza, Downtown, Victoria", "lat": 48.4223, "lng": -123.3659}, {"anchorId": "ali-baba-pizza", "rank": 10, "name": "Ali Baba Pizza", "label": "10. Ali Baba Pizza", "ctaUrl": "https://maps.google.com/?q=Ali+Baba+Pizza+Downtown+Victoria", "mapQuery": "Ali Baba Pizza, Downtown, Victoria", "lat": 48.4334, "lng": -123.3533}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Columbus", "picks": [{"anchorId": "yellow-brick-pizza", "rank": 1, "name": "Yellow Brick Pizza", "label": "1. Yellow Brick Pizza", "ctaUrl": "https://maps.google.com/?q=Yellow+Brick+Pizza+Olde+Towne+East+Columbus", "mapQuery": "Yellow Brick Pizza, Olde Towne East, Columbus", "lat": 39.957591, "lng": -82.973954}, {"anchorId": "harvest-bar-kitchen", "rank": 2, "name": "Harvest Bar + Kitchen", "label": "2. Harvest Bar + Kitchen", "ctaUrl": "https://maps.google.com/?q=Harvest+Bar+++Kitchen+German+Village+Columbus", "mapQuery": "Harvest Bar + Kitchen, German Village, Columbus", "lat": 39.950666, "lng": -82.996164}, {"anchorId": "paulie-gees-slice-shop", "rank": 3, "name": "Paulie Gee's Slice Shop", "label": "3. Paulie Gee's Slice Shop", "ctaUrl": "https://maps.google.com/?q=Paulie+Gee's+Slice+Shop+Short+North+Columbus", "mapQuery": "Paulie Gee's Slice Shop, Short North, Columbus", "lat": 39.967399, "lng": -82.996071}, {"anchorId": "tommys-pizza", "rank": 4, "name": "Tommy's Pizza", "label": "4. Tommy's Pizza", "ctaUrl": "https://maps.google.com/?q=Tommy's+Pizza+Upper+Arlington+Columbus", "mapQuery": "Tommy's Pizza, Upper Arlington, Columbus", "lat": 40.007621, "lng": -83.051939}, {"anchorId": "natalies-coal-fired-pizza", "rank": 5, "name": "Natalie's Coal Fired Pizza", "label": "5. Natalie's Coal Fired Pizza", "ctaUrl": "https://maps.google.com/?q=Natalie's+Coal+Fired+Pizza+Worthington+Columbus", "mapQuery": "Natalie's Coal Fired Pizza, Worthington, Columbus", "lat": 40.089947, "lng": -83.016335}, {"anchorId": "teritas-pizza", "rank": 6, "name": "Terita's Pizza", "label": "6. Terita's Pizza", "ctaUrl": "https://maps.google.com/?q=Terita's+Pizza+Franklinton+Columbus", "mapQuery": "Terita's Pizza, Franklinton, Columbus", "lat": 39.89738, "lng": -82.99955}, {"anchorId": "hounddogs-three-thirds-pizza-pub", "rank": 7, "name": "Hounddog's Three-Thirds Pizza & Pub", "label": "7. Hounddog's Three-Thirds Pizza & Pub", "ctaUrl": "https://maps.google.com/?q=Hounddog's+Three-Thirds+Pizza+&+Pub+OSU+Campus+Columbus", "mapQuery": "Hounddog's Three-Thirds Pizza & Pub, OSU Campus, Columbus", "lat": 40.024508, "lng": -83.00346}, {"anchorId": "mikeys-late-night-slice", "rank": 8, "name": "Mikey's Late Night Slice", "label": "8. Mikey's Late Night Slice", "ctaUrl": "https://maps.google.com/?q=Mikey's+Late+Night+Slice+Downtown+Columbus", "mapQuery": "Mikey's Late Night Slice, Downtown, Columbus", "lat": 39.957598, "lng": -82.99912}, {"anchorId": "borgata-pizza-cafe", "rank": 9, "name": "Borgata Pizza Cafe", "label": "9. Borgata Pizza Cafe", "ctaUrl": "https://maps.google.com/?q=Borgata+Pizza+Cafe+Dublin+Columbus", "mapQuery": "Borgata Pizza Cafe, Dublin, Columbus", "lat": 40.08051, "lng": -83.04505}, {"anchorId": "planks-cafe-pizzeria", "rank": 10, "name": "Plank's Cafe & Pizzeria", "label": "10. Plank's Cafe & Pizzeria", "ctaUrl": "https://maps.google.com/?q=Plank's+Cafe+&+Pizzeria+German+Village+Columbus", "mapQuery": "Plank's Cafe & Pizzeria, German Village, Columbus", "lat": 39.940656, "lng": -82.990159}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

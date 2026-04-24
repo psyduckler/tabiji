@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Austin", "picks": [{"anchorId": "home-slice-pizza", "rank": 1, "name": "Home Slice Pizza", "label": "1. Home Slice Pizza", "ctaUrl": "https://maps.google.com/?q=Home+Slice+Pizza+South+Congress+Austin", "mapQuery": "Home Slice Pizza, South Congress, Austin", "lat": 30.24726, "lng": -97.75514}, {"anchorId": "via-313-pizzeria", "rank": 2, "name": "Via 313 Pizzeria", "label": "2. Via 313 Pizzeria", "ctaUrl": "https://maps.google.com/?q=Via+313+Pizzeria+East+Austin+Austin", "mapQuery": "Via 313 Pizzeria, East Austin, Austin", "lat": 30.26053, "lng": -97.74087}, {"anchorId": "bufalina-due", "rank": 3, "name": "Bufalina Due", "label": "3. Bufalina Due", "ctaUrl": "https://maps.google.com/?q=Bufalina+Due+East+Austin+Austin", "mapQuery": "Bufalina Due, East Austin, Austin", "lat": 30.25437, "lng": -97.72886}, {"anchorId": "pinthouse-pizza", "rank": 4, "name": "Pinthouse Pizza", "label": "4. Pinthouse Pizza", "ctaUrl": "https://maps.google.com/?q=Pinthouse+Pizza+South+Austin+Austin", "mapQuery": "Pinthouse Pizza, South Austin, Austin", "lat": 30.22271, "lng": -97.80004}, {"anchorId": "sammataro", "rank": 5, "name": "Sammataro", "label": "5. Sammataro", "ctaUrl": "https://maps.google.com/?q=Sammataro+South+Austin+Austin", "mapQuery": "Sammataro, South Austin, Austin", "lat": 30.25867, "lng": -97.76008}, {"anchorId": "little-deli-pizzeria", "rank": 6, "name": "Little Deli & Pizzeria", "label": "6. Little Deli & Pizzeria", "ctaUrl": "https://maps.google.com/?q=Little+Deli+&+Pizzeria+Crestview+Austin", "mapQuery": "Little Deli & Pizzeria, Crestview, Austin", "lat": 30.34739, "lng": -97.72591}, {"anchorId": "the-backspace", "rank": 7, "name": "The Backspace", "label": "7. The Backspace", "ctaUrl": "https://maps.google.com/?q=The+Backspace+Downtown+Austin", "mapQuery": "The Backspace, Downtown, Austin", "lat": 30.26786, "lng": -97.74474}, {"anchorId": "side-piece-pizza", "rank": 8, "name": "Side Piece Pizza", "label": "8. Side Piece Pizza", "ctaUrl": "https://maps.google.com/?q=Side+Piece+Pizza+South+Austin+Austin", "mapQuery": "Side Piece Pizza, South Austin, Austin", "lat": 30.24581, "lng": -97.75618}, {"anchorId": "desano-pizza-bakery", "rank": 9, "name": "DeSano Pizza Bakery", "label": "9. DeSano Pizza Bakery", "ctaUrl": "https://maps.google.com/?q=DeSano+Pizza+Bakery+North+Austin+Austin", "mapQuery": "DeSano Pizza Bakery, North Austin, Austin", "lat": 30.37, "lng": -97.741}, {"anchorId": "stanleys-farmhouse-pizza", "rank": 10, "name": "Stanley's Farmhouse Pizza", "label": "10. Stanley's Farmhouse Pizza", "ctaUrl": "https://maps.google.com/?q=Stanley's+Farmhouse+Pizza+Cedar+Valley+Austin", "mapQuery": "Stanley's Farmhouse Pizza, Cedar Valley, Austin", "lat": 30.25052, "lng": -97.98688}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

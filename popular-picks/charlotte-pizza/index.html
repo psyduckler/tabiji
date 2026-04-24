@@ -1566,73 +1566,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Charlotte", "picks": [{"anchorId": "inizio-pizza-napoletana", "rank": 1, "name": "Inizio Pizza Napoletana", "label": "1. Inizio Pizza Napoletana", "ctaUrl": "https://maps.google.com/?q=Inizio+Pizza+Napoletana+Dilworth+Charlotte", "mapQuery": "Inizio Pizza Napoletana, Dilworth, Charlotte", "lat": 35.204664, "lng": -80.840781}, {"anchorId": "pure-pizza", "rank": 2, "name": "Pure Pizza", "label": "2. Pure Pizza", "ctaUrl": "https://maps.google.com/?q=Pure+Pizza+Plaza+Midwood+Charlotte", "mapQuery": "Pure Pizza, Plaza Midwood, Charlotte", "lat": 35.2281, "lng": -80.80164}, {"anchorId": "sals-pizza", "rank": 3, "name": "Sal's Pizza", "label": "3. Sal's Pizza", "ctaUrl": "https://maps.google.com/?q=Sal's+Pizza+University+City+Charlotte", "mapQuery": "Sal's Pizza, University City, Charlotte", "lat": 35.312948, "lng": -80.755458}, {"anchorId": "mellow-mushroom", "rank": 4, "name": "Mellow Mushroom", "label": "4. Mellow Mushroom", "ctaUrl": "https://maps.google.com/?q=Mellow+Mushroom+Myers+Park+Charlotte", "mapQuery": "Mellow Mushroom, Myers Park, Charlotte", "lat": 35.221262, "lng": -80.817651}, {"anchorId": "benny-pennellos", "rank": 5, "name": "Benny Pennello's", "label": "5. Benny Pennello's", "ctaUrl": "https://maps.google.com/?q=Benny+Pennello's+NoDa+Charlotte", "mapQuery": "Benny Pennello's, NoDa, Charlotte", "lat": 35.244349, "lng": -80.796068}, {"anchorId": "hawthornes-ny-pizza-bar", "rank": 6, "name": "Hawthorne's NY Pizza & Bar", "label": "6. Hawthorne's NY Pizza & Bar", "ctaUrl": "https://maps.google.com/?q=Hawthorne's+NY+Pizza+&+Bar+Elizabeth+Charlotte", "mapQuery": "Hawthorne's NY Pizza & Bar, Elizabeth, Charlotte", "lat": 35.221379, "lng": -80.822832}, {"anchorId": "capriccio-pizza", "rank": 7, "name": "Capriccio Pizza", "label": "7. Capriccio Pizza", "ctaUrl": "https://maps.google.com/?q=Capriccio+Pizza+South+End+Charlotte", "mapQuery": "Capriccio Pizza, South End, Charlotte", "lat": 35.2017, "lng": -80.86016}, {"anchorId": "librettos-pizzeria-italian-kitchen", "rank": 8, "name": "Libretto's Pizzeria & Italian Kitchen", "label": "8. Libretto's Pizzeria & Italian Kitchen", "ctaUrl": "https://maps.google.com/?q=Libretto's+Pizzeria+&+Italian+Kitchen+Ballantyne+Charlotte", "mapQuery": "Libretto's Pizzeria & Italian Kitchen, Ballantyne, Charlotte", "lat": 35.03472, "lng": -80.95759}, {"anchorId": "giacomos-pizzeria", "rank": 9, "name": "Giacomo's Pizzeria", "label": "9. Giacomo's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Giacomo's+Pizzeria+Steele+Creek+Charlotte", "mapQuery": "Giacomo's Pizzeria, Steele Creek, Charlotte", "lat": 35.10545, "lng": -80.9351}, {"anchorId": "pie-in-the-sky-pizza", "rank": 10, "name": "Pie in the Sky Pizza", "label": "10. Pie in the Sky Pizza", "ctaUrl": "https://maps.google.com/?q=Pie+in+the+Sky+Pizza+Cotswold+Charlotte", "mapQuery": "Pie in the Sky Pizza, Cotswold, Charlotte", "lat": 35.18721, "lng": -80.79373}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

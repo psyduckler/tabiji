@@ -1492,73 +1492,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Fried Chicken Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/fried+chicken+in+Nice", "picks": [{"anchorId": "peppers-fried-chicken", "rank": 1, "name": "Peppers' Fried Chicken", "label": "1. Peppers' Fried Chicken", "ctaUrl": "https://maps.google.com/?q=Peppers'+Fried+Chicken+Vieux+Nice+(Old+Town)+Nice", "mapQuery": "Peppers' Fried Chicken, Vieux Nice (Old Town), Nice"}, {"anchorId": "k-bap-nice", "rank": 2, "name": "K-Bap Nice", "label": "2. K-Bap Nice", "ctaUrl": "https://maps.google.com/?q=K-Bap+Nice+Jean+Médecin+Nice", "mapQuery": "K-Bap Nice, Jean Médecin, Nice"}, {"anchorId": "latelier-du-goût", "rank": 3, "name": "L'Atelier du Goût", "label": "3. L'Atelier du Goût", "ctaUrl": "https://maps.google.com/?q=L'Atelier+du+Goût+Port+Lympia+Nice", "mapQuery": "L'Atelier du Goût, Port Lympia, Nice"}, {"anchorId": "oh-my-bap-nice", "rank": 4, "name": "Oh My Bap Nice", "label": "4. Oh My Bap Nice", "ctaUrl": "https://maps.google.com/?q=Oh+My+Bap+Nice+Nice+Centre+Nice", "mapQuery": "Oh My Bap Nice, Nice Centre, Nice"}, {"anchorId": "memphis-coffee-nice", "rank": 5, "name": "Memphis Coffee Nice", "label": "5. Memphis Coffee Nice", "ctaUrl": "https://maps.google.com/?q=Memphis+Coffee+Nice+Nice+Centre+Nice", "mapQuery": "Memphis Coffee Nice, Nice Centre, Nice"}, {"anchorId": "burger-grill-factory", "rank": 6, "name": "Burger & Grill Factory", "label": "6. Burger & Grill Factory", "ctaUrl": "https://maps.google.com/?q=Burger+&+Grill+Factory+Gambetta+Nice", "mapQuery": "Burger & Grill Factory, Gambetta, Nice"}, {"anchorId": "mama-gaïa", "rank": 7, "name": "Mama Gaïa", "label": "7. Mama Gaïa", "ctaUrl": "https://maps.google.com/?q=Mama+Gaïa+Libération+Nice", "mapQuery": "Mama Gaïa, Libération, Nice"}, {"anchorId": "otacos-nice-massena", "rank": 8, "name": "O'Tacos Nice Massena", "label": "8. O'Tacos Nice Massena", "ctaUrl": "https://maps.google.com/?q=O'Tacos+Nice+Massena+Masséna+Nice", "mapQuery": "O'Tacos Nice Massena, Masséna, Nice"}, {"anchorId": "crispy-chicken-nice", "rank": 9, "name": "Crispy Chicken Nice", "label": "9. Crispy Chicken Nice", "ctaUrl": "https://maps.google.com/?q=Crispy+Chicken+Nice+Riquier+Nice", "mapQuery": "Crispy Chicken Nice, Riquier, Nice"}, {"anchorId": "buns-co", "rank": 10, "name": "Buns & Co", "label": "10. Buns & Co", "ctaUrl": "https://maps.google.com/?q=Buns+&+Co+Le+Port+Nice", "mapQuery": "Buns & Co, Le Port, Nice"}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

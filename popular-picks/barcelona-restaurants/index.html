@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Barcelona", "picks": [{"anchorId": "disfrutar", "rank": 1, "name": "Disfrutar", "label": "1. Disfrutar", "ctaUrl": "https://maps.google.com/?q=Disfrutar+L'Eixample+Barcelona", "mapQuery": "Disfrutar, L'Eixample, Barcelona", "lat": 41.3888, "lng": 2.1491}, {"anchorId": "cocina-hermanos-torres", "rank": 2, "name": "Cocina Hermanos Torres", "label": "2. Cocina Hermanos Torres", "ctaUrl": "https://maps.google.com/?q=Cocina+Hermanos+Torres+Les+Corts+Barcelona", "mapQuery": "Cocina Hermanos Torres, Les Corts, Barcelona", "lat": 41.3854, "lng": 2.1287}, {"anchorId": "mont-bar", "rank": 3, "name": "Mont Bar", "label": "3. Mont Bar", "ctaUrl": "https://maps.google.com/?q=Mont+Bar+L'Eixample+Barcelona", "mapQuery": "Mont Bar, L'Eixample, Barcelona", "lat": 41.3867, "lng": 2.1643}, {"anchorId": "bar-del-pla", "rank": 4, "name": "Bar del Pla", "label": "4. Bar del Pla", "ctaUrl": "https://maps.google.com/?q=Bar+del+Pla+Ciutat+Vella+Barcelona", "mapQuery": "Bar del Pla, Ciutat Vella, Barcelona", "lat": 41.3845, "lng": 2.1802}, {"anchorId": "can-culleretes", "rank": 5, "name": "Can Culleretes", "label": "5. Can Culleretes", "ctaUrl": "https://maps.google.com/?q=Can+Culleretes+Ciutat+Vella+Barcelona", "mapQuery": "Can Culleretes, Ciutat Vella, Barcelona", "lat": 41.3841, "lng": 2.1788}, {"anchorId": "bar-jai-ca", "rank": 6, "name": "Bar Jai-Ca", "label": "6. Bar Jai-Ca", "ctaUrl": "https://maps.google.com/?q=Bar+Jai-Ca+Barceloneta+Barcelona", "mapQuery": "Bar Jai-Ca, Barceloneta, Barcelona", "lat": 41.3792, "lng": 2.1895}, {"anchorId": "parking-pizza", "rank": 7, "name": "Parking Pizza", "label": "7. Parking Pizza", "ctaUrl": "https://maps.google.com/?q=Parking+Pizza+L'Eixample+Barcelona", "mapQuery": "Parking Pizza, L'Eixample, Barcelona", "lat": 41.3934, "lng": 2.1528}, {"anchorId": "el-nacional", "rank": 8, "name": "El Nacional", "label": "8. El Nacional", "ctaUrl": "https://maps.google.com/?q=El+Nacional+L'Eixample+Barcelona", "mapQuery": "El Nacional, L'Eixample, Barcelona", "lat": 41.3897, "lng": 2.1691}, {"anchorId": "bodega-la-palma", "rank": 9, "name": "Bodega La Palma", "label": "9. Bodega La Palma", "ctaUrl": "https://maps.google.com/?q=Bodega+La+Palma+Ciutat+Vella+Barcelona", "mapQuery": "Bodega La Palma, Ciutat Vella, Barcelona", "lat": 41.3846, "lng": 2.1764}, {"anchorId": "pakta", "rank": 10, "name": "Pakta", "label": "10. Pakta", "ctaUrl": "https://maps.google.com/?q=Pakta+Poble+Sec+Barcelona", "mapQuery": "Pakta, Poble Sec, Barcelona", "lat": 41.3745, "lng": 2.1584}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

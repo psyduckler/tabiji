@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bars+in+Portland", "picks": [{"anchorId": "multnomah-whiskey-library", "rank": 1, "name": "Multnomah Whiskey Library", "label": "1. Multnomah Whiskey Library", "ctaUrl": "https://maps.google.com/?q=Multnomah+Whiskey+Library+Downtown+Portland", "mapQuery": "Multnomah Whiskey Library, Downtown, Portland", "lat": 45.520443, "lng": -122.684128}, {"anchorId": "departure-restaurant-lounge", "rank": 2, "name": "Departure Restaurant + Lounge", "label": "2. Departure Restaurant + Lounge", "ctaUrl": "https://maps.google.com/?q=Departure+Restaurant+++Lounge+Downtown+Portland", "mapQuery": "Departure Restaurant + Lounge, Downtown, Portland", "lat": 45.520608, "lng": -122.678248}, {"anchorId": "angel-face", "rank": 3, "name": "Angel Face", "label": "3. Angel Face", "ctaUrl": "https://maps.google.com/?q=Angel+Face+Central+Eastside+Portland", "mapQuery": "Angel Face, Central Eastside, Portland", "lat": 45.522646, "lng": -122.65086}, {"anchorId": "deadshot", "rank": 4, "name": "Deadshot", "label": "4. Deadshot", "ctaUrl": "https://maps.google.com/?q=Deadshot+Buckman+Portland", "mapQuery": "Deadshot, Buckman, Portland", "lat": 45.502909, "lng": -122.652155}, {"anchorId": "rum-club", "rank": 5, "name": "Rum Club", "label": "5. Rum Club", "ctaUrl": "https://maps.google.com/?q=Rum+Club+Central+Eastside+Portland", "mapQuery": "Rum Club, Central Eastside, Portland", "lat": 45.518882, "lng": -122.650383}, {"anchorId": "hey-love", "rank": 6, "name": "Hey Love", "label": "6. Hey Love", "ctaUrl": "https://maps.google.com/?q=Hey+Love+Central+Eastside+Portland", "mapQuery": "Hey Love, Central Eastside, Portland", "lat": 45.522629, "lng": -122.648033}, {"anchorId": "deschutes-brewery-portland-public-house", "rank": 7, "name": "Deschutes Brewery Portland Public House", "label": "7. Deschutes Brewery Portland Public House", "ctaUrl": "https://maps.google.com/?q=Deschutes+Brewery+Portland+Public+House+Pearl+District+Portland", "mapQuery": "Deschutes Brewery Portland Public House, Pearl District, Portland", "lat": 45.524032, "lng": -122.684128}, {"anchorId": "horse-brass-pub", "rank": 8, "name": "Horse Brass Pub", "label": "8. Horse Brass Pub", "ctaUrl": "https://maps.google.com/?q=Horse+Brass+Pub+Southeast+Portland+Portland", "mapQuery": "Horse Brass Pub, Southeast Portland, Portland", "lat": 45.514681, "lng": -122.610842}, {"anchorId": "the-bye-and-bye", "rank": 9, "name": "The Bye and Bye", "label": "9. The Bye and Bye", "ctaUrl": "https://maps.google.com/?q=The+Bye+and+Bye+Alberta+Arts+District+Portland", "mapQuery": "The Bye and Bye, Alberta Arts District, Portland", "lat": 45.559384, "lng": -122.655829}, {"anchorId": "kellys-olympian", "rank": 10, "name": "Kelly's Olympian", "label": "10. Kelly's Olympian", "ctaUrl": "https://maps.google.com/?q=Kelly's+Olympian+Downtown+Portland", "mapQuery": "Kelly's Olympian, Downtown, Portland", "lat": 45.520427, "lng": -122.67784}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

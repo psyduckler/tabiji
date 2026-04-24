@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cafes_Coffee Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cafes_coffee+in+Amsterdam", "picks": [{"anchorId": "lot-sixty-one-coffee-roasters", "rank": 1, "name": "Lot Sixty One Coffee Roasters", "label": "1. Lot Sixty One Coffee Roasters", "ctaUrl": "https://maps.google.com/?q=Lot+Sixty+One+Coffee+Roasters+De+Jordaan+Amsterdam", "mapQuery": "Lot Sixty One Coffee Roasters, De Jordaan, Amsterdam", "lat": 52.36868, "lng": 4.86903}, {"anchorId": "bocca-coffee", "rank": 2, "name": "Bocca Coffee", "label": "2. Bocca Coffee", "ctaUrl": "https://maps.google.com/?q=Bocca+Coffee+Centrum+Amsterdam", "mapQuery": "Bocca Coffee, Centrum, Amsterdam", "lat": 52.3644, "lng": 4.88796}, {"anchorId": "back-to-black", "rank": 3, "name": "Back to Black", "label": "3. Back to Black", "ctaUrl": "https://maps.google.com/?q=Back+to+Black+De+Pijp+Amsterdam", "mapQuery": "Back to Black, De Pijp, Amsterdam", "lat": 52.36018, "lng": 4.88849}, {"anchorId": "coffee-coconuts", "rank": 4, "name": "Coffee & Coconuts", "label": "4. Coffee & Coconuts", "ctaUrl": "https://maps.google.com/?q=Coffee+&+Coconuts+De+Pijp+Amsterdam", "mapQuery": "Coffee & Coconuts, De Pijp, Amsterdam", "lat": 52.35532, "lng": 4.89737}, {"anchorId": "screaming-beans", "rank": 5, "name": "Screaming Beans", "label": "5. Screaming Beans", "ctaUrl": "https://maps.google.com/?q=Screaming+Beans+Jordaan+Amsterdam", "mapQuery": "Screaming Beans, Jordaan, Amsterdam", "lat": 52.36468, "lng": 4.87228}, {"anchorId": "friedhats-fuku-cafe", "rank": 6, "name": "Friedhats FUKU Cafe", "label": "6. Friedhats FUKU Cafe", "ctaUrl": "https://maps.google.com/?q=Friedhats+FUKU+Cafe+West+Amsterdam", "mapQuery": "Friedhats FUKU Cafe, West, Amsterdam", "lat": 52.38139, "lng": 4.84592}, {"anchorId": "scandinavian-embassy", "rank": 7, "name": "Scandinavian Embassy", "label": "7. Scandinavian Embassy", "ctaUrl": "https://maps.google.com/?q=Scandinavian+Embassy+De+Pijp+Amsterdam", "mapQuery": "Scandinavian Embassy, De Pijp, Amsterdam", "lat": 52.35338, "lng": 4.89139}, {"anchorId": "trakteren-koffie", "rank": 8, "name": "Trakteren Koffie", "label": "8. Trakteren Koffie", "ctaUrl": "https://maps.google.com/?q=Trakteren+Koffie+West+Amsterdam", "mapQuery": "Trakteren Koffie, West, Amsterdam", "lat": 52.36391, "lng": 4.86178}, {"anchorId": "monks-coffee-roasters", "rank": 9, "name": "Monks Coffee Roasters", "label": "9. Monks Coffee Roasters", "ctaUrl": "https://maps.google.com/?q=Monks+Coffee+Roasters+Westerpark+Amsterdam", "mapQuery": "Monks Coffee Roasters, Westerpark, Amsterdam", "lat": 52.36637, "lng": 4.86903}, {"anchorId": "uncommon-coffee", "rank": 10, "name": "Uncommon Coffee", "label": "10. Uncommon Coffee", "ctaUrl": "https://maps.google.com/?q=Uncommon+Coffee+De+Baarsjes+Amsterdam", "mapQuery": "Uncommon Coffee, De Baarsjes, Amsterdam", "lat": 52.36148, "lng": 4.87452}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

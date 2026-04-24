@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Delhi", "picks": [{"anchorId": "indian-accent", "rank": 1, "name": "Indian Accent", "label": "1. Indian Accent", "ctaUrl": "https://maps.google.com/?q=Indian+Accent+Lodhi+Colony+Delhi", "mapQuery": "Indian Accent, Lodhi Colony, Delhi", "lat": 28.5878, "lng": 77.2289}, {"anchorId": "bukhara-itc-maurya", "rank": 2, "name": "Bukhara, ITC Maurya", "label": "2. Bukhara, ITC Maurya", "ctaUrl": "https://maps.google.com/?q=Bukhara,+ITC+Maurya+Chanakyapuri+Delhi", "mapQuery": "Bukhara, ITC Maurya, Chanakyapuri, Delhi", "lat": 28.5991, "lng": 77.1687}, {"anchorId": "karims", "rank": 3, "name": "Karim's", "label": "3. Karim's", "ctaUrl": "https://maps.google.com/?q=Karim's+Old+Delhi+Delhi", "mapQuery": "Karim's, Old Delhi, Delhi", "lat": 28.6496, "lng": 77.2307}, {"anchorId": "the-big-chill-cafe", "rank": 4, "name": "The Big Chill Cafe", "label": "4. The Big Chill Cafe", "ctaUrl": "https://maps.google.com/?q=The+Big+Chill+Cafe+Khan+Market+Delhi", "mapQuery": "The Big Chill Cafe, Khan Market, Delhi", "lat": 28.6015, "lng": 77.2285}, {"anchorId": "saravana-bhavan", "rank": 5, "name": "Saravana Bhavan", "label": "5. Saravana Bhavan", "ctaUrl": "https://maps.google.com/?q=Saravana+Bhavan+Connaught+Place+Delhi", "mapQuery": "Saravana Bhavan, Connaught Place, Delhi", "lat": 28.6256, "lng": 77.2215}, {"anchorId": "triveni-terrace-cafe", "rank": 6, "name": "Triveni Terrace Cafe", "label": "6. Triveni Terrace Cafe", "ctaUrl": "https://maps.google.com/?q=Triveni+Terrace+Cafe+Mandi+House+Delhi", "mapQuery": "Triveni Terrace Cafe, Mandi House, Delhi", "lat": 28.62, "lng": 77.2287}, {"anchorId": "vietnom", "rank": 7, "name": "Vietnom", "label": "7. Vietnom", "ctaUrl": "https://maps.google.com/?q=Vietnom+Cyber+Hub,+Gurugram+(NCR)+Delhi", "mapQuery": "Vietnom, Cyber Hub, Gurugram (NCR), Delhi", "lat": 28.4947, "lng": 77.0886}, {"anchorId": "diggin-cafe", "rank": 8, "name": "Diggin Cafe", "label": "8. Diggin Cafe", "ctaUrl": "https://maps.google.com/?q=Diggin+Cafe+Anand+Lok+Delhi", "mapQuery": "Diggin Cafe, Anand Lok, Delhi", "lat": 28.5529, "lng": 77.2023}, {"anchorId": "tamra-shangri-la", "rank": 9, "name": "Tamra, Shangri-La", "label": "9. Tamra, Shangri-La", "ctaUrl": "https://maps.google.com/?q=Tamra,+Shangri-La+Connaught+Place+Delhi", "mapQuery": "Tamra, Shangri-La, Connaught Place, Delhi", "lat": 28.6212, "lng": 77.2155}, {"anchorId": "yeti-the-himalayan-kitchen", "rank": 10, "name": "Yeti - The Himalayan Kitchen", "label": "10. Yeti - The Himalayan Kitchen", "ctaUrl": "https://maps.google.com/?q=Yeti+-+The+Himalayan+Kitchen+Hauz+Khas+Village+Delhi", "mapQuery": "Yeti - The Himalayan Kitchen, Hauz Khas Village, Delhi", "lat": 28.5529, "lng": 77.1944}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

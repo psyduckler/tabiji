@@ -1560,73 +1560,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+Philadelphia", "picks": [{"anchorId": "the-franklin-bar", "rank": 1, "name": "The Franklin Bar", "label": "1. The Franklin Bar", "ctaUrl": "https://maps.google.com/?q=The+Franklin+Bar+Center+City+Philadelphia", "mapQuery": "The Franklin Bar, Center City, Philadelphia", "lat": 39.951591, "lng": -75.170281}, {"anchorId": "ranstead-room", "rank": 2, "name": "Ranstead Room", "label": "2. Ranstead Room", "ctaUrl": "https://maps.google.com/?q=Ranstead+Room+Center+City+Philadelphia", "mapQuery": "Ranstead Room, Center City, Philadelphia", "lat": 39.95079, "lng": -75.17066}, {"anchorId": "hop-sing-laundromat", "rank": 3, "name": "Hop Sing Laundromat", "label": "3. Hop Sing Laundromat", "ctaUrl": "https://maps.google.com/?q=Hop+Sing+Laundromat+Chinatown+Philadelphia", "mapQuery": "Hop Sing Laundromat, Chinatown, Philadelphia", "lat": 39.952671, "lng": -75.155497}, {"anchorId": "blind-barber", "rank": 4, "name": "Blind Barber", "label": "4. Blind Barber", "ctaUrl": "https://maps.google.com/?q=Blind+Barber+Midtown+Village+Philadelphia", "mapQuery": "Blind Barber, Midtown Village, Philadelphia", "lat": 39.950669, "lng": -75.16335}, {"anchorId": "fiume", "rank": 5, "name": "Fiume", "label": "5. Fiume", "ctaUrl": "https://maps.google.com/?q=Fiume+South+Street+West+Philadelphia", "mapQuery": "Fiume, South Street West, Philadelphia", "lat": 39.94829, "lng": -75.17387}, {"anchorId": "charlie-was-a-sinner", "rank": 6, "name": "Charlie was a sinner.", "label": "6. Charlie was a sinner.", "ctaUrl": "https://maps.google.com/?q=Charlie+was+a+sinner.+Midtown+Village+Philadelphia", "mapQuery": "Charlie was a sinner., Midtown Village, Philadelphia", "lat": 39.95044, "lng": -75.16362}, {"anchorId": "1-tippling-place", "rank": 7, "name": "1 Tippling Place", "label": "7. 1 Tippling Place", "ctaUrl": "https://maps.google.com/?q=1+Tippling+Place+Rittenhouse+Philadelphia", "mapQuery": "1 Tippling Place, Rittenhouse, Philadelphia", "lat": 39.95254, "lng": -75.17439}, {"anchorId": "writers-block-rehab", "rank": 8, "name": "Writer's Block Rehab", "label": "8. Writer's Block Rehab", "ctaUrl": "https://maps.google.com/?q=Writer's+Block+Rehab+Washington+Square+West+Philadelphia", "mapQuery": "Writer's Block Rehab, Washington Square West, Philadelphia", "lat": 39.94819, "lng": -75.16104}, {"anchorId": "ashton-cigar-bar", "rank": 9, "name": "Ashton Cigar Bar", "label": "9. Ashton Cigar Bar", "ctaUrl": "https://maps.google.com/?q=Ashton+Cigar+Bar+Rittenhouse+Philadelphia", "mapQuery": "Ashton Cigar Bar, Rittenhouse, Philadelphia", "lat": 39.95071, "lng": -75.16666}, {"anchorId": "le-caveau", "rank": 10, "name": "Le Caveau (at The Good King Tavern)", "label": "10. Le Caveau (at The Good King Tavern)", "ctaUrl": "https://maps.google.com/?q=Le+Caveau+(at+The+Good+King+Tavern)+Bella+Vista+Philadelphia", "mapQuery": "Le Caveau (at The Good King Tavern), Bella Vista, Philadelphia", "lat": 39.94367, "lng": -75.15579}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1573,73 +1573,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Porto", "picks": [{"anchorId": "cantina-32", "rank": 1, "name": "Cantina 32", "label": "1. Cantina 32", "ctaUrl": "https://maps.google.com/?q=Cantina+32+Ribeira+Porto", "mapQuery": "Cantina 32, Ribeira, Porto", "lat": 41.141718, "lng": -8.614619}, {"anchorId": "brasão-cervejaria-coliseu", "rank": 2, "name": "Brasão Cervejaria Coliseu", "label": "2. Brasão Cervejaria Coliseu", "ctaUrl": "https://maps.google.com/?q=Brasão+Cervejaria+Coliseu+Baixa+Porto", "mapQuery": "Brasão Cervejaria Coliseu, Baixa, Porto", "lat": 41.146522, "lng": -8.608078}, {"anchorId": "taberna-do-largo", "rank": 3, "name": "Taberna do Largo", "label": "3. Taberna do Largo", "ctaUrl": "https://maps.google.com/?q=Taberna+do+Largo+Ribeira+Porto", "mapQuery": "Taberna do Largo, Ribeira, Porto", "lat": 41.140706, "lng": -8.614562}, {"anchorId": "a-cozinha-do-manel", "rank": 4, "name": "A Cozinha do Manel", "label": "4. A Cozinha do Manel", "ctaUrl": "https://maps.google.com/?q=A+Cozinha+do+Manel+Campanhã+Porto", "mapQuery": "A Cozinha do Manel, Campanhã, Porto", "lat": 41.151778, "lng": -8.590001}, {"anchorId": "tascö", "rank": 5, "name": "Tascö", "label": "5. Tascö", "ctaUrl": "https://maps.google.com/?q=Tascö+Cedofeita+Porto", "mapQuery": "Tascö, Cedofeita, Porto", "lat": 41.14911, "lng": -8.61214}, {"anchorId": "restaurante-abadia-do-porto", "rank": 6, "name": "Restaurante Abadia do Porto", "label": "6. Restaurante Abadia do Porto", "ctaUrl": "https://maps.google.com/?q=Restaurante+Abadia+do+Porto+Baixa+Porto", "mapQuery": "Restaurante Abadia do Porto, Baixa, Porto", "lat": 41.146609, "lng": -8.609424}, {"anchorId": "zenith-brunch-cocktails-porto", "rank": 7, "name": "Zenith Brunch & Cocktails - Porto", "label": "7. Zenith Brunch & Cocktails - Porto", "ctaUrl": "https://maps.google.com/?q=Zenith+Brunch+&+Cocktails+-+Porto+Cordoaria+Porto", "mapQuery": "Zenith Brunch & Cocktails - Porto, Cordoaria, Porto", "lat": 41.14777, "lng": -8.61453}, {"anchorId": "casa-guedes", "rank": 8, "name": "Casa Guedes", "label": "8. Casa Guedes", "ctaUrl": "https://maps.google.com/?q=Casa+Guedes+Fontainhas+Porto", "mapQuery": "Casa Guedes, Fontainhas, Porto", "lat": 41.145892, "lng": -8.604558}, {"anchorId": "gazela-cachorrinhos-da-batalha", "rank": 9, "name": "Gazela Cachorrinhos da Batalha", "label": "9. Gazela Cachorrinhos da Batalha", "ctaUrl": "https://maps.google.com/?q=Gazela+Cachorrinhos+da+Batalha+Batalha+Porto", "mapQuery": "Gazela Cachorrinhos da Batalha, Batalha, Porto", "lat": 41.14555, "lng": -8.60749}, {"anchorId": "taxca", "rank": 10, "name": "Taxca", "label": "10. Taxca", "ctaUrl": "https://maps.google.com/?q=Taxca+Ribeira+Porto", "mapQuery": "Taxca, Ribeira, Porto", "lat": 41.14201, "lng": -8.61394}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

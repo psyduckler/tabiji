@@ -1573,73 +1573,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Albuquerque", "picks": [{"anchorId": "sushi-hana", "rank": 1, "name": "Sushi Hana", "label": "1. Sushi Hana", "ctaUrl": "https://maps.google.com/?q=Sushi+Hana+North+East+Heights+Albuquerque", "mapQuery": "Sushi Hana, North East Heights, Albuquerque", "lat": 35.127885, "lng": -106.559405}, {"anchorId": "sakura-sushi-grill", "rank": 2, "name": "Sakura Sushi & Grill", "label": "2. Sakura Sushi & Grill", "ctaUrl": "https://maps.google.com/?q=Sakura+Sushi+&+Grill+Nob+Hill+Albuquerque", "mapQuery": "Sakura Sushi & Grill, Nob Hill, Albuquerque", "lat": 35.08316, "lng": -106.60677}, {"anchorId": "azuma-sushi-teppan", "rank": 3, "name": "Azuma Sushi & Teppan", "label": "3. Azuma Sushi & Teppan", "ctaUrl": "https://maps.google.com/?q=Azuma+Sushi+&+Teppan+Cottonwood+Albuquerque", "mapQuery": "Azuma Sushi & Teppan, Cottonwood, Albuquerque", "lat": 35.19163, "lng": -106.70273}, {"anchorId": "magokoro-japanese-restaurant", "rank": 4, "name": "Magokoro Japanese Restaurant", "label": "4. Magokoro Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Magokoro+Japanese+Restaurant+Westside+Albuquerque", "mapQuery": "Magokoro Japanese Restaurant, Westside, Albuquerque", "lat": 35.11893, "lng": -106.69766}, {"anchorId": "shogun-japanese-restaurant", "rank": 5, "name": "Shogun Japanese Restaurant", "label": "5. Shogun Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Shogun+Japanese+Restaurant+Uptown+Albuquerque", "mapQuery": "Shogun Japanese Restaurant, Uptown, Albuquerque", "lat": 35.12792, "lng": -106.55964}, {"anchorId": "ihatov-bread-coffee-sushi", "rank": 6, "name": "Ihatov Bread & Coffee & Sushi", "label": "6. Ihatov Bread & Coffee & Sushi", "ctaUrl": "https://maps.google.com/?q=Ihatov+Bread+&+Coffee+&+Sushi+Old+Town+Albuquerque", "mapQuery": "Ihatov Bread & Coffee & Sushi, Old Town, Albuquerque", "lat": 35.10526, "lng": -106.67139}, {"anchorId": "kampai-sushi-bar-grill", "rank": 7, "name": "Kampai Sushi Bar & Grill", "label": "7. Kampai Sushi Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Kampai+Sushi+Bar+&+Grill+Ventura+Albuquerque", "mapQuery": "Kampai Sushi Bar & Grill, Ventura, Albuquerque", "lat": 35.10173, "lng": -106.53697}, {"anchorId": "akata-sushi-bar-grill", "rank": 8, "name": "akata Sushi Bar & Grill", "label": "8. akata Sushi Bar & Grill", "ctaUrl": "https://maps.google.com/?q=akata+Sushi+Bar+&+Grill+Far+NE+Heights+Albuquerque", "mapQuery": "akata Sushi Bar & Grill, Far NE Heights, Albuquerque", "lat": 35.1019, "lng": -106.537}, {"anchorId": "ninja-sushi", "rank": 9, "name": "Ninja Sushi", "label": "9. Ninja Sushi", "ctaUrl": "https://maps.google.com/?q=Ninja+Sushi+San+Antonio+Albuquerque", "mapQuery": "Ninja Sushi, San Antonio, Albuquerque", "lat": 35.13759, "lng": -106.56123}, {"anchorId": "hotaru-japanese-sushi-grill", "rank": 10, "name": "Hotaru Japanese Sushi & Grill", "label": "10. Hotaru Japanese Sushi & Grill", "ctaUrl": "https://maps.google.com/?q=Hotaru+Japanese+Sushi+&+Grill+South+Valley+Albuquerque", "mapQuery": "Hotaru Japanese Sushi & Grill, South Valley, Albuquerque", "lat": 35.103, "lng": -106.696}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

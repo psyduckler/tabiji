@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+Dallas", "picks": [{"anchorId": "uchi", "rank": 1, "name": "Uchi", "label": "1. Uchi", "ctaUrl": "https://maps.google.com/?q=Uchi+Uptown+Dallas", "mapQuery": "Uchi, Uptown, Dallas", "lat": 32.7997, "lng": -96.8048}, {"anchorId": "tei-an", "rank": 2, "name": "Tei-An", "label": "2. Tei-An", "ctaUrl": "https://maps.google.com/?q=Tei-An+Arts+District+Dallas", "mapQuery": "Tei-An, Arts District, Dallas", "lat": 32.7885, "lng": -96.7979}, {"anchorId": "nobu-dallas", "rank": 3, "name": "Nobu Dallas", "label": "3. Nobu Dallas", "ctaUrl": "https://maps.google.com/?q=Nobu+Dallas+Uptown+Dallas", "mapQuery": "Nobu Dallas, Uptown, Dallas", "lat": 32.7942, "lng": -96.8052}, {"anchorId": "yutaka-sushi-bistro", "rank": 4, "name": "Yutaka Sushi Bistro", "label": "4. Yutaka Sushi Bistro", "ctaUrl": "https://maps.google.com/?q=Yutaka+Sushi+Bistro+Uptown+Dallas", "mapQuery": "Yutaka Sushi Bistro, Uptown, Dallas", "lat": 32.8021, "lng": -96.8}, {"anchorId": "kessaku", "rank": 5, "name": "Kessaku", "label": "5. Kessaku", "ctaUrl": "https://maps.google.com/?q=Kessaku+Downtown+Dallas", "mapQuery": "Kessaku, Downtown, Dallas", "lat": 32.7797, "lng": -96.7937}, {"anchorId": "oishii", "rank": 6, "name": "Oishii", "label": "6. Oishii", "ctaUrl": "https://maps.google.com/?q=Oishii+Oak+Lawn+Dallas", "mapQuery": "Oishii, Oak Lawn, Dallas", "lat": 32.8123, "lng": -96.8306}, {"anchorId": "kenichi", "rank": 7, "name": "Kenichi", "label": "7. Kenichi", "ctaUrl": "https://maps.google.com/?q=Kenichi+Uptown+Dallas", "mapQuery": "Kenichi, Uptown, Dallas", "lat": 32.7963, "lng": -96.8016}, {"anchorId": "deep-sushi", "rank": 8, "name": "Deep Sushi", "label": "8. Deep Sushi", "ctaUrl": "https://maps.google.com/?q=Deep+Sushi+Deep+Ellum+Dallas", "mapQuery": "Deep Sushi, Deep Ellum, Dallas", "lat": 32.782, "lng": -96.7869}, {"anchorId": "mr-sushi", "rank": 9, "name": "Mr. Sushi", "label": "9. Mr. Sushi", "ctaUrl": "https://maps.google.com/?q=Mr.+Sushi+Preston+Royal+Dallas", "mapQuery": "Mr. Sushi, Preston Royal, Dallas", "lat": 32.8596, "lng": -96.808}, {"anchorId": "nori-handroll-bar", "rank": 10, "name": "Nori Handroll Bar", "label": "10. Nori Handroll Bar", "ctaUrl": "https://maps.google.com/?q=Nori+Handroll+Bar+Deep+Ellum+Dallas", "mapQuery": "Nori Handroll Bar, Deep Ellum, Dallas", "lat": 32.7825, "lng": -96.7846}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Spokane", "picks": [{"anchorId": "flipturn-pizza", "rank": 1, "name": "Flipturn Pizza", "label": "1. Flipturn Pizza", "ctaUrl": "https://maps.google.com/?q=Flipturn+Pizza+South+Hill+Spokane", "mapQuery": "Flipturn Pizza, South Hill, Spokane", "lat": 47.63942, "lng": -117.40428}, {"anchorId": "veraci-pizza", "rank": 2, "name": "Veraci Pizza", "label": "2. Veraci Pizza", "ctaUrl": "https://maps.google.com/?q=Veraci+Pizza+North+Side+Spokane", "mapQuery": "Veraci Pizza, North Side, Spokane", "lat": 47.6653, "lng": -117.42438}, {"anchorId": "the-flying-goat", "rank": 3, "name": "The Flying Goat", "label": "3. The Flying Goat", "ctaUrl": "https://maps.google.com/?q=The+Flying+Goat+Audubon-Downriver+Spokane", "mapQuery": "The Flying Goat, Audubon-Downriver, Spokane", "lat": 47.6749, "lng": -117.4332}, {"anchorId": "republic-pi", "rank": 4, "name": "Republic Pi", "label": "4. Republic Pi", "ctaUrl": "https://maps.google.com/?q=Republic+Pi+South+Hill+Spokane", "mapQuery": "Republic Pi, South Hill, Spokane", "lat": 47.62584, "lng": -117.39967}, {"anchorId": "davids-pizza", "rank": 5, "name": "David's Pizza", "label": "5. David's Pizza", "ctaUrl": "https://maps.google.com/?q=David's+Pizza+University+District+Spokane", "mapQuery": "David's Pizza, University District, Spokane", "lat": 47.6806, "lng": -117.42629}, {"anchorId": "borzillos-pizzeria", "rank": 6, "name": "Borzillo's Pizzeria", "label": "6. Borzillo's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Borzillo's+Pizzeria+Browne's+Addition+Spokane", "mapQuery": "Borzillo's Pizzeria, Browne's Addition, Spokane", "lat": 47.65345, "lng": -117.43632}, {"anchorId": "white-stone-pizzeria", "rank": 7, "name": "White Stone Pizzeria", "label": "7. White Stone Pizzeria", "ctaUrl": "https://maps.google.com/?q=White+Stone+Pizzeria+Hillyard+Spokane", "mapQuery": "White Stone Pizzeria, Hillyard, Spokane", "lat": 47.76566, "lng": -117.38283}, {"anchorId": "petes-pizza-pasta", "rank": 8, "name": "Pete's Pizza & Pasta", "label": "8. Pete's Pizza & Pasta", "ctaUrl": "https://maps.google.com/?q=Pete's+Pizza+&+Pasta+Lincoln+Heights+Spokane", "mapQuery": "Pete's Pizza & Pasta, Lincoln Heights, Spokane", "lat": 47.65342, "lng": -117.36219}, {"anchorId": "pizza-rita", "rank": 9, "name": "Pizza Rita", "label": "9. Pizza Rita", "ctaUrl": "https://maps.google.com/?q=Pizza+Rita+Multiple+Locations+(e.g.,+Northtown)+Spokane", "mapQuery": "Pizza Rita, Multiple Locations (e.g., Northtown), Spokane", "lat": 47.70119, "lng": -117.39719}, {"anchorId": "domini-sandwiches-pizza", "rank": 10, "name": "Domini Sandwiches & Pizza", "label": "10. Domini Sandwiches & Pizza", "ctaUrl": "https://maps.google.com/?q=Domini+Sandwiches+&+Pizza+Shadle+Park+Spokane", "mapQuery": "Domini Sandwiches & Pizza, Shadle Park, Spokane", "lat": 47.67484, "lng": -117.43634}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

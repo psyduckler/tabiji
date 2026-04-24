@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pad Thai Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pad+thai+in+Asheville", "picks": [{"anchorId": "little-bee-thai", "rank": 1, "name": "Little Bee Thai", "label": "1. Little Bee Thai", "ctaUrl": "https://maps.google.com/?q=Little+Bee+Thai+West+Asheville+Asheville", "mapQuery": "Little Bee Thai, West Asheville, Asheville", "lat": 35.5898, "lng": -82.5855}, {"anchorId": "thai-pearl", "rank": 2, "name": "Thai Pearl", "label": "2. Thai Pearl", "ctaUrl": "https://maps.google.com/?q=Thai+Pearl+South+Asheville+Asheville", "mapQuery": "Thai Pearl, South Asheville, Asheville", "lat": 35.5303, "lng": -82.5297}, {"anchorId": "a-taste-of-thai", "rank": 3, "name": "A Taste of Thai", "label": "3. A Taste of Thai", "ctaUrl": "https://maps.google.com/?q=A+Taste+of+Thai+North+Asheville+Asheville", "mapQuery": "A Taste of Thai, North Asheville, Asheville", "lat": 35.6268, "lng": -82.5562}, {"anchorId": "siam-thai-restaurant", "rank": 4, "name": "Siam Thai Restaurant", "label": "4. Siam Thai Restaurant", "ctaUrl": "https://maps.google.com/?q=Siam+Thai+Restaurant+Downtown+Asheville", "mapQuery": "Siam Thai Restaurant, Downtown, Asheville", "lat": 35.5971, "lng": -82.5539}, {"anchorId": "doc-cheys-noodle-house", "rank": 5, "name": "Doc Chey's Noodle House", "label": "5. Doc Chey's Noodle House", "ctaUrl": "https://maps.google.com/?q=Doc+Chey's+Noodle+House+North+Asheville+(Merrimon+Ave)+Asheville", "mapQuery": "Doc Chey's Noodle House, North Asheville (Merrimon Ave), Asheville", "lat": 35.608, "lng": -82.5552}, {"anchorId": "gan-shan-station", "rank": 6, "name": "Gan Shan Station", "label": "6. Gan Shan Station", "ctaUrl": "https://maps.google.com/?q=Gan+Shan+Station+North+Asheville+Asheville", "mapQuery": "Gan Shan Station, North Asheville, Asheville", "lat": 35.6025, "lng": -82.5482}, {"anchorId": "wild-ginger-noodle-bar", "rank": 7, "name": "Wild Ginger Noodle Bar", "label": "7. Wild Ginger Noodle Bar", "ctaUrl": "https://maps.google.com/?q=Wild+Ginger+Noodle+Bar+Downtown+Asheville", "mapQuery": "Wild Ginger Noodle Bar, Downtown, Asheville", "lat": 35.5925, "lng": -82.5518}, {"anchorId": "lime-n-chili", "rank": 8, "name": "Lime N Chili", "label": "8. Lime N Chili", "ctaUrl": "https://maps.google.com/?q=Lime+N+Chili+West+Asheville+Asheville", "mapQuery": "Lime N Chili, West Asheville, Asheville", "lat": 35.5806, "lng": -82.6074}, {"anchorId": "green-tea-sushi-thai", "rank": 9, "name": "Green Tea Sushi & Thai", "label": "9. Green Tea Sushi & Thai", "ctaUrl": "https://maps.google.com/?q=Green+Tea+Sushi+&+Thai+East+Asheville+Asheville", "mapQuery": "Green Tea Sushi & Thai, East Asheville, Asheville", "lat": 35.5898, "lng": -82.4764}, {"anchorId": "blue-asia", "rank": 10, "name": "Blue Asia", "label": "10. Blue Asia", "ctaUrl": "https://maps.google.com/?q=Blue+Asia+South+Asheville+(Arden)+Asheville", "mapQuery": "Blue Asia, South Asheville (Arden), Asheville", "lat": 35.4542, "lng": -82.5358}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

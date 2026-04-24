@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Fried Chicken Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/fried+chicken+in+Tokyo", "picks": [{"anchorId": "chikin-namba", "rank": 1, "name": "Chikin Namba", "label": "1. Chikin Namba", "ctaUrl": "https://maps.google.com/?q=Chikin+Namba+Shinbashi+Tokyo", "mapQuery": "Chikin Namba, Shinbashi, Tokyo", "lat": 35.66533, "lng": 139.75627}, {"anchorId": "kin-no-karaage", "rank": 2, "name": "Kin-no-Karaage", "label": "2. Kin-no-Karaage", "ctaUrl": "https://maps.google.com/?q=Kin-no-Karaage+Shinjuku+Tokyo", "mapQuery": "Kin-no-Karaage, Shinjuku, Tokyo", "lat": 35.694697, "lng": 139.702811}, {"anchorId": "sekai-no-yamachan", "rank": 3, "name": "Sekai no Yamachan", "label": "3. Sekai no Yamachan", "ctaUrl": "https://maps.google.com/?q=Sekai+no+Yamachan+Shibuya+Tokyo", "mapQuery": "Sekai no Yamachan, Shibuya, Tokyo", "lat": 35.659392, "lng": 139.699313}, {"anchorId": "crispy-chicken-n-tomato", "rank": 4, "name": "Crispy Chicken n' Tomato", "label": "4. Crispy Chicken n' Tomato", "ctaUrl": "https://maps.google.com/?q=Crispy+Chicken+n'+Tomato+Shin-Okubo+Tokyo", "mapQuery": "Crispy Chicken n' Tomato, Shin-Okubo, Tokyo", "lat": 35.700147, "lng": 139.700445}, {"anchorId": "hot-chicken-waffle", "rank": 5, "name": "Hot Chicken & Waffle", "label": "5. Hot Chicken & Waffle", "ctaUrl": "https://maps.google.com/?q=Hot+Chicken+&+Waffle+Shibuya+Tokyo", "mapQuery": "Hot Chicken & Waffle, Shibuya, Tokyo", "lat": 35.659614, "lng": 139.703273}, {"anchorId": "torikatsu-toritama", "rank": 6, "name": "Torikatsu Toritama", "label": "6. Torikatsu Toritama", "ctaUrl": "https://maps.google.com/?q=Torikatsu+Toritama+Shinjuku+Tokyo", "mapQuery": "Torikatsu Toritama, Shinjuku, Tokyo", "lat": 35.694241, "lng": 139.701323}, {"anchorId": "maru-to", "rank": 7, "name": "Maru-to", "label": "7. Maru-to", "ctaUrl": "https://maps.google.com/?q=Maru-to+Shinjuku+Tokyo", "mapQuery": "Maru-to, Shinjuku, Tokyo", "lat": 35.688804, "lng": 139.705669}, {"anchorId": "nidaime-karaage-honpo", "rank": 8, "name": "Nidaime Karaage Honpo", "label": "8. Nidaime Karaage Honpo", "ctaUrl": "https://maps.google.com/?q=Nidaime+Karaage+Honpo+Ikebukuro+Tokyo", "mapQuery": "Nidaime Karaage Honpo, Ikebukuro, Tokyo", "lat": 35.728956, "lng": 139.712128}, {"anchorId": "karaage-bonchi", "rank": 9, "name": "Karaage Bonchi", "label": "9. Karaage Bonchi", "ctaUrl": "https://maps.google.com/?q=Karaage+Bonchi+Nakano+Tokyo", "mapQuery": "Karaage Bonchi, Nakano, Tokyo", "lat": 35.705634, "lng": 139.664448}, {"anchorId": "toriya-itto", "rank": 10, "name": "Toriya Itto", "label": "10. Toriya Itto", "ctaUrl": "https://maps.google.com/?q=Toriya+Itto+Kichijoji+Tokyo", "mapQuery": "Toriya Itto, Kichijoji, Tokyo", "lat": 35.70114, "lng": 139.57948}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

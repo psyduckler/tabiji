@@ -1542,73 +1542,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Wine Tours Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/wine+tours+in+Napa", "picks": [{"anchorId": "robert-mondavi-winery", "rank": 1, "name": "Robert Mondavi Winery", "label": "1. Robert Mondavi Winery", "ctaUrl": "https://maps.google.com/?q=Robert+Mondavi+Winery+Oakville+Napa", "mapQuery": "Robert Mondavi Winery, Oakville, Napa", "lat": 38.4552, "lng": -122.3917}, {"anchorId": "castello-di-amorosa", "rank": 2, "name": "Castello di Amorosa", "label": "2. Castello di Amorosa", "ctaUrl": "https://maps.google.com/?q=Castello+di+Amorosa+Calistoga+Napa", "mapQuery": "Castello di Amorosa, Calistoga, Napa", "lat": 38.6186, "lng": -122.5694}, {"anchorId": "opus-one-winery", "rank": 3, "name": "Opus One Winery", "label": "3. Opus One Winery", "ctaUrl": "https://maps.google.com/?q=Opus+One+Winery+Oakville+Napa", "mapQuery": "Opus One Winery, Oakville, Napa", "lat": 38.4526, "lng": -122.3912}, {"anchorId": "silver-oak-cellars", "rank": 4, "name": "Silver Oak Cellars", "label": "4. Silver Oak Cellars", "ctaUrl": "https://maps.google.com/?q=Silver+Oak+Cellars+Oakville+Napa", "mapQuery": "Silver Oak Cellars, Oakville, Napa", "lat": 38.4552, "lng": -122.4042}, {"anchorId": "beringer-vineyards", "rank": 5, "name": "Beringer Vineyards", "label": "5. Beringer Vineyards", "ctaUrl": "https://maps.google.com/?q=Beringer+Vineyards+St.+Helena+Napa", "mapQuery": "Beringer Vineyards, St. Helena, Napa", "lat": 38.5088, "lng": -122.4851}, {"anchorId": "domaine-chandon", "rank": 6, "name": "Domaine Chandon", "label": "6. Domaine Chandon", "ctaUrl": "https://maps.google.com/?q=Domaine+Chandon+Yountville+Napa", "mapQuery": "Domaine Chandon, Yountville, Napa", "lat": 38.384, "lng": -122.3666}, {"anchorId": "newton-vineyard", "rank": 7, "name": "Newton Vineyard", "label": "7. Newton Vineyard", "ctaUrl": "https://maps.google.com/?q=Newton+Vineyard+St.+Helena+Napa", "mapQuery": "Newton Vineyard, St. Helena, Napa", "lat": 38.5471, "lng": -122.5699}, {"anchorId": "frogs-leap-winery", "rank": 8, "name": "Frog's Leap Winery", "label": "8. Frog's Leap Winery", "ctaUrl": "https://maps.google.com/?q=Frog's+Leap+Winery+Rutherford+Napa", "mapQuery": "Frog's Leap Winery, Rutherford, Napa", "lat": 38.4619, "lng": -122.4283}, {"anchorId": "v-sattui-winery", "rank": 9, "name": "V. Sattui Winery", "label": "9. V. Sattui Winery", "ctaUrl": "https://maps.google.com/?q=V.+Sattui+Winery+St.+Helena+Napa", "mapQuery": "V. Sattui Winery, St. Helena, Napa", "lat": 38.4831, "lng": -122.455}, {"anchorId": "stags-leap-winery", "rank": 10, "name": "Stags' Leap Winery", "label": "10. Stags' Leap Winery", "ctaUrl": "https://maps.google.com/?q=Stags'+Leap+Winery+Yountville+Napa", "mapQuery": "Stags' Leap Winery, Yountville, Napa", "lat": 38.374, "lng": -122.3168}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

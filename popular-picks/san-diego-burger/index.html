@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Burger Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/burger+in+San+Diego", "picks": [{"anchorId": "hodads", "rank": 1, "name": "Hodad's", "label": "1. Hodad's", "ctaUrl": "https://maps.google.com/?q=Hodad's+Ocean+Beach+San+Diego", "mapQuery": "Hodad's, Ocean Beach, San Diego", "lat": 32.74868, "lng": -117.25143}, {"anchorId": "rockys-crown-pub", "rank": 2, "name": "Rocky's Crown Pub", "label": "2. Rocky's Crown Pub", "ctaUrl": "https://maps.google.com/?q=Rocky's+Crown+Pub+Crown+Point+San+Diego", "mapQuery": "Rocky's Crown Pub, Crown Point, San Diego", "lat": 32.78345, "lng": -117.23428}, {"anchorId": "burger-lounge", "rank": 3, "name": "Burger Lounge", "label": "3. Burger Lounge", "ctaUrl": "https://maps.google.com/?q=Burger+Lounge+Hillcrest+San+Diego", "mapQuery": "Burger Lounge, Hillcrest, San Diego", "lat": 32.74971, "lng": -117.16543}, {"anchorId": "the-friendly", "rank": 4, "name": "The Friendly", "label": "4. The Friendly", "ctaUrl": "https://maps.google.com/?q=The+Friendly+North+Park+San+Diego", "mapQuery": "The Friendly, North Park, San Diego", "lat": 32.74457, "lng": -117.13572}, {"anchorId": "hayes-burger", "rank": 5, "name": "Hayes Burger", "label": "5. Hayes Burger", "ctaUrl": "https://maps.google.com/?q=Hayes+Burger+Normal+Heights+San+Diego", "mapQuery": "Hayes Burger, Normal Heights, San Diego", "lat": 32.75713, "lng": -117.13098}, {"anchorId": "slaters-5050", "rank": 6, "name": "Slater's 50/50", "label": "6. Slater's 50/50", "ctaUrl": "https://maps.google.com/?q=Slater's+50/50+Liberty+Station+San+Diego", "mapQuery": "Slater's 50/50, Liberty Station, San Diego", "lat": 32.73031, "lng": -117.21852}, {"anchorId": "gaslamp-burger", "rank": 7, "name": "Gaslamp Burger", "label": "7. Gaslamp Burger", "ctaUrl": "https://maps.google.com/?q=Gaslamp+Burger+Gaslamp+Quarter+San+Diego", "mapQuery": "Gaslamp Burger, Gaslamp Quarter, San Diego", "lat": 32.71358, "lng": -117.16016}, {"anchorId": "common-stock", "rank": 8, "name": "Common Stock", "label": "8. Common Stock", "ctaUrl": "https://maps.google.com/?q=Common+Stock+Hillcrest+San+Diego", "mapQuery": "Common Stock, Hillcrest, San Diego", "lat": 32.74411, "lng": -117.16223}, {"anchorId": "the-balboa", "rank": 9, "name": "The Balboa", "label": "9. The Balboa", "ctaUrl": "https://maps.google.com/?q=The+Balboa+Bankers+Hill+San+Diego", "mapQuery": "The Balboa, Bankers Hill, San Diego", "lat": 32.72911, "lng": -117.16279}, {"anchorId": "eureka-san-diego", "rank": 10, "name": "Eureka! San Diego", "label": "10. Eureka! San Diego", "ctaUrl": "https://maps.google.com/?q=Eureka!+San+Diego+UTC+San+Diego", "mapQuery": "Eureka! San Diego, UTC, San Diego", "lat": 32.87106, "lng": -117.21473}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

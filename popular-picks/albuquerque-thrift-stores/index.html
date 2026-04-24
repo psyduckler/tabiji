@@ -1546,73 +1546,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Thrift Stores Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/thrift+stores+in+Albuquerque", "picks": [{"anchorId": "thrift-town", "rank": 1, "name": "Thrift Town", "label": "1. Thrift Town", "ctaUrl": "https://maps.google.com/?q=Thrift+Town+South+Valley+Albuquerque", "mapQuery": "Thrift Town, South Valley, Albuquerque", "lat": 35.05928, "lng": -106.71183}, {"anchorId": "red-light-vintage-goods", "rank": 2, "name": "Red Light Vintage & Goods", "label": "2. Red Light Vintage & Goods", "ctaUrl": "https://maps.google.com/?q=Red+Light+Vintage+&+Goods+Nob+Hill+Albuquerque", "mapQuery": "Red Light Vintage & Goods, Nob Hill, Albuquerque", "lat": 35.07722, "lng": -106.60627}, {"anchorId": "assistance-league-of-albuquerque-thrift-", "rank": 3, "name": "Assistance League of Albuquerque Thrift Shop", "label": "3. Assistance League of Albuquerque Thrift Shop", "ctaUrl": "https://maps.google.com/?q=Assistance+League+of+Albuquerque+Thrift+Shop+Northeast+Heights+Albuquerque", "mapQuery": "Assistance League of Albuquerque Thrift Shop, Northeast Heights, Albuquerque", "lat": 35.08868, "lng": -106.56845}, {"anchorId": "savers", "rank": 4, "name": "Savers", "label": "4. Savers", "ctaUrl": "https://maps.google.com/?q=Savers+Northeast+Heights+Albuquerque", "mapQuery": "Savers, Northeast Heights, Albuquerque", "lat": 35.12267, "lng": -106.56708}, {"anchorId": "goodwill", "rank": 5, "name": "Goodwill (Menaul Blvd NE)", "label": "5. Goodwill (Menaul Blvd NE)", "ctaUrl": "https://maps.google.com/?q=Goodwill+(Menaul+Blvd+NE)+Northeast+Heights+Albuquerque", "mapQuery": "Goodwill (Menaul Blvd NE), Northeast Heights, Albuquerque", "lat": 35.10542, "lng": -106.56581}, {"anchorId": "the-cats-meow-boutique", "rank": 6, "name": "The Cat's Meow Boutique", "label": "6. The Cat's Meow Boutique", "ctaUrl": "https://maps.google.com/?q=The+Cat's+Meow+Boutique+Nob+Hill+Albuquerque", "mapQuery": "The Cat's Meow Boutique, Nob Hill, Albuquerque", "lat": 35.0772, "lng": -106.6055}, {"anchorId": "safe-house-thrift-store", "rank": 7, "name": "S.A.F.E. House Thrift Store", "label": "7. S.A.F.E. House Thrift Store", "ctaUrl": "https://maps.google.com/?q=S.A.F.E.+House+Thrift+Store+Northeast+Heights+Albuquerque", "mapQuery": "S.A.F.E. House Thrift Store, Northeast Heights, Albuquerque", "lat": 35.14088, "lng": -106.51659}, {"anchorId": "habitat-for-humanity-restore", "rank": 8, "name": "Habitat for Humanity ReStore", "label": "8. Habitat for Humanity ReStore", "ctaUrl": "https://maps.google.com/?q=Habitat+for+Humanity+ReStore+North+Valley+Albuquerque", "mapQuery": "Habitat for Humanity ReStore, North Valley, Albuquerque", "lat": 35.10544, "lng": -106.60101}, {"anchorId": "rebel-bloom", "rank": 9, "name": "Rebel & Bloom", "label": "9. Rebel & Bloom", "ctaUrl": "https://maps.google.com/?q=Rebel+&+Bloom+Nob+Hill+Albuquerque", "mapQuery": "Rebel & Bloom, Nob Hill, Albuquerque", "lat": 35.07767, "lng": -106.60838}, {"anchorId": "past-present-future", "rank": 10, "name": "Past, Present & Future", "label": "10. Past, Present & Future", "ctaUrl": "https://maps.google.com/?q=Past,+Present+&+Future+Old+Town+Albuquerque", "mapQuery": "Past, Present & Future, Old Town, Albuquerque", "lat": 35.09703, "lng": -106.67104}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

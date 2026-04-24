@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+Orlando", "picks": [{"anchorId": "christners-prime-steak-lobster", "rank": 1, "name": "Christner's Prime Steak & Lobster", "label": "1. Christner's Prime Steak & Lobster", "ctaUrl": "https://maps.google.com/?q=Christner's+Prime+Steak+&+Lobster+Lee+Road+/+Winter+Park+North+Orlando", "mapQuery": "Christner's Prime Steak & Lobster, Lee Road / Winter Park North, Orlando", "lat": 28.601569, "lng": -81.401953}, {"anchorId": "bull-bear-steakhouse", "rank": 2, "name": "Bull & Bear Steakhouse", "label": "2. Bull & Bear Steakhouse", "ctaUrl": "https://maps.google.com/?q=Bull+&+Bear+Steakhouse+Bonnet+Creek+(Waldorf+Astoria+Orlando)+Orlando", "mapQuery": "Bull & Bear Steakhouse, Bonnet Creek (Waldorf Astoria Orlando), Orlando", "lat": 28.3396, "lng": -81.5034}, {"anchorId": "del-friscos-double-eagle-steakhouse", "rank": 3, "name": "Del Frisco's Double Eagle Steakhouse", "label": "3. Del Frisco's Double Eagle Steakhouse", "ctaUrl": "https://maps.google.com/?q=Del+Frisco's+Double+Eagle+Steakhouse+International+Drive+Orlando", "mapQuery": "Del Frisco's Double Eagle Steakhouse, International Drive, Orlando", "lat": 28.4346, "lng": -81.466}, {"anchorId": "capital-grille", "rank": 4, "name": "Capital Grille", "label": "4. Capital Grille", "ctaUrl": "https://maps.google.com/?q=Capital+Grille+Dr.+Phillips+/+I-Drive+Area+Orlando", "mapQuery": "Capital Grille, Dr. Phillips / I-Drive Area, Orlando", "lat": 28.431633, "lng": -81.467475}, {"anchorId": "charleys-steak-house", "rank": 5, "name": "Charley's Steak House", "label": "5. Charley's Steak House", "ctaUrl": "https://maps.google.com/?q=Charley's+Steak+House+International+Drive+Orlando", "mapQuery": "Charley's Steak House, International Drive, Orlando", "lat": 28.423, "lng": -81.472}, {"anchorId": "ruths-chris-steak-house", "rank": 6, "name": "Ruth's Chris Steak House", "label": "6. Ruth's Chris Steak House", "ctaUrl": "https://maps.google.com/?q=Ruth's+Chris+Steak+House+Dr.+Phillips+Orlando", "mapQuery": "Ruth's Chris Steak House, Dr. Phillips, Orlando", "lat": 28.4419, "lng": -81.455}, {"anchorId": "stk-orlando", "rank": 7, "name": "STK Orlando", "label": "7. STK Orlando", "ctaUrl": "https://maps.google.com/?q=STK+Orlando+Disney+Springs+Orlando", "mapQuery": "STK Orlando, Disney Springs, Orlando", "lat": 28.3744, "lng": -81.5162}, {"anchorId": "vitos-chop-house", "rank": 8, "name": "Vito's Chop House", "label": "8. Vito's Chop House", "ctaUrl": "https://maps.google.com/?q=Vito's+Chop+House+International+Drive+Orlando", "mapQuery": "Vito's Chop House, International Drive, Orlando", "lat": 28.4285, "lng": -81.469}, {"anchorId": "spencers-for-steaks-and-chops", "rank": 9, "name": "Spencer's for Steaks and Chops", "label": "9. Spencer's for Steaks and Chops", "ctaUrl": "https://maps.google.com/?q=Spencer's+for+Steaks+and+Chops+Convention+Center+Area+(Hilton+Orlando)+Orlando", "mapQuery": "Spencer's for Steaks and Chops, Convention Center Area (Hilton Orlando), Orlando", "lat": 28.423, "lng": -81.458}, {"anchorId": "fogo-de-chão-brazilian-steakhouse", "rank": 10, "name": "Fogo de Chão Brazilian Steakhouse", "label": "10. Fogo de Chão Brazilian Steakhouse", "ctaUrl": "https://maps.google.com/?q=Fogo+de+Chão+Brazilian+Steakhouse+International+Drive+Orlando", "mapQuery": "Fogo de Chão Brazilian Steakhouse, International Drive, Orlando", "lat": 28.425, "lng": -81.472}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

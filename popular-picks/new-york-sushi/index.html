@@ -1520,7 +1520,7 @@
   <h3>More New York guides</h3>
   <p class="related-subtitle">Other curated Reddit-backed picks from New York</p>
   <div class="related-picks-grid">
-    <a href="/popular-picks/best-cheap-eats-new-york/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
+    <a href="/popular-picks/new-york-cheap-eats/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
     <a href="/popular-picks/new-york-bagels/" class="related-pick-link">15 Best Bagels in New York</a>
     <a href="/popular-picks/new-york-pizza/" class="related-pick-link">19 Best Pizza Spots in New York City</a>
     <a href="/popular-picks/new-york-ramen/" class="related-pick-link">18 Best Ramen in New York City</a>
@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+New+York", "picks": [{"anchorId": "masa", "rank": 1, "name": "Masa", "label": "1. Masa", "ctaUrl": "https://maps.google.com/?q=Masa+Midtown+West+New+York", "mapQuery": "Masa, Midtown West, New York", "lat": 40.768133, "lng": -73.981881}, {"anchorId": "sushi-noz", "rank": 2, "name": "Sushi Noz", "label": "2. Sushi Noz", "ctaUrl": "https://maps.google.com/?q=Sushi+Noz+Upper+East+Side+New+York", "mapQuery": "Sushi Noz, Upper East Side, New York", "lat": 40.774435, "lng": -73.957242}, {"anchorId": "icca", "rank": 3, "name": "Icca", "label": "3. Icca", "ctaUrl": "https://maps.google.com/?q=Icca+Tribeca+New+York", "mapQuery": "Icca, Tribeca, New York", "lat": 40.71442, "lng": -74.00832}, {"anchorId": "sushi-yasuda", "rank": 4, "name": "Sushi Yasuda", "label": "4. Sushi Yasuda", "ctaUrl": "https://maps.google.com/?q=Sushi+Yasuda+Midtown+East+New+York", "mapQuery": "Sushi Yasuda, Midtown East, New York", "lat": 40.75134, "lng": -73.97491}, {"anchorId": "sushi-nakazawa", "rank": 5, "name": "Sushi Nakazawa", "label": "5. Sushi Nakazawa", "ctaUrl": "https://maps.google.com/?q=Sushi+Nakazawa+West+Village+New+York", "mapQuery": "Sushi Nakazawa, West Village, New York", "lat": 40.7301, "lng": -74.0041}, {"anchorId": "sushi-of-gari", "rank": 6, "name": "Sushi of Gari", "label": "6. Sushi of Gari", "ctaUrl": "https://maps.google.com/?q=Sushi+of+Gari+Upper+East+Side+New+York", "mapQuery": "Sushi of Gari, Upper East Side, New York", "lat": 40.774435, "lng": -73.957242}, {"anchorId": "sushi-by-m", "rank": 7, "name": "Sushi by M", "label": "7. Sushi by M", "ctaUrl": "https://maps.google.com/?q=Sushi+by+M+East+Village+New+York", "mapQuery": "Sushi by M, East Village, New York", "lat": 40.72765, "lng": -73.98774}, {"anchorId": "sugarfish", "rank": 8, "name": "Sugarfish", "label": "8. Sugarfish", "ctaUrl": "https://maps.google.com/?q=Sugarfish+Flatiron+New+York", "mapQuery": "Sugarfish, Flatiron, New York", "lat": 40.7392, "lng": -73.9898}, {"anchorId": "domodomo", "rank": 9, "name": "Domodomo", "label": "9. Domodomo", "ctaUrl": "https://maps.google.com/?q=Domodomo+West+Village+New+York", "mapQuery": "Domodomo, West Village, New York", "lat": 40.7275, "lng": -74.0049}, {"anchorId": "kura-revolving-sushi-bar", "rank": 10, "name": "Kura Revolving Sushi Bar", "label": "10. Kura Revolving Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Kura+Revolving+Sushi+Bar+East+Village+New+York", "mapQuery": "Kura Revolving Sushi Bar, East Village, New York", "lat": 40.73024, "lng": -73.98759}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

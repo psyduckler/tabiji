@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Food Trucks Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/food+trucks+in+Seattle", "picks": [{"anchorId": "marination-mobile", "rank": 1, "name": "Marination Mobile", "label": "1. Marination Mobile", "ctaUrl": "https://maps.google.com/?q=Marination+Mobile+South+Lake+Union+/+Capitol+Hill+(Rotates)+Seattle", "mapQuery": "Marination Mobile, South Lake Union / Capitol Hill (Rotates), Seattle", "lat": 47.62, "lng": -122.336}, {"anchorId": "skillet-street-food", "rank": 2, "name": "Skillet Street Food", "label": "2. Skillet Street Food", "ctaUrl": "https://maps.google.com/?q=Skillet+Street+Food+Capitol+Hill+/+South+Lake+Union+(Rotates)+Seattle", "mapQuery": "Skillet Street Food, Capitol Hill / South Lake Union (Rotates), Seattle", "lat": 47.6163, "lng": -122.3175}, {"anchorId": "off-the-rez", "rank": 3, "name": "Off the Rez", "label": "3. Off the Rez", "ctaUrl": "https://maps.google.com/?q=Off+the+Rez+University+District+/+Fremont+(Rotates)+Seattle", "mapQuery": "Off the Rez, University District / Fremont (Rotates), Seattle", "lat": 47.6514, "lng": -122.3503}, {"anchorId": "where-ya-at-matt", "rank": 4, "name": "Where Ya At Matt", "label": "4. Where Ya At Matt", "ctaUrl": "https://maps.google.com/?q=Where+Ya+At+Matt+Pioneer+Square+/+Belltown+(Rotates)+Seattle", "mapQuery": "Where Ya At Matt, Pioneer Square / Belltown (Rotates), Seattle", "lat": 47.6, "lng": -122.333}, {"anchorId": "bumbu-truck", "rank": 5, "name": "Bumbu Truck", "label": "5. Bumbu Truck", "ctaUrl": "https://maps.google.com/?q=Bumbu+Truck+South+Lake+Union+/+Farmers+Markets+(Rotates)+Seattle", "mapQuery": "Bumbu Truck, South Lake Union / Farmers Markets (Rotates), Seattle", "lat": 47.6131, "lng": -122.347}, {"anchorId": "ezells-express", "rank": 6, "name": "Ezell's Express", "label": "6. Ezell's Express", "ctaUrl": "https://maps.google.com/?q=Ezell's+Express+Central+District+/+Events+(Rotates)+Seattle", "mapQuery": "Ezell's Express, Central District / Events (Rotates), Seattle", "lat": 47.6074, "lng": -122.298}, {"anchorId": "kiss-my-grits", "rank": 7, "name": "Kiss My Grits", "label": "7. Kiss My Grits", "ctaUrl": "https://maps.google.com/?q=Kiss+My+Grits+Georgetown+/+Breweries+(Rotates)+Seattle", "mapQuery": "Kiss My Grits, Georgetown / Breweries (Rotates), Seattle", "lat": 47.5583, "lng": -122.3276}, {"anchorId": "kaosamai-thai", "rank": 8, "name": "Kaosamai Thai", "label": "8. Kaosamai Thai", "ctaUrl": "https://maps.google.com/?q=Kaosamai+Thai+Fremont+/+South+Lake+Union+(Rotates)+Seattle", "mapQuery": "Kaosamai Thai, Fremont / South Lake Union (Rotates), Seattle", "lat": 47.652, "lng": -122.3488}, {"anchorId": "monte-cristo", "rank": 9, "name": "Monte Cristo", "label": "9. Monte Cristo", "ctaUrl": "https://maps.google.com/?q=Monte+Cristo+Ballard+/+Farmers+Markets+(Rotates)+Seattle", "mapQuery": "Monte Cristo, Ballard / Farmers Markets (Rotates), Seattle", "lat": 47.6685, "lng": -122.384}, {"anchorId": "don-luchos", "rank": 10, "name": "Don Lucho's", "label": "10. Don Lucho's", "ctaUrl": "https://maps.google.com/?q=Don+Lucho's+Georgetown+/+Beacon+Hill+(Rotates)+Seattle", "mapQuery": "Don Lucho's, Georgetown / Beacon Hill (Rotates), Seattle", "lat": 47.5577, "lng": -122.329}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+San+Francisco", "picks": [{"anchorId": "alexanders-steakhouse", "rank": 1, "name": "Alexander's Steakhouse", "label": "1. Alexander's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Alexander's+Steakhouse+SoMa+San+Francisco", "mapQuery": "Alexander's Steakhouse, SoMa, San Francisco", "lat": 37.7818, "lng": -122.3934}, {"anchorId": "harris-restaurant", "rank": 2, "name": "Harris' Restaurant", "label": "2. Harris' Restaurant", "ctaUrl": "https://maps.google.com/?q=Harris'+Restaurant+Van+Ness+San+Francisco", "mapQuery": "Harris' Restaurant, Van Ness, San Francisco", "lat": 37.7946, "lng": -122.4224}, {"anchorId": "house-of-prime-rib", "rank": 3, "name": "House of Prime Rib", "label": "3. House of Prime Rib", "ctaUrl": "https://maps.google.com/?q=House+of+Prime+Rib+Van+Ness+San+Francisco", "mapQuery": "House of Prime Rib, Van Ness, San Francisco", "lat": 37.7946, "lng": -122.4211}, {"anchorId": "niku-steakhouse", "rank": 4, "name": "Niku Steakhouse", "label": "4. Niku Steakhouse", "ctaUrl": "https://maps.google.com/?q=Niku+Steakhouse+Civic+Center+San+Francisco", "mapQuery": "Niku Steakhouse, Civic Center, San Francisco", "lat": 37.7808, "lng": -122.4172}, {"anchorId": "izzys-steaks-chops", "rank": 5, "name": "Izzy's Steaks & Chops", "label": "5. Izzy's Steaks & Chops", "ctaUrl": "https://maps.google.com/?q=Izzy's+Steaks+&+Chops+Marina+San+Francisco", "mapQuery": "Izzy's Steaks & Chops, Marina, San Francisco", "lat": 37.801, "lng": -122.4414}, {"anchorId": "alfreds-steakhouse", "rank": 6, "name": "Alfred's Steakhouse", "label": "6. Alfred's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Alfred's+Steakhouse+Financial+District+San+Francisco", "mapQuery": "Alfred's Steakhouse, Financial District, San Francisco", "lat": 37.794, "lng": -122.403}, {"anchorId": "bobs-steak-chop-house", "rank": 7, "name": "Bob's Steak & Chop House", "label": "7. Bob's Steak & Chop House", "ctaUrl": "https://maps.google.com/?q=Bob's+Steak+&+Chop+House+SoMa+San+Francisco", "mapQuery": "Bob's Steak & Chop House, SoMa, San Francisco", "lat": 37.793, "lng": -122.4022}, {"anchorId": "mortons-the-steakhouse", "rank": 8, "name": "Morton's The Steakhouse", "label": "8. Morton's The Steakhouse", "ctaUrl": "https://maps.google.com/?q=Morton's+The+Steakhouse+Financial+District+San+Francisco", "mapQuery": "Morton's The Steakhouse, Financial District, San Francisco", "lat": 37.7925, "lng": -122.4005}, {"anchorId": "lolinda", "rank": 9, "name": "Lolinda", "label": "9. Lolinda", "ctaUrl": "https://maps.google.com/?q=Lolinda+Mission+District+San+Francisco", "mapQuery": "Lolinda, Mission District, San Francisco", "lat": 37.7562, "lng": -122.4187}, {"anchorId": "johns-grill", "rank": 10, "name": "John's Grill", "label": "10. John's Grill", "ctaUrl": "https://maps.google.com/?q=John's+Grill+Union+Square+San+Francisco", "mapQuery": "John's Grill, Union Square, San Francisco", "lat": 37.785, "lng": -122.4069}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

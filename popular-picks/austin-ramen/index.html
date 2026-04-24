@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Ramen Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/ramen+in+Austin", "picks": [{"anchorId": "ramen-tatsu-ya", "rank": 1, "name": "Ramen Tatsu-ya", "label": "1. Ramen Tatsu-ya", "ctaUrl": "https://maps.google.com/?q=Ramen+Tatsu-ya+South+Lamar+Austin", "mapQuery": "Ramen Tatsu-ya, South Lamar, Austin", "lat": 30.252, "lng": -97.7709}, {"anchorId": "michi-ramen", "rank": 2, "name": "Michi Ramen", "label": "2. Michi Ramen", "ctaUrl": "https://maps.google.com/?q=Michi+Ramen+North+Loop+Austin", "mapQuery": "Michi Ramen, North Loop, Austin", "lat": 30.3204, "lng": -97.7289}, {"anchorId": "sazan-ramen", "rank": 3, "name": "Sazan Ramen", "label": "3. Sazan Ramen", "ctaUrl": "https://maps.google.com/?q=Sazan+Ramen+North+Burnet+Austin", "mapQuery": "Sazan Ramen, North Burnet, Austin", "lat": 30.3444, "lng": -97.7281}, {"anchorId": "jinya-ramen-bar", "rank": 4, "name": "Jinya Ramen Bar", "label": "4. Jinya Ramen Bar", "ctaUrl": "https://maps.google.com/?q=Jinya+Ramen+Bar+The+Domain+Austin", "mapQuery": "Jinya Ramen Bar, The Domain, Austin", "lat": 30.3957, "lng": -97.7335}, {"anchorId": "ramen-del-barrio", "rank": 5, "name": "Ramen del Barrio", "label": "5. Ramen del Barrio", "ctaUrl": "https://maps.google.com/?q=Ramen+del+Barrio+East+Austin+Austin", "mapQuery": "Ramen del Barrio, East Austin, Austin", "lat": 30.2608, "lng": -97.7032}, {"anchorId": "domo-alley-gato", "rank": 6, "name": "Domo Alley-Gato", "label": "6. Domo Alley-Gato", "ctaUrl": "https://maps.google.com/?q=Domo+Alley-Gato+East+Austin+Austin", "mapQuery": "Domo Alley-Gato, East Austin, Austin", "lat": 30.2647, "lng": -97.728}, {"anchorId": "maru-ramen", "rank": 7, "name": "Maru Ramen", "label": "7. Maru Ramen", "ctaUrl": "https://maps.google.com/?q=Maru+Ramen+Mueller+Austin", "mapQuery": "Maru Ramen, Mueller, Austin", "lat": 30.2809, "lng": -97.7088}, {"anchorId": "hanabi-ramen-izakaya", "rank": 8, "name": "Hanabi Ramen & Izakaya", "label": "8. Hanabi Ramen & Izakaya", "ctaUrl": "https://maps.google.com/?q=Hanabi+Ramen+&+Izakaya+North+Austin+Austin", "mapQuery": "Hanabi Ramen & Izakaya, North Austin, Austin", "lat": 30.3664, "lng": -97.7371}, {"anchorId": "kokodak-ramen", "rank": 9, "name": "Kokodak Ramen", "label": "9. Kokodak Ramen", "ctaUrl": "https://maps.google.com/?q=Kokodak+Ramen+South+Austin+Austin", "mapQuery": "Kokodak Ramen, South Austin, Austin", "lat": 30.223, "lng": -97.7946}, {"anchorId": "texas-ramen", "rank": 10, "name": "Texas Ramen", "label": "10. Texas Ramen", "ctaUrl": "https://maps.google.com/?q=Texas+Ramen+West+Campus+Austin", "mapQuery": "Texas Ramen, West Campus, Austin", "lat": 30.2874, "lng": -97.741}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

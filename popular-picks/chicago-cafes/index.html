@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cafes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cafes+in+Chicago", "picks": [{"anchorId": "intelligentsia-coffee", "rank": 1, "name": "Intelligentsia Coffee", "label": "1. Intelligentsia Coffee", "ctaUrl": "https://maps.google.com/?q=Intelligentsia+Coffee+The+Loop+Chicago", "mapQuery": "Intelligentsia Coffee, The Loop, Chicago", "lat": 41.88456, "lng": -87.62534}, {"anchorId": "beatrix", "rank": 2, "name": "Beatrix", "label": "2. Beatrix", "ctaUrl": "https://maps.google.com/?q=Beatrix+River+North+Chicago", "mapQuery": "Beatrix, River North, Chicago", "lat": 41.8924, "lng": -87.6322}, {"anchorId": "sawada-coffee", "rank": 3, "name": "Sawada Coffee", "label": "3. Sawada Coffee", "ctaUrl": "https://maps.google.com/?q=Sawada+Coffee+West+Loop+Chicago", "mapQuery": "Sawada Coffee, West Loop, Chicago", "lat": 41.8837, "lng": -87.6483}, {"anchorId": "big-shoulders-coffee", "rank": 4, "name": "Big Shoulders Coffee", "label": "4. Big Shoulders Coffee", "ctaUrl": "https://maps.google.com/?q=Big+Shoulders+Coffee+Gold+Coast+Chicago", "mapQuery": "Big Shoulders Coffee, Gold Coast, Chicago", "lat": 41.9026, "lng": -87.6346}, {"anchorId": "fairgrounds-craft-coffee-and-tea", "rank": 5, "name": "Fairgrounds Craft Coffee and Tea", "label": "5. Fairgrounds Craft Coffee and Tea", "ctaUrl": "https://maps.google.com/?q=Fairgrounds+Craft+Coffee+and+Tea+The+Loop+Chicago", "mapQuery": "Fairgrounds Craft Coffee and Tea, The Loop, Chicago", "lat": 41.8814, "lng": -87.6247}, {"anchorId": "limitless-coffee-tea", "rank": 6, "name": "Limitless Coffee & Tea", "label": "6. Limitless Coffee & Tea", "ctaUrl": "https://maps.google.com/?q=Limitless+Coffee+&+Tea+River+North+Chicago", "mapQuery": "Limitless Coffee & Tea, River North, Chicago", "lat": 41.8943, "lng": -87.6369}, {"anchorId": "dollop-coffee-co", "rank": 7, "name": "Dollop Coffee Co.", "label": "7. Dollop Coffee Co.", "ctaUrl": "https://maps.google.com/?q=Dollop+Coffee+Co.+Streeterville+Chicago", "mapQuery": "Dollop Coffee Co., Streeterville, Chicago", "lat": 41.8922, "lng": -87.6186}, {"anchorId": "the-coffee-tea-exchange", "rank": 8, "name": "The Coffee & Tea Exchange", "label": "8. The Coffee & Tea Exchange", "ctaUrl": "https://maps.google.com/?q=The+Coffee+&+Tea+Exchange+Lincoln+Park+Chicago", "mapQuery": "The Coffee & Tea Exchange, Lincoln Park, Chicago", "lat": 41.9163, "lng": -87.6358}, {"anchorId": "kusanya-cafe", "rank": 9, "name": "Kusanya Cafe", "label": "9. Kusanya Cafe", "ctaUrl": "https://maps.google.com/?q=Kusanya+Cafe+Englewood+Chicago", "mapQuery": "Kusanya Cafe, Englewood, Chicago", "lat": 41.7679, "lng": -87.6469}, {"anchorId": "cafe-dafrique", "rank": 10, "name": "Cafe D'Afrique", "label": "10. Cafe D'Afrique", "ctaUrl": "https://maps.google.com/?q=Cafe+D'Afrique+Bronzeville+Chicago", "mapQuery": "Cafe D'Afrique, Bronzeville, Chicago", "lat": 41.8173, "lng": -87.6171}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

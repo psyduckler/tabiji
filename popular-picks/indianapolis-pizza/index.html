@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Indianapolis", "picks": [{"anchorId": "king-dough", "rank": 1, "name": "King Dough", "label": "1. King Dough", "ctaUrl": "https://maps.google.com/?q=King+Dough+Fountain+Square+Indianapolis", "mapQuery": "King Dough, Fountain Square, Indianapolis", "lat": 39.757056, "lng": -86.136278}, {"anchorId": "napolese-pizzeria", "rank": 2, "name": "Napolese Pizzeria", "label": "2. Napolese Pizzeria", "ctaUrl": "https://maps.google.com/?q=Napolese+Pizzeria+Meridian-Kessler+/+Broad+Ripple+Indianapolis", "mapQuery": "Napolese Pizzeria, Meridian-Kessler / Broad Ripple, Indianapolis", "lat": 39.845014, "lng": -86.147772}, {"anchorId": "bazbeaux-pizza", "rank": 3, "name": "Bazbeaux Pizza", "label": "3. Bazbeaux Pizza", "ctaUrl": "https://maps.google.com/?q=Bazbeaux+Pizza+Mass+Ave+/+Broad+Ripple+Indianapolis", "mapQuery": "Bazbeaux Pizza, Mass Ave / Broad Ripple, Indianapolis", "lat": 39.774438, "lng": -86.15174}, {"anchorId": "pearl-street-pizzeria-pub", "rank": 4, "name": "Pearl Street Pizzeria & Pub", "label": "4. Pearl Street Pizzeria & Pub", "ctaUrl": "https://maps.google.com/?q=Pearl+Street+Pizzeria+&+Pub+Downtown+Indianapolis", "mapQuery": "Pearl Street Pizzeria & Pub, Downtown, Indianapolis", "lat": 39.765667, "lng": -86.155498}, {"anchorId": "jockamo-upper-crust-pizza", "rank": 5, "name": "Jockamo Upper Crust Pizza", "label": "5. Jockamo Upper Crust Pizza", "ctaUrl": "https://maps.google.com/?q=Jockamo+Upper+Crust+Pizza+Irvington+/+Greenwood+Indianapolis", "mapQuery": "Jockamo Upper Crust Pizza, Irvington / Greenwood, Indianapolis", "lat": 39.77582, "lng": -86.07923}, {"anchorId": "brozinni-pizzeria", "rank": 6, "name": "Brozinni Pizzeria", "label": "6. Brozinni Pizzeria", "ctaUrl": "https://maps.google.com/?q=Brozinni+Pizzeria+Southport+/+Noblesville+Indianapolis", "mapQuery": "Brozinni Pizzeria, Southport / Noblesville, Indianapolis", "lat": 39.63717, "lng": -86.09636}, {"anchorId": "ale-emporium", "rank": 7, "name": "Ale Emporium", "label": "7. Ale Emporium", "ctaUrl": "https://maps.google.com/?q=Ale+Emporium+Castleton+/+Fishers+Indianapolis", "mapQuery": "Ale Emporium, Castleton / Fishers, Indianapolis", "lat": 39.90795, "lng": -86.07187}, {"anchorId": "greeks-pizzeria", "rank": 8, "name": "Greek's Pizzeria", "label": "8. Greek's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Greek's+Pizzeria+Broad+Ripple+/+Downtown+/+Various+Indianapolis", "mapQuery": "Greek's Pizzeria, Broad Ripple / Downtown / Various, Indianapolis", "lat": 39.85966, "lng": -86.13627}, {"anchorId": "byrnes-pizza", "rank": 9, "name": "Byrne's Pizza", "label": "9. Byrne's Pizza", "ctaUrl": "https://maps.google.com/?q=Byrne's+Pizza+West+Side+Indianapolis", "mapQuery": "Byrne's Pizza, West Side, Indianapolis", "lat": 39.80312, "lng": -86.26257}, {"anchorId": "puccinis-smiling-teeth-pizza-pasta", "rank": 10, "name": "Puccini's Smiling Teeth Pizza & Pasta", "label": "10. Puccini's Smiling Teeth Pizza & Pasta", "ctaUrl": "https://maps.google.com/?q=Puccini's+Smiling+Teeth+Pizza+&+Pasta+Various+Indianapolis", "mapQuery": "Puccini's Smiling Teeth Pizza & Pasta, Various, Indianapolis", "lat": 39.9197, "lng": -86.22384}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

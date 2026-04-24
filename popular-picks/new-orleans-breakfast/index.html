@@ -1552,73 +1552,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Breakfast Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/breakfast+in+New+Orleans", "picks": [{"anchorId": "brennans", "rank": 1, "name": "Brennan's", "label": "1. Brennan's", "ctaUrl": "https://maps.google.com/?q=Brennan's+French+Quarter+New+Orleans", "mapQuery": "Brennan's, French Quarter, New Orleans", "lat": 29.957591, "lng": -90.067339}, {"anchorId": "the-ruby-slipper-cafe", "rank": 2, "name": "The Ruby Slipper Cafe", "label": "2. The Ruby Slipper Cafe", "ctaUrl": "https://maps.google.com/?q=The+Ruby+Slipper+Cafe+Mid-City+New+Orleans", "mapQuery": "The Ruby Slipper Cafe, Mid-City, New Orleans", "lat": 29.967605, "lng": -90.090332}, {"anchorId": "elizabeths-restaurant", "rank": 3, "name": "Elizabeth's Restaurant", "label": "3. Elizabeth's Restaurant", "ctaUrl": "https://maps.google.com/?q=Elizabeth's+Restaurant+Bywater+New+Orleans", "mapQuery": "Elizabeth's Restaurant, Bywater, New Orleans", "lat": 29.961012, "lng": -90.045868}, {"anchorId": "bearcat-cafe", "rank": 4, "name": "Bearcat Cafe", "label": "4. Bearcat Cafe", "ctaUrl": "https://maps.google.com/?q=Bearcat+Cafe+Central+Business+District+(CBD)+New+Orleans", "mapQuery": "Bearcat Cafe, Central Business District (CBD), New Orleans", "lat": 29.946395, "lng": -90.075902}, {"anchorId": "willa-jean", "rank": 5, "name": "Willa Jean", "label": "5. Willa Jean", "ctaUrl": "https://maps.google.com/?q=Willa+Jean+Central+Business+District+(CBD)+New+Orleans", "mapQuery": "Willa Jean, Central Business District (CBD), New Orleans", "lat": 29.951163, "lng": -90.076899}, {"anchorId": "stanley-restaurant", "rank": 6, "name": "Stanley Restaurant", "label": "6. Stanley Restaurant", "ctaUrl": "https://maps.google.com/?q=Stanley+Restaurant+French+Quarter+New+Orleans", "mapQuery": "Stanley Restaurant, French Quarter, New Orleans", "lat": 29.95764, "lng": -90.06421}, {"anchorId": "toast", "rank": 7, "name": "Toast", "label": "7. Toast", "ctaUrl": "https://maps.google.com/?q=Toast+Uptown+New+Orleans", "mapQuery": "Toast, Uptown, New Orleans", "lat": 29.93223, "lng": -90.106591}, {"anchorId": "croissant-dor-patisserie", "rank": 8, "name": "Croissant D'Or Patisserie", "label": "8. Croissant D'Or Patisserie", "ctaUrl": "https://maps.google.com/?q=Croissant+D'Or+Patisserie+French+Quarter+New+Orleans", "mapQuery": "Croissant D'Or Patisserie, French Quarter, New Orleans", "lat": 29.959083, "lng": -90.06456}, {"anchorId": "café-du-monde", "rank": 9, "name": "Café Du Monde", "label": "9. Café Du Monde", "ctaUrl": "https://maps.google.com/?q=Café+Du+Monde+French+Quarter+New+Orleans", "mapQuery": "Café Du Monde, French Quarter, New Orleans", "lat": 29.95748, "lng": -90.06208}, {"anchorId": "slim-goodies-diner", "rank": 10, "name": "Slim Goodies Diner", "label": "10. Slim Goodies Diner", "ctaUrl": "https://maps.google.com/?q=Slim+Goodies+Diner+Lower+Garden+District+New+Orleans", "mapQuery": "Slim Goodies Diner, Lower Garden District, New Orleans", "lat": 29.92723, "lng": -90.09117}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

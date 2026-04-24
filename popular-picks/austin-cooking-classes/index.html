@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cooking Classes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cooking+classes+in+Austin", "picks": [{"anchorId": "central-market-cooking-school", "rank": 1, "name": "Central Market Cooking School", "label": "1. Central Market Cooking School", "ctaUrl": "https://maps.google.com/?q=Central+Market+Cooking+School+North+Austin+Austin", "mapQuery": "Central Market Cooking School, North Austin, Austin", "lat": 30.306, "lng": -97.7473}, {"anchorId": "dovetail-co", "rank": 2, "name": "Dovetail & Co.", "label": "2. Dovetail & Co.", "ctaUrl": "https://maps.google.com/?q=Dovetail+&+Co.+South+Austin+Austin", "mapQuery": "Dovetail & Co., South Austin, Austin", "lat": 30.2372, "lng": -97.7667}, {"anchorId": "farmhouse-kitchen-austin", "rank": 3, "name": "Farmhouse Kitchen Austin", "label": "3. Farmhouse Kitchen Austin", "ctaUrl": "https://maps.google.com/?q=Farmhouse+Kitchen+Austin+South+Austin+(Manchaca+area)+Austin", "mapQuery": "Farmhouse Kitchen Austin, South Austin (Manchaca area), Austin", "lat": 30.1332, "lng": -97.882}, {"anchorId": "sustainable-food-center", "rank": 4, "name": "Sustainable Food Center", "label": "4. Sustainable Food Center", "ctaUrl": "https://maps.google.com/?q=Sustainable+Food+Center+East+Austin+Austin", "mapQuery": "Sustainable Food Center, East Austin, Austin", "lat": 30.2709, "lng": -97.7126}, {"anchorId": "con-olio-oils-vinegars", "rank": 5, "name": "Con' Olio Oils & Vinegars", "label": "5. Con' Olio Oils & Vinegars", "ctaUrl": "https://maps.google.com/?q=Con'+Olio+Oils+&+Vinegars+Gateway+(North+Austin)+Austin", "mapQuery": "Con' Olio Oils & Vinegars, Gateway (North Austin), Austin", "lat": 30.398, "lng": -97.7408}, {"anchorId": "the-cooks-nook", "rank": 6, "name": "The Cook's Nook", "label": "6. The Cook's Nook", "ctaUrl": "https://maps.google.com/?q=The+Cook's+Nook+East+Austin+Austin", "mapQuery": "The Cook's Nook, East Austin, Austin", "lat": 30.252, "lng": -97.6836}, {"anchorId": "taste-buds-kitchen-austin", "rank": 7, "name": "Taste Buds Kitchen Austin", "label": "7. Taste Buds Kitchen Austin", "ctaUrl": "https://maps.google.com/?q=Taste+Buds+Kitchen+Austin+West+Lake+Hills+Austin", "mapQuery": "Taste Buds Kitchen Austin, West Lake Hills, Austin", "lat": 30.3015, "lng": -97.8091}, {"anchorId": "sur-la-table", "rank": 8, "name": "Sur La Table", "label": "8. Sur La Table", "ctaUrl": "https://maps.google.com/?q=Sur+La+Table+The+Domain+Austin", "mapQuery": "Sur La Table, The Domain, Austin", "lat": 30.4038, "lng": -97.7203}, {"anchorId": "antonellis-cheese-shop", "rank": 9, "name": "Antonelli's Cheese Shop", "label": "9. Antonelli's Cheese Shop", "ctaUrl": "https://maps.google.com/?q=Antonelli's+Cheese+Shop+Hyde+Park+Austin", "mapQuery": "Antonelli's Cheese Shop, Hyde Park, Austin", "lat": 30.3069, "lng": -97.7265}, {"anchorId": "the-culinary-room", "rank": 10, "name": "The Culinary Room", "label": "10. The Culinary Room", "ctaUrl": "https://maps.google.com/?q=The+Culinary+Room+South+Austin+Austin", "mapQuery": "The Culinary Room, South Austin, Austin", "lat": 30.2033, "lng": -97.8925}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

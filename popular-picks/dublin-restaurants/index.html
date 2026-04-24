@@ -1542,73 +1542,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Dublin", "picks": [{"anchorId": "chapter-one-by-mickael-viljanen", "rank": 1, "name": "Chapter One by Mickael Viljanen", "label": "1. Chapter One by Mickael Viljanen", "ctaUrl": "https://maps.google.com/?q=Chapter+One+by+Mickael+Viljanen+Parnell+Square+Dublin", "mapQuery": "Chapter One by Mickael Viljanen, Parnell Square, Dublin", "lat": 53.3546, "lng": -6.2647}, {"anchorId": "the-winding-stair", "rank": 2, "name": "The Winding Stair", "label": "2. The Winding Stair", "ctaUrl": "https://maps.google.com/?q=The+Winding+Stair+Bachelors+Walk+Dublin", "mapQuery": "The Winding Stair, Bachelors Walk, Dublin", "lat": 53.3468, "lng": -6.2649}, {"anchorId": "pichet", "rank": 3, "name": "Pichet", "label": "3. Pichet", "ctaUrl": "https://maps.google.com/?q=Pichet+South+Great+George's+Street+Dublin", "mapQuery": "Pichet, South Great George's Street, Dublin", "lat": 53.3435, "lng": -6.2647}, {"anchorId": "777-restaurant", "rank": 4, "name": "777 Restaurant", "label": "4. 777 Restaurant", "ctaUrl": "https://maps.google.com/?q=777+Restaurant+South+Great+George's+Street+Dublin", "mapQuery": "777 Restaurant, South Great George's Street, Dublin", "lat": 53.3429, "lng": -6.2655}, {"anchorId": "bunsen", "rank": 5, "name": "Bunsen", "label": "5. Bunsen", "ctaUrl": "https://maps.google.com/?q=Bunsen+Wexford+Street+Dublin", "mapQuery": "Bunsen, Wexford Street, Dublin", "lat": 53.3364, "lng": -6.2652}, {"anchorId": "fish-shop", "rank": 6, "name": "Fish Shop", "label": "6. Fish Shop", "ctaUrl": "https://maps.google.com/?q=Fish+Shop+Smithfield+Dublin", "mapQuery": "Fish Shop, Smithfield, Dublin", "lat": 53.3479, "lng": -6.2798}, {"anchorId": "fallon-byrne-restaurant", "rank": 7, "name": "Fallon & Byrne Restaurant", "label": "7. Fallon & Byrne Restaurant", "ctaUrl": "https://maps.google.com/?q=Fallon+&+Byrne+Restaurant+Exchequer+Street+Dublin", "mapQuery": "Fallon & Byrne Restaurant, Exchequer Street, Dublin", "lat": 53.3433, "lng": -6.2655}, {"anchorId": "lgueuleton", "rank": 8, "name": "L'Gueuleton", "label": "8. L'Gueuleton", "ctaUrl": "https://maps.google.com/?q=L'Gueuleton+Fade+Street+Dublin", "mapQuery": "L'Gueuleton, Fade Street, Dublin", "lat": 53.3429, "lng": -6.2638}, {"anchorId": "big-fan-bao", "rank": 9, "name": "Big Fan Bao", "label": "9. Big Fan Bao", "ctaUrl": "https://maps.google.com/?q=Big+Fan+Bao+Aungier+Street+Dublin", "mapQuery": "Big Fan Bao, Aungier Street, Dublin", "lat": 53.3413, "lng": -6.2654}, {"anchorId": "bullet-duck-dumplings", "rank": 10, "name": "Bullet Duck & Dumplings", "label": "10. Bullet Duck & Dumplings", "ctaUrl": "https://maps.google.com/?q=Bullet+Duck+&+Dumplings+Capel+Street+Dublin", "mapQuery": "Bullet Duck & Dumplings, Capel Street, Dublin", "lat": 53.3484, "lng": -6.2687}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

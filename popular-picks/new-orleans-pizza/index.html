@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+New+Orleans", "picks": [{"anchorId": "ancora-pizzeria-salumeria", "rank": 1, "name": "Ancora Pizzeria & Salumeria", "label": "1. Ancora Pizzeria & Salumeria", "ctaUrl": "https://maps.google.com/?q=Ancora+Pizzeria+&+Salumeria+Freret+Street+New+Orleans", "mapQuery": "Ancora Pizzeria & Salumeria, Freret Street, New Orleans", "lat": 29.9329, "lng": -90.0911}, {"anchorId": "pizza-domenica", "rank": 2, "name": "Pizza Domenica", "label": "2. Pizza Domenica", "ctaUrl": "https://maps.google.com/?q=Pizza+Domenica+Central+Business+District+New+Orleans", "mapQuery": "Pizza Domenica, Central Business District, New Orleans", "lat": 29.9458, "lng": -90.0716}, {"anchorId": "pizza-delicious", "rank": 3, "name": "Pizza Delicious", "label": "3. Pizza Delicious", "ctaUrl": "https://maps.google.com/?q=Pizza+Delicious+Bywater+New+Orleans", "mapQuery": "Pizza Delicious, Bywater, New Orleans", "lat": 29.9678, "lng": -90.046}, {"anchorId": "mid-city-pizza", "rank": 4, "name": "Mid City Pizza", "label": "4. Mid City Pizza", "ctaUrl": "https://maps.google.com/?q=Mid+City+Pizza+Mid-City+New+Orleans", "mapQuery": "Mid City Pizza, Mid-City, New Orleans", "lat": 29.9691, "lng": -90.1118}, {"anchorId": "theos-neighborhood-pizza", "rank": 5, "name": "Theo's Neighborhood Pizza", "label": "5. Theo's Neighborhood Pizza", "ctaUrl": "https://maps.google.com/?q=Theo's+Neighborhood+Pizza+Multiple+(Uptown,+Mid-City,+etc.)+New+Orleans", "mapQuery": "Theo's Neighborhood Pizza, Multiple (Uptown, Mid-City, etc.), New Orleans", "lat": 29.9234, "lng": -90.1009}, {"anchorId": "paladar-511", "rank": 6, "name": "Paladar 511", "label": "6. Paladar 511", "ctaUrl": "https://maps.google.com/?q=Paladar+511+Marigny+New+Orleans", "mapQuery": "Paladar 511, Marigny, New Orleans", "lat": 29.9658, "lng": -90.0475}, {"anchorId": "secret-pizza", "rank": 7, "name": "Secret Pizza", "label": "7. Secret Pizza", "ctaUrl": "https://maps.google.com/?q=Secret+Pizza+Central+City+New+Orleans", "mapQuery": "Secret Pizza, Central City, New Orleans", "lat": 29.9358, "lng": -90.0864}, {"anchorId": "louisiana-pizza-kitchen", "rank": 8, "name": "Louisiana Pizza Kitchen", "label": "8. Louisiana Pizza Kitchen", "ctaUrl": "https://maps.google.com/?q=Louisiana+Pizza+Kitchen+French+Market+New+Orleans", "mapQuery": "Louisiana Pizza Kitchen, French Market, New Orleans", "lat": 29.9602, "lng": -90.0617}, {"anchorId": "magazine-pizza", "rank": 9, "name": "Magazine Pizza", "label": "9. Magazine Pizza", "ctaUrl": "https://maps.google.com/?q=Magazine+Pizza+Garden+District+New+Orleans", "mapQuery": "Magazine Pizza, Garden District, New Orleans", "lat": 29.9431, "lng": -90.07}, {"anchorId": "wf-pizza", "rank": 10, "name": "WF Pizza", "label": "10. WF Pizza", "ctaUrl": "https://maps.google.com/?q=WF+Pizza+Mid-City+New+Orleans", "mapQuery": "WF Pizza, Mid-City, New Orleans", "lat": 29.9576, "lng": -90.0984}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pho Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pho+in+Maui", "picks": [{"anchorId": "a-saigon-cafe", "rank": 1, "name": "A Saigon Cafe", "label": "1. A Saigon Cafe", "ctaUrl": "https://maps.google.com/?q=A+Saigon+Cafe+Wailuku+Maui", "mapQuery": "A Saigon Cafe, Wailuku, Maui", "lat": 20.8872, "lng": -156.495}, {"anchorId": "pho-saigon-808", "rank": 2, "name": "Pho Saigon 808", "label": "2. Pho Saigon 808", "ctaUrl": "https://maps.google.com/?q=Pho+Saigon+808+Kihei+Maui", "mapQuery": "Pho Saigon 808, Kihei, Maui", "lat": 20.767, "lng": -156.4673}, {"anchorId": "saigon-vietnamese-cuisine", "rank": 3, "name": "Saigon Vietnamese Cuisine", "label": "3. Saigon Vietnamese Cuisine", "ctaUrl": "https://maps.google.com/?q=Saigon+Vietnamese+Cuisine+Kahului+Maui", "mapQuery": "Saigon Vietnamese Cuisine, Kahului, Maui", "lat": 20.8893, "lng": -156.4687}, {"anchorId": "mama-saigon", "rank": 4, "name": "Mama Saigon", "label": "4. Mama Saigon", "ctaUrl": "https://maps.google.com/?q=Mama+Saigon+Pukalani+Maui", "mapQuery": "Mama Saigon, Pukalani, Maui", "lat": 20.8529, "lng": -156.3667}, {"anchorId": "vietnamese-cuisine", "rank": 5, "name": "Vietnamese Cuisine", "label": "5. Vietnamese Cuisine", "ctaUrl": "https://maps.google.com/?q=Vietnamese+Cuisine+Lahaina+Maui", "mapQuery": "Vietnamese Cuisine, Lahaina, Maui", "lat": 20.871, "lng": -156.6806}, {"anchorId": "fresh-mint", "rank": 6, "name": "Fresh Mint", "label": "6. Fresh Mint", "ctaUrl": "https://maps.google.com/?q=Fresh+Mint+Kihei+Maui", "mapQuery": "Fresh Mint, Kihei, Maui", "lat": 20.7077, "lng": -156.4354}, {"anchorId": "ba-le-sandwiches-bakery", "rank": 7, "name": "Ba-Le Sandwiches & Bakery", "label": "7. Ba-Le Sandwiches & Bakery", "ctaUrl": "https://maps.google.com/?q=Ba-Le+Sandwiches+&+Bakery+Kahului+Maui", "mapQuery": "Ba-Le Sandwiches & Bakery, Kahului, Maui", "lat": 20.8887, "lng": -156.476}, {"anchorId": "pho-kim", "rank": 8, "name": "Pho Kim", "label": "8. Pho Kim", "ctaUrl": "https://maps.google.com/?q=Pho+Kim+Kahului+Maui", "mapQuery": "Pho Kim, Kahului, Maui", "lat": 20.8931, "lng": -156.4789}, {"anchorId": "pho-thanh", "rank": 9, "name": "Pho Thanh", "label": "9. Pho Thanh", "ctaUrl": "https://maps.google.com/?q=Pho+Thanh+Lahaina+Maui", "mapQuery": "Pho Thanh, Lahaina, Maui", "lat": 20.8727, "lng": -156.6816}, {"anchorId": "thong-thai", "rank": 10, "name": "Thong Thai", "label": "10. Thong Thai", "ctaUrl": "https://maps.google.com/?q=Thong+Thai+Kahului+Maui", "mapQuery": "Thong Thai, Kahului, Maui", "lat": 20.8873, "lng": -156.459}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

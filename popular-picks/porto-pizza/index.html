@@ -1574,73 +1574,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Porto", "picks": [{"anchorId": "pizzeria-antonio-mezzero", "rank": 1, "name": "Pizzeria Antonio Mezzero", "label": "1. Pizzeria Antonio Mezzero", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Antonio+Mezzero+Cedofeita+Porto", "mapQuery": "Pizzeria Antonio Mezzero, Cedofeita, Porto", "lat": 41.1524, "lng": -8.6186}, {"anchorId": "comi-e-babei", "rank": 2, "name": "Comi e Babei", "label": "2. Comi e Babei", "ctaUrl": "https://maps.google.com/?q=Comi+e+Babei+Boavista+Porto", "mapQuery": "Comi e Babei, Boavista, Porto", "lat": 41.1576, "lng": -8.636}, {"anchorId": "forneria-são-pedro", "rank": 3, "name": "Forneria São Pedro", "label": "3. Forneria São Pedro", "ctaUrl": "https://maps.google.com/?q=Forneria+São+Pedro+Cedofeita+Porto", "mapQuery": "Forneria São Pedro, Cedofeita, Porto", "lat": 41.1448, "lng": -8.6225}, {"anchorId": "casavostra-pizzaria-cozinha", "rank": 4, "name": "Casavostra Pizzaria & Cozinha", "label": "4. Casavostra Pizzaria & Cozinha", "ctaUrl": "https://maps.google.com/?q=Casavostra+Pizzaria+&+Cozinha+Foz+do+Douro+Porto", "mapQuery": "Casavostra Pizzaria & Cozinha, Foz do Douro, Porto", "lat": 41.1561, "lng": -8.6738}, {"anchorId": "porto-di-vino", "rank": 5, "name": "Porto di Vino", "label": "5. Porto di Vino", "ctaUrl": "https://maps.google.com/?q=Porto+di+Vino+Ribeira+Porto", "mapQuery": "Porto di Vino, Ribeira, Porto", "lat": 41.1408, "lng": -8.6145}, {"anchorId": "pizzaria-luzzo-boavista", "rank": 6, "name": "Pizzaria Luzzo Boavista", "label": "6. Pizzaria Luzzo Boavista", "ctaUrl": "https://maps.google.com/?q=Pizzaria+Luzzo+Boavista+Boavista+Porto", "mapQuery": "Pizzaria Luzzo Boavista, Boavista, Porto", "lat": 41.1578, "lng": -8.6477}, {"anchorId": "il-fornaio-178", "rank": 7, "name": "Il Fornaio 178", "label": "7. Il Fornaio 178", "ctaUrl": "https://maps.google.com/?q=Il+Fornaio+178+Bonfim+Porto", "mapQuery": "Il Fornaio 178, Bonfim, Porto", "lat": 41.1488, "lng": -8.6041}, {"anchorId": "pizzaria-la-fontana", "rank": 8, "name": "Pizzaria La Fontana", "label": "8. Pizzaria La Fontana", "ctaUrl": "https://maps.google.com/?q=Pizzaria+La+Fontana+Bonfim+Porto", "mapQuery": "Pizzaria La Fontana, Bonfim, Porto", "lat": 41.1492, "lng": -8.6033}, {"anchorId": "pizza-doro", "rank": 9, "name": "Pizza D'Oro", "label": "9. Pizza D'Oro", "ctaUrl": "https://maps.google.com/?q=Pizza+D'Oro+Baixa+Porto", "mapQuery": "Pizza D'Oro, Baixa, Porto", "lat": 41.1441, "lng": -8.6083}, {"anchorId": "essência-e-sabor", "rank": 10, "name": "Essência e Sabor", "label": "10. Essência e Sabor", "ctaUrl": "https://maps.google.com/?q=Essência+e+Sabor+Cedofeita+Porto", "mapQuery": "Essência e Sabor, Cedofeita, Porto", "lat": 41.1522, "lng": -8.619}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

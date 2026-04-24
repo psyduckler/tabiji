@@ -1560,73 +1560,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Speakeasy Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/speakeasy+in+Orlando", "picks": [{"anchorId": "hansons-shoe-repair", "rank": 1, "name": "Hanson's Shoe Repair", "label": "1. Hanson's Shoe Repair", "ctaUrl": "https://maps.google.com/?q=Hanson's+Shoe+Repair+Downtown+Orlando+(Wall+Street+Plaza)+Orlando", "mapQuery": "Hanson's Shoe Repair, Downtown Orlando (Wall Street Plaza), Orlando", "lat": 28.54131, "lng": -81.37894}, {"anchorId": "the-courtesy-bar", "rank": 2, "name": "The Courtesy Bar", "label": "2. The Courtesy Bar", "ctaUrl": "https://maps.google.com/?q=The+Courtesy+Bar+Downtown+Orlando+Orlando", "mapQuery": "The Courtesy Bar, Downtown Orlando, Orlando", "lat": 28.54139, "lng": -81.37943}, {"anchorId": "mathers-social-gathering", "rank": 3, "name": "Mathers Social Gathering", "label": "3. Mathers Social Gathering", "ctaUrl": "https://maps.google.com/?q=Mathers+Social+Gathering+Downtown+Orlando+(Central+Business+District)+Orlando", "mapQuery": "Mathers Social Gathering, Downtown Orlando (Central Business District), Orlando", "lat": 28.54041, "lng": -81.37905}, {"anchorId": "the-gibson", "rank": 4, "name": "The Gibson", "label": "4. The Gibson", "ctaUrl": "https://maps.google.com/?q=The+Gibson+Winter+Park+Orlando", "mapQuery": "The Gibson, Winter Park, Orlando", "lat": 28.59972, "lng": -81.35338}, {"anchorId": "the-imperial-at-washburn-imports", "rank": 5, "name": "The Imperial at Washburn Imports", "label": "5. The Imperial at Washburn Imports", "ctaUrl": "https://maps.google.com/?q=The+Imperial+at+Washburn+Imports+Thornton+Park+Orlando", "mapQuery": "The Imperial at Washburn Imports, Thornton Park, Orlando", "lat": 28.56303, "lng": -81.37767}, {"anchorId": "sakaiten", "rank": 6, "name": "SAKAITEN (The Library)", "label": "6. SAKAITEN (The Library)", "ctaUrl": "https://maps.google.com/?q=SAKAITEN+(The+Library)+Winter+Park+(Park+Avenue+area)+Orlando", "mapQuery": "SAKAITEN (The Library), Winter Park (Park Avenue area), Orlando", "lat": 28.59869, "lng": -81.35515}, {"anchorId": "the-neighbors", "rank": 7, "name": "The Neighbors", "label": "7. The Neighbors", "ctaUrl": "https://maps.google.com/?q=The+Neighbors+Audubon+Park+(East+End+Market)+Orlando", "mapQuery": "The Neighbors, Audubon Park (East End Market), Orlando", "lat": 28.57797, "lng": -81.34091}, {"anchorId": "vault-5421", "rank": 8, "name": "Vault 5421", "label": "8. Vault 5421", "ctaUrl": "https://maps.google.com/?q=Vault+5421+International+Drive+/+Artegon+Orlando", "mapQuery": "Vault 5421, International Drive / Artegon, Orlando", "lat": 28.4682, "lng": -81.45899}, {"anchorId": "bar-kada", "rank": 9, "name": "Bar Kada", "label": "9. Bar Kada", "ctaUrl": "https://maps.google.com/?q=Bar+Kada+Winter+Park+Orlando", "mapQuery": "Bar Kada, Winter Park, Orlando", "lat": 28.59868, "lng": -81.35339}, {"anchorId": "swig-swine", "rank": 10, "name": "Swig & Swine", "label": "10. Swig & Swine", "ctaUrl": "https://maps.google.com/?q=Swig+&+Swine+Maitland+Orlando", "mapQuery": "Swig & Swine, Maitland, Orlando", "lat": 28.62534, "lng": -81.36502}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

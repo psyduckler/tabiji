@@ -1548,73 +1548,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bars+in+Boston", "picks": [{"anchorId": "drink", "rank": 1, "name": "Drink", "label": "1. Drink", "ctaUrl": "https://maps.google.com/?q=Drink+Fort+Point+Boston", "mapQuery": "Drink, Fort Point, Boston", "lat": 42.3503, "lng": -71.0494}, {"anchorId": "oak-long-bar-kitchen", "rank": 2, "name": "OAK Long Bar + Kitchen", "label": "2. OAK Long Bar + Kitchen", "ctaUrl": "https://maps.google.com/?q=OAK+Long+Bar+++Kitchen+Back+Bay+Boston", "mapQuery": "OAK Long Bar + Kitchen, Back Bay, Boston", "lat": 42.3506, "lng": -71.0743}, {"anchorId": "yvonnes", "rank": 3, "name": "Yvonne's", "label": "3. Yvonne's", "ctaUrl": "https://maps.google.com/?q=Yvonne's+Downtown+Crossing+Boston", "mapQuery": "Yvonne's, Downtown Crossing, Boston", "lat": 42.3564, "lng": -71.0601}, {"anchorId": "citizen-public-house-oyster-bar", "rank": 4, "name": "Citizen Public House & Oyster Bar", "label": "4. Citizen Public House & Oyster Bar", "ctaUrl": "https://maps.google.com/?q=Citizen+Public+House+&+Oyster+Bar+Fenway+Boston", "mapQuery": "Citizen Public House & Oyster Bar, Fenway, Boston", "lat": 42.3456, "lng": -71.0988}, {"anchorId": "bostonia-public-house", "rank": 5, "name": "Bostonia Public House", "label": "5. Bostonia Public House", "ctaUrl": "https://maps.google.com/?q=Bostonia+Public+House+Financial+District+Boston", "mapQuery": "Bostonia Public House, Financial District, Boston", "lat": 42.3582, "lng": -71.0553}, {"anchorId": "trillium-brewing-company", "rank": 6, "name": "Trillium Brewing Company (Fort Point)", "label": "6. Trillium Brewing Company (Fort Point)", "ctaUrl": "https://maps.google.com/?q=Trillium+Brewing+Company+(Fort+Point)+Fort+Point+Boston", "mapQuery": "Trillium Brewing Company (Fort Point), Fort Point, Boston", "lat": 42.3506, "lng": -71.0494}, {"anchorId": "the-beehive", "rank": 7, "name": "The Beehive", "label": "7. The Beehive", "ctaUrl": "https://maps.google.com/?q=The+Beehive+South+End+Boston", "mapQuery": "The Beehive, South End, Boston", "lat": 42.3435, "lng": -71.0665}, {"anchorId": "jj-foleys-cafe", "rank": 8, "name": "J.J. Foley's Cafe", "label": "8. J.J. Foley's Cafe", "ctaUrl": "https://maps.google.com/?q=J.J.+Foley's+Cafe+South+End+Boston", "mapQuery": "J.J. Foley's Cafe, South End, Boston", "lat": 42.3459, "lng": -71.0664}, {"anchorId": "bell-in-hand-tavern", "rank": 9, "name": "Bell in Hand Tavern", "label": "9. Bell in Hand Tavern", "ctaUrl": "https://maps.google.com/?q=Bell+in+Hand+Tavern+Faneuil+Hall+Boston", "mapQuery": "Bell in Hand Tavern, Faneuil Hall, Boston", "lat": 42.3601, "lng": -71.0573}, {"anchorId": "silvertone-bar-grill", "rank": 10, "name": "Silvertone Bar & Grill", "label": "10. Silvertone Bar & Grill", "ctaUrl": "https://maps.google.com/?q=Silvertone+Bar+&+Grill+Downtown+Crossing+Boston", "mapQuery": "Silvertone Bar & Grill, Downtown Crossing, Boston", "lat": 42.3557, "lng": -71.0605}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Ho+Chi+Minh+City", "picks": [{"anchorId": "anan-saigon", "rank": 1, "name": "Anan Saigon", "label": "1. Anan Saigon", "ctaUrl": "https://maps.google.com/?q=Anan+Saigon+District+1+(Cho+Cu/Old+Market)+Ho+Chi+Minh+City", "mapQuery": "Anan Saigon, District 1 (Cho Cu/Old Market), Ho Chi Minh City", "lat": 10.7761, "lng": 106.702}, {"anchorId": "pizza-4ps", "rank": 2, "name": "Pizza 4P's", "label": "2. Pizza 4P's", "ctaUrl": "https://maps.google.com/?q=Pizza+4P's+District+1+(Multiple+locations,+e.g.,+Le+Thanh+Ton)+Ho+Chi+Minh+City", "mapQuery": "Pizza 4P's, District 1 (Multiple locations, e.g., Le Thanh Ton), Ho Chi Minh City", "lat": 10.7788, "lng": 106.7037}, {"anchorId": "cục-gạch-quán", "rank": 3, "name": "Cục Gạch Quán", "label": "3. Cục Gạch Quán", "ctaUrl": "https://maps.google.com/?q=Cục+Gạch+Quán+District+1+(Binh+Thanh+border)+Ho+Chi+Minh+City", "mapQuery": "Cục Gạch Quán, District 1 (Binh Thanh border), Ho Chi Minh City", "lat": 10.7891, "lng": 106.6974}, {"anchorId": "phở-lệ", "rank": 4, "name": "Phở Lệ", "label": "4. Phở Lệ", "ctaUrl": "https://maps.google.com/?q=Phở+Lệ+District+3+Ho+Chi+Minh+City", "mapQuery": "Phở Lệ, District 3, Ho Chi Minh City", "lat": 10.757, "lng": 106.6713}, {"anchorId": "ngon-villa", "rank": 5, "name": "Ngon Villa", "label": "5. Ngon Villa", "ctaUrl": "https://maps.google.com/?q=Ngon+Villa+District+1+Ho+Chi+Minh+City", "mapQuery": "Ngon Villa, District 1, Ho Chi Minh City", "lat": 10.7885, "lng": 106.6976}, {"anchorId": "the-deck-saigon", "rank": 6, "name": "The Deck Saigon", "label": "6. The Deck Saigon", "ctaUrl": "https://maps.google.com/?q=The+Deck+Saigon+District+2+(Thao+Dien)+Ho+Chi+Minh+City", "mapQuery": "The Deck Saigon, District 2 (Thao Dien), Ho Chi Minh City", "lat": 10.7937, "lng": 106.757}, {"anchorId": "bún-chả-145-bùi-viện", "rank": 7, "name": "Bún Chả 145 Bùi Viện", "label": "7. Bún Chả 145 Bùi Viện", "ctaUrl": "https://maps.google.com/?q=Bún+Chả+145+Bùi+Viện+District+1+(Bui+Vien+Walking+Street)+Ho+Chi+Minh+City", "mapQuery": "Bún Chả 145 Bùi Viện, District 1 (Bui Vien Walking Street), Ho Chi Minh City", "lat": 10.7663, "lng": 106.6924}, {"anchorId": "secret-garden-restaurant", "rank": 8, "name": "Secret Garden Restaurant", "label": "8. Secret Garden Restaurant", "ctaUrl": "https://maps.google.com/?q=Secret+Garden+Restaurant+District+1+Ho+Chi+Minh+City", "mapQuery": "Secret Garden Restaurant, District 1, Ho Chi Minh City", "lat": 10.7766, "lng": 106.6974}, {"anchorId": "hoàng-yến-vietnamese-cuisine", "rank": 9, "name": "Hoàng Yến Vietnamese Cuisine", "label": "9. Hoàng Yến Vietnamese Cuisine", "ctaUrl": "https://maps.google.com/?q=Hoàng+Yến+Vietnamese+Cuisine+District+1+(Multiple+locations,+e.g.,+Vincom+Center)+Ho+Chi+Minh+City", "mapQuery": "Hoàng Yến Vietnamese Cuisine, District 1 (Multiple locations, e.g., Vincom Center), Ho Chi Minh City", "lat": 10.7788, "lng": 106.702}, {"anchorId": "bánh-xèo-46a-đinh-công-tráng", "rank": 10, "name": "Bánh Xèo 46A Đinh Công Tráng", "label": "10. Bánh Xèo 46A Đinh Công Tráng", "ctaUrl": "https://maps.google.com/?q=Bánh+Xèo+46A+Đinh+Công+Tráng+District+1+Ho+Chi+Minh+City", "mapQuery": "Bánh Xèo 46A Đinh Công Tráng, District 1, Ho Chi Minh City", "lat": 10.793, "lng": 106.6974}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

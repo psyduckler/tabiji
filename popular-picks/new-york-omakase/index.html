@@ -1512,7 +1512,7 @@
   <h3>More New York guides</h3>
   <p class="related-subtitle">Other curated Reddit-backed picks from New York</p>
   <div class="related-picks-grid">
-    <a href="/popular-picks/best-cheap-eats-new-york/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
+    <a href="/popular-picks/new-york-cheap-eats/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
     <a href="/popular-picks/new-york-bagels/" class="related-pick-link">15 Best Bagels in New York</a>
     <a href="/popular-picks/new-york-pizza/" class="related-pick-link">19 Best Pizza Spots in New York City</a>
     <a href="/popular-picks/new-york-ramen/" class="related-pick-link">18 Best Ramen in New York City</a>
@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Omakase Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/omakase+in+New+York", "picks": [{"anchorId": "sushi-noz", "rank": 1, "name": "Sushi Noz", "label": "1. Sushi Noz", "ctaUrl": "https://maps.google.com/?q=Sushi+Noz+Upper+East+Side+New+York", "mapQuery": "Sushi Noz, Upper East Side, New York", "lat": 40.771944, "lng": -73.957648}, {"anchorId": "masa", "rank": 2, "name": "Masa", "label": "2. Masa", "ctaUrl": "https://maps.google.com/?q=Masa+Midtown+New+York", "mapQuery": "Masa, Midtown, New York", "lat": 40.767909, "lng": -73.9822}, {"anchorId": "sushi-nakazawa", "rank": 3, "name": "Sushi Nakazawa", "label": "3. Sushi Nakazawa", "ctaUrl": "https://maps.google.com/?q=Sushi+Nakazawa+West+Village+New+York", "mapQuery": "Sushi Nakazawa, West Village, New York", "lat": 40.733118, "lng": -74.004907}, {"anchorId": "sushi-yasuda", "rank": 4, "name": "Sushi Yasuda", "label": "4. Sushi Yasuda", "ctaUrl": "https://maps.google.com/?q=Sushi+Yasuda+Midtown+East+New+York", "mapQuery": "Sushi Yasuda, Midtown East, New York", "lat": 40.753303, "lng": -73.974775}, {"anchorId": "shion-69-leonard-street", "rank": 5, "name": "Shion 69 Leonard Street", "label": "5. Shion 69 Leonard Street", "ctaUrl": "https://maps.google.com/?q=Shion+69+Leonard+Street+Tribeca+New+York", "mapQuery": "Shion 69 Leonard Street, Tribeca, New York", "lat": 40.71908, "lng": -74.00445}, {"anchorId": "joji-nyc", "rank": 6, "name": "Joji NYC", "label": "6. Joji NYC", "ctaUrl": "https://maps.google.com/?q=Joji+NYC+Midtown+East+New+York", "mapQuery": "Joji NYC, Midtown East, New York", "lat": 40.753303, "lng": -73.977464}, {"anchorId": "omakase-by-korami", "rank": 7, "name": "Omakase by Korami", "label": "7. Omakase by Korami", "ctaUrl": "https://maps.google.com/?q=Omakase+by+Korami+East+Village+New+York", "mapQuery": "Omakase by Korami, East Village, New York", "lat": 40.72621, "lng": -73.98972}, {"anchorId": "sushi-on-jones", "rank": 8, "name": "Sushi on Jones", "label": "8. Sushi on Jones", "ctaUrl": "https://maps.google.com/?q=Sushi+on+Jones+West+Village+New+York", "mapQuery": "Sushi on Jones, West Village, New York", "lat": 40.730198, "lng": -74.001552}, {"anchorId": "uogashi", "rank": 9, "name": "Uogashi", "label": "9. Uogashi", "ctaUrl": "https://maps.google.com/?q=Uogashi+Chelsea+New+York", "mapQuery": "Uogashi, Chelsea, New York", "lat": 40.74542, "lng": -74.00392}, {"anchorId": "sushi-35-west", "rank": 10, "name": "Sushi 35 West", "label": "10. Sushi 35 West", "ctaUrl": "https://maps.google.com/?q=Sushi+35+West+Midtown+West+New+York", "mapQuery": "Sushi 35 West, Midtown West, New York", "lat": 40.75231, "lng": -73.98933}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

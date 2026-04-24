@@ -1578,73 +1578,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Restaurants Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/restaurants+in+Kyoto", "picks": [{"anchorId": "honke-owariya", "rank": 1, "name": "Honke Owariya", "label": "1. Honke Owariya", "ctaUrl": "https://maps.google.com/?q=Honke+Owariya+Central+Kyoto+Kyoto", "mapQuery": "Honke Owariya, Central Kyoto, Kyoto", "lat": 35.0116, "lng": 135.7617}, {"anchorId": "tempura-endo-yasaka", "rank": 2, "name": "Tempura Endo Yasaka", "label": "2. Tempura Endo Yasaka", "ctaUrl": "https://maps.google.com/?q=Tempura+Endo+Yasaka+Gion+Kyoto", "mapQuery": "Tempura Endo Yasaka, Gion, Kyoto", "lat": 35.0007, "lng": 135.7806}, {"anchorId": "gion-karyo", "rank": 3, "name": "Gion Karyo", "label": "3. Gion Karyo", "ctaUrl": "https://maps.google.com/?q=Gion+Karyo+Gion+Kyoto", "mapQuery": "Gion Karyo, Gion, Kyoto", "lat": 35.0003, "lng": 135.7778}, {"anchorId": "ramen-sen-no-kaze-kyoto", "rank": 4, "name": "Ramen Sen no Kaze Kyoto", "label": "4. Ramen Sen no Kaze Kyoto", "ctaUrl": "https://maps.google.com/?q=Ramen+Sen+no+Kaze+Kyoto+Kyoto+Station+Kyoto", "mapQuery": "Ramen Sen no Kaze Kyoto, Kyoto Station, Kyoto", "lat": 34.989, "lng": 135.7596}, {"anchorId": "sushi-no-musashi", "rank": 5, "name": "Sushi no Musashi", "label": "5. Sushi no Musashi", "ctaUrl": "https://maps.google.com/?q=Sushi+no+Musashi+Kyoto+Station+Kyoto", "mapQuery": "Sushi no Musashi, Kyoto Station, Kyoto", "lat": 34.9866, "lng": 135.7594}, {"anchorId": "kyoto-gogyo", "rank": 6, "name": "Kyoto Gogyo", "label": "6. Kyoto Gogyo", "ctaUrl": "https://maps.google.com/?q=Kyoto+Gogyo+Karasuma/Shijo+Kyoto", "mapQuery": "Kyoto Gogyo, Karasuma/Shijo, Kyoto", "lat": 35.0069, "lng": 135.7607}, {"anchorId": "pontocho-yakiniku-yaruki", "rank": 7, "name": "Pontocho Yakiniku Yaruki", "label": "7. Pontocho Yakiniku Yaruki", "ctaUrl": "https://maps.google.com/?q=Pontocho+Yakiniku+Yaruki+Pontocho+Kyoto", "mapQuery": "Pontocho Yakiniku Yaruki, Pontocho, Kyoto", "lat": 35.0069, "lng": 135.7705}, {"anchorId": "saryo-tsujiri-gion-honten", "rank": 8, "name": "Saryo Tsujiri Gion Honten", "label": "8. Saryo Tsujiri Gion Honten", "ctaUrl": "https://maps.google.com/?q=Saryo+Tsujiri+Gion+Honten+Gion+Kyoto", "mapQuery": "Saryo Tsujiri Gion Honten, Gion, Kyoto", "lat": 35.0035, "lng": 135.7766}, {"anchorId": "okakita", "rank": 9, "name": "Okakita", "label": "9. Okakita", "ctaUrl": "https://maps.google.com/?q=Okakita+Higashiyama+Kyoto", "mapQuery": "Okakita, Higashiyama, Kyoto", "lat": 35.0116, "lng": 135.7818}, {"anchorId": "teppanyaki-manryu", "rank": 10, "name": "Teppanyaki Manryu", "label": "10. Teppanyaki Manryu", "ctaUrl": "https://maps.google.com/?q=Teppanyaki+Manryu+Gion+Kyoto", "mapQuery": "Teppanyaki Manryu, Gion, Kyoto", "lat": 35.0024, "lng": 135.7758}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

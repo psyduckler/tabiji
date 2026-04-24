@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pho Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pho+in+Boston", "picks": [{"anchorId": "pho-le", "rank": 1, "name": "Pho Le", "label": "1. Pho Le", "ctaUrl": "https://maps.google.com/?q=Pho+Le+Dorchester+Boston", "mapQuery": "Pho Le, Dorchester, Boston", "lat": 42.31174, "lng": -71.06014}, {"anchorId": "pho-pasteur", "rank": 2, "name": "Pho Pasteur", "label": "2. Pho Pasteur", "ctaUrl": "https://maps.google.com/?q=Pho+Pasteur+Chinatown+Boston", "mapQuery": "Pho Pasteur, Chinatown, Boston", "lat": 42.35246, "lng": -71.06041}, {"anchorId": "new-dong-khanh", "rank": 3, "name": "New Dong Khanh", "label": "3. New Dong Khanh", "ctaUrl": "https://maps.google.com/?q=New+Dong+Khanh+Chinatown+Boston", "mapQuery": "New Dong Khanh, Chinatown, Boston", "lat": 42.35105, "lng": -71.06013}, {"anchorId": "pho-hoa", "rank": 4, "name": "Pho Hoa", "label": "4. Pho Hoa", "ctaUrl": "https://maps.google.com/?q=Pho+Hoa+Dorchester+Boston", "mapQuery": "Pho Hoa, Dorchester, Boston", "lat": 42.31154, "lng": -71.05943}, {"anchorId": "mỹ-lai", "rank": 5, "name": "Mỹ Lai", "label": "5. Mỹ Lai", "ctaUrl": "https://maps.google.com/?q=Mỹ+Lai+South+End+Boston", "mapQuery": "Mỹ Lai, South End, Boston", "lat": 42.34292, "lng": -71.06733}, {"anchorId": "pho-basil", "rank": 6, "name": "Pho Basil", "label": "6. Pho Basil", "ctaUrl": "https://maps.google.com/?q=Pho+Basil+Back+Bay+Boston", "mapQuery": "Pho Basil, Back Bay, Boston", "lat": 42.3486, "lng": -71.08779}, {"anchorId": "thanh-do", "rank": 7, "name": "Thanh Do", "label": "7. Thanh Do", "ctaUrl": "https://maps.google.com/?q=Thanh+Do+Allston+Boston", "mapQuery": "Thanh Do, Allston, Boston", "lat": 42.3516, "lng": -71.1352}, {"anchorId": "anh-hong", "rank": 8, "name": "Anh Hong", "label": "8. Anh Hong", "ctaUrl": "https://maps.google.com/?q=Anh+Hong+Dorchester+Boston", "mapQuery": "Anh Hong, Dorchester, Boston", "lat": 42.3023, "lng": -71.0518}, {"anchorId": "pho-viets", "rank": 9, "name": "Pho Viet's", "label": "9. Pho Viet's", "ctaUrl": "https://maps.google.com/?q=Pho+Viet's+Fenway+Boston", "mapQuery": "Pho Viet's, Fenway, Boston", "lat": 42.3458, "lng": -71.1009}, {"anchorId": "ngoc-chau", "rank": 10, "name": "Ngoc Chau", "label": "10. Ngoc Chau", "ctaUrl": "https://maps.google.com/?q=Ngoc+Chau+Dorchester+Boston", "mapQuery": "Ngoc Chau, Dorchester, Boston", "lat": 42.309, "lng": -71.0581}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

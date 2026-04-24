@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Bars Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/bars+in+Houston", "picks": [{"anchorId": "anvil-bar-refuge", "rank": 1, "name": "Anvil Bar & Refuge", "label": "1. Anvil Bar & Refuge", "ctaUrl": "https://maps.google.com/?q=Anvil+Bar+&+Refuge+Montrose+Houston", "mapQuery": "Anvil Bar & Refuge, Montrose, Houston", "lat": 29.74328, "lng": -95.39958}, {"anchorId": "tongue-cut-sparrow", "rank": 2, "name": "Tongue-Cut Sparrow", "label": "2. Tongue-Cut Sparrow", "ctaUrl": "https://maps.google.com/?q=Tongue-Cut+Sparrow+Downtown+Houston", "mapQuery": "Tongue-Cut Sparrow, Downtown, Houston", "lat": 29.74328, "lng": -95.39958}, {"anchorId": "permission-whiskey-service-co", "rank": 3, "name": "Permission Whiskey & Service Co.", "label": "3. Permission Whiskey & Service Co.", "ctaUrl": "https://maps.google.com/?q=Permission+Whiskey+&+Service+Co.+Montrose+Houston", "mapQuery": "Permission Whiskey & Service Co., Montrose, Houston", "lat": 29.73359, "lng": -95.46083}, {"anchorId": "eight-row-flint", "rank": 4, "name": "Eight Row Flint", "label": "4. Eight Row Flint", "ctaUrl": "https://maps.google.com/?q=Eight+Row+Flint+The+Heights+Houston", "mapQuery": "Eight Row Flint, The Heights, Houston", "lat": 29.79093, "lng": -95.39866}, {"anchorId": "the-pastry-war", "rank": 5, "name": "The Pastry War", "label": "5. The Pastry War", "ctaUrl": "https://maps.google.com/?q=The+Pastry+War+Downtown+Houston", "mapQuery": "The Pastry War, Downtown, Houston", "lat": 29.76007, "lng": -95.36154}, {"anchorId": "present-company", "rank": 6, "name": "Present Company", "label": "6. Present Company", "ctaUrl": "https://maps.google.com/?q=Present+Company+Montrose+Houston", "mapQuery": "Present Company, Montrose, Houston", "lat": 29.74281, "lng": -95.39906}, {"anchorId": "axelrad-beer-garden", "rank": 7, "name": "Axelrad Beer Garden", "label": "7. Axelrad Beer Garden", "ctaUrl": "https://maps.google.com/?q=Axelrad+Beer+Garden+Midtown+Houston", "mapQuery": "Axelrad Beer Garden, Midtown, Houston", "lat": 29.73977, "lng": -95.38531}, {"anchorId": "monkeys-tail", "rank": 8, "name": "Monkey's Tail", "label": "8. Monkey's Tail", "ctaUrl": "https://maps.google.com/?q=Monkey's+Tail+Lindale+Park+Houston", "mapQuery": "Monkey's Tail, Lindale Park, Houston", "lat": 29.80584, "lng": -95.36701}, {"anchorId": "johnnys-gold-brick", "rank": 9, "name": "Johnny's Gold Brick", "label": "9. Johnny's Gold Brick", "ctaUrl": "https://maps.google.com/?q=Johnny's+Gold+Brick+The+Heights+Houston", "mapQuery": "Johnny's Gold Brick, The Heights, Houston", "lat": 29.79974, "lng": -95.40875}, {"anchorId": "grand-prize-bar", "rank": 10, "name": "Grand Prize Bar", "label": "10. Grand Prize Bar", "ctaUrl": "https://maps.google.com/?q=Grand+Prize+Bar+Museum+District+Houston", "mapQuery": "Grand Prize Bar, Museum District, Houston", "lat": 29.74246, "lng": -95.37895}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

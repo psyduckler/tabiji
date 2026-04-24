@@ -1547,73 +1547,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steak Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steak+in+San+Antonio", "picks": [{"anchorId": "bohanans-prime-steaks-and-seafood", "rank": 1, "name": "Bohanan's Prime Steaks and Seafood", "label": "1. Bohanan's Prime Steaks and Seafood", "ctaUrl": "https://maps.google.com/?q=Bohanan's+Prime+Steaks+and+Seafood+Downtown+/+Historic+District+San+Antonio", "mapQuery": "Bohanan's Prime Steaks and Seafood, Downtown / Historic District, San Antonio", "lat": 29.4265, "lng": -98.4907}, {"anchorId": "j-prime-steakhouse", "rank": 2, "name": "J-Prime Steakhouse", "label": "2. J-Prime Steakhouse", "ctaUrl": "https://maps.google.com/?q=J-Prime+Steakhouse+North+Central+/+Stone+Oak+San+Antonio", "mapQuery": "J-Prime Steakhouse, North Central / Stone Oak, San Antonio", "lat": 29.6015, "lng": -98.5303}, {"anchorId": "myrons-prime-steakhouse", "rank": 3, "name": "Myron's Prime Steakhouse", "label": "3. Myron's Prime Steakhouse", "ctaUrl": "https://maps.google.com/?q=Myron's+Prime+Steakhouse+Stone+Oak+/+North+San+Antonio+San+Antonio", "mapQuery": "Myron's Prime Steakhouse, Stone Oak / North San Antonio, San Antonio", "lat": 29.57, "lng": -98.567}, {"anchorId": "kirbys-steakhouse", "rank": 4, "name": "Kirby's Steakhouse", "label": "4. Kirby's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Kirby's+Steakhouse+Stone+Oak+/+North+San+Antonio+San+Antonio", "mapQuery": "Kirby's Steakhouse, Stone Oak / North San Antonio, San Antonio", "lat": 29.5691, "lng": -98.5835}, {"anchorId": "flemings-prime-steakhouse-wine-bar", "rank": 5, "name": "Fleming's Prime Steakhouse & Wine Bar", "label": "5. Fleming's Prime Steakhouse & Wine Bar", "ctaUrl": "https://maps.google.com/?q=Fleming's+Prime+Steakhouse+&+Wine+Bar+La+Cantera+San+Antonio", "mapQuery": "Fleming's Prime Steakhouse & Wine Bar, La Cantera, San Antonio", "lat": 29.5083, "lng": -98.4717}, {"anchorId": "ruths-chris-steak-house", "rank": 6, "name": "Ruth's Chris Steak House", "label": "6. Ruth's Chris Steak House", "ctaUrl": "https://maps.google.com/?q=Ruth's+Chris+Steak+House+Riverwalk+/+Downtown+San+Antonio", "mapQuery": "Ruth's Chris Steak House, Riverwalk / Downtown, San Antonio", "lat": 29.4239, "lng": -98.4842}, {"anchorId": "the-palm-san-antonio", "rank": 7, "name": "The Palm San Antonio", "label": "7. The Palm San Antonio", "ctaUrl": "https://maps.google.com/?q=The+Palm+San+Antonio+Downtown+/+Riverwalk+San+Antonio", "mapQuery": "The Palm San Antonio, Downtown / Riverwalk, San Antonio", "lat": 29.4268, "lng": -98.49}, {"anchorId": "little-rhein-steak-house", "rank": 8, "name": "Little Rhein Steak House", "label": "8. Little Rhein Steak House", "ctaUrl": "https://maps.google.com/?q=Little+Rhein+Steak+House+King+William+/+Riverwalk+San+Antonio", "mapQuery": "Little Rhein Steak House, King William / Riverwalk, San Antonio", "lat": 29.419, "lng": -98.4893}, {"anchorId": "mortons-the-steakhouse", "rank": 9, "name": "Morton's The Steakhouse", "label": "9. Morton's The Steakhouse", "ctaUrl": "https://maps.google.com/?q=Morton's+The+Steakhouse+Downtown+/+Riverwalk+San+Antonio", "mapQuery": "Morton's The Steakhouse, Downtown / Riverwalk, San Antonio", "lat": 29.4243, "lng": -98.4851}, {"anchorId": "chama-gaúcha-brazilian-steakhouse", "rank": 10, "name": "Chama Gaúcha Brazilian Steakhouse", "label": "10. Chama Gaúcha Brazilian Steakhouse", "ctaUrl": "https://maps.google.com/?q=Chama+Gaúcha+Brazilian+Steakhouse+North+Central+/+Stone+Oak+San+Antonio", "mapQuery": "Chama Gaúcha Brazilian Steakhouse, North Central / Stone Oak, San Antonio", "lat": 29.608, "lng": -98.5323}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Brewery Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/brewery+in+Milwaukee", "picks": [{"anchorId": "third-space-brewing", "rank": 1, "name": "Third Space Brewing", "label": "1. Third Space Brewing", "ctaUrl": "https://maps.google.com/?q=Third+Space+Brewing+Menomonee+Valley+Milwaukee", "mapQuery": "Third Space Brewing, Menomonee Valley, Milwaukee", "lat": 43.0427, "lng": -87.9429}, {"anchorId": "indeed-brewing-company", "rank": 2, "name": "Indeed Brewing Company", "label": "2. Indeed Brewing Company", "ctaUrl": "https://maps.google.com/?q=Indeed+Brewing+Company+Walker's+Point+Milwaukee", "mapQuery": "Indeed Brewing Company, Walker's Point, Milwaukee", "lat": 43.027, "lng": -87.915}, {"anchorId": "lakefront-brewery", "rank": 3, "name": "Lakefront Brewery", "label": "3. Lakefront Brewery", "ctaUrl": "https://maps.google.com/?q=Lakefront+Brewery+Brewer's+Hill+Milwaukee", "mapQuery": "Lakefront Brewery, Brewer's Hill, Milwaukee", "lat": 43.0614, "lng": -87.9113}, {"anchorId": "mobcraft-beer", "rank": 4, "name": "MobCraft Beer", "label": "4. MobCraft Beer", "ctaUrl": "https://maps.google.com/?q=MobCraft+Beer+Walker's+Point+Milwaukee", "mapQuery": "MobCraft Beer, Walker's Point, Milwaukee", "lat": 43.0264, "lng": -87.9171}, {"anchorId": "eagle-park-brewing-distillery", "rank": 5, "name": "Eagle Park Brewing & Distillery", "label": "5. Eagle Park Brewing & Distillery", "ctaUrl": "https://maps.google.com/?q=Eagle+Park+Brewing+&+Distillery+Lower+East+Side+Milwaukee", "mapQuery": "Eagle Park Brewing & Distillery, Lower East Side, Milwaukee", "lat": 43.0374, "lng": -87.8997}, {"anchorId": "broken-bat-brewery", "rank": 6, "name": "Broken Bat Brewery", "label": "6. Broken Bat Brewery", "ctaUrl": "https://maps.google.com/?q=Broken+Bat+Brewery+Walker's+Point+Milwaukee", "mapQuery": "Broken Bat Brewery, Walker's Point, Milwaukee", "lat": 43.0245, "lng": -87.909}, {"anchorId": "gathering-place-brewing-company", "rank": 7, "name": "Gathering Place Brewing Company", "label": "7. Gathering Place Brewing Company", "ctaUrl": "https://maps.google.com/?q=Gathering+Place+Brewing+Company+Upper+Walker's+Point+Milwaukee", "mapQuery": "Gathering Place Brewing Company, Upper Walker's Point, Milwaukee", "lat": 43.0239, "lng": -87.9174}, {"anchorId": "city-lights-brewing-co", "rank": 8, "name": "City Lights Brewing Co.", "label": "8. City Lights Brewing Co.", "ctaUrl": "https://maps.google.com/?q=City+Lights+Brewing+Co.+Menomonee+Valley+Milwaukee", "mapQuery": "City Lights Brewing Co., Menomonee Valley, Milwaukee", "lat": 43.0407, "lng": -87.9463}, {"anchorId": "good-city-brewing", "rank": 9, "name": "Good City Brewing", "label": "9. Good City Brewing", "ctaUrl": "https://maps.google.com/?q=Good+City+Brewing+Lower+East+Side+Milwaukee", "mapQuery": "Good City Brewing, Lower East Side, Milwaukee", "lat": 43.0601, "lng": -87.9009}, {"anchorId": "component-brewing-company", "rank": 10, "name": "Component Brewing Company", "label": "10. Component Brewing Company", "ctaUrl": "https://maps.google.com/?q=Component+Brewing+Company+Bay+View+Milwaukee", "mapQuery": "Component Brewing Company, Bay View, Milwaukee", "lat": 43.0039, "lng": -87.9103}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

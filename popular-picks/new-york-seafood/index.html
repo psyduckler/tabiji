@@ -1520,7 +1520,7 @@
   <h3>More New York guides</h3>
   <p class="related-subtitle">Other curated Reddit-backed picks from New York</p>
   <div class="related-picks-grid">
-    <a href="/popular-picks/best-cheap-eats-new-york/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
+    <a href="/popular-picks/new-york-cheap-eats/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
     <a href="/popular-picks/new-york-bagels/" class="related-pick-link">15 Best Bagels in New York</a>
     <a href="/popular-picks/new-york-pizza/" class="related-pick-link">19 Best Pizza Spots in New York City</a>
     <a href="/popular-picks/new-york-ramen/" class="related-pick-link">18 Best Ramen in New York City</a>
@@ -1579,73 +1579,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Seafood Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/seafood+in+New+York", "picks": [{"anchorId": "le-bernardin", "rank": 1, "name": "Le Bernardin", "label": "1. Le Bernardin", "ctaUrl": "https://maps.google.com/?q=Le+Bernardin+Midtown+West+New+York", "mapQuery": "Le Bernardin, Midtown West, New York", "lat": 40.7607, "lng": -73.9829}, {"anchorId": "marea", "rank": 2, "name": "Marea", "label": "2. Marea", "ctaUrl": "https://maps.google.com/?q=Marea+Midtown+West+New+York", "mapQuery": "Marea, Midtown West, New York", "lat": 40.7675, "lng": -73.9806}, {"anchorId": "aquagrill", "rank": 3, "name": "Aquagrill", "label": "3. Aquagrill", "ctaUrl": "https://maps.google.com/?q=Aquagrill+SoHo+New+York", "mapQuery": "Aquagrill, SoHo, New York", "lat": 40.7247, "lng": -74.0034}, {"anchorId": "grand-central-oyster-bar-restaurant", "rank": 4, "name": "Grand Central Oyster Bar & Restaurant", "label": "4. Grand Central Oyster Bar & Restaurant", "ctaUrl": "https://maps.google.com/?q=Grand+Central+Oyster+Bar+&+Restaurant+Midtown+East+New+York", "mapQuery": "Grand Central Oyster Bar & Restaurant, Midtown East, New York", "lat": 40.7527, "lng": -73.9765}, {"anchorId": "marys-fish-camp", "rank": 5, "name": "Mary's Fish Camp", "label": "5. Mary's Fish Camp", "ctaUrl": "https://maps.google.com/?q=Mary's+Fish+Camp+West+Village+New+York", "mapQuery": "Mary's Fish Camp, West Village, New York", "lat": 40.735, "lng": -74.0028}, {"anchorId": "fish-cheeks", "rank": 6, "name": "Fish Cheeks", "label": "6. Fish Cheeks", "ctaUrl": "https://maps.google.com/?q=Fish+Cheeks+NoHo+New+York", "mapQuery": "Fish Cheeks, NoHo, New York", "lat": 40.7259, "lng": -73.993}, {"anchorId": "greenpoint-fish-lobster-co", "rank": 7, "name": "Greenpoint Fish & Lobster Co.", "label": "7. Greenpoint Fish & Lobster Co.", "ctaUrl": "https://maps.google.com/?q=Greenpoint+Fish+&+Lobster+Co.+Greenpoint,+Brooklyn+New+York", "mapQuery": "Greenpoint Fish & Lobster Co., Greenpoint, Brooklyn, New York", "lat": 40.7258, "lng": -73.9537}, {"anchorId": "russ-daughters-cafe", "rank": 8, "name": "Russ & Daughters Cafe", "label": "8. Russ & Daughters Cafe", "ctaUrl": "https://maps.google.com/?q=Russ+&+Daughters+Cafe+Lower+East+Side+New+York", "mapQuery": "Russ & Daughters Cafe, Lower East Side, New York", "lat": 40.7198, "lng": -73.9897}, {"anchorId": "the-lobster-place", "rank": 9, "name": "The Lobster Place", "label": "9. The Lobster Place", "ctaUrl": "https://maps.google.com/?q=The+Lobster+Place+Chelsea+New+York", "mapQuery": "The Lobster Place, Chelsea, New York", "lat": 40.7423, "lng": -74.0055}, {"anchorId": "red-hook-lobster-pound", "rank": 10, "name": "Red Hook Lobster Pound", "label": "10. Red Hook Lobster Pound", "ctaUrl": "https://maps.google.com/?q=Red+Hook+Lobster+Pound+Red+Hook,+Brooklyn+New+York", "mapQuery": "Red Hook Lobster Pound, Red Hook, Brooklyn, New York", "lat": 40.6766, "lng": -74.0094}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

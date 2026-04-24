@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+San+Antonio", "picks": [{"anchorId": "dough-pizzeria-napoletana", "rank": 1, "name": "Dough Pizzeria Napoletana", "label": "1. Dough Pizzeria Napoletana", "ctaUrl": "https://maps.google.com/?q=Dough+Pizzeria+Napoletana+Alamo+Heights+San+Antonio", "mapQuery": "Dough Pizzeria Napoletana, Alamo Heights, San Antonio", "lat": 29.53982, "lng": -98.53916}, {"anchorId": "via-313-pizzeria", "rank": 2, "name": "Via 313 Pizzeria", "label": "2. Via 313 Pizzeria", "ctaUrl": "https://maps.google.com/?q=Via+313+Pizzeria+Shavano+Park+San+Antonio", "mapQuery": "Via 313 Pizzeria, Shavano Park, San Antonio", "lat": 29.62121, "lng": -98.53034}, {"anchorId": "il-forno", "rank": 3, "name": "Il Forno", "label": "3. Il Forno", "ctaUrl": "https://maps.google.com/?q=Il+Forno+Southtown+San+Antonio", "mapQuery": "Il Forno, Southtown, San Antonio", "lat": 29.45892, "lng": -98.52479}, {"anchorId": "playland-pizza", "rank": 4, "name": "Playland Pizza", "label": "4. Playland Pizza", "ctaUrl": "https://maps.google.com/?q=Playland+Pizza+Downtown+San+Antonio", "mapQuery": "Playland Pizza, Downtown, San Antonio", "lat": 29.42621, "lng": -98.49071}, {"anchorId": "big-lous-pizza", "rank": 5, "name": "Big Lou's Pizza", "label": "5. Big Lou's Pizza", "ctaUrl": "https://maps.google.com/?q=Big+Lou's+Pizza+East+Side+San+Antonio", "mapQuery": "Big Lou's Pizza, East Side, San Antonio", "lat": 29.35161, "lng": -98.37446}, {"anchorId": "fralos-art-of-pizza", "rank": 6, "name": "Fralo's Art of Pizza", "label": "6. Fralo's Art of Pizza", "ctaUrl": "https://maps.google.com/?q=Fralo's+Art+of+Pizza+Stone+Oak+San+Antonio", "mapQuery": "Fralo's Art of Pizza, Stone Oak, San Antonio", "lat": 29.59103, "lng": -98.60197}, {"anchorId": "florios-pizza", "rank": 7, "name": "Florio's Pizza", "label": "7. Florio's Pizza", "ctaUrl": "https://maps.google.com/?q=Florio's+Pizza+North+Central+San+Antonio", "mapQuery": "Florio's Pizza, North Central, San Antonio", "lat": 29.50854, "lng": -98.46824}, {"anchorId": "deco-pizzeria", "rank": 8, "name": "Deco Pizzeria", "label": "8. Deco Pizzeria", "ctaUrl": "https://maps.google.com/?q=Deco+Pizzeria+Deco+District+San+Antonio", "mapQuery": "Deco Pizzeria, Deco District, San Antonio", "lat": 29.44977, "lng": -98.51443}, {"anchorId": "capos-pizza", "rank": 9, "name": "Capo's Pizza", "label": "9. Capo's Pizza", "ctaUrl": "https://maps.google.com/?q=Capo's+Pizza+Castle+Hills+San+Antonio", "mapQuery": "Capo's Pizza, Castle Hills, San Antonio", "lat": 29.52047, "lng": -98.5833}, {"anchorId": "pizza-classics", "rank": 10, "name": "Pizza Classics", "label": "10. Pizza Classics", "ctaUrl": "https://maps.google.com/?q=Pizza+Classics+Olmos+Park+San+Antonio", "mapQuery": "Pizza Classics, Olmos Park, San Antonio", "lat": 29.46747, "lng": -98.49078}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

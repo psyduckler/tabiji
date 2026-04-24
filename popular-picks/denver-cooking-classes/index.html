@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Cooking Classes Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/cooking+classes+in+Denver", "picks": [{"anchorId": "stir-cooking-school", "rank": 1, "name": "Stir Cooking School", "label": "1. Stir Cooking School", "ctaUrl": "https://maps.google.com/?q=Stir+Cooking+School+Highland+Denver", "mapQuery": "Stir Cooking School, Highland, Denver", "lat": 39.761043, "lng": -105.006963}, {"anchorId": "cook-street-school-of-fine-cooking", "rank": 2, "name": "Cook Street School of Fine Cooking", "label": "2. Cook Street School of Fine Cooking", "ctaUrl": "https://maps.google.com/?q=Cook+Street+School+of+Fine+Cooking+LoDo+Denver", "mapQuery": "Cook Street School of Fine Cooking, LoDo, Denver", "lat": 39.7533, "lng": -104.9961}, {"anchorId": "sur-la-table", "rank": 3, "name": "Sur La Table", "label": "3. Sur La Table", "ctaUrl": "https://maps.google.com/?q=Sur+La+Table+Cherry+Creek+North+Denver", "mapQuery": "Sur La Table, Cherry Creek North, Denver", "lat": 39.72147, "lng": -104.9535}, {"anchorId": "the-seasoned-chef-cooking-school", "rank": 4, "name": "The Seasoned Chef Cooking School", "label": "4. The Seasoned Chef Cooking School", "ctaUrl": "https://maps.google.com/?q=The+Seasoned+Chef+Cooking+School+Lowry+Denver", "mapQuery": "The Seasoned Chef Cooking School, Lowry, Denver", "lat": 39.72895, "lng": -104.90806}, {"anchorId": "uncorked-kitchen-wine-bar", "rank": 5, "name": "Uncorked Kitchen & Wine Bar", "label": "5. Uncorked Kitchen & Wine Bar", "ctaUrl": "https://maps.google.com/?q=Uncorked+Kitchen+&+Wine+Bar+Centennial+Denver", "mapQuery": "Uncorked Kitchen & Wine Bar, Centennial, Denver", "lat": 39.57656, "lng": -104.88582}, {"anchorId": "colorado-home-cooking", "rank": 6, "name": "Colorado Home Cooking", "label": "6. Colorado Home Cooking", "ctaUrl": "https://maps.google.com/?q=Colorado+Home+Cooking+RiNo+(Mobile+Service)+Denver", "mapQuery": "Colorado Home Cooking, RiNo (Mobile Service), Denver", "lat": 39.7593, "lng": -104.9859}, {"anchorId": "savory-spice-shop", "rank": 7, "name": "Savory Spice Shop", "label": "7. Savory Spice Shop", "ctaUrl": "https://maps.google.com/?q=Savory+Spice+Shop+Highlands+Square+Denver", "mapQuery": "Savory Spice Shop, Highlands Square, Denver", "lat": 39.72714, "lng": -104.95669}, {"anchorId": "amore-fino-pizza-pasta", "rank": 8, "name": "Amore Fino Pizza & Pasta", "label": "8. Amore Fino Pizza & Pasta", "ctaUrl": "https://maps.google.com/?q=Amore+Fino+Pizza+&+Pasta+DTC+/+Greenwood+Village+Denver", "mapQuery": "Amore Fino Pizza & Pasta, DTC / Greenwood Village, Denver", "lat": 39.60803, "lng": -104.89885}, {"anchorId": "the-inventing-room-dessert-shop", "rank": 9, "name": "The Inventing Room Dessert Shop", "label": "9. The Inventing Room Dessert Shop", "ctaUrl": "https://maps.google.com/?q=The+Inventing+Room+Dessert+Shop+Highland+Denver", "mapQuery": "The Inventing Room Dessert Shop, Highland, Denver", "lat": 39.76442, "lng": -105.01633}, {"anchorId": "the-growhaus", "rank": 10, "name": "The GrowHaus", "label": "10. The GrowHaus", "ctaUrl": "https://maps.google.com/?q=The+GrowHaus+Elyria-Swansea+Denver", "mapQuery": "The GrowHaus, Elyria-Swansea, Denver", "lat": 39.79422, "lng": -104.98777}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

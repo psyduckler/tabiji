@@ -1550,73 +1550,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Las+Vegas", "picks": [{"anchorId": "pizza-rock", "rank": 1, "name": "Pizza Rock", "label": "1. Pizza Rock", "ctaUrl": "https://maps.google.com/?q=Pizza+Rock+Downtown+Las+Vegas+Las+Vegas", "mapQuery": "Pizza Rock, Downtown Las Vegas, Las Vegas", "lat": 36.1712, "lng": -115.1432}, {"anchorId": "good-pie", "rank": 2, "name": "Good Pie", "label": "2. Good Pie", "ctaUrl": "https://maps.google.com/?q=Good+Pie+Arts+District+Las+Vegas", "mapQuery": "Good Pie, Arts District, Las Vegas", "lat": 36.1557, "lng": -115.1553}, {"anchorId": "secret-pizza", "rank": 3, "name": "Secret Pizza", "label": "3. Secret Pizza", "ctaUrl": "https://maps.google.com/?q=Secret+Pizza+The+Strip+(Cosmopolitan)+Las+Vegas", "mapQuery": "Secret Pizza, The Strip (Cosmopolitan), Las Vegas", "lat": 36.1098, "lng": -115.1727}, {"anchorId": "dom-demarcos-pizzeria-bar", "rank": 4, "name": "Dom DeMarco's Pizzeria & Bar", "label": "4. Dom DeMarco's Pizzeria & Bar", "ctaUrl": "https://maps.google.com/?q=Dom+DeMarco's+Pizzeria+&+Bar+Summerlin+Las+Vegas", "mapQuery": "Dom DeMarco's Pizzeria & Bar, Summerlin, Las Vegas", "lat": 36.148, "lng": -115.3218}, {"anchorId": "grimaldis-pizzeria", "rank": 5, "name": "Grimaldi's Pizzeria", "label": "5. Grimaldi's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Grimaldi's+Pizzeria+The+Strip+(Fashion+Show+Mall)+Las+Vegas", "mapQuery": "Grimaldi's Pizzeria, The Strip (Fashion Show Mall), Las Vegas", "lat": 36.1264, "lng": -115.1738}, {"anchorId": "settebello-pizzeria-napoletana", "rank": 6, "name": "Settebello Pizzeria Napoletana", "label": "6. Settebello Pizzeria Napoletana", "ctaUrl": "https://maps.google.com/?q=Settebello+Pizzeria+Napoletana+Henderson+Las+Vegas", "mapQuery": "Settebello Pizzeria Napoletana, Henderson, Las Vegas", "lat": 36.0357, "lng": -115.0682}, {"anchorId": "metro-pizza", "rank": 7, "name": "Metro Pizza", "label": "7. Metro Pizza", "ctaUrl": "https://maps.google.com/?q=Metro+Pizza+Spring+Valley+Las+Vegas", "mapQuery": "Metro Pizza, Spring Valley, Las Vegas", "lat": 36.1017, "lng": -115.2285}, {"anchorId": "ciao-ciao-pizza", "rank": 8, "name": "Ciao Ciao Pizza", "label": "8. Ciao Ciao Pizza", "ctaUrl": "https://maps.google.com/?q=Ciao+Ciao+Pizza+Southwest+Las+Vegas+Las+Vegas", "mapQuery": "Ciao Ciao Pizza, Southwest Las Vegas, Las Vegas", "lat": 36.126, "lng": -115.2045}, {"anchorId": "evel-pie", "rank": 9, "name": "Evel Pie", "label": "9. Evel Pie", "ctaUrl": "https://maps.google.com/?q=Evel+Pie+Downtown+Las+Vegas+Las+Vegas", "mapQuery": "Evel Pie, Downtown Las Vegas, Las Vegas", "lat": 36.1691, "lng": -115.1414}, {"anchorId": "naked-city-pizza", "rank": 10, "name": "Naked City Pizza", "label": "10. Naked City Pizza", "ctaUrl": "https://maps.google.com/?q=Naked+City+Pizza+Paradise+Rd+Las+Vegas", "mapQuery": "Naked City Pizza, Paradise Rd, Las Vegas", "lat": 36.1158, "lng": -115.1506}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

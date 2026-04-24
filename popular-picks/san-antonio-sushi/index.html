@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Sushi Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/sushi+in+San+Antonio", "picks": [{"anchorId": "sushihana-japanese-restaurant", "rank": 1, "name": "Sushihana Japanese Restaurant", "label": "1. Sushihana Japanese Restaurant", "ctaUrl": "https://maps.google.com/?q=Sushihana+Japanese+Restaurant+North+Central+San+Antonio", "mapQuery": "Sushihana Japanese Restaurant, North Central, San Antonio", "lat": 29.5691, "lng": -98.5312}, {"anchorId": "nikis-tokyo-inn", "rank": 2, "name": "Niki's Tokyo Inn", "label": "2. Niki's Tokyo Inn", "ctaUrl": "https://maps.google.com/?q=Niki's+Tokyo+Inn+Mahncke+Park+San+Antonio", "mapQuery": "Niki's Tokyo Inn, Mahncke Park, San Antonio", "lat": 29.45892, "lng": -98.49884}, {"anchorId": "godai-sushi-bar-restaurant", "rank": 3, "name": "Godai Sushi Bar & Restaurant", "label": "3. Godai Sushi Bar & Restaurant", "ctaUrl": "https://maps.google.com/?q=Godai+Sushi+Bar+&+Restaurant+Medical+Center+San+Antonio", "mapQuery": "Godai Sushi Bar & Restaurant, Medical Center, San Antonio", "lat": 29.57865, "lng": -98.53697}, {"anchorId": "wildfish-seafood-grille", "rank": 4, "name": "Wildfish Seafood Grille", "label": "4. Wildfish Seafood Grille", "ctaUrl": "https://maps.google.com/?q=Wildfish+Seafood+Grille+The+Rim+San+Antonio", "mapQuery": "Wildfish Seafood Grille, The Rim, San Antonio", "lat": 29.59363, "lng": -98.61868}, {"anchorId": "sushi-zushi", "rank": 5, "name": "Sushi Zushi", "label": "5. Sushi Zushi", "ctaUrl": "https://maps.google.com/?q=Sushi+Zushi+Stone+Oak+San+Antonio", "mapQuery": "Sushi Zushi, Stone Oak, San Antonio", "lat": 29.67389, "lng": -98.46823}, {"anchorId": "yellowfish-sushi", "rank": 6, "name": "Yellowfish Sushi", "label": "6. Yellowfish Sushi", "ctaUrl": "https://maps.google.com/?q=Yellowfish+Sushi+Alamo+Heights+San+Antonio", "mapQuery": "Yellowfish Sushi, Alamo Heights, San Antonio", "lat": 29.48911, "lng": -98.46513}, {"anchorId": "sashimi-sushi-grill", "rank": 7, "name": "Sashimi Sushi & Grill", "label": "7. Sashimi Sushi & Grill", "ctaUrl": "https://maps.google.com/?q=Sashimi+Sushi+&+Grill+Downtown+/+Southtown+San+Antonio", "mapQuery": "Sashimi Sushi & Grill, Downtown / Southtown, San Antonio", "lat": 29.38792, "lng": -98.49817}, {"anchorId": "kumori-sushi-teppanyaki", "rank": 8, "name": "Kumori Sushi & Teppanyaki", "label": "8. Kumori Sushi & Teppanyaki", "ctaUrl": "https://maps.google.com/?q=Kumori+Sushi+&+Teppanyaki+Northwest+San+Antonio+San+Antonio", "mapQuery": "Kumori Sushi & Teppanyaki, Northwest San Antonio, San Antonio", "lat": 29.55998, "lng": -98.5833}, {"anchorId": "tenko-sushi-hibachi", "rank": 9, "name": "Tenko Sushi & Hibachi", "label": "9. Tenko Sushi & Hibachi", "ctaUrl": "https://maps.google.com/?q=Tenko+Sushi+&+Hibachi+Northwest+San+Antonio+San+Antonio", "mapQuery": "Tenko Sushi & Hibachi, Northwest San Antonio, San Antonio", "lat": 29.54452, "lng": -98.67924}, {"anchorId": "wasabi-japanese-steak-sushi-bar", "rank": 10, "name": "Wasabi Japanese Steak & Sushi Bar", "label": "10. Wasabi Japanese Steak & Sushi Bar", "ctaUrl": "https://maps.google.com/?q=Wasabi+Japanese+Steak+&+Sushi+Bar+Stone+Oak+San+Antonio", "mapQuery": "Wasabi Japanese Steak & Sushi Bar, Stone Oak, San Antonio", "lat": 29.66408, "lng": -98.47271}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

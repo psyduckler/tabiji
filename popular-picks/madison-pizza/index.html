@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+Madison", "picks": [{"anchorId": "salvatores-tomato-pies", "rank": 1, "name": "Salvatore's Tomato Pies", "label": "1. Salvatore's Tomato Pies", "ctaUrl": "https://maps.google.com/?q=Salvatore's+Tomato+Pies+Atwood+Madison", "mapQuery": "Salvatore's Tomato Pies, Atwood, Madison", "lat": 43.0805, "lng": -89.3361}, {"anchorId": "ians-pizza", "rank": 2, "name": "Ian's Pizza", "label": "2. Ian's Pizza", "ctaUrl": "https://maps.google.com/?q=Ian's+Pizza+Downtown+(State+Street)+Madison", "mapQuery": "Ian's Pizza, Downtown (State Street), Madison", "lat": 43.0768, "lng": -89.3857}, {"anchorId": "roman-candle-pizza", "rank": 3, "name": "Roman Candle Pizza", "label": "3. Roman Candle Pizza", "ctaUrl": "https://maps.google.com/?q=Roman+Candle+Pizza+Willy+Street+Madison", "mapQuery": "Roman Candle Pizza, Willy Street, Madison", "lat": 43.0746, "lng": -89.3629}, {"anchorId": "glass-nickel-pizza-co", "rank": 4, "name": "Glass Nickel Pizza Co.", "label": "4. Glass Nickel Pizza Co.", "ctaUrl": "https://maps.google.com/?q=Glass+Nickel+Pizza+Co.+Atwood+Madison", "mapQuery": "Glass Nickel Pizza Co., Atwood, Madison", "lat": 43.0858, "lng": -89.3276}, {"anchorId": "naples-15-ristorante-pizzeria", "rank": 5, "name": "Naples 15 Ristorante & Pizzeria", "label": "5. Naples 15 Ristorante & Pizzeria", "ctaUrl": "https://maps.google.com/?q=Naples+15+Ristorante+&+Pizzeria+Capitol+East+Madison", "mapQuery": "Naples 15 Ristorante & Pizzeria, Capitol East, Madison", "lat": 43.0768, "lng": -89.3789}, {"anchorId": "pizza-brutta", "rank": 6, "name": "Pizza Brutta", "label": "6. Pizza Brutta", "ctaUrl": "https://maps.google.com/?q=Pizza+Brutta+Monroe+Street+Madison", "mapQuery": "Pizza Brutta, Monroe Street, Madison", "lat": 43.056, "lng": -89.4005}, {"anchorId": "grampas-pizzeria", "rank": 7, "name": "Grampa's Pizzeria", "label": "7. Grampa's Pizzeria", "ctaUrl": "https://maps.google.com/?q=Grampa's+Pizzeria+Willy+Street+Madison", "mapQuery": "Grampa's Pizzeria, Willy Street, Madison", "lat": 43.076, "lng": -89.3563}, {"anchorId": "benitos-pizza", "rank": 8, "name": "Benito's Pizza", "label": "8. Benito's Pizza", "ctaUrl": "https://maps.google.com/?q=Benito's+Pizza+Regent+(Near+UW+Campus)+Madison", "mapQuery": "Benito's Pizza, Regent (Near UW Campus), Madison", "lat": 43.0691, "lng": -89.407}, {"anchorId": "lucille", "rank": 9, "name": "Lucille", "label": "9. Lucille", "ctaUrl": "https://maps.google.com/?q=Lucille+Capitol+Square+Madison", "mapQuery": "Lucille, Capitol Square, Madison", "lat": 43.0746, "lng": -89.382}, {"anchorId": "federal-pizza-waffle", "rank": 10, "name": "Federal Pizza + Waffle", "label": "10. Federal Pizza + Waffle", "ctaUrl": "https://maps.google.com/?q=Federal+Pizza+++Waffle+Near+East+(E.+Johnson+St)+Madison", "mapQuery": "Federal Pizza + Waffle, Near East (E. Johnson St), Madison", "lat": 43.0792, "lng": -89.3756}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

@@ -1551,73 +1551,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Pizza Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/pizza+in+San+Diego", "picks": [{"anchorId": "buona-forchetta", "rank": 1, "name": "Buona Forchetta", "label": "1. Buona Forchetta", "ctaUrl": "https://maps.google.com/?q=Buona+Forchetta+South+Park+San+Diego", "mapQuery": "Buona Forchetta, South Park, San Diego", "lat": 32.7093, "lng": -117.1354}, {"anchorId": "regents-pizzeria", "rank": 2, "name": "Regents Pizzeria", "label": "2. Regents Pizzeria", "ctaUrl": "https://maps.google.com/?q=Regents+Pizzeria+La+Jolla+San+Diego", "mapQuery": "Regents Pizzeria, La Jolla, San Diego", "lat": 32.871, "lng": -117.2185}, {"anchorId": "filippis-pizza-grotto", "rank": 3, "name": "Filippi's Pizza Grotto", "label": "3. Filippi's Pizza Grotto", "ctaUrl": "https://maps.google.com/?q=Filippi's+Pizza+Grotto+Little+Italy+San+Diego", "mapQuery": "Filippi's Pizza Grotto, Little Italy, San Diego", "lat": 32.7235, "lng": -117.1652}, {"anchorId": "bronx-pizza", "rank": 4, "name": "Bronx Pizza", "label": "4. Bronx Pizza", "ctaUrl": "https://maps.google.com/?q=Bronx+Pizza+Hillcrest+San+Diego", "mapQuery": "Bronx Pizza, Hillcrest, San Diego", "lat": 32.7479, "lng": -117.1585}, {"anchorId": "blind-lady-ale-house", "rank": 5, "name": "Blind Lady Ale House (BLAH)", "label": "5. Blind Lady Ale House (BLAH)", "ctaUrl": "https://maps.google.com/?q=Blind+Lady+Ale+House+(BLAH)+Normal+Heights+San+Diego", "mapQuery": "Blind Lady Ale House (BLAH), Normal Heights, San Diego", "lat": 32.7663, "lng": -117.126}, {"anchorId": "pizza-port-ocean-beach", "rank": 6, "name": "Pizza Port Ocean Beach", "label": "6. Pizza Port Ocean Beach", "ctaUrl": "https://maps.google.com/?q=Pizza+Port+Ocean+Beach+Ocean+Beach+San+Diego", "mapQuery": "Pizza Port Ocean Beach, Ocean Beach, San Diego", "lat": 32.7483, "lng": -117.2483}, {"anchorId": "basic-pizza", "rank": 7, "name": "Basic Pizza", "label": "7. Basic Pizza", "ctaUrl": "https://maps.google.com/?q=Basic+Pizza+East+Village+San+Diego", "mapQuery": "Basic Pizza, East Village, San Diego", "lat": 32.7126, "lng": -117.1558}, {"anchorId": "pizzeria-luigi", "rank": 8, "name": "Pizzeria Luigi", "label": "8. Pizzeria Luigi", "ctaUrl": "https://maps.google.com/?q=Pizzeria+Luigi+Golden+Hill+San+Diego", "mapQuery": "Pizzeria Luigi, Golden Hill, San Diego", "lat": 32.7051, "lng": -117.1309}, {"anchorId": "urbn-coal-fired-pizza", "rank": 9, "name": "URBN Coal Fired Pizza", "label": "9. URBN Coal Fired Pizza", "ctaUrl": "https://maps.google.com/?q=URBN+Coal+Fired+Pizza+North+Park+San+Diego", "mapQuery": "URBN Coal Fired Pizza, North Park, San Diego", "lat": 32.7562, "lng": -117.1262}, {"anchorId": "sicilia-mia-pizzeria", "rank": 10, "name": "Sicilia Mia Pizzeria", "label": "10. Sicilia Mia Pizzeria", "ctaUrl": "https://maps.google.com/?q=Sicilia+Mia+Pizzeria+North+Park+San+Diego", "mapQuery": "Sicilia Mia Pizzeria, North Park, San Diego", "lat": 32.7516, "lng": -117.1458}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

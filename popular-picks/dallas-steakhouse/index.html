@@ -1544,73 +1544,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+Dallas", "picks": [{"anchorId": "pappas-bros-steakhouse", "rank": 1, "name": "Pappas Bros. Steakhouse", "label": "1. Pappas Bros. Steakhouse", "ctaUrl": "https://maps.google.com/?q=Pappas+Bros.+Steakhouse+Medical+District+Dallas", "mapQuery": "Pappas Bros. Steakhouse, Medical District, Dallas", "lat": 32.8596, "lng": -96.8837}, {"anchorId": "knife-dallas", "rank": 2, "name": "Knife Dallas", "label": "2. Knife Dallas", "ctaUrl": "https://maps.google.com/?q=Knife+Dallas+Preston+Center+Dallas", "mapQuery": "Knife Dallas, Preston Center, Dallas", "lat": 32.83984, "lng": -96.79092}, {"anchorId": "nick-sams-steakhouse", "rank": 3, "name": "Nick & Sam's Steakhouse", "label": "3. Nick & Sam's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Nick+&+Sam's+Steakhouse+Uptown+Dallas", "mapQuery": "Nick & Sam's Steakhouse, Uptown, Dallas", "lat": 32.7997, "lng": -96.8043}, {"anchorId": "al-biernats", "rank": 4, "name": "Al Biernat's", "label": "4. Al Biernat's", "ctaUrl": "https://maps.google.com/?q=Al+Biernat's+Oak+Lawn+Dallas", "mapQuery": "Al Biernat's, Oak Lawn, Dallas", "lat": 32.8122, "lng": -96.8155}, {"anchorId": "town-hearth", "rank": 5, "name": "Town Hearth", "label": "5. Town Hearth", "ctaUrl": "https://maps.google.com/?q=Town+Hearth+Design+District+Dallas", "mapQuery": "Town Hearth, Design District, Dallas", "lat": 32.7937, "lng": -96.8131}, {"anchorId": "del-friscos-double-eagle-steakhouse", "rank": 6, "name": "Del Frisco's Double Eagle Steakhouse", "label": "6. Del Frisco's Double Eagle Steakhouse", "ctaUrl": "https://maps.google.com/?q=Del+Frisco's+Double+Eagle+Steakhouse+Uptown+Dallas", "mapQuery": "Del Frisco's Double Eagle Steakhouse, Uptown, Dallas", "lat": 32.7925, "lng": -96.8003}, {"anchorId": "bobs-steak-chop-house", "rank": 7, "name": "Bob's Steak & Chop House", "label": "7. Bob's Steak & Chop House", "ctaUrl": "https://maps.google.com/?q=Bob's+Steak+&+Chop+House+Uptown+Dallas", "mapQuery": "Bob's Steak & Chop House, Uptown, Dallas", "lat": 32.8123, "lng": -96.8118}, {"anchorId": "perrys-steakhouse-grille", "rank": 8, "name": "Perry's Steakhouse & Grille", "label": "8. Perry's Steakhouse & Grille", "ctaUrl": "https://maps.google.com/?q=Perry's+Steakhouse+&+Grille+Uptown+Dallas", "mapQuery": "Perry's Steakhouse & Grille, Uptown, Dallas", "lat": 32.7937, "lng": -96.8043}, {"anchorId": "iii-forks", "rank": 9, "name": "III Forks", "label": "9. III Forks", "ctaUrl": "https://maps.google.com/?q=III+Forks+Far+North+Dallas+Dallas", "mapQuery": "III Forks, Far North Dallas, Dallas", "lat": 33.0041, "lng": -96.829}, {"anchorId": "dakotas-steakhouse", "rank": 10, "name": "Dakota's Steakhouse", "label": "10. Dakota's Steakhouse", "ctaUrl": "https://maps.google.com/?q=Dakota's+Steakhouse+Downtown+Dallas", "mapQuery": "Dakota's Steakhouse, Downtown, Dallas", "lat": 32.784, "lng": -96.7997}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

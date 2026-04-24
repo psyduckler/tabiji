@@ -1571,73 +1571,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Steakhouse Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/steakhouse+in+Miami", "picks": [{"anchorId": "prime-112", "rank": 1, "name": "Prime 112", "label": "1. Prime 112", "ctaUrl": "https://maps.google.com/?q=Prime+112+South+Beach+Miami", "mapQuery": "Prime 112, South Beach, Miami", "lat": 25.772555, "lng": -80.133282}, {"anchorId": "bourbon-steak-miami", "rank": 2, "name": "Bourbon Steak Miami", "label": "2. Bourbon Steak Miami", "ctaUrl": "https://maps.google.com/?q=Bourbon+Steak+Miami+Aventura+Miami", "mapQuery": "Bourbon Steak Miami, Aventura, Miami", "lat": 25.95995, "lng": -80.13028}, {"anchorId": "stubborn-seed", "rank": 3, "name": "Stubborn Seed", "label": "3. Stubborn Seed", "ctaUrl": "https://maps.google.com/?q=Stubborn+Seed+South+Beach+Miami", "mapQuery": "Stubborn Seed, South Beach, Miami", "lat": 25.77526, "lng": -80.13247}, {"anchorId": "papi-steak", "rank": 4, "name": "Papi Steak", "label": "4. Papi Steak", "ctaUrl": "https://maps.google.com/?q=Papi+Steak+South+Beach+Miami", "mapQuery": "Papi Steak, South Beach, Miami", "lat": 25.77668, "lng": -80.13264}, {"anchorId": "stripsteak-by-michael-mina", "rank": 5, "name": "StripSteak by Michael Mina", "label": "5. StripSteak by Michael Mina", "ctaUrl": "https://maps.google.com/?q=StripSteak+by+Michael+Mina+Miami+Beach+Miami", "mapQuery": "StripSteak by Michael Mina, Miami Beach, Miami", "lat": 25.81665, "lng": -80.12351}, {"anchorId": "edge-steak-bar", "rank": 6, "name": "Edge Steak & Bar", "label": "6. Edge Steak & Bar", "ctaUrl": "https://maps.google.com/?q=Edge+Steak+&+Bar+Brickell+Miami", "mapQuery": "Edge Steak & Bar, Brickell, Miami", "lat": 25.75971, "lng": -80.19159}, {"anchorId": "the-capital-grille", "rank": 7, "name": "The Capital Grille", "label": "7. The Capital Grille", "ctaUrl": "https://maps.google.com/?q=The+Capital+Grille+Brickell+Miami", "mapQuery": "The Capital Grille, Brickell, Miami", "lat": 25.76814, "lng": -80.18958}, {"anchorId": "meat-market-miami-beach", "rank": 8, "name": "Meat Market Miami Beach", "label": "8. Meat Market Miami Beach", "ctaUrl": "https://maps.google.com/?q=Meat+Market+Miami+Beach+South+Beach+Miami", "mapQuery": "Meat Market Miami Beach, South Beach, Miami", "lat": 25.7909, "lng": -80.13327}, {"anchorId": "fogo-de-chão-brazilian-steakhouse", "rank": 9, "name": "Fogo de Chão Brazilian Steakhouse", "label": "9. Fogo de Chão Brazilian Steakhouse", "ctaUrl": "https://maps.google.com/?q=Fogo+de+Chão+Brazilian+Steakhouse+South+Beach+Miami", "mapQuery": "Fogo de Chão Brazilian Steakhouse, South Beach, Miami", "lat": 25.77356, "lng": -80.13521}, {"anchorId": "pm-fish-steak-house", "rank": 10, "name": "PM Fish & Steak House", "label": "10. PM Fish & Steak House", "ctaUrl": "https://maps.google.com/?q=PM+Fish+&+Steak+House+Brickell+Miami", "mapQuery": "PM Fish & Steak House, Brickell, Miami", "lat": 25.76449, "lng": -80.19799}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>

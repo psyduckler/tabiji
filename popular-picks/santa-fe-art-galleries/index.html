@@ -1561,73 +1561,7 @@
   <script>
     window.__POPULAR_PICKS_MAP__ = {"enabled": true, "title": "Art Galleries Map", "ctaLabel": "Open in Google Maps", "defaultCtaUrl": "https://www.google.com/maps/search/art+galleries+in+Santa+Fe", "picks": [{"anchorId": "georgia-okeeffe-museum", "rank": 1, "name": "Georgia O'Keeffe Museum", "label": "1. Georgia O'Keeffe Museum", "ctaUrl": "https://maps.google.com/?q=Georgia+O'Keeffe+Museum+Downtown+Santa+Fe", "mapQuery": "Georgia O'Keeffe Museum, Downtown, Santa Fe", "lat": 35.6888, "lng": -105.9392}, {"anchorId": "site-santa-fe", "rank": 2, "name": "SITE Santa Fe", "label": "2. SITE Santa Fe", "ctaUrl": "https://maps.google.com/?q=SITE+Santa+Fe+Railyard+Arts+District+Santa+Fe", "mapQuery": "SITE Santa Fe, Railyard Arts District, Santa Fe", "lat": 35.6811, "lng": -105.9463}, {"anchorId": "iaia-museum-of-contemporary-native-arts", "rank": 3, "name": "IAIA Museum of Contemporary Native Arts (MoCNA)", "label": "3. IAIA Museum of Contemporary Native Arts (MoCNA)", "ctaUrl": "https://maps.google.com/?q=IAIA+Museum+of+Contemporary+Native+Arts+(MoCNA)+Downtown+Santa+Fe", "mapQuery": "IAIA Museum of Contemporary Native Arts (MoCNA), Downtown, Santa Fe", "lat": 35.6888, "lng": -105.936}, {"anchorId": "new-mexico-museum-of-art", "rank": 4, "name": "New Mexico Museum of Art", "label": "4. New Mexico Museum of Art", "ctaUrl": "https://maps.google.com/?q=New+Mexico+Museum+of+Art+Downtown+Santa+Fe", "mapQuery": "New Mexico Museum of Art, Downtown, Santa Fe", "lat": 35.6879, "lng": -105.9389}, {"anchorId": "gerald-peters-gallery", "rank": 5, "name": "Gerald Peters Gallery", "label": "5. Gerald Peters Gallery", "ctaUrl": "https://maps.google.com/?q=Gerald+Peters+Gallery+Downtown+Santa+Fe", "mapQuery": "Gerald Peters Gallery, Downtown, Santa Fe", "lat": 35.6908, "lng": -105.9423}, {"anchorId": "nedra-matteucci-galleries", "rank": 6, "name": "Nedra Matteucci Galleries", "label": "6. Nedra Matteucci Galleries", "ctaUrl": "https://maps.google.com/?q=Nedra+Matteucci+Galleries+Canyon+Road+Santa+Fe", "mapQuery": "Nedra Matteucci Galleries, Canyon Road, Santa Fe", "lat": 35.6905, "lng": -105.9388}, {"anchorId": "blue-rain-gallery", "rank": 7, "name": "Blue Rain Gallery", "label": "7. Blue Rain Gallery", "ctaUrl": "https://maps.google.com/?q=Blue+Rain+Gallery+Downtown+Santa+Fe", "mapQuery": "Blue Rain Gallery, Downtown, Santa Fe", "lat": 35.6811, "lng": -105.9463}, {"anchorId": "zane-bennett-contemporary-art", "rank": 8, "name": "Zane Bennett Contemporary Art", "label": "8. Zane Bennett Contemporary Art", "ctaUrl": "https://maps.google.com/?q=Zane+Bennett+Contemporary+Art+Railyard+Arts+District+Santa+Fe", "mapQuery": "Zane Bennett Contemporary Art, Railyard Arts District, Santa Fe", "lat": 35.6816, "lng": -105.9458}, {"anchorId": "manitou-galleries", "rank": 9, "name": "Manitou Galleries", "label": "9. Manitou Galleries", "ctaUrl": "https://maps.google.com/?q=Manitou+Galleries+Canyon+Road+Santa+Fe", "mapQuery": "Manitou Galleries, Canyon Road, Santa Fe", "lat": 35.6879, "lng": -105.9389}, {"anchorId": "ventana-fine-art", "rank": 10, "name": "Ventana Fine Art", "label": "10. Ventana Fine Art", "ctaUrl": "https://maps.google.com/?q=Ventana+Fine+Art+Canyon+Road+Santa+Fe", "mapQuery": "Ventana Fine Art, Canyon Road, Santa Fe", "lat": 35.6888, "lng": -105.9298}]};
   </script>
-  <script>
-    (function () {
-      var sections = Array.prototype.slice.call(document.querySelectorAll('.restaurant-section'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('[data-map-panel]'));
-      var mapConfig = window.__POPULAR_PICKS_MAP__ || {};
-      var mapState = { maps: [] };
-      if (!sections.length || !panels.length) return;
-      function findPickBySection(section) {
-        var id = section && section.id;
-        if (!id || !Array.isArray(mapConfig.picks)) return null;
-        return mapConfig.picks.find(function (pick) { return pick.anchorId === id; }) || null;
-      }
-      function syncPanels(section, pick) {
-        panels.forEach(function (panel) {
-          var title = panel.querySelector('[data-map-active-pick]');
-          var cta = panel.querySelector('[data-map-cta]');
-          if (title) title.textContent = (section && section.dataset.mapName) || (pick && pick.label) || '';
-          if (cta) cta.href = (pick && pick.ctaUrl) || (section && section.dataset.mapCtaUrl) || mapConfig.defaultCtaUrl || '#';
-        });
-      }
-      function highlightMarker(activePick) {
-        mapState.maps.forEach(function (entry) {
-          entry.markers.forEach(function (markerEntry) {
-            var isActive = activePick && markerEntry.pick.anchorId === activePick.anchorId;
-            markerEntry.marker.setIcon({ path: google.maps.SymbolPath.CIRCLE, scale: isActive ? 12 : 9, fillColor: isActive ? '#2D3A5C' : '#A85A37', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 2 });
-            markerEntry.marker.setZIndex(isActive ? 1000 : markerEntry.pick.rank);
-          });
-          if (activePick) entry.map.panTo({ lat: activePick.lat, lng: activePick.lng });
-        });
-      }
-      function setActive(section) {
-        if (!section) return;
-        var activePick = findPickBySection(section);
-        sections.forEach(function (item) { item.classList.toggle('active', item === section); });
-        syncPanels(section, activePick);
-        if (window.google && google.maps && activePick) highlightMarker(activePick);
-      }
-      function initMaps() {
-        if (!mapConfig.enabled || !Array.isArray(mapConfig.picks) || !mapConfig.picks.length) return;
-        panels.forEach(function (panel) {
-          var canvas = panel.querySelector('[data-map-canvas]');
-          if (!canvas) return;
-          var map = new google.maps.Map(canvas, { center: { lat: mapConfig.picks[0].lat, lng: mapConfig.picks[0].lng }, zoom: 13, mapTypeControl: false, streetViewControl: false, fullscreenControl: false, clickableIcons: false, styles: [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }, { featureType: 'transit', stylers: [{ visibility: 'off' }] }] });
-          var bounds = new google.maps.LatLngBounds();
-          var markers = mapConfig.picks.map(function (pick) {
-            var marker = new google.maps.Marker({ position: { lat: pick.lat, lng: pick.lng }, map: map, title: pick.label, label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' } });
-            var infoWindow = new google.maps.InfoWindow({ content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>' });
-            marker.addListener('click', function () { infoWindow.open({ anchor: marker, map: map }); var target = document.getElementById(pick.anchorId); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-            bounds.extend(marker.getPosition());
-            return { pick: pick, marker: marker, infoWindow: infoWindow };
-          });
-          if (mapConfig.picks.length > 1) map.fitBounds(bounds, 48);
-          mapState.maps.push({ panel: panel, map: map, markers: markers });
-        });
-        setTimeout(function () { setActive(sections[0]); }, 0);
-      }
-      window.initPopularPicksMaps = initMaps;
-      setActive(sections[0]);
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          var visible = entries.filter(function (entry) { return entry.isIntersecting; }).sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
-        sections.forEach(function (section) { observer.observe(section); });
-      }
-    }());
-  </script>
+  <script defer src="/assets/popular-picks-leaf.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc&callback=initPopularPicksMaps"></script>
 
 <script>
