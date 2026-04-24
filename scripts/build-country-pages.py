@@ -873,8 +873,28 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
     body.editorial-v2 .qf-value-small { font-size: 0.9rem; }
     body.editorial-v2 .qf-value .stars { color: var(--terracotta); letter-spacing: 0.05em; margin-right: 0.25rem; }
     body.editorial-v2 .qf-value .rating-label { font-style: italic; color: var(--text-muted); font-weight: 500; }
-    body.editorial-v2 .qf-emergency { font-variant-numeric: tabular-nums; }
-    body.editorial-v2 .qf-emergency a { color: var(--indigo); text-decoration: none; border-bottom: 1px solid var(--terracotta); }
+    body.editorial-v2 .qf-emergency { font-variant-numeric: tabular-nums; cursor: pointer; }
+    body.editorial-v2 .qf-tile:has(.qf-emergency) { cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+    body.editorial-v2 .qf-tile:has(.qf-emergency):hover { border-color: var(--terracotta); background: var(--white); }
+    body.editorial-v2 .qf-emergency a {
+        color: var(--indigo);
+        text-decoration: underline;
+        text-decoration-color: var(--terracotta);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+    }
+    body.editorial-v2 .qf-emergency a:hover { color: var(--terracotta); }
+    body.editorial-v2 .qf-emergency::before {
+        content: "📞 tap to call";
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 0.62rem;
+        font-weight: 700;
+        color: var(--terracotta);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+    }
 
     body.editorial-v2 .layout {
         max-width: 1100px;
@@ -1112,8 +1132,8 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
         min-width: 7ch;
         text-align: center;
     }
-    body.editorial-v2 .status-banned { background: #FEE2E2; color: #991B1B; }
-    body.editorial-v2 .status-restricted, body.editorial-v2 .status-controlled { background: #FEF3D8; color: #92400E; }
+    body.editorial-v2 .status-banned { background: #991B1B; color: #FFFFFF; border: 1px solid #7F1D1D; }
+    body.editorial-v2 .status-restricted, body.editorial-v2 .status-controlled { background: #92400E; color: #FFFFFF; border: 1px solid #78350F; }
     body.editorial-v2 .med-info strong {
         font-family: var(--font-serif);
         color: var(--indigo);
@@ -1233,6 +1253,9 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
         body.editorial-v2 .layout { grid-template-columns: 1fr; gap: 1.5rem; }
         body.editorial-v2 aside.toc { display: none; }
         body.editorial-v2 .toc-mobile { display: block; }
+    }
+    @media (max-width: 480px) {
+        body.editorial-v2 .quick-facts { grid-template-columns: 1fr; gap: 0.6rem; }
     }
     @media print {
         nav, footer, .emergency-fab, .toc-mobile, aside.toc { display: none !important; }

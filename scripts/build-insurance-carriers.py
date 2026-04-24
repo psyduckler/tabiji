@@ -112,9 +112,27 @@ def render_carrier_page(carrier: dict, content: dict) -> str:
     tslug = tier_slug(tier)
     today = date.today().isoformat()
 
+    product_id = f"https://tabiji.ai/health/insurance/{slug}/#product"
     schema = {
         "@context": "https://schema.org",
         "@graph": [
+            {
+                "@type": "FinancialProduct",
+                "@id": product_id,
+                "name": f"{name} — international travel coverage",
+                "category": "HealthInsurance",
+                "description": content.get("short") or carrier["coverage_headline"],
+                "provider": {
+                    "@type": "Organization",
+                    "name": name,
+                },
+                "serviceType": "Health insurance — international travel coverage",
+                "feesAndCommissionsSpecification": content["supplemental_verdict"],
+                "audience": {
+                    "@type": "PeopleAudience",
+                    "audienceType": "US residents traveling internationally",
+                },
+            },
             {
                 "@type": "Article",
                 "headline": f"{name} — International Travel Coverage Guide",
@@ -128,7 +146,7 @@ def render_carrier_page(carrier: dict, content: dict) -> str:
                 "datePublished": "2026-03-01",
                 "dateModified": today,
                 "lastReviewed": today,
-                "about": {"@type": "FinancialProduct", "name": name, "category": "HealthInsurance"},
+                "about": {"@id": product_id},
                 "author": {"@type": "Organization", "name": "tabiji editorial team", "url": "https://tabiji.ai/about/"},
                 "publisher": {
                     "@type": "Organization",

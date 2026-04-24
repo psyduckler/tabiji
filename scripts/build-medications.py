@@ -207,6 +207,15 @@ def render_hub_schema(countries_count, med_entries_count, today) -> dict:
 
 
 def render_tier1_schema(tier1: dict, country_counts: dict, today: str) -> dict:
+    howto_steps = [
+        {
+            "@type": "HowToStep",
+            "position": i + 1,
+            "name": step["title"],
+            "text": step["body"],
+        }
+        for i, step in enumerate(tier1["travel_strategy"])
+    ]
     return {
         "@context": "https://schema.org",
         "@graph": [
@@ -234,6 +243,16 @@ def render_tier1_schema(tier1: dict, country_counts: dict, today: str) -> dict:
                     "url": "https://tabiji.ai",
                     "logo": {"@type": "ImageObject", "url": "https://img.tabiji.ai/tabiji-owl-logo.png"},
                 },
+            },
+            {
+                "@type": "HowTo",
+                "name": f"How to travel with {tier1['canonical_name'].lower()}",
+                "description": (
+                    f"Five practical steps to travel legally with {tier1['canonical_name'].lower()} "
+                    "when your destination restricts it — or to travel without it."
+                ),
+                "totalTime": "PT30M",
+                "step": howto_steps,
             },
             {
                 "@type": "BreadcrumbList",
@@ -601,8 +620,8 @@ SHARED_STYLES = r"""
         min-width: 8ch;
         text-align: center;
     }
-    body.editorial-v2 .status-banned { background: #FEE2E2; color: #991B1B; }
-    body.editorial-v2 .status-restricted, body.editorial-v2 .status-controlled { background: #FEF3D8; color: #92400E; }
+    body.editorial-v2 .status-banned { background: #991B1B; color: #FFFFFF; border: 1px solid #7F1D1D; }
+    body.editorial-v2 .status-restricted, body.editorial-v2 .status-controlled { background: #92400E; color: #FFFFFF; border: 1px solid #78350F; }
     body.editorial-v2 .med-info .med-name { font-family: var(--font-serif); font-weight: 600; color: var(--indigo); }
     body.editorial-v2 .med-info .med-note { font-family: var(--font-serif); font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-top: 0.2rem; }
     body.editorial-v2 .no-results {
