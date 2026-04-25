@@ -1,5 +1,16 @@
 const { absoluteUrl } = require('./render-meta');
 
+const AUTHOR_PERSON = {
+  '@type': 'Person',
+  name: 'Bernard Huang',
+  jobTitle: 'Editor',
+  url: 'https://tabiji.ai/about/',
+  image: 'https://img.tabiji.ai/authors/bernard-huang.jpg',
+  worksFor: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
+};
+
+const PUBLISHER_ORG = { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' };
+
 function isLikelyPriceRange(value = '') {
   return /[$€£¥₩฿₵₫₹]|\bfree\b|\d+\s*(?:-|–|to)\s*[$€£¥₩฿₵₫₹]?\d+/i.test(String(value));
 }
@@ -14,6 +25,29 @@ function renderJsonLd(obj) {
   return `<script type="application/ld+json">${JSON.stringify(obj, null, 2)}</script>`;
 }
 
+function buildBreadcrumb(data) {
+  const canonical = absoluteUrl(data.seo.canonicalPath);
+  const country = data.taxonomy?.country || '';
+  const items = [
+    { name: 'Home', url: 'https://tabiji.ai/' },
+    { name: 'Popular Picks', url: 'https://tabiji.ai/popular-picks/' },
+  ];
+  if (country) {
+    items.push({ name: country, url: `https://tabiji.ai/popular-picks/${country.toLowerCase().replace(/\s+/g, '-')}/` });
+  }
+  items.push({ name: data.seo.h1, url: canonical });
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
 function renderSchema(data) {
   const canonical = absoluteUrl(data.seo.canonicalPath);
   const heroImage = absoluteUrl(data.seo.heroImage || '');
@@ -25,12 +59,16 @@ function renderSchema(data) {
     '@type': 'Article',
     headline: data.seo.h1,
     description: data.seo.metaDescription,
-    author: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
-    publisher: { '@type': 'Organization', name: 'tabiji.ai', url: 'https://tabiji.ai' },
+    author: AUTHOR_PERSON,
+    publisher: PUBLISHER_ORG,
     ...(publishedDate ? { datePublished: publishedDate } : {}),
     ...(modifiedDate ? { dateModified: modifiedDate } : {}),
     mainEntityOfPage: canonical,
-    ...(heroImage ? { image: heroImage } : {})
+    ...(heroImage ? { image: heroImage } : {}),
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.hero h1', '.hero .subtitle', '.quick-answer-section', '.faq-section'],
+    },
   };
 
   const itemList = {
@@ -42,27 +80,44 @@ function renderSchema(data) {
     numberOfItems: data.picks.length,
     itemListElement: data.picks.map((pick) => {
       const foodTypes = new Set(['Restaurant', 'CafeOrCoffeeShop', 'BarOrPub']);
-      const resolvedType = (() => {
-        const typeMap = { restaurant: 'Restaurant', cafe: 'CafeOrCoffeeShop', bar: 'BarOrPub', market: 'LocalBusiness' };
-        return typeMap[pick.placeType] || 'LocalBusiness';
-      })();
-      return ({
-      '@type': 'ListItem',
-      position: pick.rank,
-      item: {
-        '@type': resolvedType,
-        name: pick.name,
-        ...(() => {
-          if (!foodTypes.has(resolvedType)) return {};
-          const cuisines = (pick.tags || []).filter(isLikelyCuisine);
-          return cuisines.length ? { servesCuisine: cuisines.join(' / ') } : {};
-        })(),
-        ...(pick.address ? { address: { '@type': 'PostalAddress', addressLocality: pick.address, addressCountry: data.taxonomy.countryCode || data.taxonomy.country } } : {}),
-        ...(pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? { priceRange: pick.priceRangeLocal } : {}),
-        ...(pick.googleMapsUrl ? { url: pick.googleMapsUrl } : {})
-      }
-    });
-  })
+      const typeMap = { restaurant: 'Restaurant', cafe: 'CafeOrCoffeeShop', bar: 'BarOrPub', market: 'LocalBusiness' };
+      const resolvedType = typeMap[pick.placeType] || 'LocalBusiness';
+      const cuisines = (pick.tags || []).filter(isLikelyCuisine);
+      return {
+        '@type': 'ListItem',
+        position: pick.rank,
+        item: {
+          '@type': resolvedType,
+          name: pick.name,
+          ...(foodTypes.has(resolvedType) && cuisines.length ? { servesCuisine: cuisines.join(' / ') } : {}),
+          ...(pick.address
+            ? {
+                address: {
+                  '@type': 'PostalAddress',
+                  addressLocality: pick.address,
+                  addressCountry: data.taxonomy.countryCode || data.taxonomy.country,
+                },
+              }
+            : {}),
+          ...(pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? { priceRange: pick.priceRangeLocal } : {}),
+          ...(typeof pick.googleRating === 'number' && typeof pick.reviewCount === 'number'
+            ? {
+                aggregateRating: {
+                  '@type': 'AggregateRating',
+                  ratingValue: pick.googleRating,
+                  reviewCount: pick.reviewCount,
+                  bestRating: 5,
+                },
+              }
+            : {}),
+          ...(typeof pick.lat === 'number' && typeof pick.lng === 'number'
+            ? { geo: { '@type': 'GeoCoordinates', latitude: pick.lat, longitude: pick.lng } }
+            : {}),
+          ...(pick.googleMapsUrl ? { hasMap: pick.googleMapsUrl } : {}),
+          ...(pick.website ? { url: pick.website } : pick.googleMapsUrl ? { url: pick.googleMapsUrl } : {}),
+        },
+      };
+    }),
   };
 
   const faq = {
@@ -71,28 +126,13 @@ function renderSchema(data) {
     mainEntity: data.faq.map((item) => ({
       '@type': 'Question',
       name: item.question,
-      acceptedAnswer: { '@type': 'Answer', text: item.answer }
-    }))
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
   };
 
-  const touristTrip = {
-    '@context': 'https://schema.org',
-    '@type': 'TouristTrip',
-    name: data.seo.h1,
-    description: `in ${data.hero.eyebrow}, verified ${data.summary.lastVerifiedLabel || data.verification.lastVerified}.`,
-    url: canonical,
-    additionalProperty: [
-      { '@type': 'PropertyValue', name: 'totalOptions', value: String(data.summary.totalOptions) },
-      data.summary.bestBudgetOption ? { '@type': 'PropertyValue', name: 'bestBudgetOption', value: data.summary.bestBudgetOption } : null,
-      data.summary.bestLuxuryOption ? { '@type': 'PropertyValue', name: 'bestLuxuryOption', value: data.summary.bestLuxuryOption } : null,
-      data.summary.bestOverall ? { '@type': 'PropertyValue', name: 'bestOverall', value: data.summary.bestOverall } : null,
-      { '@type': 'PropertyValue', name: 'topPick', value: data.summary.topPick },
-      (data.summary.sourcesAnalyzed && !/Extracted/i.test(data.summary.sourcesAnalyzed)) ? { '@type': 'PropertyValue', name: 'sourcesAnalyzed', value: data.summary.sourcesAnalyzed } : null,
-      { '@type': 'PropertyValue', name: 'lastVerified', value: data.verification.lastVerified }
-    ].filter(Boolean)
-  };
+  const breadcrumb = buildBreadcrumb(data);
 
-  return [article, itemList, faq, touristTrip].map(renderJsonLd).join('\n    ');
+  return [article, itemList, faq, breadcrumb].map(renderJsonLd).join('\n    ');
 }
 
-module.exports = { renderSchema };
+module.exports = { renderSchema, AUTHOR_PERSON, PUBLISHER_ORG };
