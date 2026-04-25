@@ -149,7 +149,11 @@ function extractPickQuickTake(block) {
 function buildGenericSection(sectionId, rank, name, block, opts = {}) {
   const verticalHint = opts.verticalHint || 'restaurants-food';
   const cuisine = decodeBasicEntities(stripTags(matchOne(block, opts.cuisineRegex || /<span class="cuisine-tag [^"]+">(.*?)<\/span>/s) || ''));
-  const rating = matchOne(block, /<span class="google-rating"><span class="star">★<\/span> ([0-9.]+)/);
+  // Match both literal ★ and the &#9733; HTML entity — the pre-upgrade pages used the
+  // literal char, but the auto-upgrade scripts that rewrote pages around early 2026
+  // converted them all to entity-encoded form. The single-format regex silently
+  // dropped ratings on every page that had been auto-upgraded.
+  const rating = matchOne(block, /<span class="google-rating"><span class="star">(?:★|&#9733;)<\/span>\s*([0-9.]+)/);
   const reviewCount = matchOne(block, /· ([0-9,]+) reviews/);
   const priceRangeLocal = decodeBasicEntities(stripTags(matchOne(block, /<span>[^<]*[₵$¥£€₩¥][^<]*<\/span>/s) || matchOne(block, /<span>[💴💰]\s*(.*?)<\/span>/s) || '')).replace(/^[^₵$¥£€₩¥0-9]+/, '');
   const address = decodeBasicEntities(stripTags(matchOne(block, opts.addressRegex || /<span>📍 (.*?)<\/span>/s) || ''));
