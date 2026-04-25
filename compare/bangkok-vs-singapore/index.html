@@ -279,12 +279,143 @@
 <li>Cross-referenced seasonal patterns and weather data from meteorological sources to provide accurate best-time-to-visit recommendations.</li></ul></div>
 <div class="photo-grid">
 <div>
-<img alt="Golden temples and street food of Bangkok" height="400" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" src="https://img.tabiji.ai/find/img/bangkok.webp" width="600" decoding="async"/>
+<img alt="Golden temples and street food of Bangkok" height="400" fetchpriority="high" sizes="(max-width: 768px) 100vw, 50vw" src="https://img.tabiji.ai/find/img/bangkok.webp" width="600" decoding="async"/>
 <div class="caption">Bangkok</div>
 </div>
 <div>
 <img alt="Futuristic gardens and hawker food culture of Singapore" height="400" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" src="https://img.tabiji.ai/find/img/singapore.webp" width="600" decoding="async"/>
 <div class="caption">Singapore</div>
+</div>
+</div>
+<div class="quick-answers" id="quick-answers"><h2>⚡ Quick Answers</h2><div class="qa-grid"><a class="qa-card" href="#cost-breakdown">
+<div class="qa-q">Which is cheaper?</div>
+<div class="qa-a">Bangkok, dramatically — by 50–60%. Bangkok mid-range runs $40–80/day (boutique hotels in Sukhumvit $50–90/night, ฿60 pad krapow lunches, ฿25 BTS fares); Singapore is $100–200/day at minimum ($150–300 boutique stays, $15–25 hawker meals, $20+ cocktails). Bangkok has hostels at $8–15; Singapore's start at $35–60. The price gap is one of the biggest in Southeast Asia.</div>
+<span class="qa-winner dest1">Bangkok wins</span>
+</a>
+<a class="qa-card" href="#food-scene">
+<div class="qa-q">Which has better food?</div>
+<div class="qa-a">Genuinely too close to call. Bangkok: legendary street food (Jay Fai, Raan Jay Fai's crab omelette, ฿80 boat noodles), iconic Thai cuisine, Michelin-starred Gaggan and Le Du. Singapore: hawker centers (Maxwell, Lau Pa Sat, Tiong Bahru), 4 cuisines (Chinese, Malay, Indian, Peranakan) on one plate, the world's cheapest Michelin star (Hawker Chan). Bangkok for Thai depth; Singapore for cuisine variety.</div>
+<span class="qa-winner tie">Tied</span>
+</a>
+<a class="qa-card" href="#culture-history">
+<div class="qa-q">Better for first-time Southeast Asia?</div>
+<div class="qa-a">Singapore, by a wide margin. Universal English signage, English-fluent service workers, MRT (clean, signed in English), zero hustling, drinkable tap water, world-class healthcare. Bangkok is the iconic SE Asia experience but it's chaotic — language barrier, scam-heavy tourist zones, traffic, monsoon flooding. Singapore is the smoother on-ramp; Bangkok is the deeper dive.</div>
+<span class="qa-winner dest2">Singapore wins</span>
+</a>
+<a class="qa-card" href="#nightlife-entertainment">
+<div class="qa-q">Better nightlife?</div>
+<div class="qa-a">Bangkok, decisively for energy and value. Khao San Road backpacker bars, Soi 11 mid-range nightclubs, rooftop bars (Vertigo, Sky Bar Lebua, Octave), $4 cocktails on the river. Singapore has refined cocktail bars (Atlas, Manhattan, Jigger & Pony in World's 50 Best) but $20+ cocktails, 12am last calls, and zero late-night street life. Bangkok = chaotic energy; Singapore = curated.</div>
+<span class="qa-winner dest1">Bangkok wins</span>
+</a>
+<a class="qa-card" href="#getting-around">
+<div class="qa-q">Easier to get around?</div>
+<div class="qa-a">Singapore, dramatically. The MRT covers the entire island, $1–2 fares, English-signed, runs until 11:30pm. Buses cover the rest. Bangkok has BTS Skytrain + MRT but they're limited to central spine; reaching old town (Khao San, Grand Palace) requires taxis or boats — and Bangkok traffic is among the worst in Asia, with rush-hour journeys taking 90+ minutes for 5km. Singapore wins decisively for transit.</div>
+<span class="qa-winner dest2">Singapore wins</span>
+</a>
+<a class="qa-card" href="#culture-history">
+<div class="qa-q">Better temples and history?</div>
+<div class="qa-a">Bangkok, easily. Grand Palace + Wat Phra Kaew, Wat Pho (Reclining Buddha), Wat Arun (Temple of Dawn), Wat Saket (Golden Mount), plus Ayutthaya day-trip — 1,000 years of Thai history dense across one walkable old-town zone. Singapore has Buddha Tooth Relic Temple and Sri Mariamman but is a 200-year-old city with mostly modern attractions. For temples and ancient depth, Bangkok wins clearly.</div>
+<span class="qa-winner dest1">Bangkok wins</span>
+</a>
+</div></div>
+<div class="personalize-widget" id="personalize">
+<h2>🎯 Tell me about your trip</h2>
+<div class="personalize-row"><label>Traveling…</label><div class="pill-group" data-group="style">
+<button class="personalize-pill" data-val="solo" onclick="selectPill(this)">Solo</button>
+<button class="personalize-pill" data-val="couple" onclick="selectPill(this)">Couple</button>
+<button class="personalize-pill" data-val="family" onclick="selectPill(this)">Family</button>
+<button class="personalize-pill" data-val="friends" onclick="selectPill(this)">Friends</button>
+</div></div>
+<div class="personalize-row"><label>Budget…</label><div class="pill-group" data-group="budget">
+<button class="personalize-pill" data-val="backpacker" onclick="selectPill(this)">Backpacker</button>
+<button class="personalize-pill" data-val="midrange" onclick="selectPill(this)">Mid-range</button>
+<button class="personalize-pill" data-val="luxury" onclick="selectPill(this)">Luxury</button>
+</div></div>
+<div class="personalize-row"><label>I care about…</label><div class="pill-group" data-group="priority">
+<button class="personalize-pill" data-val="food" onclick="selectPill(this)">Food</button>
+<button class="personalize-pill" data-val="nightlife" onclick="selectPill(this)">Nightlife</button>
+<button class="personalize-pill" data-val="culture" onclick="selectPill(this)">Culture/Temples</button>
+<button class="personalize-pill" data-val="ease" onclick="selectPill(this)">Ease/Comfort</button>
+</div></div>
+<div class="personalize-result" id="personalize-result"></div>
+</div>
+<script>
+var personState={};
+var recommendations={
+"solo_backpacker_food":"For a <strong>solo backpacker chasing food</strong>, pick <strong>Bangkok</strong>. Hostels in Banglamphu or Sukhumvit ($8–18/night), Jay Fai's iconic crab omelette ($30), ฿60 boat noodles, ฿80 mango sticky rice, Michelin Bib Gourmand street stalls. Singapore hawker centers are great but Bangkok delivers iconic Thai dishes at backpacker prices.",
+"solo_backpacker_nightlife":"For a <strong>solo backpacker chasing nightlife</strong>, pick <strong>Bangkok</strong>. Hostels around Khao San or Sukhumvit Soi 11 ($8–18/night), $2 Chang beers, $4 buckets at Khao San, late-night street food crawls, $20 entries to mid-range clubs. Singapore's drinking scene is curated but expensive ($20+ cocktails) with early last calls.",
+"solo_backpacker_culture":"For a <strong>solo backpacker chasing culture</strong>, pick <strong>Bangkok</strong>. Hostels in old town near Khao San ($8–15/night), free entry to most temples (Grand Palace ฿500 = $14), Ayutthaya day-trip by ฿20 train, Wat Pho thai massage school. 1,000 years of Thai history, all walkable from a $10 hostel.",
+"couple_midrange_food":"For a <strong>couple mid-range chasing food</strong>, pick <strong>Bangkok</strong>. Boutique hotels in Sukhumvit or Riverside ($80–180/night), Le Du tasting menu ($120 for two), Gaggan Anand if it reopens, $5 boat noodles, ฿250 tom yum kung at Pe Aor. Bangkok has the world's best food-per-dollar at mid-range.",
+"couple_midrange_culture":"For a <strong>couple mid-range chasing culture/temples</strong>, pick <strong>Bangkok</strong>. Boutique stays in old town near Phra Nakhon ($60–140/night), Grand Palace + Wat Pho + Wat Arun trio (full day), Ayutthaya UNESCO day-trip, Jim Thompson House. Bangkok delivers more historical depth than any SE Asia capital at mid-range prices.",
+"couple_midrange_ease":"For a <strong>couple mid-range chasing ease/comfort</strong>, pick <strong>Singapore</strong>. Boutique stays in Tiong Bahru, Chinatown, or Bras Basah ($150–280/night), MRT to everything ($1–2 fares), English everywhere, drinkable tap water, no scams. The world's smoothest urban experience at mid-range — Bangkok's chaos becomes work for couples seeking relaxation.",
+"couple_luxury_ease":"For a <strong>couple luxury chasing ease</strong>, pick <strong>Singapore</strong>. Marina Bay Sands, Raffles Hotel, or Capella Sentosa ($600–2,500/night), in-villa breakfast, MRT or chauffeured Bentley, world-class spa, Michelin tasting menus, no friction. Singapore is the world's most polished luxury-city experience; Bangkok luxury is excellent but the city itself is chaotic.",
+"couple_luxury_food":"For a <strong>couple luxury chasing food</strong>, pick <strong>Bangkok</strong>. Mandarin Oriental or The Siam ($800–2,000/night), tasting menus at Le Du, Sühring, Gaggan, in-villa Thai cooking class, evening sail on Chao Phraya River with chef. Bangkok's high-end Thai is one of the most refined cuisines on Earth at 50% Singapore prices.",
+"family_midrange_ease":"For a <strong>family mid-range chasing ease</strong>, pick <strong>Singapore</strong>. Family hotels in Sentosa or Marina Bay ($200–400/night for connecting rooms), Universal Studios, S.E.A. Aquarium, Gardens by the Bay, MRT throughout, no language barrier, world-class healthcare. Bangkok is doable with kids but Singapore is dramatically smoother.",
+"family_midrange_culture":"For a <strong>family mid-range chasing culture</strong>, pick <strong>Bangkok</strong>. Family-friendly stays in Sukhumvit ($100–200/night), Grand Palace tour, Chinatown street food walk, elephant sanctuary day-trip, traditional dance dinner show. Older kids especially love Bangkok's sensory richness; younger families may prefer Singapore.",
+"friends_backpacker_nightlife":"For <strong>friends backpacker chasing nightlife</strong>, pick <strong>Bangkok</strong>. Hostels around Khao San or Sukhumvit Soi 11 ($8–18/night per bed), bucket cocktails on Khao San, rooftop happy hours, late-night Soi Cowboy, beer towers at Hot Pot Buffet. The iconic Southeast Asia friends-trip nightlife capital.",
+"friends_midrange_food":"For <strong>friends mid-range chasing food</strong>, pick <strong>Bangkok</strong>. Group apartments in Sukhumvit or Riverside ($60–140/night per room for 4), Jay Fai dinner crawl, boat noodles at Victory Monument, late-night Khao San roti, Sühring Thai fine-dining one night. Best food-and-friends value in Asia."
+};
+var fallbacks={
+"food":"For <strong>food</strong>, both world-class. Bangkok for Thai depth and value; Singapore for cuisine variety in hawker centers.",
+"nightlife":"For <strong>nightlife</strong>, Bangkok — energy, value, late-night culture. Singapore is curated and refined but expensive with early last calls.",
+"culture":"For <strong>temples and culture</strong>, Bangkok, decisively. 1,000 years of Thai history walkable across one old-town zone.",
+"ease":"For <strong>ease and comfort</strong>, Singapore, decisively. MRT, English everywhere, drinkable tap water, no scams — the smoothest urban experience in Asia."
+};
+function selectPill(btn){var g=btn.parentElement.getAttribute('data-group');btn.parentElement.querySelectorAll('.personalize-pill').forEach(function(p){p.classList.remove('selected')});btn.classList.add('selected');personState[g]=btn.getAttribute('data-val');showRecommendation()}
+function showRecommendation(){var s=personState;if(!s.style||!s.budget||!s.priority)return;var key=s.style+'_'+s.budget+'_'+s.priority;var result=document.getElementById('personalize-result');var text=recommendations[key]||fallbacks[s.priority]||'Both deliver in different ways. Scroll to compare.';result.innerHTML=text;result.classList.add('visible')}
+</script>
+<div class="scorecard" id="scorecard">
+<h2>📊 Visual Scorecard</h2>
+<div class="scorecard-overall">
+<div class="scorecard-city dest1"><div class="city-name">Bangkok</div><div class="city-score">5</div></div>
+<div class="scorecard-vs">vs</div>
+<div class="scorecard-city dest2"><div class="city-name">Singapore</div><div class="city-score">4</div></div>
+</div>
+<div class="scorecard-rows"><div class="sc-row">
+<span class="sc-cat">💰 Cost (Mid-range)</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:96%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:50%"></span></span></span>
+<span class="sc-winner dest1">Bangkok</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🍜 Food Scene</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:96%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:94%"></span></span></span>
+<span class="sc-winner tie">Tied</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🛕 Temples &amp; History</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:98%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:55%"></span></span></span>
+<span class="sc-winner dest1">Bangkok</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🌃 Nightlife Energy</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:96%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:75%"></span></span></span>
+<span class="sc-winner dest1">Bangkok</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🚆 Public Transit</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:55%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:98%"></span></span></span>
+<span class="sc-winner dest2">Singapore</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🛡️ Safety/Cleanliness</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:65%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:98%"></span></span></span>
+<span class="sc-winner dest2">Singapore</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🗣️ English Friendly</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:65%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:98%"></span></span></span>
+<span class="sc-winner dest2">Singapore</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">🛍️ Shopping</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:88%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:92%"></span></span></span>
+<span class="sc-winner dest2">Singapore</span>
+</div>
+<div class="sc-row">
+<span class="sc-cat">⚡ Sensory Energy</span>
+<span class="sc-bars"><span class="sc-bar-wrap"><span class="sc-bar dest1" style="width:98%"></span></span><span class="sc-bar-wrap"><span class="sc-bar dest2" style="width:65%"></span></span></span>
+<span class="sc-winner dest1">Bangkok</span>
+</div>
 </div>
 </div>
 <div class="verdict-box"><h2 id="the-tl-dr-verdict">⚡ The TL;DR Verdict</h2><p class="verdict-summary"><strong>For the adventurous, budget-conscious traveler craving sensory overload and unparalleled value, Bangkok is your chaotic, captivating winner with a rough daily budget of $40-80 USD. Singapore, on the other hand, is perfect for those prioritizing safety, efficiency, and curated luxury, willing to spend $100-200+ USD daily for a seamless, internationally recognized experience.</strong></p><ul class="verdict-takeaways"><li><strong>Choose Bangkok:</strong> You're looking for an exhilarating, budget-friendly adventure filled with incredible street food, packed markets, ancient temples, and electrifying nightlife.</li>
@@ -369,7 +500,7 @@
 <h2 id="cost-of-travel">💰 Cost of Travel</h2>
 <img alt="Ornate temples and bustling street food of bangkok" class="section-img" loading="lazy" src="https://img.tabiji.ai/find/img/bangkok.webp" width="800" height="280" decoding="async"/>
 <p>Bangkok is a budget traveler's dream, offering incredible value across the board. You can feast on a delicious street food meal for 50-100 THB (approx. $1.50-$3 USD), ride the BTS Skytrain for 16-59 THB ($0.50-$1.75 USD) per journey, and find comfortable guesthouses for 500-1000 THB ($15-$30 USD) a night, or mid-range hotels for 1500-3000 THB ($45-$90 USD). Even luxury here is a fraction of the cost elsewhere. In stark contrast, Singapore is notoriously expensive. A hawker center meal might set you back 5-10 SGD ($3.50-$7 USD), while a casual restaurant meal can easily be 20-40 SGD ($15-$30 USD). Public transport (MRT) is efficient but costs 1-2.50 SGD ($0.75-$1.80 USD) per ride. Accommodation is the biggest sticker shock; even budget hostels start around 30-50 SGD ($22-$37 USD), and a decent hotel will be 200-400 SGD ($150-$300 USD) or more. "Dude, my hostel in Singapore was literally double the price of my fancy hotel in Bangkok, no joke." - r/travel.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers phenomenal value for money, allowing travelers to experience more for less across all spending categories.</li><li><strong>Who this matters for:</strong> Budget travelers, backpackers, and anyone seeking maximum bang for their buck.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers phenomenal value for money, allowing travelers to experience more for less across all spending categories.</li><li><strong>Who this matters for:</strong> Budget travelers, backpackers, and anyone seeking maximum bang for their buck.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="food-scene">🍜 Food Scene</h2>
 <img alt="Futuristic gardens and hawker food of Singapore" class="section-img" loading="lazy" src="https://img.tabiji.ai/find/img/singapore.webp" width="800" height="280" decoding="async"/>
@@ -378,12 +509,12 @@
             "Bangkok. Singapore is cleaner, more first world, more developed. But its a little more bland, less exotic (coming from a developed country), and less exciting."
             <span class="source">— <a href="https://www.reddit.com/r/travel/comments/4x9cr9/singapore_or_bangkok/">r/travel user</a></span>
 </div>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok takes the crown for its unparalleled diversity, affordability, and authentic, chaotic street food experience.</li><li><strong>Who this matters for:</strong> Foodies, adventurous eaters, and travelers who love to discover new flavors on a budget.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok takes the crown for its unparalleled diversity, affordability, and authentic, chaotic street food experience.</li><li><strong>Who this matters for:</strong> Foodies, adventurous eaters, and travelers who love to discover new flavors on a budget.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="nightlife-entertainment">🌃 Nightlife &amp; Entertainment</h2>
 <img alt="Ornate temples and bustling street food of bangkok" class="section-img" loading="lazy" src="https://img.tabiji.ai/find/img/bangkok.webp" width="800" height="280" decoding="async"/>
 <p>Bangkok's nightlife is legendary and caters to every taste. You can sip sophisticated cocktails at rooftop bars like Octave or Vertigo at Banyan Tree, dance until dawn at clubs in RCA, or experience the lively beer gardens and street performances of Sukhumvit Soi 11. For something more unique, catch a Muay Thai fight at Lumpinee Boxing Stadium, or explore the infamous (and often controversial) Patpong or Soi Cowboy areas. Drinks are remarkably affordable, often 100-250 THB ($3-$7.50 USD) for a beer or cocktail. Singapore offers a more polished and upscale nightlife scene. Iconic spots like CE LA VI at Marina Bay Sands provide striking views and high-end drinks (expect 25-35 SGD / $18-$26 USD per cocktail). Clarke Quay is a popular hub for bars and clubs, and the city has excellent live music venues. However, the scene is significantly pricier and tends to be less raw and spontaneous than Bangkok's. "If you want wild, cheap fun until 4 AM, it's Bangkok. Singapore is for fancy drinks and feeling rich, but my wallet cries." - r/travel.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers a more diverse, energetic, and significantly more affordable nightlife experience for all preferences.</li><li><strong>Who this matters for:</strong> Party-goers, social travelers, and anyone looking for lively evening entertainment without breaking the bank.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers a more diverse, energetic, and significantly more affordable nightlife experience for all preferences.</li><li><strong>Who this matters for:</strong> Party-goers, social travelers, and anyone looking for lively evening entertainment without breaking the bank.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="culture-history">🏛️ Culture &amp; History</h2>
 <p>Bangkok immerses you in a layered culture of ancient Thai culture and history. The city is home to some of Southeast Asia's most iconic landmarks, including the awe-inspiring Grand Palace and Wat Phra Kaeo (Temple of the Emerald Buddha), the majestic Wat Arun (Temple of Dawn) along the Chao Phraya River, and the reclining Buddha at Wat Pho. Beyond the major sites, you can explore traditional floating markets, learn about Thai Buddhism, or witness classical dance performances. The sheer scale and historical significance of these sites offer a profound cultural experience that feels deeply rooted. Singapore, while younger, offers a fascinating blend of cultures due to its colonial past and diverse population. You can explore the packed streets of Chinatown, Little India, and Kampong Glam (Malay-Arab Quarter), each with its own unique temples, mosques, and traditions. Sites like the National Museum of Singapore and the Asian Civilisations Museum provide excellent insights into the region's history. However, it's a more modern and curated cultural experience. "Bangkok's temples are just... massive, spiritual. Singapore's cultural spots are cool, but you feel the history more in Thailand." - r/thailandtravel.</p>
@@ -391,11 +522,11 @@
             "I'd say Singapore is more clean and predictable, but expensive and rigorous. Bangkok is a bit crazy and full of surprises, but runs on its own schedule and ..."
             <span class="source">— <a href="https://www.reddit.com/r/Bangkok/comments/1m78w3u/longterm_in_bangkok_versus_singapore/">r/Bangkok user</a></span>
 </div>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers a more profound and visually gorgeous immersion into ancient Southeast Asian history and Buddhist traditions.</li><li><strong>Who this matters for:</strong> History buffs, spiritual seekers, and travelers looking for grand, traditional cultural experiences.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers a more profound and visually gorgeous immersion into ancient Southeast Asian history and Buddhist traditions.</li><li><strong>Who this matters for:</strong> History buffs, spiritual seekers, and travelers looking for grand, traditional cultural experiences.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="shopping">🛍️ Shopping</h2>
 <p>Bangkok is a shopper's paradise that caters to every budget and style. You can get lost for hours bargaining for unique souvenirs, clothing, and street art at the sprawling Chatuchak Weekend Market, or delve into the chaotic, multi-story MBK Center for electronics and fashion knock-offs. For a more upscale experience, the Siam area has high-end malls like Siam Paragon and CentralWorld, offering international brands and luxury goods. Even the night markets like Jodd Fairs are fantastic for trendy fashion and delicious snacks. The variety, value, and sheer fun of shopping in Bangkok are hard to beat. Singapore, conversely, is synonymous with luxury retail. Orchard Road is a gleaming strip of internationally recognized malls like ION Orchard and Ngee Ann City, featuring every major international designer brand imaginable. While the shopping experience is polished and sophisticated, prices are significantly higher. You'll find fewer unique, budget-friendly local markets here. "I bought so much stuff at Chatuchak for like nothing. Singapore's malls are beautiful, but my wallet screamed after one shirt." - r/travel.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok provides an unmatched diversity of shopping experiences, from packed markets to luxury malls, at significantly better price points.</li><li><strong>Who this matters for:</strong> Bargain hunters, fashion enthusiasts, and anyone who loves the thrill of market shopping.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok provides an unmatched diversity of shopping experiences, from packed markets to luxury malls, at significantly better price points.</li><li><strong>Who this matters for:</strong> Bargain hunters, fashion enthusiasts, and anyone who loves the thrill of market shopping.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="accommodation">🏨 Accommodation</h2>
 <p>Bangkok excels in accommodation, offering an incredible range of choices at prices that feel like a steal compared to most major cities. You can snag a clean, comfortable private room in a well-located hostel for 400-800 THB ($12-$24 USD). Mid-range boutique hotels are abundant for 1,200-2,500 THB ($35-$75 USD), often with pools and fantastic amenities. For a splurge, 5-star luxury hotels like the Mandarin Oriental or The Peninsula can be found for 5,000-10,000 THB ($150-$300 USD), which would cost triple or quadruple in many Western cities. The value proposition is simply unbeatable. Singapore's accommodation scene, while high-quality and impeccably designed, comes at a steep price. Even a basic, well-regarded hostel dorm bed can start around 30-50 SGD ($22-$37 USD). Mid-range hotels are typically 180-300 SGD ($130-$220 USD), and luxury hotels like Marina Bay Sands or The Fullerton Hotel can easily command 500-1000+ SGD ($370-$740+ USD) per night. "Found an insane 5-star hotel in Bangkok for the price of a 3-star in Singapore. It's just a different league of value." - r/solotravel.</p>
@@ -403,11 +534,11 @@
             "Singapore is ideal for a few days stopover. With Bangkok, you can always do it at a later time as part of a broader trip to Thailand (Chiang Mai, Phuket etc)."
             <span class="source">— <a href="https://www.reddit.com/r/travel/comments/1hvmium/which_is_better_for_a_stopover_singapore_or/">r/travel user</a></span>
 </div>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers superior value and a wider selection of high-quality accommodation options across all budget levels.</li><li><strong>Who this matters for:</strong> All travelers, especially those seeking comfort and luxury without the hefty price tag.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers superior value and a wider selection of high-quality accommodation options across all budget levels.</li><li><strong>Who this matters for:</strong> All travelers, especially those seeking comfort and luxury without the hefty price tag.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="getting-around">🚇 Getting Around</h2>
 <p>Getting around Singapore is an absolute breeze, making it a dream for first-time visitors or those who prefer seamless travel. The MRT (Mass Rapid Transit) system is incredibly extensive, efficient, clean, and air-conditioned, connecting nearly all major attractions and neighborhoods. Fares are affordable, typically 1-2.50 SGD ($0.75-$1.80 USD) per journey, and you can use a stored-value EZ-Link card or simply tap your contactless credit card. Buses are equally reliable. Taxis and ride-sharing apps (Grab) are also readily available and reasonably priced. Bangkok's transport network is diverse and often exciting, but can be more challenging. The BTS Skytrain and MRT subway are efficient for covering central areas, with fares from 16-59 THB ($0.50-$1.75 USD). However, traffic can be legendary, making Grab, tuk-tuks, and local buses slow at times. Taking a Chao Phraya Express Boat is a fantastic way to navigate the river and avoid traffic for 15-50 THB ($0.45-$1.50 USD). "Singapore's MRT is god-tier. You literally can't get lost, and it's spotless. Bangkok's Skytrain is good, but then you hit traffic and it's a whole new adventure." - r/singapore.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Singapore</li><li><strong>Why:</strong> Singapore's public transport system is a model of efficiency, cleanliness, and ease of use, providing a stress-free experience.</li><li><strong>Who this matters for:</strong> First-time travelers, families, and those who prioritize convenience and efficiency in transit.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Singapore</li><li><strong>Why:</strong> Singapore's public transport system is a model of efficiency, cleanliness, and ease of use, providing a stress-free experience.</li><li><strong>Who this matters for:</strong> First-time travelers, families, and those who prioritize convenience and efficiency in transit.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="safety-cleanliness">✨ Safety &amp; Cleanliness</h2>
 <p>Singapore is renowned worldwide for its exceptional safety and cleanliness, setting an incredibly high bar. Petty crime is rare, public spaces are meticulously maintained, and laws against littering, chewing gum, and other minor infractions are strictly enforced, contributing to a remarkably orderly environment. Walking alone at night, even in quiet areas, feels completely safe. The air quality is generally good, and public restrooms are spotless. This sense of security and hygiene is a major draw for many travelers, particularly families. Bangkok is generally safe for tourists, but like any major metropolis, it has its share of petty crime (pickpocketing, bag snatching, especially in crowded tourist areas or markets) and scams (tuk-tuk scams, gem scams). While the city can be exhilarating, it's also chaotic, noisy, and often gritty, with varying levels of cleanliness in public areas. Being aware of your surroundings is always advised. "Singapore feels like a giant, super-safe theme park. Bangkok is safe enough, but you gotta have your wits about you, especially after a few beers." - r/budgettravel.</p>
@@ -415,11 +546,11 @@
             "KL compared to Bangkok is no contest. Better food, better transport, more to see and do, more culture, better shopping, Bangkok is far superior."
             <span class="source">— <a href="https://www.reddit.com/r/travel/comments/1jaixqo/trying_to_decide_between_singapore_and_thailand/">r/travel user</a></span>
 </div>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Singapore</li><li><strong>Why:</strong> Singapore offers an unparalleled sense of safety and pristine cleanliness, providing a worry-free travel environment.</li><li><strong>Who this matters for:</strong> Families with children, solo female travelers, and those who prioritize peace of mind and hygiene.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Singapore</li><li><strong>Why:</strong> Singapore offers an unparalleled sense of safety and pristine cleanliness, providing a worry-free travel environment.</li><li><strong>Who this matters for:</strong> Families with children, solo female travelers, and those who prioritize peace of mind and hygiene.</li></ul></div>
 <p class="safety-pillar-links" data-safety-links-injected="true" style="margin-top:1.5rem;padding:0.85rem 1.1rem;background:rgba(168,90,55,0.08);border-left:3px solid var(--terracotta,#A85A37);border-radius:4px;font-size:0.95rem;"><strong>🛡 Dig deeper: </strong><a href="/scams/bangkok/">Bangkok scam guide</a> · <a href="/scams/singapore/">Singapore scam guide</a> · <a href="/health/singapore/">Singapore health guide</a></p></section><section class="deep-dive">
 <h2 id="day-trips-nature">🌳 Day Trips &amp; Nature</h2>
 <p>Bangkok offers a fantastic array of day trip options that showcase Thailand's diverse historical and natural beauty. A must-do is a trip to Ayutthaya, the ancient capital, where you can explore magnificent temple ruins just an hour or so away by train (around 20 THB / $0.60 USD) or minivan. Another popular choice is the Damnoen Saduak or Maeklong Railway Market, offering unique local experiences. For nature lovers, Erawan Falls National Park, with its seven-tiered emerald waterfalls, is a striking but longer day trip (around 3 hours drive). These excursions provide a stark contrast to the urban bustle. Singapore, being a city-state, has limited natural day trips within its immediate vicinity. Its 'nature' is often meticulously designed, like the iconic Gardens by the Bay, which is a marvel of urban planning and biodomes. You can visit Pulau Ubin for a rustic village feel and cycling trails, but it's less 'wild' nature. For more traditional nature or beach escapes, you'd typically need to fly to nearby Malaysian islands or Indonesian islands like Batam or Bintan. "Ayutthaya was incredible, felt like stepping back in time. Singapore's Gardens by the Bay is cool, but it's not the same as real ruins or waterfalls." - r/travel.</p>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok provides more diverse, historically rich, and authentically 'natural' day trip options within an accessible distance.</li><li><strong>Who this matters for:</strong> Explorers, history enthusiasts, and those looking to escape the city for varied experiences.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok provides more diverse, historically rich, and authentically 'natural' day trip options within an accessible distance.</li><li><strong>Who this matters for:</strong> Explorers, history enthusiasts, and those looking to escape the city for varied experiences.</li></ul></div>
 </section><section class="deep-dive">
 <h2 id="overall-vibe-experience">🎉 Overall Vibe &amp; Experience</h2>
 <p>Bangkok’s overall vibe is an intoxicating mix of chaotic energy, dense street life, and genuine warmth. It's a city that assaults your senses in the best possible way—the smells of street food, the sounds of tuk-tuks and market chatter, the dazzling lights of neon signs. There’s a constant buzz of activity and a sense of endless discovery around every corner. It feels authentically Southeast Asian, raw and unfiltered, making it an incredible adventure for those who love to dive headfirst into a new culture. If you're navigating the hectic markets or finding a hidden temple, the experience is always dynamic and full of surprises. Singapore, by contrast, offers a meticulously polished and orderly vibe. It’s a city of futuristic architecture, pristine public spaces, and a harmonious blend of diverse cultures, all within a highly efficient system. It feels curated and comfortable, almost like a city of the future, but can sometimes lack the spontaneous grit and organic charm that makes Bangkok so compelling. "Bangkok just *feels* alive, you know? Like anything can happen. Singapore is beautiful and impressive, but it’s almost too perfect sometimes." - r/travel.</p>
@@ -427,7 +558,7 @@
             "However, it is important to note that the cost of living in Singapore is generally higher than in Bangkok. For individuals seeking richer life ..."
             <span class="source">— <a href="https://www.reddit.com/r/Bangkok/comments/1m8vud2/expatslongterm_residents_what_made_you_choose/">r/Bangkok user</a></span>
 </div>
-<div class="section-winner"><h3>Winner takeaway</h3><ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers a more neon-lit, authentic, and exhilarating sensory experience that embodies the spirit of Southeast Asia.</li><li><strong>Who this matters for:</strong> Adventurous travelers, solo explorers, and those who thrive on dynamic, immersive cultural experiences.</li></ul></div>
+<div class="tabiji-verdict"><strong>tabiji verdict:</strong> <ul><li><strong>Winner:</strong> Bangkok</li><li><strong>Why:</strong> Bangkok offers a more neon-lit, authentic, and exhilarating sensory experience that embodies the spirit of Southeast Asia.</li><li><strong>Who this matters for:</strong> Adventurous travelers, solo explorers, and those who thrive on dynamic, immersive cultural experiences.</li></ul></div>
 <div class="ux-cost-table" id="cost-breakdown" style="margin-bottom:1.4rem;background:white;border:1px solid var(--sand,#d4c5a9);border-radius:18px;padding:1.35rem 1.4rem;">
 <h2 style="color:var(--indigo,#2D3A5C);margin:0 0 1rem;font-size:1.15rem;">💰 Daily Cost Breakdown</h2>
 <div style="overflow-x:auto;">
