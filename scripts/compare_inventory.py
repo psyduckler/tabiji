@@ -319,8 +319,6 @@ def extract_cards_from_index(html: str) -> List[CompareCard]:
         image_matches = re.findall(r"background:url\('([^']+)'\)", block)
         if len(image_matches) < 2:
             raise ValueError(f"Could not extract both images for {slug}")
-        api_path = API_DIR / "compare" / f"{slug}.json"
-        api_json = load_json(api_path)
         cards.append(CompareCard(
             slug=slug,
             title=title,
@@ -328,8 +326,8 @@ def extract_cards_from_index(html: str) -> List[CompareCard]:
             tags=tags,
             image1=image_matches[0],
             image2=image_matches[1],
-            destination1=api_json["destination1"],
-            destination2=api_json["destination2"],
+            destination1="",
+            destination2="",
         ))
     return cards
 
@@ -397,18 +395,13 @@ def canonical_compare_url(url: str | None, slug: str) -> str:
 def build_compare_aggregate(inventory: Dict) -> Dict:
     comparisons = []
     for card in inventory["cards"]:
-        api_path = API_DIR / "compare" / f"{card['slug']}.json"
-        per_page = load_json(api_path) if api_path.exists() else {}
-        category_count = per_page.get("categoryCount")
-        if category_count is None:
-            category_count = len(per_page.get("categories", []))
         comparisons.append({
             "slug": card["slug"],
-            "title": per_page.get("title", card.get("title", f"{card.get('destination1', '')} vs {card.get('destination2', '')}")),
-            "destination1": per_page.get("destination1", card.get("destination1")),
-            "destination2": per_page.get("destination2", card.get("destination2")),
-            "categoryCount": category_count,
-            "url": canonical_compare_url(per_page.get("url"), card["slug"]),
+            "title": card.get("title", f"{card.get('destination1', '')} vs {card.get('destination2', '')}"),
+            "destination1": card.get("destination1"),
+            "destination2": card.get("destination2"),
+            "categoryCount": card.get("categoryCount"),
+            "url": canonical_compare_url(card.get("url"), card["slug"]),
         })
     return {"count": len(comparisons), "comparisons": comparisons}
 
@@ -483,15 +476,6 @@ def validate_inventory(inventory: Dict) -> Tuple[List[str], List[str]]:
             leaf_errors, leaf_warnings = validate_leaf_page(slug)
             errors.extend(leaf_errors)
             warnings.extend(leaf_warnings)
-        api_path = API_DIR / "compare" / f"{slug}.json"
-        if not api_path.exists():
-            errors.append(f"{slug}: missing per-page API JSON")
-        else:
-            api_json = load_json(api_path)
-            if api_json.get("destination1") != card.get("destination1"):
-                errors.append(f"{slug}: destination1 mismatch inventory={card.get('destination1')} api={api_json.get('destination1')}")
-            if api_json.get("destination2") != card.get("destination2"):
-                errors.append(f"{slug}: destination2 mismatch inventory={card.get('destination2')} api={api_json.get('destination2')}")
         if slug not in sitemap_set:
             errors.append(f"{slug}: missing from sitemap compare URLs")
 

@@ -12,7 +12,6 @@ from typing import Dict, List, Tuple
 REPO_ROOT = Path(__file__).resolve().parents[2]
 COMPARE_DIR = REPO_ROOT / "compare"
 DATA_DIR = REPO_ROOT / "compare-data"
-API_COMPARE_DIR = REPO_ROOT / "api" / "v1" / "compare"
 INVENTORY_PATH = COMPARE_DIR / "inventory.json"
 
 VIATOR_PID = "P00292930"
@@ -217,15 +216,13 @@ def extract_page(html_path: Path) -> Dict:
         for m in re.finditer(r'<div class="faq-item">\s*<h3>([\s\S]*?)</h3>\s*<p>([\s\S]*?)</p>\s*</div>', faq_block)
     ]
 
-    api_json = load_json(API_COMPARE_DIR / f"{slug}.json")
-
     return {
         "slug": slug,
         "pageType": "compare-leaf",
         "status": "published",
         "destinations": {
-            "destination1": api_json["destination1"],
-            "destination2": api_json["destination2"],
+            "destination1": "",
+            "destination2": "",
         },
         "seo": {
             "title": title,

@@ -202,7 +202,6 @@ Before opening a PR, verify ALL of the following:
 - [ ] `compare/index.html` updated with new page card
 - [ ] `api/v1/compare.json` updated (increment count, add entry to comparisons array)
 - [ ] `sitemap.xml` updated with new URL + lastmod
-- [ ] Per-page API JSON created: `api/v1/compare/{slug}.json`
 
 ### Images
 - [ ] 4+ images uploaded to R2 at `img.tabiji.ai/compare/{slug}/`
@@ -230,32 +229,9 @@ The build script ensures correct layout order (toc-sidebar â†’ article-content â
 
 ## 6. API JSON Format
 
-Each compare page gets a JSON file at `api/v1/compare/{slug}.json`:
-
-```json
-{
-  "slug": "tokyo-vs-kyoto",
-  "title": "Tokyo vs Kyoto: Which Should You Visit?",
-  "destination1": "Tokyo",
-  "destination2": "Kyoto",
-  "verdict": "Tokyo for variety and energy, Kyoto for culture and temples. Do both if you have 7+ days.",
-  "categories": [
-    {
-      "name": "Food & Dining",
-      "edge": "Tokyo",
-      "summary": "Tokyo has more Michelin stars and cuisine diversity. Kyoto has the best kaiseki and matcha."
-    }
-  ],
-  "faq": [
-    {
-      "question": "Is Tokyo or Kyoto better for first-time visitors?",
-      "answer": "..."
-    }
-  ],
-  "url": "https://tabiji.ai/compare/tokyo-vs-kyoto/",
-  "lastUpdated": "2026-03-08"
-}
-```
+Per-slug JSON endpoints (`/api/v1/compare/{slug}.json`) were retired on 2026-04-20.
+The summary at `/api/v1/compare.json` links to each HTML page via its `url` field;
+all per-comparison content lives in the rendered HTML page.
 
 The master index at `api/v1/compare.json`:
 ```json

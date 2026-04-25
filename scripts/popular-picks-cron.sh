@@ -318,7 +318,6 @@ COMMIT_MSG="Add popular picks: $SLUG_LIST (hourly batch build)"
 # Stage specific files (not -A to avoid accidental inclusions)
 for slug in "${VALID_SLUGS[@]}"; do
     git add "popular-picks/$slug/index.html" 2>/dev/null || true
-    git add "api/v1/picks/$slug.json" 2>/dev/null || true
 done
 
 # Stage queue, hubs, sitemap, API index

@@ -6,7 +6,6 @@ Outputs:
   - scams/<slug>/index.html                 (per-city HTML — 8 cities)
   - scams/country/cr/index.html             (country hub HTML)
   - api/v1/scams/<slug>.json                (per-city API — 8 files)
-  - api/v1/countries/cr/scams.json          (aggregate API)
 
 Mirrors scripts/regenerate_france_scams.py. Bypasses scams/generate_pages.py
 main() which expects older list-format batch files and won't load the new
@@ -26,7 +25,6 @@ BASE = Path(__file__).resolve().parent.parent
 SCAMS_DIR = BASE / "scams"
 RESEARCH_DIR = SCAMS_DIR / "research"
 API_SCAMS_DIR = BASE / "api" / "v1" / "scams"
-API_COUNTRY_DIR = BASE / "api" / "v1" / "countries" / "cr"
 
 sys.path.insert(0, str(SCAMS_DIR))
 from generate_pages import (  # noqa: E402
@@ -232,31 +230,6 @@ def rebuild_per_city_api(city_data: dict) -> dict:
     return payload
 
 
-def build_aggregate_country_api(cr_city_data: list, per_city_payloads: dict) -> dict:
-    """Build api/v1/countries/cr/scams.json by summing per-city payloads."""
-    cities = []
-    all_scams = []
-    for cd in cr_city_data:
-        slug = CITY_SLUGS[cd["city"]]
-        api_pl = per_city_payloads[slug]
-        cities.append({
-            "slug": slug,
-            "city": cd["city"],
-            "scamCount": api_pl["scamCount"],
-            "url": f"https://tabiji.ai/api/v1/scams/{slug}.json",
-        })
-        all_scams.extend(api_pl["scams"])
-    return {
-        "id": "country-scams:cr",
-        "iso2": "CR",
-        "country": "Costa Rica",
-        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "scamCount": len(all_scams),
-        "cities": cities,
-        "scams": all_scams,
-    }
-
-
 def preserve_dropped_scams(cr_cities: list):
     """Save API-only scams (present in per-city API but not batch) to a research file.
 
@@ -321,11 +294,9 @@ def main():
         print(f"  HTML   {cd['city']:<20} → scams/{slug}/ ({len(cd.get('scams',[]))} scams, {len(html)} chars)")
 
     # 2) Regenerate per-city API JSON
-    per_city_payloads = {}
     for cd in cr_cities:
         payload = rebuild_per_city_api(cd)
         slug = CITY_SLUGS[cd["city"]]
-        per_city_payloads[slug] = payload
         out = API_SCAMS_DIR / f"{slug}.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         with open(out, "w") as f:
@@ -344,13 +315,6 @@ def main():
     with open(hub_out, "w") as f:
         f.write(hub_html)
     print(f"  HUB    Costa Rica → scams/country/cr/index.html ({len(cr_cd['cities'])} cities)")
-
-    # 4) Aggregate API JSON
-    aggregate = build_aggregate_country_api(cr_cities, per_city_payloads)
-    API_COUNTRY_DIR.mkdir(parents=True, exist_ok=True)
-    with open(API_COUNTRY_DIR / "scams.json", "w") as f:
-        json.dump(aggregate, f, indent=2, ensure_ascii=False)
-    print(f"  AGG    api/v1/countries/cr/scams.json ({aggregate['scamCount']} scams across {len(aggregate['cities'])} cities)")
 
     print("\nDone.")
 
