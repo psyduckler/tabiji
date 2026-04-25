@@ -758,7 +758,6 @@
       .intent-card { display:block; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; padding:1rem; color:var(--text); }
       .intent-card:hover { border-color:var(--terracotta); transform:translateY(-1px); }
       .intent-type { display:block; text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; font-weight:700; color:var(--earth); margin-bottom:.45rem; }
-      footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
       @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
       .viator-section { background:linear-gradient(135deg,#fff9f0 0%,#fff 100%); border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
       .viator-section h2 { font-size:1.3em; margin-bottom:6px; }
@@ -1631,37 +1630,6 @@
   <a href="/plan" class="cta-btn">Get a Free Itinerary &rarr;</a>
 </section>
 
-<section class="related-picks-module">
-  <h3>More New York guides</h3>
-  <p class="related-subtitle">Other curated Reddit-backed picks from New York</p>
-  <div class="related-picks-grid">
-    <a href="/popular-picks/new-york-cheap-eats/" class="related-pick-link">16 Best Cheap Eats in New York City</a>
-    <a href="/popular-picks/new-york-bagels/" class="related-pick-link">15 Best Bagels in New York</a>
-    <a href="/popular-picks/new-york-pizza/" class="related-pick-link">19 Best Pizza Spots in New York City</a>
-    <a href="/popular-picks/new-york-ramen/" class="related-pick-link">18 Best Ramen in New York City</a>
-    <a href="/popular-picks/new-york-craft-beer/" class="related-pick-link">12 Best Craft Beer Bars in New York — The Unfiltered Guide</a>
-    <a href="/popular-picks/new-york-fried-chicken/" class="related-pick-link">10 Best Fried Chicken in New York City (2026) — Reddit-Backed Guide | tabiji.ai</a>
-    <a href="/popular-picks/new-york-restaurants/" class="related-pick-link">10 Best Restaurants in New York</a>
-    <a href="/popular-picks/new-york-omakase/" class="related-pick-link">10 Best Omakase in New York</a>
-  </div>
-</section>
-
-<!-- email-capture:start -->
-<section class="email-capture">
-  <h3>&#9992;&#65039; Get Travel Tips &amp; Hidden Gems</h3>
-  <p>Join 2,500+ travelers who get weekly destination insights &mdash; no spam, ever.</p>
-  <form class="email-capture-form" action="https://formsubmit.co/hello@tabiji.ai" method="POST">
-    <input type="hidden" name="_subject" value="New subscriber from tabiji.ai">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="https://tabiji.ai/thanks/">
-    <input type="email" name="email" placeholder="your@email.com" required>
-    <button type="submit">Subscribe</button>
-  </form>
-  <p class="privacy-note">No spam. Unsubscribe anytime.</p>
-</section>
-<!-- email-capture:end -->
-
 <!-- @include:footer:start -->
 <footer>
   <div class="footer-inner">
@@ -1815,12 +1783,18 @@
       setActive(sections[0]);
 
       if ('IntersectionObserver' in window) {
+        // Thin trigger stripe near top-third of viewport. threshold:0 fires on any pixel
+        // crossing, avoiding the prior bug where tall sections never reached the 0.2 ratio
+        // and the active highlight only updated intermittently.
+        var inStripe = new Set();
         var observer = new IntersectionObserver(function (entries) {
-          var visible = entries
-            .filter(function (entry) { return entry.isIntersecting; })
-            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) inStripe.add(entry.target);
+            else inStripe.delete(entry.target);
+          });
+          var active = sections.find(function (s) { return inStripe.has(s); });
+          if (active) setActive(active);
+        }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
         sections.forEach(function (section) { observer.observe(section); });
       }
     }());
