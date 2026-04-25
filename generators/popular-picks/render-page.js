@@ -276,9 +276,6 @@ function renderHero(data) {
       <div class="hero-badge">${escapeHtml(badge)}</div>
       <h1>${escapeHtml(data.seo.h1)}</h1>
       <p class="subtitle">${escapeHtml(data.hero?.dek || data.seo.metaDescription || '')}</p>
-      <div class="hero-meta">
-        ${(data.hero?.metaSpans || []).map((s) => `<span>${escapeHtml(s)}</span>`).join('')}
-      </div>
     </section>`;
 }
 
@@ -697,7 +694,6 @@ function renderInlineStyle() {
       .hero-badge { display:inline-block; background:var(--sand); color:var(--earth); padding:.35rem 1rem; border-radius:999px; font-size:.9rem; margin-bottom:1rem; }
       .hero h1 { font-size:clamp(2rem,4.7vw,3rem); line-height:1.12; color:var(--indigo); margin:0 0 1rem; letter-spacing:-.03em; }
       .subtitle { font-size:1.08rem; color:var(--text-muted); max-width:680px; }
-      .hero-meta { display:flex; flex-wrap:wrap; gap:1rem 1.5rem; color:var(--earth); font-size:.92rem; margin-top:1.2rem; }
       .page-layout { max-width:1260px; margin:0 auto; padding:0 1.5rem 4rem; display:grid; grid-template-columns:320px minmax(0,1fr); gap:2rem; }
       .content { min-width:0; }
       .map-sidebar { position:sticky; top:92px; align-self:start; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; }
