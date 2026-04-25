@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable max-len */
 const fs = require('fs');
 const path = require('path');
 const { renderMeta, escapeHtml, absoluteUrl } = require('./render-meta');
@@ -10,20 +11,16 @@ const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
 let siteInventoryCache = null;
 
+// ============================================================
+// Small helpers
+// ============================================================
 function readTextIfExists(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8');
-  } catch {
-    return '';
-  }
+  try { return fs.readFileSync(filePath, 'utf8'); } catch { return ''; }
 }
 
 function titleFromSlug(slug = '') {
-  return String(slug)
-    .split('-')
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
+  return String(slug).split('-').filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
 }
 
 function extractHtmlTitle(filePath, fallbackSlug = '') {
@@ -31,28 +28,22 @@ function extractHtmlTitle(filePath, fallbackSlug = '') {
   if (!html) return titleFromSlug(fallbackSlug);
   const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
   if (h1) return h1[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-  const title = html.match(/<title>([\s\S]*?)<\/title>/i);
-  if (title) return title[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const t = html.match(/<title>([\s\S]*?)<\/title>/i);
+  if (t) return t[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   return titleFromSlug(fallbackSlug);
 }
 
 function loadDirectoryEntries(dirPath, type, urlPrefix) {
   if (!fs.existsSync(dirPath)) return [];
   return fs.readdirSync(dirPath, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => {
-      const slug = entry.name;
+    .filter((e) => e.isDirectory())
+    .map((e) => {
+      const slug = e.name;
       const htmlPath = path.join(dirPath, slug, 'index.html');
       if (!fs.existsSync(htmlPath)) return null;
-      return {
-        type,
-        slug,
-        url: `${urlPrefix}/${slug}/`,
-        title: extractHtmlTitle(htmlPath, slug),
-        searchText: normalizeIntroText(`${slug} ${extractHtmlTitle(htmlPath, slug)}`),
-      };
-    })
-    .filter(Boolean);
+      const title = extractHtmlTitle(htmlPath, slug);
+      return { type, slug, url: `${urlPrefix}/${slug}/`, title, searchText: normalize(`${slug} ${title}`) };
+    }).filter(Boolean);
 }
 
 function getSiteInventory() {
@@ -65,727 +56,630 @@ function getSiteInventory() {
   return siteInventoryCache;
 }
 
-function renderRichTextParagraphs(items = []) {
-  return items.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('');
-}
-
 function firstNonEmpty(...values) {
-  for (const value of values) {
-    if (typeof value === 'string' && value.trim()) return value.trim();
+  for (const v of values) {
+    if (typeof v === 'string' && v.trim()) return v.trim();
   }
   return '';
 }
 
-function normalizeIntroText(text = '') {
-  return String(text)
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[“”‘’]/g, "'")
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-const INTRO_STOPWORDS = new Set([
-  'about', 'after', 'also', 'among', 'and', 'are', 'around', 'because', 'been', 'being', 'best', 'between',
-  'both', 'but', 'can', 'city', 'closest', 'from', 'good', 'guide', 'have', 'into', 'just', 'list', 'local',
-  'more', 'most', 'near', 'offer', 'offers', 'often', 'only', 'over', 'page', 'people', 'person', 'places',
-  'recommendation', 'recommendations', 'reddit', 'range', 'ranging', 'spot', 'spots', 'that', 'their', 'these',
-  'they', 'this', 'those', 'through', 'top', 'travelers', 'travellers', 'very', 'when', 'where', 'with', 'your'
-]);
-
-function tokenSet(text = '') {
-  return new Set(
-    normalizeIntroText(text)
-      .split(' ')
-      .filter((token) => token.length >= 4 && !INTRO_STOPWORDS.has(token))
-  );
-}
-
-function overlapRatio(a, b) {
-  const aTokens = tokenSet(a);
-  const bTokens = tokenSet(b);
-  if (!aTokens.size || !bTokens.size) return 0;
-  let overlap = 0;
-  for (const token of aTokens) {
-    if (bTokens.has(token)) overlap += 1;
-  }
-  return overlap / Math.min(aTokens.size, bTokens.size);
-}
-
-function firstSentence(text = '') {
-  return String(text).split(/(?<=[.!?])\s+/)[0].trim();
-}
-
-function isDuplicateIntroParagraph(answerFirst = '', paragraph = '') {
-  if (!answerFirst || !paragraph) return false;
-  const normalizedAnswer = normalizeIntroText(answerFirst);
-  const normalizedParagraph = normalizeIntroText(paragraph);
-  const sharedRatio = overlapRatio(answerFirst, paragraph);
-  const firstSentenceRatio = overlapRatio(firstSentence(answerFirst), firstSentence(paragraph));
-  const containsOther = normalizedAnswer.includes(normalizedParagraph) || normalizedParagraph.includes(normalizedAnswer);
-  const sameOpening = normalizedAnswer.slice(0, 140) && normalizedAnswer.slice(0, 140) === normalizedParagraph.slice(0, 140);
-
-  return containsOther || sharedRatio >= 0.67 || firstSentenceRatio >= 0.72 || sameOpening;
-}
-
-function dedupeIntroBody(answerFirst = '', body = []) {
-  if (!Array.isArray(body) || !body.length) return [];
-  if (!answerFirst) return body;
-
-  let index = 0;
-  while (index < body.length && isDuplicateIntroParagraph(answerFirst, body[index])) {
-    index += 1;
-  }
-  // Never strip every paragraph — keep at least the final one
-  return body.slice(Math.min(index, body.length - 1));
-}
-
-function formatPhone(phone) {
-  if (!phone) return '';
-  return phone.replace(/\s+/g, ' ').trim();
+function normalize(text = '') {
+  return String(text).toLowerCase().normalize('NFKD')
+    .replace(/[“”‘’]/g, "'").replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function slugify(value = '') {
-  return String(value)
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[^-\x7F]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+  return String(value).toLowerCase().normalize('NFKD')
+    .replace(/[^-\x7F]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
+
+function pickAnchorId(pick) { return pick.sectionId || slugify(pick.name); }
+
+function isLikelyPriceRange(value = '') {
+  return /[$€£¥₩฿₵₫₹]|\bfree\b|\d+\s*(?:-|–|to)\s*[$€£¥₩฿₵₫₹]?\d+/i.test(String(value));
+}
+
+function formatPhone(phone) { return phone ? phone.replace(/\s+/g, ' ').trim() : ''; }
 
 function parseHoursNote(hoursNote = '') {
   if (!hoursNote) return [];
-  return hoursNote
-    .split(';')
-    .map((entry) => entry.trim())
-    .filter(Boolean)
-    .map((entry) => {
-      const parts = entry.split(':');
-      if (parts.length < 2) return null;
-      const day = parts.shift().trim();
-      const hours = parts.join(':').trim();
-      return { day, hours };
-    })
-    .filter(Boolean);
+  return hoursNote.split(';').map((e) => e.trim()).filter(Boolean).map((e) => {
+    const parts = e.split(':');
+    if (parts.length < 2) return null;
+    return { day: parts.shift().trim(), hours: parts.join(':').trim() };
+  }).filter(Boolean);
 }
 
 function hoursSummary(pick, hours) {
   if (typeof pick?.editorialFlags?.openNow === 'boolean') {
     return pick.editorialFlags.openNow ? '🕐 Open now' : '🕐 Closed now';
   }
-  if (hours.some((item) => /open 24 hours/i.test(item.hours))) return '🕐 Open now';
-  return 'Hours';
+  if (hours.some((i) => /open 24 hours/i.test(i.hours))) return '🕐 Open now';
+  return '🕐 Opening hours';
 }
 
 function cuisineTagClass(pick) {
-  const first = (pick.tags || [])[0] || '';
+  const first = ((pick.tags || [])[0] || '').toLowerCase();
   const map = {
-    ramen: 'tag-ramen',
-    tonkatsu: 'tag-tonkatsu',
-    tsukemen: 'tag-tsukemen',
-    yakitori: 'tag-yakitori',
-    tempura: 'tag-tempura',
-    sushi: 'tag-sushi',
-    gyukatsu: 'tag-gyukatsu',
-    udon: 'tag-udon',
-    gyudon: 'tag-gyudon',
-    kushikatsu: 'tag-kushikatsu',
-    shabu: 'tag-shabu',
-    sukiyaki: 'tag-shabu',
-    omurice: 'tag-omurice',
-    hamburg: 'tag-hamburg',
-    snack: 'tag-snack',
-    sardine: 'tag-regional',
-    washoku: 'tag-regional',
+    ramen: 'tag-ramen', tonkatsu: 'tag-tonkatsu', tsukemen: 'tag-tsukemen',
+    yakitori: 'tag-yakitori', tempura: 'tag-tempura', sushi: 'tag-sushi',
+    gyukatsu: 'tag-gyukatsu', udon: 'tag-udon', gyudon: 'tag-gyudon',
+    kushikatsu: 'tag-kushikatsu', shabu: 'tag-shabu', sukiyaki: 'tag-shabu',
+    omurice: 'tag-omurice', hamburg: 'tag-hamburg', snack: 'tag-snack',
+    pizza: 'tag-pizza', steak: 'tag-steak', bbq: 'tag-bbq',
+    classic: 'tag-classic', historic: 'tag-historic', modern: 'tag-modern',
+    korean: 'tag-korean',
   };
-  const key = first.toLowerCase();
-  for (const token of Object.keys(map)) {
-    if (key.includes(token)) return map[token];
-  }
+  for (const k of Object.keys(map)) if (first.includes(k)) return map[k];
   return 'tag-regional';
 }
 
+function firstSentence(text = '') { return String(text).split(/(?<=[.!?])\s+/)[0].trim(); }
+
+function firstSentenceClean(text = '') {
+  const s = firstSentence(text).replace(/^[\s"'“”‘’]+|[\s"'“”‘’]+$/g, '').trim();
+  return s || String(text).trim();
+}
+
+function stripWhatToOrderLead(text) {
+  if (!text) return '';
+  const m = String(text).match(/What to (?:order|expect):\s*(.*)/s);
+  return m ? m[1].trim() : String(text);
+}
+
+function buildVerdictText(pick) {
+  return firstNonEmpty(
+    firstSentenceClean(pick.insiderTip),
+    firstSentenceClean(pick.whyItMadeTheList),
+    firstSentenceClean(stripWhatToOrderLead(pick.whatToOrder)),
+  );
+}
+
+function dedupeIntroBody(answerFirst = '', body = []) {
+  if (!Array.isArray(body) || !body.length) return [];
+  if (!answerFirst) return body;
+  const a = normalize(answerFirst);
+  return body.filter((p) => {
+    const pn = normalize(p);
+    if (!pn) return false;
+    if (pn === a) return false;
+    if (a.startsWith(pn) || pn.startsWith(a)) return false;
+    return true;
+  });
+}
+
+// ============================================================
+// Map data
+// ============================================================
 function buildDerivedMap(data) {
   const h1Clean = (data.seo.h1 || '').replace(/^\d+\s+Best\s+/i, '').trim();
   const query = h1Clean || [data.taxonomy.neighborhood, data.taxonomy.city, data.taxonomy.category]
-    .filter(Boolean)
-    .join(' ');
-  const ctaUrl = data.map?.ctaUrl || `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
+    .filter(Boolean).join(' ');
   return {
     enabled: data.map?.enabled !== false,
-    title: data.map?.title || 'Area map',
+    title: data.map?.title || `${data.taxonomy?.category ? capitalize(data.taxonomy.category) + ' ' : ''}Map`.trim(),
     ctaLabel: data.map?.ctaLabel || 'Open in Google Maps',
-    ctaUrl,
+    ctaUrl: data.map?.ctaUrl || `https://www.google.com/maps/search/${encodeURIComponent(query)}`,
     fallbackQuery: query,
   };
 }
 
+function capitalize(s = '') { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
 function buildPickMapQuery(pick, data) {
   return [pick.name, pick.address || pick.neighborhood, data.taxonomy.city, data.taxonomy.countryCode || data.taxonomy.country]
-    .filter(Boolean)
-    .join(', ');
-}
-
-function renderHero(data) {
-  return `
-    <section class="hero">
-      <div class="hero-badge">${escapeHtml(data.hero.badge)}</div>
-      <h1>${escapeHtml(data.seo.h1)}</h1>
-      <p class="subtitle">${escapeHtml(data.hero.dek)}</p>
-      <div class="hero-meta">
-        ${data.hero.metaSpans.map((item) => `<span>${escapeHtml(item)}</span>`).join('')}
-      </div>
-    </section>`;
-}
-
-function pickAnchorId(pick) {
-  return pick.sectionId || slugify(pick.name);
+    .filter(Boolean).join(', ');
 }
 
 function buildMapPicks(picks, data, mapData) {
   return picks
-    .filter((pick) => typeof pick.lat === 'number' && typeof pick.lng === 'number')
-    .map((pick) => ({
-      anchorId: pickAnchorId(pick),
-      rank: pick.rank,
-      name: pick.name,
-      label: `${pick.rank}. ${pick.name}`,
-      lat: pick.lat,
-      lng: pick.lng,
-      ctaUrl: pick.googleMapsUrl || mapData.ctaUrl,
-      mapQuery: buildPickMapQuery(pick, data),
+    .filter((p) => typeof p.lat === 'number' && typeof p.lng === 'number')
+    .map((p) => ({
+      anchorId: pickAnchorId(p),
+      rank: p.rank,
+      name: p.name,
+      label: `${p.rank}. ${p.name}`,
+      lat: p.lat,
+      lng: p.lng,
+      ctaUrl: p.googleMapsUrl || mapData.ctaUrl,
+      mapQuery: buildPickMapQuery(p, data),
     }));
 }
 
+// ============================================================
+// Related links (for the related-section intent-card grid)
+// ============================================================
 function uniqueBy(items, keyFn) {
   const seen = new Set();
-  const result = [];
-  for (const item of items) {
-    const key = keyFn(item);
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    result.push(item);
+  const out = [];
+  for (const it of items) {
+    const k = keyFn(it);
+    if (!k || seen.has(k)) continue;
+    seen.add(k);
+    out.push(it);
   }
-  return result;
+  return out;
 }
 
-function buildIntentTokens(data) {
-  const city = firstNonEmpty(data.taxonomy?.city, '');
-  const country = firstNonEmpty(data.taxonomy?.country, '');
-  const category = firstNonEmpty(data.taxonomy?.category, '');
-  const slugParts = String(data.slug || '').split('-').filter(Boolean);
-  const slugPhrases = [];
-  if (slugParts.length >= 2) slugPhrases.push(slugParts.slice(0, 2).join(' '));
-  if (slugParts.length >= 3) slugPhrases.push(slugParts.slice(0, 3).join(' '));
-  const cuisineTokens = uniqueBy((data.picks || []).flatMap((pick) => (pick.tags || []).map((tag) => normalizeIntroText(tag))).filter(Boolean), (value) => value)
-    .flatMap((value) => value.split(' '))
-    .filter((token) => token.length >= 4);
-  return uniqueBy([
-    meaningfulToken(city),
-    meaningfulToken(country),
-    meaningfulToken(category),
-    ...slugPhrases.map((value) => meaningfulToken(value)),
-    ...cuisineTokens,
-  ].filter(Boolean), (value) => value);
+function tokensFor(text = '') {
+  return new Set(normalize(text).split(' ').filter((t) => t.length >= 4));
 }
 
-function meaningfulToken(value = '') {
-  const normalized = normalizeIntroText(value);
-  return normalized.length >= 4 ? normalized : '';
+function pageTokens(data) {
+  const t = new Set();
+  for (const x of [data.taxonomy?.city, data.taxonomy?.country, data.taxonomy?.category]) {
+    if (x) for (const tok of tokensFor(x)) t.add(tok);
+  }
+  for (const part of String(data.slug || '').split('-')) if (part.length >= 4) t.add(part.toLowerCase());
+  return t;
 }
 
-function countTokenMatches(searchText = '', tokens = []) {
-  return tokens.reduce((count, token) => count + (searchText.includes(token) ? 1 : 0), 0);
-}
-
-function scoreEntry(entry, data, tokens, options = {}) {
-  if (!entry || !entry.url || entry.slug === data.slug) return -Infinity;
-  const text = entry.searchText || '';
-  let score = countTokenMatches(text, tokens);
-  const cityToken = meaningfulToken(data.taxonomy?.city || '');
-  const countryToken = meaningfulToken(data.taxonomy?.country || '');
-  const categoryToken = meaningfulToken(data.taxonomy?.category || '');
-  const slugText = normalizeIntroText(entry.slug || '');
-  const locationMatched = Boolean((cityToken && text.includes(cityToken)) || (countryToken && text.includes(countryToken)));
-
-  if (cityToken && text.includes(cityToken)) score += 4;
-  if (countryToken && text.includes(countryToken)) score += 2;
-  if (categoryToken && text.includes(categoryToken)) score += 1;
-  if (options.requireCity && cityToken && !text.includes(cityToken)) return -Infinity;
-  if (options.requireCountry && countryToken && !text.includes(countryToken)) return -Infinity;
-  if (options.requireLocation && !locationMatched) return -Infinity;
-  if (options.excludeCategory && categoryToken && text.includes(categoryToken)) score -= 2;
-  if (slugText.includes(normalizeIntroText(data.slug))) score -= 3;
-  return score;
-}
-
-function pickTopEntries(entries, data, tokens, options = {}) {
-  return entries
-    .map((entry) => ({ entry, score: scoreEntry(entry, data, tokens, options) }))
-    .filter(({ score }) => Number.isFinite(score) && score >= (options.minScore ?? 1))
-    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
-    .slice(0, options.limit || 3)
-    .map(({ entry }) => entry);
-}
-
-function buildIntentLinks(data) {
+function buildRelatedIntentCards(data, limit = 4) {
   const inventory = getSiteInventory();
-  const tokens = buildIntentTokens(data);
+  const tokens = pageTokens(data);
+  const cityToken = normalize(data.taxonomy?.city || '');
+  const countryToken = normalize(data.taxonomy?.country || '');
   const citySlug = slugify(data.taxonomy?.city || '');
   const countrySlug = slugify(data.taxonomy?.country || '');
-  const slugParts = String(data.slug || '').split('-').filter(Boolean);
-  const locationPhrases = uniqueBy([
-    meaningfulToken(data.taxonomy?.city || ''),
-    meaningfulToken(data.taxonomy?.country || ''),
-    meaningfulToken(citySlug.replace(/-/g, ' ')),
-    meaningfulToken(countrySlug.replace(/-/g, ' ')),
-    ...(slugParts.length >= 2 ? [meaningfulToken(slugParts.slice(0, 2).join(' '))] : []),
-    ...(slugParts.length >= 3 ? [meaningfulToken(slugParts.slice(0, 3).join(' '))] : []),
-  ].filter(Boolean), (value) => value);
-  const manualPopularPicks = new Set((data.related?.manual || []).map((slug) => `/popular-picks/${slug}/`));
 
-  const directLocationEntries = (entries) => uniqueBy(entries.filter((entry) => locationPhrases.some((phrase) => (entry.searchText || '').includes(phrase))), (entry) => entry.url);
+  const cards = [];
 
-  const destinationMatches = uniqueBy([
-    ...[citySlug, countrySlug].map((slug) => inventory.destinations.find((entry) => entry.slug === slug)).filter(Boolean),
-    ...directLocationEntries(inventory.destinations),
-  ], (entry) => entry.url).slice(0, 2);
+  // 1) Country hub if present
+  if (countrySlug) {
+    const countryHub = inventory.popularPicks.find((e) => e.slug === countrySlug);
+    if (countryHub) {
+      cards.push({ type: 'Country Hub', title: countryHub.title || `Popular Picks in ${data.taxonomy.country}`, url: countryHub.url });
+    }
+  }
 
-  const hubMatches = uniqueBy([
-    ...[citySlug, countrySlug].map((slug) => inventory.popularPicks.find((entry) => entry.slug === slug && entry.slug !== data.slug)).filter(Boolean),
-    ...directLocationEntries(inventory.popularPicks.filter((entry) => entry.slug !== data.slug && !manualPopularPicks.has(entry.url))),
-  ], (entry) => entry.url)
-    .filter((entry) => !entry.slug.includes('-') || entry.slug === citySlug || entry.slug === countrySlug)
-    .slice(0, 2);
+  // 2) Sibling popular-picks in same city (different category)
+  const siblings = inventory.popularPicks
+    .filter((e) => e.slug !== data.slug)
+    .filter((e) => cityToken && (e.searchText || '').includes(cityToken))
+    .filter((e) => e.slug !== citySlug && e.slug !== countrySlug)
+    .filter((e) => !(data.related?.manual || []).includes(e.slug))
+    .map((e) => ({ entry: e, score: [...tokens].reduce((s, t) => s + ((e.searchText || '').includes(t) ? 1 : 0), 0) }))
+    .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
+    .slice(0, Math.max(0, limit - cards.length - 1))
+    .map(({ entry }) => ({ type: data.taxonomy.city || 'Same city', title: entry.title, url: entry.url }));
+  cards.push(...siblings);
 
-  const compareMatches = pickTopEntries(inventory.compares, data, tokens, { limit: 3, minScore: 3, requireLocation: true });
-  const adjacentPopularPicks = pickTopEntries(
-    inventory.popularPicks.filter((entry) => !manualPopularPicks.has(entry.url) && entry.slug !== citySlug && entry.slug !== countrySlug),
-    data,
-    tokens,
-    { limit: 4, minScore: 2, requireLocation: true, excludeCategory: true }
-  );
+  // 3) Trip planner CTA card
+  if (cards.length < limit) {
+    const cityName = data.taxonomy.city || data.taxonomy.country || 'this destination';
+    cards.push({ type: 'Trip Planner', title: `Free ${cityName} Itinerary`, url: '/plan' });
+  }
 
-  return [
-    {
-      key: 'destinations',
-      title: `Plan ${data.taxonomy?.city || data.taxonomy?.country || 'this destination'}`,
-      description: 'Broader destination guides and country hubs for travelers still shaping the trip around this pick list.',
-      links: uniqueBy([...destinationMatches, ...hubMatches], (entry) => entry.url).slice(0, 4),
-    },
-    {
-      key: 'compares',
-      title: 'Compare nearby options',
-      description: 'Compare pages for travelers deciding between this destination and close alternatives.',
-      links: compareMatches,
-    },
-    {
-      key: 'adjacent',
-      title: `More ${data.taxonomy?.city || data.taxonomy?.country || 'travel'} picks`,
-      description: 'Adjacent topical guides in the same city so readers can keep drilling into the trip they are already planning.',
-      links: adjacentPopularPicks,
-    },
-  ].filter((section) => section.links.length);
+  return cards.slice(0, limit);
 }
 
-function renderIntentLinkSections(data) {
-  const sections = buildIntentLinks(data);
-  if (!sections.length) return '';
-  return sections.map((section) => `
-      <section class="related-section intent-section">
-        <h2>${escapeHtml(section.title)}</h2>
-        <p class="related-intro">${escapeHtml(section.description)}</p>
-        <div class="intent-grid">
-          ${section.links.map((link) => `
-            <a class="intent-card" href="${escapeHtml(link.url)}">
-              <span class="intent-type">${escapeHtml(link.type.replace(/-/g, ' '))}</span>
-              <strong>${escapeHtml(link.title)}</strong>
-            </a>`).join('')}
-        </div>
-      </section>`).join('');
-}
-
-function buildRelatedPopularPickLinks(data, limit = 5) {
-  const inventory = getSiteInventory();
-  const tokens = buildIntentTokens(data);
-  const manualLinks = (data.related?.manual || [])
-    .map((slug) => inventory.popularPicks.find((item) => item.slug === slug))
-    .filter(Boolean);
-  const excluded = new Set([data.slug, ...manualLinks.map((entry) => entry.slug)]);
-  const candidates = inventory.popularPicks.filter((entry) => !excluded.has(entry.slug));
-  const strictMatches = pickTopEntries(candidates, data, tokens, {
-    limit: Math.max(limit * 2, 10),
-    minScore: 1,
-    requireLocation: true,
-  });
-  const remainingCandidates = candidates.filter((entry) => !strictMatches.some((match) => match.url === entry.url));
-  const broadMatches = pickTopEntries(remainingCandidates, data, tokens, { limit: Math.max(limit * 2, 10), minScore: 1 });
-  const fillerMatches = remainingCandidates
-    .filter((entry) => !broadMatches.some((match) => match.url === entry.url))
-    .sort((a, b) => a.title.localeCompare(b.title))
-    .slice(0, limit);
-
-  return uniqueBy([...manualLinks, ...strictMatches, ...broadMatches, ...fillerMatches], (entry) => entry.url).slice(0, limit);
+// ============================================================
+// Section renderers
+// ============================================================
+function renderHero(data) {
+  const badge = data.hero?.badge || `${data.taxonomy?.category ? '⭐ ' : ''}Popular Picks${data.taxonomy?.city ? ' — ' + data.taxonomy.city : ''}`;
+  return `    <section class="hero">
+      <div class="hero-badge">${escapeHtml(badge)}</div>
+      <h1>${escapeHtml(data.seo.h1)}</h1>
+      <p class="subtitle">${escapeHtml(data.hero?.dek || data.seo.metaDescription || '')}</p>
+      <div class="hero-meta">
+        ${(data.hero?.metaSpans || []).map((s) => `<span>${escapeHtml(s)}</span>`).join('')}
+      </div>
+    </section>`;
 }
 
 function renderMapPanel(mapData, mapPicks, mobile = false) {
   if (!mapData.enabled || !mapPicks.length) return '';
   const firstPick = mapPicks[0];
-  // Show all picks in the legend so the sidebar mirrors the full page,
-  // not just an arbitrary first-6 slice. The legend itself scrolls if
-  // needed, so there's no overflow concern.
-  const topPicks = mapPicks.map((pick) => `
-      <li>
-        <a href="#${pick.anchorId}">${pick.label}</a>
-      </li>`).join('');
-
-  return `
-    <section class="${mobile ? 'map-inline' : 'map-sidebar'}" data-map-panel="${mobile ? 'mobile' : 'desktop'}">
+  const legend = mapPicks.map((p) => `        <li><a href="#${p.anchorId}">${escapeHtml(p.label)}</a></li>`).join('\n');
+  return `    <section class="${mobile ? 'map-inline' : 'map-sidebar'}" data-map-panel="${mobile ? 'mobile' : 'desktop'}">
       <h2>${escapeHtml(mapData.title)}</h2>
       <div class="map-active-pick" data-map-active-pick>${escapeHtml(firstPick.label)}</div>
       <div class="popular-picks-map" data-map-canvas aria-label="${escapeHtml(mapData.title)}"></div>
       <div class="map-legend">
         <strong>Start with:</strong>
-        <ul>${topPicks}</ul>
+        <ul>
+${legend}
+        </ul>
         <p><a href="${escapeHtml(firstPick.ctaUrl || mapData.ctaUrl)}" target="_blank" rel="noopener" data-map-cta>${escapeHtml(mapData.ctaLabel)} →</a></p>
       </div>
     </section>`;
 }
 
-function stripWhatToOrderLead(text) {
-  if (!text) return '';
-  const match = text.match(/What to (?:order|expect):\s*(.*)/s);
-  return match ? match[1].trim() : text;
-}
-
-function firstSentenceClean(text = '') {
-  const sentence = firstSentence(text).replace(/^[\s"'“”‘’]+|[\s"'“”‘’]+$/g, '').trim();
-  return sentence || text.trim();
-}
-
-function buildVerdictText(pick) {
-  return firstNonEmpty(firstSentenceClean(pick.insiderTip), firstSentenceClean(pick.whyItMadeTheList), firstSentenceClean(stripWhatToOrderLead(pick.whatToOrder)));
-}
-
-function isLikelyPriceRange(value = '') {
-  return /[$€£¥₩฿₵₫₹]|\bfree\b|\d+\s*(?:-|–|to)\s*[$€£¥₩฿₵₫₹]?\d+/i.test(String(value));
-}
-
-function buildBestForText(pick, data, firstTag) {
-  if (pick.whyItMadeTheList) {
-    const text = pick.whyItMadeTheList;
-    const patterns = [
-      /best\s+(?:for|pick for)\s+([^.;]+)/i,
-      /ideal\s+for\s+([^.;]+)/i,
-      /worth\s+it\s+for\s+([^.;]+)/i,
-      /the\s+spot\s+for\s+([^.;]+)/i,
-    ];
-    for (const pattern of patterns) {
-      const match = text.match(pattern);
-      if (match && match[1]) return match[1].trim().replace(/^the\s+/i, '');
-    }
-  }
-  const location = firstNonEmpty(pick.neighborhood, pick.address, data.taxonomy.city);
-  if (pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) && location) return `${firstTag} in ${location} with a ${pick.priceRangeLocal} spend range`;
-  if (location) return `${firstTag} in ${location}`;
-  return firstTag;
-}
-
-function buildStrengths(pick, firstTag) {
-  const strengths = [];
-  if (pick.googleRating && pick.reviewCount) strengths.push(`${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} Google reviews`);
-  else if (pick.googleRating) strengths.push(`${pick.googleRating}★ Google rating`);
-  if (Array.isArray(pick.knownForTags) && pick.knownForTags.length) strengths.push(`Known for ${pick.knownForTags.slice(0, 2).join(', ')}`);
-  if (firstTag) strengths.push(firstTag);
-  if (pick.address) strengths.push(pick.address);
-  if (pick.hoursNote && /open 24 hours/i.test(pick.hoursNote)) strengths.push('Open 24 hours');
-  return strengths.slice(0, 3);
-}
-
-function buildLimitations(pick) {
-  const limitationText = firstNonEmpty(pick.insiderTip, pick.whyItMadeTheList);
-  const patterns = [
-    /check recent reviews before booking[^.;]*/i,
-    /book ahead[^.;]*/i,
-    /worth the splurge[^.;]*/i,
-    /more formal than[^.;]*/i,
-    /polarizing[^.;]*/i,
-    /won't know the menu until it arrives[^.;]*/i,
-    /cash only[^.;]*/i,
-    /dress code[^.;]*/i,
-    /tourist trap[^.;]*/i,
-    /overpriced[^.;]*/i,
-    /can get busy[^.;]*/i,
-    /gets busy[^.;]*/i,
-    /line gets brutal[^.;]*/i,
-    /just be prepared:?\s*([^.;]+)/i,
-    /however,?\s*([^.;]+)/i,
-    /but\s+([^.;]+)/i,
-  ];
-  for (const pattern of patterns) {
-    const match = limitationText.match(pattern);
-    if (match) {
-      return (match[1] || match[0]).replace(/^[:\s-]+/, '').trim();
-    }
-  }
-  if (pick.waitExpectation && /busy|long|crowded|line/i.test(pick.waitExpectation)) return pick.waitExpectation;
-  if (pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal)) return `Price band: ${pick.priceRangeLocal}`;
-  return '';
-}
-
-function renderComparisonRow(label, value) {
-  if (!value) return '';
-  return `<div class="comparison-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`;
-}
-
 function resolveBestOverall(data) {
-  const candidate = data.summary?.bestOverall || data.summary?.topPick || '';
-  if (!candidate || !data.picks.length) return data.picks[0] ? data.picks[0].name : '';
-  const match = data.picks.find((p) => p.name === candidate || candidate.startsWith(p.name));
-  if (match && typeof match.reviewCount === 'number' && match.reviewCount < 10 && data.picks[0] && data.picks[0].name !== match.name) {
+  const c = data.summary?.bestOverall || data.summary?.topPick || '';
+  if (!c || !data.picks.length) return data.picks[0] ? data.picks[0].name : '';
+  const m = data.picks.find((p) => p.name === c || c.startsWith(p.name));
+  if (m && typeof m.reviewCount === 'number' && m.reviewCount < 10 && data.picks[0] && data.picks[0].name !== m.name) {
     return data.picks[0].name;
   }
-  if (match) return match.name;
-  return candidate;
-}
-
-function renderTagList(items = [], className = 'pick-tag-list') {
-  if (!Array.isArray(items) || !items.length) return '';
-  return `<div class="${className}">${items.map((item) => `<span>${escapeHtml(item)}</span>`).join('')}</div>`;
-}
-
-function buildProvenanceSummary(pick) {
-  const provenance = pick?.provenance || {};
-  const bits = [];
-  if (provenance.sourceCount != null) bits.push(`${provenance.sourceCount} sources`);
-  if (Array.isArray(provenance.sourceTypes) && provenance.sourceTypes.length) bits.push(provenance.sourceTypes.join(', '));
-  if (provenance.lastVerified) bits.push(`verified ${provenance.lastVerified}`);
-  if (provenance.confidence) bits.push(`${provenance.confidence} confidence`);
-  return bits.join(' · ');
+  return m ? m.name : c;
 }
 
 function renderQuickAnswer(data) {
-  const firstThree = data.picks.slice(0, 3).map((pick) => `
-            <li><strong>${escapeHtml(pick.name)}:</strong> ${escapeHtml(buildVerdictText(pick))}</li>`).join('');
-  const summaryRows = [
+  const verdicts = data.picks.slice(0, 3)
+    .map((p) => `            <li><strong>${escapeHtml(p.name)}:</strong> ${escapeHtml(buildVerdictText(p))}</li>`)
+    .join('\n');
+  const rows = [
     ['Best overall', resolveBestOverall(data)],
-    ['Price/value range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || data.picks.map((pick) => pick.priceRangeLocal).filter((value) => isLikelyPriceRange(value))[0] || 'Varies by pick'],
-    ['Top-ranked pick', data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
-    ['Last verified', data.summary?.lastVerifiedLabel || 'See page metadata'],
-  ].filter(([, value]) => value);
-
-  return `
-        <section class="quick-answer-section">
+    ['Price range', data.summary?.priceRangeLocal || data.summary?.priceRangeUSD || ''],
+    ['Top pick', data.summary?.topPick || (data.picks[0] ? data.picks[0].name : '')],
+    ['Must-try', data.summary?.mustTry || data.summary?.bestBudgetOption || ''],
+  ].filter(([, v]) => v);
+  const rowsHtml = rows.map(([label, value]) => `              <div class="comparison-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('\n');
+  return `        <section class="quick-answer-section">
           <div class="quick-answer-card">
             <p class="eyebrow">Quick answer</p>
             <p class="quick-answer-lead"><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>
             <dl class="quick-answer-grid">
-              ${summaryRows.map(([label, value]) => renderComparisonRow(label, value)).join('')}
+${rowsHtml}
             </dl>
           </div>
           <div class="quick-answer-card">
             <p class="eyebrow">Top verdicts</p>
-            <ul class="top-verdicts-list">${firstThree}</ul>
+            <ul class="top-verdicts-list">
+${verdicts}
+            </ul>
           </div>
         </section>`;
 }
 
-function renderPick(pick, data, mapData) {
-  const mapQuery = buildPickMapQuery(pick, data);
-  const hours = parseHoursNote(pick.hoursNote);
-  const firstTag = (pick.tags || [])[0] || pick.placeType || 'Restaurant';
-  const verdictText = buildVerdictText(pick);
-  const bestForText = buildBestForText(pick, data, firstTag);
-  const strengths = buildStrengths(pick, firstTag);
-  const limitations = buildLimitations(pick);
-  const operationalTags = [
-    pick.reservationNeeded === true ? 'Reservations recommended' : '',
-    pick.reservationNeeded === false ? 'Walk-in friendly' : '',
-    pick.bestTimeToGo || '',
-    pick.waitExpectation ? `Wait: ${pick.waitExpectation}` : '',
-    pick.mealType || '',
-    pick.touristyLevel || '',
-  ].filter(Boolean);
-  const provenanceSummary = buildProvenanceSummary(pick);
-  const valueSignal = firstNonEmpty(
-    pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? `${pick.priceRangeLocal}${pick.googleRating ? ` · ${pick.googleRating}★` : ''}` : '',
-    pick.googleRating && pick.reviewCount ? `${pick.googleRating}★ from ${pick.reviewCount.toLocaleString()} reviews` : '',
-    pick.googleRating ? `${pick.googleRating}★ Google rating` : ''
-  );
-  const whyItMadeTheList = firstNonEmpty(pick.whyItMadeTheList, pick.insiderTip);
-  const orderNote = pick.whatToOrder && !pick.whatToOrder.includes('is a featured pick in this guide')
-    ? stripWhatToOrderLead(pick.whatToOrder)
-    : '';
-  const quoteBlocks = (pick.redditQuotes || []).map((quote) => `
-    <div class="reddit-quote">
-        "${escapeHtml(quote.quote)}"
-        ${quote.source ? `<span class="source">${escapeHtml(quote.source)}</span>` : ''}
-    </div>`).join('');
-
-  const contactRow = [
-    pick.phone ? `<span>📞 <a href="tel:${escapeHtml(formatPhone(pick.phone))}">${escapeHtml(formatPhone(pick.phone))}</a></span>` : '',
-    pick.website ? `<span>🌐 <a href="${escapeHtml(pick.website)}" target="_blank" rel="noopener">Website</a></span>` : ''
-  ].filter(Boolean).join('');
-
-  const mapAttrs = [
-    `data-map-name="${escapeHtml(`${pick.rank}. ${pick.name}`)}"`,
-    `data-map-cta-url="${escapeHtml(pick.googleMapsUrl || mapData.ctaUrl)}"`,
-    `data-map-query="${escapeHtml(mapQuery)}"`,
-  ];
-  if (typeof pick.lat === 'number' && typeof pick.lng === 'number') {
-    mapAttrs.push(`data-map-lat="${escapeHtml(String(pick.lat))}"`);
-    mapAttrs.push(`data-map-lng="${escapeHtml(String(pick.lng))}"`);
-  }
-
-  return `
-<section class="restaurant-section" id="${pickAnchorId(pick)}" ${mapAttrs.join(' ')}>
-    <div class="restaurant-header">
-        <h2><span class="restaurant-number">${pick.rank}</span>${escapeHtml(pick.name)}</h2>
-        <span class="cuisine-tag ${cuisineTagClass(pick)}">${escapeHtml(firstTag)}</span>
-        ${pick.googleRating ? `<span class="google-rating"><span class="star">★</span> ${escapeHtml(String(pick.googleRating))}${pick.reviewCount ? ` · ${escapeHtml(pick.reviewCount.toLocaleString())} reviews` : ''}</span>` : ''}
-    </div>
-    <div class="restaurant-details">
-        ${pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal) ? `<span>💴 ${escapeHtml(pick.priceRangeLocal)}</span>` : ''}
-        ${pick.address ? `<span>📍 ${escapeHtml(pick.address)}</span>` : ''}
-        ${pick.googleMapsUrl ? `<a href="${escapeHtml(pick.googleMapsUrl)}" target="_blank" rel="noopener">📌 Google Maps →</a>` : ''}
-    </div>
-    <div class="pick-quick-take">
-      <strong>Verdict:</strong> ${escapeHtml(verdictText)}
-    </div>
-    ${renderTagList(operationalTags, 'pick-tag-list operational-tags')}
-    ${renderTagList(pick.knownForTags, 'pick-tag-list known-for-tags')}
-    ${renderTagList(pick.dietaryTags, 'pick-tag-list dietary-tags')}
-    ${renderTagList(pick.paymentHints, 'pick-tag-list payment-tags')}
-    <div class="comparison-card">
-      <h3>Quick comparison</h3>
-      <dl class="comparison-grid">
-        ${renderComparisonRow('Best for', bestForText)}
-        ${renderComparisonRow('Strengths', strengths.join(' · '))}
-        ${renderComparisonRow('Limitations', limitations)}
-        ${renderComparisonRow('Price / value', valueSignal)}
-        ${renderComparisonRow('Why it made the list', whyItMadeTheList)}
-        ${renderComparisonRow('What to order', orderNote)}
-        ${renderComparisonRow('Best time to go', pick.bestTimeToGo)}
-        ${renderComparisonRow('Wait expectation', pick.waitExpectation)}
-        ${renderComparisonRow('Reservation', pick.reservationNeeded === true ? 'Recommended' : pick.reservationNeeded === false ? 'Usually not needed' : '')}
-      </dl>
-    </div>
-    ${provenanceSummary ? `<div class="pick-provenance">Source quality: ${escapeHtml(provenanceSummary)}</div>` : ''}
-    ${hours.length ? `
-    <div class="shop-hours">
-        <details>
-            <summary>${escapeHtml(hoursSummary(pick, hours))}</summary>
-            <div class="hours-grid">
-            ${hours.map((item) => `<span>${escapeHtml(item.day)}</span><span>${escapeHtml(item.hours)}</span>`).join('')}
-            </div>
-        </details>
-    </div>` : ''}
-    ${contactRow ? `<div class="shop-contact">${contactRow}</div>` : ''}
-
-    ${pick.photo ? `<img src="${escapeHtml(absoluteUrl(pick.photo))}" alt="${escapeHtml(pick.name)} in ${escapeHtml(pick.neighborhood || pick.address || '')}" style="width:100%;border-radius:12px;margin-bottom:1rem;" loading="lazy">` : ''}
-    ${quoteBlocks}
-</section>`;
-}
-
-function renderViatorSection(data) {
-  const city = (data.taxonomy && data.taxonomy.city) || 'the destination';
-  const category = ((data.taxonomy && (data.taxonomy.category || data.taxonomy.vertical)) || '').toLowerCase();
-  const cityEnc = encodeURIComponent(city);
-  const pid = 'P00292930';
-  const mcid = '42383';
-  const medium = 'link';
-  const affiliateParams = `pid=${pid}&mcid=${mcid}&medium=${medium}`;
-  const exploreUrl = `https://www.viator.com/search/${cityEnc}+tours?${affiliateParams}`;
-
-  let cards;
-  if (category.includes('restaurant') || category.includes('food') || category.includes('eat') || category.includes('cafe') || category.includes('café') || category.includes('street food') || category.includes('dining')) {
-    cards = [
-      { type: 'Food Tour', name: `Best ${city} Food Tours & Tastings`, url: `https://www.viator.com/search/${cityEnc}+food+tour?${affiliateParams}` },
-      { type: 'Night Food Tour', name: `${city} Night Street Food Tour`, url: `https://www.viator.com/search/${cityEnc}+night+food+tour?${affiliateParams}` },
-      { type: 'Cooking Class', name: `${city} Cooking Class & Market Visit`, url: `https://www.viator.com/search/${cityEnc}+cooking+class?${affiliateParams}` },
-    ];
-  } else if (category.includes('shop') || category.includes('market') || category.includes('boutique') || category.includes('fashion')) {
-    cards = [
-      { type: 'Shopping Tour', name: `${city} Shopping & Style Tour`, url: `https://www.viator.com/search/${cityEnc}+shopping+tour?${affiliateParams}` },
-      { type: 'Market Tour', name: `${city} Local Market Experience`, url: `https://www.viator.com/search/${cityEnc}+market+tour?${affiliateParams}` },
-      { type: 'Cultural Walk', name: `${city} Cultural Walking Tour`, url: `https://www.viator.com/search/${cityEnc}+cultural+walk?${affiliateParams}` },
-    ];
-  } else if (category.includes('bar') || category.includes('night') || category.includes('drink') || category.includes('cocktail') || category.includes('pub') || category.includes('club')) {
-    cards = [
-      { type: 'Bar Crawl', name: `${city} Bar Crawl & Nightlife Tour`, url: `https://www.viator.com/search/${cityEnc}+bar+crawl?${affiliateParams}` },
-      { type: 'Night Tour', name: `Guided ${city} Night Tour`, url: `https://www.viator.com/search/${cityEnc}+night+tour?${affiliateParams}` },
-      { type: 'Food & Drink Tour', name: `${city} Food & Drink Experience`, url: `https://www.viator.com/search/${cityEnc}+food+drink+tour?${affiliateParams}` },
-    ];
-  } else if (category.includes('temple') || category.includes('culture') || category.includes('museum') || category.includes('heritage') || category.includes('historic') || category.includes('art')) {
-    cards = [
-      { type: 'Walking Tour', name: `${city} Guided Walking Tour`, url: `https://www.viator.com/search/${cityEnc}+walking+tour?${affiliateParams}` },
-      { type: 'Cultural Tour', name: `${city} Cultural Highlights Tour`, url: `https://www.viator.com/search/${cityEnc}+cultural+tour?${affiliateParams}` },
-      { type: 'Day Trip', name: `Best Day Trips from ${city}`, url: `https://www.viator.com/search/${cityEnc}+day+trip?${affiliateParams}` },
-    ];
-  } else {
-    cards = [
-      { type: 'Walking Tour', name: `${city} Guided Walking Tour`, url: `https://www.viator.com/search/${cityEnc}+walking+tour?${affiliateParams}` },
-      { type: 'Food Tour', name: `Best ${city} Food Tours & Tastings`, url: `https://www.viator.com/search/${cityEnc}+food+tour?${affiliateParams}` },
-      { type: 'Day Trip', name: `Best Day Trips from ${city}`, url: `https://www.viator.com/search/${cityEnc}+day+trip?${affiliateParams}` },
-    ];
-  }
-
-  cards.push({ type: 'Explore More', name: `All ${city} Tours & Activities →`, url: exploreUrl });
-
-  const cardHtml = cards.map(c => `
-      <a class="viator-card" href="${c.url}" target="_blank" rel="noopener sponsored">
-        <span class="tour-type">${c.type}</span>
-        <span class="tour-name">${c.name}</span>
-      </a>`).join('');
-
-  return `
-      <section class="viator-section">
-        <h2>🎟️ Book ${city} Experiences</h2>
-        <p class="viator-subtitle">Tours and activities hand-picked for this guide — book with free cancellation</p>
-        <div class="viator-cards">${cardHtml}
-        </div>
-        <p class="viator-powered">Experiences via Viator — free cancellation on most tours</p>
+function renderIntroSection(data) {
+  const body = dedupeIntroBody(data.intro.answerFirst, data.intro.body || []);
+  const paragraphs = body.map((p) => `        <p>${escapeHtml(p)}</p>`).join('\n');
+  if (!paragraphs) return '';
+  return `      <section class="intro-section">
+${paragraphs}
       </section>`;
 }
 
-function renderPage(data) {
-  const validation = validateSource(data);
-  if (validation.errors.length) {
-    throw new Error(`Cannot render invalid source:\n${validation.errors.join('\n')}`);
+function renderMethodologySection(data) {
+  if (!data.intro?.methodology) return '';
+  return `        <section class="methodology-section">
+          <h2>How we built this list</h2>
+          <p>${escapeHtml(data.intro.methodology)}</p>
+        </section>`;
+}
+
+function renderComparisonTable(data) {
+  if (!data.picks.length) return '';
+  const rows = data.picks.map((p) => {
+    const style = p.styleLabel || (p.tags || [])[0] || '';
+    const price = p.priceTier || p.priceRangeLocal || '';
+    const rating = (typeof p.googleRating === 'number') ? `${p.googleRating}★` : '';
+    const area = p.neighborhood || (p.address || '').split(',')[0] || '';
+    return `          <tr>
+            <td>${p.rank}</td>
+            <td><a href="#${pickAnchorId(p)}">${escapeHtml(p.name)}</a></td>
+            <td>${escapeHtml(style)}</td>
+            <td>${escapeHtml(price)}</td>
+            <td>${escapeHtml(rating)}</td>
+            <td>${escapeHtml(area)}</td>
+          </tr>`;
+  }).join('\n');
+  return `      <section class="comparison-table-section">
+        <h2>All ${data.picks.length} spots at a glance</h2>
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr><th>#</th><th>Name</th><th>Style</th><th>Price</th><th>Rating</th><th>Area</th></tr>
+            </thead>
+            <tbody>
+${rows}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+}
+
+function renderFilterBar(data) {
+  // Derive filter chips from per-pick fields. Only render if we have at least 2 distinct
+  // values within a group — single-value groups offer nothing to filter.
+  const groups = {};
+  for (const p of data.picks) {
+    if (p.styleLabel) (groups.style ||= new Set()).add(p.styleLabel);
+    if (p.priceTier) (groups.price ||= new Set()).add(p.priceTier);
+    if (p.neighborhood) (groups.area ||= new Set()).add(p.neighborhood);
   }
+  const labels = { style: 'Style', price: 'Price', area: 'Area' };
+  const chipParts = [];
+  for (const [group, values] of Object.entries(groups)) {
+    if (values.size < 2) continue;
+    chipParts.push(`<span class="filter-label">${labels[group]}:</span>`);
+    for (const v of [...values].sort()) {
+      chipParts.push(`<span class="filter-chip" data-filter-group="${group}" data-filter-value="${escapeHtml(v)}">${escapeHtml(v)}</span>`);
+    }
+  }
+  if (!chipParts.length) return '';
+  return `      <div class="filter-bar">
+        ${chipParts.join('\n        ')}
+      </div>`;
+}
 
-  const mapData = buildDerivedMap(data);
-  const mapPicks = buildMapPicks(data.picks, data, mapData);
-  const introBody = dedupeIntroBody(data.intro.answerFirst, data.intro.body);
-  const relatedLinks = buildRelatedPopularPickLinks(data, 5).map((entry) => `
-        <li><a href="${escapeHtml(entry.url)}">${escapeHtml(entry.title)}</a></li>`).join('');
+function renderRestaurantSection(pick, data, mapData, isFirst = false) {
+  const mapQuery = buildPickMapQuery(pick, data);
+  const hours = parseHoursNote(pick.hoursNote);
+  const firstTag = (pick.tags || [])[0] || pick.placeType || 'Spot';
+  const verdictText = buildVerdictText(pick);
 
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-D7QHNRXLHJ');
-    </script>
-    ${renderMeta(data)}
-    ${renderSchema(data)}
-    <style>
+  const dataAttrs = [
+    `id="${pickAnchorId(pick)}"`,
+    pick.styleLabel ? `data-filter-style="${escapeHtml(pick.styleLabel)}"` : '',
+    pick.priceTier ? `data-filter-price="${escapeHtml(pick.priceTier)}"` : '',
+    pick.neighborhood ? `data-filter-area="${escapeHtml(pick.neighborhood)}"` : '',
+    `data-map-name="${escapeHtml(`${pick.rank}. ${pick.name}`)}"`,
+    `data-map-cta-url="${escapeHtml(pick.googleMapsUrl || mapData.ctaUrl)}"`,
+    `data-map-query="${escapeHtml(mapQuery)}"`,
+    typeof pick.lat === 'number' ? `data-map-lat="${pick.lat}"` : '',
+    typeof pick.lng === 'number' ? `data-map-lng="${pick.lng}"` : '',
+  ].filter(Boolean).join(' ');
+
+  const ratingHtml = pick.googleRating
+    ? `<span class="google-rating"><span class="star">★</span> ${pick.googleRating}${pick.reviewCount ? ` · ${Number(pick.reviewCount).toLocaleString()} reviews` : ''}</span>`
+    : '';
+
+  const detailsParts = [
+    pick.priceRangeLocal ? `<span>💴 ${escapeHtml(pick.priceRangeLocal)}</span>` : '',
+    pick.address || pick.neighborhood ? `<span>📍 ${escapeHtml(pick.address || pick.neighborhood)}</span>` : '',
+    pick.googleMapsUrl ? `<a href="${escapeHtml(pick.googleMapsUrl)}" target="_blank" rel="noopener">📌 Google Maps →</a>` : '',
+  ].filter(Boolean);
+
+  const operationalTags = [
+    pick.mealType,
+    pick.reservationNeeded === true ? 'reservations-essential' : pick.reservationNeeded === false ? 'walk-in friendly' : '',
+    pick.bestTimeToGo,
+    pick.touristyLevel,
+    ...(pick.paymentHints || []),
+  ].filter(Boolean);
+
+  const comparisonRows = [
+    ['Best for', pick.bestFor || `${firstTag} in ${pick.neighborhood || data.taxonomy.city || ''}`.trim()],
+    ['Strengths', buildStrengthsLine(pick)],
+    ['Limitations', pick.limitations || ''],
+    ['Price / value', buildValueLine(pick)],
+    ['Why it made the list', pick.whyItMadeTheList || ''],
+    ['What to order', stripWhatToOrderLead(pick.whatToOrder || '')],
+    ['Best time to go', pick.bestTimeToGo || ''],
+    ['Wait expectation', pick.waitExpectation || ''],
+    ['Reservation', pick.reservationNeeded === true ? 'Recommended' : pick.reservationNeeded === false ? 'Usually not needed' : ''],
+  ].filter(([, v]) => v);
+  const comparisonHtml = comparisonRows
+    .map(([label, value]) => `        <div class="comparison-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+    .join('\n');
+
+  const provenance = buildProvenanceLine(pick);
+  const hoursBlock = hours.length
+    ? `\n    <div class="shop-hours">
+        <details>
+            <summary>${escapeHtml(hoursSummary(pick, hours))}</summary>
+            <div class="hours-grid">
+${hours.map((h) => `              <span>${escapeHtml(h.day)}</span><span>${escapeHtml(h.hours)}</span>`).join('\n')}
+            </div>
+        </details>
+    </div>`
+    : '';
+  const contactHtml = (pick.phone || pick.website)
+    ? `\n    <div class="shop-contact">${[
+        pick.phone ? `<span>📞 <a href="tel:${escapeHtml(formatPhone(pick.phone))}">${escapeHtml(formatPhone(pick.phone))}</a></span>` : '',
+        pick.website ? `<span>🌐 <a href="${escapeHtml(pick.website)}" target="_blank" rel="noopener">Website</a></span>` : '',
+      ].filter(Boolean).join('')}</div>`
+    : '';
+  const imgAttrs = isFirst
+    ? 'loading="eager" fetchpriority="high"'
+    : 'loading="lazy"';
+  const imageHtml = pick.photo
+    ? `\n    <img src="${escapeHtml(absoluteUrl(pick.photo))}" alt="${escapeHtml(pick.name)} in ${escapeHtml(pick.neighborhood || pick.address || data.taxonomy.city || '')}" style="width:100%;border-radius:12px;margin-bottom:1rem;" ${imgAttrs} width="1200" height="675" decoding="async">`
+    : '';
+  const quotesHtml = (pick.redditQuotes || []).map((q) => `\n    <div class="reddit-quote">
+        “${escapeHtml(q.quote)}”
+        ${q.source ? `<span class="source">— ${escapeHtml(q.source)}</span>` : ''}
+    </div>`).join('');
+
+  return `<!-- VENUE ${pick.rank} -->
+<section class="restaurant-section" ${dataAttrs}>
+    <div class="restaurant-header">
+        <h2><span class="restaurant-number">${pick.rank}</span>${escapeHtml(pick.name)}</h2>
+        <span class="cuisine-tag ${cuisineTagClass(pick)}">${escapeHtml(firstTag)}</span>
+        ${ratingHtml}
+    </div>
+    <div class="restaurant-details">${detailsParts.join('')}</div>
+    <div class="pick-quick-take">
+      <strong>Verdict:</strong> ${escapeHtml(verdictText)}
+    </div>${operationalTags.length ? `\n    <div class="pick-tag-list operational-tags"><span>${escapeHtml(operationalTags.join(' / '))}</span></div>` : ''}
+
+    <div class="comparison-card">
+      <h3>Quick comparison</h3>
+      <dl class="comparison-grid">
+${comparisonHtml}
+      </dl>
+    </div>${provenance ? `\n    <div class="pick-provenance">${escapeHtml(provenance)}</div>` : ''}${hoursBlock}${contactHtml}${imageHtml}${quotesHtml}
+</section>`;
+}
+
+function buildStrengthsLine(pick) {
+  const out = [];
+  if (typeof pick.googleRating === 'number' && pick.reviewCount) out.push(`${pick.googleRating}★ from ${Number(pick.reviewCount).toLocaleString()} reviews`);
+  if (Array.isArray(pick.knownForTags) && pick.knownForTags.length) out.push(`Known for ${pick.knownForTags.slice(0, 2).join(', ')}`);
+  if (pick.address) out.push(pick.address);
+  return out.slice(0, 3).join(' · ');
+}
+
+function buildValueLine(pick) {
+  if (pick.priceRangeLocal && isLikelyPriceRange(pick.priceRangeLocal)) {
+    return `${pick.priceRangeLocal}${pick.googleRating ? ` · ${pick.googleRating}★` : ''}`;
+  }
+  if (pick.googleRating && pick.reviewCount) return `${pick.googleRating}★ from ${Number(pick.reviewCount).toLocaleString()} reviews`;
+  if (pick.googleRating) return `${pick.googleRating}★ Google rating`;
+  return '';
+}
+
+function buildProvenanceLine(pick) {
+  const p = pick?.provenance || {};
+  const bits = [];
+  if (p.sourceCount != null) bits.push(`${p.sourceCount} sources`);
+  if (Array.isArray(p.sourceTypes) && p.sourceTypes.length) bits.push(p.sourceTypes.join(', '));
+  if (p.lastVerified) bits.push(`verified ${p.lastVerified}`);
+  if (p.confidence) bits.push(`${p.confidence} confidence`);
+  return bits.length ? `Source quality: ${bits.join(' · ')}` : '';
+}
+
+function renderFaqSection(data) {
+  if (!Array.isArray(data.faq) || !data.faq.length) return '';
+  const items = data.faq.map((q) => `        <div class="faq-item">
+          <h3>${escapeHtml(q.question)}</h3>
+          <p>${escapeHtml(q.answer)}</p>
+        </div>`).join('\n');
+  return `      <section class="faq-section">
+        <h2>Frequently asked questions</h2>
+${items}
+      </section>`;
+}
+
+function renderRelatedSection(data) {
+  const cards = buildRelatedIntentCards(data, 4);
+  if (!cards.length) return '';
+  const cityOrCountry = data.taxonomy.city || data.taxonomy.country || '';
+  const subtitle = cityOrCountry ? `More Popular Picks from ${cityOrCountry}:` : 'More Popular Picks:';
+  const html = cards.map((c) => `          <a href="${escapeHtml(c.url)}" class="intent-card">
+            <span class="intent-type">${escapeHtml(c.type)}</span>
+            <strong>${escapeHtml(c.title)}</strong>
+          </a>`).join('\n');
+  return `      <section class="related-section">
+        <h2>Related guides</h2>
+        <p class="related-intro">${escapeHtml(subtitle)}</p>
+        <div class="intent-grid">
+${html}
+        </div>
+      </section>`;
+}
+
+function renderPlanningIntroSection(data) {
+  const paragraphs = data.intro?.planningParagraphs || [];
+  if (!paragraphs.length) return '';
+  const cityOrCountry = data.taxonomy.city || data.taxonomy.country || '';
+  const heading = data.intro?.planningHeading || `Planning your ${cityOrCountry} ${data.taxonomy?.category || 'trip'}`;
+  const html = paragraphs.map((p, i) => i === 0
+    ? `        <p><strong>${escapeHtml(p)}</strong></p>`
+    : `        <p>${escapeHtml(p)}</p>`).join('\n');
+  return `      <section class="intro-section" style="margin-top:1.4rem;">
+        <h2>${escapeHtml(heading)}</h2>
+${html}
+      </section>`;
+}
+
+function renderCtaSection(data) {
+  const place = data.taxonomy.city || data.taxonomy.country || 'your trip';
+  return `<!-- social-proof:end --><section class="cta-section">
+  <h2>Plan your ${escapeHtml(place)} trip</h2>
+  <p>Get a free custom itinerary for ${escapeHtml(place)} — built from real traveler insights.</p>
+  <a href="/plan" class="cta-btn">Get a Free Itinerary →</a>
+</section>`;
+}
+
+// ============================================================
+// Page-shell renderers (nav, footer, head includes)
+// ============================================================
+function renderNav() {
+  return `  <!-- @include:nav:start -->
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav>
+    <a href="/" class="logo"><img class="owl-default" src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji.ai" style="height:32px;" loading="lazy" width="32" height="32" decoding="async"><img class="owl-fly" src="https://img.tabiji.ai/tabiji-owl-logo-flying.png?v=2" alt="" style="height:32px;" width="32" height="32" decoding="async">tabiji<span>.ai</span></a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+        <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
+            <div class="nav-dropdown-menu">
+                <a href="/popular-picks/">⭐ Popular Picks</a>
+                <a href="/countries/">🗺 Country Guides</a>
+                <a href="/compare/">🆚 Compare Destinations</a>
+                <a href="/health/">🏥 Travel Health Tips</a>
+                <a href="/api/">🔌 API</a>
+            </div>
+        </div>
+        <a href="/trip-planner/">Trip Planner</a>
+        <a href="/scams/">Tourist Scams</a>
+        <a href="/about/">About</a>
+        <a href="/books/" class="cta-nav">Get Travel Safety Books</a>
+    </div>
+</nav>
+<!-- @include:nav:end -->`;
+}
+
+function renderFooter() {
+  return `<!-- @include:footer:start -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">tabiji<span>.ai</span></a>
+        <p class="footer-tagline">Travel safety, country by country.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/books/">Travel Safety Books</a></li>
+          <li><a href="/scams/">Tourist Scams</a></li>
+          <li><a href="/countries/">Country Guides</a></li>
+          <li><a href="/popular-picks/">Popular Picks</a></li>
+          <li><a href="/trip-planner/">Trip Planner</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener">Pinterest</a></li>
+          <li><a href="https://x.com/tabijiai" target="_blank" rel="noopener">X</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/media/">Media Studio</a></li>
+          <li><a href="/api/">API</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p class="footer-copyright">© 2026 tabiji.ai</p>
+      <div class="footer-legal-links">
+        <a href="/terms/">Terms of Service</a><span class="footer-sep" aria-hidden="true">·</span><a href="/privacy/">Privacy Policy</a><span class="footer-sep" aria-hidden="true">·</span><a href="/delete-data/">Delete My Data</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- @include:footer:end -->`;
+}
+
+function renderSharedHeadIncludes() {
+  return `<!-- @include:shared-head:start -->
+<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
+<link rel="dns-prefetch" href="https://maps.googleapis.com">
+<link rel="stylesheet" href="/assets/shared-shell.css">
+<meta name="theme-color" content="#2D3A5C">
+<script defer src="/assets/shared-shell.js"></script>
+<!-- @include:shared-head:end -->`;
+}
+
+// ============================================================
+// Inline <style> block — copies the gold-standard CSS from
+// new-york-steak. Kept inline (not externalised) so each page
+// renders with no additional network requests beyond shared-shell.css.
+// ============================================================
+function renderInlineStyle() {
+  return `<style>
       :root {
         --indigo:#2D3A5C; --indigo-light:#3D4E7A; --warm-cream:#F5F0E8; --sand:#E8DFD0;
-        --earth:#8B7355; --terracotta:#C4704B; --white:#FEFCF9; --text:#2C2419; --text-muted:#6B5D4F;
+        --earth:#7A6343; --terracotta:#A85A37; --white:#FEFCF9; --text:#2C2419; --text-muted:#6B5D4F;
       }
       * { margin:0; padding:0; box-sizing:border-box; }
       body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; color:var(--text); background:var(--white); line-height:1.6; -webkit-font-smoothing:antialiased; }
       a { color:var(--terracotta); text-decoration:none; }
-      nav { position:sticky; top:0; z-index:100; background:rgba(254,252,249,.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--sand); padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
-      .logo { font-size:1.3rem; font-weight:700; color:var(--indigo); }
-      .cta-nav { background:var(--terracotta); color:white; padding:.55rem 1rem; border-radius:8px; }
-      .hero { padding:6.5rem 1.5rem 2rem; max-width:840px; margin:0 auto; }
+      .skip-link { position:absolute; left:-9999px; top:0; padding:.6rem 1rem; background:var(--indigo); color:#fff; z-index:200; }
+      .skip-link:focus { left:1rem; top:1rem; }
+      .hero { padding:0.5rem 1.5rem 2rem; max-width:840px; margin:0 auto; }
       .hero-badge { display:inline-block; background:var(--sand); color:var(--earth); padding:.35rem 1rem; border-radius:999px; font-size:.9rem; margin-bottom:1rem; }
       .hero h1 { font-size:clamp(2rem,4.7vw,3rem); line-height:1.12; color:var(--indigo); margin:0 0 1rem; letter-spacing:-.03em; }
       .subtitle { font-size:1.08rem; color:var(--text-muted); max-width:680px; }
@@ -797,11 +691,15 @@ function renderPage(data) {
       .map-sidebar h2, .map-inline h2 { margin:.2rem 0 .35rem; color:var(--indigo); font-size:1.05rem; }
       .map-active-pick { color:var(--earth); font-size:.92rem; font-weight:700; margin:0 0 .8rem; }
       .map-legend ul { margin:.75rem 0; padding-left:1.2rem; }
-      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; }
+      .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
+      .restaurant-section { scroll-margin-top:100px; transition:background-color .18s ease, box-shadow .18s ease, border-radius .18s ease; border-bottom:1px solid var(--sand); padding:2.5rem 0; }
+      .restaurant-section:first-of-type { padding-top:0; }
+      .restaurant-section:last-of-type { border-bottom:none; }
       .restaurant-section.active { background:#fffaf4; border-radius:14px; box-shadow:0 0 0 1px var(--sand) inset; padding-left:1rem; padding-right:1rem; }
+      .restaurant-section.filtered-out { display:none !important; }
       .quick-answer-section { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:1rem; margin-bottom:1.4rem; }
-      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
-      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section { margin-bottom:1.4rem; }
+      .quick-answer-card, .intro-section, .methodology-section, .faq-section, .related-section, .comparison-table-section { background:white; border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; }
+      .quick-answer-section, .intro-section, .methodology-section, .faq-section, .related-section, .comparison-table-section { margin-bottom:1.4rem; }
       .eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.78rem; font-weight:700; color:var(--earth); margin-bottom:.55rem; }
       .quick-answer-lead { margin-bottom:1rem; }
       .quick-answer-grid, .comparison-grid { display:grid; gap:.7rem; }
@@ -809,15 +707,11 @@ function renderPage(data) {
       .comparison-row dt { font-weight:700; color:var(--indigo); }
       .comparison-row dd { color:var(--text); }
       .top-verdicts-list { padding-left:1.1rem; display:grid; gap:.75rem; }
-      .map-inline { display:none; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; padding:1rem; margin-bottom:1.4rem; }
-      .restaurant-section { border-bottom:1px solid var(--sand); padding:2.5rem 0; }
-      .restaurant-section:first-of-type { padding-top:0; }
-      .restaurant-section:last-of-type { border-bottom:none; }
       .restaurant-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.75rem; flex-wrap:wrap; gap:.5rem; }
       .restaurant-header h2 { font-size:1.35rem; font-weight:700; color:var(--indigo); }
       .restaurant-number { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--terracotta); color:white; font-size:.8rem; font-weight:700; margin-right:.5rem; flex-shrink:0; }
       .cuisine-tag { display:inline-block; padding:.2rem .6rem; border-radius:6px; font-size:.78rem; font-weight:600; white-space:nowrap; }
-      .tag-ramen { background:#FFF3E0; color:#E65100; } .tag-tonkatsu { background:#FBE9E7; color:#BF360C; } .tag-gyudon { background:#EFEBE9; color:#4E342E; } .tag-udon { background:#E8EAF6; color:#283593; } .tag-tempura { background:#E0F2F1; color:#00695C; } .tag-sushi { background:#E3F2FD; color:#1565C0; } .tag-yakitori { background:#FCE4EC; color:#AD1457; } .tag-tsukemen { background:#FFF8E1; color:#FF8F00; } .tag-gyukatsu { background:#F1F8E9; color:#558B2F; } .tag-kushikatsu { background:#F3E5F5; color:#7B1FA2; } .tag-shabu { background:#EDE7F6; color:#512DA8; } .tag-omurice { background:#FFFDE7; color:#F9A825; } .tag-hamburg { background:#EFEBE9; color:#6D4C41; } .tag-snack { background:#FCE4EC; color:#C2185B; } .tag-regional { background:#ECEFF1; color:#455A64; }
+      .tag-ramen{background:#FFF3E0;color:#E65100}.tag-tonkatsu{background:#FBE9E7;color:#BF360C}.tag-gyudon{background:#EFEBE9;color:#4E342E}.tag-udon{background:#E8EAF6;color:#283593}.tag-tempura{background:#E0F2F1;color:#00695C}.tag-sushi{background:#E3F2FD;color:#1565C0}.tag-yakitori{background:#FCE4EC;color:#AD1457}.tag-tsukemen{background:#FFF8E1;color:#FF8F00}.tag-gyukatsu{background:#F1F8E9;color:#558B2F}.tag-kushikatsu{background:#F3E5F5;color:#7B1FA2}.tag-shabu{background:#EDE7F6;color:#512DA8}.tag-omurice{background:#FFFDE7;color:#F9A825}.tag-hamburg{background:#EFEBE9;color:#6D4C41}.tag-snack{background:#FCE4EC;color:#C2185B}.tag-pizza{background:#FFE0B2;color:#BF360C}.tag-steak{background:#EFEBE9;color:#3E2723}.tag-bbq{background:#FFCCBC;color:#BF360C}.tag-classic{background:#E8DFD0;color:#5D4037}.tag-historic{background:#D7CCC8;color:#3E2723}.tag-modern{background:#E1F5FE;color:#01579B}.tag-korean{background:#FCE4EC;color:#880E4F}.tag-regional{background:#ECEFF1;color:#455A64}
       .google-rating { color:var(--earth); font-size:.95rem; }
       .star { color:#FFB400; }
       .restaurant-details, .shop-contact { display:flex; flex-wrap:wrap; gap:.75rem 1rem; font-size:.95rem; color:var(--earth); margin-bottom:.9rem; }
@@ -835,83 +729,44 @@ function renderPage(data) {
       .faq-item + .faq-item { border-top:1px solid var(--sand); padding-top:1rem; margin-top:1rem; }
       .faq-item h3 { color:var(--indigo); margin:.2rem 0 .45rem; }
       .related-intro { color:var(--text-muted); margin:.25rem 0 1rem; }
-      ul.related { padding-left:1.2rem; margin:0; }
       .intent-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:.9rem; }
       .intent-card { display:block; background:var(--warm-cream); border:1px solid var(--sand); border-radius:14px; padding:1rem; color:var(--text); }
       .intent-card:hover { border-color:var(--terracotta); transform:translateY(-1px); }
       .intent-type { display:block; text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; font-weight:700; color:var(--earth); margin-bottom:.45rem; }
-      footer { max-width:1260px; margin:0 auto; padding:0 1.5rem 3rem; color:var(--text-muted); }
+      .comparison-table-wrapper { overflow-x:auto; }
+      .comparison-table { width:100%; border-collapse:collapse; font-size:.92rem; }
+      .comparison-table th { text-align:left; padding:.55rem .6rem; background:var(--warm-cream); color:var(--indigo); border-bottom:1px solid var(--sand); }
+      .comparison-table td { padding:.55rem .6rem; border-bottom:1px solid var(--sand); color:var(--text); }
+      .comparison-table tr:last-child td { border-bottom:none; }
+      .filter-bar { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.4rem; padding:1rem; background:white; border:1px solid var(--sand); border-radius:18px; align-items:center; }
+      .filter-bar .filter-label { font-weight:700; color:var(--indigo); font-size:.85rem; margin-right:.5rem; }
+      .filter-chip { display:inline-flex; align-items:center; padding:.35rem .8rem; border-radius:999px; border:1px solid var(--sand); background:white; color:var(--text-muted); font-size:.82rem; cursor:pointer; transition:all .15s; user-select:none; }
+      .filter-chip:hover { border-color:var(--terracotta); color:var(--terracotta); }
+      .filter-chip.active { background:var(--terracotta); color:white; border-color:var(--terracotta); }
+      .cta-section { max-width:900px; margin:1.5rem auto; padding:2rem 1.5rem; background:var(--warm-cream); border:1px solid var(--sand); border-radius:18px; text-align:center; }
+      .cta-section h2 { color:var(--indigo); margin-bottom:.5rem; }
+      .cta-section p { color:var(--text-muted); margin-bottom:1rem; }
+      .cta-btn { display:inline-block; background:var(--terracotta); color:#fff; padding:.65rem 1.2rem; border-radius:8px; font-weight:600; }
+      .cta-btn:hover { background:var(--indigo); }
       @media (max-width:980px) { .page-layout { grid-template-columns:1fr; } .map-sidebar { display:none; } .map-inline { display:block; } .quick-answer-section { grid-template-columns:1fr; } .comparison-row { grid-template-columns:1fr; } .restaurant-section { padding:2rem 0; } .restaurant-section.active { padding-left:.85rem; padding-right:.85rem; } }
-      .viator-section { background:linear-gradient(135deg,#fff9f0 0%,#fff 100%); border:1px solid var(--sand); border-radius:18px; padding:1.35rem 1.4rem; margin-bottom:1.4rem; }
-      .viator-section h2 { font-size:1.3em; margin-bottom:6px; }
-      .viator-subtitle { font-size:0.95em; color:#666; margin-bottom:20px; }
-      .viator-cards { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-      @media(max-width:600px) { .viator-cards { grid-template-columns:1fr; } }
-      .viator-card { background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:18px; text-decoration:none; color:inherit; transition:border-color .2s,box-shadow .2s; display:flex; flex-direction:column; gap:8px; }
-      .viator-card:hover { border-color:var(--primary,#0696D7); box-shadow:0 2px 12px rgba(6,150,215,.12); }
-      .viator-card .tour-type { font-size:.75em; text-transform:uppercase; letter-spacing:.5px; color:var(--primary,#0696D7); font-weight:600; }
-      .viator-card .tour-name { font-size:1em; font-weight:600; line-height:1.3; }
-      .viator-powered { font-size:.75em; color:#bbb; text-align:right; margin-top:14px; }
-    </style>
-</head>
-<body>
-  <nav>
-    <a class="logo" href="/">tabiji.ai</a>
-    <a class="cta-nav" href="/plan.html">Plan My Trip</a>
-  </nav>
+    </style>`;
+}
 
-  ${renderHero(data)}
+// ============================================================
+// Bottom scripts: map config + IO observer (FIXED) + Maps loader + filter chips
+// ============================================================
+function renderBottomScripts(mapData, mapPicks) {
+  const enabled = mapData.enabled && mapPicks.length > 0;
+  const config = JSON.stringify({
+    enabled,
+    title: mapData.title,
+    ctaLabel: mapData.ctaLabel,
+    defaultCtaUrl: mapData.ctaUrl,
+    picks: mapPicks,
+  });
 
-  <div class="page-layout">
-    <aside>
-      ${renderMapPanel(mapData, mapPicks, false)}
-    </aside>
-
-    <main class="content">
-      ${renderQuickAnswer(data)}
-
-      <section class="intro-section">
-        ${data.intro.answerFirst ? `<p><strong>${escapeHtml(data.intro.answerFirst)}</strong></p>` : ''}
-        ${renderRichTextParagraphs(data.intro.answerFirst ? introBody.filter((item) => item !== data.intro.answerFirst) : introBody)}
-      </section>
-
-      ${renderMapPanel(mapData, mapPicks, true)}
-
-      ${data.intro.methodology ? `
-        <section class="methodology-section">
-          <h2>How we built this list</h2>
-          <p>${escapeHtml(data.intro.methodology)}</p>
-        </section>` : ''}
-
-      <section class="pick-list">
-        ${data.picks.map((pick) => renderPick(pick, data, mapData)).join('')}
-      </section>
-
-      <section class="faq-section">
-        <h2>Frequently Asked Questions</h2>
-        ${data.faq.map((item) => `<div class="faq-item"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer)}</p></div>`).join('')}
-      </section>
-
-      ${renderViatorSection(data)}
-
-      ${renderIntentLinkSections(data)}
-
-      <section class="related-section">
-        <h2>Related Popular Picks</h2>
-        <ul class="related">${relatedLinks}</ul>
-      </section>
-    </main>
-  </div>
-
-  <footer>Generated from structured source data.</footer>
-  <script>
-    window.__POPULAR_PICKS_MAP__ = ${JSON.stringify({
-      enabled: mapData.enabled && mapPicks.length > 0,
-      title: mapData.title,
-      ctaLabel: mapData.ctaLabel,
-      defaultCtaUrl: mapData.ctaUrl,
-      picks: mapPicks,
-    })};
+  return `  <script>
+    window.__POPULAR_PICKS_MAP__ = ${config};
   </script>
   <script>
     (function () {
@@ -943,7 +798,7 @@ function renderPage(data) {
             markerEntry.marker.setIcon({
               path: google.maps.SymbolPath.CIRCLE,
               scale: isActive ? 12 : 9,
-              fillColor: isActive ? '#2D3A5C' : '#C4704B',
+              fillColor: isActive ? '#2D3A5C' : '#A85A37',
               fillOpacity: 1,
               strokeColor: '#FFFFFF',
               strokeWeight: 2,
@@ -989,11 +844,7 @@ function renderPage(data) {
               position: { lat: pick.lat, lng: pick.lng },
               map: map,
               title: pick.label,
-              label: {
-                text: String(pick.rank),
-                color: '#FFFFFF',
-                fontWeight: '700'
-              }
+              label: { text: String(pick.rank), color: '#FFFFFF', fontWeight: '700' }
             });
             var infoWindow = new google.maps.InfoWindow({
               content: '<strong>' + pick.label.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</strong>'
@@ -1018,17 +869,128 @@ function renderPage(data) {
       setActive(sections[0]);
 
       if ('IntersectionObserver' in window) {
+        // Thin trigger stripe near top-third of viewport. threshold:0 fires on any pixel
+        // crossing, avoiding the prior bug where tall sections never reached the 0.2 ratio
+        // and the active highlight only updated intermittently.
+        var inStripe = new Set();
         var observer = new IntersectionObserver(function (entries) {
-          var visible = entries
-            .filter(function (entry) { return entry.isIntersecting; })
-            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-          if (visible[0]) setActive(visible[0].target);
-        }, { rootMargin: '-25% 0px -45% 0px', threshold: [0.2, 0.45, 0.7] });
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) inStripe.add(entry.target);
+            else inStripe.delete(entry.target);
+          });
+          var active = sections.find(function (s) { return inStripe.has(s); });
+          if (active) setActive(active);
+        }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
         sections.forEach(function (section) { observer.observe(section); });
       }
     }());
-  </script>
-  ${mapData.enabled && mapPicks.length ? `<script async src="https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initPopularPicksMaps"></script>` : ''}
+  </script>${enabled ? `\n  <script async src="https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initPopularPicksMaps"></script>` : ''}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chips = document.querySelectorAll('.filter-chip');
+    const sections = document.querySelectorAll('.restaurant-section');
+
+    chips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            const group = this.dataset.filterGroup;
+
+            if (this.classList.contains('active')) {
+                this.classList.remove('active');
+            } else {
+                document.querySelectorAll(\`.filter-chip[data-filter-group="\${group}"]\`).forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            }
+
+            const activeFilters = {};
+            document.querySelectorAll('.filter-chip.active').forEach(c => {
+                activeFilters[c.dataset.filterGroup] = c.dataset.filterValue;
+            });
+
+            sections.forEach(section => {
+                let show = true;
+                if (activeFilters.style && (section.dataset.filterStyle || '').toLowerCase() !== activeFilters.style.toLowerCase()) show = false;
+                if (activeFilters.price && section.dataset.filterPrice !== activeFilters.price) show = false;
+                if (activeFilters.area && section.dataset.filterArea !== activeFilters.area) show = false;
+                section.classList.toggle('filtered-out', !show);
+            });
+        });
+    });
+});
+</script>`;
+}
+
+// ============================================================
+// Top-level renderer
+// ============================================================
+function renderPage(data) {
+  const validation = validateSource(data);
+  if (validation.errors.length) {
+    throw new Error(`Cannot render invalid source:\n${validation.errors.join('\n')}`);
+  }
+
+  const mapData = buildDerivedMap(data);
+  const mapPicks = buildMapPicks(data.picks, data, mapData);
+
+  const restaurantSections = data.picks
+    .map((p, i) => renderRestaurantSection(p, data, mapData, i === 0))
+    .join('\n');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D7QHNRXLHJ');
+    </script>
+    ${renderMeta(data)}
+    ${renderSchema(data)}
+    ${renderInlineStyle()}
+${renderSharedHeadIncludes()}
+</head>
+<body>
+${renderNav()}
+
+${renderHero(data)}
+
+  <div class="page-layout">
+    <aside>
+${renderMapPanel(mapData, mapPicks, false)}
+    </aside>
+
+    <main id="main" tabindex="-1" class="content">
+${renderQuickAnswer(data)}
+
+${renderIntroSection(data)}
+
+${renderMapPanel(mapData, mapPicks, true)}
+
+${renderMethodologySection(data)}
+
+${renderComparisonTable(data)}
+
+      <section class="pick-list">
+${renderFilterBar(data)}
+${restaurantSections}
+      </section>
+
+${renderFaqSection(data)}
+
+${renderRelatedSection(data)}
+
+${renderPlanningIntroSection(data)}
+
+    </main>
+  </div>
+
+${renderCtaSection(data)}
+
+${renderFooter()}
+
+${renderBottomScripts(mapData, mapPicks)}
 </body>
 </html>`;
 }

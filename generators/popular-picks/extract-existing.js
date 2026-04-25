@@ -170,15 +170,31 @@ function buildGenericSection(sectionId, rank, name, block, opts = {}) {
 }
 
 function extractRestaurantSections(html, verticalHint = 'restaurants-food') {
-  const regex = /<section class="restaurant-section" id="([^"]+)">([\s\S]*?)(?=<section class="restaurant-section"|<section class="faq-section")/g;
+  // Match <section class="restaurant-section" ...> with any combination of attrs
+  // (id, data-filter-*, data-map-*). The opening tag may run hundreds of chars on
+  // upgraded pages. Capture the id separately from the rest of the attrs.
+  const regex = /<section\s+class="restaurant-section"\s+([^>]*)>([\s\S]*?)(?=<section\s+class="restaurant-section"|<section[^>]*class="faq-section")/g;
   const sections = [];
   let match;
   while ((match = regex.exec(html))) {
-    const sectionId = match[1];
+    const attrs = match[1];
     const block = match[2];
+    const sectionId = matchOne(attrs, /\bid="([^"]+)"/) || '';
+    if (!sectionId) continue;
     const rank = Number(matchOne(block, /<h2><span class="restaurant-number">(\d+)<\/span>/));
     const name = decodeBasicEntities(stripTags(matchOne(block, /<h2><span class="restaurant-number">\d+<\/span>(.*?)<\/h2>/s) || ''));
-    sections.push(buildGenericSection(sectionId, rank, name, block, { verticalHint }));
+    const styleLabel = matchOne(attrs, /\bdata-filter-style="([^"]*)"/);
+    const priceTier = matchOne(attrs, /\bdata-filter-price="([^"]*)"/);
+    const filterArea = matchOne(attrs, /\bdata-filter-area="([^"]*)"/);
+    const lat = Number(matchOne(attrs, /\bdata-map-lat="([^"]*)"/));
+    const lng = Number(matchOne(attrs, /\bdata-map-lng="([^"]*)"/));
+    const built = buildGenericSection(sectionId, rank, name, block, { verticalHint });
+    if (styleLabel) built.styleLabel = styleLabel;
+    if (priceTier) built.priceTier = priceTier;
+    if (filterArea) built.neighborhood = built.neighborhood || filterArea;
+    if (Number.isFinite(lat)) built.lat = lat;
+    if (Number.isFinite(lng)) built.lng = lng;
+    sections.push(built);
   }
   return sections;
 }
