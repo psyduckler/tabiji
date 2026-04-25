@@ -23,13 +23,27 @@ function titleFromSlug(slug = '') {
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
 }
 
+function decodeEntities(s = '') {
+  return String(s)
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(parseInt(d, 10)))
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')
+    .replace(/&lsquo;/g, '‘').replace(/&rsquo;/g, '’')
+    .replace(/&mdash;/g, '—').replace(/&ndash;/g, '–')
+    .replace(/&middot;/g, '·').replace(/&hellip;/g, '…');
+}
+
 function extractHtmlTitle(filePath, fallbackSlug = '') {
   const html = readTextIfExists(filePath);
   if (!html) return titleFromSlug(fallbackSlug);
   const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
-  if (h1) return h1[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (h1) return decodeEntities(h1[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
   const t = html.match(/<title>([\s\S]*?)<\/title>/i);
-  if (t) return t[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  if (t) return decodeEntities(t[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim());
   return titleFromSlug(fallbackSlug);
 }
 
