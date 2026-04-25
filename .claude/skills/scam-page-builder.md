@@ -230,16 +230,29 @@ Follow the style guide (`docs/scam-pages-style-guide.md`) strictly. Key rules:
 - Pick the most diagnostic, not the exhaustive list
 - Example: "KLIA arrivals, KL Sentral hotel drop-offs, Bukit Bintang pedestrian corridors" — not 7 airport gate numbers
 
-**`story`** (280–500 words, **4–6 paragraphs** separated by `\n\n`; each paragraph 40–110 words target 60–90, 2–5 sentences — monolithic walls are rejected)
+**`story`** — pure narrative. **3 to 5 paragraphs** separated by `\n\n`, each 60–120 words (target 80–110), 2–5 sentences. Total 250–450 words. Monolithic walls are rejected.
+
+The story walks the reader through the **encounter as theater**, not a checklist. Defense lives in `how_to_avoid[5]`, not the story — never duplicate avoidance steps inside the prose.
 
 Readability mandate: the scam-page corpus also ships as paperback KDP books under `book-<country>/`. Dense 150+ word paragraphs that look OK on desktop become unreadable on mobile and brutal in print. Split aggressively.
 
-- **Para 1 (context)** — Name the scam locale and community baseline. Reference Reddit qualitatively: "A 2025 r/KualaLumpur PSA thread documents..." or "Travelers on r/malaysia in 2025 reported...". **Never embed `r/<sub> '<title>' (comments/xxx, YEAR)` citation strings in prose** — the sanitizer will strip them and leave orphan fragments. Thread links live only in `reddit_sources[]`. ~60–80 words.
-- **Para 2 (the hook)** — How the approach begins; the first 30 seconds of the encounter; the emotional lead-in. ~60–90 words.
-- **Para 3 (variants + evidence)** — 2–3 variants with concrete local-currency prices and named locations. One paraphrased 1-sentence Redditor line is OK (no username, `r/<sub>` attribution inline: "one r/malaysia poster described paying RM 6,000 for glass"). Typical-loss range as a natural sentence: "Typical losses run RM 200–RM 1,500." ~60–90 words.
-- **Para 4 (defense, steps 1–2)** — First two numbered actionable steps. Verb-first imperatives. ~50–80 words.
-- **Para 5 (defense, step 3 + emergency)** — Final step plus dialable phones: tourist police, national emergency, consumer-protection hotline, relevant embassy. ~60–100 words.
-- **Optional Para 6** — Reserved for regulatory citation, recovery path, or a particularly nuanced scam requiring an extra beat. Skip for most scams. ~50–80 words.
+The narrative is structured as **3 beats**:
+
+- **Beat 1 — Setup + Hook (paragraph 1).** Where the encounter starts and what the scammer does in the first 30 seconds: the smile, the script, the prop in their hand, the way they step into your path. Concrete street-name specificity: "Walk Times Square between 42nd and 47th Street and you'll see the setup before the trap closes." ~80–110 words.
+- **Beat 2 — Pivot + Pressure (paragraph 2).** The moment the script flips. The demand lands. What the scammer does if you resist: friends materializing, voice rising, body blocking the sidewalk. Named price ranges + concrete consequences: "$20 demanded, two or three other men step into the gap on your other side." ~80–110 words.
+- **Beat 3 — Mechanism + Social Proof + Defense Cue (paragraph 3, optionally split into 3–4).** Why the scam works (the psychological hook, called out in **bold**). Reddit/police/Council social proof woven in as one sentence — no username, no comment URL: `r/AskNYC and r/nyc threads document the same play running daily on 42nd Street...`. Close with one **bolded defensive move** the reader can act on immediately: `**The defensive move is to ask for the indoor menu before you sit.**` ~80–120 words.
+
+For longer scams (multi-stage frauds, regulatory context, recovery paths), split Beat 3 across 2–3 paragraphs — but never re-introduce defense steps the `how_to_avoid` list already covers. The story is *what happens to the reader*, not *what the reader should do*.
+
+**Reddit citations: never embed `r/<sub> '<title>' (comments/xxx, YEAR)` strings in prose** — the sanitizer will strip them and leave orphan fragments. Use bare attribution (`r/AskNYC threads document...`) and let `reddit_sources[]` carry the verifiable links.
+
+**Canonical example: [`/scams/new-york-city/`](/scams/new-york-city/).** All 6 cards on that page follow this beat structure exactly.
+
+**`tldr`** — derived automatically by `make_tldr()` from the first sentence of `story`, so the **first sentence is a load-bearing TLDR**. It must:
+- Be a complete sentence ending in `.`, `!`, or `?`
+- Function as a trap-summary that names the actor + the cost: "A man on 42nd Street presses a CD into your hand saying it's a free mixtape, then circles back demanding $20–$50."
+- **Not be a narrative opener** like "It was a hot July afternoon…" or "You'd just landed at JFK…" — these read fine inside a paragraph but are useless as standalone snippets in search results, voice answers, or the rendered TLDR pull-quote.
+- Pass the search-snippet test: read just the first sentence — does a stranger know what the scam is?
 
 **`red_flags[5]`**
 - Fragments acceptable; short; parallel structure
@@ -283,7 +296,7 @@ Run [scripts/lint_scam_content.py](scripts/lint_scam_content.py) against the dra
 
 7. **Paragraph length** — any `story` paragraph > 120 words → REJECT; > 100 → WARN.
 
-7b. **Paragraph count** — `story` has fewer than 4 paragraphs (count `\n\n` separators: must be ≥ 3) → REJECT. More than 6 → WARN.
+7b. **Paragraph count** — `story` has fewer than 3 paragraphs (count `\n\n` separators: must be ≥ 2) → REJECT. More than 5 → WARN. The 3-beat narrative (setup → pivot → mechanism) is the floor; longer scams may extend Beat 3 across 2–3 paragraphs but should not re-introduce defense steps the `how_to_avoid` list already carries.
 
 8. **ALL-CAPS budget per story** — count of ALL-CAPS tokens (`[A-Z]{3,}`) > 12 → WARN; > 18 → REJECT.
 

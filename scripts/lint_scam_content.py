@@ -150,12 +150,17 @@ def lint_scam(scam: dict, scam_idx: int):
 
     story = scam.get("story", "")
 
-    # ---- 7b: paragraph count ----
+    # ---- 7b: paragraph count — 3-beat narrative is the floor ----
+    # The 3-paragraph compact format (setup → pivot → mechanism) is the
+    # canonical post-2026-04-25 shape — see /scams/new-york-city/ for the
+    # reference implementation. Longer scams may extend Beat 3 across
+    # 2–3 extra paragraphs but should not re-introduce defense steps the
+    # how_to_avoid list already covers.
     paragraphs = [p.strip() for p in story.split("\n\n") if p.strip()]
-    if len(paragraphs) < 4:
-        add("REJECT", "7b", f"story has {len(paragraphs)} paragraphs (< 4)")
-    elif len(paragraphs) > 6:
-        add("WARN", "7b", f"story has {len(paragraphs)} paragraphs (> 6)")
+    if len(paragraphs) < 3:
+        add("REJECT", "7b", f"story has {len(paragraphs)} paragraphs (< 3)")
+    elif len(paragraphs) > 5:
+        add("WARN", "7b", f"story has {len(paragraphs)} paragraphs (> 5)")
 
     # ---- 7: paragraph length ----
     for pi, p in enumerate(paragraphs, 1):
