@@ -230,12 +230,13 @@ Output ONLY valid JSON (no markdown fences). The JSON structure must be EXACTLY:
 
 Requirements:
 - EXACTLY 10 comparison categories (pick the most relevant from: beaches, food, nightlife, culture, costs, getting there, getting around, accommodation, day trips, weather/seasons, safety, nature, shopping, families, digital nomads, solo travel, etc.)
-- EXACTLY 8 FAQ items
+- EXACTLY 16 FAQ items — cover both common questions ("which is cheaper?", "how many days?") and specific operational ones ("language barrier?", "cash vs card?", "kid-friendly?", "vegetarian options?", "walkability?", "best time to visit?", "packing differences?"). 16 unique non-overlapping questions.
 - Each deepDive must be 1000-1800 chars (two paragraphs + verdict) with specific place names, prices in local currency AND USD. Use \\n\\n between paragraphs in the JSON string.
 - Be opinionated — pick real winners, don't hedge everything as "Tie"
 - Include specific restaurant/hotel/attraction names where relevant
 - decisionFramework: 7-9 bullet points per destination, each concrete and specific
-- metaDescription: max 155 chars, include at least one number
+- metaDescription: 90-160 chars, include at least one number
+- title: 35-65 chars total — keep "{dest1} vs {dest2}: Which Should You Visit?" short. Drop "(2026 Comparison)" if it pushes over 65 chars.
 - ZERO banned words/phrases — every single one will be flagged and rejected
 """
 
@@ -538,9 +539,14 @@ def build_compare_json(slug, content_data):
     
     # Photo grid — prefers canonical destination photos from destinations-full.json;
     # falls back to legacy compare/{slug}/dest{N}.jpg for country-level pairs.
+    # First photo is the LCP candidate — must NOT be lazy-loaded, and
+    # gets fetchpriority="high" so the browser starts the request before
+    # the rest of the body parses. Second photo is below the fold and
+    # stays lazy. (Required for /scripts/score_compare.py to award
+    # full points on the lcp + fp checks.)
     photo_grid_html = f'''<div class="photo-grid">
 <div>
-<img alt="{dest1} travel destination" loading="lazy" src="{dest_photo_url(slug, "dest1")}">
+<img alt="{dest1} travel destination" fetchpriority="high" src="{dest_photo_url(slug, "dest1")}">
 <div class="caption">{dest1}</div>
 </div>
 <div>

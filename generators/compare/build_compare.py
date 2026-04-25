@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -751,6 +752,13 @@ def validate_source(data: Dict) -> List[str]:
 
 
 def validate_rendered_output(data: Dict, html: str) -> List[str]:
+    """Structural validation — runs on every build.
+
+    Catches hard errors (missing title, mismatched counts, no JSON-LD).
+    The strict 100-point quality gate lives in `quality_gate_errors()`
+    and is opt-in via STRICT_QUALITY_GATE=1, so backfilling existing
+    LITE pages doesn't break the corpus build.
+    """
     errors = []
     if data["seo"]["title"] not in html:
         errors.append("rendered HTML missing title")
@@ -764,6 +772,84 @@ def validate_rendered_output(data: Dict, html: str) -> List[str]:
         errors.append("faq-item count mismatch")
     if 'application/ld+json' not in html:
         errors.append("rendered HTML missing JSON-LD")
+
+    if os.environ.get("STRICT_QUALITY_GATE") == "1":
+        errors.extend(quality_gate_errors(data, html))
+
+    return errors
+
+
+def quality_gate_errors(data: Dict, html: str) -> List[str]:
+    """Each check here corresponds to one row in scripts/score_compare.py's
+    RUBRIC. A page passing every check scores 100/100.
+
+    Run via STRICT_QUALITY_GATE=1 on single-slug builds (new pages),
+    or directly via `python3 scripts/score_compare.py <slug> --gate 100`.
+    """
+    errors = []
+
+    title_len = len(data["seo"]["title"])
+    if not (35 <= title_len <= 65):
+        errors.append(f"[gate] title is {title_len} chars, must be 35–65")
+
+    meta_len = len(data["seo"]["metaDescription"])
+    if not (90 <= meta_len <= 160):
+        errors.append(f"[gate] meta description is {meta_len} chars, must be 90–160")
+
+    if 'class="quick-answers"' not in html:
+        errors.append("[gate] missing .quick-answers section (server-render, don't rely on JS injection)")
+    if 'class="scorecard"' not in html:
+        errors.append("[gate] missing .scorecard element")
+    if 'class="personalize-widget"' not in html:
+        errors.append("[gate] missing .personalize-widget")
+    if 'class="tabiji-verdict"' not in html:
+        errors.append("[gate] missing .tabiji-verdict callout")
+    if 'class="page-byline"' not in html and "bernard-huang" not in html.lower():
+        errors.append("[gate] missing Bernard Huang byline (E-E-A-T)")
+    if not re.search(r'<table[^>]*class="[^"]*comparison-table', html):
+        errors.append("[gate] missing <table class=\"comparison-table\">")
+
+    faq_count = html.count('class="faq-item"')
+    if faq_count < 16:
+        errors.append(f"[gate] only {faq_count} FAQ items, need 16+ for full quality score")
+
+    pg_match = re.search(r'<div class="photo-grid">([\s\S]*?)</div>\s*</div>', html)
+    if pg_match:
+        first_img = re.search(r'<img[^>]+>', pg_match.group(1))
+        if first_img:
+            tag = first_img.group(0)
+            if 'loading="lazy"' in tag:
+                errors.append("[gate] first photo-grid <img> is lazy-loaded — LCP regression")
+            if 'fetchpriority="high"' not in tag:
+                errors.append("[gate] first photo-grid <img> missing fetchpriority=\"high\"")
+        else:
+            errors.append("[gate] photo-grid has no <img>")
+    else:
+        errors.append("[gate] missing photo-grid block")
+
+    if "&amp;amp;" in html:
+        errors.append("[gate] `&amp;amp;` (double-encoded ampersand) leaked into output")
+
+    for m in re.finditer(r'<table[^>]*style="[^"]*min-width\s*:\s*(\d+)\s*px[^"]*"[^>]*>', html):
+        if int(m.group(1)) > 480:
+            preceding = html[max(0, m.start() - 200):m.start()]
+            if "overflow-x" not in preceding:
+                errors.append(f"[gate] <table min-width:{m.group(1)}px> not wrapped in overflow-x:auto — mobile overflow")
+                break
+
+    body_match = re.search(r"<body[^>]*>([\s\S]*)</body>", html)
+    if body_match:
+        body_html = body_match.group(1)
+        body_ids = set(re.findall(r'\bid="([^"]+)"', body_html))
+        broken_anchors = []
+        for href_match in re.finditer(r'<a[^>]+href="(#[^"]+)"', body_html):
+            href = href_match.group(1)
+            if len(href) > 1 and href[1:] not in body_ids:
+                broken_anchors.append(href)
+        if broken_anchors:
+            sample = ", ".join(sorted(set(broken_anchors))[:3])
+            errors.append(f"[gate] {len(broken_anchors)} broken in-page anchor(s): {sample}")
+
     return errors
 
 

@@ -19,21 +19,34 @@ Build a complete tabiji.ai compare page from queue to deployment.
 A slug in `{dest1}-vs-{dest2}` format (e.g., `madrid-vs-barcelona`, `tokyo-vs-kyoto`), or the word `batch` to process pending items from `scripts/queues/compare-queue.json`.
 
 ## Reference implementation
-**`madrid-vs-barcelona`** is the gold standard. New pages must match its structure, tone, and quality bar. It includes: collapsible deep-dive sections, score ticker, visual scorecard with bars, quick answers grid, cost comparison widget, monthly weather chart, 4-tab sample itineraries, Reddit quotes throughout, verdict cards, and related comparisons section.
+**`tokyo-vs-kyoto`** and **`madrid-vs-barcelona`** are the gold standards — both score 100/100 on the canonical quality gate. New pages must match their structure, tone, and quality bar. Both include: score ticker, Quick Answers, Visual Scorecard, Personalize widget, cost widget, weather chart, 4-tab sample itineraries, deep-dive sections with `tabiji-verdict` callouts, Reddit quotes, FAQ with 16+ items, and a related-comparisons section.
 
-## Quality standard (mandatory)
-Every compare page MUST include these premium components (generated via the rich content pipeline):
-1. **Score ticker** — sticky header showing dest1 X — Y dest2 | Z ties
-2. **Quick answers** — 6 Q&A cards with winner badges linking to sections
-3. **Visual scorecard** — bar chart per category showing relative strength
-4. **Cost comparison widget** — 7-item daily expense table with savings summary
-5. **Monthly weather chart** — 12-month temperature grid with best/avoid months
-6. **Sample itineraries** — 4 tabbed panels (3-day + 7-day for each destination)
-7. **Collapsible deep-dive sections** — toggle open/closed with winner badges
-8. **Reddit quotes** — 1-2 per section (real via reddit_research.py, or synthesized via enrich)
-9. **Verdict cards** — "Choose A" / "Choose B" structured cards
-10. **Related comparisons** — 3 "Travelers Also Compared" cards
-11. **Photos** — hero grid (2) + section images where available
+## Quality standard (mandatory) — 100/100 quality gate
+
+Every compare page MUST score 100/100 on `scripts/score_compare.py`. The build pipeline aborts if any check fails when `STRICT_QUALITY_GATE=1` is set. The rubric:
+
+**Template & structure (35 pts)**
+1. **Comparison table** (5) — `<table class="comparison-table">` with at least 4 rows
+2. **FAQ items ≥ 16** (10) — full count, not 7 or 8. Cover both common ("which is cheaper?") and operational ("language barrier?", "cash vs card?", "kid-friendly?", "vegetarian options?", "walkability?") questions
+3. **Quick Answers section** (8) — `<div class="quick-answers">` with 6 cards, **server-rendered** (don't rely on compare-ux.js JS injection)
+4. **Visual Scorecard** (7) — `<div class="scorecard">` with 9 category rows
+5. **Personalize widget** (5) — `<div class="personalize-widget">` with style/budget/priority pills + recommendation map
+
+**Content fundamentals (35 pts)**
+6. **Title 35–65 chars** (10) — drop "(2026 Comparison)" if it pushes over 65
+7. **Meta description 90–160 chars** (10)
+8. **Bernard Huang byline** (5) — `<div class="page-byline" data-byline="bernard-huang">` for E-E-A-T
+9. **`tabiji-verdict` callout** (5) — at least one per page; deep-dive sections should use this, not the older `section-winner`
+10. **Photo-grid with 2+ images** (5) — `<div class="photo-grid">` with `dest1.jpg` + `dest2.jpg`
+
+**Technical hygiene (30 pts)**
+11. **All in-page anchors resolve** (8) — every `href="#x"` must have a matching `id="x"` in the body
+12. **No `&amp;amp;` encoding bug** (6) — never let `&amp;amp;` leak into output
+13. **Mobile-overflow tables wrapped** (6) — any `<table style="...min-width:>480px">` must be inside `<div style="overflow-x:auto">`
+14. **LCP image not lazy-loaded** (5) — first `<img>` inside `.photo-grid` must NOT have `loading="lazy"`
+15. **LCP image has `fetchpriority="high"`** (5) — must be set on the same first photo-grid `<img>`
+
+To audit: `python3 scripts/score_compare.py <slug> --gate 100`. Exit 0 = ship; exit 1 = fix and re-run.
 
 ## Full Workflow (6 steps)
 
@@ -118,22 +131,37 @@ To only add hero photos: `python3 scripts/add_compare_photos.py <slug> --hero-on
 
 ### Step 5: Rebuild HTML + Validate
 
-After enrichment and photos, rebuild HTML and validate:
+After enrichment and photos, rebuild HTML with strict quality enforcement:
 
 ```bash
-python3 generators/compare/build_compare.py build
+# For new pages — strict gate enforced; build fails if score < 100
+STRICT_QUALITY_GATE=1 python3 generators/compare/build_compare.py build
+
+# Always run the structural validator
 python3 generators/compare/build_compare.py validate
 ```
 
-Validation checks:
-- Minimum 2 verdict cards with meaningful text
-- Comparison table with 4+ rows
-- 3+ bullets per deep-dive section
-- FAQ items meet length requirements
-- No placeholder text
-- All required schema blocks present
+The strict gate adds parity with `scripts/score_compare.py`'s 100-point rubric to the build's `validate_rendered_output`. If the rendered HTML lacks Quick Answers, Scorecard, Personalize widget, 16+ FAQ items, the LCP fix, or any other rubric item, the build aborts with `[gate]`-prefixed errors so you can see exactly what's missing.
+
+### Step 5.5: Score gate (single-page check)
+
+Before committing, run the score gate explicitly on the new slug:
+
+```bash
+python3 scripts/score_compare.py <slug> --gate 100
+```
+
+Exits 0 if the page scores 100/100. Exits 1 with an itemized list of failed checks otherwise. **Do not commit a page that doesn't pass this gate.**
+
+If the score is below 100, the failed checks tell you what to fix:
+- `only N FAQ items` → extend the FAQ in `compare-data/<slug>.json` to 16+ entries, then rebuild
+- `missing .quick-answers/.scorecard/.personalize-widget` → the Gemini rich-content call probably failed; rerun `generate_rich_content` or hand-fill the JSON keys
+- `first photo-grid <img> is lazy-loaded` → the builder fix is in `batch-compare-gen.py` photo_grid_html; check it didn't get reverted
+- `title is N chars, must be 35–65` → trim the SEO title in `compare-data/<slug>.json#seo.title`
 
 ### Step 6: Finalize + Deploy
+
+**Hard rule: do not run any of this until `score_compare.py --gate 100` passes.** A failing gate means the page is sub-standard and shouldn't ship.
 
 Update indexes and commit:
 
@@ -143,7 +171,7 @@ python3 scripts/batch-compare-gen.py finalize
 
 # Commit and deploy
 git add compare/<slug>/index.html compare-data/<slug>.json api/v1/compare/<slug>.json
-git commit -m "Add compare page: <slug>"
+git commit -m "Add compare page: <slug> (100/100 gate passed)"
 git push origin main
 ```
 
@@ -185,7 +213,7 @@ To run as a recurring cron job that processes the compare queue:
 
 The cron prompt should be:
 ```
-Process the next 3 pending items from scripts/queues/compare-queue.json through the full compare-article-builder pipeline. For each: generate content, research Reddit, enrich, add photos, validate. Then finalize all and commit with message "Add compare pages: [slugs] (automated build)". Skip any that fail and log the failure.
+Process the next 3 pending items from scripts/queues/compare-queue.json through the full compare-article-builder pipeline. For each: generate content, research Reddit, enrich, add photos, build with STRICT_QUALITY_GATE=1, then run scripts/score_compare.py <slug> --gate 100. Skip any slug whose gate fails (do not commit it; log the failed checks). After processing, finalize and commit only the slugs that passed with message "Add compare pages: [passing-slugs] (100/100 automated build)".
 ```
 
 **Pipeline per slug (automated):**
@@ -193,34 +221,40 @@ Process the next 3 pending items from scripts/queues/compare-queue.json through 
 2. `python3 scripts/reddit_research.py <slug> --save` (non-fatal if no threads found)
 3. `python3 generators/compare/enrich_compare.py --run --slug <slug>`
 4. `python3 scripts/add_compare_photos.py <slug>`
-5. `python3 generators/compare/build_compare.py build`
-6. `python3 generators/compare/build_compare.py validate`
+5. `STRICT_QUALITY_GATE=1 python3 generators/compare/build_compare.py build`
+6. `python3 scripts/score_compare.py <slug> --gate 100` ← **must pass; skip the slug if it fails**
+7. `python3 generators/compare/build_compare.py validate`
 
-After all slugs:
-7. `python3 scripts/batch-compare-gen.py finalize`
-8. Git add + commit + push
+After all slugs (only those that passed step 6):
+8. `python3 scripts/batch-compare-gen.py finalize`
+9. Git add + commit + push
 
 ## Quality Checklist
 
 Before committing any page, verify:
 
+### Quality gate (mandatory)
+- [ ] **`python3 scripts/score_compare.py <slug> --gate 100` exits 0** ← if this fails, do not ship
+
 ### Content
 - [ ] TL;DR verdict is clear and opinionated
 - [ ] Quick comparison table has 8+ rows with Edge column
-- [ ] 8+ deep-dive sections, each with `tabiji-verdict` or `section-winner`
+- [ ] 8+ deep-dive sections, each ending in a `tabiji-verdict` callout (not `section-winner`)
 - [ ] 3+ Reddit quotes (real preferred, synthesized acceptable)
-- [ ] 7+ FAQ questions with specific answers
+- [ ] **16+ FAQ items** with specific answers (cherry blossom, JR Pass, kid-friendliness, language barrier, vegetarian, walkability, cash usage, packing, crowd strategy, etc.)
 - [ ] Decision framework with concrete bullet points
 - [ ] Costs include local currency estimates
-- [ ] No leftover template text or wrong destination names
+- [ ] No leftover template text, wrong destination names, or `&amp;amp;` encoding bugs
 
 ### Technical
-- [ ] All 3 schema blocks: Article (with speakable), BreadcrumbList, FAQPage
-- [ ] `<title>` follows format: `{A} vs {B}: Which Should You Visit? (2026 Comparison) | tabiji.ai`
+- [ ] All 3 schema blocks: Article (with speakable), BreadcrumbList, FAQPage (with all 16+ Qs)
+- [ ] `<title>` follows format: `{A} vs {B}: Which Should You Visit?` — **35–65 chars**, drop the "(2026 Comparison)" suffix if it overflows
+- [ ] Meta description 90–160 chars
 - [ ] Canonical URL correct: `https://tabiji.ai/compare/<slug>/`
 - [ ] OG image points to actual R2 image
 - [ ] GA4 tag present (`G-D7QHNRXLHJ`)
-- [ ] Validates: `python3 generators/compare/build_compare.py validate`
+- [ ] First photo-grid `<img>` has `fetchpriority="high"` and **no `loading="lazy"`**
+- [ ] Validates: `STRICT_QUALITY_GATE=1 python3 generators/compare/build_compare.py validate`
 
 ### Images
 - [ ] 4+ images on R2 at `img.tabiji.ai/compare/<slug>/`
@@ -235,18 +269,23 @@ Before committing any page, verify:
 
 ## Common Mistakes to Avoid
 
+- **Don't ship a sub-100 page.** Run `scripts/score_compare.py <slug> --gate 100` before every commit. If it fails, fix the listed checks. Never commit with `[gate]`-prefixed errors visible.
 - **Don't hand-write HTML** — always generate via `build_compare.py build` from compare-data JSON
+- **Don't ship with 7- or 8-item FAQ.** The Gemini prompt asks for 16; if the response comes back short, regenerate or hand-extend before building.
+- **Don't rely on `compare-ux.js` to inject Quick Answers / Scorecard.** They must be **server-rendered** (in the HTML at build time). JS injection misses non-JS crawlers and causes layout shift.
+- **Don't `loading="lazy"` the LCP image.** The first `<img>` inside `.photo-grid` must have `fetchpriority="high"` and no `loading=` attribute. The builder gets this right; don't undo it.
 - **Don't skip Reddit research** — the brand is "Reddit-backed, not AI filler"
 - **Don't forget R2 upload** — images go to R2, not git. Dead image links = broken page
 - **Don't use generic verdicts** — "Both are great!" is not a verdict. Pick a side
 - **Don't skip finalize** — every new page needs inventory, API, sitemap updates
 
 ## Related Files
+- **Quality gate (run before every commit):** `scripts/score_compare.py`
 - Content generator: `scripts/batch-compare-gen.py`
 - Reddit research: `scripts/reddit_research.py`
 - Photo pipeline: `scripts/add_compare_photos.py`
 - Enrichment: `generators/compare/enrich_compare.py`
-- HTML builder: `generators/compare/build_compare.py`
+- HTML builder (with strict-mode gate parity): `generators/compare/build_compare.py`
 - Shell template: `scripts/compare-shell-template.json`
 - Compare queue: `scripts/queues/compare-queue.json`
 - Inventory: `compare/inventory.json`
