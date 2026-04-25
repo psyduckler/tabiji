@@ -281,17 +281,28 @@ SERIES_BUNDLE: dict = {
     "place_adj": "international",
     "article": "An",
     "book_slug": "",  # links to /books/ root
-    "cover_url": "https://img.tabiji.ai/books/series-bundle/cover.jpg?v=1",
     "cover_alt": "tabiji.ai Travel Safety Series — every country covered",
-    "scam_count": 780,   # rough: 13 books × ~60 scams each — copy uses "780+"
+    "scam_count": 780,
     "scam_count_display": "780+",
     "city_count": 110,
     "cities_join": "Tokyo, Rome, Paris, Bali, Bangkok, Rio &amp; 100+ more cities",
-    "top_scams_mid": "the most-cited scams in 13 destinations from Reddit, embassy advisories, and consumer-protection cases",
-    "top_scams_end": "Tokyo's Kabukichō ¥130,000 bar trap. Rome's gladiator photo extortion. Paris's gold-ring trick. Bali's ATM skimmer scams. Bangkok's grand-palace closure ruse. Every documented scam across 13 destinations — with the exact scripts, red flags, and local-language phrases that shut each one down.",
+    "top_scams_mid": "the most-cited scams in 20+ destinations from Reddit, embassy advisories, and consumer-protection cases",
+    "top_scams_end": "Tokyo's Kabukichō ¥130,000 bar trap. Rome's gladiator photo extortion. Paris's gold-ring trick. Bali's ATM skimmer scams. Bangkok's grand-palace closure ruse. Every documented scam across 20+ destinations — with the exact scripts, red flags, and local-language phrases that shut each one down.",
     "language_note": "country-by-country phrase",
     "sourced_from": "Reddit traveler reports, embassy advisories, and consumer-protection cases",
 }
+
+
+# Inline CSS-only cover block for the bundle. Replaces the broken
+# series-bundle/cover.jpg asset; styled by `.bundle-cover` rules in scams.css.
+def _bundle_cover_inner() -> str:
+    return (
+        '            <span class="bundle-cover-badge">20<small>covered</small></span>\n'
+        '            <span class="bundle-cover-eyebrow">tabiji.ai</span>\n'
+        '            <span class="bundle-cover-title">Travel<em>Safety</em></span>\n'
+        '            <span class="bundle-cover-sub">Tourist scams &amp; defenses across 20+ countries — every named scam, every red flag, every script.</span>\n'
+        '            <span class="bundle-cover-brand">The Series</span>\n'
+    )
 
 
 def is_bundle(d: dict) -> bool:
@@ -312,12 +323,24 @@ def book_href(d: dict) -> str:
 # ----------------------------------------------------------------------------
 # Replacement blocks.
 # ----------------------------------------------------------------------------
-def mid_cta_html(d: dict) -> str:
+def _mid_cta_cover_block(d: dict) -> str:
+    if is_bundle(d):
+        return (
+            f'        <div class="book-mid-cta-cover bundle-cover" aria-hidden="true">\n'
+            f'{_bundle_cover_inner()}'
+            f'        </div>\n'
+        )
     return (
-        f'    <a class="book-mid-cta" href="{book_href(d)}">\n'
         f'        <div class="book-mid-cta-cover">\n'
         f'            <img src="{d["cover_url"]}" alt="{d["cover_alt"]}" width="64" height="96" loading="lazy">\n'
         f'        </div>\n'
+    )
+
+
+def mid_cta_html(d: dict) -> str:
+    return (
+        f'    <a class="book-mid-cta" href="{book_href(d)}">\n'
+        f'{_mid_cta_cover_block(d)}'
         f'        <div class="book-mid-cta-body">\n'
         f'            <div class="book-mid-cta-eyebrow">📖 tabiji.ai Travel Safety Series</div>\n'
         f'            <div class="book-mid-cta-headline">Heading beyond {{city}}? The full {d["name"]} book has {d["scam_count"]} scams across {d["city_count"]} cities — {d["top_scams_mid"]}.</div>\n'
@@ -338,7 +361,7 @@ def _end_cta_headline(d: dict) -> str:
     if is_bundle(d):
         return (
             f'You just read {{n_scams}} in {{city}}. '
-            f'The full Travel Safety Series has 780+ more across 13 countries.'
+            f'The full Travel Safety Series has 780+ more across 20+ countries.'
         )
     return (
         f'You just read {{n_scams}} in {{city}}. '
@@ -363,7 +386,7 @@ def _end_cta_benefits(d: dict) -> str:
     if is_bundle(d):
         return (
             f'                <li>780+ documented scams across {d["cities_join"]}</li>\n'
-            f'                <li>13 countries covered, with {d["language_note"]} cards for every destination</li>\n'
+            f'                <li>20+ countries covered, with {d["language_note"]} cards for every destination</li>\n'
             f'                <li>Updated annually — buy once, re-download future editions free</li>\n'
             f'                <li>All titles $4.99 each on Amazon Kindle</li>\n'
         )
@@ -401,6 +424,20 @@ def _end_cta_buttons(d: dict) -> str:
     return primary + secondary
 
 
+def _end_cta_cover_block(d: dict) -> str:
+    if is_bundle(d):
+        return (
+            f'        <a href="{book_href(d)}" class="book-end-cta-cover bundle-cover" aria-hidden="true">\n'
+            f'{_bundle_cover_inner()}'
+            f'        </a>\n'
+        )
+    return (
+        f'        <a href="{book_href(d)}" class="book-end-cta-cover" aria-hidden="true">\n'
+        f'            <img src="{d["cover_url"]}" alt="{d["cover_alt"]}" width="220" height="330" loading="lazy">\n'
+        f'        </a>\n'
+    )
+
+
 def end_cta_html(d: dict) -> str:
     """End-of-article CTA block for a *city* page.
 
@@ -411,9 +448,7 @@ def end_cta_html(d: dict) -> str:
     return (
         f'    <!-- @book-cta:start -->\n'
         f'    <section class="book-end-cta" aria-label="{_end_cta_aria(d)}">\n'
-        f'        <a href="{book_href(d)}" class="book-end-cta-cover" aria-hidden="true">\n'
-        f'            <img src="{d["cover_url"]}" alt="{d["cover_alt"]}" width="220" height="330" loading="lazy">\n'
-        f'        </a>\n'
+        f'{_end_cta_cover_block(d)}'
         f'        <div class="book-end-cta-body">\n'
         f'            <div class="book-end-cta-eyebrow">{_end_cta_eyebrow(d)}</div>\n'
         f'            <h2 class="book-end-cta-headline">{_end_cta_headline(d)}</h2>\n'
@@ -438,7 +473,7 @@ def hub_cta_html(d: dict) -> str:
     """
     if is_bundle(d):
         headline = (
-            "Every scam across 13 countries, in one offline pocket guide."
+            "Every scam across 20+ countries, in one offline pocket guide."
         )
     else:
         headline = (
@@ -447,9 +482,7 @@ def hub_cta_html(d: dict) -> str:
     return (
         f'    <!-- @book-cta:start -->\n'
         f'    <section class="book-end-cta" aria-label="{_end_cta_aria(d)}">\n'
-        f'        <a href="{book_href(d)}" class="book-end-cta-cover" aria-hidden="true">\n'
-        f'            <img src="{d["cover_url"]}" alt="{d["cover_alt"]}" width="220" height="330" loading="lazy">\n'
-        f'        </a>\n'
+        f'{_end_cta_cover_block(d)}'
         f'        <div class="book-end-cta-body">\n'
         f'            <div class="book-end-cta-eyebrow">{_end_cta_eyebrow(d)}</div>\n'
         f'            <h2 class="book-end-cta-headline">{headline}</h2>\n'
