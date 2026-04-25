@@ -146,12 +146,10 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | `popular-picks/` | ~1,001 | Food & activity guides (SEO backbone) |
 | `compare/` | ~926 | VS comparison pages (e.g., Bali vs Thailand) |
 | `scams/` | ~546 | Scam awareness pages by destination |
-| `i/` | ~395 | Paid customer itineraries (delivered products) |
+| `i/` | ~400 | Paid customer itineraries (delivered products) |
 | `health/` | ~228 | Health & vaccination info by destination |
 | `countries/` | ~211 | Country info pages |
 | `destinations/` | ~69 | City destination pages |
-| `itineraries/` | ~49 | Free curated itineraries |
-| `best-places-to-visit-in-*/` | 12 | Monthly destination guides |
 
 ### 3.3 Top-Level Layout
 
@@ -166,15 +164,13 @@ tabiji/
 ├── robots.txt / sitemap.xml ← SEO
 ├── deploy.sh                ← clean-push deploy helper
 │
-├── i/                       ← paid itineraries (395 slugs)
+├── i/                       ← paid itineraries (400 slugs)
 ├── popular-picks/           ← food/activity guides (1,001 slugs)
 ├── compare/                 ← VS comparison pages (926 slugs)
 ├── scams/                   ← scam awareness pages (546 destinations)
 ├── health/                  ← health info pages (228 destinations)
 ├── countries/               ← country info pages (211 countries)
 ├── destinations/            ← city destination pages (69 cities)
-├── itineraries/             ← free curated itineraries (49 slugs)
-├── best-places-to-visit-in-*/ ← monthly guides (12 months)
 │
 ├── owl/                     ← Owl interactive assistant
 ├── trends/                  ← travel trends tool
@@ -299,7 +295,6 @@ Every page is **fully self-contained HTML** with inline CSS. There are NO shared
 | `/alerts/` | `functions/build-travel-alerts.py` |
 | `/scams/` | Sub-agents |
 | `/health/` | `scripts/build-health-page.py` |
-| `/best-places-to-visit-in-*/` | Sub-agents (reference: `best-places-template.html`) |
 | Landing pages | Hand-crafted (`index.html`, `plan.html`, `success.html`) |
 
 ### 5.3 Navigation & Footer

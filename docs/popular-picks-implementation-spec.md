@@ -35,7 +35,6 @@ It does **not** apply to:
 - paid itinerary generation
 - `/compare/`
 - `/alerts/`
-- `/itineraries/`
 - other page types
 
 ## 2. System model

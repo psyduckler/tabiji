@@ -1047,7 +1047,7 @@ def parse_itinerary_page(html_path, slug, source_dir):
             duration = f"{dur_title.group(1)} days"
 
     days = extract_itinerary_days(soup)
-    url = f"{SITE_URL}/i/{slug}/" if source_dir == "i" else f"{SITE_URL}/itineraries/{slug}/"
+    url = f"{SITE_URL}/i/{slug}/"
 
     return attach_record_meta({
         "slug": slug,
@@ -1070,13 +1070,11 @@ def build_itineraries():
 
     summaries = []
     all_itineraries = []
-    for source_dir in ["i", "itineraries"]:
-        src_path = BASE_DIR / source_dir
-        if not src_path.exists():
-            continue
+    src_path = BASE_DIR / "i"
+    if src_path.exists():
         slugs = sorted([d for d in os.listdir(src_path) if (src_path / d / "index.html").exists()])
         for slug in slugs:
-            result = parse_itinerary_page(src_path / slug / "index.html", slug, source_dir)
+            result = parse_itinerary_page(src_path / slug / "index.html", slug, "i")
             if result:
                 all_itineraries.append(result)
 
