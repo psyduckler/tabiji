@@ -25,7 +25,6 @@ from typing import Optional
 REPO_ROOT = Path(__file__).resolve().parents[1]
 COMPARE_DIR = REPO_ROOT / "compare"
 DATA_DIR = REPO_ROOT / "compare-data"
-API_COMPARE_DIR = REPO_ROOT / "api" / "v1" / "compare"
 INVENTORY_PATH = COMPARE_DIR / "inventory.json"
 SITEMAP_PATH = REPO_ROOT / "sitemap.xml"
 QUEUE_PATH = REPO_ROOT / "scripts" / "queues" / "compare-queue.json"
@@ -753,57 +752,6 @@ def build_compare_json(slug, content_data):
     return full_json
 
 
-def build_api_json(compare_data):
-    """Build the API JSON from compare data."""
-    slug = compare_data['slug']
-    dest1 = compare_data['destinations']['destination1']
-    dest2 = compare_data['destinations']['destination2']
-    
-    # Extract verdict from content
-    verdict = ""
-    for t in compare_data['content'].get('faqItems', [])[:1]:
-        verdict = t.get('answer', '')[:300]
-    
-    # Use the verdict summary from verdictHtml if available
-    verdict_match = re.search(r'<strong>(.*?)</strong>', compare_data['content']['verdictHtml'])
-    if verdict_match:
-        verdict = html_module.unescape(re.sub(r'<[^>]+>', '', verdict_match.group(1)))
-    
-    categories = []
-    comparison_html = compare_data['content']['comparisonHtml']
-    # Parse from the deep dive sections
-    for dd in compare_data['content']['deepDiveHtml']:
-        h2_match = re.search(r'<h2[^>]*>.*?</h2>', dd)
-        name_match = re.search(r'<h2[^>]*>[^<]*?([A-Z][\w\s&]+)', dd)
-        winner_match = re.search(r'<strong>Winner:</strong>\s*(\w+)', dd)
-        why_match = re.search(r'<strong>Why:</strong>\s*(.*?)</li>', dd)
-        
-        if name_match:
-            # Clean emoji from name
-            raw_name = re.sub(r'^[^\w]+', '', h2_match.group(0) if h2_match else '')
-            raw_name = re.sub(r'<[^>]+>', '', raw_name).strip()
-            # Remove leading emoji
-            raw_name = re.sub(r'^[\U00010000-\U0010ffff\u2600-\u27bf\u2702-\u27b0]+\s*', '', raw_name).strip()
-            
-            categories.append({
-                "name": raw_name,
-                "edge": html_module.unescape(winner_match.group(1)) if winner_match else "Tie",
-                "summary": html_module.unescape(re.sub(r'<[^>]+>', '', why_match.group(1))) if why_match else ""
-            })
-    
-    return {
-        "slug": slug,
-        "title": compare_data['seo']['twitterTitle'],
-        "destination1": dest1,
-        "destination2": dest2,
-        "verdict": verdict[:300],
-        "categories": categories[:10],
-        "faq": [{"question": f["question"], "answer": f["answer"]} for f in compare_data['content']['faqItems']],
-        "url": f"/compare/{slug}/",
-        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    }
-
-
 def build_inventory_card(compare_data):
     """Build an inventory card for the compare index page."""
     slug = compare_data['slug']
@@ -983,13 +931,6 @@ def process_slug(slug):
     except Exception as e:
         print(f"  ❌ Failed to render HTML for {slug}: {e}")
         return False
-    
-    # Create API JSON
-    api_json = build_api_json(compare_json)
-    API_COMPARE_DIR.mkdir(parents=True, exist_ok=True)
-    api_path = API_COMPARE_DIR / f"{slug}.json"
-    api_path.write_text(json.dumps(api_json, indent=2, ensure_ascii=False) + "\n")
-    print(f"  ✅ Created API JSON")
     
     # Upload destination images to R2
     try:

@@ -61,7 +61,6 @@ python3 scripts/batch-compare-gen.py generate <slug>
 This creates:
 - `compare-data/<slug>.json` — master data file (~100KB, includes richContent)
 - `compare/<slug>/index.html` — rendered premium HTML page (~100-110KB, ~1400 lines)
-- `api/v1/compare/<slug>.json` — API endpoint
 - Uploads hero photos (dest1.jpg, dest2.jpg, hero.jpg) to R2
 
 The generator makes TWO Gemini API calls:
@@ -170,7 +169,7 @@ Update indexes and commit:
 python3 scripts/batch-compare-gen.py finalize
 
 # Commit and deploy
-git add compare/<slug>/index.html compare-data/<slug>.json api/v1/compare/<slug>.json
+git add compare/<slug>/index.html compare-data/<slug>.json
 git commit -m "Add compare page: <slug> (100/100 gate passed)"
 git push origin main
 ```
@@ -264,7 +263,6 @@ Before committing any page, verify:
 
 ### Index & API
 - [ ] `compare/inventory.json` updated
-- [ ] `api/v1/compare/<slug>.json` created
 - [ ] `sitemap.xml` updated with new URL
 
 ## Common Mistakes to Avoid

@@ -46,7 +46,6 @@ def collect_scam_targets(
         out.extend(sorted((SCAMS / "research").glob("*.json")))
     if api_json:
         out.extend(sorted((_API / "scams").glob("*.json")))
-        out.extend(sorted((_API / "countries").glob("*/scams.json")))
         catalog = _API / "catalog" / "scams.json"
         if catalog.exists():
             out.append(catalog)
