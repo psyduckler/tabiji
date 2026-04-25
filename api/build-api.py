@@ -403,21 +403,56 @@ def find_json_ld_by_type(blocks, type_name):
 # DESTINATIONS
 # ============================================================
 
-# Fields dropped from slim destinations.json vs the fat bundle.
-# Scoped to plural-duplicates (languages/timezones) and internal refs
-# (alertsRef/safetyRef/scamsRef) — schema-declared summary fields
-# (editorialSummary, bestFor, relatedPicks, relatedItineraries,
-# relatedComparisons, relatedDestinations) stay in slim.
+# Fields kept in the in-memory slim summaries used by downstream builders
+# (build_catalog, build_search, build_relationships). This drops fat-bundle
+# duplicates (languages/timezones) and internal refs (alertsRef/safetyRef/
+# scamsRef); everything else stays so build_catalog can read freshness/
+# provenance/id/schemaVersion/updatedAt for catalog payloads.
 SLIM_DROP_FIELDS = {
     "languages", "timezones", "alertsRef", "safetyRef", "scamsRef",
 }
 
+# Fields written to the public catalog at /api/v1/destinations.json.
+# Strict allowlist — anyone needing the full destination payload uses the
+# per-slug Worker at /api/v1/destinations/<slug>.json (which serves out of
+# destinations-full.json). Excludes redundant fields (type/entityType both
+# == "destination"; editorialSummary == pitch; bestFor == vibes+travelStyles)
+# and per-slug operational data (timezone, dialCode, drivingSide, plugType,
+# tapWaterSafe, tippingCustom, visaNote) and internal provenance metadata
+# (freshness, provenance, sourceMeta, schemaVersion, updatedAt).
+CATALOG_KEEP_FIELDS = {
+    # Identity
+    "id", "slug", "name", "url",
+    # Geography
+    "region", "continent", "country", "countryCode", "coordinates",
+    # Cultural quick-reference
+    "currency", "language", "flag",
+    # Catalog facets (filterable)
+    "budget", "season", "vibes", "travelStyles", "tags",
+    # Editorial preview
+    "pitch", "photo",
+    # Cross-references (populated by build_relationships)
+    "relatedPicks", "relatedItineraries", "relatedComparisons", "relatedDestinations",
+}
+
 
 def _slim_projection(details: dict) -> list:
-    """Project _DEST_DETAILS-shaped dict into sorted slim-summary list."""
+    """Project _DEST_DETAILS-shaped dict into sorted slim-summary list.
+
+    Used in-memory by downstream builders. NOT what gets written to disk —
+    write_slim_destinations() applies CATALOG_KEEP_FIELDS for that.
+    """
     return [
         {k: v for k, v in details[slug].items() if k not in SLIM_DROP_FIELDS}
         for slug in sorted(details.keys())
+    ]
+
+
+def _catalog_projection(summaries: list) -> list:
+    """Project enriched in-memory summaries down to public-catalog fields."""
+    return [
+        {k: v for k, v in s.items() if k in CATALOG_KEEP_FIELDS}
+        for s in summaries
     ]
 
 
@@ -451,10 +486,18 @@ def build_destinations():
 
 
 def write_slim_destinations(summaries):
-    """Write api/v1/destinations.json. Call AFTER build_relationships has
-    mutated each summary dict with related* fields so they land on disk."""
+    """Write api/v1/destinations.json — the public catalog.
+
+    Applies CATALOG_KEEP_FIELDS projection to strip the in-memory summaries
+    down to fields catalog browsers actually need. Anything richer (operational
+    data, provenance, full freshness blocks) is served per-slug by the Worker
+    at /api/v1/destinations/<slug>.json (backed by destinations-full.json).
+
+    Call AFTER build_relationships has mutated summaries with related* fields.
+    """
+    catalog = _catalog_projection(summaries)
     with open(OUTPUT_DIR / "destinations.json", 'w') as f:
-        json.dump({"count": len(summaries), "destinations": summaries}, f, indent=2, ensure_ascii=False)
+        json.dump({"count": len(catalog), "destinations": catalog}, f, indent=2, ensure_ascii=False)
 
 
 # ============================================================
@@ -2439,13 +2482,8 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
 
     destination_summary = schemas.setdefault('DestinationSummary', {}).setdefault('properties', {})
     destination_summary['id'] = {'type': 'string', 'example': 'destination:tokyo'}
-    destination_summary['type'] = {'type': 'string', 'enum': ['destination']}
-    destination_summary['updatedAt'] = {'type': 'string', 'format': 'date-time'}
-    destination_summary['sourceUrl'] = {'type': 'string', 'format': 'uri'}
+    destination_summary['url'] = {'type': 'string', 'format': 'uri'}
     destination_summary['tags'] = {'type': 'array', 'items': {'type': 'string'}}
-    destination_summary['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
-    destination_summary['editorialSummary'] = {'type': 'string'}
-    destination_summary['bestFor'] = {'type': 'array', 'items': {'type': 'string'}}
     destination_summary['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
     destination_summary['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
     destination_summary['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
