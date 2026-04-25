@@ -4,9 +4,12 @@
 Upgrade 50 compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
 ## Status
-- **Done so far:** 16 of 60 pages (10 from the original top-10 batch + 6 from this 50-batch).
-- **Remaining in this batch:** 44 pages, ranks 17–60 in `scripts/queues/compare-batch-50.json`.
-- **Next page to start:** rank 17 — see queue file for the current top of the list (it's regenerated each time, but `greece-vs-spain` was next when paused).
+- **Done so far:** 49 of 60 pages (10 original top-10 + 6 first batch + 33 in the second long session).
+- **Remaining in this batch:** 11 pages.
+- **Next page to start:** regenerate queue from current state — top of list will be `seychelles-vs-maldives` or similar.
+
+### Pages completed in the second long session (33):
+greece-vs-spain, st-lucia-vs-martinique, greece-vs-croatia, tokyo-vs-seoul, new-caledonia-vs-fiji, maldives-vs-hawaii, cyprus-vs-crete, berlin-vs-munich, cyprus-vs-malta, slovenia-vs-austria, bali-vs-fiji, dominica-vs-st-lucia, chamonix-vs-zermatt, cook-islands-vs-fiji, costa-rica-vs-colombia, auckland-vs-christchurch, faroe-islands-vs-iceland, tokyo-vs-shanghai, buenos-aires-vs-santiago, mexico-city-vs-cancun, malta-vs-sicily, india-vs-nepal, naxos-vs-paros, edinburgh-vs-dublin, shenzhen-vs-hong-kong, galway-vs-cork, tibet-vs-nepal, mauritius-vs-seychelles, queenstown-vs-wanaka, beijing-vs-hong-kong, st-kitts-vs-antigua, antwerp-vs-brussels, spain-vs-italy.
 
 ## Hard rules from the user
 - **No shortcuts.** Don't write helper scripts that auto-fix multiple pages. Every transformation on every page goes through individual `Edit` tool calls.
