@@ -26,17 +26,23 @@ from post import create_pin  # noqa: E402
 
 CONFIG = HERE / "config.json"
 MANIFEST = HERE / "manifest.json"
-STATE = HERE / "state.json"
+# state.json lives outside the repo so git stash/checkout can't wipe in-flight
+# cron mutations. The in-repo path is kept as a fallback for first-run seed.
+STATE = Path.home() / ".local" / "share" / "tabiji-pinterest" / "state.json"
+STATE_LEGACY = HERE / "state.json"
 PUBLIC_BASE = "https://img.tabiji.ai"
 
 
 def load_state() -> dict:
     if STATE.exists():
         return json.loads(STATE.read_text())
+    if STATE_LEGACY.exists():
+        return json.loads(STATE_LEGACY.read_text())
     return {}
 
 
 def save_state(state: dict) -> None:
+    STATE.parent.mkdir(parents=True, exist_ok=True)
     STATE.write_text(json.dumps(state, indent=2) + "\n")
 
 

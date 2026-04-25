@@ -21,7 +21,10 @@ REPO = Path(__file__).resolve().parents[2]
 HERE = REPO / "scripts" / "pinterest"
 LOG_FILE = HERE / "cron.log"
 MANIFEST = HERE / "manifest.json"
-STATE = HERE / "state.json"
+# state.json lives outside the repo so git stash/checkout can't wipe in-flight
+# cron mutations. The in-repo path is kept as a fallback for first-run seed.
+STATE = Path.home() / ".local" / "share" / "tabiji-pinterest" / "state.json"
+STATE_LEGACY = HERE / "state.json"
 PIN_PY = HERE / "pin.py"
 FORMATS = ("stacked", "hook", "lesson")
 
@@ -35,7 +38,12 @@ def log(msg: str) -> None:
 def find_next_unposted() -> str | None:
     """Walk manifest in order, return first slug missing any format in state."""
     manifest = json.loads(MANIFEST.read_text())
-    state = json.loads(STATE.read_text()) if STATE.exists() else {}
+    if STATE.exists():
+        state = json.loads(STATE.read_text())
+    elif STATE_LEGACY.exists():
+        state = json.loads(STATE_LEGACY.read_text())
+    else:
+        state = {}
     for s in manifest["scams"]:
         slug = s["slug"]
         formats_in_manifest = list(s.get("formats", {}).keys())
