@@ -233,9 +233,9 @@ function extractRestaurantSections(html, verticalHint = 'restaurants-food') {
     if (!sectionId) continue;
     const rank = Number(matchOne(block, /<h2><span class="restaurant-number">(\d+)<\/span>/));
     const name = decodeBasicEntities(stripTags(matchOne(block, /<h2><span class="restaurant-number">\d+<\/span>(.*?)<\/h2>/s) || ''));
-    const styleLabel = matchOne(attrs, /\bdata-filter-style="([^"]*)"/);
-    const priceTier = matchOne(attrs, /\bdata-filter-price="([^"]*)"/);
-    const filterArea = matchOne(attrs, /\bdata-filter-area="([^"]*)"/);
+    const styleLabel = decodeBasicEntities(matchOne(attrs, /\bdata-filter-style="([^"]*)"/) || '');
+    const priceTier = decodeBasicEntities(matchOne(attrs, /\bdata-filter-price="([^"]*)"/) || '');
+    const filterArea = decodeBasicEntities(matchOne(attrs, /\bdata-filter-area="([^"]*)"/) || '');
     const lat = Number(matchOne(attrs, /\bdata-map-lat="([^"]*)"/));
     const lng = Number(matchOne(attrs, /\bdata-map-lng="([^"]*)"/));
     const built = buildGenericSection(sectionId, rank, name, block, { verticalHint });
