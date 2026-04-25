@@ -145,6 +145,8 @@ function validateGoldStandard(html, options = {}) {
 
   // ---- Encoding sanity ----
   checks.push(check('no-double-amp', 'error', !html.includes('&amp;amp;'), 'double-encoded &amp;amp; entities present'));
+  const doubleEncodedEntities = html.match(/&amp;(?:[a-zA-Z]+|#[0-9]+|#x[0-9a-fA-F]+);/g);
+  checks.push(check('no-double-entity', 'error', !doubleEncodedEntities, doubleEncodedEntities ? `double-encoded entities (e.g., ${doubleEncodedEntities.slice(0, 3).join(', ')}) — decode entities at source` : 'no double-encoded entities'));
   checks.push(check('no-mojibake', 'error', !/Ã©|Ã |â\x80\x99/.test(html), 'mojibake bytes detected'));
   checks.push(check('no-template-leftover', 'error', !/\{\{|\[TODO\]|\[TBD\]|\[PLACEHOLDER\]|TKTKTK|Lorem ipsum/.test(html), 'template placeholder found'));
 
