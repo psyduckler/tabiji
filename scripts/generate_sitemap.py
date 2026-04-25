@@ -29,11 +29,25 @@ def get_changefreq(path):
     if path.startswith('/scams/'): return 'weekly'
     return 'monthly'
 
+def is_redirect_stub(html_path):
+    """Skip pages that immediately redirect — they're not canonical destinations."""
+    try:
+        with open(html_path, 'r', errors='replace') as f:
+            head = f.read(8192)  # meta-refresh always lives in <head>
+    except OSError:
+        return False
+    return 'http-equiv="refresh"' in head or "http-equiv='refresh'" in head
+
 def main():
     pages = []
+    skipped_redirects = 0
     for root, dirs, files in os.walk(REPO):
         dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
         if 'index.html' in files:
+            html_path = os.path.join(root, 'index.html')
+            if is_redirect_stub(html_path):
+                skipped_redirects += 1
+                continue
             rel = os.path.relpath(root, REPO)
             path = '/' if rel == '.' else f'/{rel}/'
             pages.append(path)
@@ -48,7 +62,7 @@ def main():
     out = os.path.join(REPO, 'sitemap.xml')
     with open(out, 'w') as f:
         f.write('\n'.join(lines))
-    print(f'sitemap.xml: {len(pages)} URLs')
+    print(f'sitemap.xml: {len(pages)} URLs ({skipped_redirects} redirect stubs skipped)')
 
 if __name__ == '__main__':
     main()
