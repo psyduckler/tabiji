@@ -23,12 +23,22 @@ function stripTags(value = '') {
 
 function decodeBasicEntities(value = '') {
   const decoded = String(value)
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
     .replace(/&amp;/g, '&')
     .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&nbsp;/g, ' ')
+    .replace(/&ldquo;/g, '“')
+    .replace(/&rdquo;/g, '”')
+    .replace(/&lsquo;/g, '‘')
+    .replace(/&rsquo;/g, '’')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&middot;/g, '·')
+    .replace(/&hellip;/g, '…')
     .trim();
   return decoded === 'null' ? '' : decoded;
 }
@@ -114,10 +124,26 @@ function inferPlaceType(vertical, cuisine = '') {
 }
 
 function extractQuotes(block = '') {
-  return [...block.matchAll(/<div class="reddit-quote">\s*"([\s\S]*?)"\s*<span class="source">([\s\S]*?)<\/span>/g)].map((m) => ({
-    quote: decodeBasicEntities(stripTags(m[1])),
-    source: decodeBasicEntities(stripTags(m[2])),
+  // Modern pages wrap quotes in &ldquo;...&rdquo; (curly via entities); older pages
+  // used straight ASCII quotes. Match either.
+  const re = /<div class="reddit-quote">\s*(?:&ldquo;|"|“)([\s\S]*?)(?:&rdquo;|"|”)\s*<span class="source">([\s\S]*?)<\/span>/g;
+  return [...block.matchAll(re)].map((m) => ({
+    quote: decodeBasicEntities(stripTags(m[1])).trim(),
+    source: decodeBasicEntities(stripTags(m[2])).trim().replace(/^[—–-]\s*/, ''),
   }));
+}
+
+function extractComparisonRow(block, label) {
+  // <div class="comparison-row"><dt>Best for</dt><dd>....</dd></div>
+  const re = new RegExp(`<div class="comparison-row"><dt>${label.replace(/[/\\^$*+?.()|[\\]{}]/g, '\\$&')}</dt>\\s*<dd>([\\s\\S]*?)</dd></div>`, 'i');
+  const m = block.match(re);
+  if (!m) return '';
+  return decodeBasicEntities(stripTags(m[1])).trim();
+}
+
+function extractPickQuickTake(block) {
+  const m = block.match(/<div class="pick-quick-take">\s*<strong>Verdict:<\/strong>\s*([\s\S]*?)<\/div>/);
+  return m ? decodeBasicEntities(stripTags(m[1])).trim() : '';
 }
 
 function buildGenericSection(sectionId, rank, name, block, opts = {}) {
@@ -131,8 +157,23 @@ function buildGenericSection(sectionId, rank, name, block, opts = {}) {
   const phone = decodeBasicEntities(matchOne(block, /tel:([^"]+)/));
   const website = decodeBasicEntities(matchOne(block, /🌐 <a href="([^"]+)"/));
   const photo = decodeBasicEntities(matchOne(block, opts.photoRegex || /<img[^>]+src="([^"]+)"/));
-  const whatToOrder = decodeBasicEntities(stripTags(matchOne(block, opts.whatRegex || /<div class="what-to-order">\s*<strong>What to order:<\/strong>(.*?)<\/div>/s) || matchOne(block, /<div class="what-to-expect">\s*<strong>What to expect:<\/strong>(.*?)<\/div>/s) || '')).replace(/^What to (order|expect):\s*/i, '').trim();
-  const verdict = decodeBasicEntities(stripTags(matchOne(block, opts.verdictRegex || /<div class="tabiji-verdict">\s*<strong>tabiji verdict:<\/strong>(.*?)<\/div>/s) || /<div class="verdict">\s*<strong>The Verdict:<\/strong>(.*?)<\/div>/s || ''));
+  // Modern pages put "What to order" inside a comparison-row, not a separate div.
+  const whatToOrderModern = extractComparisonRow(block, 'What to order');
+  const whatToOrderLegacy = decodeBasicEntities(stripTags(matchOne(block, opts.whatRegex || /<div class="what-to-order">\s*<strong>What to order:<\/strong>(.*?)<\/div>/s) || matchOne(block, /<div class="what-to-expect">\s*<strong>What to expect:<\/strong>(.*?)<\/div>/s) || '')).replace(/^What to (order|expect):\s*/i, '').trim();
+  const whatToOrder = whatToOrderModern || whatToOrderLegacy;
+  // Verdict (the one-line summary in .pick-quick-take, plus legacy fallbacks)
+  const quickTakeVerdict = extractPickQuickTake(block);
+  const legacyVerdict = decodeBasicEntities(stripTags(
+    matchOne(block, opts.verdictRegex || /<div class="tabiji-verdict">\s*<strong>tabiji verdict:<\/strong>(.*?)<\/div>/s)
+    || matchOne(block, /<div class="verdict">\s*<strong>The Verdict:<\/strong>(.*?)<\/div>/s)
+    || '',
+  ));
+  const verdict = quickTakeVerdict || legacyVerdict;
+  // Rich content from the comparison-card rows on modern pages
+  const whyItMadeTheList = extractComparisonRow(block, 'Why it made the list') || verdict;
+  const bestFor = extractComparisonRow(block, 'Best for');
+  const limitations = extractComparisonRow(block, 'Limitations');
+  const insiderTipModern = bestFor || verdict;
   const quotes = extractQuotes(block);
 
   return {
@@ -151,9 +192,11 @@ function buildGenericSection(sectionId, rank, name, block, opts = {}) {
     photo: photo || null,
     tags: cuisine ? [cuisine] : [],
     knownForTags: cuisine ? [cuisine] : [],
-    whyItMadeTheList: verdict || `${name} appears as a featured pick in the existing HTML page.`,
+    whyItMadeTheList: whyItMadeTheList || `${name} appears as a featured pick in the existing HTML page.`,
     whatToOrder: whatToOrder || `${name} is a featured pick in this guide.`,
-    insiderTip: verdict || `${name} is worth reviewing manually after extraction.`,
+    insiderTip: insiderTipModern || `${name} is worth reviewing manually after extraction.`,
+    bestFor: bestFor || undefined,
+    limitations: limitations || undefined,
     redditQuotes: quotes,
     hoursNote: parseHours(block),
     editorialFlags: {
@@ -173,7 +216,14 @@ function extractRestaurantSections(html, verticalHint = 'restaurants-food') {
   // Match <section class="restaurant-section" ...> with any combination of attrs
   // (id, data-filter-*, data-map-*). The opening tag may run hundreds of chars on
   // upgraded pages. Capture the id separately from the rest of the attrs.
-  const regex = /<section\s+class="restaurant-section"\s+([^>]*)>([\s\S]*?)(?=<section\s+class="restaurant-section"|<section[^>]*class="faq-section")/g;
+  //
+  // The block-end lookahead must accept: another restaurant-section, a faq-section,
+  // a social-proof end comment, a cta-section, a related-picks-module, OR the
+  // closing of a pick-list (`</section><!-- /.pick-list -->`). Some pages have
+  // none of these inside the body and only have FAQPage in JSON-LD, so we also
+  // accept `<!-- social-proof:end` and `<footer` as terminal anchors.
+  const endLookahead = '(?=<section\\s+class="restaurant-section"|<section[^>]*class="faq-section"|<section[^>]*class="cta-section"|<section[^>]*class="related-picks-module"|<!-- social-proof:end|<footer|</main>)';
+  const regex = new RegExp(`<section\\s+class="restaurant-section"\\s+([^>]*)>([\\s\\S]*?)${endLookahead}`, 'g');
   const sections = [];
   let match;
   while ((match = regex.exec(html))) {
