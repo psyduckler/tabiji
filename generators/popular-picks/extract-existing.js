@@ -317,9 +317,23 @@ function buildSourceJson(html, slug) {
       })()
     : [];
   const introSectionMatch = html.match(/<(section|div) class="intro-section">([\s\S]*?)<\/(section|div)>/);
-  const introStrong = introSectionMatch ? stripTags(matchOne(introSectionMatch[2], /<p><strong>([\s\S]*?)<\/strong><\/p>/s) || '') : '';
-  const introBody = introSectionMatch ? [...introSectionMatch[2].matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) => stripTags(m[1])).filter(Boolean).slice(introStrong ? 1 : 0) : [];
-  const methodology = stripTags(matchOne(html, /How we built this list[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/s) || matchOne(html, /<section class="methodology-section">[\s\S]*?<p>([\s\S]*?)<\/p>[\s\S]*?<\/section>/s) || '');
+  const introStrong = introSectionMatch ? decodeBasicEntities(stripTags(matchOne(introSectionMatch[2], /<p><strong>([\s\S]*?)<\/strong><\/p>/s) || '')) : '';
+  const introBody = introSectionMatch
+    ? [...introSectionMatch[2].matchAll(/<p>([\s\S]*?)<\/p>/g)]
+        .map((m) => decodeBasicEntities(stripTags(m[1])))
+        .filter(Boolean)
+        .slice(introStrong ? 1 : 0)
+    : [];
+  // Second intro section ("Planning your X trip") — appears after the related-section
+  // on gold-standard pages. Optional; many pages don't have one.
+  const planningMatch = html.match(/<section class="intro-section"\s+style="[^"]*margin-top[^"]*">([\s\S]*?)<\/section>/);
+  const planningHeading = planningMatch ? decodeBasicEntities(stripTags(matchOne(planningMatch[1], /<h2>([\s\S]*?)<\/h2>/) || '')) : '';
+  const planningParagraphs = planningMatch
+    ? [...planningMatch[1].matchAll(/<p>([\s\S]*?)<\/p>/g)]
+        .map((m) => decodeBasicEntities(stripTags(m[1])))
+        .filter(Boolean)
+    : [];
+  const methodology = decodeBasicEntities(stripTags(matchOne(html, /How we built this list[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/s) || matchOne(html, /<section class="methodology-section">[\s\S]*?<p>([\s\S]*?)<\/p>[\s\S]*?<\/section>/s) || ''));
   const canonical = matchOne(html, /<link rel="canonical" href="([^"]+)">/i) || `https://tabiji.ai/popular-picks/${slug}/`;
   const canonicalPath = canonical.replace('https://tabiji.ai', '');
   const ogImage = matchOne(html, /<meta property="og:image" content="([^"]+)">/i);
@@ -365,6 +379,8 @@ function buildSourceJson(html, slug) {
       answerFirst: introStrong || article.description || '',
       body: introBody.length ? introBody : [article.description || ''],
       methodology: methodology || undefined,
+      planningHeading: planningHeading || undefined,
+      planningParagraphs: planningParagraphs.length ? planningParagraphs : undefined,
     },
     summary: {
       totalOptions: sections.length,
