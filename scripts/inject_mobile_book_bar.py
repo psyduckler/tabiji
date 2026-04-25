@@ -75,19 +75,45 @@ def detect_country_code(html: str) -> str | None:
     return None
 
 
-def bar_html(cover_url: str | None, label: str, tagline: str, href: str, target_blank: bool) -> str:
-    """Build the <aside> block. `script` below is a single, tiny, inline block.
+# Bundle cover mark used when no per-country cover image exists. Synced with
+# the badge text in apply_book_ctas.SERIES_BUNDLE["country_count_display"].
+BUNDLE_MARK_HTML = (
+    f'<span class="mobile-book-bar-bundle-mark" aria-hidden="true">'
+    f'{SERIES_BUNDLE["country_count_display"]}</span>'
+)
 
-    cover_url=None signals the bundle variant — render a CSS-only mark
-    instead of an <img>, since there's no series-bundle cover asset."""
+# JS module — identical on every page, hoisted out of bar_html() so we don't
+# rebuild ~700 chars × 492 pages on a corpus sweep.
+_MOBILE_BAR_SCRIPT = (
+    '<script>\n'
+    '(function () {\n'
+    "    var bar = document.querySelector('[data-mobile-book-bar]');\n"
+    '    if (!bar) return;\n'
+    "    try { if (localStorage.getItem('book-bar-dismissed') === '1') { bar.classList.add('dismissed'); return; } } catch (e) {}\n"
+    "    var dismiss = bar.querySelector('[data-mobile-book-bar-dismiss]');\n"
+    "    if (dismiss) dismiss.addEventListener('click', function () {\n"
+    "        bar.classList.add('dismissed');\n"
+    "        try { localStorage.setItem('book-bar-dismissed', '1'); } catch (e) {}\n"
+    '    });\n'
+    "    var endCta = document.querySelector('.book-end-cta');\n"
+    "    if (endCta && 'IntersectionObserver' in window) {\n"
+    '        var io = new IntersectionObserver(function (entries) {\n'
+    "            entries.forEach(function (e) { if (e.isIntersecting) bar.classList.add('dismissed'); });\n"
+    "        }, { rootMargin: '0px 0px 600px 0px' });\n"
+    '        io.observe(endCta);\n'
+    '    }\n'
+    '})();\n'
+    '</script>'
+)
+
+
+def bar_html(cover_html: str, label: str, tagline: str, href: str, target_blank: bool) -> str:
+    """Build the <aside> block. ``cover_html`` is the inner cover element —
+    either an <img> for per-country variants or BUNDLE_MARK_HTML for orphans."""
     target = ' target="_blank" rel="noopener"' if target_blank else ""
-    if cover_url:
-        cover = f'<img src="{cover_url}" alt="" loading="lazy" width="32" height="48">\n'
-    else:
-        cover = '<span class="mobile-book-bar-bundle-mark" aria-hidden="true">20+</span>\n'
     return (
         '<aside class="mobile-book-bar" data-mobile-book-bar role="complementary" aria-label="Buy the book">\n'
-        f'{cover}'
+        f'{cover_html}\n'
         '<div class="mobile-book-bar-text">\n'
         f'<strong>{label}</strong>\n'
         f'<span>{tagline}</span>\n'
@@ -95,25 +121,7 @@ def bar_html(cover_url: str | None, label: str, tagline: str, href: str, target_
         f'<a href="{href}" class="mobile-book-bar-cta"{target}>Buy →</a>\n'
         '<button class="mobile-book-bar-dismiss" aria-label="Dismiss book CTA" data-mobile-book-bar-dismiss>×</button>\n'
         '</aside>\n'
-        '<script>\n'
-        '(function () {\n'
-        '    var bar = document.querySelector(\'[data-mobile-book-bar]\');\n'
-        '    if (!bar) return;\n'
-        '    try { if (localStorage.getItem(\'book-bar-dismissed\') === \'1\') { bar.classList.add(\'dismissed\'); return; } } catch (e) {}\n'
-        '    var dismiss = bar.querySelector(\'[data-mobile-book-bar-dismiss]\');\n'
-        '    if (dismiss) dismiss.addEventListener(\'click\', function () {\n'
-        '        bar.classList.add(\'dismissed\');\n'
-        '        try { localStorage.setItem(\'book-bar-dismissed\', \'1\'); } catch (e) {}\n'
-        '    });\n'
-        '    var endCta = document.querySelector(\'.book-end-cta\');\n'
-        '    if (endCta && \'IntersectionObserver\' in window) {\n'
-        '        var io = new IntersectionObserver(function (entries) {\n'
-        '            entries.forEach(function (e) { if (e.isIntersecting) bar.classList.add(\'dismissed\'); });\n'
-        '        }, { rootMargin: \'0px 0px 600px 0px\' });\n'
-        '        io.observe(endCta);\n'
-        '    }\n'
-        '})();\n'
-        '</script>'
+        f'{_MOBILE_BAR_SCRIPT}'
     )
 
 
@@ -130,9 +138,9 @@ def block_for_page(html: str) -> tuple[str, str, str | None]:
         d = COUNTRIES[slug]
         label = f"📖 {d['name']} Scams"
         tagline = f"$4.99 Kindle · {d['scam_count']} scams across {d['city_count']} cities"
-        return bar_html(d["cover_url"], label, tagline, d["amazon_url"], target_blank=True), "book", code
-    # Orphan: link to /books/ bundle (no cover asset — render CSS-only mark)
-    return bar_html(None, f"📖 {BUNDLE_LABEL}", BUNDLE_TAGLINE, BUNDLE_HREF, target_blank=False), "bundle", code
+        cover = f'<img src="{d["cover_url"]}" alt="" loading="lazy" width="32" height="48">'
+        return bar_html(cover, label, tagline, d["amazon_url"], target_blank=True), "book", code
+    return bar_html(BUNDLE_MARK_HTML, f"📖 {BUNDLE_LABEL}", BUNDLE_TAGLINE, BUNDLE_HREF, target_blank=False), "bundle", code
 
 
 # We insert the bar *before* the existing `.emergency-fab` anchor so the FAB

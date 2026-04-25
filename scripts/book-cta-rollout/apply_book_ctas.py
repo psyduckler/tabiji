@@ -281,9 +281,11 @@ SERIES_BUNDLE: dict = {
     "place_adj": "international",
     "article": "An",
     "book_slug": "",  # links to /books/ root
-    "cover_alt": "tabiji.ai Travel Safety Series — every country covered",
     "scam_count": 780,
     "scam_count_display": "780+",
+    "country_count": 20,
+    "country_count_display": "20+",
+    "country_count_badge": "20",     # bundle-cover badge — drops the "+" because the badge has a "covered" subscript
     "city_count": 110,
     "cities_join": "Tokyo, Rome, Paris, Bali, Bangkok, Rio &amp; 100+ more cities",
     "top_scams_mid": "the most-cited scams in 20+ destinations from Reddit, embassy advisories, and consumer-protection cases",
@@ -293,16 +295,14 @@ SERIES_BUNDLE: dict = {
 }
 
 
-# Inline CSS-only cover block for the bundle. Replaces the broken
-# series-bundle/cover.jpg asset; styled by `.bundle-cover` rules in scams.css.
-def _bundle_cover_inner() -> str:
-    return (
-        '            <span class="bundle-cover-badge">20<small>covered</small></span>\n'
-        '            <span class="bundle-cover-eyebrow">tabiji.ai</span>\n'
-        '            <span class="bundle-cover-title">Travel<em>Safety</em></span>\n'
-        '            <span class="bundle-cover-sub">Tourist scams &amp; defenses across 20+ countries — every named scam, every red flag, every script.</span>\n'
-        '            <span class="bundle-cover-brand">The Series</span>\n'
-    )
+# CSS-only cover for the bundle variant; styled by `.bundle-cover` in scams.css.
+_BUNDLE_COVER_INNER = (
+    f'            <span class="bundle-cover-badge">{SERIES_BUNDLE["country_count_badge"]}<small>covered</small></span>\n'
+    f'            <span class="bundle-cover-eyebrow">tabiji.ai</span>\n'
+    f'            <span class="bundle-cover-title">Travel<em>Safety</em></span>\n'
+    f'            <span class="bundle-cover-sub">Tourist scams &amp; defenses across {SERIES_BUNDLE["country_count_display"]} countries — every named scam, every red flag, every script.</span>\n'
+    f'            <span class="bundle-cover-brand">The Series</span>\n'
+)
 
 
 def is_bundle(d: dict) -> bool:
@@ -327,7 +327,7 @@ def _mid_cta_cover_block(d: dict) -> str:
     if is_bundle(d):
         return (
             f'        <div class="book-mid-cta-cover bundle-cover" aria-hidden="true">\n'
-            f'{_bundle_cover_inner()}'
+            f'{_BUNDLE_COVER_INNER}'
             f'        </div>\n'
         )
     return (
@@ -361,7 +361,7 @@ def _end_cta_headline(d: dict) -> str:
     if is_bundle(d):
         return (
             f'You just read {{n_scams}} in {{city}}. '
-            f'The full Travel Safety Series has 780+ more across 20+ countries.'
+            f'The full Travel Safety Series has {d["scam_count_display"]} more across {d["country_count_display"]} countries.'
         )
     return (
         f'You just read {{n_scams}} in {{city}}. '
@@ -385,8 +385,8 @@ def _end_cta_benefits(d: dict) -> str:
     """Benefits bullets inside the end-CTA."""
     if is_bundle(d):
         return (
-            f'                <li>780+ documented scams across {d["cities_join"]}</li>\n'
-            f'                <li>20+ countries covered, with {d["language_note"]} cards for every destination</li>\n'
+            f'                <li>{d["scam_count_display"]} documented scams across {d["cities_join"]}</li>\n'
+            f'                <li>{d["country_count_display"]} countries covered, with {d["language_note"]} cards for every destination</li>\n'
             f'                <li>Updated annually — buy once, re-download future editions free</li>\n'
             f'                <li>All titles $4.99 each on Amazon Kindle</li>\n'
         )
@@ -428,7 +428,7 @@ def _end_cta_cover_block(d: dict) -> str:
     if is_bundle(d):
         return (
             f'        <a href="{book_href(d)}" class="book-end-cta-cover bundle-cover" aria-hidden="true">\n'
-            f'{_bundle_cover_inner()}'
+            f'{_BUNDLE_COVER_INNER}'
             f'        </a>\n'
         )
     return (
@@ -473,7 +473,7 @@ def hub_cta_html(d: dict) -> str:
     """
     if is_bundle(d):
         headline = (
-            "Every scam across 20+ countries, in one offline pocket guide."
+            f'Every scam across {d["country_count_display"]} countries, in one offline pocket guide.'
         )
     else:
         headline = (
