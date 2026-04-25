@@ -38,7 +38,6 @@ from _scam_sweep_common import collect_scam_targets  # type: ignore[import-not-f
 sys.path.insert(0, str(REPO / "scripts" / "book-cta-rollout"))
 from apply_book_ctas import COUNTRIES, SERIES_BUNDLE, extract_country_code  # type: ignore[import-not-found]
 
-BUNDLE_COVER = SERIES_BUNDLE["cover_url"]
 BUNDLE_HREF = "/books/"  # apply_book_ctas.book_href() returns this for bundle
 BUNDLE_LABEL = "Travel Safety Series"
 BUNDLE_TAGLINE = "Every country's tourist scams, ready to travel"
@@ -76,12 +75,19 @@ def detect_country_code(html: str) -> str | None:
     return None
 
 
-def bar_html(cover_url: str, label: str, tagline: str, href: str, target_blank: bool) -> str:
-    """Build the <aside> block. `script` below is a single, tiny, inline block."""
+def bar_html(cover_url: str | None, label: str, tagline: str, href: str, target_blank: bool) -> str:
+    """Build the <aside> block. `script` below is a single, tiny, inline block.
+
+    cover_url=None signals the bundle variant — render a CSS-only mark
+    instead of an <img>, since there's no series-bundle cover asset."""
     target = ' target="_blank" rel="noopener"' if target_blank else ""
+    if cover_url:
+        cover = f'<img src="{cover_url}" alt="" loading="lazy" width="32" height="48">\n'
+    else:
+        cover = '<span class="mobile-book-bar-bundle-mark" aria-hidden="true">20+</span>\n'
     return (
         '<aside class="mobile-book-bar" data-mobile-book-bar role="complementary" aria-label="Buy the book">\n'
-        f'<img src="{cover_url}" alt="" loading="lazy" width="32" height="48">\n'
+        f'{cover}'
         '<div class="mobile-book-bar-text">\n'
         f'<strong>{label}</strong>\n'
         f'<span>{tagline}</span>\n'
@@ -125,8 +131,8 @@ def block_for_page(html: str) -> tuple[str, str, str | None]:
         label = f"📖 {d['name']} Scams"
         tagline = f"$4.99 Kindle · {d['scam_count']} scams across {d['city_count']} cities"
         return bar_html(d["cover_url"], label, tagline, d["amazon_url"], target_blank=True), "book", code
-    # Orphan: link to /books/ bundle
-    return bar_html(BUNDLE_COVER, f"📖 {BUNDLE_LABEL}", BUNDLE_TAGLINE, BUNDLE_HREF, target_blank=False), "bundle", code
+    # Orphan: link to /books/ bundle (no cover asset — render CSS-only mark)
+    return bar_html(None, f"📖 {BUNDLE_LABEL}", BUNDLE_TAGLINE, BUNDLE_HREF, target_blank=False), "bundle", code
 
 
 # We insert the bar *before* the existing `.emergency-fab` anchor so the FAB
