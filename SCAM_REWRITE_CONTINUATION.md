@@ -15,11 +15,23 @@ You are continuing a long-running multi-session task: rewriting every scam-page 
 
 **Source of truth for queue state**: `scripts/queues/scam-narrative-rewrite-queue.json`
 
-**Current progress** (as of this handoff write):
+**Current progress** (as of this handoff write — 2026-04-25):
 - ✅ Tier 1 flagships — 13 cities, 99 cards (PR #497 merged)
-- ✅ Book-secondary P15–P29 — 15 cities, 177 cards (PR #502 merged)
-- ✅ Book-secondary P30–P40 — 11 cities, ~70 cards (PR #503 merged + #506 cleanup merged)
-- ⏳ Book-secondary P41–P165 — 125 cities pending. **Next up: P41 Krabi (Thailand, 7 scams)**
+- ✅ Book-secondary P15–P40 — 26 cities (PRs #502 #503 merged)
+- ✅ Book-secondary P41–P85 — 45 cities (PRs #520 #547 #572 #600 #620 merged)
+- ✅ Book-secondary P86–P93 — 8 cities, 48 scams (PR #640 OPEN — Frankfurt → Hamburg)
+- ⏳ **Next up: P94 Ho Chi Minh City (Vietnam, 6 scams)** — DEFERRED from P86–P95 batch
+- ⏳ Then P95 Hoi An (Vietnam, 6 scams), then P96+
+
+**Branch state**:
+- Worktree branch: `claude/bold-bhabha-956437-p86` (PR #640 awaiting review/merge)
+- Once #640 merges, start fresh from `origin/main` for the P94+ batch (do NOT continue on -p86 branch).
+
+**P94 / P95 audit notes** (use these to plan the next batch):
+- ho-chi-minh-city: 6 scams, TOC=Y, sanit=0, BrE=0, redd=4, miss_T=3, miss_S=6, non3body=0
+- hoi-an: 6 scams, TOC=Y, sanit=0, BrE=7, redd=4, miss_T=1, miss_S=6, non3body=1
+  - HCMC: 4 Reddit shards in body (not just hero/meta) — scrub during rewrite
+  - Hoi An: 7 BrE hits, 4 Reddit body shards, scam #1 has non-3-body — needs structural attention
 
 To verify the next pending priority before starting:
 
