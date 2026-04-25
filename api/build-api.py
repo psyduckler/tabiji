@@ -2809,6 +2809,78 @@ def main():
     pack_chunk_count = build_knowledge_pack_chunks()
     print(f"   ✅ {pack_chunk_count} pack chunk files")
 
+    print("🔍 Verifying catalog ↔ disk reconciliation...")
+    issues = verify_catalog_disk()
+    if issues:
+        print("   ❌ Reconciliation failed:")
+        for line in issues:
+            print(f"     {line}")
+        raise SystemExit(1)
+    print("   ✅ all catalogs match on-disk files")
+
+
+# ---------------------------------------------------------------------------
+# Catalog ↔ disk reconciliation
+# ---------------------------------------------------------------------------
+
+
+def _slug_set_from_catalog(path, list_key, slug_key="slug"):
+    """Read a catalog JSON and return the set of slugs/ISO codes referenced."""
+    if not path.exists():
+        return set()
+    data = json.load(open(path))
+    items = data.get(list_key, [])
+    out = set()
+    for item in items:
+        key = item.get(slug_key) or item.get("iso2")
+        if key:
+            out.add(key.lower())
+    return out
+
+
+def _slug_set_from_dir(directory, suffix=".json"):
+    """Return the set of file stems in a directory (lowercase)."""
+    if not directory.is_dir():
+        return set()
+    return {p.stem.lower() for p in directory.glob(f"*{suffix}")}
+
+
+def verify_catalog_disk():
+    """Assert each catalog index matches the per-slug files on disk.
+
+    Returns a list of human-readable issue strings; empty list means OK.
+    Collections checked (catalog file, list-key, detail-dir):
+      - alerts.json[alerts]    → alerts/<iso>.json
+      - safety.json[profiles]  → safety/<iso>.json
+      - countries.json[countries] → countries/<iso>.json
+      - scams.json[items]      → scams/<slug>.json
+      - itineraries.json[itineraries] → itineraries/<slug>.json
+      - insurance.json[carriers] → insurance/<slug>.json
+    Skipped: compare (per-slug retired), picks (per-slug retired),
+             destinations (per-slug served by Worker, no static dir).
+    """
+    issues = []
+    checks = [
+        ("alerts.json",     "alerts",     "iso2", "alerts"),
+        ("safety.json",     "profiles",   "iso2", "safety"),
+        ("countries.json",  "countries",  "iso2", "countries"),
+        ("scams.json",      "items",      "slug", "scams"),
+        ("itineraries.json","itineraries","slug", "itineraries"),
+        ("insurance.json",  "carriers",   "slug", "insurance"),
+    ]
+    for catalog_file, list_key, slug_key, detail_dir in checks:
+        catalog_path = OUTPUT_DIR / catalog_file
+        detail_path = OUTPUT_DIR / detail_dir
+        listed = _slug_set_from_catalog(catalog_path, list_key, slug_key)
+        on_disk = _slug_set_from_dir(detail_path)
+        missing = sorted(listed - on_disk)
+        extras = sorted(on_disk - listed)
+        if missing:
+            issues.append(f"{detail_dir}: {len(missing)} catalog entries with no JSON file: {missing[:5]}{'...' if len(missing) > 5 else ''}")
+        if extras:
+            issues.append(f"{detail_dir}: {len(extras)} JSON files not in catalog: {extras[:5]}{'...' if len(extras) > 5 else ''}")
+    return issues
+
 
 # ---------------------------------------------------------------------------
 # Sprint 4 — Manifest, Offline Packs & Knowledge Chunks
