@@ -188,9 +188,59 @@ Body has "from a fore" (cut mid-word "foreign country") or "Extens' ive" (apostr
 **Fix**: Complete the word/sentence using context.
 
 ### 3.7 City-mismatch boilerplate
-Emergency section references the wrong city's police body — e.g., Montreal had a "Vancouver Police Department" reference at the bottom of the page (template drift from another city).
+Emergency section references the wrong city's police body — e.g., Montreal had a "Vancouver Police Department" reference at the bottom of the page (template drift from another city). Liverpool had **"Metropolitan Police"** (London's force) when the correct force is **Merseyside Police**.
 
 **Fix**: Replace with the correct city's police body and contact info. Verify against multiple known examples.
+
+### 3.8 Missing table of contents (TOC)
+Some pages were generated without the `<div class="toc">` block that links to each scam card. Without it, the page has no jump-navigation between scams.
+
+**Reference**: https://tabiji.ai/scams/new-york-city/ — and any of Lake Garda, Liverpool, Madrid, Mykonos in this corpus already have the correct structure.
+
+**Required structure** (insert just above the `<h2 class="section-heading">The N Scams</h2>` heading):
+
+```html
+<div class="toc">
+    <h2>Jump to a Scam</h2>
+    <ol class="toc-list">
+        <li><a href="#scam-1"><span class="toc-badge high">High</span> Title 1</a></li>
+        <li><a href="#scam-2"><span class="toc-badge high">High</span> Title 2</a></li>
+        ...
+    </ol>
+</div>
+```
+
+**Required IDs**: every `<div class="scam-card">` must have an `id="scam-N"` attribute matching the TOC anchor. If the existing scam cards have no IDs, add them.
+
+**Severity badge classes**: `high` (⚠️ High), `medium` (🔶 Medium), `low` (🟢 Low) — match the danger-badge severity in the scam-header.
+
+**Fix**: When auditing a city, the very first check is `grep -q '<div class="toc">' scams/<slug>/index.html`. If missing, build one from the scam titles + severities and insert it.
+
+### 3.9 British English drift
+Tabiji.ai is American-English, but body content has accumulated British spellings — `centre`, `colour`, `behaviour`, `metres`, `kilometres`, `neighbourhood`, `jewellery`, `personalised`, `programme`, `favour`, `honour`, `labour`, `recognise`, `organise`, `analyse`, `defence`, `licence`, `catalogue`, `cancelled`, `traveller`, `harbour`, `summarise`, `coloured`, `behavioural`, `memorise`, `specialise`, `traumatise`, `finalise`.
+
+This includes UK-context cities (Liverpool) that you might be tempted to leave in BrE for "authenticity" — DON'T. The site standard is American English, period.
+
+**Fix**: Run the AmE grep before committing (see section 5). Use Python `replace_all` for systematic conversion. Watch for capitalized variants (e.g., `Centre` in proper-noun positions like "Liverpool City Centre BID" → "Liverpool City Center BID"). Watch for legitimate non-replacements (Spanish "Centro" / Italian "Centro" / French "centre-ville" stay — only replace English-language British spellings).
+
+### 3.10 Reddit-shard citations
+The original sanitization pipeline left two patterns visible to readers:
+
+**Pattern A — hero shards** (template-wide):
+- `<p>Real stories from Reddit travelers...` → `<p>Real stories from real travelers...`
+- `<span>⭐ Reddit-sourced & verified</span>` → `<span>⭐ Community-verified</span>`
+
+**Pattern B — body/FAQ shards** (sanitizer-leak vestiges in your own rewrites):
+- `(traveler reports 2025)` parenthetical citations → strip
+- `, per traveler reports)` → `)`
+- `'a well known scam place' on traveler reports for` → `'a well known scam place' for`
+- `documented in 2025 traveler reports warnings` → `documented in 2025 traveler reports`
+- `the traveler reports moderator team posted` → `Travel forum moderators posted`
+- `community reports across Reddit and Spanish-language travel forums anchor this` → `this is consistently reported by travelers`
+
+**Exception**: Where Reddit is the actual scam vector (e.g., Mykonos #5 "Scorpios DM scam" where strangers contact tourists via Reddit DM), keep the Reddit mention in the TLDR/body — it's load-bearing. The moderator's actual quoted warning ('DON'T TRUST ANY OFFERS YOU RECEIVE THROUGH REDDIT') can stay; the framing around it should be cleaner.
+
+**Fix**: Run the Reddit-shard grep before committing (see section 5).
 
 ---
 
@@ -199,50 +249,61 @@ Emergency section references the wrong city's police body — e.g., Montreal had
 ```
 1. Read the queue file → identify next pending priority + slug
 2. Read the city's full HTML with Read tool, top to bottom
-3. Audit each scam:
+3. STRUCTURAL CHECKS first (one grep, three answers):
+   a. TOC present? → grep -q '<div class="toc">' scams/<slug>/index.html
+      If missing: build TOC + add id="scam-N" to each scam-card (see 3.8)
+   b. Hero subhead "Reddit travelers"? → grep -q 'from Reddit travelers'
+      If yes: scrub (see 3.10 Pattern A)
+   c. Hero meta "Reddit-sourced & verified"? → grep -q 'Reddit-sourced'
+      If yes: scrub (see 3.10 Pattern A)
+4. Audit each scam:
    - Does it have a TLDR? Trap-summary, narrative-opener, descriptive, or sanitizer-leaked?
    - Body: 3 paragraphs? Sanitizer leaks? Truncated words?
    - Is the defensive move bolded with <strong>?
-4. Rewrite each scam by hand, one Edit per scam:
+   - Are there Reddit-shard citations in the body/FAQ? (see 3.10 Pattern B)
+5. Rewrite each scam by hand, one Edit per scam:
    - Preserve red_flags and how_to_avoid lists unless they have leaks
    - Add or fix TLDR
    - Restore subject in body openers if sanitizer-leaked
    - Add bolded defense in Beat 3 if missing
-5. Run lint:
+   - Use American English throughout (see 3.9)
+6. Run lint:
    python3 scripts/lint_scam_content.py --html-city <slug>
    → must return "0 REJECT 0 WARN"
-6. Run API sync:
+7. Run API sync:
    python3 /tmp/sync_api_from_html.py <slug>
    → no warnings = success
    → "WARNING: N scams in API not found in HTML" → curly-quote drift OR full rebuild needed
-7. Handle drift inline:
+8. Handle drift inline:
    - 1–2 stale scams = curly-quote/accent drift, fix via inline Python (see 6.2)
    - 3+ stale scams = full HTML-driven API rebuild (see 6.1)
-8. Run partials sync:
+9. Run partials sync:
    bash scripts/sync-partials.sh
    → "Updated 0 HTML file(s)" = success
-9. Run the detection grep (see 5.0) to catch residual sanitizer leaks
-10. Stage + commit per city with detailed audit message:
+10. Run the detection greps (see section 5):
+    a. Sanitizer-leak grep (must return 0)
+    b. British-English grep (must return 0)
+    c. Reddit-shard grep (must return 0 for hero/meta; body Reddit only allowed where it is the scam vector)
+11. Stage + commit per city with detailed audit message:
     - Per-card breakdown (what was wrong, what was fixed)
     - Sync notes (API regenerated, drift fixes)
     - Queue marked complete
-11. Push every 5–10 cities
-12. Open a PR every 10–15 cities with consolidated summary
+12. Push every 5–10 cities
+13. Open a PR every 10–15 cities with consolidated summary (or smaller batches per user direction)
 ```
 
 **Time per city**: 30–45 minutes for a typical city; 60+ minutes for a city full of leaks (Faro, Funchal, Granada). This is the bar. Going faster means cutting corners — do not.
 
 ---
 
-## 5. THE DETECTION GREP
+## 5. THE DETECTION GREPS
 
-Before committing, run this against the city HTML to catch residual sanitizer leaks:
+Run all three against the city HTML before committing. Any match = fix before commit.
 
+### 5.1 Sanitizer-leak grep
 ```bash
 grep -nE "( is the (canonical|named-anchor|locals-only|umbrella))| (adds|reinforces|gives|frames|flags|captures|documents|discusses|explains): '" scams/<slug>/index.html
 ```
-
-If anything matches, you missed a leak. Fix it before committing.
 
 **Why these patterns**: They catch sanitizer-stripped Reddit attributions where the leading subject (often a Reddit username) was removed but the verb + colon-quote remained. Examples that match:
 - " is the canonical first-person account: '..."
@@ -251,6 +312,45 @@ If anything matches, you missed a leak. Fix it before committing.
 - " flags Granada as part of..."
 
 This pattern misses some leaks (especially ones with different verbs or no colon-quote). When in doubt, search the HTML for `'` followed by space-and-lowercase-letter — that's often a leak.
+
+### 5.2 British-English grep
+```bash
+grep -nEi "\b(centre|colour|behaviour|metres|kilometres|neighbourhood|jewellery|personalised|programme|favour|honour|labour|recognise|organise|analyse|defence|licence|catalogue|cancelled|traveller|harbour|summaris|coloured|behavioural|memoris|specialis|traumatis|finalis)\w*\b" scams/<slug>/index.html
+```
+
+**Must return 0 hits**. Convert all British spellings to American — even in proper-noun positions like "Liverpool City Centre BID" → "Liverpool City Center BID". Spanish/Italian/French foreign-language proper nouns (Comisaría de Centro, Centro Storico, centre-ville) stay — only English-language British forms get replaced.
+
+Inline Python for systematic conversion:
+```python
+replacements = [
+    ('centre', 'center'), ('Centre', 'Center'),
+    ('colour', 'color'), ('Colour', 'Color'),
+    ('behaviour', 'behavior'),
+    ('metres', 'meters'), ('kilometres', 'kilometers'),
+    ('neighbourhood', 'neighborhood'),
+    ('jewellery', 'jewelry'), ('Jewellery', 'Jewelry'),
+    ('personalised', 'personalized'), ('Personalised', 'Personalized'),
+    ('honour', 'honor'),
+    ('cancelled', 'canceled'),
+    ('traumatised', 'traumatized'),
+    ('summarises', 'summarizes'),
+    ('behavioural', 'behavioral'),
+    ('harbour', 'harbor'),
+    ('memorise', 'memorize'),
+    ('finalise', 'finalize'), ('finalised', 'finalized'),
+    ('organised', 'organized'), ('Organised', 'Organized'),
+    # Add more as needed
+]
+```
+
+### 5.3 Reddit-shard grep
+```bash
+grep -nE "Reddit travelers|Reddit-sourced|\(traveler reports 2025\)|, per traveler reports\)|on traveler reports for|traveler reports warnings|the traveler reports moderator team|community reports across Reddit" scams/<slug>/index.html
+```
+
+**Must return 0 hits**. The hero subhead and meta tag patterns are template-wide; the body/FAQ patterns are sanitizer-leak vestiges from your own rewrites. Strip parentheticals, replace awkward framings, integrate cited facts as direct statements.
+
+**Exception**: Where Reddit is the actual scam vector (e.g., Mykonos #5 Scorpios DM scam), keep "Reddit DM" / "DON'T TRUST ANY OFFERS YOU RECEIVE THROUGH REDDIT" as load-bearing content — only the surrounding framing should be cleaner.
 
 ---
 
@@ -554,7 +654,10 @@ Good luck. The next session inherits a real, deployed corpus that 39 cities (13 
 | Lint a city | `python3 scripts/lint_scam_content.py --html-city <slug>` |
 | Sync API | `python3 /tmp/sync_api_from_html.py <slug>` |
 | Sync partials | `bash scripts/sync-partials.sh` |
-| Detection grep | `grep -nE "( is the (canonical\|named-anchor\|locals-only\|umbrella))\| (adds\|reinforces\|gives\|frames\|flags\|captures\|documents\|discusses\|explains): '" scams/<slug>/index.html` |
+| TOC presence check | `grep -q '<div class="toc">' scams/<slug>/index.html && echo PRESENT \|\| echo MISSING` |
+| Sanitizer-leak grep | `grep -nE "( is the (canonical\|named-anchor\|locals-only\|umbrella))\| (adds\|reinforces\|gives\|frames\|flags\|captures\|documents\|discusses\|explains): '" scams/<slug>/index.html` |
+| British-English grep | `grep -nEi "\b(centre\|colour\|behaviour\|metres\|kilometres\|neighbourhood\|jewellery\|personalised\|programme\|favour\|honour\|labour\|recognise\|organise\|analyse\|defence\|licence\|catalogue\|cancelled\|traveller\|harbour\|summaris\|coloured\|behavioural\|memoris\|specialis\|traumatis\|finalis)\w*\b" scams/<slug>/index.html` |
+| Reddit-shard grep | `grep -nE "Reddit travelers\|Reddit-sourced\|\(traveler reports 2025\)\|, per traveler reports\)\|on traveler reports for\|traveler reports warnings\|the traveler reports moderator team\|community reports across Reddit" scams/<slug>/index.html` |
 | Push branch | `git push` (or `--force-with-lease` after rebase) |
 | Open PR | `gh pr create --base main --head claude/bold-bhabha-956437 --title "..." --body "..."` |
 | Wait for checks | `until gh pr view <num> --json statusCheckRollup --jq '.statusCheckRollup \| all(.status == "COMPLETED")' \| grep -q true; do sleep 15; done` (run with `run_in_background: true`) |
