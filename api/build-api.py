@@ -1479,7 +1479,7 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
 
 def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
                  country_items=None, safety_items=None, alert_items=None,
-                 scam_items=None, insurance_items=None):
+                 scam_items=None):
     records = []
     for d in dest_summaries:
         records.append(build_search_item(
@@ -1541,14 +1541,6 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
             site_url=f"{SITE_URL}/scams/{sc.get('slug','')}/",
             tags=[sc.get("countryCode","").lower(), sc.get("city","").lower(), "scam"],
         ))
-    for ins in (insurance_items or []):
-        records.append(build_search_item(
-            item_type="insurance", slug=ins.get("slug", ""),
-            title=ins.get("name", ""), subtitle=ins.get("coverageSummary", ""),
-            url=ins.get("pageUrl", ins.get("url", f"{API_BASE_URL}/insurance/{ins.get('slug','')}.json")),
-            site_url=f"{SITE_URL}/insurance/{ins.get('slug','')}/",
-            tags=["insurance", "travel-insurance"],
-        ))
 
     type_counts = {
         "destination": len(dest_summaries),
@@ -1559,7 +1551,6 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
         "safety": len(safety_items or []),
         "alert": len(alert_items or []),
         "scam": len(scam_items or []),
-        "insurance": len(insurance_items or []),
     }
     payload = {
         "count": len(records),
@@ -1596,7 +1587,6 @@ def _write_catalog_chunks(items, generated_at):
         "safety": "safety",
         "alert": "alerts",
         "scam": "scams",
-        "insurance": "insurance",
     }
     for entity_type, shard_file in type_to_shard.items():
         type_items = items_by_type.get(entity_type, [])
@@ -1647,7 +1637,7 @@ def _write_catalog_chunks(items, generated_at):
 
 def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
                   country_items=None, safety_items=None, alert_items=None,
-                  scam_items=None, insurance_items=None):
+                  scam_items=None):
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     items = []
 
@@ -1819,23 +1809,6 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "url": city.get("url", f"{API_BASE_URL}/scams/{slug}.json"),
             "freshness": make_freshness(generated_at),
             "provenance": {"sources": ["scams"], "lastVerifiedAt": generated_at},
-        })
-
-    for carrier in (insurance_items or _load_index_items("insurance.json", "carriers")):
-        slug = carrier.get("slug", "")
-        items.append({
-            "id": carrier.get("id", f"insurance:{slug}"),
-            "entityType": "insurance",
-            "schemaVersion": API_SCHEMA_VERSION,
-            "source": "insurance",
-            "slug": carrier.get("slug", ""),
-            "name": carrier.get("name", ""),
-            "coverageSummary": carrier.get("coverageSummary", ""),
-            "internationalCoverageLevel": carrier.get("internationalCoverageLevel", ""),
-            "tags": unique_list(["insurance", "travel-insurance"]),
-            "url": carrier.get("pageUrl", f"{API_BASE_URL}/insurance/{slug}.json"),
-            "freshness": make_freshness(generated_at),
-            "provenance": {"sources": ["insurance"], "lastVerifiedAt": generated_at},
         })
 
     # --- Write chunked output ---
@@ -2107,8 +2080,7 @@ def build_alerts():
 # ============================================================
 
 def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count,
-                safety_count=0, alerts_count=0, country_count=0, scam_count=0,
-                insurance_count=0):
+                safety_count=0, alerts_count=0, country_count=0, scam_count=0):
     index = {
         "name": "tabiji.ai API",
         "version": API_VERSION,
@@ -2128,7 +2100,6 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
             "alertCountries": alerts_count,
             "countries": country_count,
             "scamCities": scam_count,
-            "insuranceCarriers": insurance_count,
         },
         "endpoints": [
             {"path": "/destinations.json", "description": f"All {dest_count} destinations with budget, season, vibes, and travel styles", "method": "GET"},
@@ -2778,20 +2749,17 @@ def main():
     safety_items = _load_index_items("safety.json", "profiles")
     alert_items = _load_index_items("alerts.json", "alerts")
     scam_items = _load_index_items("scams.json", "items")
-    insurance_items = _load_index_items("insurance.json", "carriers")
 
     print("🧭 Building normalized catalog...")
     catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
                                     country_items=country_items, safety_items=safety_items,
-                                    alert_items=alert_items, scam_items=scam_items,
-                                    insurance_items=insurance_items)
+                                    alert_items=alert_items, scam_items=scam_items)
     print(f"   ✅ {catalog_payload['itemCount']} entities in {catalog_payload['chunks']} chunks")
 
     print("🔎 Building search index...")
     search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
                                   country_items=country_items, safety_items=safety_items,
-                                  alert_items=alert_items, scam_items=scam_items,
-                                  insurance_items=insurance_items)
+                                  alert_items=alert_items, scam_items=scam_items)
     print(f"   ✅ {search_payload['count']} documents")
 
     print("🛡️  Building safety profiles...")
@@ -2805,8 +2773,7 @@ def main():
     print("📋 Building index...")
     build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_payload['count'],
                 safety_count=safety_count, alerts_count=alerts_count,
-                country_count=len(country_items), scam_count=len(scam_items),
-                insurance_count=len(insurance_items))
+                country_count=len(country_items), scam_count=len(scam_items))
     print("   ✅ index.json")
 
     print("🧭 Regenerating agent/discovery docs...")
@@ -2893,7 +2860,6 @@ def verify_catalog_disk():
       - countries.json[countries] → countries/<iso>.json
       - scams.json[items]      → scams/<slug>.json
       - itineraries.json[itineraries] → itineraries/<slug>.json
-      - insurance.json[carriers] → insurance/<slug>.json
     Skipped: compare (per-slug retired), picks (per-slug retired),
              destinations (per-slug served by Worker, no static dir).
     """
@@ -2904,7 +2870,6 @@ def verify_catalog_disk():
         ("countries.json",  "countries",  "iso2", "countries"),
         ("scams.json",      "items",      "slug", "scams"),
         ("itineraries.json","itineraries","slug", "itineraries"),
-        ("insurance.json",  "carriers",   "slug", "insurance"),
     ]
     for catalog_file, list_key, slug_key, detail_dir in checks:
         catalog_path = OUTPUT_DIR / catalog_file
@@ -2962,7 +2927,6 @@ def build_manifest():
         ("scams",         "/api/v1/scams.json",           "/api/v1/scams/{slug}.json"),
         ("filter",        "/api/v1/filter.json",          None),
         ("facets",        "/api/v1/facets.json",          None),
-        ("insurance",     "/api/v1/insurance.json",       "/api/v1/insurance/{slug}.json"),
     ]
 
     collections = {}
@@ -3124,11 +3088,11 @@ def _build_single_pack(pack_id, name, description, pack_type, countries,
         if dest_slug_to_country.get(i.get("destinationSlug", ""), "").upper() in country_set
     ]
 
-    # scams — filter by countryCode
+    # scams — filter by countryCode (sort for deterministic output)
     scam_cities = []
     scams_data = []
-    for iso2 in countries:
-        for slug in scam_slugs_by_country.get(iso2.upper(), []):
+    for iso2 in sorted(countries):
+        for slug in sorted(scam_slugs_by_country.get(iso2.upper(), [])):
             scam_detail = _read_json_file(OUTPUT_DIR / "scams" / f"{slug}.json")
             if scam_detail:
                 scams_data.append(scam_detail)
@@ -3262,7 +3226,7 @@ def build_packs():
 
     # --- Theme packs ---
     # solo-female-safe
-    solo_countries = list({dest_slug_to_country.get(s, "") for s in solo_female_slugs if dest_slug_to_country.get(s)})
+    solo_countries = sorted({dest_slug_to_country.get(s, "") for s in solo_female_slugs if dest_slug_to_country.get(s)})
     solo_dest_summaries = [d for d in all_dest_summaries if d.get("slug") in solo_female_slugs]
     solo_picks = [p for p in all_picks_summaries if dest_slug_to_country.get(p.get("destinationSlug", ""), "") in set(solo_countries)]
     solo_itin = [i for i in all_itin_summaries if dest_slug_to_country.get(i.get("destinationSlug", ""), "") in set(solo_countries)]
@@ -3309,7 +3273,7 @@ def build_packs():
 
     # budget-backpacker
     budget_dest_summaries = [d for d in all_dest_summaries if d.get("slug") in budget_slugs]
-    budget_countries_list = list(budget_countries)
+    budget_countries_list = sorted(budget_countries)
     budget_picks = [p for p in all_picks_summaries if dest_slug_to_country.get(p.get("destinationSlug", ""), "").upper() in budget_countries]
     budget_itin = [i for i in all_itin_summaries if dest_slug_to_country.get(i.get("destinationSlug", ""), "").upper() in budget_countries]
 
