@@ -12,9 +12,10 @@ Three-way coverage:
      still earns its book slot.
   3. Country hubs at ``scams/country/<cc>/index.html`` get the same CTA
      treatment, inserted before ``<div class="cross-links">``.
-  4. The master hub ``scams/index.html`` gets the bundle CTA inserted after the
-     ``stats-bar`` and before the ``search-section`` (there is no recovery
-     section to anchor on).
+  4. The master hub ``scams/index.html`` is left CTA-free. The script strips
+     any stale ``book-end-cta`` block on the master hub but does not insert a
+     new one — product decision (2026-04-24) to keep the stats-bar adjacent
+     to the city-grid with no in-content CTA between them.
 
 Inside a city page the script also replaces the legacy mid-scroll
 ``.mid-cta`` → ``.book-mid-cta`` in the per-country case only, and removes any
@@ -465,36 +466,6 @@ def hub_cta_html(d: dict) -> str:
     )
 
 
-def master_hub_cta_html() -> str:
-    """Bundle CTA for the master hub at ``/scams/``.
-
-    Distinct headline that frames the series as the answer to the *entire*
-    490-city catalog, not a single destination.
-    """
-    d = SERIES_BUNDLE
-    headline = "Planning a trip? The full Travel Safety Series covers 13 countries, 780+ scams, in one pocket guide."
-    return (
-        f'<!-- @book-cta:start -->\n'
-        f'<section class="book-end-cta" aria-label="tabiji.ai Travel Safety Series">\n'
-        f'    <a href="{book_href(d)}" class="book-end-cta-cover" aria-hidden="true">\n'
-        f'        <img src="{d["cover_url"]}" alt="{d["cover_alt"]}" width="220" height="330" loading="lazy">\n'
-        f'    </a>\n'
-        f'    <div class="book-end-cta-body">\n'
-        f'        <div class="book-end-cta-eyebrow">{_end_cta_eyebrow(d)}</div>\n'
-        f'        <h2 class="book-end-cta-headline">{headline}</h2>\n'
-        f'        <p class="book-end-cta-sub">{d["top_scams_end"]} Drawn from {d["sourced_from"]}.</p>\n'
-        f'        <ul class="book-end-cta-benefits">\n'
-        f'{_end_cta_benefits(d)}'
-        f'        </ul>\n'
-        f'        <div class="book-end-cta-btns">\n'
-        f'{_end_cta_buttons(d)}'
-        f'        </div>\n'
-        f'    </div>\n'
-        f'</section>\n'
-        f'<!-- @book-cta:end -->'
-    )
-
-
 # ----------------------------------------------------------------------------
 # Per-page: extract city display name, scam count, and addressCountry.
 # ----------------------------------------------------------------------------
@@ -570,7 +541,6 @@ BOOK_END_BLOCK_RE = re.compile(
 )
 RELATED_SECTION_RE = re.compile(r'(?P<indent>[ \t]*)<div class="related-section">')
 CROSS_LINKS_RE = re.compile(r'(?P<indent>[ \t]*)<div class="cross-links">')
-MASTER_SEARCH_SECTION_RE = re.compile(r'(?P<indent>[ \t]*)<div class="search-section">')
 
 
 def interpolate_mid(template: str, city: str) -> str:
@@ -696,27 +666,6 @@ def apply_to_country_hub(html: str, country: dict) -> tuple[str, dict]:
 
 
 # ----------------------------------------------------------------------------
-# Master-hub application.
-# ----------------------------------------------------------------------------
-def apply_to_master_hub(html: str) -> tuple[str, dict]:
-    """Insert the bundle CTA into ``/scams/index.html``.
-
-    Anchored on ``<div class="search-section">`` — that is the first block
-    AFTER the ``stats-bar``, so inserting before it places the CTA in the
-    stats-area gap the spec calls for.
-    """
-    stats = {"end_stripped": 0, "master_inserted": 0}
-    new_html, n_end = BOOK_END_BLOCK_RE.subn("", html, count=1)
-    stats["end_stripped"] = n_end
-
-    cta = master_hub_cta_html()
-    new_html, inserted = _insert_before_anchor(new_html, MASTER_SEARCH_SECTION_RE, cta)
-    if inserted:
-        stats["master_inserted"] = 1
-    return new_html, stats
-
-
-# ----------------------------------------------------------------------------
 # Country-code → COUNTRIES entry index.
 # ----------------------------------------------------------------------------
 def country_by_code() -> dict[str, dict]:
@@ -827,18 +776,20 @@ def main(argv: list[str]) -> int:
                 n_hub_unchanged += 1
 
     # --- Master hub --------------------------------------------------------
+    # Strip-only path: the master hub at /scams/ used to receive a bundle CTA,
+    # but product reverted that decision (the hub stats area should stay clean
+    # so the city-grid is the next thing visible). We still strip any existing
+    # block to keep the script idempotent if a stray CTA gets re-introduced.
     master_path = SCAMS / "index.html"
     if master_path.exists() and allowed_codes is None:
         html = master_path.read_text()
-        new_html, stats = apply_to_master_hub(html)
+        new_html, n = BOOK_END_BLOCK_RE.subn("", html, count=1)
         if new_html != html:
             n_master = 1
             flag = "[dry]" if args.dry_run else "[write]"
             if not args.dry_run:
                 master_path.write_text(new_html)
-            print(f"  {flag} /scams/ (master hub) "
-                  f"end_stripped={stats['end_stripped']} "
-                  f"inserted={stats['master_inserted']}")
+            print(f"  {flag} /scams/ (master hub) end_stripped={n}")
 
     print("\n=== SUMMARY ===")
     print(f"City pages:   {n_city_per_country} per-country, "
