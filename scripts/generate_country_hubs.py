@@ -14,7 +14,6 @@ All content is auto-discovered by scanning the filesystem:
   - Scam guides from scams/research/batch*.json
   - Popular picks from api/v1/picks/*.json
   - Compare pages from compare/*/index.html
-  - Itineraries from itineraries/*/index.html
   - Alerts from alerts/{slug}/index.html & api/v1/alerts/*.json
   - Health from health/{slug}/index.html
 """
@@ -388,7 +387,6 @@ _SCAMS_BY_COUNTRY = None
 _SCAM_DIRS_SET = None
 _PICKS_BY_COUNTRY = None
 _COMPARE_DIRS_SET = None
-_ITIN_DIRS = None
 _DEST_PAGES_SET = None
 
 
@@ -591,19 +589,6 @@ def _load_compare_dirs():
                 _COMPARE_DIRS_SET.add(d)
 
 
-def _load_itin_dirs():
-    """Get all itinerary directory slugs."""
-    global _ITIN_DIRS
-    if _ITIN_DIRS is not None:
-        return
-    itin_dir = os.path.join(BASE_DIR, "itineraries")
-    _ITIN_DIRS = set()
-    if os.path.isdir(itin_dir):
-        for d in os.listdir(itin_dir):
-            if os.path.isdir(os.path.join(itin_dir, d)):
-                _ITIN_DIRS.add(d)
-
-
 def _load_dest_pages():
     """Get set of destination slugs that have actual HTML pages."""
     global _DEST_PAGES_SET
@@ -640,7 +625,6 @@ def get_top_destinations(country_name, limit=12):
     _load_scams()
     _load_picks()
     _load_compare_dirs()
-    _load_itin_dirs()
 
     # Build a set of "popular" city slugs — cities that appear in other content
     popular_slugs = set()
@@ -658,10 +642,6 @@ def get_top_destinations(country_name, limit=12):
     # Cities in comparison slugs
     for entry in (_COMPARE_DIRS_SET or set()):
         for part in entry.split("-vs-"):
-            popular_slugs.add(part)
-    # Cities in itinerary slugs
-    for entry in (_ITIN_DIRS or set()):
-        for part in entry.split("-"):
             popular_slugs.add(part)
 
     # Gather all dests for this country
@@ -784,59 +764,6 @@ def get_comparisons(country_name, country_slug):
             title = title.replace(" Vs ", " vs ")
             matches.append({"slug": entry, "title": title})
             seen.add(entry)
-
-    return matches
-
-
-def get_itineraries(country_name, country_slug):
-    """Find itineraries matching this country."""
-    _load_itin_dirs()
-    _load_destinations()
-
-    # Build keyword set from country and major cities
-    keywords = set()
-    keywords.add(country_slug)
-    # Add country name words
-    for w in country_name.lower().split():
-        if len(w) > 2:
-            keywords.add(w)
-
-    # Add top city slugs
-    dests = list(_DESTINATIONS_BY_COUNTRY.get(country_name, []))
-    for alt in CANONICAL_TO_DEST_NAMES.get(country_name, []):
-        if alt != country_name:
-            dests.extend(_DESTINATIONS_BY_COUNTRY.get(alt, []))
-
-    # Only add well-known cities (those with scam guides or picks)
-    _load_scams()
-    _load_picks()
-    known_cities = set()
-    for sc in _SCAMS_BY_COUNTRY.get(country_name, []):
-        known_cities.add(sc["slug"])
-    for pk in _PICKS_BY_COUNTRY.get(country_name, []):
-        # Extract city from pick slug (e.g., "tokyo-brunch" -> "tokyo")
-        parts = pk["slug"].split("-")
-        if parts:
-            known_cities.add(parts[0])
-
-    for city_slug in known_cities:
-        if len(city_slug) > 3:
-            keywords.add(city_slug)
-
-    matches = []
-    for itin_slug in sorted(_ITIN_DIRS):
-        itin_lower = itin_slug.lower()
-        for kw in keywords:
-            if kw in itin_lower.split("-"):
-                # Extract title and days from slug
-                title = itin_slug.replace("-", " ").title()
-                # Try to parse days
-                day_match = re.match(r"(\d+)-day", itin_slug)
-                days = int(day_match.group(1)) if day_match else 0
-                # Shorter title: remove the country name from title if present
-                display_title = title
-                matches.append({"slug": itin_slug, "title": display_title, "days": days})
-                break
 
     return matches
 
@@ -996,7 +923,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
     scams = get_scam_guides(name)
     picks = get_popular_picks(name)
     comparisons = get_comparisons(name, slug)
-    itineraries = get_itineraries(name, slug)
     top_dests = get_top_destinations(name, limit=12)
     advisory = get_advisory(name)
     health_slug = has_health_page(name, slug)
@@ -1005,7 +931,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
 
     scam_count = len(scams)
     compare_count = len(comparisons)
-    itin_count = len(itineraries)
     picks_count = len(picks)
 
     # Build subtitle
@@ -1016,8 +941,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         subtitle_parts.append(pl(scam_count, "scam guide"))
     if compare_count:
         subtitle_parts.append(pl(compare_count, "comparison"))
-    if itin_count:
-        subtitle_parts.append(pl(itin_count, "itinerary", "itineraries"))
     if picks_count:
         subtitle_parts.append(pl(picks_count, "popular pick"))
     subtitle = " &middot; ".join(subtitle_parts)
@@ -1032,8 +955,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         meta_parts.append("scam alerts")
     if health_slug:
         meta_parts.append("health tips")
-    if itin_count:
-        meta_parts.append("itineraries")
     if picks_count:
         meta_parts.append("curated local picks")
     if advisory:
@@ -1236,27 +1157,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         </div>{compare_view_all}
     </section>"""
 
-    # --- Itineraries ---
-    itin_html = ""
-    if itineraries:
-        itin_cards = ""
-        for it in itineraries:
-            days_meta = f'<p class="card-meta">{it["days"]} days</p>' if it["days"] else ""
-            itin_cards += f"""
-            <a href="/itineraries/{it['slug']}/" class="card">
-                <div class="card-body">
-                    <h3 class="card-title">{h(it['title'])}</h3>
-                    {days_meta}
-                </div>
-            </a>"""
-        itin_html = f"""
-    <section class="section">
-        <h2 class="section-title">Sample Itineraries</h2>
-        <p class="section-desc">Day-by-day itineraries built from thousands of real traveler recommendations.</p>
-        <div class="card-grid">{itin_cards}
-        </div>
-    </section>"""
-
     # --- Top Destinations ---
     dest_html = ""
     if top_dests:
@@ -1290,7 +1190,7 @@ def generate_country_page(name, slug, iso2, flag, continent):
     </section>"""
 
     # --- Robots: noindex thin pages to protect crawl budget ---
-    content_score = scam_count + picks_count + compare_count + itin_count
+    content_score = scam_count + picks_count + compare_count
     robots_content = "index, follow"
     if content_score < 3 and dest_count < 20:
         robots_content = "noindex, follow"
@@ -1360,7 +1260,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
 {scam_html}
 {picks_html}
 {compare_html}
-{itin_html}
 {dest_html}
 {cta_html}
 </main>
@@ -1374,7 +1273,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         "dest_count": dest_count,
         "scam_count": scam_count,
         "compare_count": compare_count,
-        "itin_count": itin_count,
         "picks_count": picks_count,
     }
 
@@ -1390,7 +1288,6 @@ def generate_index_page(all_countries_data):
     total_scams = sum(c["scam_count"] for c in all_countries_data)
     total_compares = sum(c["compare_count"] for c in all_countries_data)
     total_picks = sum(c["picks_count"] for c in all_countries_data)
-    total_itins = sum(c["itin_count"] for c in all_countries_data)
 
     meta_desc = (
         f"Browse {count} country travel guides — {total_dests:,} destinations, "
@@ -1412,7 +1309,7 @@ def generate_index_page(all_countries_data):
     def total_content(c):
         return (
             c["dest_count"] + c["scam_count"] + c["compare_count"]
-            + c["itin_count"] + c["picks_count"]
+            + c["picks_count"]
         )
 
     sorted_countries = sorted(
@@ -1450,10 +1347,6 @@ def generate_index_page(all_countries_data):
             stat_pills.append(
                 f'<span class="stat-pill" title="{pl(c["scam_count"], "scam alert guide")}">🛡️ {c["scam_count"]}</span>'
             )
-        if c["itin_count"]:
-            stat_pills.append(
-                f'<span class="stat-pill" title="{pl(c["itin_count"], "itinerary", "itineraries")}">🗺️ {c["itin_count"]}</span>'
-            )
         stat_pills_html = "".join(stat_pills) if stat_pills else (
             '<span class="stat-pill stat-empty">No content yet</span>'
         )
@@ -1473,7 +1366,6 @@ def generate_index_page(all_countries_data):
             f' data-has-picks="{"1" if c["picks_count"] else "0"}"'
             f' data-has-scams="{"1" if c["scam_count"] else "0"}"'
             f' data-has-compares="{"1" if c["compare_count"] else "0"}"'
-            f' data-has-itins="{"1" if c["itin_count"] else "0"}"'
             f' data-advisory="{level}"'
             f' data-continent="{h(continent)}"'
             f' data-iso2="{h(c.get("iso2") or "")}"'
@@ -1707,7 +1599,6 @@ def generate_index_page(all_countries_data):
             <button type="button" class="filter-chip" data-filter="picks">📍 Has popular picks</button>
             <button type="button" class="filter-chip" data-filter="compares">🆚 Has comparisons</button>
             <button type="button" class="filter-chip" data-filter="scams">🛡️ Has scam guides</button>
-            <button type="button" class="filter-chip" data-filter="itins">🗺️ Has itineraries</button>
             <button type="button" class="filter-chip" data-filter="hide-empty">Hide empty</button>
         </div>
         <div class="country-grid" id="countriesList">{country_cards}
@@ -1837,7 +1728,7 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
 // ---------- filter / sort / group state ----------
 const state = {{
     query: '',
-    filters: new Set(),         // 'picks' | 'compares' | 'scams' | 'itins' | 'hide-empty'
+    filters: new Set(),         // 'picks' | 'compares' | 'scams' | 'hide-empty'
     levelFilter: null,          // null | 0..4
     sort: 'content-desc',       // 'content-desc' | 'name-asc' | 'name-desc' | 'advisory-asc' | 'region'
 }};
@@ -1860,7 +1751,6 @@ function applyFilters() {{
             && (!state.filters.has('picks') || card.dataset.hasPicks === '1')
             && (!state.filters.has('compares') || card.dataset.hasCompares === '1')
             && (!state.filters.has('scams') || card.dataset.hasScams === '1')
-            && (!state.filters.has('itins') || card.dataset.hasItins === '1')
             && (!state.filters.has('hide-empty') || !empty)
             && (state.levelFilter === null || adv === state.levelFilter)
         );
@@ -2008,8 +1898,6 @@ def main():
     _load_picks()
     print("  Loading compare dirs...")
     _load_compare_dirs()
-    print("  Loading itinerary dirs...")
-    _load_itin_dirs()
     print("  Loading destination pages...")
     _load_dest_pages()
 
@@ -2044,7 +1932,7 @@ def main():
         print(
             f"  {name:25s} -> countries/{slug}/"
             f"  ({stats['dest_count']} dests, {stats['scam_count']} scams, "
-            f"{stats['compare_count']} compares, {stats['itin_count']} itins, "
+            f"{stats['compare_count']} compares, "
             f"{stats['picks_count']} picks)"
         )
 

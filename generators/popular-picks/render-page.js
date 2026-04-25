@@ -59,7 +59,6 @@ function getSiteInventory() {
   if (siteInventoryCache) return siteInventoryCache;
   siteInventoryCache = {
     destinations: loadDirectoryEntries(path.join(REPO_ROOT, 'destinations'), 'destination', '/destinations'),
-    itineraries: loadDirectoryEntries(path.join(REPO_ROOT, 'itineraries'), 'itinerary', '/itineraries'),
     compares: loadDirectoryEntries(path.join(REPO_ROOT, 'compare'), 'compare', '/compare'),
     popularPicks: loadDirectoryEntries(path.join(REPO_ROOT, 'popular-picks'), 'popular-picks', '/popular-picks'),
   };
@@ -361,7 +360,6 @@ function buildIntentLinks(data) {
     .filter((entry) => !entry.slug.includes('-') || entry.slug === citySlug || entry.slug === countrySlug)
     .slice(0, 2);
 
-  const itineraryMatches = pickTopEntries(inventory.itineraries, data, tokens, { limit: 3, minScore: 2, requireLocation: true });
   const compareMatches = pickTopEntries(inventory.compares, data, tokens, { limit: 3, minScore: 3, requireLocation: true });
   const adjacentPopularPicks = pickTopEntries(
     inventory.popularPicks.filter((entry) => !manualPopularPicks.has(entry.url) && entry.slug !== citySlug && entry.slug !== countrySlug),
@@ -376,12 +374,6 @@ function buildIntentLinks(data) {
       title: `Plan ${data.taxonomy?.city || data.taxonomy?.country || 'this destination'}`,
       description: 'Broader destination guides and country hubs for travelers still shaping the trip around this pick list.',
       links: uniqueBy([...destinationMatches, ...hubMatches], (entry) => entry.url).slice(0, 4),
-    },
-    {
-      key: 'itineraries',
-      title: 'Turn these picks into an itinerary',
-      description: 'Day-by-day routes that match the same destination and traveler intent.',
-      links: itineraryMatches,
     },
     {
       key: 'compares',

@@ -185,7 +185,7 @@ Before opening a PR, verify ALL of the following:
 - [ ] 7+ FAQ questions with specific answers
 - [ ] Decision framework with concrete bullet points
 - [ ] All costs include local currency + USD equivalent
-- [ ] Internal links to existing tabiji pages (popular-picks, itineraries, other compare)
+- [ ] Internal links to existing tabiji pages (popular-picks, other compare)
 - [ ] No leftover template text or wrong destination names
 
 ### Technical

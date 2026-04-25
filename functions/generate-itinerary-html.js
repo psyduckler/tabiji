@@ -185,8 +185,7 @@ ${budgetTable.map(row => `                <tr><td>${esc(row.category)}</td>${hea
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://tabiji.ai/" },
-      { "@type": "ListItem", position: 2, name: "Itineraries", item: "https://tabiji.ai/itineraries/" },
-      { "@type": "ListItem", position: 3, name: title }
+      { "@type": "ListItem", position: 2, name: title }
     ]
   }, null, 4);
 
