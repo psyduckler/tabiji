@@ -153,7 +153,7 @@ Execution:
 - Use Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 - The parent cron script will batch-push all commits at the end. Do not push yourself.
 
-Output one final message before exiting (no other formatting): a single JSON object on its own line with the schema {\"status\": \"complete\"|\"failed\", \"slug\": \"${slug}\", \"commit\": \"<hash>\"|null, \"error\": \"<short reason if failed>\"|null, \"scam_count\": <int>|null, \"notes\": \"<one-line summary of what changed>\"}.
+Output one final message before exiting (no other formatting): a single JSON object on its own line. The status field MUST be the literal string \"complete\" on success or \"failed\" on failure — do NOT paraphrase as \"ok\", \"success\", \"done\", etc., or the cron will mis-mark this run. Schema: {\"status\": \"complete\"|\"failed\", \"slug\": \"${slug}\", \"commit\": \"<hash>\"|null, \"error\": \"<short reason if failed>\"|null, \"scam_count\": <int>|null, \"notes\": \"<one-line summary of what changed>\"}.
 
 Proceed autonomously. Do not ask the user any questions."
 
@@ -212,8 +212,17 @@ else:
         COMMIT=""
     fi
 
-    if [ "$RC" -eq 0 ] && [ "$STATUS" = "complete" ]; then
-        echo "  ✅ $slug — complete (commit $COMMIT)"
+    # Accept any positive status the model emits — observed variants in the
+    # 5-city kickoff: "complete", "ok", "success". The prompt asks for
+    # "complete" but the model paraphrases ~40% of the time, and a successful
+    # rebuild shouldn't be mis-marked as failed just because of word choice.
+    case "$STATUS" in
+        complete|ok|success|succeeded|done) IS_OK=1 ;;
+        *) IS_OK=0 ;;
+    esac
+
+    if [ "$RC" -eq 0 ] && [ "$IS_OK" -eq 1 ]; then
+        echo "  ✅ $slug — $STATUS (commit $COMMIT)"
         SUCCESS_SLUGS+=("$slug")
     else
         REASON="$STATUS"
