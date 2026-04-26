@@ -3548,6 +3548,12 @@ SAFETY_TIPS = {
         "On Osu's Oxford Street and Labadi nightlife strip after midnight, carry under GH¢ 200 in a visible wallet and refuse to surrender your physical passport at any street stop — offer a phone photo of the bio page and ask any officer requesting 'something for the boys' to call the Police Professional Standards Bureau on speakerphone",
         "Pay only on cash-on-delivery (or via Jumia / Hubtel escrow) for any Instagram, TikTok, or WhatsApp Business shop — the Cyber Security Authority logged GH¢ 600,000 in online-shopping losses across the eleven months ending November 2025; verify the seller's MoMo number on TrueCaller before sending any prepayment",
     ],
+    "Agadir": [
+        "Use InDrive or Careem — both apps run with face-ID-verified drivers in Agadir and bypass the hotel-rank petit-taxi meter-refusal and per-person ambush plays documented in 2025 to 2026 r/Agadir threads",
+        "Refuse every unsolicited 'gift' or souvenir handed to you on the Corniche or in Souk El Had — once an object is in your hand, the demand for cash follows within seconds",
+        "Buy argan oil only inside Souk El Had at a stall that posts per-liter prices in dirhams (real culinary argan is roughly 400 to 500 dirhams per liter; tourist boutiques quote 1,500 to 3,000) and refuse all taxi-arranged 'cooperative' detours",
+        "Public Moroccan beaches cannot legally be privatized by parasol crews — bring your own beach mat and refuse 'reserved spot' demands; Brigade Touristique Agadir is 0528-823557, police is 19, emergency is 15, consumer-protection hotline is 5757",
+    ],
 }
 
 # City-specific FAQ
@@ -6987,6 +6993,18 @@ FAQS = {
          "Cantonments, Airport Residential, Labone, Ridge, and parts of East Legon are routinely walked by residents and visitors during daylight. Avoid solo walking at night around Oxford Street in Osu, Circle, Nima after dark, and any unlit stretch of Spintex Road; carry a hotel card and use Bolt or Uber for return trips after sundown. Markets such as Makola and Kaneshie are safe in daylight but require standard pickpocket precautions — keep phones and wallets in front pockets and use a zipped cross-body bag."),
         ("Are ATMs and online shopping safe in Accra?",
          "Indoor ATMs at Kotoka International Airport, Stanbic Bank, Ecobank, GCB, and major Accra Mall and Marina Mall branches are safe and routinely audited; avoid freestanding outdoor ATMs in unlit areas. For online shopping, stick to platforms that hold funds in escrow (Jumia, Hubtel) and refuse full MoMo prepayment to any Instagram, TikTok, or WhatsApp Business shop — the Cyber Security Authority logged GH¢ 600,000 in losses to online-shopping scams across the eleven months ending November 2025. Verify any seller's MoMo number on TrueCaller for prior fraud flags before sending money."),
+    ],
+    "Agadir": [
+        ("Is Agadir safe for tourists?",
+         "Agadir in Morocco is generally safe for tourists — violent crime against visitors is uncommon, and most visitors have a trouble-free trip. The real risks are financial: this guide covers 4 documented scams active in Agadir, led by Hotel-rank petit-taxi overcharge & per-person ambush and Corniche gift-and-guilt approach & child-pickpocket pairing. Save the local emergency numbers — police 19, ambulance 15, Brigade Touristique Agadir 0528-823557 — before you arrive."),
+        ("What is the most common scam in Agadir?",
+         "The most commonly reported tourist scam in Agadir is Hotel-rank petit-taxi overcharge & per-person ambush, where orange petit-taxi drivers staged outside resort hotels refuse the meter and quote flat per-person fares many multiples above the metered rate. Corniche gift-and-guilt approach and Souk El Had argan oil dilution are the other frequently-reported risks. See the first scam card on this page for a full walkthrough of how it unfolds and the exact red flags to watch for."),
+        ("How much should a taxi cost from Al Massira Airport (AGA) to the Agadir resort strip?",
+         "The official Al Massira Airport-to-Agadir grand-taxi flat rate is roughly 250 to 300 dirhams day, 350 to 400 dirhams night, for the whole car (not per person). Hotel-rank petit-taxis quoting 200 to 400 dirhams per person for short Corniche hops are running the documented overcharge — insist on the meter or use an app like InDrive or Careem with face-ID-verified drivers."),
+        ("Is it safe to walk the Agadir Corniche at night?",
+         "The Corniche is generally safe to walk at night and is well-lit and patrolled, but it is also where the gift-and-guilt approach and child-pickpocket pairing play out — strangers offering 'free' bracelets, henna, or babouches will demand cash once the object is in your hand. Refuse all unsolicited gifts, keep phones in front pockets, and walk in well-lit central stretches between Place de l'Espérance and Marina d'Agadir."),
+        ("How do I buy genuine argan oil in Agadir?",
+         "Buy argan oil only inside Souk El Had at a stall that posts per-liter prices in dirhams — real culinary argan is roughly 400 to 500 dirhams per liter, and cosmetic-grade argan runs 600 to 900 dirhams per liter. Tourist boutiques and taxi-arranged 'cooperative' detours that quote 1,500 to 3,000 dirhams or refuse to show a price list are the documented dilution-and-overcharge play. Refuse all unsolicited cooperative tours."),
     ],
 
 }
