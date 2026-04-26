@@ -174,7 +174,7 @@ Turkish prices are written with the abbreviation "TL" (short for *Türk Lirası*
 
 - Small-denomination coins: 1, 5, 10, 25, 50 kuruş (increasingly rare); 1 TL coin
 - Paper notes: 5, 10, 20, 50, 100, 200 TL (a new 500-TL note was introduced in 2025)
-- The lira has lost significant value against the US dollar since 2021; verify on xe.com in the week before you travel.
+- The lira has lost significant value against the US dollar in recent years; verify on xe.com in the week before you travel.
 
 | Amount | Written | Pronunciation |
 |---|---|---|
