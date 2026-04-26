@@ -31,6 +31,8 @@ Panel 4: {realization / aftermath}. Speech bubble: "{short line}"
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
+**Pilot reference image:** `https://img.tabiji.ai/scams/hong-kong/scam-1.jpg` (Hong Kong Airport & Peak Tram Taxi Overcharge — bake-off winner from the 5-style side-by-side test, reused as scam-1)
+
 **Hong Kong character rotation (applied 2026-04-18):**
 - Scam 1 Airport & Peak Tram Taxi Overcharge → Priya (transit/haggle)
 - Scam 2 Peninsula Centre Fake-Watch-Repair Shop → Harry (elder, brings luxury piece for service)

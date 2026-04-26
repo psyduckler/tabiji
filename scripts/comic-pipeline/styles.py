@@ -146,7 +146,7 @@ STYLES = {
         "text must be legible, in English only, and correctly spelled. Square 1:1 composition, "
         "2K resolution."
     ),
-    "uk": (
+    "united-kingdom": (
         "A single illustrated comic book page in the loose scratchy pen-and-watercolor style "
         "of Quentin Blake — the beloved British illustrator of Roald Dahl's children's books "
         "('Matilda', 'The BFG', 'James and the Giant Peach') — energetic scratchy cross-"
@@ -320,10 +320,48 @@ STYLES = {
         "grid with no additional text, tagline, or banner below. Square 1:1 "
         "composition, 2K resolution."
     ),
-    "austria": "",  # placeholder; see styles/austria.md
-    "hong-kong": "",  # placeholder; see styles/hong-kong.md
-    "croatia": "",  # placeholder; see styles/croatia.md
-    "vietnam": "",  # placeholder; see styles/vietnam.md
+    "austria": (
+        "A single illustrated comic book page in the pen-and-ink wash style of Jean-Jacques "
+        "Sempé, showing four sequential panels arranged in a 2x2 grid with small numbers "
+        "1, 2, 3, 4 in the upper-left corner of each panel, separated by thin clean white "
+        "gutters. Loose delicate pen linework with many fine lines and gentle cross-hatching, "
+        "pale transparent watercolor washes adding soft color without overpowering the ink, "
+        "tiny expressive figures set in expansive architectural settings, warm understated "
+        "palette of cream, soft blue, pale rose, and muted ochre, gentle observational humor, "
+        "quintessentially European coffee-house sensibility. Each panel contains one clean "
+        "white rounded speech bubble with a small pointer tail, holding short printed English "
+        "dialogue in simple black lettering — text must be legible and correctly spelled. "
+        "Square 1:1 composition, 2K resolution."
+    ),
+    "hong-kong": (
+        "A single illustrated comic book page in the bold painted-poster style of "
+        "1960s-1970s Shaw Brothers Hong Kong cinema posters, showing four sequential panels "
+        "arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in the upper-left corner of "
+        "each panel, separated by thin clean white gutters. Painted gouache-on-board "
+        "technique with confident brushed edges, high-contrast saturated color fields of "
+        "jade green, crimson red, golden yellow, and royal blue, dramatic low-angle "
+        "compositions with characters leaning into the frame, stylized cinematic framing as "
+        "if every panel is a movie-poster still, warm retro paper grain. Each panel contains "
+        "one clean white rounded speech bubble with a small pointer tail, holding short "
+        "printed English dialogue in simple black lettering — text must be legible and "
+        "correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
+    "croatia": (
+        "A single illustrated comic book page in the classic Hlebine School naïve-art style "
+        "of Ivan Generalić (Croatia, 1914-1992), showing four sequential panels arranged in "
+        "a 2x2 grid with small numbers 1, 2, 3, 4 in the upper-left corner of each panel, "
+        "separated by thin clean white gutters. Painted in the traditional oil-on-glass "
+        "technique — vivid saturated jewel-tone colors (crimson red, emerald green, cobalt "
+        "blue, warm ochre, cream), flat folk-art perspective with all objects shown "
+        "frontally, stylized figures with rounded blocky bodies and simplified faces, "
+        "patiently detailed Croatian village setting with red-roofed stone houses and "
+        "cypress trees, expressive folk-art sky with stylised scalloped clouds, quiet "
+        "storybook mood, every surface filled with careful hand-painted pattern. Each panel "
+        "contains one clean white rounded speech bubble with a small pointer tail, holding "
+        "short printed English dialogue in simple black lettering — text must be legible and "
+        "correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
+    "vietnam": "",  # placeholder; pending creative bake-off — 72 comics live without locked style
 }
 
 # Pilot reference images — used as style-anchor in the `edit` endpoint for all subsequent
@@ -340,7 +378,7 @@ PILOTS = {
     "argentina": "https://img.tabiji.ai/scam-comics/ar/style-tests/1-quino-mafalda.jpg",
     "brazil": "https://img.tabiji.ai/scam-comics/br/style-tests/4-aldemir-martins-folk-modernist.jpg",
     "portugal": "https://img.tabiji.ai/scam-comics/pt/style-tests/3-jose-de-guimaraes-folk-pop.jpg",
-    "uk": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
+    "united-kingdom": "https://img.tabiji.ai/scam-comics/gb/style-tests/quentin-blake-v1.jpg",
     "turkey": "https://img.tabiji.ai/scams/istanbul/scam-1.jpg",
     "japan": "https://img.tabiji.ai/scams/tokyo/scam-3.jpg",
     "united-states": "https://img.tabiji.ai/scams/philadelphia/scam-2.jpg",
@@ -349,4 +387,7 @@ PILOTS = {
     "colombia": "https://img.tabiji.ai/scam-comics/co/style-tests/2-macondo-magical-realism-watercolor.jpg",
     "australia": "https://img.tabiji.ai/scam-comics/au/style-tests/4-trompf-art-deco-travel-poster.jpg",
     "costa-rica": "https://img.tabiji.ai/scam-comics/cr/style-tests/nbp-5-tropical-deco-travel-poster.jpg",
+    "austria": "https://img.tabiji.ai/scams/vienna/scam-1.jpg",
+    "hong-kong": "https://img.tabiji.ai/scams/hong-kong/scam-1.jpg",
+    "croatia": "https://img.tabiji.ai/scams/dubrovnik/scam-1.jpg",
 }

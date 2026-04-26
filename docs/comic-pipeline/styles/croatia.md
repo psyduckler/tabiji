@@ -31,6 +31,8 @@ Panel 4: {realization / aftermath}. Speech bubble: "{short line}"
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
+**Pilot reference image:** `https://img.tabiji.ai/scams/dubrovnik/scam-1.jpg` (Dubrovnik Port Gruž Cruise-Taxi Overcharge — bake-off winner from the 3-variation Generalić test, reused as scam-1)
+
 **Character rotation — Dubrovnik (applied 2026-04-18):**
 - Scam 1 Port Gruž Cruise-Taxi Overcharge → Priya (transit/haggle)
 - Scam 2 Old Town Menu Bait-and-Switch → Margie (trust, restaurant)

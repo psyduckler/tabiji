@@ -10,21 +10,35 @@ human) to generate a new batch of comics without re-deriving the system.
 
 ## Status
 
+23 countries with locked illustration styles, 2 pending creative bake-off (Italy, Vietnam — both have shipped comics generated without a locked style). Comic counts as of 2026-04-26.
+
 | Country | Style | Comics live | File |
 |---|---|---:|---|
-| Thailand | Warm watercolor storybook | 50 | [styles/thailand.md](styles/thailand.md) |
-| France | Hergé / Tintin ligne-claire | 191 | [styles/france.md](styles/france.md) |
-| Greece | Ancient red-figure pottery | 41 | [styles/greece.md](styles/greece.md) |
-| Spain | Paco Roca contemporary graphic novel | pending | [styles/spain.md](styles/spain.md) |
-| Austria | Jean-Jacques Sempé pen-and-ink wash | 8 | [styles/austria.md](styles/austria.md) |
-| Hong Kong / China | Shaw Brothers 1960s-70s painted cinema poster | — | [styles/hong-kong.md](styles/hong-kong.md) |
-| Croatia | Ivan Generalić / Hlebine School naïve-art | — | [styles/croatia.md](styles/croatia.md) |
-| Turkey | Ottoman Iznik-tile border + illustrated travel-comic interior | 78 | [styles/turkey.md](styles/turkey.md) |
-| Japan | Contemporary illustrated travel-comic (neon night + warm day) | 54 | [styles/japan.md](styles/japan.md) |
-| USA | Silver-Age American superhero-comic-book (Kirby/Ditko) | 233 | [styles/united-states.md](styles/united-states.md) |
+| Argentina | Quino / Mafalda Argentine newspaper-strip | 0 | [styles/argentina.md](styles/argentina.md) |
 | Australia | Percy Trompf / Gert Sellheim 1930s-50s art-deco travel poster | 84 | [styles/australia.md](styles/australia.md) |
-| Costa Rica | 1950s Pan American Airways tropical-deco travel poster | pending | [styles/costa-rica.md](styles/costa-rica.md) |
-| Italy | Fumetti / bande dessinée (planned) | — | — |
+| Austria | Jean-Jacques Sempé pen-and-ink wash | 8 | [styles/austria.md](styles/austria.md) |
+| Brazil | Aldemir Martins folk-modernist | 72 | [styles/brazil.md](styles/brazil.md) |
+| Canada | Drawn & Quarterly Toronto indie-comic | 75 | [styles/canada.md](styles/canada.md) |
+| China | Feng Zikai poetic brush cartoon | 98 | [styles/china.md](styles/china.md) |
+| Colombia | "Macondo" magical-realism watercolor | 33 | [styles/colombia.md](styles/colombia.md) |
+| Costa Rica | 1950s Pan American Airways tropical-deco travel poster | 0 | [styles/costa-rica.md](styles/costa-rica.md) |
+| Croatia | Ivan Generalić / Hlebine School naïve-art | 16 | [styles/croatia.md](styles/croatia.md) |
+| France | Hergé / Tintin ligne claire | 191 | [styles/france.md](styles/france.md) |
+| Germany | Heinrich Zille Berlin Milljöh observational | 88 | [styles/germany.md](styles/germany.md) |
+| Greece | Ancient red-figure pottery | 41 | [styles/greece.md](styles/greece.md) |
+| Hong Kong | Shaw Brothers 1960s-70s painted cinema poster | 8 | [styles/hong-kong.md](styles/hong-kong.md) |
+| Indonesia | Balinese Lontar palm-leaf manuscript | 73 | [styles/indonesia.md](styles/indonesia.md) |
+| Japan | Contemporary illustrated travel-comic (neon night + warm day) | 60 | [styles/japan.md](styles/japan.md) |
+| Malaysia | Yusof Gajah vibrant naïve folk-art | 0 | [styles/malaysia.md](styles/malaysia.md) |
+| Mexico | Lotería card / Don Clemente tarjeta | 60 | [styles/mexico.md](styles/mexico.md) |
+| Portugal | José de Guimarães folk-pop modernist | 65 | [styles/portugal.md](styles/portugal.md) |
+| Spain | Paco Roca contemporary graphic novel | 103 | [styles/spain.md](styles/spain.md) |
+| Thailand | Warm watercolor storybook | 3 | [styles/thailand.md](styles/thailand.md) |
+| Turkey | Ottoman Iznik-tile + illustrated travel-comic | 78 | [styles/turkey.md](styles/turkey.md) |
+| United Kingdom | Quentin Blake loose pen-and-watercolor (Roald Dahl illustrator) | 82 | [styles/united-kingdom.md](styles/united-kingdom.md) |
+| United States | Silver-Age American superhero-comic-book (Kirby/Ditko) | 238 | [styles/united-states.md](styles/united-states.md) |
+| Italy | _no style locked yet_ | 107 | _pending bake-off_ |
+| Vietnam | _no style locked yet_ | 72 | _pending bake-off_ |
 
 ## What to read in this folder
 
@@ -51,10 +65,6 @@ Start here and branch out:
 5. **Review the flag log** (`/tmp/<country>-flagged.log`) — anything here needs manual attention.
 6. **Inject img tags** into each city's `index.html` (pattern in [pipeline.md](pipeline.md)).
 7. **Commit + PR + merge + deploy.**
-5. Generate the rest via `edit` with 2–3 approved prior comics as `images` anchors (tighter style lock than text-to-image)
-6. Upload to R2 at `scams/<city>/scam-<N>.jpg`
-7. Inject the img tag into each city's `index.html`
-8. Commit, open PR, merge, deploy
 
 ## Core principles
 

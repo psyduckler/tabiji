@@ -31,6 +31,8 @@ Panel 4: {realization / aftermath}. Speech bubble: "{short line}"
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
+**Pilot reference image:** `https://img.tabiji.ai/scams/vienna/scam-1.jpg` (Vienna Fake Mozart Ticket Sellers — bake-off winner from the 5-style side-by-side test, reused as scam-1)
+
 **Vienna character rotation (applied 2026-04-18):**
 - Scam 1 Fake Mozart Ticket Sellers → Margie (trust)
 - Scam 2 Pickpockets U1 & Stephansplatz → Priya (transit)
