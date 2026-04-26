@@ -225,6 +225,7 @@ Proceed autonomously. Do not ask the user any questions."
     if [ -n "$TIMEOUT" ]; then
         $TIMEOUT "$PER_CITY_TIMEOUT" claude \
             --model claude-opus-4-7 \
+            --effort medium \
             --output-format json \
             --dangerously-skip-permissions \
             --add-dir "$WORK" \
@@ -234,6 +235,7 @@ Proceed autonomously. Do not ask the user any questions."
     else
         claude \
             --model claude-opus-4-7 \
+            --effort medium \
             --output-format json \
             --dangerously-skip-permissions \
             --add-dir "$WORK" \
@@ -393,8 +395,8 @@ echo ""
 echo "═══════════════════════════════════════════════════════════════"
 echo "  Run complete — $(date '+%Y-%m-%d %H:%M:%S')"
 echo "  PRs opened: ${#SUCCESS_PRS[@]} (${SUCCESS_SLUGS[*]:-})"
-for entry in "${SUCCESS_PRS[@]}"; do
-    echo "    → ${entry}"
+for entry in "${SUCCESS_PRS[@]:-}"; do
+    [ -n "$entry" ] && echo "    → ${entry}"
 done
 echo "  Failed:    ${#FAILED_SLUGS[@]} (${FAILED_SLUGS[*]:-})"
 echo "═══════════════════════════════════════════════════════════════"
