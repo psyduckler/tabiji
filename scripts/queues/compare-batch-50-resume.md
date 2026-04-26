@@ -3,15 +3,17 @@
 ## Goal
 Upgrade compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
-## Status (as of 2026-04-26, post-192-page session)
-- **Done so far:** 192 pages at 100/100 (21.0% of 916 total compare pages).
-- **Remaining sub-100:** ~736 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
-- **Active goal:** completing 100 more pages (77 done so far in the active goal session).
+## Status (as of 2026-04-26, post-212-page session)
+- **Done so far:** ~212 pages at 100/100 (~23.1% of 916 total compare pages).
+- **Remaining sub-100:** ~704 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
+- **Active goal:** completing 100 more pages (97 done so far in the active goal session).
 
-### Pages completed in the most recent two sessions (48 pages):
-**Prior 24:** amalfi-coast-vs-french-riviera, buenos-aires-vs-rio-de-janeiro, glacier-national-park-vs-banff, gold-coast-vs-sunshine-coast, grand-canyon-vs-antelope-canyon, grand-canyon-vs-bryce-canyon, haiti-vs-dominican-republic, joshua-tree-vs-death-valley, philadelphia-vs-washington-dc, rio-de-janeiro-vs-sao-paulo, sacramento-vs-san-francisco, san-francisco-vs-los-angeles, turks-and-caicos-vs-bahamas, victoria-falls-vs-iguazu-falls, yellowstone-vs-grand-canyon, andaman-islands-vs-maldives, costa-rica-vs-united-states, croatia-vs-czech-republic, galapagos-vs-amazon-ecuador, new-zealand-vs-united-states, santa-barbara-vs-monterey, albuquerque-vs-santa-fe, amsterdam-vs-copenhagen, asheville-vs-gatlinburg.
+### Pages completed in the most recent three sessions (68 pages):
+**Two sessions ago (24):** amalfi-coast-vs-french-riviera, buenos-aires-vs-rio-de-janeiro, glacier-national-park-vs-banff, gold-coast-vs-sunshine-coast, grand-canyon-vs-antelope-canyon, grand-canyon-vs-bryce-canyon, haiti-vs-dominican-republic, joshua-tree-vs-death-valley, philadelphia-vs-washington-dc, rio-de-janeiro-vs-sao-paulo, sacramento-vs-san-francisco, san-francisco-vs-los-angeles, turks-and-caicos-vs-bahamas, victoria-falls-vs-iguazu-falls, yellowstone-vs-grand-canyon, andaman-islands-vs-maldives, costa-rica-vs-united-states, croatia-vs-czech-republic, galapagos-vs-amazon-ecuador, new-zealand-vs-united-states, santa-barbara-vs-monterey, albuquerque-vs-santa-fe, amsterdam-vs-copenhagen, asheville-vs-gatlinburg.
 
-**Most recent 24:** azores-vs-canary-islands, bangkok-vs-kuala-lumpur, buenos-aires-vs-montevideo, casablanca-vs-marrakech, christchurch-vs-queenstown, cuba-vs-dominican-republic, denver-vs-salt-lake-city, denver-vs-san-francisco, french-alps-vs-swiss-alps, hanoi-vs-ho-chi-minh, iguazu-vs-victoria-falls, kuala-lumpur-vs-singapore, kyrgyzstan-vs-tajikistan, lake-como-vs-amalfi-coast, liverpool-vs-manchester, los-angeles-vs-las-vegas, moscow-vs-st-petersburg, nashville-vs-new-orleans, new-orleans-vs-charleston, new-york-vs-los-angeles, new-zealand-vs-australia, philippines-vs-indonesia, playa-del-carmen-vs-tulum, quebec-city-vs-montreal.
+**Last session (24):** azores-vs-canary-islands, bangkok-vs-kuala-lumpur, buenos-aires-vs-montevideo, casablanca-vs-marrakech, christchurch-vs-queenstown, cuba-vs-dominican-republic, denver-vs-salt-lake-city, denver-vs-san-francisco, french-alps-vs-swiss-alps, hanoi-vs-ho-chi-minh, iguazu-vs-victoria-falls, kuala-lumpur-vs-singapore, kyrgyzstan-vs-tajikistan, lake-como-vs-amalfi-coast, liverpool-vs-manchester, los-angeles-vs-las-vegas, moscow-vs-st-petersburg, nashville-vs-new-orleans, new-orleans-vs-charleston, new-york-vs-los-angeles, new-zealand-vs-australia, philippines-vs-indonesia, playa-del-carmen-vs-tulum, quebec-city-vs-montreal.
+
+**Most recent (20):** solomon-islands-vs-vanuatu, south-africa-vs-tanzania, tenerife-vs-gran-canaria, tuscany-vs-amalfi-coast, washington-dc-vs-boston, washington-dc-vs-new-york, yosemite-vs-grand-canyon, yosemite-vs-yellowstone, chiang-mai-vs-chiang-rai, koh-samui-vs-koh-phangan, argentina-vs-austria, argentina-vs-bolivia, australia-vs-south-korea, bali-vs-new-caledonia, barcelona-vs-monaco, hong-kong-vs-sri-lanka, luxembourg-vs-sweden, monaco-vs-strasbourg, netherlands-vs-scotland, norway-vs-switzerland.
 
 ### Skipped (stub pages, not real):
 - `oahu-vs-maui` — `score_compare.py` returned "page not found or is a redirect stub". If the queue surfaces this again, skip and move on.
