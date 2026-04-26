@@ -5,7 +5,7 @@
     "total": 262,
     "purpose": "Roll out NYC-style 3-beat narrative rewrites (Setup → Pivot → Mechanism + bolded defensive move) to all scam city pages with comics.",
     "pattern_reference": "https://github.com/psyduckler/tabiji/pull/491",
-    "skill": ".claude/skills/scam-page-builder.md (Step 4)",
+    "skill": ".claude/skills/scam-narrative-rewrite-batch.md",
     "completion_criteria": [
       "TLDR is a complete trap-summary sentence (not a narrative opener)",
       "Story body has 3-5 paragraphs following Beat 1 (Setup+Hook), Beat 2 (Pivot+Pressure), Beat 3 (Mechanism + Social Proof + bolded Defense Cue)",
@@ -26,7 +26,10 @@
       "failed",
       "skipped"
     ],
-    "runner": "Cron runner picks first status=pending entry by lowest priority, marks in-progress, executes the scam-page-builder skill (Step 4-12 only — research is unnecessary since the page already exists), then marks complete on PR-merge or failed on exception."
+    "runner": "Cron fires the scam-narrative-rewrite-batch skill every N hours; skill picks the next 5 pending entries by queue order, rewrites each city by hand via Edit tool calls only, lints, syncs api/v1/scams/<slug>.json and the queue, opens one PR per batch, merges, ends turn.",
+    "complete": 139,
+    "pending": 123,
+    "last_updated": "2026-04-26T14:59:09Z"
   },
   "queue": [
     {
