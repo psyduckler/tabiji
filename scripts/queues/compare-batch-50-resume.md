@@ -3,17 +3,13 @@
 ## Goal
 Upgrade compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
-## Status (as of 2026-04-26, post-132-page session)
-- **Done so far:** 132 pages at 100/100 (14.4% of 916 total compare pages).
-- **Remaining sub-100:** ~784 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
-- **Active goal:** completing 100 more pages (28 done so far in the active goal session).
+## Status (as of 2026-04-26, post-155-page session)
+- **Done so far:** 155 pages at 100/100 (16.9% of 916 total compare pages).
+- **Remaining sub-100:** ~761 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
+- **Active goal:** completing 100 more pages (52 done so far in the active goal session).
 
-### Pages completed in the most recent two sessions (32 total):
-**Prior session (25):** crete-vs-santorini, glacier-national-park-vs-yellowstone, istanbul-vs-athens, kilimanjaro-vs-everest-base-camp, lisbon-vs-barcelona, mykonos-vs-santorini, naxos-vs-crete, northern-italy-vs-southern-italy, prague-vs-budapest, sicily-vs-sardinia, south-island-vs-north-island, stuttgart-vs-munich, azores-vs-madeira, bali-vs-phuket, bali-vs-thailand, cancun-vs-tulum, croatia-vs-turkey, dubai-vs-qatar, granada-vs-seville, hawaii-vs-puerto-rico, hvar-vs-korcula, iceland-vs-new-zealand, japan-vs-taiwan, lyon-vs-marseille, mexico-city-vs-guadalajara.
-
-**Current session (7):** nicaragua-vs-costa-rica, new-york-vs-tokyo, paris-vs-barcelona, peru-vs-ecuador, santorini-vs-milos, sintra-vs-cascais, thailand-vs-cambodia, thailand-vs-indonesia, vietnam-vs-cambodia, vietnam-vs-thailand, amalfi-coast-vs-cinque-terre.
-
-(Note: the user asked for "21 more pages" mid-session; 7 of those 21 are done. 14 remain from the regenerated queue.)
+### Pages completed in the most recent session (23 pages):
+amalfi-coast-vs-french-riviera, buenos-aires-vs-rio-de-janeiro, glacier-national-park-vs-banff, gold-coast-vs-sunshine-coast, grand-canyon-vs-antelope-canyon, grand-canyon-vs-bryce-canyon, haiti-vs-dominican-republic, joshua-tree-vs-death-valley, philadelphia-vs-washington-dc, rio-de-janeiro-vs-sao-paulo, sacramento-vs-san-francisco, san-francisco-vs-los-angeles, turks-and-caicos-vs-bahamas, victoria-falls-vs-iguazu-falls, yellowstone-vs-grand-canyon, andaman-islands-vs-maldives, costa-rica-vs-united-states, croatia-vs-czech-republic, galapagos-vs-amazon-ecuador, new-zealand-vs-united-states, santa-barbara-vs-monterey, albuquerque-vs-santa-fe, amsterdam-vs-copenhagen.
 
 ### Skipped (stub pages, not real):
 - `oahu-vs-maui` — `score_compare.py` returned "page not found or is a redirect stub". If the queue surfaces this again, skip and move on.
@@ -111,31 +107,37 @@ for r in sub[:5]: print(f'  {r[\"score\"]:>3}  impr={r[\"impressions\"]:>4}  {r[
 
 ## Pages currently at top of queue (as of 2026-04-26 end of session)
 After regenerating the queue, these were next up — most are FAQ=16 already (faster, 5-7 min each):
-- amalfi-coast-vs-french-riviera (61, faq=16)
+- asheville-vs-gatlinburg (63, faq=16)
+- azores-vs-canary-islands (63, faq=16)
+- bangkok-vs-kuala-lumpur (63, faq=16)
+- buenos-aires-vs-montevideo (63, faq=16)
+- casablanca-vs-marrakech (63, faq=16)
+- christchurch-vs-queenstown (63, faq=16)
+- cuba-vs-dominican-republic (63, faq=16)
+- denver-vs-salt-lake-city (63, faq=16)
+- denver-vs-san-francisco (63, faq=16)
+- french-alps-vs-swiss-alps (63, faq=16)
+- hanoi-vs-ho-chi-minh (63, faq=16)
+- iguazu-vs-victoria-falls (63, faq=16) — note: similar slug to victoria-falls-vs-iguazu-falls (already done) but different page
+- kuala-lumpur-vs-singapore (63, faq=16)
 - bangkok-vs-ho-chi-minh (61, faq=8) — needs FAQ expansion
-- buenos-aires-vs-rio-de-janeiro (61, faq=16)
-- glacier-national-park-vs-banff (61, faq=16)
-- gold-coast-vs-sunshine-coast (61, faq=16)
-- grand-canyon-vs-antelope-canyon (61, faq=16)
-- grand-canyon-vs-bryce-canyon (61, faq=16)
-- haiti-vs-dominican-republic (61, faq=16)
-- joshua-tree-vs-death-valley (61, faq=16)
 - london-vs-amsterdam (61, faq=8) — needs FAQ expansion
-- philadelphia-vs-washington-dc (61, faq=16)
-- rio-de-janeiro-vs-sao-paulo (61, faq=16)
-- sacramento-vs-san-francisco (61, faq=16)
-- san-francisco-vs-los-angeles (61, faq=16)
+- tokyo-vs-london (61, faq=8) — needs FAQ expansion
 
 (Regenerate queue before starting — these may be slightly different by then.)
+
+### MED tier template note
+Many pages now have a different MED tier template structure where the photo-grid is followed by blank lines (not directly by `<div class="verdict-box">`). When inserting QA + Personalize + Scorecard sections, the anchor for the Edit becomes `<div class="caption">DEST_NAME</div>\n</div>\n</div>` followed by blank lines — NOT followed by `<div class="verdict-box">`. **Don't accidentally inject a duplicate verdict-box opening.** If you see `class="verdict-box"` already at line 0/9 audit, that means the page is MED tier and already has the verdict marker.
 
 ## Session productivity stats
 - **Session 1 (long):** 33 pages
 - **Session 2 (resume):** 15 pages
 - **Session 3 (10-page batch):** 10 pages
 - **Session 4 (26-page batch):** 26 pages
-- **Session 5 (current — 25-page batch):** 25 pages
-- **Session 6 (current — 7-page batch from "21 more pages" request):** 7 pages
-- **Total:** 132 pages at 100/100 (out of 916 total compare pages, 14.4%)
+- **Session 5 (25-page batch):** 25 pages
+- **Session 6 (7-page batch from "21 more pages" request):** 7 pages
+- **Session 7 (current — 23-page batch, continuing 100-page goal):** 23 pages
+- **Total:** 155 pages at 100/100 (out of 916 total compare pages, 16.9%)
 
 The pattern stabilizes around 5-7 minutes per page once the page already has FAQ=16, and 10-15 minutes for pages requiring FAQ expansion 7→16 or 8→16. The single most common failure is FAQ off-by-one (target 16, often lands at 15 — verify before commit).
 
