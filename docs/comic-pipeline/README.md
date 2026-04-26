@@ -10,7 +10,7 @@ human) to generate a new batch of comics without re-deriving the system.
 
 ## Status
 
-25 countries with locked illustration styles. Comic counts as of 2026-04-26.
+29 countries with locked illustration styles. Comic counts as of 2026-04-26 (note: locked-style countries with 0 live comics are awaiting batch generation through the v2 pipeline).
 
 | Country | Style | Comics live | File |
 |---|---|---:|---|
@@ -26,13 +26,17 @@ human) to generate a new batch of comics without re-deriving the system.
 | France | Hergé / Tintin ligne claire | 191 | [styles/france.md](styles/france.md) |
 | Germany | Heinrich Zille Berlin Milljöh observational | 88 | [styles/germany.md](styles/germany.md) |
 | Greece | Ancient red-figure pottery | 41 | [styles/greece.md](styles/greece.md) |
+| Egypt | Contemporary illustrated Egyptian travel-comic (warm watercolor + gouache) | 0 | [styles/egypt.md](styles/egypt.md) |
 | Hong Kong | Shaw Brothers 1960s-70s painted cinema poster | 8 | [styles/hong-kong.md](styles/hong-kong.md) |
+| India | Classical Mughal miniature painting (jewel-tone court ateliers) | 0 | [styles/india.md](styles/india.md) |
 | Indonesia | Balinese Lontar palm-leaf manuscript | 73 | [styles/indonesia.md](styles/indonesia.md) |
 | Italy | Warm hand-drawn travel-sketchbook (pencil + watercolor wash, yellow title banner) | 107 | [styles/italy.md](styles/italy.md) |
 | Japan | Contemporary illustrated travel-comic (neon night + warm day) | 60 | [styles/japan.md](styles/japan.md) |
 | Malaysia | Yusof Gajah vibrant naïve folk-art | 0 | [styles/malaysia.md](styles/malaysia.md) |
 | Mexico | Lotería card / Don Clemente tarjeta | 60 | [styles/mexico.md](styles/mexico.md) |
+| Morocco | Matisse Tangier-period vibrant watercolor (fauve color-as-emotion) | 0 | [styles/morocco.md](styles/morocco.md) |
 | Portugal | José de Guimarães folk-pop modernist | 65 | [styles/portugal.md](styles/portugal.md) |
+| Saudi Arabia | Contemporary illustrated Gulf travel-comic (Najd-pink heritage accents) | 0 | [styles/saudi-arabia.md](styles/saudi-arabia.md) |
 | Spain | Paco Roca contemporary graphic novel | 103 | [styles/spain.md](styles/spain.md) |
 | Thailand | Warm watercolor storybook | 3 | [styles/thailand.md](styles/thailand.md) |
 | Turkey | Ottoman Iznik-tile + illustrated travel-comic | 78 | [styles/turkey.md](styles/turkey.md) |

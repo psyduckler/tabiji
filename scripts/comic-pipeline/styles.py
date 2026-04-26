@@ -382,6 +382,74 @@ STYLES = {
         "comic lettering — text must be legible, in English only, and correctly spelled. "
         "Square 1:1 composition, 2K resolution."
     ),
+    "india": (
+        "A single illustrated comic book page in the classical Mughal miniature painting "
+        "style of the Akbar/Jahangir court ateliers — meticulous fine black-ink outline "
+        "drawing with bright opaque jewel-tone gouache fills (deep crimson, peacock-blue, "
+        "emerald, saffron yellow, lapis blue, gold leaf accents), classical Indian profile "
+        "poses with elongated almond eyes and refined gestures, intricately patterned "
+        "textiles and architectural detail (Mughal red sandstone arches, jharokha "
+        "balconies, marble inlay), decorative geometric and floral borders framing each "
+        "panel in red and gold, ornate calligraphic flourishes, courtly Indo-Islamic "
+        "painting tradition. Showing four sequential panels arranged in a 2x2 grid with "
+        "small numbers 1, 2, 3, 4 in the upper-left corner of each panel, separated by "
+        "thin gold borders with cream gutters. Each panel contains one clean white rounded "
+        "speech bubble with a small pointer tail, holding short printed English dialogue "
+        "in simple black lettering — text must be legible, in English only, and correctly "
+        "spelled. Square 1:1 composition, 2K resolution."
+    ),
+    "morocco": (
+        "A single illustrated comic book page in the loose vibrant watercolor style of "
+        "Matisse's 1912 Tangier paintings — bold expressive brushed shapes with confident "
+        "dark ink contour drawing, saturated North African palette (Moroccan blue, "
+        "terracotta orange, moss green, deep magenta, warm cream, gold), painterly "
+        "watercolor washes with visible edges and bleeding pigment, simplified flattened "
+        "forms with decorative pattern, sun-drenched Moroccan light, Marrakech medina "
+        "backdrops (Koutoubia minaret, ochre walls, souks with hanging textiles, palm-"
+        "shaded courtyards), modern fauve-influenced color-as-emotion approach. Showing "
+        "four sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in "
+        "the upper-left corner of each panel, separated by thin black panel borders with "
+        "narrow cream gutters. Each panel contains one clean white rounded speech bubble "
+        "with a small pointer tail, holding short printed English dialogue in simple "
+        "black comic lettering — text must be legible, in English only, and correctly "
+        "spelled. Square 1:1 composition, 2K resolution."
+    ),
+    "egypt": (
+        "A single illustrated comic book page in a contemporary illustrated Egyptian "
+        "travel-comic style: confident fine black ink outlines with richly digital-"
+        "painted watercolor-and-gouache fills, realistic character proportions and "
+        "expressive faces, visible painterly texture, detailed Egyptian location "
+        "backgrounds — golden Giza desert plateau with the pyramids of Khufu, Khafre, "
+        "and Menkaure rendered in warm sandstone, the Sphinx in soft afternoon light, "
+        "decorative camels with red-and-orange tasseled saddles, Tourist Police kiosks "
+        "with the distinctive teal-and-white Egyptian uniform, hieroglyph-etched stelae "
+        "as background details — palette of sand-gold, terracotta, Nile-blue, and cream. "
+        "Egyptian figures in light galabeyas alongside modern travelers. Showing four "
+        "sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in the "
+        "upper-left corner of each panel, separated by thin clean black panel borders "
+        "with narrow cream gutters. Each panel contains one clean white rounded speech "
+        "bubble with a small pointer tail, holding short printed English dialogue in "
+        "simple black comic lettering — text must be legible, in English only, and "
+        "correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
+    "saudi-arabia": (
+        "A single illustrated comic book page in a contemporary illustrated Gulf travel-"
+        "comic style: confident fine black ink outlines with richly digital-painted "
+        "gouache fills, realistic character proportions and expressive faces, visible "
+        "painterly texture, detailed Saudi Arabian location backgrounds — Riyadh Kingdom "
+        "Tower silhouette at dusk, King Khalid International Airport curved white roofs, "
+        "beige modernist taxi ranks, Riyadh palm-lined boulevards, Najd-style salmon-"
+        "pink heritage neighborhoods — palette of warm sand, golden cream, deep cobalt "
+        "night sky, terracotta, and accent palm-green. Saudi figures in white thobes and "
+        "red-checkered shemaghs and women in modest abayas alongside modern international "
+        "travelers, restrained tasteful composition appropriate to Saudi cultural "
+        "sensibilities. Showing four sequential panels arranged in a 2x2 grid with small "
+        "numbers 1, 2, 3, 4 in the upper-left corner of each panel, separated by thin "
+        "clean black panel borders with narrow cream gutters. Each panel contains one "
+        "clean white rounded speech bubble with a small pointer tail, holding short "
+        "printed English dialogue in simple black comic lettering — text must be legible, "
+        "in English only, and correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
     "vietnam": (
         "A single illustrated comic book page in a contemporary Vietnamese travel-comic "
         "style with decorative folk-art accents: bold confident black ink outlines with "
@@ -433,4 +501,8 @@ PILOTS = {
     "croatia": "https://img.tabiji.ai/scams/dubrovnik/scam-1.jpg",
     "italy": "https://img.tabiji.ai/scams/pisa/scam-1.jpg",
     "vietnam": "https://img.tabiji.ai/scams/ho-chi-minh-city/scam-1.jpg",
+    "india": "https://img.tabiji.ai/scam-comics/in/style-tests/mughal-miniature.jpg",
+    "morocco": "https://img.tabiji.ai/scam-comics/ma/style-tests/matisse-tangier-watercolor.jpg",
+    "egypt": "https://img.tabiji.ai/scam-comics/eg/style-tests/modern-cairo-illustrated.jpg",
+    "saudi-arabia": "https://img.tabiji.ai/scam-comics/sa/style-tests/contemporary-gulf-illustrated.jpg",
 }
