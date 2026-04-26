@@ -3,13 +3,15 @@
 ## Goal
 Upgrade compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
-## Status (as of 2026-04-26, post-155-page session)
-- **Done so far:** 155 pages at 100/100 (16.9% of 916 total compare pages).
-- **Remaining sub-100:** ~761 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
-- **Active goal:** completing 100 more pages (52 done so far in the active goal session).
+## Status (as of 2026-04-26, post-180-page session)
+- **Done so far:** 180 pages at 100/100 (19.7% of 916 total compare pages).
+- **Remaining sub-100:** ~736 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
+- **Active goal:** completing 100 more pages (77 done so far in the active goal session).
 
-### Pages completed in the most recent session (23 pages):
-amalfi-coast-vs-french-riviera, buenos-aires-vs-rio-de-janeiro, glacier-national-park-vs-banff, gold-coast-vs-sunshine-coast, grand-canyon-vs-antelope-canyon, grand-canyon-vs-bryce-canyon, haiti-vs-dominican-republic, joshua-tree-vs-death-valley, philadelphia-vs-washington-dc, rio-de-janeiro-vs-sao-paulo, sacramento-vs-san-francisco, san-francisco-vs-los-angeles, turks-and-caicos-vs-bahamas, victoria-falls-vs-iguazu-falls, yellowstone-vs-grand-canyon, andaman-islands-vs-maldives, costa-rica-vs-united-states, croatia-vs-czech-republic, galapagos-vs-amazon-ecuador, new-zealand-vs-united-states, santa-barbara-vs-monterey, albuquerque-vs-santa-fe, amsterdam-vs-copenhagen.
+### Pages completed in the most recent two sessions (48 pages):
+**Prior 24:** amalfi-coast-vs-french-riviera, buenos-aires-vs-rio-de-janeiro, glacier-national-park-vs-banff, gold-coast-vs-sunshine-coast, grand-canyon-vs-antelope-canyon, grand-canyon-vs-bryce-canyon, haiti-vs-dominican-republic, joshua-tree-vs-death-valley, philadelphia-vs-washington-dc, rio-de-janeiro-vs-sao-paulo, sacramento-vs-san-francisco, san-francisco-vs-los-angeles, turks-and-caicos-vs-bahamas, victoria-falls-vs-iguazu-falls, yellowstone-vs-grand-canyon, andaman-islands-vs-maldives, costa-rica-vs-united-states, croatia-vs-czech-republic, galapagos-vs-amazon-ecuador, new-zealand-vs-united-states, santa-barbara-vs-monterey, albuquerque-vs-santa-fe, amsterdam-vs-copenhagen, asheville-vs-gatlinburg.
+
+**Most recent 24:** azores-vs-canary-islands, bangkok-vs-kuala-lumpur, buenos-aires-vs-montevideo, casablanca-vs-marrakech, christchurch-vs-queenstown, cuba-vs-dominican-republic, denver-vs-salt-lake-city, denver-vs-san-francisco, french-alps-vs-swiss-alps, hanoi-vs-ho-chi-minh, iguazu-vs-victoria-falls, kuala-lumpur-vs-singapore, kyrgyzstan-vs-tajikistan, lake-como-vs-amalfi-coast, liverpool-vs-manchester, los-angeles-vs-las-vegas, moscow-vs-st-petersburg, nashville-vs-new-orleans, new-orleans-vs-charleston, new-york-vs-los-angeles, new-zealand-vs-australia, philippines-vs-indonesia, playa-del-carmen-vs-tulum, quebec-city-vs-montreal.
 
 ### Skipped (stub pages, not real):
 - `oahu-vs-maui` — `score_compare.py` returned "page not found or is a redirect stub". If the queue surfaces this again, skip and move on.
@@ -106,23 +108,14 @@ for r in sub[:5]: print(f'  {r[\"score\"]:>3}  impr={r[\"impressions\"]:>4}  {r[
 ```
 
 ## Pages currently at top of queue (as of 2026-04-26 end of session)
-After regenerating the queue, these were next up — most are FAQ=16 already (faster, 5-7 min each):
-- asheville-vs-gatlinburg (63, faq=16)
-- azores-vs-canary-islands (63, faq=16)
-- bangkok-vs-kuala-lumpur (63, faq=16)
-- buenos-aires-vs-montevideo (63, faq=16)
-- casablanca-vs-marrakech (63, faq=16)
-- christchurch-vs-queenstown (63, faq=16)
-- cuba-vs-dominican-republic (63, faq=16)
-- denver-vs-salt-lake-city (63, faq=16)
-- denver-vs-san-francisco (63, faq=16)
-- french-alps-vs-swiss-alps (63, faq=16)
-- hanoi-vs-ho-chi-minh (63, faq=16)
-- iguazu-vs-victoria-falls (63, faq=16) — note: similar slug to victoria-falls-vs-iguazu-falls (already done) but different page
-- kuala-lumpur-vs-singapore (63, faq=16)
+**Regenerate queue with the script below.** Likely-next high-impact pages:
+- san-diego-vs-los-angeles (63, faq=16)
+- san-francisco-vs-new-york (63, faq=16)
+- san-francisco-vs-seattle (63, faq=16)
 - bangkok-vs-ho-chi-minh (61, faq=8) — needs FAQ expansion
 - london-vs-amsterdam (61, faq=8) — needs FAQ expansion
 - tokyo-vs-london (61, faq=8) — needs FAQ expansion
+- (likely 700+ more sub-100 pages remain after regen — most at 63&ndash;75)
 
 (Regenerate queue before starting — these may be slightly different by then.)
 
@@ -136,8 +129,9 @@ Many pages now have a different MED tier template structure where the photo-grid
 - **Session 4 (26-page batch):** 26 pages
 - **Session 5 (25-page batch):** 25 pages
 - **Session 6 (7-page batch from "21 more pages" request):** 7 pages
-- **Session 7 (current — 23-page batch, continuing 100-page goal):** 23 pages
-- **Total:** 155 pages at 100/100 (out of 916 total compare pages, 16.9%)
+- **Session 7 (24-page batch):** 24 pages
+- **Session 8 (24-page batch, continuing 100-page goal):** 24 pages
+- **Total:** 180 pages at 100/100 (out of 916 total compare pages, 19.7%)
 
 The pattern stabilizes around 5-7 minutes per page once the page already has FAQ=16, and 10-15 minutes for pages requiring FAQ expansion 7→16 or 8→16. The single most common failure is FAQ off-by-one (target 16, often lands at 15 — verify before commit).
 
