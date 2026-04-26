@@ -49,6 +49,29 @@ does **per-scam synthesis** via Gemini. For each scam:
 8. If the retry also fails: **flag** for manual review. Do NOT silently replace
    with a template scene.
 
+### Country-style lookup + default fallback
+
+Step 4 above (the locked country STYLE block + pilot anchor) goes through
+`STYLES` and `PILOTS` in [`scripts/comic-pipeline/styles.py`](../../scripts/comic-pipeline/styles.py).
+33 countries currently have specific locks; any country without an entry
+**automatically falls back to the `_default` style** (Warm watercolor
+storybook — see [`styles/_default.md`](styles/_default.md)).
+
+Concretely, in `synthesize.py`:
+
+```python
+style  = STYLES.get(country, "").strip() or STYLES["_default"].strip()
+pilot  = PILOTS.get(country) or PILOTS["_default"]
+```
+
+This means **the v2 pipeline always produces output**, even for an unrecognized
+country slug — but the result will look generic-international (no country-
+specific neon, signage, or architecture). For book-quality consistency across
+a country's full city set, run a proper bake-off (see
+[`style-exploration.md`](style-exploration.md)) and add a per-country lock
+before generating at scale. The default is a coherent stopgap, not a long-term
+substitute.
+
 ## The Gemini system prompt (current)
 
 Lives in [`scripts/comic-pipeline/synthesize.py`](../../scripts/comic-pipeline/synthesize.py).

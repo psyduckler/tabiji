@@ -10,7 +10,9 @@ human) to generate a new batch of comics without re-deriving the system.
 
 ## Status
 
-33 countries with locked illustration styles. Comic counts as of 2026-04-26 (note: locked-style countries with 0 live comics are awaiting batch generation through the v2 pipeline).
+33 countries with locked illustration styles, plus a generic default-style fallback for countries without a specific lock. Comic counts as of 2026-04-26 (note: locked-style countries with 0 live comics are awaiting batch generation through the v2 pipeline).
+
+**Default fallback:** any country without an entry in `STYLES`/`PILOTS` (`scripts/comic-pipeline/styles.py`) automatically uses the **Warm watercolor storybook** style — see [styles/_default.md](styles/_default.md). This is enforced at runtime in `synthesize.py`. The fallback is a coherent stopgap, not a long-term substitute for a per-country bake-off.
 
 | Country | Style | Comics live | File |
 |---|---|---:|---|
