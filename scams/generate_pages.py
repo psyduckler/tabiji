@@ -1131,6 +1131,14 @@ EMERGENCY_INFO = {
         "report_site": "efp.gov.et",
         "lost_passport": "Contact the US Embassy in Addis Ababa at Entoto Street, PO Box 1014, Addis Ababa. For emergencies: +251 11 130 6000 (24/7). Email: AddisACS@state.gov. The UK Embassy is on Comoros Street, Addis Ababa (+251 11 661 0588). The official Ethiopian e-visa portal is www.evisa.gov.et — apply nowhere else.",
     },
+    "New Zealand": {
+        "police_name": "New Zealand Police",
+        "police_number": "111 (emergency) or 105 (non-emergency)",
+        "emergency_number": "111",
+        "report_url": "https://www.police.govt.nz/use-105",
+        "report_site": "police.govt.nz",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy is in Wellington at 29 Fitzherbert Terrace, Thorndon. For emergencies: +64 4 462 6000. The UK High Commission is at 44 Hill Street, Wellington (+64 4 924 2888). Apply for the NZeTA only at immigration.govt.nz — every other site is a markup reseller or scam.",
+    },
 }
 
 # Country to health page slug mapping
@@ -3587,6 +3595,13 @@ SAFETY_TIPS = {
         "On Panfilov Street and Arbat lounge bars, never accept a drink poured out of your sight and never leave with someone met at the bar — drink-spike taxi robberies and surprise KZT 200,000–KZT 400,000 lounge tabs are the documented late-night risks",
         "Book the first night through Booking.com or Airbnb and treat any Krisha.kz listing as cash-on-arrival only — wire transfers to a Krisha host who moves the chat to WhatsApp are the most common short-stay rental scam",
         "Hang up on any caller claiming to be Kaspi Bank, the National Bank, or KNB and verify only at the number printed on your card — save Kazakhstan emergency 112, police 102, and US Consulate Almaty +7 727-250-4802",
+    ],
+    "Auckland": [
+        "From Auckland Airport, book Uber, Zoomy, or Co-op Taxis on terminal Wi-Fi before walking to the rank — refuse any cab without a visible meter quoting NZ$ 150 to NZ$ 200 for the 22 km city run that should be NZ$ 75 to NZ$ 110",
+        "Apply for the NZeTA only at immigration.govt.nz or via the official NZeTA app — the real fee is NZ$ 17 by app or NZ$ 23 by web plus the NZ$ 100 IVL; lookalike sites charge NZ$ 60 to NZ$ 100 markups for the same document",
+        "Photograph every panel, wheel, and the interior of any hire car at pickup and again at drop-off, then dispute post-departure damage charges within 30 days through your credit-card chargeback rights",
+        "Hang up on any caller or texter claiming to be NZ Police, IRD, or NZ Post about a fine or parcel — dial 105 to verify and never pay anyone by gift card, crypto, or bank transfer over the phone",
+        "Forward suspicious Booking.com messages to reportphishing@booking.com and confirm any post-stay payment request inside the official Booking.com app — the platform never asks guests to re-enter card details after checkout",
     ],
 }
 
@@ -7087,6 +7102,18 @@ FAQS = {
          "Most of central Almaty — Panfilov Street, the Arbat, the Almaly district, and the area around Kok-Tobe — is safe to walk after dark, with security guards at malls and a visible police presence. Recent 2025 and 2026 trip reports on r/Kazakhstan, r/travel, and r/solotravel praise Almaty's overall safety. The exceptions are nightlife venues themselves (lounge-bar honey-trap and drink-spike robberies are documented) and packed rush-hour buses on Tole Bi and Abay. Avoid leaving a bar with someone you just met, never accept a drink poured out of your sight, and order a Yandex Go car back to your hotel rather than walking past unfamiliar bars."),
         ("Are ATMs and money-changers safe in Almaty?",
          "ATMs at major Kazakh banks (Kaspi, Halyk, Forte) and licensed money-changers in central Almaty are reliable, with no widespread skimming reports. Use ATMs inside bank branches when possible, and avoid changing money at airport kiosks or unbranded street stalls. Cards are accepted nearly everywhere — bring a small amount of USD as backup and convert to tenge at a downtown bank branch. Watch for phone-impersonation scams instead: a caller posing as Kaspi Bank or the KNB security service who tells you to walk to an ATM and transfer funds is the documented digital fraud pattern in 2025 and 2026 r/Kazakhstan threads."),
+    ],
+    "Auckland": [
+        ("Is Auckland safe for tourists?",
+         "Auckland is generally safe for daytime tourism in the CBD, Viaduct Harbour, Ponsonby, Parnell, Mission Bay, and Devonport, with violent crime against foreigners rare. The practical risks are financial: Auckland Airport unmetered taxi overcharges quoting NZ$ 150 to NZ$ 200 against a NZ$ 75 to NZ$ 110 metered run; lookalike NZeTA visa portals that charge NZ$ 60 to NZ$ 100 for a NZ$ 17 government document; rental car phantom-damage charges that hit your card after drop-off; ATM skimming on Queen Street and ferry-terminal cash and parking machines; Booking.com reservation-hijack phishing after Auckland stays; and fake NZ Police call and text scams. Save NZ Police 111 (emergency) and 105 (non-emergency) in your phone."),
+        ("What is the most common scam at Auckland Airport?",
+         "The most reported Auckland Airport scam is the unmetered taxi overcharge. Drivers approach foreigners walking toward the rank and quote NZ$ 150 to NZ$ 200 for the 22 km run into the CBD, against a metered or app-booked rate of NZ$ 75 to NZ$ 110. r/auckland threads through 2025 record the same script at both the international and domestic terminals. The defense is to book Uber, Zoomy, or Co-op Taxis on terminal Wi-Fi before leaving the building, or to confirm a written fare with a clearly licensed driver at the official rank. Refuse to load luggage until a meter is on or an app fare is displayed."),
+        ("How do I apply for an NZeTA without getting overcharged?",
+         "Apply only at immigration.govt.nz or via the official NZeTA app on the App Store or Google Play. The real cost is NZ$ 17 by app or NZ$ 23 by web plus the NZ$ 100 International Visitor Conservation and Tourism Levy. Search results and Google ads regularly surface lookalike sites with names like 'nzeta-visa', 'newzealand-eta', or 'visa-newzealand' that charge NZ$ 60 to NZ$ 100 markups for the same document. Pay only by credit card with chargeback protection and verify the URL bar reads immigration.govt.nz before entering any passport details."),
+        ("How do I avoid hire-car damage charges after drop-off in Auckland?",
+         "Photograph every panel, wheel, the windscreen, the roof, and the interior of the car at pickup, and repeat the full set at drop-off with a timestamp visible. r/auckland and r/newzealand threads through 2025 document repeated cases of operators charging NZ$ 600 to NZ$ 4,500 for scratches and dents the customer did not cause, sometimes weeks after return. Use a credit card with rental-car chargeback rights, refuse to sign any drop-off form claiming new damage, and dispute any charge inside 30 days through your card issuer with your timestamped photos as evidence."),
+        ("How should I use ATMs and parking machines safely in Auckland?",
+         "Use ATMs inside bank branches at ANZ, ASB, BNZ, Westpac, or Kiwibank during business hours rather than free-standing machines on Queen Street, Karangahape Road, or near ferry terminals. Cover the keypad with your free hand when entering the PIN and tug the card slot before inserting — skimmer overlays come off with light pressure. Pay-and-display parking machines in the CBD have also been targeted by skimming overlays, so prefer the AT Park app over machine card payments. If your card is captured or your PIN compromised, call your bank's 24/7 fraud line immediately and freeze the card in-app."),
     ],
 }
 
