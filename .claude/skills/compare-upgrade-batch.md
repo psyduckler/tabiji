@@ -1,6 +1,7 @@
 ---
 name: compare-upgrade-batch
-description: Process the next 20 sub-100 compare pages, upgrading each to 100/100. Used by hourly cron.
+description: Process the next 20 sub-100 compare pages, upgrading each to 100/100. Used by hourly cron. Trigger when user types /compare-upgrade-batch or when cron fires it.
+user_invocable: true
 ---
 
 # Compare upgrade batch
