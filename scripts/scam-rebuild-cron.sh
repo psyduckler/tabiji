@@ -153,21 +153,28 @@ Output one final message before exiting (no other formatting): a single JSON obj
 
 Proceed autonomously. Do not ask the user any questions."
 
-    # Run claude headless with structured JSON output
+    # Run claude headless with structured JSON output.
+    # IMPORTANT: --add-dir is variadic — it consumes args until the next flag.
+    # The prompt MUST come after another flag (here: -p) or after `--`,
+    # otherwise claude swallows the prompt as a directory and hangs waiting on stdin.
     set +e
     if [ -n "$TIMEOUT" ]; then
-        $TIMEOUT "$PER_CITY_TIMEOUT" claude -p \
+        $TIMEOUT "$PER_CITY_TIMEOUT" claude \
+            --model claude-opus-4-7 \
             --output-format json \
             --dangerously-skip-permissions \
             --add-dir "$REPO" \
-            "$PROMPT" > "$city_log" 2>&1
+            -p \
+            -- "$PROMPT" < /dev/null > "$city_log" 2>&1
         RC=$?
     else
-        claude -p \
+        claude \
+            --model claude-opus-4-7 \
             --output-format json \
             --dangerously-skip-permissions \
             --add-dir "$REPO" \
-            "$PROMPT" > "$city_log" 2>&1
+            -p \
+            -- "$PROMPT" < /dev/null > "$city_log" 2>&1
         RC=$?
     fi
     set -e
