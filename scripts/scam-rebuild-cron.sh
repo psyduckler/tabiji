@@ -50,8 +50,13 @@ fi
 # ─── Step 0: Sync with main ────────────────────────────────────────────────
 echo ""
 echo "▶ Step 0: Sync with main"
-git checkout main 2>/dev/null
+# Try to land on the main branch. If main is checked out by another worktree
+# (e.g. an active Claude Code session), the checkout silently fails and we
+# end up on detached HEAD — that's fine, all the per-step pushes use
+# `HEAD:main` to handle both cases.
+git checkout main 2>/dev/null || true
 git pull --rebase origin main || echo "  ⚠️  pull failed, continuing with local state"
+echo "  branch: $(git rev-parse --abbrev-ref HEAD 2>/dev/null) (HEAD = $(git rev-parse --short HEAD))"
 
 # ─── Step 1: Pick top N pending entries by priority ────────────────────────
 echo ""
@@ -105,7 +110,7 @@ open('$QUEUE','a').write('\n')
 
 git add "$QUEUE"
 git commit -m "scam-rebuild: mark $TOTAL in-progress (${SLUGS[*]})" 2>/dev/null || true
-git push origin main 2>/dev/null || echo "  ⚠️  push of in-progress markers failed (will retry at end)"
+git push origin HEAD:main 2>/dev/null || echo "  ⚠️  push of in-progress markers failed (will retry at end)"
 
 # ─── Step 3: Drive each rebuild via claude -p ──────────────────────────────
 declare -a SUCCESS_SLUGS
@@ -299,13 +304,17 @@ if ! git diff --cached --quiet; then
     git commit -m "scam-rebuild queue: $SUMMARY (${SUCCESS_SLUGS[*]:-}${FAILED_SLUGS[*]:+ FAILED: ${FAILED_SLUGS[*]}})" || true
 fi
 
-# Retry push up to 3 times to handle concurrent cron pushes
-for attempt in 1 2 3; do
-    if git push origin main; then
+# Retry push up to 5 times to handle concurrent cron pushes — main moves
+# fast (other cron jobs land 1-2 commits/min) so the rebase race is real.
+# `HEAD:main` works whether we're on the main branch or detached HEAD,
+# since git checkout main silently no-ops when main is checked out by
+# another worktree.
+for attempt in 1 2 3 4 5; do
+    if git push origin HEAD:main; then
         break
     fi
-    echo "  push failed (attempt $attempt/3), rebasing..."
-    git pull --rebase origin main || true
+    echo "  push failed (attempt $attempt/5), rebasing..."
+    git fetch origin main && git rebase origin/main || true
 done
 
 echo ""
