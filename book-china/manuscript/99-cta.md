@@ -16,7 +16,7 @@ For the full mainland-China guide on the web, with all ninety-eight scams in a s
 
 ## What's next
 
-This is Volume 7 of the **Tabiji Travel Safety Series**. Volume 1 (Japan), Volume 2 (Italy), Volume 3 (France), Volume 4 (Thailand), Volume 5 (Spain), and Volume 6 (Vietnam) are available on Kindle and paperback now. Hong Kong and Macau — which are Special Administrative Regions with their own legal systems and tourism-safety frameworks — are covered in their own dedicated volumes of the series, not in this mainland-China volume. Future volumes will cover Mexico, Germany, Greece, Türkiye, and another dozen high-traffic destinations with the same structure: real scams, real scripts, real recovery steps — nothing generic.
+This is Volume 7 of the **Tabiji Travel Safety Series**. Volume 1 (Japan), Volume 2 (Italy), Volume 3 (France), Volume 4 (Thailand), Volume 5 (Spain), and Volume 6 (Vietnam) shipped before this one. Volume 8 (Indonesia), Volume 10 (Canada), and Volume 11 (Germany) have shipped since — all available on Kindle and paperback. Hong Kong and Macau — which are Special Administrative Regions with their own legal systems and tourism-safety frameworks — will be covered in their own future dedicated volumes of the series, not in this mainland-China volume. Future volumes will cover Türkiye, Mexico, Brazil, Portugal, and another dozen high-traffic destinations with the same structure: real scams, real scripts, real recovery steps — nothing generic.
 
 To be notified when the next volume launches, visit **[tabiji.ai/books](https://tabiji.ai/books)**.
 

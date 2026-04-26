@@ -157,6 +157,35 @@ def static_chapters() -> list[tuple[str, str]]:
     return [(f.name, f.read_text()) for f in files]
 
 
+_RANGE_RE = re.compile(r"(?<![\w\-\d])(\d[\d,.]*)-(\d[\d,.]*)(?=[\s%×)]|g\b|kg\b|m\b|km\b)")
+
+
+def _normalize_ranges(md: str) -> str:
+    """Convert digit ranges like '300-400 RMB' to en-dash '300–400 RMB'.
+
+    Skips 1-800 toll-free numbers (preserved verbatim in the recovery /
+    contacts appendices). Skips inside fenced code blocks and URLs.
+    """
+    def replace(m: re.Match) -> str:
+        a, b = m.group(1), m.group(2)
+        if a == "1" and b == "800":
+            return m.group(0)
+        return f"{a}–{b}"
+
+    out_lines: list[str] = []
+    in_code = False
+    for line in md.splitlines(keepends=True):
+        if line.lstrip().startswith("```"):
+            in_code = not in_code
+            out_lines.append(line)
+            continue
+        if in_code or "http://" in line or "https://" in line:
+            out_lines.append(line)
+            continue
+        out_lines.append(_RANGE_RE.sub(replace, line))
+    return "".join(out_lines)
+
+
 def assemble_markdown() -> str:
     parts: list[str] = []
     for fname, content in static_chapters():
@@ -173,7 +202,7 @@ def assemble_markdown() -> str:
         else:
             parts.append(content)
         parts.append("\n\n")
-    return polish_markdown("".join(parts))
+    return _normalize_ranges(polish_markdown("".join(parts)))
 
 
 def build_epub(md: str) -> Path:
