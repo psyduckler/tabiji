@@ -15,11 +15,11 @@
       "skipped"
     ],
     "cron": {
-      "cadence": "every hour (top of hour)",
-      "cron_expression": "0 * * * *",
+      "cadence": "every 30 minutes (:00 and :30)",
+      "cron_expression": "*/30 * * * *",
       "batch_size": 1,
-      "expected_throughput": "1 page/hour, ~9.3 days to drain (224 pages)",
-      "rationale": "Conservative default to bound token spend while output quality is monitored. Bump batch size or shorten cadence once consistent quality is established."
+      "expected_throughput": "1 page per 30 min = 2 pages/hour, ~4.7 days to drain 219 remaining pending",
+      "rationale": "Conservative 1-page batch per cron tick, fired every 30 min. Caps token spend per tick (~$25) while keeping forward progress steady. Bump batch size or shorten cadence once consistent quality is established."
     },
     "progress": {
       "pending": 219,
