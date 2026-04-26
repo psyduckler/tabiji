@@ -173,7 +173,115 @@ def reindex_catalog() -> dict:
     }
 
 
+def find_research_city(slug: str) -> dict | None:
+    """Search scams/research/*_batch*.json for a city whose slug matches.
+
+    Returns the city dict (with city/country/country_code/scams keys) or None.
+    Slug match: slugify(city['city']) == slug.
+    """
+    research_dir = REPO / "scams" / "research"
+    for fpath in sorted(research_dir.glob("*_batch*.json")):
+        try:
+            data = json.load(open(fpath))
+        except (json.JSONDecodeError, OSError):
+            continue
+        cities = data if isinstance(data, list) else [data]
+        for city in cities:
+            if not isinstance(city, dict):
+                continue
+            if slugify(city.get("city", "")) == slug:
+                return city
+    return None
+
+
+def build_payload_from_research(slug: str, city_data: dict) -> dict:
+    """Build the rich API-JSON payload from a research-JSON city entry.
+
+    Uses the full structured data (category, danger_level, story paragraphs,
+    how_to_avoid array, reddit_sources) — much richer than what
+    parse_html_page can recover from the rendered HTML.
+    """
+    city = city_data.get("city", "")
+    country = city_data.get("country", "")
+    iso2 = (city_data.get("country_code") or "").upper()
+
+    scams_out = []
+    for s in city_data.get("scams", []):
+        story = s.get("story", "")
+        # First sentence of the story is the load-bearing TLDR per the style guide
+        tldr_parts = re.split(r"(?<=[.!?])\s+", story.strip(), maxsplit=1)
+        tldr = (tldr_parts[0] if tldr_parts else "")[:400]
+        avoidance = " ".join(s.get("how_to_avoid", []))
+        category = s.get("category", "")
+
+        scams_out.append({
+            "id": f"scam:{slug}:{slugify(s.get('scam_name', ''))}",
+            "name": s.get("scam_name", ""),
+            "category": category,
+            "severity": s.get("danger_level", "medium"),
+            "frequency": "common",
+            "tldr": tldr,
+            "description": story,
+            "avoidance": avoidance,
+            "location": s.get("location", ""),
+            "tags": [category] if category else [],
+            "sources": list(s.get("reddit_sources", [])),
+        })
+
+    payload = {
+        "id": f"scam:{slug}",
+        "slug": slug,
+        "city": city,
+        "country": country,
+        "countryCode": iso2,
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "scamCount": len(scams_out),
+        "scams": scams_out,
+        "sourceUrl": f"{SITE_URL}/scams/{slug}/",
+    }
+    if iso2:
+        payload["relatedAlerts"] = f"/api/v1/alerts/{iso2.lower()}.json"
+        payload["relatedSafety"] = f"/api/v1/safety/{iso2.lower()}.json"
+    return payload
+
+
+def regenerate_one(slug: str) -> int:
+    """Force-regenerate api/v1/scams/<slug>.json after a city rebuild.
+
+    Prefers the research JSON (rich category, full story, real reddit_sources).
+    Falls back to parsing the rendered HTML if no research entry exists for
+    this slug — same low-fidelity output as the original missing-only backfill.
+
+    Returns 0 on success, 1 if neither research nor HTML is available.
+    """
+    city_data = find_research_city(slug)
+    if city_data is not None:
+        payload = build_payload_from_research(slug, city_data)
+        source = "research JSON"
+    else:
+        html = SCAMS_HTML_DIR / slug / "index.html"
+        if not html.exists():
+            print(f"❌ no research entry and no HTML page for {slug}", file=sys.stderr)
+            return 1
+        payload = parse_html_page(slug, html)
+        source = "rendered HTML (fallback — no research entry)"
+
+    out = SCAMS_API_DIR / f"{slug}.json"
+    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    print(f"WROTE api/v1/scams/{slug}.json  ({payload['scamCount']} scams, from {source})")
+    new_catalog = reindex_catalog()
+    SCAMS_CATALOG.write_text(json.dumps(new_catalog, indent=2, ensure_ascii=False) + "\n")
+    print(f"REINDEXED {SCAMS_CATALOG.relative_to(REPO)}: {new_catalog['count']} entries")
+    return 0
+
+
 def main() -> int:
+    # CLI: `--slug <slug>` regenerates ONE city's JSON unconditionally
+    # (use after a rebuild). With no args, runs the original catalog-vs-disk
+    # backfill that only writes missing JSONs.
+    if len(sys.argv) >= 3 and sys.argv[1] == "--slug":
+        return regenerate_one(sys.argv[2])
+
     catalog = json.load(open(SCAMS_CATALOG))
     listed = {x["slug"] for x in catalog["items"]}
     on_disk = {f.stem for f in SCAMS_API_DIR.glob("*.json")}
