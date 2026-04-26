@@ -450,6 +450,71 @@ STYLES = {
         "printed English dialogue in simple black comic lettering — text must be legible, "
         "in English only, and correctly spelled. Square 1:1 composition, 2K resolution."
     ),
+    "philippines": (
+        "A single illustrated comic book page in the vibrant Filipino jeepney folk-art "
+        "style — bold hand-painted decorative panels with rainbow-saturated colors (hot "
+        "pink, marigold yellow, sky blue, lime green, fire-engine red, bright cyan), "
+        "confident black outline brushwork, ornamental hand-painted Filipino jeepney "
+        "lettering and decorative swirls, colorful tassels, mirror-and-chrome accents at "
+        "panel borders, sun-rays and religious iconography flourishes, cheerful working-"
+        "class Filipino visual energy, Manila urban backgrounds (jeepneys, sari-sari "
+        "stores, NAIA terminals, Makati skyline). Showing four sequential panels arranged "
+        "in a 2x2 grid with small numbers 1, 2, 3, 4 in the upper-left corner of each "
+        "panel, separated by decorative jeepney-style ornamental borders. Each panel "
+        "contains one clean white rounded speech bubble with a small pointer tail, "
+        "holding short printed English dialogue in simple black comic lettering — text "
+        "must be legible, in English only, and correctly spelled. Square 1:1 composition, "
+        "2K resolution."
+    ),
+    "tanzania": (
+        "A single illustrated comic book page in a warm Zanzibar Swahili-coast travel-"
+        "illustration style — confident fine black ink linework with rich watercolor "
+        "washes, warm coastal palette of coral-stone cream, deep Indian Ocean turquoise, "
+        "palm green, sunset orange, and saffron, detailed Stone Town backgrounds (carved-"
+        "wood Zanzibari doors with brass studs, coral-stone facades with hanging laundry, "
+        "dhow sailing boats with triangular sails, palm-fringed harbour, narrow Swahili "
+        "alleys), Tanzanian figures in vibrant kanga and kitenge fabrics alongside modern "
+        "travelers, warm equatorial sunlight. Showing four sequential panels arranged in "
+        "a 2x2 grid with small numbers 1, 2, 3, 4 in the upper-left corner of each panel, "
+        "separated by thin black panel borders with narrow cream gutters. Each panel "
+        "contains one clean white rounded speech bubble with a small pointer tail, "
+        "holding short printed English dialogue in simple black comic lettering — text "
+        "must be legible, in English only, and correctly spelled. Square 1:1 composition, "
+        "2K resolution."
+    ),
+    "jamaica": (
+        "A single illustrated comic book page in the 1970s Jamaican reggae album-cover / "
+        "Bob Marley poster aesthetic — bold hand-painted figures with confident black "
+        "outline, saturated Rastafari palette (deep red, gold-yellow, forest-green, "
+        "black, plus tropical turquoise and palm-leaf green), sun-drenched Caribbean "
+        "warmth, retro 1970s reggae visual vocabulary (palm fronds, sun-rays, mountains, "
+        "dreadlock silhouettes, hand-painted poster lettering), Montego Bay coastal "
+        "backgrounds (Hip Strip palm-lined avenue, turquoise Caribbean, craft-market "
+        "stalls, colonial colorful storefronts), warm Jamaican sun. Showing four "
+        "sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in the "
+        "upper-left corner of each panel, separated by thin black panel borders with "
+        "narrow cream gutters. Each panel contains one clean white rounded speech bubble "
+        "with a small pointer tail, holding short printed English dialogue in simple "
+        "black comic lettering — text must be legible, in English only, and correctly "
+        "spelled. Square 1:1 composition, 2K resolution."
+    ),
+    "switzerland": (
+        "A single illustrated comic book page in the Swiss modernist design style of "
+        "Josef Müller-Brockmann and the 1950s-60s Swiss International Typographic Style "
+        "— clean precise geometric linework, restrained palette of pure white, deep "
+        "black, single accent of Swiss-flag red and crisp ink-blue, perfect modernist "
+        "grid composition with generous white space, Helvetica-style sans-serif "
+        "typography, minimalist flat figure rendering with confident geometric shapes, "
+        "Zurich Altstadt and Bahnhofstrasse rendered as clean architectural silhouettes, "
+        "Swiss design's signature objectivity and clarity. Showing four sequential "
+        "panels arranged in a perfect 2x2 grid with bold sans-serif numerals 1, 2, 3, 4 "
+        "in the upper-left corner of each panel, separated by thin sharp black panel "
+        "borders with narrow white gutters. Each panel contains one clean white "
+        "rectangular speech bubble (no rounded corners) with a small pointer tail, "
+        "holding short printed English dialogue in clean Helvetica-style sans-serif "
+        "lettering — text must be legible, in English only, and correctly spelled. "
+        "Square 1:1 composition, 2K resolution."
+    ),
     "vietnam": (
         "A single illustrated comic book page in a contemporary Vietnamese travel-comic "
         "style with decorative folk-art accents: bold confident black ink outlines with "
@@ -505,4 +570,8 @@ PILOTS = {
     "morocco": "https://img.tabiji.ai/scam-comics/ma/style-tests/matisse-tangier-watercolor.jpg",
     "egypt": "https://img.tabiji.ai/scam-comics/eg/style-tests/modern-cairo-illustrated.jpg",
     "saudi-arabia": "https://img.tabiji.ai/scam-comics/sa/style-tests/contemporary-gulf-illustrated.jpg",
+    "philippines": "https://img.tabiji.ai/scam-comics/ph/style-tests/jeepney-folk-art.jpg",
+    "tanzania": "https://img.tabiji.ai/scam-comics/tz/style-tests/zanzibar-swahili-coastal.jpg",
+    "jamaica": "https://img.tabiji.ai/scam-comics/jm/style-tests/reggae-poster-1970s.jpg",
+    "switzerland": "https://img.tabiji.ai/scam-comics/ch/style-tests/swiss-modernist-grid.jpg",
 }
