@@ -259,6 +259,38 @@ def stats(md: str) -> dict:
     return {"words": words, "todos": todos, "scams": scam_count}
 
 
+def _inline_svg_images(svg_text: str, svg_dir: Path) -> str:
+    """Replace relative <image href="X.jpg"> refs with base64 data URIs.
+
+    rsvg-convert 2.62+ silently drops images it can't resolve (gotcha #3).
+    The cover SVGs reference `front.jpg` relative to the SVG's directory,
+    but gen_comics.py writes the artwork to `assets/covers/`. Without
+    inlining, the rendered Kindle cover ends up as just the gradient
+    overlay + text — no illustration. Look in the SVG dir first, then
+    fall back to a sibling `covers/` directory.
+    """
+    import base64, mimetypes
+
+    def to_data_uri(m: re.Match) -> str:
+        attr, quote, href = m.group(1), m.group(2), m.group(3)
+        if href.startswith(("http://", "https://", "data:", "file://")):
+            return m.group(0)
+        candidates = []
+        if href.startswith("/"):
+            candidates.append(Path(href))
+        else:
+            candidates.append(svg_dir / href)
+            candidates.append(svg_dir.parent / "covers" / Path(href).name)
+        src = next((p for p in candidates if p.exists()), None)
+        if src is None:
+            return m.group(0)
+        mime = mimetypes.guess_type(src.name)[0] or "application/octet-stream"
+        encoded = base64.b64encode(src.read_bytes()).decode("ascii")
+        return f"{attr}={quote}data:{mime};base64,{encoded}{quote}"
+
+    return re.sub(r'(xlink:href|href)=(["\'])([^"\']+)\2', to_data_uri, svg_text)
+
+
 def render_cover() -> None:
     """Rebuild cover.jpg from the SVG source if the SVG is newer.
     Produces a 1600x2560 JPG (KDP spec, 1.6:1 aspect, ~300 DPI)."""
@@ -268,9 +300,12 @@ def render_cover() -> None:
         return
     if jpg.exists() and jpg.stat().st_mtime >= svg.stat().st_mtime:
         return
+    inlined = _inline_svg_images(svg.read_text(), svg.parent)
+    inlined_svg = BUILD / "cover_inlined.svg"
+    inlined_svg.write_text(inlined)
     png_tmp = BUILD / "cover_tmp.png"
     subprocess.run(
-        ["rsvg-convert", "-w", "1600", "-h", "2560", str(svg), "-o", str(png_tmp)],
+        ["rsvg-convert", "-w", "1600", "-h", "2560", str(inlined_svg), "-o", str(png_tmp)],
         check=True,
     )
     from shutil import which as _which
@@ -285,6 +320,7 @@ def render_cover() -> None:
     else:
         raise RuntimeError("Need either ImageMagick (magick) or macOS sips to convert PNG→JPG")
     png_tmp.unlink(missing_ok=True)
+    inlined_svg.unlink(missing_ok=True)
 
 
 def main() -> None:
