@@ -1131,6 +1131,14 @@ EMERGENCY_INFO = {
         "report_site": "efp.gov.et",
         "lost_passport": "Contact the US Embassy in Addis Ababa at Entoto Street, PO Box 1014, Addis Ababa. For emergencies: +251 11 130 6000 (24/7). Email: AddisACS@state.gov. The UK Embassy is on Comoros Street, Addis Ababa (+251 11 661 0588). The official Ethiopian e-visa portal is www.evisa.gov.et — apply nowhere else.",
     },
+    "New Zealand": {
+        "police_name": "New Zealand Police",
+        "police_number": "111 (emergency) or 105 (non-emergency)",
+        "emergency_number": "111",
+        "report_url": "https://www.police.govt.nz/use-105",
+        "report_site": "police.govt.nz",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy is in Wellington at 29 Fitzherbert Terrace, Thorndon. For emergencies: +64 4 462 6000. The UK High Commission is at 44 Hill Street, Wellington (+64 4 924 2888). Apply for the NZeTA only at immigration.govt.nz — every other site is a markup reseller or scam.",
+    },
 }
 
 # Country to health page slug mapping
@@ -3574,6 +3582,13 @@ SAFETY_TIPS = {
         "At Fatehpur Sikri, hire guides only from the Archaeological Survey of India counter inside the monument and remember the Agra Development Authority cap that no chadar at the Sheikh Salim Chishti dargah may cost more than Rs 500",
         "On Delhi-Agra Uber Intercity rides, real Yamuna Expressway and city tolls run roughly Rs 800 to Rs 1,000 — pay only at the toll plaza booth and message Uber Support inside the ride if a driver demands Rs 2,500 or more in cash",
         "Save the Agra Tourist Police hotline +91 9454402764 and the all-India emergency 112 in your phone before you arrive; the tourist police email so-tourism.ag@up.gov.in handles complaints from foreign visitors",
+    ],
+    "Auckland": [
+        "From Auckland Airport, book Uber, Zoomy, or Co-op Taxis on terminal Wi-Fi before walking to the rank — refuse any cab without a visible meter quoting NZ$ 150 to NZ$ 200 for the 22 km city run that should be NZ$ 75 to NZ$ 110",
+        "Apply for the NZeTA only at immigration.govt.nz or via the official NZeTA app — the real fee is NZ$ 17 by app or NZ$ 23 by web plus the NZ$ 100 IVL; lookalike sites charge NZ$ 60 to NZ$ 100 markups for the same document",
+        "Photograph every panel, wheel, and the interior of any hire car at pickup and again at drop-off, then dispute post-departure damage charges within 30 days through your credit-card chargeback rights",
+        "Hang up on any caller or texter claiming to be NZ Police, IRD, or NZ Post about a fine or parcel — dial 105 to verify and never pay anyone by gift card, crypto, or bank transfer over the phone",
+        "Forward suspicious Booking.com messages to reportphishing@booking.com and confirm any post-stay payment request inside the official Booking.com app — the platform never asks guests to re-enter card details after checkout",
     ],
 }
 
@@ -7050,6 +7065,18 @@ FAQS = {
          "Uber Intercity Delhi to Agra is broadly reliable, but tolls and Uttar Pradesh state taxes are not included in the app fare — that is genuine policy and the in-app banner says so. The scam variant is drivers who pull over on the Yamuna Expressway and demand Rs 2,500 to Rs 4,000 in 'tolls and state tax' that should be closer to Rs 800 to Rs 1,000. Pay tolls only at the toll plaza booth, keep every receipt, and message Uber Support inside the ride if any extra cash is demanded; r/indiatravel and r/delhi documented the play through 2026."),
         ("How should I deal with autorickshaw drivers in Agra?",
          "Use Uber Auto or Ola Auto from inside your hotel WiFi rather than flagging an autorickshaw on the street, where 'free city tour' offers around Rs 200 turn into multi-stop circuits through marble, leather, and silk shops on a 30% to 40% commission. Refuse every unsolicited offer outside the hotel exit, the Taj Mahal east gate auto stand, the Agra Fort entrance, and Agra Cantonment railway station, and exit immediately at the first unscheduled shop stop. Save the Agra Tourist Police hotline +91 9454402764 in your phone before you arrive."),
+    ],
+    "Auckland": [
+        ("Is Auckland safe for tourists?",
+         "Auckland is generally safe for daytime tourism in the CBD, Viaduct Harbour, Ponsonby, Parnell, Mission Bay, and Devonport, with violent crime against foreigners rare. The practical risks are financial: Auckland Airport unmetered taxi overcharges quoting NZ$ 150 to NZ$ 200 against a NZ$ 75 to NZ$ 110 metered run; lookalike NZeTA visa portals that charge NZ$ 60 to NZ$ 100 for a NZ$ 17 government document; rental car phantom-damage charges that hit your card after drop-off; ATM skimming on Queen Street and ferry-terminal cash and parking machines; Booking.com reservation-hijack phishing after Auckland stays; and fake NZ Police call and text scams. Save NZ Police 111 (emergency) and 105 (non-emergency) in your phone."),
+        ("What is the most common scam at Auckland Airport?",
+         "The most reported Auckland Airport scam is the unmetered taxi overcharge. Drivers approach foreigners walking toward the rank and quote NZ$ 150 to NZ$ 200 for the 22 km run into the CBD, against a metered or app-booked rate of NZ$ 75 to NZ$ 110. r/auckland threads through 2025 record the same script at both the international and domestic terminals. The defense is to book Uber, Zoomy, or Co-op Taxis on terminal Wi-Fi before leaving the building, or to confirm a written fare with a clearly licensed driver at the official rank. Refuse to load luggage until a meter is on or an app fare is displayed."),
+        ("How do I apply for an NZeTA without getting overcharged?",
+         "Apply only at immigration.govt.nz or via the official NZeTA app on the App Store or Google Play. The real cost is NZ$ 17 by app or NZ$ 23 by web plus the NZ$ 100 International Visitor Conservation and Tourism Levy. Search results and Google ads regularly surface lookalike sites with names like 'nzeta-visa', 'newzealand-eta', or 'visa-newzealand' that charge NZ$ 60 to NZ$ 100 markups for the same document. Pay only by credit card with chargeback protection and verify the URL bar reads immigration.govt.nz before entering any passport details."),
+        ("How do I avoid hire-car damage charges after drop-off in Auckland?",
+         "Photograph every panel, wheel, the windscreen, the roof, and the interior of the car at pickup, and repeat the full set at drop-off with a timestamp visible. r/auckland and r/newzealand threads through 2025 document repeated cases of operators charging NZ$ 600 to NZ$ 4,500 for scratches and dents the customer did not cause, sometimes weeks after return. Use a credit card with rental-car chargeback rights, refuse to sign any drop-off form claiming new damage, and dispute any charge inside 30 days through your card issuer with your timestamped photos as evidence."),
+        ("How should I use ATMs and parking machines safely in Auckland?",
+         "Use ATMs inside bank branches at ANZ, ASB, BNZ, Westpac, or Kiwibank during business hours rather than free-standing machines on Queen Street, Karangahape Road, or near ferry terminals. Cover the keypad with your free hand when entering the PIN and tug the card slot before inserting — skimmer overlays come off with light pressure. Pay-and-display parking machines in the CBD have also been targeted by skimming overlays, so prefer the AT Park app over machine card payments. If your card is captured or your PIN compromised, call your bank's 24/7 fraud line immediately and freeze the card in-app."),
     ],
 }
 
