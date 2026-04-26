@@ -10,7 +10,7 @@ human) to generate a new batch of comics without re-deriving the system.
 
 ## Status
 
-29 countries with locked illustration styles. Comic counts as of 2026-04-26 (note: locked-style countries with 0 live comics are awaiting batch generation through the v2 pipeline).
+33 countries with locked illustration styles. Comic counts as of 2026-04-26 (note: locked-style countries with 0 live comics are awaiting batch generation through the v2 pipeline).
 
 | Country | Style | Comics live | File |
 |---|---|---:|---|
@@ -31,13 +31,17 @@ human) to generate a new batch of comics without re-deriving the system.
 | India | Classical Mughal miniature painting (jewel-tone court ateliers) | 0 | [styles/india.md](styles/india.md) |
 | Indonesia | Balinese Lontar palm-leaf manuscript | 73 | [styles/indonesia.md](styles/indonesia.md) |
 | Italy | Warm hand-drawn travel-sketchbook (pencil + watercolor wash, yellow title banner) | 107 | [styles/italy.md](styles/italy.md) |
+| Jamaica | 1970s reggae poster (Bob-Marley-era hand-painted, Rastafari palette) | 0 | [styles/jamaica.md](styles/jamaica.md) |
 | Japan | Contemporary illustrated travel-comic (neon night + warm day) | 60 | [styles/japan.md](styles/japan.md) |
 | Malaysia | Yusof Gajah vibrant naïve folk-art | 0 | [styles/malaysia.md](styles/malaysia.md) |
 | Mexico | Lotería card / Don Clemente tarjeta | 60 | [styles/mexico.md](styles/mexico.md) |
 | Morocco | Matisse Tangier-period vibrant watercolor (fauve color-as-emotion) | 0 | [styles/morocco.md](styles/morocco.md) |
+| Philippines | Vibrant Filipino jeepney folk-art (rainbow-saturated hand-painted) | 0 | [styles/philippines.md](styles/philippines.md) |
 | Portugal | José de Guimarães folk-pop modernist | 65 | [styles/portugal.md](styles/portugal.md) |
 | Saudi Arabia | Contemporary illustrated Gulf travel-comic (Najd-pink heritage accents) | 0 | [styles/saudi-arabia.md](styles/saudi-arabia.md) |
+| Switzerland | Swiss modernist grid (Müller-Brockmann, Helvetica, white/black/Swiss-red) | 0 | [styles/switzerland.md](styles/switzerland.md) |
 | Spain | Paco Roca contemporary graphic novel | 103 | [styles/spain.md](styles/spain.md) |
+| Tanzania | Zanzibar Swahili coastal travel-illustration (carved doors + dhow + coral-stone) | 0 | [styles/tanzania.md](styles/tanzania.md) |
 | Thailand | Warm watercolor storybook | 3 | [styles/thailand.md](styles/thailand.md) |
 | Turkey | Ottoman Iznik-tile + illustrated travel-comic | 78 | [styles/turkey.md](styles/turkey.md) |
 | United Kingdom | Quentin Blake loose pen-and-watercolor (Roald Dahl illustrator) | 82 | [styles/united-kingdom.md](styles/united-kingdom.md) |
