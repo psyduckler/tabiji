@@ -10,7 +10,7 @@ human) to generate a new batch of comics without re-deriving the system.
 
 ## Status
 
-23 countries with locked illustration styles, 2 pending creative bake-off (Italy, Vietnam — both have shipped comics generated without a locked style). Comic counts as of 2026-04-26.
+25 countries with locked illustration styles. Comic counts as of 2026-04-26.
 
 | Country | Style | Comics live | File |
 |---|---|---:|---|
@@ -28,6 +28,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | Greece | Ancient red-figure pottery | 41 | [styles/greece.md](styles/greece.md) |
 | Hong Kong | Shaw Brothers 1960s-70s painted cinema poster | 8 | [styles/hong-kong.md](styles/hong-kong.md) |
 | Indonesia | Balinese Lontar palm-leaf manuscript | 73 | [styles/indonesia.md](styles/indonesia.md) |
+| Italy | Warm hand-drawn travel-sketchbook (pencil + watercolor wash, yellow title banner) | 107 | [styles/italy.md](styles/italy.md) |
 | Japan | Contemporary illustrated travel-comic (neon night + warm day) | 60 | [styles/japan.md](styles/japan.md) |
 | Malaysia | Yusof Gajah vibrant naïve folk-art | 0 | [styles/malaysia.md](styles/malaysia.md) |
 | Mexico | Lotería card / Don Clemente tarjeta | 60 | [styles/mexico.md](styles/mexico.md) |
@@ -37,8 +38,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | Turkey | Ottoman Iznik-tile + illustrated travel-comic | 78 | [styles/turkey.md](styles/turkey.md) |
 | United Kingdom | Quentin Blake loose pen-and-watercolor (Roald Dahl illustrator) | 82 | [styles/united-kingdom.md](styles/united-kingdom.md) |
 | United States | Silver-Age American superhero-comic-book (Kirby/Ditko) | 238 | [styles/united-states.md](styles/united-states.md) |
-| Italy | _no style locked yet_ | 107 | _pending bake-off_ |
-| Vietnam | _no style locked yet_ | 72 | _pending bake-off_ |
+| Vietnam | Contemporary Vietnamese travel-comic with red lotus/cloud folk-art motifs | 72 | [styles/vietnam.md](styles/vietnam.md) |
 
 ## What to read in this folder
 

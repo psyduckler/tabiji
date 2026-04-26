@@ -361,7 +361,48 @@ STYLES = {
         "short printed English dialogue in simple black lettering — text must be legible and "
         "correctly spelled. Square 1:1 composition, 2K resolution."
     ),
-    "vietnam": "",  # placeholder; pending creative bake-off — 72 comics live without locked style
+    "italy": (
+        "A single illustrated comic book page in a warm hand-drawn travel-sketchbook cartoon "
+        "style: soft pencil linework with subtle cross-hatching and gentle shading, light "
+        "watercolor washes in a muted Italian palette of cream, terracotta, sandstone, sky "
+        "blue, warm ochre, and pale rose, friendly cartoon character figures with simple "
+        "expressive faces, recurring traveler protagonist (light-blue polo shirt, beige "
+        "shorts, white straw hat with brown band, backpack, camera) drawn with consistent "
+        "everyday realism, detailed Italian location backgrounds (Colosseum, Duomo di Milano, "
+        "Leaning Tower of Pisa, Trevi Fountain, Vesuvius silhouette, Florence Duomo, Pompeii "
+        "ruins, Venetian canals and gondolas — whichever fits the scam's actual location), "
+        "warm Mediterranean sunlight. The page is topped by a horizontal yellow title banner "
+        "spanning the full width, holding the scam name in all-caps brown serif lettering; "
+        "a small location label appears in the corner of panel 1 (e.g. 'ROME, ITALY:' or "
+        "'FLORENCE, ITALY - Piazza del Duomo'); the final panel contains a small yellow PRO "
+        "TIP callout box in the lower corner with one line of safety advice. Showing four "
+        "sequential panels arranged in a 2x2 grid separated by thin black panel borders with "
+        "narrow white gutters. Each panel contains one clean white rectangular speech bubble "
+        "with a small pointer tail, holding short printed English dialogue in simple black "
+        "comic lettering — text must be legible, in English only, and correctly spelled. "
+        "Square 1:1 composition, 2K resolution."
+    ),
+    "vietnam": (
+        "A single illustrated comic book page in a contemporary Vietnamese travel-comic "
+        "style with decorative folk-art accents: bold confident black ink outlines with "
+        "light cross-hatching, saturated warm palette of rust-red, mustard-yellow, "
+        "ocean-teal, deep navy blue, and forest-green on a warm cream-yellow paper "
+        "background, decorative red lotus-blossom and Vietnamese cloud-motif corner "
+        "flourishes at panel edges, small red circle with white numeral 1, 2, 3, 4 in the "
+        "corner of each panel, recurring female traveler protagonist (olive-green cargo "
+        "shorts, rust-red short-sleeved shirt, dark navy wide-brim sun hat with sunglasses "
+        "tucked into the band, backpack, smartphone) drawn with consistent everyday "
+        "realism, detailed Vietnamese location backgrounds (Hanoi Old Quarter, Tan Son Nhat "
+        "/ Noi Bai airport gates, Halong Bay limestone karsts, Sapa rice terraces, Hoi An "
+        "lantern-lit canals, Saigon Grab/Xanh SM rideshare cars, official ticket counters, "
+        "rural rice paddies — whichever fits the scam's actual location), authentic "
+        "Vietnamese-language signage where appropriate, warm tropical Vietnamese light. "
+        "Showing four sequential panels arranged in a 2x2 grid separated by thin black "
+        "panel borders with narrow cream gutters. Each panel contains one clean white "
+        "rectangular speech bubble with a small pointer tail, holding short printed English "
+        "dialogue in simple black comic lettering — text must be legible, in English only, "
+        "and correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
 }
 
 # Pilot reference images — used as style-anchor in the `edit` endpoint for all subsequent
@@ -390,4 +431,6 @@ PILOTS = {
     "austria": "https://img.tabiji.ai/scams/vienna/scam-1.jpg",
     "hong-kong": "https://img.tabiji.ai/scams/hong-kong/scam-1.jpg",
     "croatia": "https://img.tabiji.ai/scams/dubrovnik/scam-1.jpg",
+    "italy": "https://img.tabiji.ai/scams/pisa/scam-1.jpg",
+    "vietnam": "https://img.tabiji.ai/scams/ho-chi-minh-city/scam-1.jpg",
 }
