@@ -755,6 +755,14 @@ EMERGENCY_INFO = {
         "report_site": "Egypt Tourism Authority",
         "lost_passport": "Contact your country's embassy or consulate in Cairo; the nearest consulates for most countries are in Cairo. File a police report at the local Tourist Police station in Hurghada and bring a photocopy of your passport for faster processing.",
     },
+    "Egypt (Alexandria)": {
+        "police_name": "Egyptian Tourist Police",
+        "police_number": "126",
+        "emergency_number": "122",
+        "report_url": "https://www.egypt.travel",
+        "report_site": "Egypt Tourism Authority",
+        "lost_passport": "Contact your country's embassy or consulate in Cairo; the nearest US consulate-level service is the US Embassy in Cairo at 5 Tawfik Diab Street, Garden City, +20 2-2797-3300. File a police report at the local Tourist Police station in Alexandria and bring a photocopy of your passport for faster processing.",
+    },
     "United States (Portland)": {
         "police_name": "Portland Police Bureau",
         "police_number": "(503) 823-3333",
@@ -1122,6 +1130,14 @@ EMERGENCY_INFO = {
         "report_url": "https://www.efp.gov.et/",
         "report_site": "efp.gov.et",
         "lost_passport": "Contact the US Embassy in Addis Ababa at Entoto Street, PO Box 1014, Addis Ababa. For emergencies: +251 11 130 6000 (24/7). Email: AddisACS@state.gov. The UK Embassy is on Comoros Street, Addis Ababa (+251 11 661 0588). The official Ethiopian e-visa portal is www.evisa.gov.et — apply nowhere else.",
+    },
+    "New Zealand": {
+        "police_name": "New Zealand Police",
+        "police_number": "111 (emergency) or 105 (non-emergency)",
+        "emergency_number": "111",
+        "report_url": "https://www.police.govt.nz/use-105",
+        "report_site": "police.govt.nz",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy is in Wellington at 29 Fitzherbert Terrace, Thorndon. For emergencies: +64 4 462 6000. The UK High Commission is at 44 Hill Street, Wellington (+64 4 924 2888). Apply for the NZeTA only at immigration.govt.nz — every other site is a markup reseller or scam.",
     },
 }
 
@@ -1644,6 +1660,13 @@ CITY_SLUGS = {
 
 # City-specific safety tips
 SAFETY_TIPS = {
+    "Almaty": [
+        "From Almaty International Airport (ALA), book Yandex Go or InDriver from inside the terminal — legitimate fares to the city are ₸2,500–₸4,500; refuse every curbside driver quoting ₸15,000+ or asking for cash up front",
+        "On Panfilov Street and the Tole Bi nightclub strip, never accept a poured drink you did not see mixed and never share a taxi with someone you met that night — the US State Department's Kazakhstan advisory names drink-spike robbery in unmarked taxis as a recurring threat",
+        "Refuse every plain-clothes \"police\" wallet or passport inspection on the street — real Kazakh police never count your cash on the spot; photograph the badge, dial 102 in front of the officer, and call the US Consulate Almaty on +7 727 250 4802 if anything is taken",
+        "Pay by Kaspi QR via the Kaspi.kz app instead of swiping cards, and withdraw cash only inside Halyk Bank, Kaspi Bank, or ForteBank lobbies during business hours — Canada and OSAC both flag ATM skimming as prevalent across Almaty's tourist districts",
+        "Book Charyn Canyon, Big Almaty Lake, and Kok-Tobe tours through Visit Almaty on Republic Square or a hotel-verified operator with a tax ID and Kaspi fiscal receipt — never pay full upfront to a sidewalk kiosk or a Telegram-only contact",
+    ],
     "Addis Ababa": [
         "From Bole International Airport, book Ride or Feres on terminal Wi-Fi (300 birr–600 birr typical) or call the airport hotline 6090 — refuse curb drivers quoting 2,000 birr–2,500 birr for short rides to Bole sub-city hotels",
         "On Bole Road, Meskel Square, and Piazza, shout 'leba' (thief) and step back if any stranger spits, splashes, or paint-splashes your clothing — the apology is the distraction; never look down to check the stain",
@@ -2396,6 +2419,12 @@ SAFETY_TIPS = {
         "At Djemaa el-Fna square, entertainers (snake charmers, monkey handlers) will demand payment if you photograph them — agree on a price first or don't photograph",
         "Negotiate all prices before shopping in the souks — initial prices are almost always dramatically inflated",
         "Book taxis through your riad — street taxi prices for tourists are rarely metered and require firm pre-negotiation",
+    ],
+    "Alexandria": [
+        "Use Uber, InDrive, or Careem for every Alexandria ride and pay only in app — black-and-yellow street taxis run no meters and routinely yell for double the agreed fare on arrival per r/EgyptTravelTips 'First two days in Alexandria- first impressions' (2026); a downtown-to-Borg El Arab Uber posts at about 500 Egyptian pounds for 40 to 50 kilometers, undercutting almost every street-rank quote",
+        "At Borg El Arab Airport Terminal 2, walk past the Euronet ATM and use a Bank Misr or QNB machine instead — Euronet posts dynamic-currency-conversion offers and high markups, while Bank Misr at Terminal 1 and QNB in the city take no fee and cap withdrawals at 4,000 Egyptian pounds per transaction",
+        "Refuse every freelance 'guide' who falls into step alongside you at Qaitbay Citadel, the Bibliotheca Alexandrina, the Catacombs of Kom el Shoqafa, or Pompey's Pillar — book guides only through your hotel concierge or the Egypt Tourism Authority and pay only at the official ticket counter",
+        "Do not seat at any Corniche fish house between Bahary and Stanley that cannot show a printed per-kilogram price list and a posted menu — photograph the price card before the fish leaves the ice display and call consumer protection at 19588 if the bill exceeds the agreed total by more than ten percent",
     ],
     "Cairo": [
         "At the Pyramids, anyone who approaches you on a horse, camel, or on foot offering help is not free — agree on a firm price for everything before accepting",
@@ -3561,10 +3590,35 @@ SAFETY_TIPS = {
         "On Delhi-Agra Uber Intercity rides, real Yamuna Expressway and city tolls run roughly Rs 800 to Rs 1,000 — pay only at the toll plaza booth and message Uber Support inside the ride if a driver demands Rs 2,500 or more in cash",
         "Save the Agra Tourist Police hotline +91 9454402764 and the all-India emergency 112 in your phone before you arrive; the tourist police email so-tourism.ag@up.gov.in handles complaints from foreign visitors",
     ],
+    "Almaty": [
+        "From Almaty Airport (ALA), install Yandex Go or inDrive before landing and order from inside arrivals — the legitimate fare downtown is KZT 3,000–KZT 5,000; refuse every curb-side driver quoting KZT 18,000 or more, a pattern documented across 2025 and 2026 r/Kazakhstan threads",
+        "On Panfilov Street and Arbat lounge bars, never accept a drink poured out of your sight and never leave with someone met at the bar — drink-spike taxi robberies and surprise KZT 200,000–KZT 400,000 lounge tabs are the documented late-night risks",
+        "Book the first night through Booking.com or Airbnb and treat any Krisha.kz listing as cash-on-arrival only — wire transfers to a Krisha host who moves the chat to WhatsApp are the most common short-stay rental scam",
+        "Hang up on any caller claiming to be Kaspi Bank, the National Bank, or KNB and verify only at the number printed on your card — save Kazakhstan emergency 112, police 102, and US Consulate Almaty +7 727-250-4802",
+    ],
+    "Auckland": [
+        "From Auckland Airport, book Uber, Zoomy, or Co-op Taxis on terminal Wi-Fi before walking to the rank — refuse any cab without a visible meter quoting NZ$ 150 to NZ$ 200 for the 22 km city run that should be NZ$ 75 to NZ$ 110",
+        "Apply for the NZeTA only at immigration.govt.nz or via the official NZeTA app — the real fee is NZ$ 17 by app or NZ$ 23 by web plus the NZ$ 100 IVL; lookalike sites charge NZ$ 60 to NZ$ 100 markups for the same document",
+        "Photograph every panel, wheel, and the interior of any hire car at pickup and again at drop-off, then dispute post-departure damage charges within 30 days through your credit-card chargeback rights",
+        "Hang up on any caller or texter claiming to be NZ Police, IRD, or NZ Post about a fine or parcel — dial 105 to verify and never pay anyone by gift card, crypto, or bank transfer over the phone",
+        "Forward suspicious Booking.com messages to reportphishing@booking.com and confirm any post-stay payment request inside the official Booking.com app — the platform never asks guests to re-enter card details after checkout",
+    ],
 }
 
 # City-specific FAQ
 FAQS = {
+    "Almaty": [
+        ("Is Almaty safe for tourists?",
+         "Almaty is generally safe for daytime tourism in the central grid bounded by Panfilov Park, Republic Square, Dostyk Avenue, and Abay Avenue, with violent crime against foreigners rare. The practical risks are financial: airport taxi shakedowns at ALA arrivals (₸15,000–₸25,000 quotes for ₸2,500–₸4,500 rides); drink-spike robberies in Panfilov Street and Tole Bi nightclubs documented by the US State Department advisory; plain-clothes \"police\" wallet inspections at Republic Square and Kok-Tobe; ATM skimming flagged by US, Canadian, and OSAC advisories; and Krisha.kz rental fraud. Save 102 (police), 112 (general emergency), and the US Consulate Almaty +7 727 250 4802."),
+        ("What is the most common scam at Almaty Airport?",
+         "The most common Almaty International Airport (ALA) scam is the unmarked-taxi shakedown at the arrivals curb. Drivers approach exhausted travelers between midnight and 6 AM, quote ₸15,000–₸25,000 for the 17 km city ride, and refuse to open the trunk at the destination until cash is paid — sometimes escalating to ₸77,000 as documented in a September 2024 Hindustan Times report. The legitimate Yandex Go fare runs ₸2,500–₸4,500. The defense is to walk past every curbside offer, book Yandex Go or InDriver from inside the terminal, and screenshot the in-app fare and registered plate before pickup."),
+        ("Is Yandex Go safe to use in Almaty?",
+         "Yes — Yandex Go and InDriver are the two safest ride options in Almaty and the local default for both residents and travelers. Both apps show the registered plate, driver photo, and metered fare before pickup, which protects you from the curbside renegotiation that fuels most taxi scams in the city. Book the ride from inside the terminal at ALA before walking to the doors. r/Kazakhstan threads from 2025 and 2026 consistently recommend Yandex Go over street hails and confirm the airport-to-city fare typically runs ₸2,500–₸4,500. Avoid unmarked sedans and any driver claiming the apps \"don't work here.\""),
+        ("Where is it safe to walk in Almaty?",
+         "Panfilov Park, Republic Square, the Arbat pedestrian street, Dostyk Avenue between Abay and the Hyatt, and the Esentai mall corridor are the safest daytime walking zones, with steady foot traffic and visible police. The Green Bazaar and Kok-Tobe gondola base stay safe in daytime but watch for pickpockets and plain-clothes badge approaches in the surrounding streets. Avoid the Tole Bi nightclub corridor and side streets off Panfilov Street alone after 1 AM, where most drink-spike and unmarked-taxi robberies are documented. Use Yandex Go for any movement after midnight rather than street hails."),
+        ("Are ATMs safe to use in Almaty?",
+         "Stand-alone street-corner ATMs in tourist areas — Tole Bi, Green Bazaar perimeter, Arbat Street, late-night convenience stores — are the highest-risk for skimming and card cloning, flagged as prevalent by the US State Department, Canadian government, and OSAC Kazakhstan country security report. ATMs inside Halyk Bank, Kaspi Bank, and ForteBank branch lobbies during business hours are routinely swept and far safer. Better still, install Kaspi.kz on arrival and pay by Kaspi QR — it is the local default and bypasses card exposure entirely. Set a daily SMS-alert cap of ₸50,000 with your home bank before traveling."),
+    ],
     "Addis Ababa": [
         ("Is Addis Ababa safe for tourists?",
          "Addis Ababa is generally safe for daytime tourism in Bole, Kazanchis, Sarbet, Old Airport, and CMC neighborhoods, with violent crime against foreigners rare. The practical risks are financial: Bole International Airport taxi overcharges (2,000 birr–2,500 birr opening asks for 300 birr–600 birr rides); spit-and-grab pickpocket teams on Bole Road and near Piazza; coffee-bar bait scams routing visitors off Bole Road to back-room venues with 4,500 birr–5,000 birr bills; roadside police passport shakedowns; fake e-visa and tour-operator portals; and Merkato fake-guide markups. Late-night walking outside Bole and Sarbet is not advised. Save Ethiopian Federal Police 991 or 922 and US Embassy +251 11 130 6000."),
@@ -5365,6 +5419,18 @@ FAQS = {
         ("Is it safe to eat street food in Djemaa el-Fna?",
          "The food stalls in Djemaa el-Fna are a famous experience, but the pricing system requires care: stall hawkers will aggressively try to seat you, and the prices are higher than they appear. Agree on prices before sitting and eating. The snail soup, orange juice, and lamb tagines are genuinely good and safe. For the best street food at local prices, explore one block into the Medina rather than eating in the square itself."),
     ],
+    "Alexandria": [
+        ("Is Alexandria safe for tourists?",
+         "Alexandria's main tourist areas — the Corniche promenade between Bahary and Stanley, the Bibliotheca Alexandrina, Qaitbay Citadel, and the downtown grid around Mahatet Misr Station — are generally safe with a visible police presence and a relaxed Mediterranean feel relative to Cairo. Violent crime against visitors is uncommon. The primary risks are taxi fare-renegotiation on the Corniche, freelance-guide overcharges at the Citadel and Bibliotheca, and no-menu fish restaurants in Bahary. Stick to ride-hailing apps, book guides through your hotel, and confirm any restaurant price in writing before ordering."),
+        ("What is the most common scam in Alexandria?",
+         "Black-and-yellow street-taxi fare-renegotiation is the most-cited Alexandria scam in 2025 and 2026 community threads. Drivers at Corniche taxi pulls, the Bibliotheca drop-off, and Sidi Gaber Station accept a verbal fare at the door, then yell for double the figure when you arrive — sometimes claiming the price was per person rather than per ride. Use Uber, InDrive, or Careem for every ride and pay only in app. A downtown-to-Borg El Arab Uber posts at about 500 Egyptian pounds for 40 to 50 kilometers."),
+        ("How much should a taxi from Borg El Arab Airport cost?",
+         "Uber and InDrive both run from Borg El Arab Airport (HBE) to downtown Alexandria, a 40 to 50 kilometer trip, for roughly 500 Egyptian pounds in 2026 according to first-person traveler reports. Black-and-yellow rank taxis in the arrivals hall typically quote three to four times that figure, sometimes in US dollars and without a receipt. Pre-book your ride from the arrivals-hall Wi-Fi before walking to the curb. Decline every dynamic-currency-conversion offer at the Euronet ATM in Terminal 2 — use Bank Misr at Terminal 1 or QNB in the city instead."),
+        ("Where is it safe to walk in Alexandria?",
+         "The Corniche promenade between San Stefano and Stanley Bridge is the city's main public walking route and is well-lit and patrolled into the evening. Downtown Alexandria around Saad Zaghloul Square, the tram corridor, and the Bibliotheca quarter are all comfortable on foot during daylight. Bahary's seafront and the Anfoushi fishing district are atmospheric but feel quieter at night — go in daylight if you are visiting alone. Avoid wandering El Max and the western industrial port zones outside organized tours, and treat unsolicited 'guide' approaches at Qaitbay Citadel and Pompey's Pillar as commercial pitches rather than friendly help."),
+        ("Is the Cairo to Alexandria train safe and how should I book?",
+         "The Egyptian National Railways Cairo to Alexandria service, including the first-class Telago train, is the standard tourist link between the two cities and is generally safe and reliable. The pull to watch is at the in-station ticket booth, where some agents quote tourists 20 to 50 percent above the published rate without showing a printed fare card. Book through your hotel concierge or a registered Egyptian travel agency to pay the local rate. If you must use the booth, ask politely for the printed fare card before any quote and pay in Egyptian pounds rather than US dollars."),
+    ],
     "Cairo": [
         ("Is Cairo safe for tourists?",
          "Cairo's main tourist areas — Giza, Islamic Cairo, Khan el-Khalili, and the Nile Corniche — are generally safe for tourists with a police presence. Violent crime against visitors is uncommon. The primary challenges are aggressive touting at tourist sites, traffic, and scams near the Pyramids. Exercise standard caution, use official tour guides, and stay in well-trafficked areas."),
@@ -7025,6 +7091,30 @@ FAQS = {
         ("How should I deal with autorickshaw drivers in Agra?",
          "Use Uber Auto or Ola Auto from inside your hotel WiFi rather than flagging an autorickshaw on the street, where 'free city tour' offers around Rs 200 turn into multi-stop circuits through marble, leather, and silk shops on a 30% to 40% commission. Refuse every unsolicited offer outside the hotel exit, the Taj Mahal east gate auto stand, the Agra Fort entrance, and Agra Cantonment railway station, and exit immediately at the first unscheduled shop stop. Save the Agra Tourist Police hotline +91 9454402764 in your phone before you arrive."),
     ],
+    "Almaty": [
+        ("Is Almaty safe for tourists?",
+         "Almaty is generally safe for tourists, with low rates of violent crime and a visible police presence in the central districts. The practical risks are financial: airport-taxi overcharging at Almaty Airport (ALA) where curb-side drivers quote KZT 18,000–KZT 30,000 for a ride that costs KZT 3,000–KZT 5,000 on Yandex Go; lounge-bar honey-trap and drink-spike robberies on Panfilov Street and around the Arbat; Krisha.kz short-stay rental scams demanding wire transfers before key handover; phone impersonation calls posing as Kaspi Bank, the National Bank, or KNB; and pickpocketing on packed buses on Tole Bi and Abay and at the Green Bazaar. Save Kazakhstan emergency 112, police 102, and US Consulate Almaty +7 727-250-4802."),
+        ("What is the most common scam in Almaty?",
+         "Airport-taxi overcharging is the single most-reported tourist scam in Almaty, with curb-side drivers at Almaty Airport (ALA) quoting KZT 18,000–KZT 30,000 for the ride downtown when the legitimate Yandex Go fare for the same 17-kilometer trip is KZT 3,000–KZT 5,000. The pattern repeats daily across r/Kazakhstan threads in 2025 and 2026 — drivers approaching tourists inside arrivals, fake meter apps, and crowding at the hotel drop-off when a foreigner protests. The defense is to install Yandex Go or inDrive before landing, ignore every curb-side offer, and walk to the marked app pick-up zone past the arrivals doors."),
+        ("How much should a taxi from Almaty Airport (ALA) cost?",
+         "A legitimate ride from Almaty Airport (ALA) to the city center is KZT 3,000–KZT 5,000 on Yandex Go or inDrive during the day, and slightly more after midnight. Quotes above KZT 8,000 are an overcharge, and quotes of KZT 18,000–KZT 30,000 reported repeatedly on r/Kazakhstan in 2025 and 2026 are the curb-side scam pattern. Install the app before landing, order from inside arrivals, and walk to the marked app pick-up zone — there is no formal taxi rank with posted rates at ALA, so the freelancers at the curb quote whatever they think a tired tourist will pay."),
+        ("Is it safe to walk around Almaty at night?",
+         "Most of central Almaty — Panfilov Street, the Arbat, the Almaly district, and the area around Kok-Tobe — is safe to walk after dark, with security guards at malls and a visible police presence. Recent 2025 and 2026 trip reports on r/Kazakhstan, r/travel, and r/solotravel praise Almaty's overall safety. The exceptions are nightlife venues themselves (lounge-bar honey-trap and drink-spike robberies are documented) and packed rush-hour buses on Tole Bi and Abay. Avoid leaving a bar with someone you just met, never accept a drink poured out of your sight, and order a Yandex Go car back to your hotel rather than walking past unfamiliar bars."),
+        ("Are ATMs and money-changers safe in Almaty?",
+         "ATMs at major Kazakh banks (Kaspi, Halyk, Forte) and licensed money-changers in central Almaty are reliable, with no widespread skimming reports. Use ATMs inside bank branches when possible, and avoid changing money at airport kiosks or unbranded street stalls. Cards are accepted nearly everywhere — bring a small amount of USD as backup and convert to tenge at a downtown bank branch. Watch for phone-impersonation scams instead: a caller posing as Kaspi Bank or the KNB security service who tells you to walk to an ATM and transfer funds is the documented digital fraud pattern in 2025 and 2026 r/Kazakhstan threads."),
+    ],
+    "Auckland": [
+        ("Is Auckland safe for tourists?",
+         "Auckland is generally safe for daytime tourism in the CBD, Viaduct Harbour, Ponsonby, Parnell, Mission Bay, and Devonport, with violent crime against foreigners rare. The practical risks are financial: Auckland Airport unmetered taxi overcharges quoting NZ$ 150 to NZ$ 200 against a NZ$ 75 to NZ$ 110 metered run; lookalike NZeTA visa portals that charge NZ$ 60 to NZ$ 100 for a NZ$ 17 government document; rental car phantom-damage charges that hit your card after drop-off; ATM skimming on Queen Street and ferry-terminal cash and parking machines; Booking.com reservation-hijack phishing after Auckland stays; and fake NZ Police call and text scams. Save NZ Police 111 (emergency) and 105 (non-emergency) in your phone."),
+        ("What is the most common scam at Auckland Airport?",
+         "The most reported Auckland Airport scam is the unmetered taxi overcharge. Drivers approach foreigners walking toward the rank and quote NZ$ 150 to NZ$ 200 for the 22 km run into the CBD, against a metered or app-booked rate of NZ$ 75 to NZ$ 110. r/auckland threads through 2025 record the same script at both the international and domestic terminals. The defense is to book Uber, Zoomy, or Co-op Taxis on terminal Wi-Fi before leaving the building, or to confirm a written fare with a clearly licensed driver at the official rank. Refuse to load luggage until a meter is on or an app fare is displayed."),
+        ("How do I apply for an NZeTA without getting overcharged?",
+         "Apply only at immigration.govt.nz or via the official NZeTA app on the App Store or Google Play. The real cost is NZ$ 17 by app or NZ$ 23 by web plus the NZ$ 100 International Visitor Conservation and Tourism Levy. Search results and Google ads regularly surface lookalike sites with names like 'nzeta-visa', 'newzealand-eta', or 'visa-newzealand' that charge NZ$ 60 to NZ$ 100 markups for the same document. Pay only by credit card with chargeback protection and verify the URL bar reads immigration.govt.nz before entering any passport details."),
+        ("How do I avoid hire-car damage charges after drop-off in Auckland?",
+         "Photograph every panel, wheel, the windscreen, the roof, and the interior of the car at pickup, and repeat the full set at drop-off with a timestamp visible. r/auckland and r/newzealand threads through 2025 document repeated cases of operators charging NZ$ 600 to NZ$ 4,500 for scratches and dents the customer did not cause, sometimes weeks after return. Use a credit card with rental-car chargeback rights, refuse to sign any drop-off form claiming new damage, and dispute any charge inside 30 days through your card issuer with your timestamped photos as evidence."),
+        ("How should I use ATMs and parking machines safely in Auckland?",
+         "Use ATMs inside bank branches at ANZ, ASB, BNZ, Westpac, or Kiwibank during business hours rather than free-standing machines on Queen Street, Karangahape Road, or near ferry terminals. Cover the keypad with your free hand when entering the PIN and tug the card slot before inserting — skimmer overlays come off with light pressure. Pay-and-display parking machines in the CBD have also been targeted by skimming overlays, so prefer the AT Park app over machine card payments. If your card is captured or your PIN compromised, call your bank's 24/7 fraud line immediately and freeze the card in-app."),
+    ],
 }
 
 def danger_badge(level):
@@ -7686,7 +7776,8 @@ def build_related_cities_map(all_cities):
                     break
 
         # If still short, add global popular
-        global_fallback = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo"]
+        global_fallback = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo",
+                           "Buenos Aires", "Kuala Lumpur", "Taipei", "Abu Dhabi", "Addis Ababa"]
         if len(cross_country) < 3:
             for gf in global_fallback:
                 if gf not in used and gf in city_lookup:

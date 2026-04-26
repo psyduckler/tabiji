@@ -73,7 +73,7 @@ For every city in this book, the *Polis Karakolu* (police station) is the defaul
 ### Istanbul
 
 - **Turizm Polisi (Tourist Police):** Yerebatan Caddesi 4/6, Sultanahmet, 34122. Phone **+90 212 527 4503**. Open daily, English by default. Three-minute walk from the Blue Mosque.
-- **Major 24/7 emergency hospitals:** **American Hospital Istanbul** (private, Nişantaşı, +90 212 444 3 777, the primary hospital of choice for foreign visitors with English-speaking international-patient services); **Acıbadem Maslak Hospital** (private, +90 212 444 5 544); **Memorial Şişli Hospital** (private, +90 212 314 6666); **Istanbul University Çapa Medical Faculty Hospital** (public, for emergency care, +90 212 414 2000).
+- **Major 24/7 emergency hospitals:** **American Hospital Istanbul** (private, Nişantaşı, **444 3 777** inside Turkey or +90 444 3 777 from abroad — the primary hospital of choice for foreign visitors with English-speaking international-patient services); **Acıbadem Maslak Hospital** (private, **444 5 544** / +90 444 5 544); **Memorial Şişli Hospital** (private, +90 212 314 6666); **Istanbul University Çapa Medical Faculty Hospital** (public, for emergency care, +90 212 414 2000).
 - **US Consulate General Istanbul:** Üç Şehitler Sokak No. 2, +90 212 335 9000.
 - **British Consulate General Istanbul:** Meşrutiyet Caddesi 34, +90 212 334 6400.
 
@@ -102,7 +102,7 @@ For every city in this book, the *Polis Karakolu* (police station) is the defaul
 ### Bodrum
 
 - **Turizm Polisi:** Atatürk Caddesi 3, 48400 Bodrum. Phone **+90 252 313 1234**. Near the Crusader Castle entrance.
-- **Major 24/7 emergency hospitals:** **Acıbadem Bodrum Hospital** (private, +90 252 444 5 544, English-capable international wing); **Bodrum State Hospital** (public, +90 252 313 1500); **Özel Bodrum Hospital** (private, +90 252 317 1414).
+- **Major 24/7 emergency hospitals:** **Acıbadem Bodrum Hospital** (private, **444 5 544** / +90 444 5 544, English-capable international wing); **Bodrum State Hospital** (public, +90 252 313 1500); **Özel Bodrum Hospital** (private, +90 252 317 1414).
 - **British Honorary Consul Bodrum:** Rahmi Kaymaz Street 3, +90 252 313 0021.
 
 ### Marmaris
@@ -118,7 +118,7 @@ For every city in this book, the *Polis Karakolu* (police station) is the defaul
 ### Antalya
 
 - **Turizm Polisi:** Cumhuriyet Caddesi 4, Kaleiçi, 07050 Antalya. Phone **+90 242 247 2400**. Near Hadrian's Gate in the old town.
-- **Major 24/7 emergency hospitals:** **Memorial Antalya Hospital** (private, +90 242 444 7888, English-capable); **Akdeniz University Hospital** (public teaching, +90 242 227 4343); **Medical Park Antalya** (private, +90 242 444 4 484).
+- **Major 24/7 emergency hospitals:** **Memorial Antalya Hospital** (private, **444 7888** / +90 444 7888, English-capable); **Akdeniz University Hospital** (public teaching, +90 242 227 4343); **Medical Park Antalya** (private, **444 4 484** / +90 444 4 484).
 - **British Honorary Consulate Antalya:** Özgürlük Bulvarı 1, Dolphin Center, Kat 3 D.5, +90 242 244 5313.
 
 ### Alanya
@@ -134,7 +134,7 @@ For every city in this book, the *Polis Karakolu* (police station) is the defaul
 ### Pamukkale (Denizli)
 
 - **Tourist-police contact:** No dedicated Turizm Polisi desk at Pamukkale. Dispatch via **155** (Polis) or **156** (Jandarma, +90 258 272 2077). The Denizli Tourist Information hotline at **+90 258 264 3971** handles tourist complaints during office hours.
-- **Major 24/7 emergency hospital:** **Pamukkale Özel Hospital** (private, +90 258 264 4444); **Denizli State Hospital** (public, +90 258 261 0000); **Pamukkale University Hospital** (public teaching, +90 258 444 0728).
+- **Major 24/7 emergency hospital:** **Pamukkale Özel Hospital** (private, +90 258 264 4444); **Denizli State Hospital** (public, +90 258 261 0000); **Pamukkale University Hospital** (public teaching, **444 0728** / +90 444 0728).
 
 ### Konya
 
