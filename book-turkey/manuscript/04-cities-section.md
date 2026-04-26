@@ -8,7 +8,7 @@ If you're hitting only a few of these, skip to the chapter you need. If you're d
 
 ![Istanbul — Blue Mosque and Hagia Sophia across Sultanahmet at dusk](assets/cities/istanbul.jpg)
 
-**Istanbul** — Turkey's flagship city and the densest approach-scam ecosystem on the eastern Mediterranean. The Sultanahmet shoe-shine brush drop that the Turizm Polisi have printed warning cards about since 2012; the Grand Bazaar carpet-shop "just for tea" pitch that leaves tourists with €1,500 kilims they didn't plan to buy; the Istiklal Caddesi "house cocktail" overcharge; the IST and SAW airport flat-rate taxi touts quoting 2,500–3,500 lira for metered 800–1,200 lira runs; and the Galata Bridge restaurant "let me show you a real Turkish place" that ends at a venue with no posted prices.
+**Istanbul** — Turkey's flagship city and the densest approach-scam ecosystem on the eastern Mediterranean. The Sultanahmet shoe-shine brush drop that the Turizm Polisi have printed warning cards about for over a decade; the Grand Bazaar carpet-shop "just for tea" pitch that leaves tourists with €1,500 kilims they didn't plan to buy; the Taksim "let's have a drink" approach that ends with an 8,000–20,000-lira basement-bar bill; the IST and SAW airport flat-rate taxi touts quoting 700–1,200 lira for metered 250–500 lira runs; and the after-dark fake-plainclothes-police ID check on the streets west of the Grand Bazaar.
 
 ![Cappadocia — hot-air balloons over the Göreme fairy chimneys at sunrise](assets/cities/cappadocia.jpg)
 
@@ -28,7 +28,7 @@ If you're hitting only a few of these, skip to the chapter you need. If you're d
 
 ![Bodrum — Castle of St Peter above the harbor at golden hour](assets/cities/bodrum.jpg)
 
-**Bodrum** — Aegean peninsula, Crusader castle, and the summer jet-ski scam capital of Turkey. Gümbet, Yalıkavak, and Turgutreis beach jet-ski damage-deposit cycles that *Hürriyet Daily News* has covered every summer since 2018; the Yalıkavak marina sunset-restaurant unposted cover charges; gulet-boat day-cruise downgrades where €80 per person becomes a 30-person budget trip; and the Bodrum Milas Airport (BJV) flat-rate taxi touts.
+**Bodrum** — Aegean peninsula, Crusader castle, and the summer jet-ski scam capital of Turkey. Gümbet, Yalıkavak, and Turgutreis beach jet-ski damage-deposit cycles that *Hürriyet Daily News* has covered every summer for years; the Yalıkavak marina sunset-restaurant unposted cover charges; gulet-boat day-cruise downgrades where €80 per person becomes a 30-person budget trip; and the Bodrum Milas Airport (BJV) flat-rate taxi touts.
 
 ![Marmaris — crescent bay and forested peninsula at blue hour](assets/cities/marmaris.jpg)
 

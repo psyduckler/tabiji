@@ -1,6 +1,6 @@
 # How to Use This Book {-}
 
-Turkey is extraordinary. It is also one of the most rehearsed tourist-scam destinations in the eastern Mediterranean — not because Turks are less honest than anyone else, but because fifty million annual visitors, a weakening lira, and a decades-long tourist economy have produced an unusually well-oiled set of scripts. Istanbul's Sultanahmet runs a *"shoe-shine brush drop"* scam so reliable that the Turizm Polisi have been handing out English-language warning cards at the Hagia Sophia exit since at least 2012. Bodrum and Marmaris run a summer jet-ski damage-deposit cycle that the *Hürriyet Daily News* has covered almost every season since 2018. Cappadocia's Göreme balloon-tour economy has a small but persistent "overbooking" circuit where tourists pay €250 for a flight that never takes off.
+Turkey is extraordinary. It is also one of the most rehearsed tourist-scam destinations in the eastern Mediterranean — not because Turks are less honest than anyone else, but because fifty million annual visitors, a weakening lira, and a decades-long tourist economy have produced an unusually well-oiled set of scripts. Istanbul's Sultanahmet runs a *"shoe-shine brush drop"* scam so reliable that the Turizm Polisi have been handing out English-language warning cards at the Hagia Sophia exit for over a decade. Bodrum and Marmaris run a summer jet-ski damage-deposit cycle that the *Hürriyet Daily News* has covered almost every season for years. Cappadocia's Göreme balloon-tour economy has a small but persistent "overbooking" circuit where tourists pay €250 for a flight that never takes off.
 
 The Tourism Ministry (**Kültür ve Turizm Bakanlığı**) logs tens of thousands of foreign-visitor complaints every year, most of them concentrated on a handful of heavily-marketed bazaars, beach strips, and scenic areas.
 
@@ -28,7 +28,7 @@ The third is the **emergency contacts appendix**. Tourist Police (**Turizm Polis
 
 ## A note on currency
 
-Turkey's currency is the **Turkish lira** (TL, TL). Inflation has run high in recent years, and the lira–US-dollar exchange rate has drifted materially between editions — verify on xe.com in the week before you travel. Tourist-facing venues in Istanbul, the Aegean, and the Mediterranean coast frequently quote prices in **euros** (€) as well, particularly for carpets, jewelry, scenic-area admissions, and gulet-boat charters. Don't be surprised when a hotel front desk presents a bill in euros while your taxi driver wants cash in lira.
+Turkey's currency is the **Turkish lira** (abbreviated **TL**). Inflation has run high in recent years, and the lira–US-dollar exchange rate has drifted materially between editions — verify on xe.com in the week before you travel. Tourist-facing venues in Istanbul, the Aegean, and the Mediterranean coast frequently quote prices in **euros** (€) as well, particularly for carpets, jewelry, scenic-area admissions, and gulet-boat charters. Don't be surprised when a hotel front desk presents a bill in euros while your taxi driver wants cash in lira.
 
 ## A suggested way to use the book
 

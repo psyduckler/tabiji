@@ -46,7 +46,7 @@ If the scam involved an off-platform booking (a WhatsApp balloon tour, a beach-c
 **File a formal consumer-protection complaint** with the **Ministry of Trade Consumer Protection Directorate** (*Ticaret Bakanlığı Tüketici Koruma Genel Müdürlüğü*) at **tuketici.ticaret.gov.tr** or by calling **175** (the consumer-complaint hotline, Turkish-speaking but with English callback available for tourist cases). This is the Turkish equivalent of the US FTC consumer-protection agency. It does not recover individual losses but its regulatory actions against repeat-offender tour operators, carpet shops, and hotels are one of the few effective pressures on the scam economy.
 
 For **transport overcharging** — licensed taxis, tour minibuses, and registered ride-hail drivers — file a parallel complaint with the municipal transportation authority:
-- **Istanbul:** IETT at **+90 212 444 1871**.
+- **Istanbul:** IETT at **444 1871** (inside Turkey) or **+90 444 1871** from abroad.
 - **Antalya:** Antalya Ulaşım A.Ş. at **+90 242 331 1700**.
 - **Bodrum / Marmaris / Fethiye:** Muğla Provincial Directorate of Transportation.
 
