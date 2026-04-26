@@ -755,6 +755,14 @@ EMERGENCY_INFO = {
         "report_site": "Egypt Tourism Authority",
         "lost_passport": "Contact your country's embassy or consulate in Cairo; the nearest consulates for most countries are in Cairo. File a police report at the local Tourist Police station in Hurghada and bring a photocopy of your passport for faster processing.",
     },
+    "Egypt (Alexandria)": {
+        "police_name": "Egyptian Tourist Police",
+        "police_number": "126",
+        "emergency_number": "122",
+        "report_url": "https://www.egypt.travel",
+        "report_site": "Egypt Tourism Authority",
+        "lost_passport": "Contact your country's embassy or consulate in Cairo; the nearest US consulate-level service is the US Embassy in Cairo at 5 Tawfik Diab Street, Garden City, +20 2-2797-3300. File a police report at the local Tourist Police station in Alexandria and bring a photocopy of your passport for faster processing.",
+    },
     "United States (Portland)": {
         "police_name": "Portland Police Bureau",
         "police_number": "(503) 823-3333",
@@ -2396,6 +2404,12 @@ SAFETY_TIPS = {
         "At Djemaa el-Fna square, entertainers (snake charmers, monkey handlers) will demand payment if you photograph them — agree on a price first or don't photograph",
         "Negotiate all prices before shopping in the souks — initial prices are almost always dramatically inflated",
         "Book taxis through your riad — street taxi prices for tourists are rarely metered and require firm pre-negotiation",
+    ],
+    "Alexandria": [
+        "Use Uber, InDrive, or Careem for every Alexandria ride and pay only in app — black-and-yellow street taxis run no meters and routinely yell for double the agreed fare on arrival per r/EgyptTravelTips 'First two days in Alexandria- first impressions' (2026); a downtown-to-Borg El Arab Uber posts at about 500 Egyptian pounds for 40 to 50 kilometers, undercutting almost every street-rank quote",
+        "At Borg El Arab Airport Terminal 2, walk past the Euronet ATM and use a Bank Misr or QNB machine instead — Euronet posts dynamic-currency-conversion offers and high markups, while Bank Misr at Terminal 1 and QNB in the city take no fee and cap withdrawals at 4,000 Egyptian pounds per transaction",
+        "Refuse every freelance 'guide' who falls into step alongside you at Qaitbay Citadel, the Bibliotheca Alexandrina, the Catacombs of Kom el Shoqafa, or Pompey's Pillar — book guides only through your hotel concierge or the Egypt Tourism Authority and pay only at the official ticket counter",
+        "Do not seat at any Corniche fish house between Bahary and Stanley that cannot show a printed per-kilogram price list and a posted menu — photograph the price card before the fish leaves the ice display and call consumer protection at 19588 if the bill exceeds the agreed total by more than ten percent",
     ],
     "Cairo": [
         "At the Pyramids, anyone who approaches you on a horse, camel, or on foot offering help is not free — agree on a firm price for everything before accepting",
@@ -5364,6 +5378,18 @@ FAQS = {
          "Expect to negotiate everything. The standard approach: ask the price, offer 25–30% of what's quoted, and settle somewhere around 40–60% of original. Walking away often results in the seller calling you back at a lower price. Don't feel pressured to buy after spending time looking — 'just looking' is legitimate. Avoid buying anything in the first souk you visit; get a feel for prices first."),
         ("Is it safe to eat street food in Djemaa el-Fna?",
          "The food stalls in Djemaa el-Fna are a famous experience, but the pricing system requires care: stall hawkers will aggressively try to seat you, and the prices are higher than they appear. Agree on prices before sitting and eating. The snail soup, orange juice, and lamb tagines are genuinely good and safe. For the best street food at local prices, explore one block into the Medina rather than eating in the square itself."),
+    ],
+    "Alexandria": [
+        ("Is Alexandria safe for tourists?",
+         "Alexandria's main tourist areas — the Corniche promenade between Bahary and Stanley, the Bibliotheca Alexandrina, Qaitbay Citadel, and the downtown grid around Mahatet Misr Station — are generally safe with a visible police presence and a relaxed Mediterranean feel relative to Cairo. Violent crime against visitors is uncommon. The primary risks are taxi fare-renegotiation on the Corniche, freelance-guide overcharges at the Citadel and Bibliotheca, and no-menu fish restaurants in Bahary. Stick to ride-hailing apps, book guides through your hotel, and confirm any restaurant price in writing before ordering."),
+        ("What is the most common scam in Alexandria?",
+         "Black-and-yellow street-taxi fare-renegotiation is the most-cited Alexandria scam in 2025 and 2026 community threads. Drivers at Corniche taxi pulls, the Bibliotheca drop-off, and Sidi Gaber Station accept a verbal fare at the door, then yell for double the figure when you arrive — sometimes claiming the price was per person rather than per ride. Use Uber, InDrive, or Careem for every ride and pay only in app. A downtown-to-Borg El Arab Uber posts at about 500 Egyptian pounds for 40 to 50 kilometers."),
+        ("How much should a taxi from Borg El Arab Airport cost?",
+         "Uber and InDrive both run from Borg El Arab Airport (HBE) to downtown Alexandria, a 40 to 50 kilometer trip, for roughly 500 Egyptian pounds in 2026 according to first-person traveler reports. Black-and-yellow rank taxis in the arrivals hall typically quote three to four times that figure, sometimes in US dollars and without a receipt. Pre-book your ride from the arrivals-hall Wi-Fi before walking to the curb. Decline every dynamic-currency-conversion offer at the Euronet ATM in Terminal 2 — use Bank Misr at Terminal 1 or QNB in the city instead."),
+        ("Where is it safe to walk in Alexandria?",
+         "The Corniche promenade between San Stefano and Stanley Bridge is the city's main public walking route and is well-lit and patrolled into the evening. Downtown Alexandria around Saad Zaghloul Square, the tram corridor, and the Bibliotheca quarter are all comfortable on foot during daylight. Bahary's seafront and the Anfoushi fishing district are atmospheric but feel quieter at night — go in daylight if you are visiting alone. Avoid wandering El Max and the western industrial port zones outside organized tours, and treat unsolicited 'guide' approaches at Qaitbay Citadel and Pompey's Pillar as commercial pitches rather than friendly help."),
+        ("Is the Cairo to Alexandria train safe and how should I book?",
+         "The Egyptian National Railways Cairo to Alexandria service, including the first-class Telago train, is the standard tourist link between the two cities and is generally safe and reliable. The pull to watch is at the in-station ticket booth, where some agents quote tourists 20 to 50 percent above the published rate without showing a printed fare card. Book through your hotel concierge or a registered Egyptian travel agency to pay the local rate. If you must use the booth, ask politely for the printed fare card before any quote and pay in Egyptian pounds rather than US dollars."),
     ],
     "Cairo": [
         ("Is Cairo safe for tourists?",
