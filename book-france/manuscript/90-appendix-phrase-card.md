@@ -28,7 +28,7 @@ Use this before you sit down at any restaurant. French law requires an *affichag
 Y a-t-il un couvert? Et le service est-il compris?
 *Yah-TEEL un koo-VEHR? Eh luh sehr-VEES eh-TEEL kohm-PREE?*
 
-The two words that matter are *couvert* (a per-head cover charge for bread and water, legal but usually under €3 at fair places and €4 to €7 in tourist traps) and *service* (service charge, which is legally included in all French menu prices — the phrase *service compris* is required by law). Asking both questions before you sit is how you head off an unposted cover or a surprise “service supplement.”
+The two words that matter are *couvert* (a per-head cover charge for bread and water, legal but usually under €3 at fair places and €4–7 in tourist traps) and *service* (service charge, which is legally included in all French menu prices — the phrase *service compris* is required by law). Asking both questions before you sit is how you head off an unposted cover or a surprise “service supplement.”
 
 **What is the price per 100 grams?**
 Quel est le prix au 100 grammes?
