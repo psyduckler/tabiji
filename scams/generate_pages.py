@@ -1115,6 +1115,14 @@ EMERGENCY_INFO = {
         "report_site": "poder-judicial.go.cr",
         "lost_passport": "Contact the US Embassy in San José at Calle 98 Vía 104, Pavas, San José. For emergencies: +506 2519-2000 (after hours +506 2220-3127). Policía Turística (Tourist Police) hotline: 2258-1008 / 2258-1022. ICT tourist info: 2286-1473 / 1-800-TOURISM.",
     },
+    "Ethiopia": {
+        "police_name": "Ethiopian Federal Police",
+        "police_number": "991 or 922 (police), 945 (Addis Ababa traffic police)",
+        "emergency_number": "907 (Ethiopian Red Cross ambulance), 939 (Addis Ababa fire)",
+        "report_url": "https://www.efp.gov.et/",
+        "report_site": "efp.gov.et",
+        "lost_passport": "Contact the US Embassy in Addis Ababa at Entoto Street, PO Box 1014, Addis Ababa. For emergencies: +251 11 130 6000 (24/7). Email: AddisACS@state.gov. The UK Embassy is on Comoros Street, Addis Ababa (+251 11 661 0588). The official Ethiopian e-visa portal is www.evisa.gov.et — apply nowhere else.",
+    },
 }
 
 # Country to health page slug mapping
@@ -1636,6 +1644,13 @@ CITY_SLUGS = {
 
 # City-specific safety tips
 SAFETY_TIPS = {
+    "Addis Ababa": [
+        "From Bole International Airport, book Ride or Feres on terminal Wi-Fi (300 birr–600 birr typical) or call the airport hotline 6090 — refuse curb drivers quoting 2,000 birr–2,500 birr for short rides to Bole sub-city hotels",
+        "On Bole Road, Meskel Square, and Piazza, shout 'leba' (thief) and step back if any stranger spits, splashes, or paint-splashes your clothing — the apology is the distraction; never look down to check the stain",
+        "Apply for the Ethiopian e-visa only at www.evisa.gov.et and pay tour operators by credit card with chargeback rights — never wire transfer or crypto; r/Ethiopia threads in 2025 document a $3,600 USD loss to a TripAdvisor-listed Addis tour agency",
+        "Refuse all roadside cash 'fines' from officers near Meskel Square or Piazza — Ethiopian Federal Police use 991 or 922, station-based booking, and printed citations; photograph the badge and call 991 in front of them to verify",
+        "At Merkato and Shiro Meda, walk alone first and price-check three stalls before any 'student' guide attaches — coffee that should be 250 birr–400 birr is quoted at 1,500 birr to tourists, and silver crosses sold as antique are made the same week",
+    ],
     "Philadelphia": [
         "From PHL airport, confirm the $28.50 Center City flat-rate taxi before boarding, use Uber/Lyft from Zone 2 with fare estimate screenshot, or take SEPTA Airport Line ($6.75, 30 min) — never engage drivers soliciting at baggage claim",
         "Book Independence Hall timed-entry tickets at recreation.gov or nps.gov/inde ($1 reservation fee) — Liberty Bell is always free; reject third-party 'skip-the-line' resellers at $20+",
@@ -3537,6 +3552,18 @@ SAFETY_TIPS = {
 
 # City-specific FAQ
 FAQS = {
+    "Addis Ababa": [
+        ("Is Addis Ababa safe for tourists?",
+         "Addis Ababa is generally safe for daytime tourism in Bole, Kazanchis, Sarbet, Old Airport, and CMC neighborhoods, with violent crime against foreigners rare. The practical risks are financial: Bole International Airport taxi overcharges (2,000 birr–2,500 birr opening asks for 300 birr–600 birr rides); spit-and-grab pickpocket teams on Bole Road and near Piazza; coffee-bar bait scams routing visitors off Bole Road to back-room venues with 4,500 birr–5,000 birr bills; roadside police passport shakedowns; fake e-visa and tour-operator portals; and Merkato fake-guide markups. Late-night walking outside Bole and Sarbet is not advised. Save Ethiopian Federal Police 991 or 922 and US Embassy +251 11 130 6000."),
+        ("What is the most common scam at Bole International Airport?",
+         "The most common Bole International Airport scam is the unmetered taxi overcharge. Drivers approach foreigners stepping out of arrivals and quote 2,000 birr–2,500 birr for a short ride to Bole sub-city hotels (3.5 km, eight minutes), four to seven times the metered or app-booked rate. r/Ethiopia threads in 2025 and 2026 record the same script running at the arrivals door at all hours. The defense is to book Ride or Feres on terminal Wi-Fi inside the building before walking outside, or to call the airport taxi hotline 6090 for a dispatched metered car. Refuse to load luggage until a written or app-displayed fare is confirmed."),
+        ("How do I apply for an Ethiopian e-visa safely?",
+         "Apply only at the official Ethiopian government portal www.evisa.gov.et — every other 'e-visa Ethiopia' site returned by search engines is a clone or a scam. The Punch newspaper in Nigeria (2024) and r/Ethiopia threads in 2025 document travelers paying lookalike portals 80 USD–120 USD and arriving at Bole International Airport with unusable documents. Pay only by credit card with chargeback protection. The official portal sends a confirmation PDF with an Ethiopian government QR code; if the document you receive lacks that code, it is fake. Tour operators must accept credit-card payment — refuse any operator demanding wire transfer or cryptocurrency."),
+        ("Where is it safe to walk in Addis Ababa?",
+         "Bole, Kazanchis, Old Airport, Sarbet, and the Sheraton/Hilton diplomatic corridor are the safest daytime walking zones, with embassy-quality sidewalks and visible Federal Police presence. Meskel Square and the Atlas Hotel area are fine in daylight but pickpocket risk rises sharply after dark. Piazza and the lanes around the Stadium are crowded enough to attract spit-and-grab teams; keep phones in front pockets and bags zipped facing inward. Avoid solo walking around Merkato outside market hours and the back streets behind Edna Mall at night. Use Ride or Feres for any movement after 9 p.m."),
+        ("How do I avoid getting overcharged at Merkato market?",
+         "Walk Merkato alone for the first hour and price-check three different stalls before letting any 'student' or volunteer guide attach to you. Coffee that should sell for 250 birr–400 birr per kilogram is quoted at 1,500 birr to tourists; a hand-woven cotton shawl listed at 2,000 birr is quoted at 6,000 birr; the silver crosses sold as antique are made the same week. Hire a guide through a registered Addis Ababa tour office, never the street. Carry only the cash you plan to spend, ask the first quoted price in birr, and offer one-third before walking away to confirm the real ceiling."),
+    ],
     "Philadelphia": [
         ("Is Philadelphia safe for tourists?",
          "Philadelphia is generally safe for tourists in the Center City, Old City, Rittenhouse Square, University City, and Independence Mall tourist zones. Violent crime is concentrated in neighborhoods outside the tourist circuit. The practical risks are financial: PHL airport taxi and rideshare overcharges; Independence Hall / Liberty Bell 'skip-the-line' reseller scams (the sites are free or $1); Rocky Steps 'professional photographer' touts; Reading Terminal Market tourist-stall pricing; Center City pickpockets at SEPTA stations; and Airbnb short-term rental fraud. Save Philadelphia Police non-emergency (215-686-8477) and 911 for emergencies."),
