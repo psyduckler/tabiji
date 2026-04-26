@@ -1,6 +1,26 @@
-"""Locked per-country STYLE blocks. Paste verbatim at the top of every Nano Banana Pro prompt."""
+"""Locked per-country STYLE blocks. Paste verbatim at the top of every Nano Banana Pro prompt.
+
+The "_default" key is the fallback style used when a country has no specific lock —
+see synthesize.py and styles/_default.md.
+"""
 
 STYLES = {
+    "_default": (
+        "A single illustrated comic book page in a warm soft watercolor-and-ink "
+        "storybook style — confident fine black-ink contour drawing with light hand-"
+        "painted watercolor washes, neutral universal palette of cream, sky blue, warm "
+        "ochre, sage green, dusty rose, and pale terracotta, friendly cartoon character "
+        "figures with simple expressive faces, generic-international travel-scene "
+        "backgrounds (taxi rank, airport curb, modest sedan, streetlight, generic urban "
+        "context — no country-specific landmarks), warm afternoon light, gentle "
+        "storybook tone appropriate to global cautionary travel-warnings. Showing four "
+        "sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 in the "
+        "upper-left corner of each panel, separated by thin black panel borders with "
+        "narrow cream gutters. Each panel contains one clean white rounded speech "
+        "bubble with a small pointer tail, holding short printed English dialogue in "
+        "simple black comic lettering — text must be legible, in English only, and "
+        "correctly spelled. Square 1:1 composition, 2K resolution."
+    ),
     "thailand": (
         "A single illustrated comic book page in warm soft watercolor storybook style, "
         "showing four sequential panels arranged in a 2x2 grid with small numbers 1, 2, 3, 4 "
@@ -539,8 +559,10 @@ STYLES = {
 }
 
 # Pilot reference images — used as style-anchor in the `edit` endpoint for all subsequent
-# comics in the same country.
+# comics in the same country. The "_default" pilot is used when a country has no specific
+# lock; see synthesize.py.
 PILOTS = {
+    "_default": "https://img.tabiji.ai/scam-comics/_default/style-tests/warm-watercolor-storybook.jpg",
     "thailand": "https://img.tabiji.ai/scams/bangkok/scam-1.jpg",
     "france": "https://img.tabiji.ai/scam-comics/fr/style-tests/paris-gold-ring-tintin-v1.jpg",
     "greece": "https://img.tabiji.ai/scam-comics/gr/style-tests/2-red-figure-pottery.jpg",

@@ -160,10 +160,12 @@ Synthesize the JSON now."""
 
 
 def build_full_prompt(country: str, scene: dict) -> str:
-    """Assemble the final Nano Banana Pro prompt from a synthesized scene."""
-    style = STYLES.get(country, "").strip()
-    if not style:
-        raise ValueError(f"no locked style for country {country!r}")
+    """Assemble the final Nano Banana Pro prompt from a synthesized scene.
+
+    Falls back to the "_default" STYLE block when the country has no specific lock
+    (or its entry is an empty placeholder). See styles/_default.md for the rationale.
+    """
+    style = STYLES.get(country, "").strip() or STYLES["_default"].strip()
     char = CHARACTERS[scene["character"]]
     panels_text = "\n".join(
         f"Panel {i+1}: {p['scene']} Speech bubble: \"{p['dialogue']}\""
@@ -186,9 +188,10 @@ def synthesize_prompt(country: str, scam: dict) -> dict:
     """
     scene = synthesize_scene(country, scam)
     prompt_text = build_full_prompt(country, scene)
+    pilot = PILOTS.get(country) or PILOTS["_default"]
     return {
         "prompt": prompt_text,
-        "images": [PILOTS[country]],
+        "images": [pilot],
         "aspect_ratio": "1:1",
         "output_format": "jpeg",
         "_scene": scene,
