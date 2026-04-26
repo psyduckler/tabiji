@@ -15,9 +15,11 @@
       "skipped"
     ],
     "cron": {
-      "cadence": "every 30 minutes",
-      "batch_size": 5,
-      "expected_throughput": "10 pages/hour, ~22 hours to drain queue"
+      "cadence": "every hour (top of hour)",
+      "cron_expression": "0 * * * *",
+      "batch_size": 1,
+      "expected_throughput": "1 page/hour, ~9.3 days to drain (224 pages)",
+      "rationale": "Conservative default to bound token spend while output quality is monitored. Bump batch size or shorten cadence once consistent quality is established."
     }
   },
   "queue": [

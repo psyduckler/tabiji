@@ -6,8 +6,12 @@
 # "already book-ready" abort gate is overridden by the prompt. Comics emit
 # 404 placeholders; comic art is a separate downstream pass.
 #
-# Designed to run on a schedule (e.g. every 30 min). Default batch size is 5.
-# Override with: ./scam-rebuild-cron.sh <N>
+# Designed to run on an hourly schedule. Default batch size is 1
+# (1 page/hour, ~9.3 days to drain the 224-page queue). Override with:
+#   ./scam-rebuild-cron.sh <N>
+# This conservative default keeps token spend bounded while quality is
+# being monitored. Bump the batch size or shorten the cron cadence later
+# once output is consistently good.
 #
 # Per-city flow:
 #   1. claude -p drives Steps 2–12 of scam-page-builder.md
@@ -18,7 +22,7 @@ set -uo pipefail
 REPO="/Users/psy/repos/tabiji"
 QUEUE="$REPO/scripts/queues/scam-no-comic-rebuild-queue.json"
 LOGDIR="$REPO/logs/scam-rebuild"
-BATCH_SIZE="${1:-5}"
+BATCH_SIZE="${1:-1}"
 PER_CITY_TIMEOUT="${PER_CITY_TIMEOUT:-2400}"  # 40 min hard cap per city
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 LOGFILE="$LOGDIR/run-${TIMESTAMP}.log"
