@@ -2,7 +2,6 @@
 name: Austria scam comic style block
 description: Locked Nano Banana Pro style prompt for Austria country scam comics — Jean-Jacques Sempé pen-and-ink watercolor wash. Paste verbatim into every Austria scam generation.
 type: project
-originSessionId: f4c6802a-d6fc-404e-b964-ffce1f0271c0
 ---
 Austria country-scam comic style — approved 2026-04-18 after 5-style side-by-side test (ligne claire, Klimt Secession, Schiele expressionist, Sempé, Moebius). Sempé chosen for its pen-and-ink + soft watercolor wash that matches Vienna's coffee-house intellectual sensibility and keeps tabiji's gentle observational voice over 8+ scams without feeling heavy (Schiele was too dark, Klimt too ornate at card size, ligne claire too generic-European, Moebius drifted toward #1 Tintin in the side-by-side).
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in the pen-and-ink wash style of Jean-Jacqu
 ```
 {AUSTRIA_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens}. Speech bubble: "{short line, under ~8 words}"
@@ -26,10 +25,10 @@ Panel 3: {what happens}. Speech bubble: "{short line}"
 Panel 4: {realization / aftermath}. Speech bubble: "{short line}"
 ```
 
-**API call — same Wavespeed Nano Banana Pro pipeline as Thailand:**
-- First comic in a country: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image` with `{prompt, aspect_ratio: "1:1", resolution: "2k", output_format: "jpeg"}`
-- Later comics in the same country (for tighter consistency): `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` passing 2–3 prior approved comics as style anchors in the `images` array; `/edit` supports `aspect_ratio: "1:1"` (`/edit-multi` does not)
-- Poll: `GET https://api.wavespeed.ai/api/v3/predictions/{id}/result` until `status=="completed"`
+**API call:**
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Vienna character rotation (applied 2026-04-18):**

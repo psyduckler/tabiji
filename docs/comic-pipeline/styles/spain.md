@@ -2,7 +2,6 @@
 name: Spain scam comic style block
 description: Locked Nano Banana Pro style prompt for Spanish scam comics — Paco Roca contemporary graphic novel, 2x2 grid, English speech bubbles. Paste verbatim into every Spain scam generation.
 type: project
-originSessionId: 6e1b60d6-8114-4bf8-83d3-25c3a4635638
 ---
 Spain country-scam comic style — chosen 2026-04-18 after a 5-way Spanish illustration bake-off (Sorolla impressionism, Paco Roca contemporary, Miguelanxo Prado painted BD, Azulejo ceramic tile, Mariscal Mediterráneo). Paco Roca selected for its modern Spanish indie-comic tone — humanist, quiet, warm pastel palette that suits the cautionary-scam narrative at readable comic pace.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in the contemporary Spanish graphic-novel s
 ```
 {SPAIN_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens in the scene, with Spanish landmark}. Speech bubble: "{short line}"
@@ -27,9 +26,9 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 ```
 
 **API call:**
-- First comic in Spain: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Subsequent comics: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with 2-3 approved Spanish comics as style anchors (`images` array)
-- Body: `{"prompt": "...", "aspect_ratio": "1:1", "resolution": "2k", "output_format": "jpeg"}` (t2i) or `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}` (edit)
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Cities / Production path:**

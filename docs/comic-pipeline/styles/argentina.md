@@ -26,9 +26,9 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 ```
 
 **API call:**
-- First comic in Argentina: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Subsequent comics: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot (`scam-comics/ar/style-tests/1-quino-mafalda.jpg`) as style anchor
-- Body: `{"prompt": "...", "aspect_ratio": "1:1", "resolution": "2k", "output_format": "jpeg"}` (t2i) or `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}` (edit)
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Pilot reference:** `https://img.tabiji.ai/scam-comics/ar/style-tests/1-quino-mafalda.jpg` (Buenos Aires Florida Ave '¡Cambio!' Touts × Margie)

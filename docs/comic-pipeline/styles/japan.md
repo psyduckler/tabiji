@@ -16,7 +16,7 @@ A single illustrated comic book page in a warm contemporary illustrated-travel-c
 ```
 {JAPAN_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens, with location-accurate Japanese landmark/signage}. Speech bubble: "{short line}"
@@ -26,8 +26,8 @@ Panel 4: {what happens — usually realization/lesson at a Koban or with a lesso
 ```
 
 **API call:**
-- Subsequent comics: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
-- Fallback on failure: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 

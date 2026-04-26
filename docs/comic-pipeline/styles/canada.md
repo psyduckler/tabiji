@@ -2,7 +2,6 @@
 name: Canada scam comic style block
 description: Locked Nano Banana Pro style prompt for Canadian scam comics — Drawn & Quarterly Toronto indie-comic style (Seth / Chester Brown / Michael DeForge). Paste verbatim into every Canada scam generation.
 type: project
-originSessionId: 6e1b60d6-8114-4bf8-83d3-25c3a4635638
 ---
 Canada scam comic style — chosen 2026-04-18 after a 5-way Canadian illustration bake-off (Group of Seven landscape, Drawn & Quarterly indie, Maud Lewis Maritime folk art, Charles Pachter pop Canadiana, Ted Harrison Yukon stripe). Drawn & Quarterly chosen for narrative-comic fluency, literary mature tone, Canadian indie-comic heritage, and the best character-consistency across the cast.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in the Toronto indie-comic style of Drawn &
 ```
 {CANADA_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens, with Canadian landmark}. Speech bubble: "{short line}"
@@ -27,8 +26,8 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 ```
 
 **API call:**
-- First Canada comic: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Subsequent: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with pilot as anchor
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 

@@ -2,7 +2,6 @@
 name: France scam comic style block
 description: Locked Nano Banana Pro style prompt for France country scam comics — Hergé ligne claire (Tintin), 2x2 grid, English speech bubbles. Paste verbatim into every France scam generation.
 type: project
-originSessionId: 6e1b60d6-8114-4bf8-83d3-25c3a4635638
 ---
 France country-scam comic style — piloted 2026-04-18 on Paris Gold Ring Trick. Classic European ligne claire (Tintin / Hergé) chosen to evoke French/Belgian bande dessinée heritage and to feel distinct from the existing scattered multi-style French-language comics we're replacing.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in the classic European ligne claire style 
 ```
 {FRANCE_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens in the scene}. Speech bubble: "{short English line, under ~8 words}"
@@ -27,10 +26,9 @@ Panel 4: {what happens — usually the "realization" or "lesson" moment}. Speech
 ```
 
 **API call:**
-- Endpoint for first comic in France: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Endpoint for subsequent comics: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with `images` anchored to 2-3 approved prior France comics for tighter style lock
-- Body: `{"prompt": "...", "aspect_ratio": "1:1", "resolution": "2k", "output_format": "jpeg"}` (text-to-image) or `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}` (edit)
-- Poll: `GET https://api.wavespeed.ai/api/v3/predictions/{id}/result` until `status=="completed"`
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Storage path (production):**

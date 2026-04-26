@@ -2,7 +2,6 @@
 name: Thailand scam comic style block
 description: Locked Nano Banana Pro style prompt for Thailand country scam comics — warm watercolor storybook, 2x2 grid, English speech bubbles. Paste verbatim into every Thailand scam generation.
 type: project
-originSessionId: 6e1b60d6-8114-4bf8-83d3-25c3a4635638
 ---
 Thailand country-scam comic style — approved 2026-04-18 during pilot test. Watercolor storybook chosen to match the older, slightly female-skewing audience and the soft Thai tropical-light aesthetic.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in warm soft watercolor storybook style, sh
 ```
 {THAILAND_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens in the scene}. Speech bubble: "{short line of dialogue, under ~8 words}"
@@ -26,13 +25,11 @@ Panel 3: {what happens}. Speech bubble: "{short line}"
 Panel 4: {what happens — usually the "realization" or "home" moment}. Speech bubble: "{short line}"
 ```
 
-**API call — prefer `edit` endpoint with prior comics as style refs (tighter consistency than text-to-image):**
-- Endpoint: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit`
-- Body: `{"prompt": "<full prompt>", "images": [<2-3 prior comic URLs as style anchors>], "aspect_ratio": "1:1", "output_format": "jpeg"}`
-- First comic in a country has no anchors → use `/text-to-image` endpoint with the same prompt shape.
-- `edit-multi` does NOT support `aspect_ratio: "1:1"` (only 3:2, 2:3, 3:4, 4:3) — use plain `/edit` which does support 1:1 and accepts multiple images in the `images` array.
-- Poll: `GET https://api.wavespeed.ai/api/v3/predictions/{id}/result` until `status=="completed"`
-- Credential: `wavespeed-api-key` in macOS keychain.
+**API call:**
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
+- Credential: `wavespeed-api-key` in macOS keychain
 
 **Storage path (production — matches existing France/Paris pattern):**
 - R2 path: `scams/<city-slug>/scam-<N>.jpg` where N is the scam's 1-indexed position on the city page
@@ -47,4 +44,4 @@ Panel 4: {what happens — usually the "realization" or "home" moment}. Speech b
 
 **Why:** Every country gets its own style block to feel culturally grounded — Thailand is watercolor storybook, Japan will be manga, USA will be American-style comic, Italy fumetti/BD, etc. This file pins Thailand so we never drift.
 
-**How to apply:** Use this exact style block for every Thailand scam comic. When starting a new country, create a sibling `project_scam_comics_style_<country>.md` file with that country's locked style block, keeping the same template structure.
+**How to apply:** Use this exact style block for every Thailand scam comic. When starting a new country, create a sibling `styles/<country>.md` file with that country's locked style block, keeping the same template structure.
