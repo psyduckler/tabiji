@@ -54,7 +54,7 @@ def utm_link(base_url: str, slug: str, fmt: str) -> str:
     return f"{rebuilt}#{frag}" if sep else rebuilt
 
 
-def process(slug: str, steps: set[str], dry_run: bool) -> None:
+def process(slug: str, steps: set[str], dry_run: bool) -> int:
     config = json.loads(CONFIG.read_text())
     manifest = json.loads(MANIFEST.read_text())
     state = load_state()
@@ -79,6 +79,7 @@ def process(slug: str, steps: set[str], dry_run: bool) -> None:
         for fmt in entry["formats"]:
             urls[fmt] = f"{PUBLIC_BASE}/pinterest/{slug}/{fmt}.jpg"
 
+    failures = 0
     if "post" in steps:
         board_id = config.get("board_id", "").strip()
         if not board_id:
@@ -101,11 +102,13 @@ def process(slug: str, steps: set[str], dry_run: bool) -> None:
                 )
             except Exception as e:
                 print(f"  {fmt}: ✗ {e}")
+                failures += 1
                 continue
             state[key] = {"pin_id": pin.get("id"), "url": link, "image": urls[fmt]}
             save_state(state)
             print(f"  {fmt}: pin_id={pin.get('id')}")
             time.sleep(1)
+    return failures
 
 
 def main():
@@ -118,7 +121,8 @@ def main():
     )
     p.add_argument("--dry-run", action="store_true", help="render+upload only; skip Pinterest post")
     args = p.parse_args()
-    process(args.slug, set(args.steps.split(",")), args.dry_run)
+    failures = process(args.slug, set(args.steps.split(",")), args.dry_run)
+    sys.exit(1 if failures else 0)
 
 
 if __name__ == "__main__":
