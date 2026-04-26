@@ -1,6 +1,6 @@
 ---
 name: scam-narrative-rewrite-batch
-description: Process the next 5 pending cities from scripts/queues/scam-narrative-rewrite-queue.json, rewriting each scam page to the NYC 3-beat narrative spec end-to-end by hand via Edit tool. One PR per batch. Used by cron. Trigger when user types /scam-narrative-rewrite-batch or when cron fires it.
+description: Process the next 5 pending cities from scripts/queues/scam-narrative-rewrite-queue.json, rewriting each scam page to the NYC 3-beat narrative spec end-to-end by hand via Edit tool. One PR per batch — STOP at gh pr create (a separate local merge cron handles bulk-merging). Used by remote routine. Trigger when user types /scam-narrative-rewrite-batch or when the routine fires it.
 user_invocable: true
 ---
 
@@ -133,36 +133,16 @@ EOF
 )" 2>&1 | tail -3
 ```
 
-## Step 6: Wait for checks, merge
+## Step 6: STOP after gh pr create
+
+**Do not wait for checks. Do not merge.** A separate local merge cron (fires hourly at :43) bulk-merges any open `claude/scam-rewrite-batch-*` PRs that have passing checks. Your job ends at PR creation.
 
 ```bash
-PR_NUM=$(gh pr list --head "claude/scam-rewrite-batch-${BATCH_TAG}" --json number --jq '.[0].number')
+echo "PR opened — exiting per skill protocol. Local merge cron at :43 handles squash-merge."
+exit 0
 ```
 
-Use `Monitor` to wait for all checks to pass:
-
-```bash
-prev=""
-while true; do
-  s=$(gh pr checks $PR_NUM --json name,bucket,state 2>/dev/null || true)
-  cur=$(jq -r '.[] | "\(.name): \(.bucket) (\(.state))"' <<<"$s" | sort)
-  comm -13 <(echo "$prev") <(echo "$cur")
-  prev=$cur
-  if jq -e 'length > 0 and all(.bucket != "pending")' <<<"$s" >/dev/null 2>&1; then
-    break
-  fi
-  sleep 30
-done
-```
-
-If any check fails, dig into the cause and fix in a follow-up commit. If all pass, merge:
-
-```bash
-gh pr merge $PR_NUM --squash --delete-branch 2>&1 | tail -3
-gh pr view $PR_NUM --json state,mergedAt
-```
-
-(Worktree errors on `gh pr merge` are non-blocking — verify state via `gh pr view`.)
+**Architecture note**: this skill used to wait-for-checks-and-merge, but that step has been moved out. A separate local-session cron at `:43 * * * *` calls a bulk-merge prompt that picks up every open `claude/scam-rewrite-batch-*` PR with passing checks and squashes it. This decoupling keeps the long-running rewrite work isolated to the remote routine and concentrates the merge gate where the user can audit quality.
 
 ## Hard rules (from the user — see `memory/scam_rewrite_python_antipattern.md`)
 
@@ -191,6 +171,6 @@ gh pr view $PR_NUM --json state,mergedAt
 
 After 5 cities (or fewer if queue ran out):
 
-1. Print summary: how many cities completed this batch, how many remain pending.
-2. If queue is empty (`pending: 0`), tell the user to run `CronList` then `CronDelete <id>` to stop the cron.
-3. End the turn. Do **not** schedule another batch — the cron handles that.
+1. Print summary: how many cities completed this batch, how many remain pending, the new PR number/URL.
+2. If queue is empty (`pending: 0`), say so explicitly so the user can disable the remote routine and the local merge cron.
+3. End the turn. **Do not** schedule another batch (the remote routine handles that) and **do not** merge the PR (the local merge cron handles that).
