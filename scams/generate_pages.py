@@ -3575,6 +3575,12 @@ SAFETY_TIPS = {
         "On Delhi-Agra Uber Intercity rides, real Yamuna Expressway and city tolls run roughly Rs 800 to Rs 1,000 — pay only at the toll plaza booth and message Uber Support inside the ride if a driver demands Rs 2,500 or more in cash",
         "Save the Agra Tourist Police hotline +91 9454402764 and the all-India emergency 112 in your phone before you arrive; the tourist police email so-tourism.ag@up.gov.in handles complaints from foreign visitors",
     ],
+    "Almaty": [
+        "From Almaty Airport (ALA), install Yandex Go or inDrive before landing and order from inside arrivals — the legitimate fare downtown is KZT 3,000–KZT 5,000; refuse every curb-side driver quoting KZT 18,000 or more, a pattern documented across 2025 and 2026 r/Kazakhstan threads",
+        "On Panfilov Street and Arbat lounge bars, never accept a drink poured out of your sight and never leave with someone met at the bar — drink-spike taxi robberies and surprise KZT 200,000–KZT 400,000 lounge tabs are the documented late-night risks",
+        "Book the first night through Booking.com or Airbnb and treat any Krisha.kz listing as cash-on-arrival only — wire transfers to a Krisha host who moves the chat to WhatsApp are the most common short-stay rental scam",
+        "Hang up on any caller claiming to be Kaspi Bank, the National Bank, or KNB and verify only at the number printed on your card — save Kazakhstan emergency 112, police 102, and US Consulate Almaty +7 727-250-4802",
+    ],
 }
 
 # City-specific FAQ
@@ -7050,6 +7056,18 @@ FAQS = {
          "Uber Intercity Delhi to Agra is broadly reliable, but tolls and Uttar Pradesh state taxes are not included in the app fare — that is genuine policy and the in-app banner says so. The scam variant is drivers who pull over on the Yamuna Expressway and demand Rs 2,500 to Rs 4,000 in 'tolls and state tax' that should be closer to Rs 800 to Rs 1,000. Pay tolls only at the toll plaza booth, keep every receipt, and message Uber Support inside the ride if any extra cash is demanded; r/indiatravel and r/delhi documented the play through 2026."),
         ("How should I deal with autorickshaw drivers in Agra?",
          "Use Uber Auto or Ola Auto from inside your hotel WiFi rather than flagging an autorickshaw on the street, where 'free city tour' offers around Rs 200 turn into multi-stop circuits through marble, leather, and silk shops on a 30% to 40% commission. Refuse every unsolicited offer outside the hotel exit, the Taj Mahal east gate auto stand, the Agra Fort entrance, and Agra Cantonment railway station, and exit immediately at the first unscheduled shop stop. Save the Agra Tourist Police hotline +91 9454402764 in your phone before you arrive."),
+    ],
+    "Almaty": [
+        ("Is Almaty safe for tourists?",
+         "Almaty is generally safe for tourists, with low rates of violent crime and a visible police presence in the central districts. The practical risks are financial: airport-taxi overcharging at Almaty Airport (ALA) where curb-side drivers quote KZT 18,000–KZT 30,000 for a ride that costs KZT 3,000–KZT 5,000 on Yandex Go; lounge-bar honey-trap and drink-spike robberies on Panfilov Street and around the Arbat; Krisha.kz short-stay rental scams demanding wire transfers before key handover; phone impersonation calls posing as Kaspi Bank, the National Bank, or KNB; and pickpocketing on packed buses on Tole Bi and Abay and at the Green Bazaar. Save Kazakhstan emergency 112, police 102, and US Consulate Almaty +7 727-250-4802."),
+        ("What is the most common scam in Almaty?",
+         "Airport-taxi overcharging is the single most-reported tourist scam in Almaty, with curb-side drivers at Almaty Airport (ALA) quoting KZT 18,000–KZT 30,000 for the ride downtown when the legitimate Yandex Go fare for the same 17-kilometer trip is KZT 3,000–KZT 5,000. The pattern repeats daily across r/Kazakhstan threads in 2025 and 2026 — drivers approaching tourists inside arrivals, fake meter apps, and crowding at the hotel drop-off when a foreigner protests. The defense is to install Yandex Go or inDrive before landing, ignore every curb-side offer, and walk to the marked app pick-up zone past the arrivals doors."),
+        ("How much should a taxi from Almaty Airport (ALA) cost?",
+         "A legitimate ride from Almaty Airport (ALA) to the city center is KZT 3,000–KZT 5,000 on Yandex Go or inDrive during the day, and slightly more after midnight. Quotes above KZT 8,000 are an overcharge, and quotes of KZT 18,000–KZT 30,000 reported repeatedly on r/Kazakhstan in 2025 and 2026 are the curb-side scam pattern. Install the app before landing, order from inside arrivals, and walk to the marked app pick-up zone — there is no formal taxi rank with posted rates at ALA, so the freelancers at the curb quote whatever they think a tired tourist will pay."),
+        ("Is it safe to walk around Almaty at night?",
+         "Most of central Almaty — Panfilov Street, the Arbat, the Almaly district, and the area around Kok-Tobe — is safe to walk after dark, with security guards at malls and a visible police presence. Recent 2025 and 2026 trip reports on r/Kazakhstan, r/travel, and r/solotravel praise Almaty's overall safety. The exceptions are nightlife venues themselves (lounge-bar honey-trap and drink-spike robberies are documented) and packed rush-hour buses on Tole Bi and Abay. Avoid leaving a bar with someone you just met, never accept a drink poured out of your sight, and order a Yandex Go car back to your hotel rather than walking past unfamiliar bars."),
+        ("Are ATMs and money-changers safe in Almaty?",
+         "ATMs at major Kazakh banks (Kaspi, Halyk, Forte) and licensed money-changers in central Almaty are reliable, with no widespread skimming reports. Use ATMs inside bank branches when possible, and avoid changing money at airport kiosks or unbranded street stalls. Cards are accepted nearly everywhere — bring a small amount of USD as backup and convert to tenge at a downtown bank branch. Watch for phone-impersonation scams instead: a caller posing as Kaspi Bank or the KNB security service who tells you to walk to an ATM and transfer funds is the documented digital fraud pattern in 2025 and 2026 r/Kazakhstan threads."),
     ],
 }
 
