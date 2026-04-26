@@ -230,6 +230,24 @@ else:
 
     if [ "$RC" -eq 0 ] && [ "$IS_OK" -eq 1 ]; then
         echo "  ✅ $slug — $STATUS (commit $COMMIT)"
+
+        # Belt-and-suspenders: claude's prompt asks it to stage api/v1/scams/<slug>.json,
+        # but the kickoff showed it skipped this 4 of 5 times. Force a regen from the
+        # research JSON the skill always writes. backfill_scams.py --slug <slug>
+        # produces the rich payload (real category, full story, real reddit_sources)
+        # and reindexes api/v1/scams.json. Amend onto claude's rebuild commit so the
+        # HTML + API JSON ship together as one push.
+        if python3 "$REPO/scripts/backfill_scams.py" --slug "$slug" > "$LOGDIR/${slug}-${TIMESTAMP}-apijson.log" 2>&1; then
+            git add "$REPO/api/v1/scams/${slug}.json" "$REPO/api/v1/scams.json"
+            if ! git diff --cached --quiet; then
+                git commit --amend --no-edit --no-verify >/dev/null 2>&1 \
+                    && echo "     ↳ amended api/v1/scams/${slug}.json into rebuild commit" \
+                    || echo "     ⚠️  amend failed — api/v1/scams/${slug}.json staged for next commit"
+            fi
+        else
+            echo "     ⚠️  backfill_scams.py --slug ${slug} failed (see ${slug}-${TIMESTAMP}-apijson.log) — page deployed but API JSON stale"
+        fi
+
         SUCCESS_SLUGS+=("$slug")
     else
         REASON="$STATUS"
