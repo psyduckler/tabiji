@@ -1652,6 +1652,13 @@ CITY_SLUGS = {
 
 # City-specific safety tips
 SAFETY_TIPS = {
+    "Almaty": [
+        "From Almaty International Airport (ALA), book Yandex Go or InDriver from inside the terminal — legitimate fares to the city are ₸2,500–₸4,500; refuse every curbside driver quoting ₸15,000+ or asking for cash up front",
+        "On Panfilov Street and the Tole Bi nightclub strip, never accept a poured drink you did not see mixed and never share a taxi with someone you met that night — the US State Department's Kazakhstan advisory names drink-spike robbery in unmarked taxis as a recurring threat",
+        "Refuse every plain-clothes \"police\" wallet or passport inspection on the street — real Kazakh police never count your cash on the spot; photograph the badge, dial 102 in front of the officer, and call the US Consulate Almaty on +7 727 250 4802 if anything is taken",
+        "Pay by Kaspi QR via the Kaspi.kz app instead of swiping cards, and withdraw cash only inside Halyk Bank, Kaspi Bank, or ForteBank lobbies during business hours — Canada and OSAC both flag ATM skimming as prevalent across Almaty's tourist districts",
+        "Book Charyn Canyon, Big Almaty Lake, and Kok-Tobe tours through Visit Almaty on Republic Square or a hotel-verified operator with a tax ID and Kaspi fiscal receipt — never pay full upfront to a sidewalk kiosk or a Telegram-only contact",
+    ],
     "Addis Ababa": [
         "From Bole International Airport, book Ride or Feres on terminal Wi-Fi (300 birr–600 birr typical) or call the airport hotline 6090 — refuse curb drivers quoting 2,000 birr–2,500 birr for short rides to Bole sub-city hotels",
         "On Bole Road, Meskel Square, and Piazza, shout 'leba' (thief) and step back if any stranger spits, splashes, or paint-splashes your clothing — the apology is the distraction; never look down to check the stain",
@@ -3585,6 +3592,18 @@ SAFETY_TIPS = {
 
 # City-specific FAQ
 FAQS = {
+    "Almaty": [
+        ("Is Almaty safe for tourists?",
+         "Almaty is generally safe for daytime tourism in the central grid bounded by Panfilov Park, Republic Square, Dostyk Avenue, and Abay Avenue, with violent crime against foreigners rare. The practical risks are financial: airport taxi shakedowns at ALA arrivals (₸15,000–₸25,000 quotes for ₸2,500–₸4,500 rides); drink-spike robberies in Panfilov Street and Tole Bi nightclubs documented by the US State Department advisory; plain-clothes \"police\" wallet inspections at Republic Square and Kok-Tobe; ATM skimming flagged by US, Canadian, and OSAC advisories; and Krisha.kz rental fraud. Save 102 (police), 112 (general emergency), and the US Consulate Almaty +7 727 250 4802."),
+        ("What is the most common scam at Almaty Airport?",
+         "The most common Almaty International Airport (ALA) scam is the unmarked-taxi shakedown at the arrivals curb. Drivers approach exhausted travelers between midnight and 6 AM, quote ₸15,000–₸25,000 for the 17 km city ride, and refuse to open the trunk at the destination until cash is paid — sometimes escalating to ₸77,000 as documented in a September 2024 Hindustan Times report. The legitimate Yandex Go fare runs ₸2,500–₸4,500. The defense is to walk past every curbside offer, book Yandex Go or InDriver from inside the terminal, and screenshot the in-app fare and registered plate before pickup."),
+        ("Is Yandex Go safe to use in Almaty?",
+         "Yes — Yandex Go and InDriver are the two safest ride options in Almaty and the local default for both residents and travelers. Both apps show the registered plate, driver photo, and metered fare before pickup, which protects you from the curbside renegotiation that fuels most taxi scams in the city. Book the ride from inside the terminal at ALA before walking to the doors. r/Kazakhstan threads from 2025 and 2026 consistently recommend Yandex Go over street hails and confirm the airport-to-city fare typically runs ₸2,500–₸4,500. Avoid unmarked sedans and any driver claiming the apps \"don't work here.\""),
+        ("Where is it safe to walk in Almaty?",
+         "Panfilov Park, Republic Square, the Arbat pedestrian street, Dostyk Avenue between Abay and the Hyatt, and the Esentai mall corridor are the safest daytime walking zones, with steady foot traffic and visible police. The Green Bazaar and Kok-Tobe gondola base stay safe in daytime but watch for pickpockets and plain-clothes badge approaches in the surrounding streets. Avoid the Tole Bi nightclub corridor and side streets off Panfilov Street alone after 1 AM, where most drink-spike and unmarked-taxi robberies are documented. Use Yandex Go for any movement after midnight rather than street hails."),
+        ("Are ATMs safe to use in Almaty?",
+         "Stand-alone street-corner ATMs in tourist areas — Tole Bi, Green Bazaar perimeter, Arbat Street, late-night convenience stores — are the highest-risk for skimming and card cloning, flagged as prevalent by the US State Department, Canadian government, and OSAC Kazakhstan country security report. ATMs inside Halyk Bank, Kaspi Bank, and ForteBank branch lobbies during business hours are routinely swept and far safer. Better still, install Kaspi.kz on arrival and pay by Kaspi QR — it is the local default and bypasses card exposure entirely. Set a daily SMS-alert cap of ₸50,000 with your home bank before traveling."),
+    ],
     "Addis Ababa": [
         ("Is Addis Ababa safe for tourists?",
          "Addis Ababa is generally safe for daytime tourism in Bole, Kazanchis, Sarbet, Old Airport, and CMC neighborhoods, with violent crime against foreigners rare. The practical risks are financial: Bole International Airport taxi overcharges (2,000 birr–2,500 birr opening asks for 300 birr–600 birr rides); spit-and-grab pickpocket teams on Bole Road and near Piazza; coffee-bar bait scams routing visitors off Bole Road to back-room venues with 4,500 birr–5,000 birr bills; roadside police passport shakedowns; fake e-visa and tour-operator portals; and Merkato fake-guide markups. Late-night walking outside Bole and Sarbet is not advised. Save Ethiopian Federal Police 991 or 922 and US Embassy +251 11 130 6000."),
@@ -7730,7 +7749,8 @@ def build_related_cities_map(all_cities):
                     break
 
         # If still short, add global popular
-        global_fallback = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo"]
+        global_fallback = ["Paris", "Bangkok", "Rome", "Tokyo", "Istanbul", "Prague", "Marrakech", "Cairo",
+                           "Buenos Aires", "Kuala Lumpur", "Taipei", "Abu Dhabi", "Addis Ababa"]
         if len(cross_country) < 3:
             for gf in global_fallback:
                 if gf not in used and gf in city_lookup:
