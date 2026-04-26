@@ -19,15 +19,19 @@
 #   3. Parent script collects results, updates queue, pushes once at end
 set -uo pipefail
 
-REPO="/Users/psy/repos/tabiji"
-QUEUE="$REPO/scripts/queues/scam-no-comic-rebuild-queue.json"
-LOGDIR="$REPO/logs/scam-rebuild"
+# Source repo (the user's main checkout — used only as a worktree parent).
+SOURCE_REPO="/Users/psy/repos/tabiji"
+# Dedicated worktree for this cron — keeps us OUT of any branch held by
+# active Claude Code sessions, Pinterest automation, or other tooling.
+# Always detached, always reset to origin/main at the start of each run.
+WORK="${WORK:-/Users/psy/.cache/scam-rebuild-cron-worktree}"
+QUEUE="$WORK/scripts/queues/scam-no-comic-rebuild-queue.json"
+LOGDIR="$SOURCE_REPO/logs/scam-rebuild"
 BATCH_SIZE="${1:-1}"
 PER_CITY_TIMEOUT="${PER_CITY_TIMEOUT:-2400}"  # 40 min hard cap per city
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 LOGFILE="$LOGDIR/run-${TIMESTAMP}.log"
 
-cd "$REPO"
 mkdir -p "$LOGDIR"
 
 exec > >(tee -a "$LOGFILE") 2>&1
@@ -35,8 +39,35 @@ exec > >(tee -a "$LOGFILE") 2>&1
 echo "═══════════════════════════════════════════════════════════════"
 echo "  Scam Rebuild Cron — $(date '+%Y-%m-%d %H:%M:%S')"
 echo "  Batch size: $BATCH_SIZE   Per-city timeout: ${PER_CITY_TIMEOUT}s"
+echo "  Worktree: $WORK"
 echo "  Log: $LOGFILE"
 echo "═══════════════════════════════════════════════════════════════"
+
+# ─── Auth: pull credentials from keychain (cron has no tty / keychain-helper) ─
+# claude -p needs ANTHROPIC_API_KEY when not run from an interactive shell
+# (it can't reach the OAuth token in the macOS login keychain otherwise).
+# git push over HTTPS to github.com needs GH_TOKEN injected into the URL
+# for the same reason.
+if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+    ANTHROPIC_API_KEY=$(security find-generic-password -a "$USER" -s "anthropic-api-key" -w 2>/dev/null || true)
+fi
+if [ -z "$ANTHROPIC_API_KEY" ]; then
+    echo "❌ no ANTHROPIC_API_KEY available (not in env, not in keychain). Aborting."
+    exit 1
+fi
+export ANTHROPIC_API_KEY
+
+if [ -z "${GH_TOKEN:-}" ]; then
+    GH_TOKEN=$(gh auth token 2>/dev/null || true)
+fi
+if [ -z "$GH_TOKEN" ]; then
+    echo "❌ no GH_TOKEN available (gh auth token failed and GH_TOKEN not set). Aborting."
+    exit 1
+fi
+export GH_TOKEN
+# git push will use this URL form to auth — no credential-helper / keychain dependency.
+PUSH_URL="https://x-access-token:${GH_TOKEN}@github.com/psyduckler/tabiji.git"
+echo "  ✓ ANTHROPIC_API_KEY (len ${#ANTHROPIC_API_KEY}), GH_TOKEN (len ${#GH_TOKEN}) loaded from keychain"
 
 # Pick a timeout binary (macOS ships without `timeout` by default)
 TIMEOUT=""
@@ -47,16 +78,21 @@ elif command -v timeout >/dev/null 2>&1; then
 fi
 [ -z "$TIMEOUT" ] && echo "(no timeout binary available; running without per-city cap)"
 
-# ─── Step 0: Sync with main ────────────────────────────────────────────────
+# ─── Step 0: Provision dedicated worktree at origin/main ───────────────────
 echo ""
-echo "▶ Step 0: Sync with main"
-# Try to land on the main branch. If main is checked out by another worktree
-# (e.g. an active Claude Code session), the checkout silently fails and we
-# end up on detached HEAD — that's fine, all the per-step pushes use
-# `HEAD:main` to handle both cases.
-git checkout main 2>/dev/null || true
-git pull --rebase origin main || echo "  ⚠️  pull failed, continuing with local state"
-echo "  branch: $(git rev-parse --abbrev-ref HEAD 2>/dev/null) (HEAD = $(git rev-parse --short HEAD))"
+echo "▶ Step 0: Provision dedicated worktree at origin/main"
+if [ ! -d "$WORK/.git" ] && [ ! -e "$WORK/.git" ]; then
+    # First run: create the worktree as a sibling, detached at origin/main.
+    git -C "$SOURCE_REPO" fetch origin main
+    git -C "$SOURCE_REPO" worktree add --detach "$WORK" origin/main
+    echo "  ✓ created worktree at $WORK"
+fi
+cd "$WORK"
+# Always force-sync to origin/main — discards any leftover local commits
+# from a previous failed cron run (which would otherwise rebase-block).
+git fetch origin main
+git reset --hard origin/main
+echo "  branch: $(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'detached') (HEAD = $(git rev-parse --short HEAD))"
 
 # ─── Step 1: Pick top N pending entries by priority ────────────────────────
 echo ""
@@ -110,10 +146,11 @@ open('$QUEUE','a').write('\n')
 
 git add "$QUEUE"
 git commit -m "scam-rebuild: mark $TOTAL in-progress (${SLUGS[*]})" 2>/dev/null || true
-git push origin HEAD:main 2>/dev/null || echo "  ⚠️  push of in-progress markers failed (will retry at end)"
+git push "$PUSH_URL" HEAD:main 2>/dev/null || echo "  ⚠️  push of in-progress markers failed (will retry at end)"
 
 # ─── Step 3: Drive each rebuild via claude -p ──────────────────────────────
 declare -a SUCCESS_SLUGS
+declare -a SUCCESS_PRS  # entries like "slug=https://github.com/.../pull/N"
 declare -a FAILED_SLUGS
 declare -a FAIL_REASONS
 
@@ -157,15 +194,16 @@ Forced-rebuild rules (override the skill's Step 1 gates):
 Comics — explicitly deferred:
 - The page will emit <img class=\"scam-comic\" src=\"https://img.tabiji.ai/scams/${slug}/scam-N.jpg?v=1\" ...> placeholders that 404 until a separate comic-pipeline pass uploads art. This is acceptable and expected.
 
-Execution:
+Execution (PR flow — do NOT commit to main):
 - Run Steps 2–12 of the skill (Step 1 already resolved by the rules above).
 - Lint must pass (0 REJECT, 0 WARN). If lint fails, fix and re-lint.
-- After parser-verify, stage scams/${slug}/index.html, api/v1/scams/${slug}.json, scams/research/${cc}_batchN.json (whichever batch you chose), and any necessary edits to scams/generate_pages.py (CITY_SLUGS, SAFETY_TIPS, FAQS, EMERGENCY_INFO).
-- Commit (do NOT push) on the current branch (main) with message: 'scams: rebuild ${city} (${country}) — N Reddit-cited scams (no-comic queue)'
-- Use Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
-- The parent cron script will batch-push all commits at the end. Do not push yourself.
+- Create a branch named 'scam-rebuild/${slug}' off the current HEAD.
+- After parser-verify, stage scams/${slug}/index.html, scams/research/${cc}_batchN.json (whichever batch you chose), and any necessary edits to scams/generate_pages.py (CITY_SLUGS, SAFETY_TIPS, FAQS, EMERGENCY_INFO). DON'T worry about api/v1/scams/${slug}.json — the parent cron script regenerates that and amends the commit after you finish.
+- Commit on the branch with message: 'scams: rebuild ${city} (${country}) — N Reddit-cited scams (no-comic queue)' and Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+- Push the branch and open a single-city PR via 'gh pr create' titled 'scams: rebuild ${city} (${country}) — book-ready, comics deferred'. PR body should include: list of N scams (name + danger level), lint status (0 REJECT, 0 WARN), sources summary (Reddit T1/T2 counts), and 'Comics: deferred — placeholder <img> tags emit 404s until comic-pipeline pass'.
+- Do NOT merge the PR — a separate process handles bulk merges.
 
-Output one final message before exiting (no other formatting): a single JSON object on its own line. The status field MUST be the literal string \"complete\" on success or \"failed\" on failure — do NOT paraphrase as \"ok\", \"success\", \"done\", etc., or the cron will mis-mark this run. Schema: {\"status\": \"complete\"|\"failed\", \"slug\": \"${slug}\", \"commit\": \"<hash>\"|null, \"error\": \"<short reason if failed>\"|null, \"scam_count\": <int>|null, \"notes\": \"<one-line summary of what changed>\"}.
+Output one final message before exiting (no other formatting): a single JSON object on its own line. The status field MUST be the literal string \"complete\" on success or \"failed\" on failure — do NOT paraphrase as \"ok\", \"success\", \"done\", etc., or the cron will mis-mark this run. Schema: {\"status\": \"complete\"|\"failed\", \"slug\": \"${slug}\", \"pr_url\": \"<url>\"|null, \"branch\": \"scam-rebuild/${slug}\", \"error\": \"<short reason if failed>\"|null, \"scam_count\": <int>|null, \"notes\": \"<one-line summary of what changed>\"}.
 
 Proceed autonomously. Do not ask the user any questions."
 
@@ -179,7 +217,7 @@ Proceed autonomously. Do not ask the user any questions."
             --model claude-opus-4-7 \
             --output-format json \
             --dangerously-skip-permissions \
-            --add-dir "$REPO" \
+            --add-dir "$WORK" \
             -p \
             -- "$PROMPT" < /dev/null > "$city_log" 2>&1
         RC=$?
@@ -188,7 +226,7 @@ Proceed autonomously. Do not ask the user any questions."
             --model claude-opus-4-7 \
             --output-format json \
             --dangerously-skip-permissions \
-            --add-dir "$REPO" \
+            --add-dir "$WORK" \
             -p \
             -- "$PROMPT" < /dev/null > "$city_log" 2>&1
         RC=$?
@@ -218,11 +256,12 @@ else:
 
     if [ -n "$RESULT_JSON" ]; then
         STATUS=$(python3 -c "import json; print(json.loads('''$RESULT_JSON''').get('status',''))" 2>/dev/null || echo "")
-        COMMIT=$(python3 -c "import json; print(json.loads('''$RESULT_JSON''').get('commit') or '')" 2>/dev/null || echo "")
+        PR_URL=$(python3 -c "import json; print(json.loads('''$RESULT_JSON''').get('pr_url') or '')" 2>/dev/null || echo "")
+        BRANCH=$(python3 -c "import json; print(json.loads('''$RESULT_JSON''').get('branch') or '')" 2>/dev/null || echo "")
     else
-        STATUS=""
-        COMMIT=""
+        STATUS=""; PR_URL=""; BRANCH=""
     fi
+    [ -z "$BRANCH" ] && BRANCH="scam-rebuild/${slug}"
 
     # Accept any positive status the model emits — observed variants in the
     # 5-city kickoff: "complete", "ok", "success". The prompt asks for
@@ -234,23 +273,33 @@ else:
     esac
 
     if [ "$RC" -eq 0 ] && [ "$IS_OK" -eq 1 ]; then
-        echo "  ✅ $slug — $STATUS (commit $COMMIT)"
+        echo "  ✅ $slug — $STATUS (PR ${PR_URL:-?})"
+        SUCCESS_PRS+=("${slug}=${PR_URL}")
 
-        # Belt-and-suspenders: claude's prompt asks it to stage api/v1/scams/<slug>.json,
-        # but the kickoff showed it skipped this 4 of 5 times. Force a regen from the
-        # research JSON the skill always writes. backfill_scams.py --slug <slug>
-        # produces the rich payload (real category, full story, real reddit_sources)
-        # and reindexes api/v1/scams.json. Amend onto claude's rebuild commit so the
-        # HTML + API JSON ship together as one push.
-        if python3 "$REPO/scripts/backfill_scams.py" --slug "$slug" > "$LOGDIR/${slug}-${TIMESTAMP}-apijson.log" 2>&1; then
-            git add "$REPO/api/v1/scams/${slug}.json" "$REPO/api/v1/scams.json"
-            if ! git diff --cached --quiet; then
-                git commit --amend --no-edit --no-verify >/dev/null 2>&1 \
-                    && echo "     ↳ amended api/v1/scams/${slug}.json into rebuild commit" \
-                    || echo "     ⚠️  amend failed — api/v1/scams/${slug}.json staged for next commit"
+        # Belt-and-suspenders: claude was told to skip api/v1/scams/<slug>.json
+        # since the cron regenerates it from the research JSON. Check out the
+        # feature branch claude pushed, run backfill_scams.py, amend the tip,
+        # force-push so the PR's diff includes both HTML and the API JSON.
+        if git fetch origin "$BRANCH" 2>/dev/null && git checkout "$BRANCH" 2>/dev/null; then
+            if python3 "$WORK/scripts/backfill_scams.py" --slug "$slug" > "$LOGDIR/${slug}-${TIMESTAMP}-apijson.log" 2>&1; then
+                git add "$WORK/api/v1/scams/${slug}.json" "$WORK/api/v1/scams.json"
+                if ! git diff --cached --quiet; then
+                    if git commit --amend --no-edit --no-verify >/dev/null 2>&1 \
+                       && git push --force-with-lease "$PUSH_URL" HEAD:"$BRANCH" 2>&1 | tail -2; then
+                        echo "     ↳ amended api/v1/scams/${slug}.json onto $BRANCH and force-pushed"
+                    else
+                        echo "     ⚠️  amend or force-push failed — PR has HTML only"
+                    fi
+                else
+                    echo "     ↳ api/v1/scams/${slug}.json was already current — no amend needed"
+                fi
+            else
+                echo "     ⚠️  backfill_scams.py --slug ${slug} failed (see ${slug}-${TIMESTAMP}-apijson.log) — PR has HTML only"
             fi
+            # Return to detached origin/main so the queue update lands cleanly.
+            git checkout --detach origin/main 2>/dev/null
         else
-            echo "     ⚠️  backfill_scams.py --slug ${slug} failed (see ${slug}-${TIMESTAMP}-apijson.log) — page deployed but API JSON stale"
+            echo "     ⚠️  could not fetch/checkout $BRANCH — claude may not have pushed it. PR may have HTML only."
         fi
 
         SUCCESS_SLUGS+=("$slug")
@@ -263,24 +312,36 @@ else:
     fi
 done
 
-# ─── Step 4: Update queue with final statuses ──────────────────────────────
+# ─── Step 4: Update queue (PR opened → in-progress with pr_number) ──────────
+# In PR-flow, success means a PR was opened, NOT that the page is on main.
+# Queue entry stays in-progress until a separate merge process flips it to
+# complete. Only the failed cities get a terminal "failed" status.
 echo ""
-echo "▶ Step 4: Updating queue statuses"
+echo "▶ Step 4: Updating queue (PRs opened → in-progress, failures → failed)"
 
-SUCCESS_CSV=$(IFS=,; echo "${SUCCESS_SLUGS[*]:-}")
+SUCCESS_PRS_CSV=$(IFS=,; echo "${SUCCESS_PRS[*]:-}")
 FAILED_CSV=$(IFS=,; echo "${FAILED_SLUGS[*]:-}")
 
-SUCCESS_CSV="$SUCCESS_CSV" FAILED_CSV="$FAILED_CSV" python3 -c "
-import json, os
+SUCCESS_PRS_CSV="$SUCCESS_PRS_CSV" FAILED_CSV="$FAILED_CSV" python3 -c "
+import json, os, re
 from datetime import datetime, timezone
 q = json.load(open('$QUEUE'))
-done = set(s for s in os.environ['SUCCESS_CSV'].split(',') if s)
+prs = {}
+for entry in os.environ['SUCCESS_PRS_CSV'].split(','):
+    if not entry or '=' not in entry: continue
+    slug, url = entry.split('=', 1)
+    m = re.search(r'/pull/(\d+)', url or '')
+    prs[slug] = {'pr_number': int(m.group(1)) if m else None, 'pr_url': url or None}
 failed = set(s for s in os.environ['FAILED_CSV'].split(',') if s)
 now = datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')
 for it in q['queue']:
-    if it['slug'] in done:
-        it['status'] = 'complete'
-        it['completed_at'] = now
+    if it['slug'] in prs:
+        # Stay in-progress; record PR for the bulk-merge step. Don't mark
+        # completed_at yet — that happens when the PR merges.
+        it['status'] = 'in-progress'
+        it['pr_number'] = prs[it['slug']]['pr_number']
+        if not it.get('created_at'):
+            it['created_at'] = now
     elif it['slug'] in failed:
         it['status'] = 'failed'
         it['completed_at'] = now
@@ -290,27 +351,28 @@ for it in q['queue']:
 q['meta']['progress'] = totals
 json.dump(q, open('$QUEUE', 'w'), indent=2, ensure_ascii=False)
 open('$QUEUE','a').write('\n')
-print(f'  done={len(done)} failed={len(failed)} totals={totals}')
+print(f'  prs={len(prs)} failed={len(failed)} totals={totals}')
 "
 
-# ─── Step 5: Commit queue update + push everything ─────────────────────────
+# ─── Step 5: Commit + push the queue update only ───────────────────────────
+# In PR-flow there are no rebuild commits to push — those are on feature
+# branches behind PRs. Only the queue.json change goes to main.
 echo ""
-echo "▶ Step 5: Committing queue update and pushing all rebuild commits"
+echo "▶ Step 5: Committing queue update and pushing to main"
 
 git add "$QUEUE"
 if ! git diff --cached --quiet; then
-    SUMMARY="${#SUCCESS_SLUGS[@]} done"
+    SUMMARY="${#SUCCESS_PRS[@]} PRs opened"
     [ ${#FAILED_SLUGS[@]} -gt 0 ] && SUMMARY="$SUMMARY, ${#FAILED_SLUGS[@]} failed"
     git commit -m "scam-rebuild queue: $SUMMARY (${SUCCESS_SLUGS[*]:-}${FAILED_SLUGS[*]:+ FAILED: ${FAILED_SLUGS[*]}})" || true
 fi
 
 # Retry push up to 5 times to handle concurrent cron pushes — main moves
 # fast (other cron jobs land 1-2 commits/min) so the rebase race is real.
-# `HEAD:main` works whether we're on the main branch or detached HEAD,
-# since git checkout main silently no-ops when main is checked out by
-# another worktree.
+# Uses $PUSH_URL with embedded GH_TOKEN to bypass macOS keychain credential
+# helper (cron has no tty / keychain access).
 for attempt in 1 2 3 4 5; do
-    if git push origin HEAD:main; then
+    if git push "$PUSH_URL" HEAD:main; then
         break
     fi
     echo "  push failed (attempt $attempt/5), rebasing..."
@@ -320,7 +382,10 @@ done
 echo ""
 echo "═══════════════════════════════════════════════════════════════"
 echo "  Run complete — $(date '+%Y-%m-%d %H:%M:%S')"
-echo "  Succeeded: ${#SUCCESS_SLUGS[@]} (${SUCCESS_SLUGS[*]:-})"
+echo "  PRs opened: ${#SUCCESS_PRS[@]} (${SUCCESS_SLUGS[*]:-})"
+for entry in "${SUCCESS_PRS[@]}"; do
+    echo "    → ${entry}"
+done
 echo "  Failed:    ${#FAILED_SLUGS[@]} (${FAILED_SLUGS[*]:-})"
 echo "═══════════════════════════════════════════════════════════════"
 
