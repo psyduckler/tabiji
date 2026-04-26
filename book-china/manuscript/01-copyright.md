@@ -10,7 +10,7 @@ No part of this book may be reproduced, distributed, or transmitted in any form 
 
 References to streets, scenic areas, tea houses, temples, hutongs, and business types describe patterns of scam activity reported by Chinese newspapers, local authorities, and travelers at the time of writing. Mention of a specific area does not imply that all venues or individuals operating there engage in the described behavior. Where this book references named operators or establishments, it does so on the basis of published news coverage or direct consumer reviews; any such reference is intended as consumer information and not as an accusation of wrongdoing against any individual business that was not the subject of a specific cited report.
 
-This volume covers the sixteen most-visited cities of **mainland China**. Hong Kong and Macau are Special Administrative Regions with separate legal systems, currencies, and tourism-safety frameworks; they are covered in their own dedicated volumes of the Tabiji Travel Safety Series.
+This volume covers the sixteen most-visited cities of **mainland China**. Hong Kong and Macau are Special Administrative Regions with separate legal systems, currencies, and tourism-safety frameworks; they will be covered in their own future dedicated volumes of the Tabiji Travel Safety Series.
 
 Information is current as of **2026 Edition**. For newly reported scams and live updates, visit **[tabiji.ai/scams](https://tabiji.ai/scams)**.
 
