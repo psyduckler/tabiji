@@ -126,6 +126,13 @@ for idx in $(seq 0 $((TOTAL-1))); do
     echo "  Per-city log: $city_log"
     echo "  Started: $(date '+%H:%M:%S')"
 
+    # Safety: re-sync with origin/main between cities. With batch_size=1 the
+    # outer loop runs once so this is a no-op, but if batch_size is ever
+    # bumped, two cities in the same batch otherwise build off the same
+    # pre-batch HEAD and collide on shared dicts in scams/generate_pages.py
+    # (SAFETY_TIPS, FAQS, EMERGENCY_INFO) requiring manual rebase to merge.
+    git pull --rebase origin main 2>&1 | tail -2 || echo "  ⚠️  inter-city pull failed, continuing"
+
     PROMPT="You are executing the scam-page-builder skill (.claude/skills/scam-page-builder.md) for a FORCED REBUILD of an existing scam city page.
 
 City: ${city}
