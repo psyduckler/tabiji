@@ -43,16 +43,26 @@ echo "  Worktree: $WORK"
 echo "  Log: $LOGFILE"
 echo "═══════════════════════════════════════════════════════════════"
 
-# ─── Auth: pull credentials from keychain (cron has no tty / keychain-helper) ─
-# claude -p needs ANTHROPIC_API_KEY when not run from an interactive shell
-# (it can't reach the OAuth token in the macOS login keychain otherwise).
-# git push over HTTPS to github.com needs GH_TOKEN injected into the URL
-# for the same reason.
+# ─── Auth: load credentials in this priority order ─────────────────────────
+# 1. Already in environment (interactive testing, launchd UserAgent context)
+# 2. ~/.config/tabiji/cron-secrets.env (cron context — written manually
+#    once, mode 600. Required because cron jobs cannot reach the macOS
+#    keychain — `security find-generic-password` returns empty even though
+#    the call succeeds, since the keychain is locked at session start.)
+# 3. macOS keychain via `security find-generic-password` (interactive shell
+#    fallback — `gh auth token` and the `anthropic-api-key` keychain item
+#    work here because the login keychain is unlocked.)
+SECRETS_FILE="${SECRETS_FILE:-$HOME/.config/tabiji/cron-secrets.env}"
+if [ -f "$SECRETS_FILE" ]; then
+    set -a; . "$SECRETS_FILE"; set +a
+    SECRETS_SOURCE="file"
+fi
 if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
     ANTHROPIC_API_KEY=$(security find-generic-password -a "$USER" -s "anthropic-api-key" -w 2>/dev/null || true)
+    [ -n "$ANTHROPIC_API_KEY" ] && SECRETS_SOURCE="${SECRETS_SOURCE:-keychain}"
 fi
 if [ -z "$ANTHROPIC_API_KEY" ]; then
-    echo "❌ no ANTHROPIC_API_KEY available (not in env, not in keychain). Aborting."
+    echo "❌ no ANTHROPIC_API_KEY available. Set it in env, in $SECRETS_FILE (mode 600), or via 'security add-generic-password -a \$USER -s anthropic-api-key -w \$KEY'. Aborting."
     exit 1
 fi
 export ANTHROPIC_API_KEY
@@ -61,13 +71,13 @@ if [ -z "${GH_TOKEN:-}" ]; then
     GH_TOKEN=$(gh auth token 2>/dev/null || true)
 fi
 if [ -z "$GH_TOKEN" ]; then
-    echo "❌ no GH_TOKEN available (gh auth token failed and GH_TOKEN not set). Aborting."
+    echo "❌ no GH_TOKEN available. Set it in env, in $SECRETS_FILE (mode 600), or run 'gh auth login' from an interactive shell. Aborting."
     exit 1
 fi
 export GH_TOKEN
 # git push will use this URL form to auth — no credential-helper / keychain dependency.
 PUSH_URL="https://x-access-token:${GH_TOKEN}@github.com/psyduckler/tabiji.git"
-echo "  ✓ ANTHROPIC_API_KEY (len ${#ANTHROPIC_API_KEY}), GH_TOKEN (len ${#GH_TOKEN}) loaded from keychain"
+echo "  ✓ ANTHROPIC_API_KEY (len ${#ANTHROPIC_API_KEY}), GH_TOKEN (len ${#GH_TOKEN}) loaded from ${SECRETS_SOURCE:-env}"
 
 # Pick a timeout binary (macOS ships without `timeout` by default)
 TIMEOUT=""
