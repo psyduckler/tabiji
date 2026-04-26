@@ -3,8 +3,8 @@
 ## Goal
 Upgrade compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
-## Status (as of 2026-04-26, post-180-page session)
-- **Done so far:** 180 pages at 100/100 (19.7% of 916 total compare pages).
+## Status (as of 2026-04-26, post-192-page session)
+- **Done so far:** 192 pages at 100/100 (21.0% of 916 total compare pages).
 - **Remaining sub-100:** ~736 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
 - **Active goal:** completing 100 more pages (77 done so far in the active goal session).
 
@@ -131,7 +131,10 @@ Many pages now have a different MED tier template structure where the photo-grid
 - **Session 6 (7-page batch from "21 more pages" request):** 7 pages
 - **Session 7 (24-page batch):** 24 pages
 - **Session 8 (24-page batch, continuing 100-page goal):** 24 pages
-- **Total:** 180 pages at 100/100 (out of 916 total compare pages, 19.7%)
+- **Session 9 (2-page test of cron skill before remote disabled):** 2 pages (bangkok-vs-ho-chi-minh, london-vs-amsterdam)
+- **Session 10 (10-page batch, manual local resumption after cron failure):** 10 pages
+  - tokyo-vs-london (FAQ-8 expansion), san-diego-vs-los-angeles, san-francisco-vs-new-york, san-francisco-vs-seattle, santorini-vs-amalfi-coast, scottsdale-vs-palm-springs, serengeti-vs-masai-mara, slovakia-vs-czech-republic
+- **Total:** 192 pages at 100/100 (out of 916 total compare pages, 21.0%)
 
 The pattern stabilizes around 5-7 minutes per page once the page already has FAQ=16, and 10-15 minutes for pages requiring FAQ expansion 7→16 or 8→16. The single most common failure is FAQ off-by-one (target 16, often lands at 15 — verify before commit).
 
