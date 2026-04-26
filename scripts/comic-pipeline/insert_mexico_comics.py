@@ -30,6 +30,9 @@ CITIES = [
     "mexico-city", "cancun", "tulum", "oaxaca", "merida",
     "playa-del-carmen", "puebla", "puerto-escondido",
     "puerto-vallarta", "guadalajara",
+    "cabo-san-lucas", "cozumel", "guanajuato", "holbox",
+    "isla-mujeres", "mazatlan", "san-cristobal-de-las-casas",
+    "san-miguel-de-allende",
 ]
 
 IMG_TAG_TEMPLATE = (
