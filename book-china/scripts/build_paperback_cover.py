@@ -68,8 +68,17 @@ def extract_inner(svg_text: str, source_svg_dir: Path | None = None) -> str:
             attr, quote, href = match.group(1), match.group(2), match.group(3)
             if href.startswith(("http://", "https://", "data:", "file://")):
                 return match.group(0)
-            src = source_svg_dir / href if not href.startswith("/") else Path(href)
-            if not src.exists():
+            # Resolve in this order: absolute path → SVG's own dir → sibling
+            # `covers/` directory (gen_comics.py writes raw cover art to
+            # assets/covers/ but the SVGs reference it as a bare filename).
+            candidates: list[Path] = []
+            if href.startswith("/"):
+                candidates.append(Path(href))
+            else:
+                candidates.append(source_svg_dir / href)
+                candidates.append(source_svg_dir.parent / "covers" / Path(href).name)
+            src = next((p for p in candidates if p.exists()), None)
+            if src is None:
                 return match.group(0)
             mime, _ = mimetypes.guess_type(src.name)
             mime = mime or "application/octet-stream"
