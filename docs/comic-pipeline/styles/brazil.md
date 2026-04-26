@@ -16,7 +16,7 @@ A single illustrated comic book page in the folk-modernist painting style of Ald
 ```
 {BRAZIL_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from cast.py}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens, with Brazilian landmark}. Speech bubble: "{short line}"
@@ -26,8 +26,8 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 ```
 
 **API call:**
-- First Brazil comic: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Subsequent: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with pilot as anchor
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 

@@ -2,7 +2,6 @@
 name: Croatia scam comic style block
 description: Locked Nano Banana Pro style prompt for Croatia country scam comics — Ivan Generalić / Hlebine School Croatian naïve-art classic period. Paste verbatim into every Croatia generation.
 type: project
-originSessionId: f4c6802a-d6fc-404e-b964-ffce1f0271c0
 ---
 Croatia country-scam comic style — approved 2026-04-18 after a 3-variation test of Ivan Generalić periods (classic Hlebine oil-on-glass, earthy 1930s-50s, dramatic 1960s-70s). The classic Hlebine variant was chosen for best readability at web-card size while retaining the unmistakable Croatian folk-art DNA of Ivan Generalić (1914-1992), the most internationally-known Croatian naïve artist and co-founder of the Hlebine School.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in the classic Hlebine School naïve-art st
 ```
 {CROATIA_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens}. Speech bubble: "{short line, under ~8 words}"
@@ -26,10 +25,10 @@ Panel 3: {what happens}. Speech bubble: "{short line}"
 Panel 4: {realization / aftermath}. Speech bubble: "{short line}"
 ```
 
-**API call — same Wavespeed Nano Banana Pro pipeline as Thailand / Austria / HK:**
-- First comic in a city: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image` with `{prompt, aspect_ratio: "1:1", resolution: "2k", output_format: "jpeg"}`
-- Later comics in the same city (for tighter consistency): `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` passing 2–3 prior approved comics as style anchors in the `images` array; `/edit` supports `aspect_ratio: "1:1"`
-- Poll: `GET https://api.wavespeed.ai/api/v3/predictions/{id}/result` until `status=="completed"`
+**API call:**
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Character rotation — Dubrovnik (applied 2026-04-18):**

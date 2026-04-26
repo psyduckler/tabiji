@@ -2,7 +2,6 @@
 name: Hong Kong scam comic style block
 description: Locked Nano Banana Pro style prompt for Hong Kong / China country scam comics — 1960s-70s Shaw Brothers painted cinema-poster style. Paste verbatim into every HK generation.
 type: project
-originSessionId: f4c6802a-d6fc-404e-b964-ffce1f0271c0
 ---
 Hong Kong country-scam comic style — approved 2026-04-18 after a 5-style side-by-side test (Tony Wong manhua, Tsai Chih Chung ink-wash, Wong Kar-Wai neon-cinematic, Shaw Brothers poster, Old Master Q). Shaw Brothers chosen for its painterly gouache texture, jade/crimson/gold palette, and unmistakably Hong Kong cinematic feel — distinct from both Thailand watercolor and a future Japan manga lock. Reusable for other Chinese cities (Beijing, Shanghai, Chengdu, etc.) since the Shaw Brothers visual is pan-Chinese rather than strictly Cantonese.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page in the bold painted-poster style of 1960s-1
 ```
 {HONG_KONG_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens}. Speech bubble: "{short line, under ~8 words}"
@@ -26,10 +25,10 @@ Panel 3: {what happens}. Speech bubble: "{short line}"
 Panel 4: {realization / aftermath}. Speech bubble: "{short line}"
 ```
 
-**API call — same Wavespeed Nano Banana Pro pipeline as Thailand / Austria:**
-- First comic in a city: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image` with `{prompt, aspect_ratio: "1:1", resolution: "2k", output_format: "jpeg"}`
-- Later comics in the same city (for tighter consistency): `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` passing 2–3 prior approved comics as style anchors in the `images` array; `/edit` supports `aspect_ratio: "1:1"`
-- Poll: `GET https://api.wavespeed.ai/api/v3/predictions/{id}/result` until `status=="completed"`
+**API call:**
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Hong Kong character rotation (applied 2026-04-18):**

@@ -2,7 +2,6 @@
 name: Indonesia scam comic style block
 description: Locked Nano Banana Pro style prompt for Indonesian scam comics — Balinese Lontar palm-leaf manuscript illustration. Paste verbatim into every Indonesia scam generation.
 type: project
-originSessionId: 6e1b60d6-8114-4bf8-83d3-25c3a4635638
 ---
 Indonesia scam comic style — chosen 2026-04-18 after a 5-way Indonesian illustration bake-off (Wayang Kulit shadow-puppet, Kamasan Balinese narrative painting, Batik wax-resist motifs, R.A. Kosasih classic komik, Lontar palm-leaf manuscript). Lontar palm-leaf chosen for its quiet mature heritage-anchor tone — fine brown linework on cream palm-leaf with visible fiber texture and punched binding-hole motifs, quiet literati-like feeling appropriate for the cautionary scam narrative at our demographic.
 
@@ -17,7 +16,7 @@ A single illustrated comic book page rendered as a Balinese Lontar palm-leaf man
 ```
 {INDONESIA_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens, with Indonesian landmark}. Speech bubble: "{short line}"
@@ -27,8 +26,8 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 ```
 
 **API call:**
-- First Indonesia comic: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Subsequent: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with pilot as anchor
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
 - Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 

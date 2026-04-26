@@ -29,8 +29,9 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 Gemini 2.5 Pro synthesizes the character choice per scam via `synthesize.py`. The four canonical travelers (Margie, Priya, Harry, Marcus) rotate based on which fits the scam best — e.g., Harry for the drug-tout street scam, Margie for older-cruise-day pickpocket scenarios, Priya for the Booking.com phishing scam, Marcus for the Klass Wagen rental fraud.
 
 **API call:**
-- First comic in Portugal: used `POST /text-to-image` for the bake-off pilot
-- Subsequent comics: `POST /edit` with the pilot as style anchor (`images` array)
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Pilot image (style anchor):**

@@ -2,7 +2,6 @@
 name: Greece scam comic style block
 description: Locked Nano Banana Pro style prompt for Greek scam comics — ancient red-figure pottery storytelling, modern 2x2 grid, English speech bubbles. Paste verbatim into every Greece scam generation.
 type: project
-originSessionId: 6e1b60d6-8114-4bf8-83d3-25c3a4635638
 ---
 Greek country-scam comic style — chosen 2026-04-18 after 5-way European style bake-off (Asterix, red-figure pottery, Mattotti gouache, Corto Maltese, Loustal). Red-figure pottery chosen for its instant Greek-heritage recognition and visual differentiation from France (Tintin), Thailand (watercolor), Austria (Sempé), Hong Kong (Shaw Brothers).
 
@@ -17,7 +16,7 @@ A single illustrated comic book page drawn as ancient Greek red-figure pottery s
 ```
 {GREECE_STYLE_BLOCK}
 
-CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from project_scam_comics_cast.md}
+CHARACTER: {paste one of the 4 canonical cast paragraphs verbatim from scripts/comic-pipeline/cast.py}
 
 SCENE:
 Panel 1: {what happens in the scene, with Greek landmark}. Speech bubble: "{short line}"
@@ -27,9 +26,9 @@ Panel 4: {what happens — usually realization/lesson}. Speech bubble: "{short l
 ```
 
 **API call:**
-- First comic in Greece: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
-- Subsequent comics: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with 2-3 approved Greek comics as style anchors (`images` array)
-- Body: `{"prompt": "...", "aspect_ratio": "1:1", "resolution": "2k", "output_format": "jpeg"}` (t2i) or `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}` (edit)
+- Primary: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/edit` with the pilot URL below as style anchor
+- Fallback: `POST https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image`
+- Body: `{"prompt":"...","images":[...],"aspect_ratio":"1:1","output_format":"jpeg"}`
 - Credential: `wavespeed-api-key` in macOS keychain
 
 **Cities / Production path:**
