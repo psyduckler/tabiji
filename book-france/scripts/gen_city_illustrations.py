@@ -3,19 +3,13 @@
 Generate 16 per-city cover illustrations for the France book via Wavespeed
 (Nano Banana Pro).
 
-Style brief — must match the Japan and Italy volumes' city covers:
-  - Flat vector illustration, mid-century travel-book poster aesthetic
-  - Warm cream / saffron / burgundy / deep-purple / muted teal palette,
-    golden-hour light
-  - Tourist figure in deep-burgundy jacket with small backpack, stylised
-  - 1:1 aspect, 2K resolution, JPEG
+Style: flat vector mid-century travel-poster, same palette as prior volumes.
 
 Output: book-france/assets/cities/<slug>.jpg
 
 Usage:
-    python3 book-france/scripts/gen_city_illustrations.py              # all 16 cities
-    python3 book-france/scripts/gen_city_illustrations.py paris        # just paris
-    python3 book-france/scripts/gen_city_illustrations.py paris nice   # multiple specific cities
+    python3 book-france/scripts/gen_city_illustrations.py
+    python3 book-france/scripts/gen_city_illustrations.py paris nice
 """
 from __future__ import annotations
 
@@ -25,7 +19,7 @@ import sys
 import time
 from pathlib import Path
 
-import requests  # noqa: pip install requests
+import requests
 
 
 HERE = Path(__file__).resolve().parent
@@ -54,113 +48,152 @@ TRAVELER_F = (
     "behind or three-quarter view, looking toward the scene. "
 )
 
-# (slug, subject, gender) — gender alternates within the reading order
 CITIES: list[tuple[str, str, str]] = [
     (
         "paris",
-        "The Eiffel Tower at dusk viewed from across the Seine, Haussmann-era rooftops in the "
-        "middle distance, the tower silhouetted against a saffron sky, soft golden-hour haze.",
-        "m",
+        "The Eiffel Tower seen from across the Trocadéro plaza at golden hour, "
+        "its iron lattice silhouette glowing warm saffron against a dusty-purple "
+        "twilight sky, a Haussmann-era stone balustrade in the foreground, the "
+        "Seine just visible curving past the Champ de Mars in the middle distance, "
+        "a few stylised plane trees framing the view.",
+        "f",
     ),
     (
         "nice",
-        "The curve of the Promenade des Anglais along the Baie des Anges in Nice, pastel "
-        "Belle-Époque seafront hotel facades, a pink-domed grand hotel silhouette, palm fronds, "
-        "turquoise Mediterranean water at late-afternoon golden hour.",
-        "f",
+        "The Promenade des Anglais curving along the Baie des Anges at sunset, "
+        "the pebble beach and turquoise Mediterranean to one side, the "
+        "pastel-painted Belle Époque facades of the Negresco-style hotels along "
+        "the promenade, a line of palm trees, warm Côte d'Azur peach-and-purple "
+        "sky, the Castle Hill silhouetted at the eastern end of the bay.",
+        "m",
     ),
     (
         "cannes",
-        "La Croisette palm-lined promenade at golden hour, the Palais des Festivals in the "
-        "middle distance, the Mediterranean beyond, a few stylised palm silhouettes.",
-        "m",
+        "The Croisette palm-lined promenade at sunset with the Palais des "
+        "Festivals visible at one end, a line of stylised yachts moored along "
+        "the Vieux Port, the wedding-cake silhouette of the Carlton Hotel rising "
+        "above the boulevard, warm peach and saffron sky, the Mediterranean "
+        "lapping the sand-and-pebble beach in the foreground.",
+        "f",
     ),
     (
         "st-tropez",
-        "The Vieux Port of Saint-Tropez at dusk, pastel port-front houses, superyacht silhouettes "
-        "in the harbor, warm Provençal ochre and dusty purple tones.",
-        "f",
+        "The old harbor of Saint-Tropez at golden hour with the campanile of "
+        "Notre-Dame de l'Assomption rising above the pastel quayside houses in "
+        "ochre, salmon, and faded rose, a row of varnished wooden fishing boats "
+        "(pointus) and one or two yachts in the foreground, warm Provençal sun, "
+        "a sweep of pink bougainvillea climbing a stone wall.",
+        "m",
     ),
     (
         "marseille",
-        "Notre-Dame de la Garde basilica crowning the hill above the Vieux-Port of Marseille, "
-        "fishing boats in the foreground, late-afternoon Mediterranean light, the Château d'If "
-        "in the haze.",
-        "m",
+        "The Vieux-Port of Marseille at late afternoon with the Notre-Dame de "
+        "la Garde basilica crowning the hill above, a forest of small white "
+        "fishing-boat masts in the harbor below, the ochre-and-cream facades of "
+        "the quay buildings catching warm Mediterranean light, the Fort "
+        "Saint-Jean stone silhouette to one side, a stylised sweep of dusty-blue "
+        "sea behind.",
+        "f",
     ),
     (
         "avignon",
-        "The Palais des Papes rising above the Rhône river, the Pont Saint-Bénézet (Pont "
-        "d'Avignon) reaching into the water in the foreground, warm Provençal stone, dusty "
-        "purple evening sky.",
-        "f",
+        "The Pont Saint-Bénézet (the famous truncated Pont d'Avignon) reaching "
+        "out into the Rhône with its four surviving arches, the massive crenellated "
+        "ramparts of the Palais des Papes rising on the hill behind in honey-coloured "
+        "stone, warm Provençal late-afternoon light, the Rhône flowing past in "
+        "muted teal, a few cypresses framing the foreground.",
+        "m",
     ),
     (
         "montpellier",
-        "Place de la Comédie with the Three Graces fountain in the center, surrounding Haussmann "
-        "buildings in warm cream, an outdoor café umbrella in silhouette, late-afternoon "
-        "southern light.",
-        "m",
+        "The Place de la Comédie at golden hour with the Three Graces fountain "
+        "in the foreground and the curved 19th-century facade of the Opéra Comédie "
+        "rising at the far end of the egg-shaped square, stone-paved plaza, a few "
+        "plane trees in dusty teal, warm Languedoc afternoon light, the Esplanade "
+        "Charles-de-Gaulle stretching into the distance.",
+        "f",
     ),
     (
         "toulouse",
-        "La Ville Rose at golden hour — pink-brick facades of Place du Capitole, the Basilique "
-        "Saint-Sernin bell tower rising in the distance, a warm rosy glow over the rooftops.",
-        "f",
+        "The pink-brick facade of the Capitole de Toulouse glowing warm rose at "
+        "golden hour above the great cobbled Place du Capitole, the Garonne river "
+        "curving past in the middle distance with the dome of the Hôpital de la "
+        "Grave silhouetted on the far bank, a few stylised plane trees, warm "
+        "Languedoc southern light, a Toulouse rugby motif barely suggested.",
+        "m",
     ),
     (
         "lyon",
-        "Fourvière Basilica crowning the hill above the Saône river, the traboules of Vieux "
-        "Lyon winding below, red-tile rooftops of the Presqu'île, warm golden-hour tones.",
-        "m",
+        "The Saône river curving through Lyon at golden hour with the Basilique "
+        "Notre-Dame de Fourvière crowning the hill above the Vieux Lyon district, "
+        "the pastel facades of the Renaissance old town along the riverbank in "
+        "ochre and cream, a stone bridge spanning the river in the foreground, "
+        "warm Rhône-Alpes late-afternoon light.",
+        "f",
     ),
     (
         "chamonix",
-        "The Aiguille du Midi and the Mont Blanc massif rising above the Chamonix valley, a "
-        "single alpine chalet in the foreground, snow-capped peaks, clear blue-purple dusk sky.",
-        "f",
+        "The summit of Mont Blanc and the Aiguille du Midi rising above the "
+        "Chamonix valley at golden hour, the Alpine peaks dusted with snow in "
+        "warm peach and dusty purple light, a cluster of chalet rooftops in the "
+        "valley below with steep tiled roofs, a few stylised pine trees, the "
+        "Arve river just visible flowing through the village.",
+        "m",
     ),
     (
         "annecy",
-        "The Palais de l'Île on its small triangular island in the canal of Annecy old town, "
-        "pastel half-timbered facades along the water, turquoise Lake Annecy visible beyond, "
-        "Alpine foothills in the distance.",
-        "m",
+        "The Palais de l'Île standing on its boat-shaped islet in the middle of "
+        "the Thiou canal in Annecy, the pastel-painted arcaded houses of the old "
+        "town flanking the canal in faded rose and ochre, Lake Annecy and the "
+        "surrounding peaks visible in the background, warm Alpine afternoon light, "
+        "a few flower boxes in pink and saffron along the bridges.",
+        "f",
     ),
     (
         "bordeaux",
-        "The Place de la Bourse at golden hour with its Miroir d'Eau reflecting the "
-        "eighteenth-century facade, warm honey-stone, a tram passing in the foreground, "
-        "plane-tree silhouettes on the quay.",
-        "f",
+        "The Place de la Bourse at golden hour with the 18th-century stone "
+        "facade reflected in the Miroir d'eau (mirror pool) in the foreground, "
+        "honey-coloured limestone buildings, the Garonne river just visible to "
+        "one side, a few stylised plane trees, warm late-afternoon Aquitaine "
+        "light, a tram quietly suggested in the middle distance.",
+        "m",
     ),
     (
         "biarritz",
-        "The Grande Plage of Biarritz with the Rocher de la Vierge rock formation offshore, "
-        "Basque surf-town coastline, late-afternoon Atlantic light, pastel Belle-Époque hotel "
-        "facades on the bluff.",
-        "m",
+        "The Hôtel du Palais (a grand pink-and-cream Belle Époque palace) on "
+        "its headland above the Grande Plage at sunset, the Bay of Biscay rolling "
+        "in long Atlantic swells, a couple of surfers silhouetted on the wave, "
+        "the Phare de Biarritz lighthouse just visible on the rocky point, warm "
+        "Basque coast peach-and-saffron sky.",
+        "f",
     ),
     (
         "strasbourg",
-        "Strasbourg Cathedral rising above the half-timbered houses of Petite France reflected "
-        "in the Ill river canals, warm gothic sandstone, winter Christmas-market lantern glow at "
-        "dusk.",
-        "f",
-    ),
-    (
-        "colmar",
-        "Petite Venise canal in Colmar with flower-boxed half-timbered Alsatian houses lining "
-        "the water, pastel facades in cream and burgundy, a small flat-bottomed boat on the "
-        "canal, late-afternoon warm light.",
+        "The pink-sandstone spire of the Cathédrale Notre-Dame de Strasbourg "
+        "rising above the half-timbered houses of the Petite France quarter at "
+        "golden hour, the Ill river canal in the foreground with a low covered "
+        "stone bridge, the half-timbered Alsatian houses with steep tiled roofs "
+        "and overflowing flower boxes, warm Rhine-Valley late-afternoon light.",
         "m",
     ),
     (
-        "mont-saint-michel",
-        "The silhouette of Mont-Saint-Michel abbey rising from the tidal mudflats at dusk, the "
-        "causeway reaching toward it across the bay, warm saffron sky, calm water reflecting "
-        "the monastery.",
+        "colmar",
+        "The half-timbered houses of the Petite Venise quarter of Colmar lining "
+        "the narrow Lauch canal at golden hour, painted in pastel ochre, salmon, "
+        "and dusty teal, flower boxes overflowing with red geraniums, a single "
+        "small flat-bottomed boat moored at a stone landing, warm Alsatian "
+        "afternoon light filtering between the steep tiled roofs.",
         "f",
+    ),
+    (
+        "mont-saint-michel",
+        "The abbey-island silhouette of Mont Saint-Michel rising from the wet "
+        "sand of the tidal flats at dawn, the spire of the abbey cathedral "
+        "catching the first warm peach light, a thin mirror of receding tide "
+        "reflecting the island in the foreground, the long Norman causeway just "
+        "visible, dusty purple distant horizon, a single tiny figure walking "
+        "the flats for scale.",
+        "m",
     ),
 ]
 
@@ -171,8 +204,7 @@ def get_api_key() -> str:
         return key.strip()
     result = subprocess.run(
         ["security", "find-generic-password", "-s", "wavespeed-api-key", "-w"],
-        capture_output=True,
-        text=True,
+        capture_output=True, text=True,
     )
     if result.returncode != 0 or not result.stdout.strip():
         sys.exit("could not read WAVESPEED_API_KEY from keychain or env")
@@ -181,20 +213,15 @@ def get_api_key() -> str:
 
 def submit(api_key: str, prompt: str) -> str:
     url = "https://api.wavespeed.ai/api/v3/google/nano-banana-pro/text-to-image"
-    r = requests.post(
-        url,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "prompt": prompt,
-            "aspect_ratio": "1:1",
-            "resolution": "2k",
-            "output_format": "jpeg",
-        },
-        timeout=60,
-    )
+    r = requests.post(url, headers={
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }, json={
+        "prompt": prompt,
+        "aspect_ratio": "1:1",
+        "resolution": "2k",
+        "output_format": "jpeg",
+    }, timeout=60)
     r.raise_for_status()
     data = r.json()
     if "data" in data and "id" in data["data"]:
@@ -204,7 +231,7 @@ def submit(api_key: str, prompt: str) -> str:
     raise RuntimeError(f"unexpected submit response: {data}")
 
 
-def poll(api_key: str, task_id: str, timeout: int = 300) -> str:
+def poll(api_key: str, task_id: str, timeout: int = 360) -> str:
     url = f"https://api.wavespeed.ai/api/v3/predictions/{task_id}/result"
     headers = {"Authorization": f"Bearer {api_key}"}
     deadline = time.time() + timeout
@@ -234,33 +261,30 @@ def download(url: str, dest: Path) -> None:
 
 
 def main() -> None:
-    # If slugs are passed on the command line, generate only those. Otherwise all 16.
     filter_slugs = set(sys.argv[1:]) if len(sys.argv) > 1 else None
     cities = [c for c in CITIES if not filter_slugs or c[0] in filter_slugs]
     if not cities:
-        sys.exit(f"no cities matched {filter_slugs}. valid slugs: {[c[0] for c in CITIES]}")
+        sys.exit(f"no cities matched {filter_slugs}")
 
     api_key = get_api_key()
-    errors: list[tuple[str, str]] = []
+    errors = []
     for slug, subject, gender in cities:
         dest = OUT / f"{slug}.jpg"
         if dest.exists() and not filter_slugs:
-            print(f"· {slug}: already exists ({dest.stat().st_size / 1024:.0f} KB) — skipping")
+            print(f"· {slug}: exists — skipping")
             continue
         traveler = TRAVELER_F if gender == "f" else TRAVELER_M
         prompt = f"{subject} {traveler}{STYLE_BASE}"
         try:
             print(f"→ {slug}: submitting…")
             task = submit(api_key, prompt)
-            print(f"  task {task}; polling…")
             out_url = poll(api_key, task, timeout=360)
             download(out_url, dest)
-            print(f"✓ {slug}: saved {dest.name} ({dest.stat().st_size / 1024:.0f} KB)")
+            print(f"✓ {slug}: saved ({dest.stat().st_size / 1024:.0f} KB)")
         except Exception as e:
             print(f"✗ {slug}: {e}", file=sys.stderr)
             errors.append((slug, str(e)))
     if errors:
-        print("\nerrors:")
         for s, e in errors:
             print(f"  {s}: {e}")
         sys.exit(1)

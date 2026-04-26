@@ -2,11 +2,13 @@
 """
 Build the paperback-interior PDF for the France book.
 
-Pipeline:
+Primary pipeline (preserves TOC page numbers):
   markdown (via assemble_markdown from build.py)
-    → standalone HTML (pandoc, with embedded images)
-    → print-CSS applied
-    → paperback PDF (Chrome headless, respecting @page rules)
+    → pandoc --pdf-engine=xelatex
+    → paperback PDF (6x9 trim, proper LaTeX TOC with page numbers)
+
+Fallback (Chrome headless — no TOC page numbers):
+  markdown → standalone HTML → Chrome --headless --print-to-pdf
 
 Target: 6"x9" trim, KDP-compliant inside/outside margins, running page numbers,
 chapter breaks on new pages, widow/orphan control, image containment.
@@ -16,10 +18,13 @@ Usage:
 
 Prerequisites:
     - pandoc (brew install pandoc)
-    - Google Chrome (for --headless --print-to-pdf)
+    - A LaTeX engine for TOC page numbers: xelatex / lualatex / pdflatex
+      (BasicTeX, TinyTeX, or MacTeX all work)
+    - Google Chrome (fallback only, if no LaTeX engine is available)
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -29,8 +34,6 @@ HERE = Path(__file__).resolve().parent
 BOOK = HERE.parent
 BUILD = BOOK / "build"
 
-# Reuse the canonical markdown assembler from build.py so the paperback
-# interior and the EPUB always derive from the same source text.
 sys.path.insert(0, str(BOOK))
 from build import assemble_markdown, CONFIG  # noqa: E402
 
@@ -41,17 +44,23 @@ PRINT_CSS_FILE = BUILD / "paperback-print.css"
 
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+# Make sure TinyTeX (~/Library/TinyTeX/bin/universal-darwin) is on PATH
+# when present, so the "which xelatex" check below succeeds in all shells.
+_TINYTEX = Path.home() / "Library" / "TinyTeX" / "bin" / "universal-darwin"
+if _TINYTEX.exists():
+    os.environ["PATH"] = f"{_TINYTEX}:{os.environ.get('PATH', '')}"
+
 
 # ---------------------------------------------------------------------------
 # Print CSS — KDP 6"x9" trim with professional paperback typography.
+# Used only for the Chrome-headless fallback path; xelatex takes over styling
+# for the primary path.
 # ---------------------------------------------------------------------------
 PRINT_CSS = r"""
-/* ===== @page: KDP 6"x9" trim with asymmetric inside/outside margins ===== */
 @page {
   size: 6in 9in;
   margin-top: 0.75in;
   margin-bottom: 0.75in;
-  /* Default margins (used if Chrome ignores :left/:right pseudo-pages) */
   margin-left: 0.75in;
   margin-right: 0.75in;
   @bottom-center {
@@ -61,94 +70,79 @@ PRINT_CSS = r"""
     color: #555;
   }
 }
-/* Right-hand (recto) pages: text nudges toward the binding on the left */
 @page :right { margin-left: 0.875in; margin-right: 0.5in; }
-/* Left-hand (verso) pages: mirror */
 @page :left  { margin-left: 0.5in;   margin-right: 0.875in; }
-/* Front matter / chapter opener pages suppress the bottom-center page number
-   (KDP & trade-book convention). Pandoc emits chapter H1s followed by content
-   without a dedicated class, so we rely on chapter: first to reset. */
 @page :first { @bottom-center { content: none; } }
 
-/* ===== Body typography ===== */
 html { font-family: Georgia, "Times New Roman", serif; font-size: 11pt; color: #111; }
 body { line-height: 1.38; text-align: justify; hyphens: auto;
        -webkit-hyphens: auto; widows: 3; orphans: 3;
        font-kerning: normal; font-variant-ligatures: common-ligatures; }
 
-/* ===== Headings ===== */
 h1 {
-  break-before: right;               /* chapter always starts on a recto page */
+  break-before: right;
   page-break-before: right;
-  break-after: avoid;                /* keep H1 with the figure that follows */
+  break-after: avoid;
   page-break-after: avoid;
   font-size: 26pt;
   font-weight: 700;
   text-align: center;
-  margin: 1in 0 0.5in 0;              /* tighter top margin so H1+figure fit together */
+  margin: 1in 0 0.5in 0;
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
 h1:first-of-type { page-break-before: avoid; break-before: avoid; margin-top: 1.25in; }
 h2 { page-break-after: avoid; break-after: avoid; font-size: 14pt; font-weight: 700;
      margin-top: 1.5em; margin-bottom: 0.5em; letter-spacing: -0.01em; }
+h2 + p { break-after: avoid; page-break-after: avoid; }
+h2 + p + figure, h2 + p + p, h2 + p + p > img { break-before: avoid; page-break-before: avoid; }
 h3 { page-break-after: avoid; break-after: avoid; font-size: 12pt; font-weight: 700;
      margin-top: 1em; margin-bottom: 0.25em; }
 h4 { page-break-after: avoid; break-after: avoid; font-size: 11pt; font-weight: 600;
      font-style: italic; margin-top: 0.75em; margin-bottom: 0.25em; }
 
-/* ===== Paragraphs ===== */
 p { margin: 0 0 0.25em 0; text-indent: 1.2em; }
 h1 + p, h2 + p, h3 + p, h4 + p, blockquote + p { text-indent: 0; }
-/* First paragraph of a chapter — no indent */
 h1 + p:first-of-type { text-indent: 0; }
+p > em:only-child { text-indent: 0; }
+p:has(> em:only-child) { text-indent: 0; font-size: 9.5pt; color: #555; margin-top: 0.25em; }
 
-/* ===== Lists ===== */
 ul, ol { margin: 0.5em 0 0.75em 1.5em; }
 li { margin-bottom: 0.2em; page-break-inside: avoid; break-inside: avoid; }
 
-/* ===== Images ===== */
 img { max-width: 100%; height: auto; display: block; margin: 1em auto;
       page-break-inside: avoid; break-inside: avoid; }
-/* City chapter illustrations — sized so H1 + img + caption comfortably fit on one page. */
 h1 + p > img:only-child,
 h1 + figure img { max-width: 3.5in; margin: 0.25in auto 0.5em auto; }
 
-/* figure wrapping the chapter illustration — keep image and figcaption together */
 figure { page-break-inside: avoid; break-inside: avoid;
          margin: 0.25in auto; text-align: center; }
 figure figcaption { font-size: 9.5pt; color: #444; margin-top: 0.25em;
                     font-style: italic; page-break-before: avoid; break-before: avoid; }
 h1 + figure { page-break-before: avoid; break-before: avoid; }
 
-/* ===== Blockquotes / sidebars ===== */
 blockquote { margin: 1em 1.5em; padding-left: 1em; border-left: 2pt solid #888;
              font-style: italic; color: #333; page-break-inside: avoid;
              break-inside: avoid; }
 
-/* ===== Tables ===== */
 table { border-collapse: collapse; margin: 1em auto; page-break-inside: avoid;
         break-inside: avoid; font-size: 10pt; }
 th, td { padding: 4pt 8pt; border-bottom: 0.5pt solid #ccc; text-align: left;
          vertical-align: top; }
 th { font-weight: 700; border-bottom: 1pt solid #333; }
 
-/* ===== TOC ===== */
 #TOC { page-break-before: right; page-break-after: right; }
 #TOC h1, #TOC h2 { page-break-before: avoid; }
 #TOC ul { list-style: none; margin-left: 0; }
 #TOC li { margin: 0.15em 0; }
 #TOC a { text-decoration: none; color: inherit; }
 
-/* ===== Code / monospace ===== */
 code, pre { font-family: "Courier New", Courier, monospace; font-size: 10pt; }
 pre { background: #f4f4f4; padding: 0.75em; overflow-x: auto; page-break-inside: avoid; }
 
-/* ===== Horizontal rule (scene / pattern break) ===== */
 hr { border: none; text-align: center; margin: 1.5em 0; }
 hr::after { content: "· · ·"; letter-spacing: 0.5em; color: #888; }
 
-/* ===== Links — print style (black, not underlined) — override browser defaults with !important ===== */
 a, a:link, a:visited, a:hover, a:active {
   color: #111 !important;
   text-decoration: none !important;
@@ -160,56 +154,56 @@ a, a:link, a:visited, a:hover, a:active {
   a, a:link, a:visited { color: #000 !important; text-decoration: none !important; }
 }
 
-/* ===== Prevent awkward page breaks ===== */
 h1, h2, h3, h4, h5, h6 { break-inside: avoid; page-break-inside: avoid; }
 h2 + p, h3 + p, h4 + p { page-break-before: avoid; break-before: avoid; }
 
-/* ===== Chapter-opening images (city illustrations) centered & full-width in trim ===== */
 h1 + p img, h1 + p + p img { max-width: 4.25in; margin: 0.4in auto 0.6em auto; }
 h1 + p:has(img) { text-align: center; }
 p:has(img) { text-indent: 0; text-align: center; margin: 0.5em 0; }
-/* Caption line (the "City — Subject" alt text that pandoc emits as next line) */
 p:has(img) + p em { font-size: 9.5pt; color: #444; }
 
-/* ===== Body-first sentence after chapter title — no indent, drop cap optional ===== */
 h1 + p { text-indent: 0; }
-h1 + p:first-letter { /* optional drop-cap; omitted for cleaner trade look */ }
 
-/* ===== TOC refinements ===== */
 #TOC { page-break-before: right; }
 #TOC h1 { margin-top: 1.5in; margin-bottom: 0.75in; }
 #TOC > ul { font-size: 11pt; line-height: 1.9; list-style: none; margin-left: 0; padding-left: 0; }
-#TOC > ul > li { list-style: none; margin-left: 0; position: relative;
-                 padding-right: 3em; border-bottom: 0.3pt dotted #aaa;
-                 padding-bottom: 2pt; margin-bottom: 4pt; }
-#TOC > ul > li > a { border-bottom: 0; display: block; padding-right: 0.2em;
-                     background: #fff; }
-/* Page-number leader — CSS Paged Media target-counter(url, page) */
+#TOC > ul > li { list-style: none; margin: 0 0 4pt 0; padding: 0; }
+/* The <a> is a flex container with three items:
+     1. Chapter-title text (flex: 0 1 auto)
+     2. ::before dotted leader (order: 2, flex: 1 1 auto)
+     3. ::after page number (order: 3, flex: 0 0 auto)
+   This is the only layout that gives WeasyPrint a right-aligned page
+   number with proper dot leaders between title and number. */
+#TOC > ul > li > a {
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  border-bottom: none;
+  color: inherit;
+}
+#TOC > ul > li > a::before {
+  content: "";
+  order: 2;
+  flex: 1 1 auto;
+  margin: 0 0.35em 0.32em;
+  border-bottom: 0.5pt dotted #777;
+  min-width: 1em;
+  align-self: flex-end;
+}
 #TOC > ul > li > a::after {
   content: target-counter(attr(href), page);
-  position: absolute; right: 0;
-  background: #fff; padding-left: 0.3em;
+  order: 3;
+  flex: 0 0 auto;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-/* Older browser fallback: if target-counter unsupported, nothing shows */
 @supports not (content: target-counter(attr(href), page)) {
   #TOC > ul > li > a::after { content: ""; }
 }
 
-/* ===== Front-matter chapters (Contents, Copyright, How to Use, Red-Flag Patterns,
-         Cities-Section opener) — numbered differently in trade books, keep ASCII
-         page numbers but suppress chapter-break-to-recto for appendices that
-         don't need it. */
-
-/* ===== Widows/orphans — tighten further for trade-paperback typography ===== */
 p, li { widows: 2; orphans: 2; }
-
-/* ===== Emphasis — italic for French terms / book titles, consistent color ===== */
 em, i { font-style: italic; }
 strong, b { font-weight: 700; }
-
-/* ===== Small caps convention for key acronyms (optional future enhancement) ===== */
-/* abbr { font-variant: small-caps; letter-spacing: 0.03em; } */
 """
 
 
@@ -225,7 +219,7 @@ def build_html(md: str) -> Path:
         str(MANUSCRIPT_MD),
         "-o", str(INTERIOR_HTML),
         "--standalone",
-        "--embed-resources",  # inline images, css as data: URLs
+        "--embed-resources",
         "--toc",
         "--toc-depth=1",
         "--metadata", "toc-title=Contents",
@@ -239,19 +233,75 @@ def build_html(md: str) -> Path:
     return INTERIOR_HTML
 
 
-def html_to_pdf(html: Path) -> Path:
-    cmd = [
-        CHROME,
-        "--headless=new",
-        "--disable-gpu",
-        "--no-sandbox",
-        "--no-pdf-header-footer",
-        "--disable-extensions",
-        "--virtual-time-budget=10000",
-        f"--print-to-pdf={INTERIOR_PDF}",
-        f"file://{html.resolve()}",
-    ]
-    subprocess.run(cmd, check=True, capture_output=True)
+def build_pdf_direct(md_path: Path) -> Path:
+    """Build PDF directly from markdown using pandoc with a LaTeX engine.
+    This is the primary path — produces proper TOC with page numbers."""
+    from shutil import which
+
+    engine = None
+    for eng in ("xelatex", "lualatex", "pdflatex"):
+        if which(eng):
+            engine = eng
+            break
+
+    if engine:
+        title = CONFIG.get("title", "France Tourist Scams 2026")
+        author = CONFIG.get("author", "The Tabiji Team")
+
+        header_tex = BOOK / "templates" / "header-includes.tex"
+        cmd = [
+            "pandoc",
+            str(md_path),
+            "-o", str(INTERIOR_PDF),
+            f"--pdf-engine={engine}",
+            "--toc",
+            "--toc-depth=1",
+            "-V", "geometry:paperwidth=6in",
+            "-V", "geometry:paperheight=9in",
+            # KDP-compliant twoside geometry for 6"×9" trim.
+            # For 151-400 pages, KDP requires ≥0.625" gutter (inside);
+            # outside/top/bottom need only ≥0.25". We use:
+            #   inside (gutter) = 0.875"  — comfortable above KDP 0.625" min
+            #   outside         = 0.5"    — 2x KDP 0.25" min, keeps line lengths comfortable
+            #   top             = 0.75"   — room for running head
+            #   bottom          = 0.75"   — room for page number
+            # Text block width: 6 - 0.875 - 0.5 = 4.625" at 11pt ≈ ~62 chars,
+            # which is in the 60-75 char optimal readability range.
+            "-V", "geometry:inner=0.875in",
+            "-V", "geometry:outer=0.5in",
+            "-V", "geometry:top=0.75in",
+            "-V", "geometry:bottom=0.75in",
+            "-V", "classoption=twoside",
+            "-V", "documentclass=book",
+            "-V", f"title={title}",
+            "-V", f"author={author}",
+            "-V", "fontsize=11pt",
+            # Arial Unicode MS covers Latin + Spanish accents cleanly and
+            # matches the Thailand volume's font choice for series consistency.
+            "-V", "mainfont=Arial Unicode MS",
+            "--resource-path", str(BOOK),
+        ]
+        # Inject the header fixes (running-head reset for unnumbered chapters,
+        # long-heading protection) if the template file exists.
+        if header_tex.exists():
+            cmd.extend(["-H", str(header_tex)])
+        subprocess.run(cmd, check=True)
+    else:
+        # Fall back to Chrome headless (TOC will render but without page numbers)
+        print("Warning: No LaTeX engine found. TOC will not have page numbers.")
+        html = build_html(MANUSCRIPT_MD.read_text())
+        cmd = [
+            CHROME,
+            "--headless=new",
+            "--disable-gpu",
+            "--no-sandbox",
+            "--no-pdf-header-footer",
+            "--disable-extensions",
+            "--virtual-time-budget=10000",
+            f"--print-to-pdf={INTERIOR_PDF}",
+            f"file://{html.resolve()}",
+        ]
+        subprocess.run(cmd, check=True, capture_output=True)
     return INTERIOR_PDF
 
 
@@ -274,11 +324,8 @@ def main() -> None:
     md = assemble_markdown()
     print(f"Markdown assembled: {len(md):,} chars")
 
-    html = build_html(md)
-    kb = html.stat().st_size / 1024
-    print(f"HTML built: {html.name} ({kb:.0f} KB)")
-
-    pdf = html_to_pdf(html)
+    MANUSCRIPT_MD.write_text(md)
+    pdf = build_pdf_direct(MANUSCRIPT_MD)
     kb = pdf.stat().st_size / 1024
     pages = page_count(pdf)
     print(f"PDF built: {pdf.name} ({kb:.0f} KB{f', {pages} pages' if pages else ''})")

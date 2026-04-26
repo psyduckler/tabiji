@@ -8,7 +8,7 @@ Every phone number in this appendix was verified current at the time of publicat
 
 These are the lines to dial from any phone — mobile or landline, French SIM or roaming — anywhere in the country. All of them are free.
 
-- **Pan-European emergency number (police, ambulance, fire):** **112**. This is the number to call if you do not speak French. Operators in every major French city have English-capable routing and will bring a translator onto the line within seconds. Say *”English, please”* clearly, then state your location as a landmark or square rather than a street address that is hard to pronounce — *”near the Eiffel Tower”* or *”Place Masséna, Nice”* is more useful than a postal address you are sight-reading.
+- **Pan-European emergency number (police, ambulance, fire):** **112**. This is the number to call if you do not speak French. Operators in every major French city have English-capable routing and will bring a translator onto the line within seconds. Say *“English, please”* clearly, then state your location as a landmark or square rather than a street address that is hard to pronounce — *“near the Eiffel Tower”* or *“Place Masséna, Nice”* is more useful than a postal address you are sight-reading.
 - **Police nationale (direct):** **17**. The French national police. Use this for any crime in progress, any suspicious person following you, any pickpocket you have just caught. Operators may or may not speak English; dial 112 instead if you need English routing.
 - **Pompiers (firefighters, also medical rescue and traffic accidents):** **18**. French firefighters handle far more than fires — they are the first responders for road accidents, cardiac events on the street, drownings at coastal resorts, and almost any mountain or water rescue. If you are unsure whether to call 18 or 15, call 18; they will triage and route.
 - **SAMU (medical emergency, paramedics):** **15**. The national medical dispatch service. Call 15 when someone needs an ambulance and a doctor, not just first aid. If you are not sure what is happening medically, 18 or 112 will also get help moving; do not waste seconds deciding.
@@ -40,9 +40,10 @@ If your card was issued by a bank (not directly by Visa, Mastercard, or Amex), t
 
 - **BNP Paribas (lost or stolen card):** 0810 00 1234.
 - **Société Générale:** 09 69 39 77 77.
-- **Crédit Agricole:** 0892 24 0000 (varies by regional *caisse* — check the number printed on the card first).
-- **LCL:** 0969 39 10 10.
-- **La Banque Postale:** 0 825 809 809.
+- **Crédit Agricole:** 09 69 39 92 91 (SOS Carte CA — varies by regional *caisse*; check the number printed on the card first).
+- **Crédit Mutuel:** 09 69 32 88 88 (SOS Carte / 24/7 card-loss line).
+- **LCL:** 09 69 39 10 10.
+- **La Banque Postale:** 09 69 36 87 90.
 
 ## Embassies and consulates in France for major passport nationalities
 
@@ -73,6 +74,10 @@ The US maintains an embassy in Paris and consulates general in Marseille and Str
 ### Ireland
 
 - **Embassy of Ireland Paris:** 12 avenue Foch, 75116 Paris. Main switchboard +33 1 44 17 67 00.
+
+### New Zealand
+
+- **New Zealand Embassy Paris:** 103 rue de Grenelle, 75007 Paris. Main switchboard +33 1 45 01 43 43. Note that consular services for NZ citizens in France are limited; for emergencies after hours, the New Zealand Ministry of Foreign Affairs operations line in Wellington is reachable from France at +64 4 439 8000.
 
 For all nationalities: the embassy’s published after-hours emergency line is the number to call if you have been arrested, hospitalized, assaulted, or lost your passport on a Sunday. The main switchboards are weekday office-hours lines.
 
