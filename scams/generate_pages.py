@@ -3554,6 +3554,13 @@ SAFETY_TIPS = {
         "Buy argan oil only inside Souk El Had at a stall that posts per-liter prices in dirhams (real culinary argan is roughly 400 to 500 dirhams per liter; tourist boutiques quote 1,500 to 3,000) and refuse all taxi-arranged 'cooperative' detours",
         "Public Moroccan beaches cannot legally be privatized by parasol crews — bring your own beach mat and refuse 'reserved spot' demands; Brigade Touristique Agadir is 0528-823557, police is 19, emergency is 15, consumer-protection hotline is 5757",
     ],
+    "Agra": [
+        "Book Taj Mahal tickets only at asi.payumoney.com or the Incredible India tourism portal — the foreigner ticket is Rs 1,300 with mausoleum access; lookalike sites like ticketstajmahal.com sold $35 invalid passes that the Times of India covered in April 2026",
+        "Refuse every driver-suggested marble factory, leather workshop, or government emporium detour — these are 30% to 40% commission stops where small inlay bowls run from $400 to $2,500 against Rs 3,000 at Sadar Bazaar or Kinari Bazaar",
+        "At Fatehpur Sikri, hire guides only from the Archaeological Survey of India counter inside the monument and remember the Agra Development Authority cap that no chadar at the Sheikh Salim Chishti dargah may cost more than Rs 500",
+        "On Delhi-Agra Uber Intercity rides, real Yamuna Expressway and city tolls run roughly Rs 800 to Rs 1,000 — pay only at the toll plaza booth and message Uber Support inside the ride if a driver demands Rs 2,500 or more in cash",
+        "Save the Agra Tourist Police hotline +91 9454402764 and the all-India emergency 112 in your phone before you arrive; the tourist police email so-tourism.ag@up.gov.in handles complaints from foreign visitors",
+    ],
 }
 
 # City-specific FAQ
@@ -7006,7 +7013,18 @@ FAQS = {
         ("How do I buy genuine argan oil in Agadir?",
          "Buy argan oil only inside Souk El Had at a stall that posts per-liter prices in dirhams — real culinary argan is roughly 400 to 500 dirhams per liter, and cosmetic-grade argan runs 600 to 900 dirhams per liter. Tourist boutiques and taxi-arranged 'cooperative' detours that quote 1,500 to 3,000 dirhams or refuse to show a price list are the documented dilution-and-overcharge play. Refuse all unsolicited cooperative tours."),
     ],
-
+    "Agra": [
+        ("Is Agra safe for tourists?",
+         "Agra is generally safe for daytime tourism around the Taj Mahal, Agra Fort, and Tajganj, with violent crime against foreigners rare. The practical risks are financial: marble factory commission tours that quote $400 to $2,500 for inlay bowls a Sadar Bazaar shop sells for Rs 3,000; Fatehpur Sikri fake guides who steer you to chadar walas at the Sheikh Salim Chishti dargah for Rs 1,100 to Rs 15,000; lookalike Taj Mahal ticket websites; autorickshaw 'free tour' commission circuits; and Uber Intercity drivers demanding Rs 2,500 to Rs 4,000 in inflated tolls on the Delhi-Agra leg. Save the Agra Tourist Police hotline +91 9454402764 and dial 112 for emergencies."),
+        ("What is the most common scam in Agra?",
+         "The most commonly reported tourist scam in Agra is the marble factory commission tour, where drivers detour your sightseeing day to a 'Karkhana' workshop where staff push pietra dura inlay pieces at $400 to $2,500 against a Sadar Bazaar real price of around Rs 3,000. The Times of India and News18 both covered foreign tourists who paid Rs 37,000 and $2,500 to Taj-area shops in late 2025 and early 2026. The fake guide and chadar shakedown at Fatehpur Sikri and the Taj Mahal lookalike-ticket website are the other frequently reported risks."),
+        ("How do I buy real Taj Mahal tickets without getting scammed?",
+         "Book only at asi.payumoney.com, asi.nic.in, or the Incredible India tourism portal — those are the platforms the Archaeological Survey of India authorizes. The foreigner ticket is Rs 1,300 with main mausoleum access. In April 2026, Agra cybercrime police filed an FIR after three foreign tourists were duped of $105 by ticketstajmahal.com — one paid $35 against the Rs 1,300 official rate. Verify the URL bar reads asi before paying, and ask your hotel front desk to print and check your booking the day before your visit."),
+        ("Is it safe to take Uber from Delhi to Agra?",
+         "Uber Intercity Delhi to Agra is broadly reliable, but tolls and Uttar Pradesh state taxes are not included in the app fare — that is genuine policy and the in-app banner says so. The scam variant is drivers who pull over on the Yamuna Expressway and demand Rs 2,500 to Rs 4,000 in 'tolls and state tax' that should be closer to Rs 800 to Rs 1,000. Pay tolls only at the toll plaza booth, keep every receipt, and message Uber Support inside the ride if any extra cash is demanded; r/indiatravel and r/delhi documented the play through 2026."),
+        ("How should I deal with autorickshaw drivers in Agra?",
+         "Use Uber Auto or Ola Auto from inside your hotel WiFi rather than flagging an autorickshaw on the street, where 'free city tour' offers around Rs 200 turn into multi-stop circuits through marble, leather, and silk shops on a 30% to 40% commission. Refuse every unsolicited offer outside the hotel exit, the Taj Mahal east gate auto stand, the Agra Fort entrance, and Agra Cantonment railway station, and exit immediately at the first unscheduled shop stop. Save the Agra Tourist Police hotline +91 9454402764 in your phone before you arrive."),
+    ],
 }
 
 def danger_badge(level):
