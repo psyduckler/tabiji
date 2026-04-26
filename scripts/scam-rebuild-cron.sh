@@ -57,15 +57,21 @@ if [ -f "$SECRETS_FILE" ]; then
     set -a; . "$SECRETS_FILE"; set +a
     SECRETS_SOURCE="file"
 fi
-if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+# CLAUDE_CODE_OAUTH_TOKEN is the preferred auth — opus-4-7 only accepts
+# the headless CLI's default thinking config under OAuth (Max sub) auth.
+# Under raw ANTHROPIC_API_KEY, the API rejects with "thinking.type.enabled
+# is not supported for this model" no matter what --effort level you pass.
+# Fall back to ANTHROPIC_API_KEY only if OAuth is unavailable.
+if [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && [ -z "${ANTHROPIC_API_KEY:-}" ]; then
     ANTHROPIC_API_KEY=$(security find-generic-password -a "$USER" -s "anthropic-api-key" -w 2>/dev/null || true)
     [ -n "$ANTHROPIC_API_KEY" ] && SECRETS_SOURCE="${SECRETS_SOURCE:-keychain}"
 fi
-if [ -z "$ANTHROPIC_API_KEY" ]; then
-    echo "❌ no ANTHROPIC_API_KEY available. Set it in env, in $SECRETS_FILE (mode 600), or via 'security add-generic-password -a \$USER -s anthropic-api-key -w \$KEY'. Aborting."
+if [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+    echo "❌ no claude auth available. Set CLAUDE_CODE_OAUTH_TOKEN (preferred — copy from interactive shell where claude is logged in) or ANTHROPIC_API_KEY in $SECRETS_FILE (mode 600). Aborting."
     exit 1
 fi
-export ANTHROPIC_API_KEY
+[ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && export CLAUDE_CODE_OAUTH_TOKEN
+[ -n "${ANTHROPIC_API_KEY:-}" ] && export ANTHROPIC_API_KEY
 
 if [ -z "${GH_TOKEN:-}" ]; then
     GH_TOKEN=$(gh auth token 2>/dev/null || true)
@@ -77,7 +83,9 @@ fi
 export GH_TOKEN
 # git push will use this URL form to auth — no credential-helper / keychain dependency.
 PUSH_URL="https://x-access-token:${GH_TOKEN}@github.com/psyduckler/tabiji.git"
-echo "  ✓ ANTHROPIC_API_KEY (len ${#ANTHROPIC_API_KEY}), GH_TOKEN (len ${#GH_TOKEN}) loaded from ${SECRETS_SOURCE:-env}"
+AUTH_KIND="OAuth (Max)"
+[ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] && AUTH_KIND="API key (NOTE: opus-4-7 may fail — prefer OAuth)"
+echo "  ✓ claude auth: $AUTH_KIND, GH_TOKEN (len ${#GH_TOKEN}) loaded from ${SECRETS_SOURCE:-env}"
 
 # Pick a timeout binary (macOS ships without `timeout` by default)
 TIMEOUT=""
@@ -88,9 +96,18 @@ elif command -v timeout >/dev/null 2>&1; then
 fi
 [ -z "$TIMEOUT" ] && echo "(no timeout binary available; running without per-city cap)"
 
-# ─── Step 0: Provision dedicated worktree at origin/main ───────────────────
+# ─── Step 0a: Self-update — pull SOURCE_REPO to current origin/main so the
+# script file the next cron picks up reflects the latest merged version.
+# Fast-forward only — never destroys local work. Silently no-ops if SOURCE_REPO
+# has uncommitted changes or has diverged.
 echo ""
-echo "▶ Step 0: Provision dedicated worktree at origin/main"
+echo "▶ Step 0a: Self-update SOURCE_REPO"
+git -C "$SOURCE_REPO" fetch origin main 2>/dev/null || true
+git -C "$SOURCE_REPO" pull --ff-only origin main 2>&1 | tail -2 || echo "  (skipped — local has divergent state)"
+
+# ─── Step 0b: Provision dedicated worktree at origin/main ──────────────────
+echo ""
+echo "▶ Step 0b: Provision dedicated worktree at origin/main"
 if [ ! -d "$WORK/.git" ] && [ ! -e "$WORK/.git" ]; then
     # First run: create the worktree as a sibling, detached at origin/main.
     git -C "$SOURCE_REPO" fetch origin main
