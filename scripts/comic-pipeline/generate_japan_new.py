@@ -8,7 +8,7 @@ web pages (extract_scams() reads from HTML, not JSON, so a
 straight-forward call misses them).
 
 This script:
-  1. Reads the 6 missing scams directly from app/data/scams/<city>.json
+  1. Reads the 6 missing scams directly from api/v1/scams/<city>.json
   2. Builds extract_scams-compatible dicts (n, title, location, story, city)
   3. Calls generate_one() for each — identical behavior to a full-country v2 run
   4. On success, each JPEG is uploaded to R2 at scams/<city>/scam-N.jpg
@@ -48,9 +48,9 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def scam_from_json(city: str, n: int) -> dict | None:
-    """Load (city, n) from app/data/scams/<city>.json, return an
+    """Load (city, n) from api/v1/scams/<city>.json, return an
     extract_scams-compatible dict (keys: n, title, location, story, city)."""
-    path = REPO / "app" / "data" / "scams" / f"{city}.json"
+    path = REPO / "api" / "v1" / "scams" / f"{city}.json"
     data = json.loads(path.read_text())
     scams = data.get("scams", [])
     if n > len(scams):
@@ -74,7 +74,7 @@ def main() -> None:
     for city, n in MISSING:
         scam = scam_from_json(city, n)
         if not scam:
-            print(f"⚠️ {city}/{n} not found in app/data/scams/{city}.json — skipping")
+            print(f"⚠️ {city}/{n} not found in api/v1/scams/{city}.json — skipping")
             continue
         queue.append(scam)
         print(f"  queued: {city}/{n}  {scam['title'][:60]}")

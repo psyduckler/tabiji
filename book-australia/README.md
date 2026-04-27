@@ -1,6 +1,6 @@
 # Book generator — Tabiji Travel Safety Series
 
-Build the Kindle EPUB from structured scam data (`app/data/scams/*.json`) plus
+Build the Kindle EPUB from structured scam data (`api/v1/scams/*.json`) plus
 hand-written manuscript markdown.
 
 ## Quickstart
@@ -40,7 +40,7 @@ book/
 
 The string `<!-- CITIES -->` in any manuscript file triggers auto-insertion of
 one chapter per city in the order defined by `config.yaml`. Chapter content
-for each city is drawn from `app/data/scams/<city>.json`, one section per scam.
+for each city is drawn from `api/v1/scams/<city>.json`, one section per scam.
 
 To add a written intro for a specific city, drop a file in the manuscript folder
 named `cities-<slug>-intro.md` (e.g. `cities-tokyo-intro.md`). The build picks

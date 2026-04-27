@@ -121,9 +121,9 @@ Real hit rate: **~1–8 truncations per 75-scam volume**. The audit regex is:
 r"\b[a-zA-Z]{2,}' (ing|ed|tion|sion|ly|ment|able|ible|ful|less|ness|age|ance|ence|ship|hood|ary|ity|ive|ate|est|ism|ist|ous|ize|ise|ere|ess|ery)\b"
 ```
 
-**Detection — not auto-repair.** Fixes go in the source JSON (both
-`api/v1/scams/<city>.json` and `app/data/scams/<city>.json`) because wrong-
-sounding concatenations like `bean's` vs `beans` vs `bean s` need human review.
+**Detection — not auto-repair.** Fixes go in the source JSON
+(`api/v1/scams/<city>.json`) because wrong-sounding concatenations like
+`bean's` vs `beans` vs `bean s` need human review.
 
 ---
 
