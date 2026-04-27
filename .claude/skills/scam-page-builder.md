@@ -520,6 +520,16 @@ regenerate_country_hub("<Country>")  # returns None if < 2 cities, else the outp
 python3 scripts/book-cta-rollout/apply_book_ctas.py
 ```
 
+### Step 9b: Sync `api/v1/scams/<slug>.json` (single source of truth)
+
+Per ARCHITECTURE.md and PR #1001, `api/v1/scams/` is the canonical machine-readable feed for the site (consumed by book builders, the public `/api/` endpoint, and any cross-city compare workflows). HTML is the source; api/v1 is synced from it. **Never let a new city ship with HTML but no api/v1 entry — book builders and the API both go silent on that city.**
+
+```bash
+python3 scripts/sync_api_from_html.py <slug>
+```
+
+The script reads `scams/<slug>/index.html`, walks every `.scam-card`, and writes the matching `tldr` + `description` fields into `api/v1/scams/<slug>.json`. If the JSON file does not yet exist for a brand-new city, **stop and ask**: a fresh JSON skeleton has to be hand-bootstrapped (id, name, category, severity, frequency, location, tags) before sync will populate prose. Existing-city re-syncs Just Work.
+
 ### Step 10: Parser-based verification
 
 ```python
@@ -747,6 +757,7 @@ This directory is intentionally outside the repo (not `.gitignore`d, just `/tmp/
 - [ ] `.book-mid-cta` + `.book-end-cta` present if country has live Amazon book
 - [ ] `scams/country/<cc>/index.html` lists new city with correct count
 - [ ] `scams/index.html` has a new `.city-card` anchor + stats-bar + meta-description updated
+- [ ] `api/v1/scams/<slug>.json` populated via `scripts/sync_api_from_html.py <slug>` (book builders + public API consume this — see Step 9b)
 - [ ] Schema.org JSON-LD parses cleanly; FAQPage has 5 entries
 - [ ] Emergency contacts on defense paragraph of every scam
 - [ ] Audit trail complete under `/tmp/scam-research/<slug>/`
