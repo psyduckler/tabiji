@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Pull the 66 Argentine scam comics from R2 into book-argentina/assets/images/<slug>/NN.jpg.
+Pull the 58 Colombian scam comics from R2 into book-colombia/assets/images/<slug>/NN.jpg.
 The scam-pages already have these comics injected; we just download them.
 
-Usage: python3 book-argentina/scripts/pull_comics.py
+Usage: python3 book-colombia/scripts/pull_comics.py
 """
 from __future__ import annotations
 
@@ -19,8 +19,8 @@ API_DIR = ROOT / "api" / "v1" / "scams"
 IMAGES_DIR = BOOK / "assets" / "images"
 
 CITIES = [
-    "buenos-aires", "cordoba-argentina", "rosario", "mendoza", "salta",
-    "bariloche", "el-calafate", "el-chalten", "ushuaia", "puerto-iguazu", "tigre",
+    "bogota", "medellin", "cartagena", "cali", "santa-marta",
+    "guatape", "salento", "tayrona", "san-andres", "villa-de-leyva",
 ]
 
 

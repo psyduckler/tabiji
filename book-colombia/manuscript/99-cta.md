@@ -10,7 +10,7 @@ Scam patterns change. *Paseo millonario* taxi tactics evolve, scopolamine-setup 
 
 **[tabiji.ai/scams](https://tabiji.ai/scams)**
 
-For the full Colombia guide on the web, with all thirty-three scams in a searchable format plus the Macondo-style illustrations in full size, visit:
+For the full Colombia guide on the web, with all fifty-eight scams in a searchable format plus the Macondo-style illustrations in full size, visit:
 
 **[tabiji.ai/scams/country/co](https://tabiji.ai/scams/country/co/)**
 

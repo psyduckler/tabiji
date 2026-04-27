@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build the paperback-interior PDF for the Argentina book.
+Build the paperback-interior PDF for the Colombia book.
 
 Primary pipeline (preserves TOC page numbers):
   markdown (via assemble_markdown from build.py)
@@ -14,7 +14,7 @@ Target: 6"x9" trim, KDP-compliant inside/outside margins, running page numbers,
 chapter breaks on new pages, widow/orphan control, image containment.
 
 Usage:
-    python3 book-argentina/scripts/build_paperback_interior.py
+    python3 book-colombia/scripts/build_paperback_interior.py
 
 Prerequisites:
     - pandoc (brew install pandoc)
@@ -211,7 +211,7 @@ def build_html(md: str) -> Path:
     MANUSCRIPT_MD.write_text(md)
     PRINT_CSS_FILE.write_text(PRINT_CSS)
 
-    title = CONFIG.get("title", "Argentina Tourist Scams 2026")
+    title = CONFIG.get("title", "Colombia Tourist Scams 2026")
     author = CONFIG.get("author", "The Tabiji Team")
 
     cmd = [
@@ -245,7 +245,7 @@ def build_pdf_direct(md_path: Path) -> Path:
             break
 
     if engine:
-        title = CONFIG.get("title", "Argentina Tourist Scams 2026")
+        title = CONFIG.get("title", "Colombia Tourist Scams 2026")
         author = CONFIG.get("author", "The Tabiji Team")
 
         header_tex = BOOK / "templates" / "header-includes.tex"

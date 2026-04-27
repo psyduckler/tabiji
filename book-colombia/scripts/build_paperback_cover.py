@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build the KDP paperback wraparound cover PDF for the Argentina book.
+Build the KDP paperback wraparound cover PDF for the Colombia book.
 
 Composes back.svg (left) + spine (middle, with vertical title) + front.svg (right)
 into a single print-ready PDF at the exact dimensions KDP requires, including bleed.
@@ -17,9 +17,9 @@ with cream paper, producing a spine of 0.895" and a total wraparound of
 13.145" x 9.25" including the 0.125" bleed.
 
 Usage:
-    python3 book-argentina/scripts/build_paperback_cover.py                 # 358 pages, cream
-    python3 book-argentina/scripts/build_paperback_cover.py --pages 360
-    python3 book-argentina/scripts/build_paperback_cover.py --paper white
+    python3 book-colombia/scripts/build_paperback_cover.py                 # 358 pages, cream
+    python3 book-colombia/scripts/build_paperback_cover.py --pages 360
+    python3 book-colombia/scripts/build_paperback_cover.py --paper white
 """
 from __future__ import annotations
 
