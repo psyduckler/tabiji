@@ -1430,6 +1430,7 @@ CITY_SLUGS = {
     "Cinque Terre": "cinque-terre",
     "Cusco": "cusco",
     "Da Nang": "da-nang",
+    "Dahab": "dahab",
     "Dalat": "dalat",
     "Phu Quoc": "phu-quoc",
     "Can Tho": "can-tho",
@@ -3602,6 +3603,12 @@ SAFETY_TIPS = {
         "Photograph every panel, wheel, and the interior of any hire car at pickup and again at drop-off, then dispute post-departure damage charges within 30 days through your credit-card chargeback rights",
         "Hang up on any caller or texter claiming to be NZ Police, IRD, or NZ Post about a fine or parcel — dial 105 to verify and never pay anyone by gift card, crypto, or bank transfer over the phone",
         "Forward suspicious Booking.com messages to reportphishing@booking.com and confirm any post-stay payment request inside the official Booking.com app — the platform never asks guests to re-enter card details after checkout",
+    ],
+    "Dahab": [
+        "Hire dive operators only after verifying the lead instructor's PADI or SSI number on the certifying body's online check tool — Dahab's Blue Hole has a documented death toll measured in the hundreds, and the cheapest Mashraba-strip shops fail equipment inspections year after year",
+        "Pre-book your Sharm El Sheikh airport pickup through your Dahab hotel for a flat 1,500 to 1,800 EGP — refuse all $70 curbside dollar quotes from drivers parked past the official SSH rank",
+        "Refuse every \"free tea\" sit-down invitation along the Mashraba and Lighthouse beach strips — real Bedouin cafés post printed prices at the entrance, and the unsolicited tent setups run 800 EGP bills on a 50-EGP tea",
+        "Get every Dahab bungalow fee — towel, AC, water, service — printed on an itemized rate sheet at check-in and photograph it; Mashraba camps that refuse to print are running the surcharge play that turns a 200-EGP nightly rate into a 1,400-EGP total",
     ],
 }
 
@@ -7114,6 +7121,18 @@ FAQS = {
          "Photograph every panel, wheel, the windscreen, the roof, and the interior of the car at pickup, and repeat the full set at drop-off with a timestamp visible. r/auckland and r/newzealand threads through 2025 document repeated cases of operators charging NZ$ 600 to NZ$ 4,500 for scratches and dents the customer did not cause, sometimes weeks after return. Use a credit card with rental-car chargeback rights, refuse to sign any drop-off form claiming new damage, and dispute any charge inside 30 days through your card issuer with your timestamped photos as evidence."),
         ("How should I use ATMs and parking machines safely in Auckland?",
          "Use ATMs inside bank branches at ANZ, ASB, BNZ, Westpac, or Kiwibank during business hours rather than free-standing machines on Queen Street, Karangahape Road, or near ferry terminals. Cover the keypad with your free hand when entering the PIN and tug the card slot before inserting — skimmer overlays come off with light pressure. Pay-and-display parking machines in the CBD have also been targeted by skimming overlays, so prefer the AT Park app over machine card payments. If your card is captured or your PIN compromised, call your bank's 24/7 fraud line immediately and freeze the card in-app."),
+    ],
+    "Dahab": [
+        ("Is Dahab safe for tourists?",
+         "Dahab is one of the safer tourist destinations in Egypt — violent crime against visitors is rare, the Sinai Peninsula has a steady police presence around tourist areas, and the Mashraba and Assalah strips are walkable day and night. The real risks are financial: cut-rate dive operators at the Blue Hole, freelance taxi drivers working the Sharm El Sheikh airport corridor, and tea-camp bill inflation on the beach promenade. Save 122 (Police) or 123 (Emergency) before you arrive, and check your government's current Sinai travel advisory."),
+        ("What is the most common scam in Dahab?",
+         "Dive-operator safety cuts at the Blue Hole are the most-reported and most dangerous Dahab scam. Cheap Mashraba-strip dive shops advertise $25 intro dives with mismatched regulators, expired certifications, and instructors who cannot produce a current PADI or SSI number — the Blue Hole has a documented death toll measured in the hundreds. The Sharm-to-Dahab taxi quote switch is the second most-cited financial scam. See the first scam card on this page for the full Blue Hole walkthrough."),
+        ("How much does a taxi from Sharm El Sheikh airport to Dahab cost?",
+         "A pre-booked Dahab hotel pickup runs 1,500 to 1,800 EGP (about $30 to $35 USD) for the 90-minute, 90-kilometer transfer up the Sinai coast. Drivers waiting in the SSH airport corridor and parked past the official rank routinely quote $70 to $100 USD for the same ride, then add \"checkpoint fees\" and \"road tax\" line items en route. Pre-book through your Dahab hotel before you fly, save the driver's number for confirmation after passport control, and refuse any dollar quote."),
+        ("Where is it safe to dive in Dahab?",
+         "Lighthouse Reef, Three Pools, Eel Garden, and the shallow side of the Canyon are excellent shore dives suitable for beginners and intermediate divers — they are easy to access from the Mashraba and Assalah promenades and run safely with most reputable operators. The Blue Hole's Bells route and Arch pass-through demand experienced technical divers with Tec-Trimix certifications and a chamber-evacuation plan. Book all Dahab dives only with established operators — Reef 2000, Big Blue, or H2O — verify the lead instructor's PADI or SSI number before paying, and inspect every regulator and BCD on land."),
+        ("How much should I tip in Dahab?",
+         "Tipping in Dahab is expected but proportional. Restaurant tips run 10 to 15 percent if a service charge is not already included; dive guides and instructors typically receive 50 to 100 EGP per dive day; bungalow housekeeping and porters earn 20 to 50 EGP. Bedouin tea-camp staff should be tipped only for service you actually requested — not for unsolicited \"free\" platters. Carry small Egyptian-pound notes (10s, 20s, 50s) for tipping rather than handing over a 200 to make change with."),
     ],
 }
 
