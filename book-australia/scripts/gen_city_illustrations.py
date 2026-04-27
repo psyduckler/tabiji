@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate 20 per-city cover illustrations for the Italy book via Wavespeed
+Generate 14 per-city cover illustrations for the Australia book via Wavespeed
 (Nano Banana Pro).
 
 Style brief — must match the Japan book's 9 city covers:
@@ -10,12 +10,12 @@ Style brief — must match the Japan book's 9 city covers:
   - Tourist figure in deep-burgundy jacket with small backpack, stylised
   - 1:1 aspect, 2K resolution, JPEG
 
-Output: book-italy/assets/cities/<slug>.jpg
+Output: book-australia/assets/cities/<slug>.jpg
 
 Usage:
-    python3 book-italy/scripts/gen_city_illustrations.py              # all 20 cities
-    python3 book-italy/scripts/gen_city_illustrations.py rome         # just rome
-    python3 book-italy/scripts/gen_city_illustrations.py rome venice  # multiple specific cities
+    python3 book-australia/scripts/gen_city_illustrations.py              # all 14 cities
+    python3 book-australia/scripts/gen_city_illustrations.py sydney       # just sydney
+    python3 book-australia/scripts/gen_city_illustrations.py sydney perth # multiple specific cities
 """
 from __future__ import annotations
 
@@ -57,123 +57,101 @@ TRAVELER_F = (
 # (slug, subject, gender) — gender alternates within the reading order
 CITIES: list[tuple[str, str, str]] = [
     (
-        "rome",
-        "The Colosseum at golden hour, warm-cream Roman arches viewed from the Via Sacra, "
-        "umbrella pines in silhouette, warm haze over the Forum stones.",
+        "sydney",
+        "Sydney Opera House sails lit warm white at dusk on the harbor, the steel arch of the "
+        "Sydney Harbour Bridge crossing the deep turquoise water in the middle ground, "
+        "a green-and-yellow ferry crossing toward Circular Quay.",
         "m",
     ),
     (
-        "venice",
-        "The Rialto Bridge at dusk over the Grand Canal, a single gondola gliding beneath, "
-        "Venetian palazzo facades in warm terracotta and cream, reflections on the water.",
+        "melbourne",
+        "The yellow clock tower facade of Flinders Street Station at the corner of Swanston and "
+        "Flinders, a green W-class tram clattering past in the foreground, warm-cream Edwardian "
+        "stonework against a deep-purple evening sky.",
         "f",
     ),
     (
-        "florence",
-        "Brunelleschi's Duomo dome rising above terracotta rooftops of the centro storico, "
-        "Arno river bend in the distance, Tuscan cypress silhouettes on the hills.",
+        "brisbane",
+        "The steel cantilever truss of the Story Bridge spanning the Brisbane River at golden hour, "
+        "the South Bank Wheel of Brisbane glowing amber in the middle distance, jacaranda trees in "
+        "lavender bloom on the riverbank.",
         "m",
     ),
     (
-        "milan",
-        "The glass-and-iron dome of Galleria Vittorio Emanuele II from the cathedral square, "
-        "Duomo spires on one side, soft interior lamplight spilling onto the mosaic floor.",
+        "perth",
+        "The Perth city skyline on the north bank of the Swan River seen from Kings Park at sunset, "
+        "the Swan Bell Tower spire catching the last light, a stylised black swan gliding across the "
+        "burgundy-tinged water.",
         "f",
     ),
     (
-        "naples",
-        "Spaccanapoli narrow alley with hanging laundry and a Vespa parked against a warm-ochre wall, "
-        "Mount Vesuvius in the hazy distance at sunset.",
+        "adelaide",
+        "Glenelg's pier and the historic seaside tram terminus, warm-cream colonial sandstone facades "
+        "lining the foreshore, deep turquoise Gulf St Vincent water with a single sailboat offshore "
+        "at late afternoon.",
         "m",
     ),
     (
-        "bologna",
-        "The Due Torri (Torre degli Asinelli and Garisenda) rising above a porticoed street, "
-        "long sunset shadows through the portico arches, deep-burgundy Bologna brickwork.",
+        "hobart",
+        "Salamanca Place's row of warm sandstone Georgian warehouses with awnings, a glimpse of the "
+        "Derwent River at the end of the street, Mount Wellington's bulk rising behind in deep "
+        "burgundy shadow against a saffron sky.",
         "f",
     ),
     (
-        "palermo",
-        "The Quattro Canti baroque crossroads in Palermo, four curved palazzo facades meeting at the corner, "
-        "late-afternoon sun, a Sicilian palm in silhouette.",
+        "darwin",
+        "Mindil Beach at sunset with Darwin's silhouetted frangipani palms in the foreground, the "
+        "deep-orange tropical sky melting into the Timor Sea, a single dragon-prowed Indonesian "
+        "fishing boat anchored offshore.",
         "m",
     ),
     (
-        "pisa",
-        "The Leaning Tower beside the Duomo on the Campo dei Miracoli, crisp green lawn, "
-        "a few tourists in silhouette, warm Tuscan afternoon light.",
+        "canberra",
+        "Australia's Parliament House on Capital Hill with its iconic flagpole spire above the "
+        "lawns, Lake Burley Griffin's Captain Cook Memorial Jet fountain rising on the water in the "
+        "middle distance, Brindabella Range in the background haze.",
         "f",
     ),
     (
-        "siena",
-        "The shell-shaped Piazza del Campo with the Torre del Mangia above the Palazzo Pubblico, "
-        "medieval brick facades, warm terracotta and saffron tones, deep shadows.",
+        "cairns",
+        "The Cairns Esplanade Lagoon's curved saltwater pool with the silhouette of the Great "
+        "Barrier Reef catamaran fleet at the marina in the middle distance, tropical palms and "
+        "frangipani framing the foreground, deep turquoise Trinity Bay beyond.",
         "m",
     ),
     (
-        "sorrento",
-        "The Sorrento cliffs at Marina Grande, pastel-ochre houses stacked above the fishing harbor, "
-        "lemon trees in the foreground, Bay of Naples at dusk.",
+        "gold-coast",
+        "The high-rise crescent of Surfers Paradise rising directly behind a long white-sand beach, "
+        "the Q1 tower's needle spire catching the last sun, three small surfers paddling out into "
+        "the turquoise Pacific in the foreground.",
         "f",
     ),
     (
-        "positano",
-        "The iconic Positano hillside of pastel houses cascading down to the Spiaggia Grande beach, "
-        "turquoise Tyrrhenian sea, a small boat in the bay at golden hour.",
+        "byron-bay",
+        "Cape Byron Lighthouse white-painted on the easternmost headland of mainland Australia at "
+        "sunset, deep-burgundy basalt cliffs falling to the turquoise Pacific below, a single "
+        "humpback whale's tail breaching offshore.",
         "m",
     ),
     (
-        "amalfi-coast",
-        "A winding SS163 Amalfi Drive clinging to a vertical cliff above the sea, lemon groves, "
-        "a small white-painted church tower on the hill, warm late-day sun.",
+        "alice-springs",
+        "Uluru/Ayers Rock at sunset glowing deep burgundy-orange against the spinifex-dotted red-"
+        "earth Outback plain, the smaller Kata Tjuta domes silhouetted on the horizon, a deep-"
+        "purple desert sky overhead.",
         "f",
     ),
     (
-        "capri",
-        "The Faraglioni rock stacks off the coast of Capri, seen from a stylised viewpoint on the cliff path, "
-        "turquoise sea, Mediterranean pines framing the composition.",
+        "whitsundays",
+        "The pure-white silica sand swirl of Whitehaven Beach meeting the turquoise water of "
+        "Hill Inlet from a stylised aerial three-quarter view, a single white sailing yacht "
+        "anchored offshore, lush green Whitsunday island headlands framing the cove.",
         "m",
     ),
     (
-        "pompeii",
-        "The ruined Forum of Pompeii with fluted column fragments in the foreground, "
-        "Mount Vesuvius looming in the background against a saffron sky, long ancient shadows.",
-        "f",
-    ),
-    (
-        "cinque-terre",
-        "The pastel cliff-houses of Manarola cascading down into a small harbor, "
-        "turquoise Ligurian sea, a single fishing boat, late-afternoon warm light.",
-        "m",
-    ),
-    (
-        "verona",
-        "The oval of the Roman Arena viewed from Piazza Bra, warm ochre stone, "
-        "outdoor café umbrellas in silhouette in the foreground, soft evening light.",
-        "f",
-    ),
-    (
-        "lake-garda",
-        "Sirmione castle (Castello Scaligero) on the narrow peninsula, crenellated brick walls, "
-        "turquoise Lake Garda water, Alpine foothills in the distance.",
-        "m",
-    ),
-    (
-        "lake-como",
-        "A view of Bellagio from the water, pastel palazzi stepping up the steep shoreline, "
-        "Alpine peaks rising behind, a single classic wooden boat in the foreground.",
-        "f",
-    ),
-    (
-        "sardinia",
-        "The turquoise coastline of the Costa Smeralda, pink-granite boulders, Mediterranean macchia scrub, "
-        "a small white-sand cove with a single sailboat offshore.",
-        "m",
-    ),
-    (
-        "taormina",
-        "The ruined Teatro Antico of Taormina with its stone arches framing a view of Mount Etna, "
-        "a wisp of smoke from the volcano, Ionian sea below, late-afternoon warm light.",
+        "port-douglas",
+        "Four Mile Beach's long curve of golden sand with Daintree-rainforest-clad headlands at "
+        "the far end, a Great Barrier Reef catamaran moored at Port Douglas marina in the middle "
+        "distance, palms framing the foreground at golden hour.",
         "f",
     ),
 ]
