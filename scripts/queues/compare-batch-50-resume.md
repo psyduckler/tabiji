@@ -3,9 +3,9 @@
 ## Goal
 Upgrade compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
-## Status (as of 2026-04-26, post-245-page session)
-- **Done so far:** ~245 pages at 100/100 (~26.7% of 916 total compare pages).
-- **Remaining sub-100:** ~671 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
+## Status (as of 2026-04-26, post-252-page session)
+- **Done so far:** ~252 pages at 100/100 (~27.5% of 916 total compare pages).
+- **Remaining sub-100:** ~664 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
 - **Active goal:** completing 100 more pages (117 done so far in the active goal session).
 
 ### Most recent batch (20 pages, 2026-04-26 second batch):
