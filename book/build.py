@@ -68,7 +68,19 @@ def load_city(slug: str) -> dict:
     return json.loads(path.read_text())
 
 
+def _normalize_scam(scam: dict) -> dict:
+    """Adapt newer api/v1 scams (howToAvoid array, no frequency, no tags) onto
+    the legacy shape this builder was written against."""
+    if "howToAvoid" in scam and not scam.get("avoidance"):
+        v = scam["howToAvoid"]
+        scam["avoidance"] = " ".join(v) if isinstance(v, list) else str(v)
+    scam.setdefault("frequency", "common")
+    scam.setdefault("tags", [])
+    return scam
+
+
 def scam_md(scam: dict, image_path: Path | None = None) -> str:
+    scam = _normalize_scam(scam)
     cat = scam["category"].title()
     sev = scam["severity"].title()
     freq = scam["frequency"].title()

@@ -1379,6 +1379,9 @@ CITY_SLUGS = {
     "Liberia": "liberia-costa-rica",
     "Jacó": "jaco-costa-rica",
     "Monteverde": "monteverde",
+    "Tortuguero": "tortuguero",
+    "Santa Teresa": "santa-teresa",
+    "Quepos": "quepos",
     "Corfu": "corfu",
     "Dakar": "dakar",
     "Sardinia": "sardinia",
@@ -1413,6 +1416,11 @@ CITY_SLUGS = {
     "Nashville": "nashville",
     "Panama City": "panama-city",
     "Bogota": "bogota",
+    "Guatapé": "guatape",
+    "Salento": "salento",
+    "Tayrona": "tayrona",
+    "San Andrés": "san-andres",
+    "Villa de Leyva": "villa-de-leyva",
     "Mauritius": "mauritius",
     "San Salvador": "san-salvador",
     "Montego Bay": "montego-bay",
@@ -1421,6 +1429,7 @@ CITY_SLUGS = {
     "Arusha": "arusha",
     "Bariloche": "bariloche",
     "Bologna": "bologna",
+    "Mar del Plata": "mar-del-plata",
     "Boracay": "boracay",
     "Bordeaux": "bordeaux",
     "Budva": "budva",
@@ -1430,6 +1439,7 @@ CITY_SLUGS = {
     "Cinque Terre": "cinque-terre",
     "Cusco": "cusco",
     "Da Nang": "da-nang",
+    "Dahab": "dahab",
     "Dalat": "dalat",
     "Phu Quoc": "phu-quoc",
     "Can Tho": "can-tho",
@@ -2520,6 +2530,12 @@ SAFETY_TIPS = {
         "Book Paraná River boat tour direct at Terminal Fluvial Rosario ticket counter at ARS 15,000–25,000 ($15–$25 USD) for 1–1.5 hour paseos with Paranaturío ('El Once') or Ciudad de Rosario operator — refuse Nómades / Viator / GetYourGuide 'Paraná River Cruise' at $85–$150 per person (3–6x direct cost)",
         "At Peatonal Córdoba / Costanera riverside restaurants request menu before seating and verify cubierto disclosure ($2,500–$5,000 ARS/person) — refuse unlisted cubiertos; for street-food use non-tourist spots (El Cairo at San Juan 1191, Don Ferro, Lo Mejor de Rosario); keep phones in pockets during Peatonal dining — Pickpocket layer targets distracted diners; save 911 and Ministerio de Turismo 0800-999-2338",
     ],
+    "Mar del Plata": [
+        "Book all temporada (December–February) accommodation via Booking.com / Airbnb / Hotels.com platform payment in full — refuse every Facebook Marketplace, Instagram, or WhatsApp 'direct rental' offer demanding USD wire, Western Union, or Bizum-style transfer per the January 2026 0223.com.ar OMIC alert and Infobae 'Estafaron a una familia con un falso alquiler en la Costa Atlántica' (2026); for longer stays use ZonaProp or ArgenProp portals only",
+        "Use Cabify for every Mar del Plata ride — request from arrivals WiFi at Estación Terminal de Ómnibus (Av. Champagnat 100) or Aeropuerto Astor Piazzolla (MDQ) and pay app-priced; if using a metered taxi, board only from the official Radio Taxi queue and verify the meter starts at the posted bajada de bandera per Diario La Capital de Mar del Plata; refuse every 'fixed price, no meter' tout, even at midnight with luggage",
+        "At Costanera Sur, Bristol, La Perla, Playa Grande, and Av. Constitución restaurants ask for the 'menú en pesos' or Spanish menu before ordering and photograph it on your phone — a legitimate cubierto runs ARS 500–1,000 per person and 'servicio incluido' added without prior menu disclosure isn't legal under Argentine consumer law and can be disputed; walk one block inland from the Costanera for fair-rate temporada parrilla and seafood",
+        "Verify any 'direct' apartment listing via Google Street View of the address and a video call with the owner before paying any deposit; refuse 'owners' demanding USD wire or Bizum and refusing video walk-throughs; for premium beach-club access (carpas/sombrillas) at Playa Grande, La Perla, or Punta Mogotes, book through the balneario's official website rather than reseller intermediaries; report fraud to OMIC Mar del Plata Defensa al Consumidor at +54 223 499-6677",
+    ],
     "New York City": [
         "Ignore anyone offering you a CD, friendship bracelet, or any unsolicited item on Times Square — it will cost you",
         "Use only licensed yellow cabs (medallion taxis), green boro taxis, or the Uber/Lyft apps — unlicensed cars are illegal and unaccountable",
@@ -3073,6 +3089,36 @@ SAFETY_TIPS = {
         "Watch your drinks being prepared and never leave them unattended — scopolamine drugging is a real and documented threat",
         "Carry a photocopy of your passport and leave the original in your hotel safe — never hand documents to plainclothes 'police'",
     ],
+    "Guatapé": [
+        "Take the Terminal del Norte → Guatapé public bus for 18,000–22,000 COP (~$5) one-way — El Poblado hostel touts charging 250,000 COP per person for the 'private driver' run are 12x markups",
+        "Park only at the legitimate La Piedra del Peñol marked parking lot — fluorescent-vest 'attendants' at roadside dirt lots a hundred metres before the gate are running a fake-parking-plus-fake-stairs scam",
+        "Buy Guatapé reservoir boat tickets at the marina by the shared per-seat rate of 25,000–35,000 COP (~$8) — operators pitching 'private tours' at 200,000 COP and up are running tourist markups",
+        "Avoid walking the El Peñol–Guatapé highway after dusk — motorcycle stickups on this stretch left a US tourist with six gunshot wounds in October 2025",
+    ],
+    "Salento": [
+        "Take the shared willys jeep from Salento's Plataforma to Cocora at the cooperative rate of 30,000–35,000 COP (~$8) round trip — drivers quoting 'private' rides at 100,000 COP and up are markups",
+        "Pre-arrange Pereira (PEI) or Armenia (AXM) airport-to-Salento shuttles through your hostel before flying in — meter-off airport touts quote 250,000+ COP for what should be a 90,000–120,000 COP shared shuttle",
+        "Book coffee farm tours directly with Finca Don Elias, La Acacia, or El Ocaso — Plaza Bolívar touts pitching 'authentic' tours at 80,000–120,000 COP often skip the real finca",
+        "Watch your drink poured at Calle Real bars and never accept rounds from strangers — drink-spiking targeting solo travelers is a documented Salento nightlife pattern",
+    ],
+    "Tayrona": [
+        "Buy the Tayrona park ticket only at the official El Zaino or Calabazo gate booth at the posted ~86,500 COP (~$22) high-season foreign rate — touts at the gate falsely claiming 'park closed' redirect tourists to fake private paths",
+        "Take the morning Cabo San Juan-to-El Zaino lancha at the posted 35,000–45,000 COP (~$10) rate — afternoon-return tickets jump to 80,000+ COP once you are stranded at the beach",
+        "Bring water, snacks, and small-denomination bills inside the park — kiosks at Cabo San Juan charge 8,000 COP per water bottle and refuse change on 50,000 or 100,000 COP notes",
+        "Sleep only in the official Cabo San Juan hammock zones (25,000–35,000 COP) and keep your phone, cash, and passport in a waterproof body pouch overnight — informal lockers behind the kitchen are not actually secured",
+    ],
+    "San Andrés": [
+        "Pay the Tarjeta de Turismo (138,000 COP / ~$33) only at the San Andrés airport (ADZ) ticket counter before boarding — agencies and hotels selling it at 200,000–250,000 COP are running an unauthorized resale markup",
+        "Take the official ADZ airport taxi at the posted 25,000–35,000 COP (~$7) rate to El Centro hotels — drivers quoting 60,000–100,000 COP for the 5-minute ride are picking off arrivals",
+        "Photograph every existing scratch on a rental golf cart before you drive away and again at return — rental shops on Avenida Colombia bill phantom 500,000 COP damage charges from the cash deposit",
+        "Book Johnny Cay combo trips through the Cooperativa de Lancheros at the posted 65,000–80,000 COP rate — Spratt Bight beach touts pitching the same combo at 150,000–250,000 COP are markups",
+    ],
+    "Villa de Leyva": [
+        "Take the Terminal Salitre bus to Tunja, then a Villa de Leyva colectivo (30,000–45,000 COP / ~$10 all-in) — La Candelaria hostel touts pitching 'private driver' rides at 350,000–500,000 COP are 10x markups",
+        "Book Villa de Leyva accommodation 2–3 weeks ahead for festival weekends (Festival del Viento y las Cometas in August, Festival de Luces / Día de las Velitas December 7) — last-minute hotel rates triple, and 'festival package' touts run upfront-cash markups",
+        "Compare prices on the Plaza Mayor restaurant menu in daylight before sitting down — tourist-menu inflation in the colonial center charges 80,000+ COP for ajiaco that costs 20,000–25,000 COP at locally-frequented spots a block off the plaza",
+        "Use only licensed Iguaque sanctuary guides (RNT-registered, on the Parques Nacionales board at the entrance) and pay the official Pozos Azules entrance at the marked booth — fluorescent-vest 'attendants' on the access road are running fake-fee scams",
+    ],
     "Mauritius": [
         "Mauritius is generally very safe for tourists with a low violent crime rate, but opportunistic scams targeting visitors are common in tourist areas — stay alert in Port Louis, Grand Baie, and beach zones",
         "Official taxis are white with white license plates, a rooftop taxi sign, and yellow stickers on each front door — never get in an unmarked vehicle",
@@ -3570,6 +3616,24 @@ SAFETY_TIPS = {
         "Verify any Monteverde guide's laminated ICT credential (photo + registration number) BEFORE paying and refuse gate-side 'all-in $80–$100 guide + entry' packages that don't math at $29 reserve + $35–$45 guided; know the legitimate 2025/2026 rates: Selvatura zipline $80 + tax (selvatura.com direct), Don Juan Coffee/Chocolate/Sugarcane $52 direct (donjuantoursmonteverde.com), Monteverde Night Walk $38–$40 — hostel desks running 30%+ markups are the scam, 10–15% is honest commission",
         "VERIFY the exact tour-operator domain before paying — legitimate is monteverdetours.com (since 2002), scam is monteverdetourscr.com; r/CostaRicaTravel 'Monteverde Tours Costa Rica - Buyer Beware' (2024, u/rmh901, 52 upvotes) documents $1,000 taken from 4 travelers via the copycat; never prepay more than a $50–$100 deposit, pay credit card only (Chase and CapitalOne chargebacks were the only recoveries that worked), and walk away from any operator whose site doesn't link out to TripAdvisor/Viator/GetYourGuide (u/alextoria's test)",
     ],
+    "Tortuguero": [
+        "Buy Tortuguero National Park tickets ($15 USD foreign adult) online at sinac.go.cr before arrival — tickets are not sold at the Cuatro Esquinas gate.",
+        "At La Pavona dock, queue at the white wooden ticket window inside the restaurant for the 4,000 CRC ($8) public boat — ignore unmarked touts quoting $20–$30.",
+        "Book turtle nesting walks (July–October) only through your hotel or the Sea Turtle Conservancy ($25), and ask to see the guide's SINAC photo ID badge.",
+        "Lock cash, watches, and electronics in the in-room safe before every boat tour at Mawamba, Pachira, or Tortuga Lodge — police response from Limón is hours away by boat.",
+    ],
+    "Santa Teresa": [
+        "Book inside 24-hour staffed gated communities like Costa Pacifica or Pranamar, not standalone villas down the dirt roads of Mal Pais, Carmen, or Playa Hermosa Norte.",
+        "Rent from Adobe, Vamos, or National at LIR or SJO and shoot a timestamped 360-degree chassis video before driving the Cobano-Santa Teresa Route 624 dirt road.",
+        "Pre-book Tropical Tours, Zuma Tours, or Interbus shuttles online before arriving at Paquera ferry; the licensed Paquera-Cobano collectivo bus costs roughly 2,000 colones and runs hourly.",
+        "Watch every drink poured at La Lora Amarilla, Banana Beach Club, and Kooks; lower your daily ATM withdrawal limit to $200 and disable SINPE Movil transfers during nightlife.",
+    ],
+    "Quepos": [
+        "Book Marina Pez Vela charters only through marinapezvela.com or named operators on the marina's vessel list — never via dockside brokers or WhatsApp deposit links.",
+        "Pre-book your La Managua (XQP) airstrip transfer through your hotel or Easy Ride; ignore the unmarked sedans at the gate quoting $40–$80 for a $10 metered run.",
+        "Keep your daypack between your feet at the Quepos Tracopa terminal and on the Route 27 bus — pickpockets work the boarding scrum and the coffee-stand line.",
+        "Eat at sodas (Soda Sanchez, Mercado Central stalls, El Patio de Cafe Milagro) and ask for la carta en colones — Calle 2 waterfront English-only menus run two to three times local prices.",
+    ],
     "Accra": [
         "From Kotoka International Airport (KIA), withdraw cedis at the indoor ATMs near the customs exit BEFORE stepping outside, then book Bolt or Uber from the air-conditioned seated waiting area — curb-side drivers commonly quote GH¢ 300–GH¢ 600 for trips that meter at GH¢ 50–GH¢ 120; r/ghana 'Kotoka International Airport scams' (comments/1i1vcx6, 2025) and 'Uber/taxi from Accra airport - arriving without cedis, how to pay?' (comments/1m0wvw9, 2025) document the routine",
         "REFUSE any 'phone duty' or per-device fee at the last KIA customs checkpoint — Ghana imposes no per-phone tourist tax on personal electronics; if pressed, demand a printed receipt with the officer's name and badge number, and ask to be escorted to the Aviation Police desk inside Terminal 3",
@@ -3602,6 +3666,12 @@ SAFETY_TIPS = {
         "Photograph every panel, wheel, and the interior of any hire car at pickup and again at drop-off, then dispute post-departure damage charges within 30 days through your credit-card chargeback rights",
         "Hang up on any caller or texter claiming to be NZ Police, IRD, or NZ Post about a fine or parcel — dial 105 to verify and never pay anyone by gift card, crypto, or bank transfer over the phone",
         "Forward suspicious Booking.com messages to reportphishing@booking.com and confirm any post-stay payment request inside the official Booking.com app — the platform never asks guests to re-enter card details after checkout",
+    ],
+    "Dahab": [
+        "Hire dive operators only after verifying the lead instructor's PADI or SSI number on the certifying body's online check tool — Dahab's Blue Hole has a documented death toll measured in the hundreds, and the cheapest Mashraba-strip shops fail equipment inspections year after year",
+        "Pre-book your Sharm El Sheikh airport pickup through your Dahab hotel for a flat 1,500 to 1,800 EGP — refuse all $70 curbside dollar quotes from drivers parked past the official SSH rank",
+        "Refuse every \"free tea\" sit-down invitation along the Mashraba and Lighthouse beach strips — real Bedouin cafés post printed prices at the entrance, and the unsolicited tent setups run 800 EGP bills on a 50-EGP tea",
+        "Get every Dahab bungalow fee — towel, AC, water, service — printed on an itemized rate sheet at check-in and photograph it; Mashraba camps that refuse to print are running the surcharge play that turns a 200-EGP nightly rate into a 1,400-EGP total",
     ],
 }
 
@@ -5575,6 +5645,18 @@ FAQS = {
         ("How do I book a Paraná River boat tour in Rosario?",
          "Book direct at the Terminal Fluvial Rosario ticket counters — ARS 15,000–25,000 (~$15–$25 USD) for 1–1.5 hour paseos with Paranaturío (Catamarán 'El Once') or Ciudad de Rosario operator. The scam ecosystem: (1) Nómades / Viator / GetYourGuide 'Paraná River Cruise Full Experience' at $85–$150 USD per person — the same 2-hour tour is $15–$25 at the Terminal Fluvial ticket counter; (2) hotel-concierge 'Paraná Sunset Dinner Cruise' at $150–$300 USD per person when equivalent is $25 Paranaturío + $15 dinner = $40 total; (3) 'private charter Paraná' at $500–$1,000 USD for what's legitimately $50–$80 USD small-group operator product during low season; (4) 'Islas del Paraná Delta' tours misleadingly marketed from Rosario at $150+ USD — the legitimate Paraná Delta (with river channels and island lodges) is at Tigre 290 km south; Rosario-based 'Delta tours' are regional Paraná tours, not the Tigre Delta experience. Clean playbook: (1) book at Terminal Fluvial ticket counter direct — pay via card if accepted, get printed recibo; (2) refuse Nómades / Viator / GetYourGuide at $85–$150 USD (3–6x direct cost); (3) refuse hotel-concierge 'Paraná Sunset Dinner Cruise' at $150–$300 — book standard $25 Paranaturío tour and dinner separately at fair rates; (4) for river-view dining use Costanera Rosario boardwalk restaurants at fair-rate ARS 8,000–20,000 per person vs boat-based 'cruise dinner' at 3–5x markup; (5) verify weather before booking — Paraná tours cancel in high winds; direct-book refund policies are stronger than reseller refunds; (6) check Ministerio de Turismo national hotline 0800-999-2338 for any current Paraná advisories."),
     ],
+    "Mar del Plata": [
+        ("Is Mar del Plata safe for tourists?",
+         "Mar del Plata is generally safe for tourists in the downtown Centro core, La Perla, Bristol, and Playa Grande tourist strips, and the Casino Central / Av. Luro / Peatonal San Martín pedestrian areas. Violent crime against foreigners is rare. The practical risks for travelers in 2025–2026 are overwhelmingly financial and concentrate in the December–February temporada peak: (1) apartment-rental fraud surge documented by 0223.com.ar's January 2026 OMIC alert and Infobae 'Estafaron a una familia con un falso alquiler en la Costa Atlántica' (2026) — Facebook Marketplace, Instagram, and WhatsApp listings demanding USD wire deposits with photo-stolen images; (2) MDP Estación Terminal de Ómnibus and Aeropuerto Astor Piazzolla (MDQ) taxi 'fixed price, no meter' overcharges at 3–4x the regulated meter per Diario La Capital de Mar del Plata 2024–2025 tariff coverage; (3) Costanera Sur / Av. Constitución restaurant dual-pricing with unlisted cubiertos and 'servicio incluido' charges aggressive during the December 26 – January 31 peak window; (4) carpa and sombrilla pricing at private balnearios runs ARS-heavy in temporada — not strictly a scam but a cost-trap that catches first-time visitors. Save Comisaría Turística at Casino Central, Av. Luro 3450 OMIC Defensa al Consumidor (+54 223 499-6677), and 911."),
+        ("How do I avoid a temporada apartment-rental scam?",
+         "Book every Mar del Plata stay through Booking.com, Airbnb, or Hotels.com with payment in full on the platform — never wire any deposit to a Facebook Marketplace, Instagram, or WhatsApp 'direct rental' offer, no matter how good the photos look. The January 2026 0223.com.ar OMIC alert and Infobae 'Estafaron a una familia con un falso alquiler en la Costa Atlántica' (2026) reported a sharp spike in temporada complaints — fake listings demanding USD wire, Western Union, or Bizum-style transfers, with photo-stolen Booking.com images and 'owners' who vanish once payment clears. The clean playbook: (1) verify any 'direct' listing's address via Google Street View — apartments described 'a tres cuadras del mar' that turn out to be five-plus blocks inland are a red flag; (2) require a video walk-through with the owner before paying anything; (3) for longer stays (1+ month) use ZonaProp or ArgenProp portals — never anonymous Marketplace listings; (4) refuse USD wire, Western Union, Bizum, USDT, or crypto deposits — all reputable Mar del Plata accommodations accept Visa/Mastercard or Booking.com / Airbnb platform payment; (5) book 3–6 months ahead for the December–February peak; January is fully sold out by mid-November in most years; (6) report fraud to OMIC Mar del Plata Defensa al Consumidor at +54 223 499-6677 within 24 hours."),
+        ("How do I get from MDP Bus Terminal or MDQ Airport to my hotel?",
+         "Use Cabify for every Mar del Plata ride. Estación Terminal de Ómnibus Mar del Plata (Av. Champagnat 100) is roughly 3 km from the Centro / Bristol hotel zone — a 10-minute ride that should run ARS 3,500–4,500 metered in late 2025. Aeropuerto Astor Piazzolla (MDQ) is 4 km from downtown, similar 10-minute ride. Diario La Capital de Mar del Plata tracks the Concejo Deliberante's tariff approvals: bajada de bandera around ARS 900, per-fichada at roughly ARS 18 every 160 meters, plus a small night surcharge. The clean playbook: (1) request the ride via Cabify from arrivals WiFi at the bus terminal or airport — app-priced, no meter game; (2) if using a metered taxi, board only from the official Radio Taxi queue at the curb and verify the meter starts at the posted bajada — refuse any 'fixed price, no meter' opener even at midnight with luggage; (3) demand a printed recibo at drop-off (legitimate drivers always provide one); (4) pay with small bills matched to the fare ($500 / $1,000 denominations) — never a 10,000+ peso note for a short hop; (5) for MDQ airport, walk past every 'private transfer' tout in arrivals and use Cabify or the Radio Taxi queue; refuse hotel-concierge 'VIP transfer' upsells at $40–$60 USD that mark up a $5–$10 ride. Save Comisaría Turística (Av. Luro 3450) and 911."),
+        ("Why does my dinner bill at the Costanera have an unlisted cubierto?",
+         "It's the documented Mar del Plata tourist-strip dual-pricing pattern. A legitimate Argentine cubierto runs ARS 500–1,000 per person and must be disclosed on the printed menu before you order — Argentine consumer-protection law requires it. Unlisted cubiertos at ARS 5,000+ on Costanera Sur, Bristol, La Perla, Playa Grande, and Av. Constitución restaurants are aggressive temporada padding, and 'servicio incluido' or 'propina obligatoria' added without prior menu disclosure is not legal and can be formally disputed. La 100, Revista Noticias, and 7 Caníbales have all published 2025–2026 dining-cost reckonings showing the gap clearly: a fair-rate parrilla meal for two with wine should run ARS 40,000–55,000 in temporada peak, not ARS 95,000+. Defense: (1) ask for the 'menú en pesos' or Spanish-language menu before ordering and photograph it on your phone — A 30%+ price gap between English and Spanish menus is the dual-pricing tell; (2) refuse any unrequested bread, aperitivo, or 'pan y cubierto' service at the table — these are paid items added to the check; (3) verify the bill against the menu line by line; dispute unlisted cubierto or servicio charges at the table before paying; (4) walk one block inland from the Costanera Sur for fair-rate temporada parrilla and seafood at locales the local lunch crowd uses; (5) pay with a foreign Visa or Mastercard for chargeback protection plus the 2025 MEP tourist-card rate; (6) report persistent bill-padding to OMIC Mar del Plata Defensa al Consumidor at +54 223 499-6677."),
+        ("Where should I stay in Mar del Plata?",
+         "The cleanest 2025 options are the established platform-booked properties in Centro, Bristol, La Perla, and Playa Grande — Hotel Costa Galana (Bd Patricio Peralta Ramos 5725), Hotel Provincial (Bd Patricio Peralta Ramos 2502), Sheraton Mar del Plata, NH Gran Hotel Provincial, and Hermitage Hotel anchor the premium tier; mid-range hotels and apart-hotels in Centro run $80–$180 USD/night shoulder season, $200–$400 USD temporada peak; budget hostels and Airbnb $40–$120 USD shoulder, $150–$300 peak. The clean playbook: (1) book all Mar del Plata accommodation via Booking.com / Hotels.com / Airbnb platform payment in full — never off-platform wire or crypto deposits; (2) book 3–6 months ahead for the December–February peak; January is fully sold out by mid-November in most years and the late-availability listings on Marketplace and WhatsApp groups skew heavily fraudulent per the January 2026 OMIC alert; (3) verify every Airbnb has 50+ reviews and a 'verified host' or 'Superhost' badge, and reverse-image-search any photo set that looks too clean; (4) refuse all 'direct rental' offers from Facebook Marketplace, Instagram, or WhatsApp groups demanding USD wire, Western Union, or Bizum-style transfer — every reputable Mar del Plata property accepts Visa/Mastercard or Booking.com / Airbnb platform payment; (5) for premium properties book direct at the property's official website (verify URL matches TripAdvisor's listing link); (6) refuse 'corporate rate' emails from anyone claiming to be a 'Costa Galana agent' or 'Sheraton Mar del Plata booking intermediary' — no such intermediary exists legitimately."),
+    ],
     "New York City": [
         ("Is New York City safe for tourists?",
          "New York City is significantly safer than its reputation suggests, and the main tourist areas — Midtown, Lower Manhattan, Brooklyn Bridge, Central Park — are extremely well-patrolled and safe during the day. Petty theft (phone snatches, pickpocketing) has increased in recent years, particularly on the subway. Violent crime targeting tourists is rare. Stay aware on the subway, especially after midnight, and keep phones pocketed on the platform."),
@@ -6210,6 +6292,66 @@ FAQS = {
          "Uber, DiDi, and InDriver are significantly safer than street taxis in Bogotá and are strongly recommended. They provide driver identification, GPS-tracked routes, and digital payment records. The risk of express kidnapping is virtually eliminated when using ride-hailing apps compared to hailing taxis on the street. Share your ride details with someone and verify the driver and vehicle match the app."),
         ("What should I do if I'm drugged or robbed in Bogota?",
          "Call 123 immediately for police and emergency services. Go to the nearest hospital if you suspect drugging. Contact the Tourist Police at +57 601 337 4413. US citizens should call the US Embassy at +(57)(1) 275-2000 or after-hours at +(57)(1) 275-4021. File a police report (denuncia) at the nearest CAI station for insurance claims. Cancel all cards and change banking passwords immediately."),
+    ],
+    "Guatapé": [
+        ("Is Guatapé safe for tourists?",
+         "Guatapé pueblo is broadly safe during the day — Plaza de los Zócalos and the malecón are heavily touristed and police-patrolled. The risks are concentrated on the Medellín → Guatapé route (private-driver overcharges + the El Peñol–Guatapé highway robbery zone), at La Piedra del Peñol (fake parking touts), and on the reservoir boats (private-tour markups). Avoid walking the highway between the rock and the pueblo after dusk."),
+        ("What is the most common scam in Guatapé?",
+         "The most common Guatapé scam is the El Poblado hostel private-driver markup — touts in Medellín hostels pitching 250,000 COP private rides to Guatapé when the Terminal del Norte public bus is 18,000–22,000 COP for the same 90-minute trip. The runner-up is the La Piedra del Peñol fake-parking attendant — fluorescent-vest 'attendants' at roadside dirt lots a hundred metres before the legitimate parking demand 20,000 COP for 'parking' that does not exist."),
+        ("How do I get from Medellín to Guatapé?",
+         "The cheapest legitimate route is the public bus from Terminal del Norte (Medellín's north bus terminal) — 18,000–22,000 COP one-way, departing every hour, 90 minutes to Guatapé pueblo. Shared-van seats through tour operators run 50,000–80,000 COP and include hotel pickup. A registered private taxi runs 200,000–280,000 COP for the round trip with waiting time. Hostel touts quoting 250,000 COP per person 'one-way' are running 12x markups."),
+        ("How much is La Piedra del Peñol entry?",
+         "The official entrance fee to climb La Piedra del Peñol is 25,000 COP (~$6), paid at the legitimate ticket booth at the base of the staircase. Parking is 5,000–10,000 COP at the marked lot. A 'VIP express stair access' pitch at 50,000 COP and up is fake — there is one 740-step staircase and no shortcut. Roadside dirt lots a hundred metres before the gate are run by fake parking attendants."),
+        ("Are Guatapé reservoir boat tours legitimate?",
+         "Legitimate boat operators run from the Guatapé malecón at posted shared-boat per-seat rates of 25,000–35,000 COP (~$8) for an hour-long loop past the submerged church bell tower of Old Peñol. The boats hold 15–25 passengers and depart when full. Operators quoting 'private' tours at 200,000 COP per person and up are running tourist markups for the same hour-long loop."),
+    ],
+    "Salento": [
+        ("Is Salento safe for tourists?",
+         "Salento is one of Colombia's safest tourist towns — the Eje Cafetero coffee axis sees high volumes of European and North American backpackers, and Plaza Bolívar and Calle Real are well-patrolled. The main risks are willys jeep overcharging, Cocora horseback-tour mid-trail demands, Pereira/Armenia airport meter-off taxis, and drink-spiking at Calle Real bars. Walking around town in daylight is fine; treat the bus terminal and unlit side streets after midnight with normal caution."),
+        ("What is the most common scam in Salento?",
+         "The most common Salento scam is the willys jeep overcharge — drivers at the Plataforma de Salento quoting 'private' Cocora rides at 100,000 COP and up when the cooperative rate is 30,000–35,000 COP round trip. The runner-up is Cocora horseback-ride mid-trail price escalation, where guides agree to 50,000 COP at the trailhead and demand 100,000–150,000 COP at the wax-palm stop with the horse held until paid."),
+        ("How much should the Salento-to-Cocora willys jeep cost?",
+         "The cooperative rate is 30,000–35,000 COP round trip per person, paid to the willys driver at the Plataforma de Salento — the open-air departure stand on Calle Real beside Plaza Bolívar. Drivers running shared service stop at the Cocora trailhead and the same pickup runs every hour. Anyone quoting a 'private' rate at 100,000 COP and up is running a markup."),
+        ("How do I get from Pereira airport to Salento?",
+         "The cheapest legitimate route is the Pereira (PEI) airport taxi to the Pereira terminal (~25,000 COP), then a Cooperativa Flota Occidental bus to Armenia or Salento (~12,000–15,000 COP, 75 minutes). A direct shared shuttle through your Salento hostel runs 90,000–120,000 COP and saves the transfer. Avoid airport curb touts who quote 250,000 COP for 'private' rides — the regulated rate via the airport's authorized taxi cooperative is far lower."),
+        ("Where is it safe to walk in Salento at night?",
+         "Plaza Bolívar, Calle Real, and the main hostel strip on Carrera 6 are well-patrolled and walkable at night. Tourist Police patrol the plaza on festival weekends. Avoid the unlit side streets behind the bus terminal after midnight, and treat the road down to the Cocora overlooks as off-limits at night — robberies on quiet rural stretches outside town are documented."),
+    ],
+    "Tayrona": [
+        ("Is Parque Tayrona safe for tourists?",
+         "Tayrona is broadly safe during daytime hours when the official El Zaino and Calabazo gates are staffed and the trails carry steady foot traffic. Park rangers (guardabosques) patrol the main trails. The risks are concentrated at the entrance (touts redirecting tourists to fake 'private' paths), inside vendor kiosks (captive-market overcharging), and overnight at Cabo San Juan (informal locker theft). Single-file remote trails like the Pueblito spur are best done with a licensed guide."),
+        ("What is the most common scam at Tayrona?",
+         "The most common Tayrona scam is the 'park closed today' redirect at El Zaino — touts in fake 'guide' attire stationed before the official ticket window tell tourists the park is closed and offer a 150,000 COP 'private path' tour instead. The legitimate park is rarely closed, and the only authentic ticket sale is at the booth inside the gate."),
+        ("How much does Tayrona park entrance cost?",
+         "The official Parques Nacionales rate runs around 86,500 COP (~$22) per foreign adult in high season and closer to 64,000 COP in low season — paid only at the El Zaino or Calabazo gate booth. Children, students with ID, and Colombian/CAN nationals pay reduced rates. A Cabo San Juan camping or hammock fee (~25,000–35,000 COP) is paid separately at the beach kiosk."),
+        ("Should I sleep at Cabo San Juan?",
+         "Cabo San Juan's official hammock zones — the open-air rancho overlooking the bay and the inland hammock house — are safe and the photogenic core of the trip. Pay 25,000–35,000 COP at the beach kiosk and use a waterproof body pouch for valuables overnight. Avoid the informal 'lockers' behind the kitchen — they are unattended, not actually padlocked, and cited in r/solotravel theft reports."),
+        ("How do I get to Tayrona from Santa Marta?",
+         "The Mercado Público (public market) bus to El Zaino runs every 30 minutes, costs 12,000–15,000 COP, and takes about an hour. A taxi from Santa Marta to El Zaino runs 70,000–90,000 COP fixed-rate. Most hostels offer a 30,000 COP shuttle to the gate. Avoid airport-area touts pitching 'all-inclusive Tayrona day trips' at 200,000+ COP that include a hidden gate-ticket markup."),
+    ],
+    "San Andrés": [
+        ("Is San Andrés safe for tourists?",
+         "San Andrés is broadly safe — the island's small geography and tourist-economy dependence keep visible crime low in El Centro, San Luis, and the Spratt Bight beachfront. The risks are financial: airport-arrival taxi overcharges, Tarjeta de Turismo resale fraud at hotels, Spratt Bight beach-vendor pressure, golf cart rental damage-deposit traps, and Johnny Cay boat-tour bait-and-switch. Walking around El Centro at night is fine; the back streets of San Luis are quieter and safe with normal caution."),
+        ("Do I need to buy the Tarjeta de Turismo at the airport?",
+         "Yes — the Tarjeta de Turismo is mandatory for all adult visitors and is paid only at the airport (your departure airport before boarding, or at ADZ on arrival if your airline did not collect it). The official Gobernación rate is 138,000 COP (~$33). Travel agencies, hotels, and 'package' touts selling the card at 200,000–250,000 COP are running an unauthorized resale markup — the agency keeps the difference."),
+        ("What is the official ADZ airport taxi rate?",
+         "The cooperative-posted rate from ADZ to El Centro hotels runs 25,000–35,000 COP (~$7) for the 5-minute ride. To San Luis or La Loma, the rate runs 35,000–45,000 COP. The cooperative dispatch is +57 8 512 5333. Drivers waving from the curb quoting 60,000–100,000 COP are picking off new arrivals — ask 'cuál es la tarifa de la cooperativa' (what is the cooperative rate) and they will back down."),
+        ("How much should a Johnny Cay boat tour cost?",
+         "The Cooperativa de Lancheros posted rate at the Tonino's pier runs 65,000–80,000 COP (~$20) round trip, including park entry and beach access. Adding lunch on the cay runs 30,000–50,000 COP extra. Spratt Bight beach touts pitching 'full-day combos' at 150,000–250,000 COP are bundling the same boat ride with hidden markups."),
+        ("Are golf cart rentals safe?",
+         "Golf carts are the standard way to circle San Andrés (35-km loop, 2–3 hours). Rentals run 200,000–400,000 COP (~$50–$100) per day at shops on Avenida Colombia. The trap is the cash damage deposit (often 500,000 COP and a passport hold) — disreputable shops bill phantom scratches on return that swallow the deposit. Photograph every existing scratch in good light before you drive away and again at return; insist on the rental contract listing pre-existing damage."),
+    ],
+    "Villa de Leyva": [
+        ("Is Villa de Leyva safe for tourists?",
+         "Villa de Leyva is among Colombia's safest weekend-trip towns — Plaza Mayor, the colonial core, and the daytime tourist routes to Pozos Azules and Casa Terracota are well-patrolled and walkable. The risks are concentrated on the Bogotá → Villa de Leyva transport route (private-driver markups, the documented April 2026 Tunja–Villa de Leyva bus rollover), at the Iguaque sanctuary entrance (fake guides), on Plaza Mayor restaurants (tourist-menu inflation), and at Calle Caliente bars at night (drink-spiking and the March 2026 US ex-marine homicide tied to a Calle Caliente robbery)."),
+        ("What is the most common scam in Villa de Leyva?",
+         "The most common Villa de Leyva scam is the Bogotá hostel private-driver markup — La Candelaria touts pitching 350,000–500,000 COP (~$95) one-way private rides when the Terminal Salitre bus to Tunja plus a Villa de Leyva colectivo runs 30,000–45,000 COP all-in. The runner-up is the Plaza Mayor restaurant tourist menu, where the Spanish menu and the English menu list different prices for the same dishes."),
+        ("How do I get from Bogotá to Villa de Leyva?",
+         "The legitimate route is a 7,000–8,000 COP TransMilenio or yellow-taxi ride to Terminal Salitre (Bogotá's western bus terminal), then a Coflonorte or Libertadores coach to Tunja for 25,000–35,000 COP (3 hours), then a Villa de Leyva colectivo from the Tunja terminal for 8,000–10,000 COP (1 hour). Total: 30,000–45,000 COP, 4–5 hours door-to-door. A registered private taxi runs 280,000–350,000 COP for the round-trip with waiting time. Avoid hostel-lobby touts who quote 350,000–500,000 COP per person 'one-way' for an unmarked vehicle."),
+        ("When are the festival weekends in Villa de Leyva?",
+         "The biggest are the Festival del Viento y las Cometas (kite festival, mid-August), Festival Internacional de Bandas Sinfónicas (June), and the Festival de Luces / Día de las Velitas (December 7) when 8,000+ candles light the cobblestone plaza. Hotel and food prices triple from Friday to Sunday on these weekends, restaurants on Plaza Mayor add a service charge, and Calle Caliente bars run cover-charge upcharges. Book accommodation 2–3 weeks ahead, never accept 'festival package' offers from street touts, and treat last-minute Booking.com listings with skepticism."),
+        ("Is Calle Caliente safe at night?",
+         "Calle Caliente is Villa de Leyva's main bar strip and is busy through midnight on weekends, with police patrols on festival nights. The risk is documented drink-spiking targeting solo travelers — March 2026 saw the homicide of a US ex-marine after a Calle Caliente robbery, with three suspects judicialized per El Tiempo. Order drinks directly from the bartender and watch them poured, never accept rounds from strangers, and arrange your return-to-hostel route before going out. The US Embassy in Bogotá's scopolamine and dating-app advisory applies fully here."),
     ],
     "Mauritius": [
         ("Is Mauritius safe for tourists?",
@@ -6955,6 +7097,42 @@ FAQS = {
         ("How do I book a Monteverde night walk without the hostel-desk commission overcharge?",
          "Know the legitimate 2025/2026 direct rates: Selvatura zipline $80 + tax (selvatura.com); Monteverde Cloud Forest entry $29/circuit; Santa Elena Reserve $18; Don Juan Coffee/Chocolate/Sugarcane tour $52 direct (donjuantoursmonteverde.com, $40–$64 via Viator); Monteverde Night Walk $38–$40; 100% Aventura zipline ~$90. r/CostaRicaTravel 'Are the Night Walks in Monteverde set up?' (2023, u/OrigamiToad, 7 upvotes) notes the walks feel 'very set up' with walkie-talkie guides — accept that reality but stick to vetted operators (Monteverde Travel, Don Juan Tours, Wildlife Refuge Monteverde, Selvatura Night). Ask any hostel desk 'What is this same tour at the operator's website?' — 10–15% markup is honest, 30%+ is the scam. Refuse 'my cousin's private farm tour' pitches; every legitimate Monteverde operator has a TripAdvisor, Viator, or GetYourGuide listing."),
     ],
+    "Tortuguero": [
+        ("Is Tortuguero safe for tourists?",
+         "Tortuguero village itself is one of Costa Rica's safer destinations because there are no roads in or out and almost everyone arrives by boat or by Sansa flight, so the petty-crime pattern of larger towns mostly does not reach it. The bigger risks are financial — pirate boat fares at La Pavona, unlicensed turtle-walk guides, and last-night room theft at the larger lodges. The US Embassy in San José issued a Costa Rica security alert on Nov. 26, 2025 noting a broader rise in property crime at tourist accommodations, and the US State Department updated Costa Rica to Level 2 (Exercise Increased Caution) on April 2, 2026."),
+        ("What is the most common scam in Tortuguero?",
+         "Pirate boat-fare inflation at La Pavona dock is the most reported tax on first-time visitors. Touts intercept Caribe Shuttle vans and Cariari minibus passengers and push them onto unmarked boats charging $20–$30 per person, while the official public boat to Tortuguero is 4,000 CRC ($8). The runner-up is unlicensed 'shadow' turtle nesting walks during the July–October season, where guides without the required SINAC photo ID badge offer $15 night walks against the legitimate Sea Turtle Conservancy fee of $25."),
+        ("How do I get from San José to Tortuguero?",
+         "There are three options. Sansa Air flies SJO to the Tortuguero airstrip (TTQ) for around $80–$120 each way; lodges arrange a boat pickup of $15–$20 per person from the strip. The cheaper public-transit route is a Caribe Shuttle or shared van from San José to La Pavona (around $80 round-trip with breakfast included), then the public boat at 9 a.m., 11 a.m., 12:45 p.m., 3 p.m., or 4 p.m. for 4,000 CRC ($8) to Tortuguero town. Local buses (San José → Cariari → La Pavona) run cheaper at around $10–$15 but require Spanish."),
+        ("Where is it safe to walk in Tortuguero village?",
+         "Main Street between the public dock and the soccer field is well-trafficked, walkable day or night, and lined with sodas, hostels, and tour offices. The path to the Sea Turtle Conservancy north of the lighthouse is fine in daylight; the same beach after dark is regulated by SINAC and only accessible with a certified guide during nesting season. Avoid the cemetery beach access at night unless you are with a registered Sea Turtle Conservancy walk."),
+        ("Are ATMs and credit cards reliable in Tortuguero?",
+         "Tortuguero has very limited ATM access — most travelers withdraw colones at Guápiles or San José before they get to La Pavona. Carry enough cash for the public boat ($8 each way), park entry ($15, online only via sinac.go.cr), and any tours; lodges accept credit cards but small sodas, water taxis, and Pavona parking ($10–$20/night) are cash only. The US Embassy security alert flagged forced-ATM-withdrawal robberies in larger Costa Rican cities, but those have not been reported in Tortuguero village itself."),
+    ],
+    "Santa Teresa": [
+        ("Is Santa Teresa safe for tourists?",
+         "Petty theft is endemic and isolated-villa robberies are escalating — the November 2025 US Embassy security alert specifically named Santa Teresa as a high-risk Pacific-coast tourist area, and the August 2024 fake-police villa heist of ten people put Santa Teresa de Cobano in international news. Stay in 24-hour staffed gated communities, save the OIJ tip line 800-8000-645, and treat dirt-road villas off Playa Hermosa Norte and Mal Pais as elevated risk."),
+        ("What is the most common scam in Santa Teresa?",
+         "Fake-police villa break-ins of isolated luxury rentals — eight uniformed men zip-tied ten people in 2024 in a heist OIJ deputy director Michael Soto attributed to perpetrators with current or former police training, and CRHoy reported drone reconnaissance of high-end Cobano properties. Verify any uniformed visitor through 911 before opening the gate."),
+        ("How do I get from SJO or LIR airport to Santa Teresa?",
+         "Three options. From SJO (San Jose), fly Sansa or Costa Rica Greenair to Cobano for around $200 plus a 30-minute taxi ($25), or take a 5-6 hour shuttle (Tropical Tours, Interbus, around $55-65) via the Puntarenas-Paquera ferry. From LIR (Liberia), drive 4 hours via Route 21 through Cobano in a rented 4x4 — avoid the coastal river crossings — or shuttle for around $70-90."),
+        ("Is it safe to walk on Santa Teresa beaches?",
+         "Daytime, yes — Playa Carmen, Playa Hermosa, and Playa Mal Pais are widely walked. After dark, beaches are isolated and the November 2025 Canada and US travel advisories warn of robbery and assault on coastal Pacific beaches. Stay on the Carmen main road at night, walk in groups of three or more, and never wander an unlit beach back from La Lora Amarilla."),
+        ("Where should I get cash and which ATMs are safe?",
+         "Banco Nacional and Banco de Costa Rica branches in Cobano (8 km inland) are the safest withdrawal points. The Banco Nacional ATM on the Playa Carmen main road is convenient but heavily watched at night — withdraw during daylight only, lower your daily limit to $200 before flying in, and disable SINPE Movil from your bank app to block forced transfers if your phone is compromised."),
+    ],
+    "Quepos": [
+        ("Is Quepos safe for tourists?",
+         "Quepos is generally safe by Costa Rican standards but the US Embassy San José Security Alert of November 25, 2025 flagged rising property crime and ATM-coercion robberies against foreigners across the country, and Tico Times in February 2024 listed Quepos among the 10 Costa Rican areas with the highest tourist-crime concentration out of 1,447 reports nationwide. Quepos Centro and the Marina Pez Vela boardwalk are walkable in daylight; the road south to Manuel Antonio is steep, dark, and best taken by the public bus or a metered red taxi. Avoid the beach at night, do not leave belongings in a parked rental car, and keep daypacks between your feet at the Tracopa terminal."),
+        ("What is the most common scam in Quepos?",
+         "The biggest single-loss scam targeting tourists is the Marina Pez Vela sportfishing charter advance-fee fraud — unlicensed brokers on the dock or via WhatsApp take $300–$1,500 deposits for boats they do not operate, then no-show or substitute a smaller vessel with a non-INCOPESCA captain. The runner-up is the Calle 2 waterfront restaurant gringo-menu overcharge, where English-only no-prices menus run two to three times the local soda rate."),
+        ("How do I get from San José or SJO airport to Quepos?",
+         "Three options. Tracopa Route 27 from the San José Tracopa Terminal runs roughly hourly during daylight, costs about $10–$12 one way, and takes 3 to 4 hours; buy on the Passer app or at the terminal counter. Sansa from SJO to La Managua (XQP) takes 25 minutes and costs $107–$145 one way; book at flysansa.com. Shared shuttles via Easy Ride or Interbus run about $50 per person door-to-door and depart from Calle 35 in San José; pre-book online. Pirate-taxi rides at SJO arrivals are illegal and routinely overcharged — use a marked red taxi or Uber instead."),
+        ("Where is it safe to walk in Quepos?",
+         "Quepos Centro between the Tracopa terminal, the futbol field, the Mercado Central, and the marina is walkable in daylight and well-trafficked. The Marina Pez Vela boardwalk has 24/7 security and restaurants open until late. The road south to Manuel Antonio (Route 618) is narrow with no sidewalks and fast cars — take the red-and-white-and-blue public bus (385 colones, every 15 minutes) instead of walking. Avoid the unlit beach corridor north of Boca Vieja after dark, and never leave a rental car in a beach parking lot with bags visible."),
+        ("Are Quepos ATMs safe and what about currency exchange?",
+         "Banco Nacional and BCR ATMs at the Quepos branch on Avenida Central are the safest options; both have CCTV and 24-hour security. Avoid standalone ATMs at Mercado Central or in unlit hotel-lobby corners, and shield your PIN. Cash exchanges with sidewalk cambistas are a documented short-change risk — use a bank ATM with no foreign-transaction fee on your card and pull colones in 50,000–100,000 increments. Most Quepos restaurants accept credit cards and dollars at a posted rate; refuse dynamic currency conversion at the terminal and pay in colones for the better interbank rate."),
+    ],
     "Cameron Highlands": [
         ("Is Cameron Highlands safe for tourists?",
          "Cameron Highlands in Malaysia is generally safe for tourists — violent crime against visitors is uncommon, and most visitors have a trouble-free trip. The real risks are financial: this guide covers 6 documented scams active in Cameron Highlands, led by Tanah Rata Tour-Van 'RM1,470 Day-Trip' Overcharge and Illegal Unlicensed Tourist-Ferrying Bus & 'School Bus' Racket. Save the local emergency numbers — 999 — before you arrive."),
@@ -7115,6 +7293,18 @@ FAQS = {
         ("How should I use ATMs and parking machines safely in Auckland?",
          "Use ATMs inside bank branches at ANZ, ASB, BNZ, Westpac, or Kiwibank during business hours rather than free-standing machines on Queen Street, Karangahape Road, or near ferry terminals. Cover the keypad with your free hand when entering the PIN and tug the card slot before inserting — skimmer overlays come off with light pressure. Pay-and-display parking machines in the CBD have also been targeted by skimming overlays, so prefer the AT Park app over machine card payments. If your card is captured or your PIN compromised, call your bank's 24/7 fraud line immediately and freeze the card in-app."),
     ],
+    "Dahab": [
+        ("Is Dahab safe for tourists?",
+         "Dahab is one of the safer tourist destinations in Egypt — violent crime against visitors is rare, the Sinai Peninsula has a steady police presence around tourist areas, and the Mashraba and Assalah strips are walkable day and night. The real risks are financial: cut-rate dive operators at the Blue Hole, freelance taxi drivers working the Sharm El Sheikh airport corridor, and tea-camp bill inflation on the beach promenade. Save 122 (Police) or 123 (Emergency) before you arrive, and check your government's current Sinai travel advisory."),
+        ("What is the most common scam in Dahab?",
+         "Dive-operator safety cuts at the Blue Hole are the most-reported and most dangerous Dahab scam. Cheap Mashraba-strip dive shops advertise $25 intro dives with mismatched regulators, expired certifications, and instructors who cannot produce a current PADI or SSI number — the Blue Hole has a documented death toll measured in the hundreds. The Sharm-to-Dahab taxi quote switch is the second most-cited financial scam. See the first scam card on this page for the full Blue Hole walkthrough."),
+        ("How much does a taxi from Sharm El Sheikh airport to Dahab cost?",
+         "A pre-booked Dahab hotel pickup runs 1,500 to 1,800 EGP (about $30 to $35 USD) for the 90-minute, 90-kilometer transfer up the Sinai coast. Drivers waiting in the SSH airport corridor and parked past the official rank routinely quote $70 to $100 USD for the same ride, then add \"checkpoint fees\" and \"road tax\" line items en route. Pre-book through your Dahab hotel before you fly, save the driver's number for confirmation after passport control, and refuse any dollar quote."),
+        ("Where is it safe to dive in Dahab?",
+         "Lighthouse Reef, Three Pools, Eel Garden, and the shallow side of the Canyon are excellent shore dives suitable for beginners and intermediate divers — they are easy to access from the Mashraba and Assalah promenades and run safely with most reputable operators. The Blue Hole's Bells route and Arch pass-through demand experienced technical divers with Tec-Trimix certifications and a chamber-evacuation plan. Book all Dahab dives only with established operators — Reef 2000, Big Blue, or H2O — verify the lead instructor's PADI or SSI number before paying, and inspect every regulator and BCD on land."),
+        ("How much should I tip in Dahab?",
+         "Tipping in Dahab is expected but proportional. Restaurant tips run 10 to 15 percent if a service charge is not already included; dive guides and instructors typically receive 50 to 100 EGP per dive day; bungalow housekeeping and porters earn 20 to 50 EGP. Bedouin tea-camp staff should be tipped only for service you actually requested — not for unsolicited \"free\" platters. Carry small Egyptian-pound notes (10s, 20s, 50s) for tipping rather than handing over a 200 to make change with."),
+    ],
 }
 
 def danger_badge(level):
@@ -7199,6 +7389,10 @@ def make_tldr(story):
 
 
 def generate_scam_cards(scams, city="", n=0):
+    # Resolve city slug for scam-comic placeholder URLs. Falls back to a
+    # lowercased-hyphenated form if the city is not yet in CITY_SLUGS (e.g.
+    # the dict update lands in the same commit as the page generation).
+    slug = CITY_SLUGS.get(city) or city.lower().replace(' ', '-').replace('_', '-')
     html = ""
     for i, scam in enumerate(scams, 1):
         # Sanitize Reddit-citation shards before rendering (US data has
@@ -7221,6 +7415,18 @@ def generate_scam_cards(scams, city="", n=0):
         else:
             story_html = _render_paragraphs(story, 'scam-story-body')
 
+        # scam-comic placeholder — points at https://img.tabiji.ai/scams/<slug>/scam-<N>.jpg.
+        # The URL 404s until the per-country comic-batch PR uploads art; rendering with
+        # the placeholder in place keeps every page structurally identical to the NYC
+        # canonical and lets the comic-batch step be a pure asset upload + cache-bust.
+        comic_alt = f"{scam['scam_name'].replace(chr(34), '')} — comic illustration"
+        comic_html = (
+            f'<img alt="{comic_alt}" class="scam-comic" loading="lazy" '
+            f'src="https://img.tabiji.ai/scams/{slug}/scam-{i}.jpg" '
+            f'style="width:100%;height:auto;border-radius:12px;margin:1rem 0 1.25rem;display:block;" '
+            f'width="1200" height="675" decoding="async"/>'
+        )
+
         html += f"""
     <!-- Scam {i} -->
     <div class="scam-card" id="scam-{i}">
@@ -7232,6 +7438,7 @@ def generate_scam_cards(scams, city="", n=0):
             {danger_badge(scam['danger_level'])}
         </div>
         <div class="scam-location">📍 {scam['location']}</div>
+        {comic_html}
         {story_html}
         <div class="scam-details">
             <div class="detail-block red-flags">

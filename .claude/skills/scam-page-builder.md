@@ -54,9 +54,9 @@ If only the city is given, infer the other three and confirm with the user.
 
 ## Secrets
 
-- **SerpAPI key** — macOS keychain entry `serpapi-key`; also available as env `SERPAPI_KEY`.
+- **SerpAPI key** — macOS keychain entry `serpapi-key` (account `serpapi`, **not** `$USER`); also available as env `SERPAPI_KEY`.
   ```bash
-  SERPAPI_KEY=$(security find-generic-password -a "$USER" -s "serpapi-key" -w)
+  SERPAPI_KEY=$(security find-generic-password -a "serpapi" -s "serpapi-key" -w)
   ```
 
 ## Full workflow (12 steps)

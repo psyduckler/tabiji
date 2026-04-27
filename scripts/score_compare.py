@@ -54,7 +54,7 @@ SUBHUBS = {
 RUBRIC: List[Tuple[str, str, int]] = [
     # (key, human_label, max_points)
     ("ct",       "Comparison table",            5),
-    ("faq",      "FAQ items (≥16)",            10),
+    ("faq",      "FAQ items (≥8)",             10),
     ("qa",       "Quick Answers section",       8),
     ("sc",       "Visual Scorecard",            7),
     ("pers",     "Personalize widget",          5),
@@ -94,16 +94,18 @@ def score_page(slug: str) -> Optional[Dict]:
     else:
         parts["ct"] = 0; issues["ct"] = "no <table class=\"comparison-table\"> found"
 
-    faq_n = (
-        len(soup.find_all(class_=re.compile(r"faq-item"))) +
-        len(soup.find_all(attrs={"itemtype": re.compile(r"Question")}))
-    )
-    if faq_n >= 16:
+    faq_els = set()
+    for el in soup.find_all(class_=re.compile(r"faq-item")):
+        faq_els.add(id(el))
+    for el in soup.find_all(attrs={"itemtype": re.compile(r"Question")}):
+        faq_els.add(id(el))
+    faq_n = len(faq_els)
+    if faq_n >= 8:
         parts["faq"] = 10
-    elif faq_n >= 7:
-        parts["faq"] = 5; issues["faq"] = f"only {faq_n} FAQ items (need 16+)"
+    elif faq_n >= 4:
+        parts["faq"] = 5; issues["faq"] = f"only {faq_n} FAQ items (need 8+)"
     else:
-        parts["faq"] = 0; issues["faq"] = f"only {faq_n} FAQ items (need 16+)"
+        parts["faq"] = 0; issues["faq"] = f"only {faq_n} FAQ items (need 8+)"
 
     if soup.find(class_="quick-answers"):
         parts["qa"] = 8
