@@ -7199,6 +7199,10 @@ def make_tldr(story):
 
 
 def generate_scam_cards(scams, city="", n=0):
+    # Resolve city slug for scam-comic placeholder URLs. Falls back to a
+    # lowercased-hyphenated form if the city is not yet in CITY_SLUGS (e.g.
+    # the dict update lands in the same commit as the page generation).
+    slug = CITY_SLUGS.get(city) or city.lower().replace(' ', '-').replace('_', '-')
     html = ""
     for i, scam in enumerate(scams, 1):
         # Sanitize Reddit-citation shards before rendering (US data has
@@ -7221,6 +7225,18 @@ def generate_scam_cards(scams, city="", n=0):
         else:
             story_html = _render_paragraphs(story, 'scam-story-body')
 
+        # scam-comic placeholder — points at https://img.tabiji.ai/scams/<slug>/scam-<N>.jpg.
+        # The URL 404s until the per-country comic-batch PR uploads art; rendering with
+        # the placeholder in place keeps every page structurally identical to the NYC
+        # canonical and lets the comic-batch step be a pure asset upload + cache-bust.
+        comic_alt = f"{scam['scam_name'].replace(chr(34), '')} — comic illustration"
+        comic_html = (
+            f'<img alt="{comic_alt}" class="scam-comic" loading="lazy" '
+            f'src="https://img.tabiji.ai/scams/{slug}/scam-{i}.jpg" '
+            f'style="width:100%;height:auto;border-radius:12px;margin:1rem 0 1.25rem;display:block;" '
+            f'width="1200" height="675" decoding="async"/>'
+        )
+
         html += f"""
     <!-- Scam {i} -->
     <div class="scam-card" id="scam-{i}">
@@ -7232,6 +7248,7 @@ def generate_scam_cards(scams, city="", n=0):
             {danger_badge(scam['danger_level'])}
         </div>
         <div class="scam-location">📍 {scam['location']}</div>
+        {comic_html}
         {story_html}
         <div class="scam-details">
             <div class="detail-block red-flags">

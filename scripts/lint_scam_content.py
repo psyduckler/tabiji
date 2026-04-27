@@ -21,6 +21,12 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+# Import the live make_tldr from the generator so rule 18 stays in lockstep
+# with the actual rendering logic — if the generator's ceiling changes (200
+# chars for period-split, 180 for em-dash split), the lint rule moves with it.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scams"))
+from generate_pages import make_tldr  # noqa: E402
+
 # Currency alternation — symbols + 3-letter codes used in scam prose.
 _CCY = r"R\$|NT\$|US\$|HK\$|S\$|£|€|¥|RM|THB|JPY|EUR|USD|NTD|ARS|BRL|INR"
 
@@ -92,7 +98,12 @@ VALID_CATEGORIES = {
     "romance", "food-scam", "petty-theft",
 }
 
-VALID_DANGER = {"high", "moderate", "low"}
+# Generator literal-matches `"medium"` for the severity-pill counter. The
+# legacy value `"moderate"` silently drops out of the count and ships pages
+# with a wrong severity strip. Treat "moderate" as deprecated and reject it
+# explicitly (Egypt audit, 2026-04 — 68 scams across 29 cities currently use
+# the wrong value and should be migrated when those pages are next touched).
+VALID_DANGER = {"high", "medium", "low"}
 
 _YEAR_AT_END = re.compile(r",\s*(\d{4})\)\s*$")
 _REDDIT_ID = re.compile(r"comments/([a-z0-9]+)")
@@ -128,7 +139,13 @@ def lint_scam(scam: dict, scam_idx: int):
     if len(scam["scam_name"]) > 60:
         add("REJECT", "13", f"scam_name too long ({len(scam['scam_name'])} chars)")
 
-    if scam.get("danger_level", "").lower() not in VALID_DANGER:
+    dl = scam.get("danger_level", "").lower()
+    if dl == "moderate":
+        add("REJECT", "structural",
+            "danger_level 'moderate' is deprecated — use 'medium' "
+            "(generator literal-matches 'medium' for severity counts; "
+            "'moderate' silently drops out of the hero severity strip)")
+    elif dl not in VALID_DANGER:
         add("REJECT", "structural", f"invalid danger_level: {scam.get('danger_level')!r}")
 
     if scam.get("category") not in VALID_CATEGORIES:
@@ -161,6 +178,27 @@ def lint_scam(scam: dict, scam_idx: int):
         add("REJECT", "7b", f"story has {len(paragraphs)} paragraphs (< 3)")
     elif len(paragraphs) > 5:
         add("WARN", "7b", f"story has {len(paragraphs)} paragraphs (> 5)")
+
+    # ---- 18: TLDR-extraction safeguard ----
+    # make_tldr() in scams/generate_pages.py extracts the first sentence as the
+    # TLDR pull-quote. It silently returns None and ships the page with no
+    # TLDR if the first sentence is too long for its split rules (period-split
+    # under 200 chars, em-dash-split under 180 chars). The Egypt 2026-04 audit
+    # found 5 of 6 Dahab-draft scams initially shipped without TLDRs because
+    # the first sentence packed too much detail. Run the live extractor here
+    # so any scam that would silently lose its TLDR is rejected pre-render.
+    if story:
+        tldr_predict, _ = make_tldr(story)
+        if tldr_predict is None:
+            first_para = paragraphs[0] if paragraphs else story
+            first_sent = first_para.split(". ", 1)[0]
+            preview = first_sent[:120] + ("..." if len(first_sent) > 120 else "")
+            add(
+                "REJECT", "18",
+                f"first sentence cannot be extracted as TLDR — "
+                f"period-split must land < 200 chars or em-dash split < 180 chars. "
+                f"First sentence is {len(first_sent)} chars: {preview!r}"
+            )
 
     # ---- 7: paragraph length ----
     for pi, p in enumerate(paragraphs, 1):
