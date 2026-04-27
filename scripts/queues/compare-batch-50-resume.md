@@ -3,10 +3,13 @@
 ## Goal
 Upgrade compare pages from sub-100 to **100/100** on `scripts/score_compare.py`, one at a time, each in its own branch + PR + squash-merge.
 
-## Status (as of 2026-04-26, post-212-page session)
-- **Done so far:** ~212 pages at 100/100 (~23.1% of 916 total compare pages).
-- **Remaining sub-100:** ~704 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
-- **Active goal:** completing 100 more pages (97 done so far in the active goal session).
+## Status (as of 2026-04-26, post-232-page session)
+- **Done so far:** ~232 pages at 100/100 (~25.3% of 916 total compare pages).
+- **Remaining sub-100:** ~684 pages. Top 50 by impact saved in `scripts/queues/compare-batch-50.json` — **regenerate before starting a new session** (most of the entries from the prior queue are now done).
+- **Active goal:** completing 100 more pages (117 done so far in the active goal session).
+
+### Most recent batch (20 pages, 2026-04-26 second batch):
+portland-vs-vancouver, sweden-vs-united-states, aconcagua-vs-denali, adelaide-vs-melbourne, albania-vs-montenegro, alps-vs-rockies, anguilla-vs-antigua, antigua-vs-barbados, arches-vs-canyonlands, aspen-vs-vail, atlanta-vs-charlotte, atlanta-vs-miami, atlanta-vs-nashville, auckland-vs-melbourne, auckland-vs-sydney, auckland-vs-wellington, austin-vs-denver, austin-vs-san-antonio, bali-vs-maldives, banff-vs-jasper.
 
 ### Pages completed in the most recent three sessions (68 pages):
 **Two sessions ago (24):** amalfi-coast-vs-french-riviera, buenos-aires-vs-rio-de-janeiro, glacier-national-park-vs-banff, gold-coast-vs-sunshine-coast, grand-canyon-vs-antelope-canyon, grand-canyon-vs-bryce-canyon, haiti-vs-dominican-republic, joshua-tree-vs-death-valley, philadelphia-vs-washington-dc, rio-de-janeiro-vs-sao-paulo, sacramento-vs-san-francisco, san-francisco-vs-los-angeles, turks-and-caicos-vs-bahamas, victoria-falls-vs-iguazu-falls, yellowstone-vs-grand-canyon, andaman-islands-vs-maldives, costa-rica-vs-united-states, croatia-vs-czech-republic, galapagos-vs-amazon-ecuador, new-zealand-vs-united-states, santa-barbara-vs-monterey, albuquerque-vs-santa-fe, amsterdam-vs-copenhagen, asheville-vs-gatlinburg.
