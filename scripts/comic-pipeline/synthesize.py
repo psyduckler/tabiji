@@ -134,6 +134,23 @@ def _gemini_call(user_prompt: str, max_retries: int = 4) -> str:
     raise RuntimeError(f"Gemini call failed after {max_retries} attempts: {last_err}")
 
 
+_OVERUSED_TEMPLATES = """
+ANTI-TEMPLATE DIRECTIVE — these 5 layouts are saturated across this country's series; if your scam fits one of these patterns, find a DIFFERENT visual angle:
+
+1. AIRPORT-TAXI-TOUT — protagonist arriving with luggage at arrivals door + man in branded vest with clipboard offering inflated USD price + protagonist showing phone app with lower price + final panel inside a taxi/rideshare. Avoid this layout. Better angles: actual taxi mafia blockading a rideshare car, drivers throwing stones at an Uber, dual-pricing reveal where local pays one rate and tourist gets quoted another at the same counter, license plate photographed against app screenshot, the airport's specific landmark in the window.
+
+2. BOOKING-PHISHING — protagonist at laptop with confirmation page + WhatsApp/email demanding wire deposit + reveal that the URL or sender is fake + final panel showing official platform. Avoid this layout. Better angles: typo-squat domain comparison side-by-side, scammer voice-message playback, hotel-extranet compromise visualization, deposit going to wrong bank, the property's actual building photographed at arrival vs the photo-stolen listing.
+
+3. RESTAURANT-ENGLISH-MENU — waiter handing English menu + reveal Spanish menu has lower prices + bill with cubierto question + "always ask for the local menu" lesson. Avoid this layout. Better angles: surprise unrequested aperitivo or bread arriving, "servicio incluido" line being argued at the table, the OWNER coming out to dispute, photographing the menu before sitting down, walking out before the order, the chef's specials being upsold without prices.
+
+4. CAMBIO-TOUT — older protagonist on pedestrian street + tout offering rate on a calculator + fake bill check + Western Union resolution. Avoid this layout. Better angles: rate quoted in writing on a piece of paper, the cueva interior with a metal grille, watermark-against-light on the sidewalk, mid-transaction switch where bills get rotated in the scammer's hand, MEP credit-card reveal at point of sale.
+
+5. TOUR-BUNDLE-MARKUP — concierge with glossy brochure + protagonist checking phone showing direct rate + "always book direct" lesson. Avoid this layout. Better angles: the actual tour bus showing up vs what was promised, subcontractor swap mid-tour, helicopter that never arrives, brochure photographed next to a phone showing operator website, the operator's printed price-list at the kiosk vs the agency's marked-up version.
+
+The above are FORBIDDEN starting points. If the scam title clearly matches one of these categories, your job is to compose a 4-panel sequence that depicts the SAME scam mechanic with a DIFFERENT visual layout — different camera angle, different beat sequencing, different specific details. Use the city's unique geography, signage, and architecture aggressively.
+"""
+
+
 def synthesize_scene(country: str, scam: dict) -> dict:
     """Generate a per-scam scene dict. Returns {'character': ..., 'panels': [...]}."""
     user_prompt = f"""COUNTRY: {country}
@@ -142,7 +159,7 @@ SCAM TITLE: {scam['title']}
 LOCATION: {scam.get('location', '')}
 MECHANIC (first paragraph of the scam story):
 {scam.get('story', '')[:1500]}
-
+{_OVERUSED_TEMPLATES if country == "argentina" else ""}
 Synthesize the JSON now."""
     raw = _gemini_call(user_prompt)
     # Gemini sometimes still wraps in markdown; strip defensively
