@@ -80,9 +80,18 @@ def extract_inner(svg_text: str, source_svg_dir: Path | None = None) -> str:
             # skip already-absolute-URL and data URIs
             if href.startswith(("http://", "https://", "data:", "file://")):
                 return match.group(0)
-            # resolve to a local file and inline
-            src = source_svg_dir / href if not href.startswith("/") else Path(href)
-            if not src.exists():
+            # Resolve in this order: absolute path; next to the SVG; assets/covers/.
+            # gen_comics.py writes the cover art to assets/covers/, but the SVG
+            # references it as a bare filename (relative). Without this fallback
+            # the wraparound silently renders text-only over the bleed gradient.
+            candidates: list[Path] = []
+            if href.startswith("/"):
+                candidates.append(Path(href))
+            else:
+                candidates.append(source_svg_dir / href)
+                candidates.append(BOOK / "assets" / "covers" / href)
+            src = next((p for p in candidates if p.exists()), None)
+            if src is None:
                 return match.group(0)
             mime, _ = mimetypes.guess_type(src.name)
             mime = mime or "application/octet-stream"
