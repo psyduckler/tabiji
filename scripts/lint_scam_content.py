@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 """Pre-generation lint for scam research JSON (scams/research/<cc>_batchN.json).
 
-Implements the 17+2 rules defined in .claude/skills/scam-page-builder.md plus
-3 additional post-render HTML rules (18-20) that operate on scams/<slug>/index.html.
+Rule numbering map:
+  - 1-17 (+ 7b): canonical JSON-pass rules from .claude/skills/scam-page-builder.md.
+    Run via `python3 scripts/lint_scam_content.py --all`.
+  - 18-20: post-render HTML rules that operate on scams/<slug>/index.html.
+    Run via `python3 scripts/lint_scam_content.py --html`.
+  - 21: JSON-pass TLDR-extraction safeguard (added 2026-04 after Dahab dry-run).
+    Imports the live make_tldr() and rejects any scam whose first sentence
+    would silently fail extraction and ship the page with no TLDR.
+
 REJECT rules block generation; WARN rules surface to the user.
 
 Usage:
@@ -21,9 +28,11 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-# Import the live make_tldr from the generator so rule 18 stays in lockstep
+# Import the live make_tldr from the generator so rule 21 stays in lockstep
 # with the actual rendering logic — if the generator's ceiling changes (200
 # chars for period-split, 180 for em-dash split), the lint rule moves with it.
+# (Rule 21 is the JSON-pass TLDR-extraction safeguard; rule 18 is the
+# separate HTML-pass check for incomplete-but-present scam-tldr text.)
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scams"))
 from generate_pages import make_tldr  # noqa: E402
 
@@ -179,7 +188,7 @@ def lint_scam(scam: dict, scam_idx: int):
     elif len(paragraphs) > 5:
         add("WARN", "7b", f"story has {len(paragraphs)} paragraphs (> 5)")
 
-    # ---- 18: TLDR-extraction safeguard ----
+    # ---- 21: TLDR-extraction safeguard (JSON pass) ----
     # make_tldr() in scams/generate_pages.py extracts the first sentence as the
     # TLDR pull-quote. It silently returns None and ships the page with no
     # TLDR if the first sentence is too long for its split rules (period-split
@@ -187,6 +196,9 @@ def lint_scam(scam: dict, scam_idx: int):
     # found 5 of 6 Dahab-draft scams initially shipped without TLDRs because
     # the first sentence packed too much detail. Run the live extractor here
     # so any scam that would silently lose its TLDR is rejected pre-render.
+    # (Rule label is 21 — the existing rules 18-20 in this file are the
+    # separate HTML-pass checks that run on rendered scams/<slug>/index.html.
+    # See file-header docstring for the full numbering map.)
     if story:
         tldr_predict, _ = make_tldr(story)
         if tldr_predict is None:
@@ -194,7 +206,7 @@ def lint_scam(scam: dict, scam_idx: int):
             first_sent = first_para.split(". ", 1)[0]
             preview = first_sent[:120] + ("..." if len(first_sent) > 120 else "")
             add(
-                "REJECT", "18",
+                "REJECT", "21",
                 f"first sentence cannot be extracted as TLDR — "
                 f"period-split must land < 200 chars or em-dash split < 180 chars. "
                 f"First sentence is {len(first_sent)} chars: {preview!r}"
