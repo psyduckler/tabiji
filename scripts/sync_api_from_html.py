@@ -33,6 +33,32 @@ def repo_root() -> Path:
 
 REPO = repo_root()
 
+# HTML danger-badge class → api/v1 severity vocabulary. The HTML side uses
+# high/medium/low (the generator pattern-matches these literals for the hero
+# severity-pill counter); the api/v1 side uses high/moderate/low (the book
+# series convention). This sync is the single mechanism that keeps them in
+# lockstep — never edit api/v1 severity by hand.
+DANGER_TO_SEVERITY = {
+    "high": "high",
+    "medium": "moderate",
+    "low": "low",
+}
+
+
+def _extract_severity(card) -> str | None:
+    """Pull api/v1 severity from a .scam-card's danger-badge class.
+    The badge carries two classes — `danger-badge` (container) and
+    `danger-{high,medium,low}` (level). Match the level, not the container."""
+    badge = card.select_one(".danger-badge")
+    if not badge:
+        return None
+    for cls in badge.get("class", []) or []:
+        if cls.startswith("danger-"):
+            mapped = DANGER_TO_SEVERITY.get(cls[len("danger-"):])
+            if mapped:
+                return mapped
+    return None
+
 
 def sync(slug: str) -> None:
     html_path = REPO / "scams" / slug / "index.html"
@@ -50,25 +76,38 @@ def sync(slug: str) -> None:
         content_by_name[name] = {
             "tldr": tldr_el.get_text(" ", strip=True) if tldr_el else "",
             "description": "\n\n".join(p.get_text(" ", strip=True) for p in body_paras),
+            "severity": _extract_severity(card),
         }
 
     data = json.loads(api_path.read_text())
     data["lastUpdated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     updated = 0
+    sev_normalized = 0
     missing = []
     for scam in data["scams"]:
         new = content_by_name.get(scam["name"])
         if not new:
             missing.append(scam["name"])
             continue
-        if scam.get("tldr") != new["tldr"] or scam.get("description") != new["description"]:
+        changed = False
+        if scam.get("tldr") != new["tldr"]:
             scam["tldr"] = new["tldr"]
+            changed = True
+        if scam.get("description") != new["description"]:
             scam["description"] = new["description"]
+            changed = True
+        if new["severity"] and scam.get("severity") != new["severity"]:
+            scam["severity"] = new["severity"]
+            sev_normalized += 1
+            changed = True
+        if changed:
             updated += 1
 
     api_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     print(f"  {slug}: updated {updated} scams; lastUpdated={data['lastUpdated']}")
+    if sev_normalized:
+        print(f"  {slug}: severity normalized for {sev_normalized} scams (HTML danger-badge → api/v1 severity)")
     if missing:
         print(f"  WARNING: {len(missing)} scams in API not found in HTML: {missing}")
 
