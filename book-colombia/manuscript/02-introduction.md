@@ -4,7 +4,7 @@ Colombia is a traveler's paradise — Cartagena's walled city at dusk, Medellín
 
 We want you to come home with stories about the *arepas de chócolo* at a *paisa* grandmother's table, the waterfall hike to Cabo San Juan, a coffee cupping in the Eje Cafetero, and a salsa lesson that actually stuck — not about a \$3,000 ATM withdrawal made while drugged, a \$1,200 counterfeit emerald, or a *paseo millonario* that started with the wrong yellow taxi.
 
-That is why this book is short and practical. It documents thirty-three specific scams that trip up first-time visitors to Colombia, and it tells you the exact moves that stop them. Nothing in it is theoretical. Every scam has been reported in the Colombian press (*El Tiempo*, *Semana*, *El Espectador*, *El Colombiano*), cross-referenced against Policía Nacional de Turismo records, the US State Department Colombia country advisory, and firsthand traveler accounts from Colombia-focused travel communities.
+That is why this book is short and practical. It documents fifty-eight specific scams that trip up first-time visitors to Colombia, and it tells you the exact moves that stop them. Nothing in it is theoretical. Every scam has been reported in the Colombian press (*El Tiempo*, *Semana*, *El Espectador*, *El Colombiano*), cross-referenced against Policía Nacional de Turismo records, the US State Department Colombia country advisory, and firsthand traveler accounts from Colombia-focused travel communities.
 
 ## How each scam is written
 

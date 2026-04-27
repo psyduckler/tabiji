@@ -1,6 +1,6 @@
 # The Six Universal Red-Flag Patterns {-}
 
-The thirty-three scams in this book may sound different from each other, but most are variations on just six patterns. Learn the patterns, and you do not need to memorize every scam. You will recognize a new one the moment it starts to unfold, even if it has never been written down.
+The fifty-eight scams in this book may sound different from each other, but most are variations on just six patterns. Learn the patterns, and you do not need to memorize every scam. You will recognize a new one the moment it starts to unfold, even if it has never been written down.
 
 Read each of these once. Then let them settle in your head the way you remember a home-safety tip or a road sign.
 
