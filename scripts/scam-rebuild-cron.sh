@@ -195,12 +195,19 @@ for idx in $(seq 0 $((TOTAL-1))); do
     echo "  Per-city log: $city_log"
     echo "  Started: $(date '+%H:%M:%S')"
 
-    # Safety: re-sync with origin/main between cities. With batch_size=1 the
-    # outer loop runs once so this is a no-op, but if batch_size is ever
-    # bumped, two cities in the same batch otherwise build off the same
-    # pre-batch HEAD and collide on shared dicts in scams/generate_pages.py
-    # (SAFETY_TIPS, FAQS, EMERGENCY_INFO) requiring manual rebase to merge.
-    git pull --rebase origin main 2>&1 | tail -2 || echo "  ⚠️  inter-city pull failed, continuing"
+    # Hard-reset to current origin/main between cities. Aggressive cleanup is
+    # required because:
+    # - the previous city's claude session may have left untracked files in $WORK
+    # - the post-claude amend step may have left staged/unstaged changes if a
+    #   force-push race aborted mid-flight
+    # - both situations cause the next iteration's `git pull --rebase` to fail
+    #   with "cannot rebase: You have unstaged changes", which kills the rest
+    #   of the batch (the failure mode we hit with parallel batches today).
+    # `reset --hard` + `clean -fd` wipes everything; we're on a dedicated
+    # worktree so there's no user work to preserve.
+    git fetch origin main 2>&1 | tail -1
+    git reset --hard origin/main 2>&1 | tail -1
+    git clean -fd 2>&1 | tail -1
 
     PROMPT="You are executing the scam-page-builder skill (.claude/skills/scam-page-builder.md) for a FORCED REBUILD of an existing scam city page.
 
@@ -325,8 +332,13 @@ else:
             else
                 echo "     ⚠️  backfill_scams.py --slug ${slug} failed (see ${slug}-${TIMESTAMP}-apijson.log) — PR has HTML only"
             fi
-            # Return to detached origin/main so the queue update lands cleanly.
-            git checkout --detach origin/main 2>/dev/null
+            # Force-clean back to origin/main — handles aborted amends / failed
+            # force-pushes that left staged changes hanging on the feature branch.
+            # Plain `git checkout --detach origin/main` silently fails on dirty
+            # state; reset --hard always succeeds.
+            git fetch origin main 2>&1 | tail -1
+            git reset --hard origin/main 2>&1 | tail -1
+            git clean -fd 2>&1 | tail -1
         else
             echo "     ⚠️  could not fetch/checkout $BRANCH — claude may not have pushed it. PR may have HTML only."
         fi
