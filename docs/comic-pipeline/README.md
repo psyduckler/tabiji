@@ -28,7 +28,7 @@ human) to generate a new batch of comics without re-deriving the system.
 | France | Hergé / Tintin ligne claire | 191 | [styles/france.md](styles/france.md) |
 | Germany | Heinrich Zille Berlin Milljöh observational | 88 | [styles/germany.md](styles/germany.md) |
 | Greece | Ancient red-figure pottery | 41 | [styles/greece.md](styles/greece.md) |
-| Egypt | Contemporary illustrated Egyptian travel-comic (warm watercolor + gouache) | 0 | [styles/egypt.md](styles/egypt.md) |
+| Egypt | Contemporary illustrated Egyptian travel-comic (warm watercolor + gouache) | 43 | [styles/egypt.md](styles/egypt.md) |
 | Hong Kong | Shaw Brothers 1960s-70s painted cinema poster | 8 | [styles/hong-kong.md](styles/hong-kong.md) |
 | India | Classical Mughal miniature painting (jewel-tone court ateliers) | 0 | [styles/india.md](styles/india.md) |
 | Indonesia | Balinese Lontar palm-leaf manuscript | 73 | [styles/indonesia.md](styles/indonesia.md) |
