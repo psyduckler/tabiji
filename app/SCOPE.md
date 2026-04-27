@@ -255,10 +255,9 @@ For the local model angle:
 3. build-travel-advisories.py    → advisories/us.json + uk.json
 4. build-healthcare-guides.py    → safety/healthcare by country
 5. build-medication-rules.py     → safety/medications by country
-6. build-scam-database.py        → safety/scams by country (from our content)
-7. build-cultural-guides.py      → safety/cultural + phrases by country
-8. merge-safety-profiles.py      → safety/{iso2}.json (unified)
-9. update build-api.py           → include safety/ in API build
+6. build-cultural-guides.py      → safety/cultural + phrases by country
+7. merge-safety-profiles.py      → safety/{iso2}.json (unified)
+8. update build-api.py           → include safety/ in API build
 ```
 
 ## Priority Countries (build these first, validate schema)
