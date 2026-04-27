@@ -7327,7 +7327,7 @@ def _meta_description(city, n, scam_names):
     """Per-page meta description derived from top scam titles. Targets
     120–160 chars for Google's soft cap. Falls through a cascade of
     template shapes rather than slicing mid-word."""
-    titles = [_clean_title(t) for t in scam_names if t]
+    titles = [c for c in (_clean_title(t) for t in scam_names if t) if c]
     fallback = f"{n} real {city} tourist scams documented in 2026 — red flags, costs, and how to avoid them."
     templates = []
     if len(titles) >= 3:
@@ -7352,7 +7352,7 @@ def _meta_description(city, n, scam_names):
 
 
 def _twitter_description(city, scam_names):
-    titles = [_clean_title(t) for t in scam_names if t][:2]
+    titles = [c for c in (_clean_title(t) for t in scam_names if t) if c][:2]
     if len(titles) >= 2:
         return f"Hard-won {city} travel safety: {titles[0]}, {titles[1]}, and more. 2026 edition."
     if titles:
@@ -7361,12 +7361,15 @@ def _twitter_description(city, scam_names):
 
 
 def _clean_title(t):
-    """Strip leading articles ('The ', 'A ') from a scam-title for meta use."""
+    """Strip leading articles ('The', 'A', 'An') from a scam-title for meta use.
+    Returns "" if the input is just an article — caller is responsible for
+    filtering empties so we don't emit "Watch for  and X" placeholder leaks."""
     t = t.strip()
-    for prefix in ("The ", "A ", "An "):
-        if t.startswith(prefix):
-            t = t[len(prefix):]
-            break
+    for prefix in ("The", "A", "An"):
+        if t == prefix:
+            return ""
+        if t.startswith(prefix + " "):
+            return t[len(prefix) + 1:].strip()
     return t
 
 
@@ -7417,11 +7420,12 @@ def generate_page(city_data, related_cities_map):
         severity_pills.append(f'<span class="severity-pill low">{low_count} Low</span>')
     severity_html = f'\n    <div class="severity-summary">{"".join(severity_pills)}</div>' if severity_pills else ""
 
-    # Reading time estimate (~200 words per minute)
+    # Reading time estimate (skim/scan rate ~540 wpm — calibrated to the
+    # New York City canonical page: 3,777 body words advertised as 7 min).
     total_words = sum(len(s.get('story', '').split()) for s in scams)
     total_words += sum(len(' '.join(s.get('red_flags', [])).split()) for s in scams)
     total_words += sum(len(' '.join(s.get('how_to_avoid', [])).split()) for s in scams)
-    read_min = max(2, round(total_words / 200))
+    read_min = max(2, round(total_words / 540))
 
     country_code = city_data.get("country_code", "")
 
@@ -7596,12 +7600,12 @@ def generate_page(city_data, related_cities_map):
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
     <h1>{n} Tourist Scams in <em>{city}</em></h1>
-    <p>Real stories from Reddit travelers. Know what to watch for before you arrive.</p>
+    <p>Real traveler reports, embassy advisories, and consumer-protection cases. Know what to watch for before you arrive.</p>
     <div class="hero-meta">
         <span>📍 {city}, {country}</span>
         <span>📅 Updated {hero_update_label}</span>
         <span>💬 {n} scams documented</span>
-        <span>⭐ Reddit-sourced & verified</span>
+        <span>⭐ Sourced &amp; verified</span>
     </div>{severity_html}
     <div class="reading-time">&#128214; {read_min} min read</div>
 </div>
