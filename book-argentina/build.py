@@ -47,6 +47,7 @@ CITY_ALT_TEXT: dict[str, str] = {
     "ushuaia": "Ushuaia — the Beagle Channel lighthouse and snow-topped mountains at dusk",
     "puerto-iguazu": "Puerto Iguazú — the Garganta del Diablo and thundering Iguazú falls",
     "tigre": "Tigre — wooden lanchas on the Paraná Delta at Estación Fluvial",
+    "mar-del-plata": "Mar del Plata — sea lions on the Bristol breakwater above the Atlantic surf",
 }
 
 
@@ -109,6 +110,7 @@ def city_display_name(slug: str, data: dict) -> str:
         "ushuaia": "Ushuaia",
         "puerto-iguazu": "Puerto Iguazú",
         "tigre": "Tigre",
+        "mar-del-plata": "Mar del Plata",
     }
     if slug in ACCENTED:
         return ACCENTED[slug]
