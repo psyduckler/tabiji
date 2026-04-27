@@ -35,7 +35,7 @@ If only the city is given, infer the other three and confirm with the user.
     "scams": [
       {
         "scam_name": "<≤60 chars>",
-        "danger_level": "high|moderate|low",
+        "danger_level": "high|medium|low",
         "category": "<fixed vocab>",
         "location": "<≤5 comma-separated spots>",
         "story": "<4–6 paragraphs separated by \\n\\n, 40–110 words each (target 60–90), total 280–500 words>",
@@ -194,7 +194,7 @@ curl -sS -o /tmp/scam-research/<slug>/operator/attraction-<name>.html "<operator
 ### Step 3: Scam selection
 
 - **3–6 scams per city** — target 6, minimum 3. Fewer than 3 → the city doesn't clear the quality bar; defer or skip.
-- **Danger mix**: aim 3 high / 2 moderate / 1 low on a 6-scam page; adjust proportionally for smaller pages.
+- **Danger mix**: aim 3 high / 2 medium / 1 low on a 6-scam page; adjust proportionally for smaller pages. (HTML-side `danger_level` vocabulary — the api/v1 sibling field uses high/moderate/low and is synced from the HTML in Step 9b.)
 - **Category diversity** — pick from fixed vocab, prefer no repeats on the same page:
   - `transport` (taxi/airport/rideshare)
   - `counterfeit` (fake goods/tickets/police ID/MDAC-style digital fraud)
@@ -222,6 +222,15 @@ Follow the style guide (`docs/scam-pages-style-guide.md`) strictly. Key rules:
 - Title case, sentence-like
 
 **`danger_level`** — lowercased literal `"high"`, `"medium"`, or `"low"`. Generator handles badges and severity-summary counts. **Use `"medium"`, not `"moderate"` — the generator's hero severity-pill counter matches `== "medium"` exactly; "moderate" silently drops out of the count and ships a wrong severity strip.**
+
+There are **two parallel severity fields**, and they use **different vocabularies on purpose**:
+
+| Field | Lives in | Vocabulary | Set by |
+|---|---|---|---|
+| `danger_level` | research JSON → HTML page | `high` / `medium` / `low` | you (writer), via the research JSON |
+| `severity` | `api/v1/scams/<slug>.json` | `high` / `moderate` / `low` | [scripts/sync_api_from_html.py](scripts/sync_api_from_html.py), mapped from the rendered HTML's `danger-badge` class — never edit by hand |
+
+`medium` (HTML) → `moderate` (api/v1) is the only mapping that changes; `high` and `low` pass through. Anything else (notably the legacy `minor` value from older synthesis runs) fails the lint at rule 22. If you ever see `severity: minor` or `severity: medium` in api/v1, the fix is to re-run the sync after the HTML is rebuilt — not to hand-edit the JSON.
 
 **`category`** — one value from the fixed vocab above.
 
@@ -528,7 +537,7 @@ Per ARCHITECTURE.md and PR #1001, `api/v1/scams/` is the canonical machine-reada
 python3 scripts/sync_api_from_html.py <slug>
 ```
 
-The script reads `scams/<slug>/index.html`, walks every `.scam-card`, and writes the matching `tldr` + `description` fields into `api/v1/scams/<slug>.json`. If the JSON file does not yet exist for a brand-new city, **stop and ask**: a fresh JSON skeleton has to be hand-bootstrapped (id, name, category, severity, frequency, location, tags) before sync will populate prose. Existing-city re-syncs Just Work.
+The script reads `scams/<slug>/index.html`, walks every `.scam-card`, and writes the matching `tldr` + `description` + `severity` fields into `api/v1/scams/<slug>.json`. `severity` is mapped from each card's `danger-badge` class (`danger-high → high`, `danger-medium → moderate`, `danger-low → low`) — the HTML page is the single source of truth, and any stale value in the api/v1 JSON gets overwritten on sync. If the JSON file does not yet exist for a brand-new city, **stop and ask**: a fresh JSON skeleton has to be hand-bootstrapped (id, name, category, frequency, location, tags) before sync will populate prose and severity. Existing-city re-syncs Just Work.
 
 ### Step 10: Parser-based verification
 

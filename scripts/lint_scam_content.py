@@ -9,6 +9,10 @@ Rule numbering map:
   - 21: JSON-pass TLDR-extraction safeguard (added 2026-04 after Dahab dry-run).
     Imports the live make_tldr() and rejects any scam whose first sentence
     would silently fail extraction and ship the page with no TLDR.
+  - 22: api/v1 severity vocabulary check — runs alongside the HTML pass and
+    rejects api/v1/scams/<slug>.json files whose severity values aren't in
+    {high, moderate, low}, or whose severity disagrees with the HTML's
+    danger-badge class (sync drift). Re-run sync_api_from_html.py to fix.
 
 REJECT rules block generation; WARN rules surface to the user.
 
@@ -113,6 +117,14 @@ VALID_CATEGORIES = {
 # explicitly (Egypt audit, 2026-04 — 68 scams across 29 cities currently use
 # the wrong value and should be migrated when those pages are next touched).
 VALID_DANGER = {"high", "medium", "low"}
+
+# api/v1/scams/<slug>.json uses a different severity vocabulary than the HTML
+# danger_level field — book series convention (high/moderate/low) where the
+# HTML uses high/medium/low. scripts/sync_api_from_html.py maps between them
+# (medium → moderate). Anything else (notably the legacy "minor" value
+# inherited from older synthesis runs) fails this lint and must be normalized
+# by re-running the sync after the page's HTML is rebuilt.
+VALID_SEVERITY = {"high", "moderate", "low"}
 
 _YEAR_AT_END = re.compile(r",\s*(\d{4})\)\s*$")
 _REDDIT_ID = re.compile(r"comments/([a-z0-9]+)")
@@ -456,6 +468,69 @@ def lint_html_page(path: Path):
     return issues
 
 
+# Mirrors scripts/sync_api_from_html.py — keep in sync. The two-line
+# duplication is intentional: importing across scripts/ would require
+# sys.path gymnastics, and this dict is small enough that a comment-pinned
+# duplicate is cheaper than the abstraction.
+_DANGER_TO_SEVERITY = {"high": "high", "medium": "moderate", "low": "low"}
+
+
+def lint_api_v1_severity(slug: str, html_path: Path):
+    """Rule 22: api/v1/scams/<slug>.json severity must be {high, moderate, low}
+    AND must match the HTML danger-badge mapping. Returns list of issue tuples.
+    Skips silently if the api/v1 file doesn't exist (Step 9b will create it)."""
+    api_path = Path(__file__).resolve().parents[1] / "api" / "v1" / "scams" / f"{slug}.json"
+    if not api_path.exists():
+        return []
+
+    try:
+        data = json.loads(api_path.read_text())
+    except Exception as e:
+        return [("REJECT", "22", f"failed to load {api_path}: {e}")]
+
+    from bs4 import BeautifulSoup
+    html_soup = BeautifulSoup(html_path.read_text(encoding="utf-8"), "html.parser")
+
+    # Build name → expected severity map from the HTML danger-badge classes.
+    # The badge carries two classes — `danger-badge` (container) and
+    # `danger-{high,medium,low}` (level); match the level, not the container.
+    expected_by_name: dict[str, str] = {}
+    for card in html_soup.select(".scam-card"):
+        title_el = card.select_one(".scam-title")
+        badge = card.select_one(".danger-badge")
+        if not title_el or not badge:
+            continue
+        name = title_el.get_text(strip=True)
+        for cls in badge.get("class", []) or []:
+            if cls.startswith("danger-"):
+                mapped = _DANGER_TO_SEVERITY.get(cls[len("danger-"):])
+                if mapped:
+                    expected_by_name[name] = mapped
+                    break
+
+    issues = []
+    for scam in data.get("scams", []):
+        sev = scam.get("severity")
+        name = scam.get("name", "?")
+        preview = name[:50]
+        if sev not in VALID_SEVERITY:
+            issues.append(
+                ("REJECT", "22",
+                 f"severity {sev!r} not in {{high, moderate, low}} "
+                 f"({preview!r}) — re-run scripts/sync_api_from_html.py {slug}")
+            )
+            continue
+        expected = expected_by_name.get(name)
+        if expected and sev != expected:
+            issues.append(
+                ("REJECT", "22",
+                 f"severity={sev!r} disagrees with HTML danger-badge "
+                 f"(expected {expected!r}) for {preview!r} — "
+                 f"re-run scripts/sync_api_from_html.py {slug}")
+            )
+    return issues
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("path", nargs="?", help="Path to research JSON (e.g. scams/research/tw_batch1.json)")
@@ -482,6 +557,7 @@ def main():
                 sys.exit(2)
             slug = path.parent.name
             issues = lint_html_page(path)
+            issues.extend(lint_api_v1_severity(slug, path))
             for level, rule, msg in issues:
                 all_issues.append({"file": str(path), "city": slug, "level": level, "rule": rule, "message": msg})
 
