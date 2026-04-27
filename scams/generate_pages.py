@@ -7596,12 +7596,12 @@ def generate_page(city_data, related_cities_map):
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
     <h1>{n} Tourist Scams in <em>{city}</em></h1>
-    <p>Real stories from Reddit travelers. Know what to watch for before you arrive.</p>
+    <p>Real traveler reports, embassy advisories, and consumer-protection cases. Know what to watch for before you arrive.</p>
     <div class="hero-meta">
         <span>📍 {city}, {country}</span>
         <span>📅 Updated {hero_update_label}</span>
         <span>💬 {n} scams documented</span>
-        <span>⭐ Reddit-sourced & verified</span>
+        <span>⭐ Sourced &amp; verified</span>
     </div>{severity_html}
     <div class="reading-time">&#128214; {read_min} min read</div>
 </div>
