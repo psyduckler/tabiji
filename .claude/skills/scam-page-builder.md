@@ -54,9 +54,9 @@ If only the city is given, infer the other three and confirm with the user.
 
 ## Secrets
 
-- **SerpAPI key** — macOS keychain entry `serpapi-key`; also available as env `SERPAPI_KEY`.
+- **SerpAPI key** — macOS keychain entry `serpapi-key` (account `serpapi`, **not** `$USER`); also available as env `SERPAPI_KEY`.
   ```bash
-  SERPAPI_KEY=$(security find-generic-password -a "$USER" -s "serpapi-key" -w)
+  SERPAPI_KEY=$(security find-generic-password -a "serpapi" -s "serpapi-key" -w)
   ```
 
 ## Full workflow (12 steps)
@@ -221,7 +221,7 @@ Follow the style guide (`docs/scam-pages-style-guide.md`) strictly. Key rules:
 - No all-caps stuffing
 - Title case, sentence-like
 
-**`danger_level`** — lowercased literal `"high"`, `"moderate"`, or `"low"`. Generator handles badges.
+**`danger_level`** — lowercased literal `"high"`, `"medium"`, or `"low"`. Generator handles badges and severity-summary counts. **Use `"medium"`, not `"moderate"` — the generator's hero severity-pill counter matches `== "medium"` exactly; "moderate" silently drops out of the count and ships a wrong severity strip.**
 
 **`category`** — one value from the fixed vocab above.
 
@@ -240,11 +240,22 @@ The narrative is structured as **3 beats**:
 
 - **Beat 1 — Setup + Hook (paragraph 1).** Where the encounter starts and what the scammer does in the first 30 seconds: the smile, the script, the prop in their hand, the way they step into your path. Concrete street-name specificity: "Walk Times Square between 42nd and 47th Street and you'll see the setup before the trap closes." ~80–110 words.
 - **Beat 2 — Pivot + Pressure (paragraph 2).** The moment the script flips. The demand lands. What the scammer does if you resist: friends materializing, voice rising, body blocking the sidewalk. Named price ranges + concrete consequences: "$20 demanded, two or three other men step into the gap on your other side." ~80–110 words.
-- **Beat 3 — Mechanism + Social Proof + Defense Cue (paragraph 3, optionally split into 3–4).** Why the scam works (the psychological hook, called out in **bold**). Reddit/police/Council social proof woven in as one sentence — no username, no comment URL: `r/AskNYC and r/nyc threads document the same play running daily on 42nd Street...`. Close with one **bolded defensive move** the reader can act on immediately: `**The defensive move is to ask for the indoor menu before you sit.**` ~80–120 words.
+- **Beat 3 — Mechanism + Social Proof + Defense Cue (paragraph 3, optionally split into 3–4).** Why the scam works (the psychological hook). Reddit/police/Council social proof woven in as one sentence — no username, no comment URL: `r/AskNYC and r/nyc threads document the same play running daily on 42nd Street...`. Close with one defensive move wrapped in `<strong>...</strong>` that the reader can act on immediately: `<strong>The defensive move is to ask for the indoor menu before you sit.</strong>` ~80–120 words.
 
 For longer scams (multi-stage frauds, regulatory context, recovery paths), split Beat 3 across 2–3 paragraphs — but never re-introduce defense steps the `how_to_avoid` list already covers. The story is *what happens to the reader*, not *what the reader should do*.
 
+**Bold-emphasis must be raw HTML, never markdown.** Write `<strong>...</strong>` directly in the JSON `story` field. Markdown `**...**` does NOT get converted at render time — it ships to readers as literal asterisks. (Caught in Egypt audit, 2026-04: 5 Alexandria scams shipped `**The defensive move is...**` text on the live page.)
+
 **Reddit citations: never embed `r/<sub> '<title>' (comments/xxx, YEAR)` strings in prose** — the sanitizer will strip them and leave orphan fragments. Use bare attribution (`r/AskNYC threads document...`) and let `reddit_sources[]` carry the verifiable links.
+
+**Anti-patterns from past audits — REJECT all of these in story prose:**
+
+- *Hedge attribution that names no source.* Banned phrases: "as travelers note", "as reported on travel forums", "community forums document", "community reports indicate", "traveler reports note", "Reddit's traveler community", "Redditors on traveler reports". These are sanitizer-leak artifacts (the original Reddit citation was stripped and the editorial hedge was left dangling) and read as placeholder language. Either cite a concrete subreddit (`r/Egypt threads document...`) or remove the hedge clause entirely.
+- *"Real stories from Reddit travelers" mismatch.* If the prose uses zero specific subreddit citations, do not also rely on the hero's templated "Reddit-sourced" claim — either add real `r/<sub>` mentions to ≥ 3 scam bodies or accept that the hero will be inaccurate.
+- *Date-stamped prices that age the book.* Banned phrases: "as of 2024", "as of 2025", "as of 2024–2025", "(2024)", "(2025)". Just state the price; the page is dated by `dateModified` in the JSON-LD.
+- *ASCII double-hyphen as em-dash.* Use real em-dashes `—` (U+2014). Lint rule 5 enforces spacing but not character class — write `—` directly.
+- *TLDR as scene-setter.* Banned openers: "You arrive at...", "You're walking...", "You've just landed...", "It was a hot afternoon...". TLDRs must name the actor and the cost in one sentence.
+- *Defamation risk in scam prose.* Naming a specific real business as a scammer (e.g., `"Al-Attar Spice Store swaps your bottle"`) is print-book legal exposure. Genericize to "a spice stall in the souk" unless a T1/T2 source explicitly named the business in a published exposé.
 
 **Canonical example: [`/scams/new-york-city/`](/scams/new-york-city/).** All 6 cards on that page follow this beat structure exactly.
 
@@ -271,6 +282,91 @@ For longer scams (multi-stage frauds, regulatory context, recovery paths), split
 - Title matches thread title exactly, including BrE spellings, emoji, question marks, casing
 - ≥ 80% must be 2025 or 2026
 - All 5 IDs must have a cached JSON under `/tmp/scam-research/<slug>/reddit/`
+
+### Step 4b: Write the page-level sections
+
+A finished NYC-canonical page is more than scam cards. The writer's job covers every block in this anatomy — the generator emits the structure, but the **content quality of these sections is the difference between a default page and a book-ready page**:
+
+| Section | Source | Writer's responsibility |
+|---|---|---|
+| `<title>` + meta description | auto from city + scam names | scam_name choices must read as a clean title sequence |
+| Hero + severity strip | auto from `danger_level` counts | use `"medium"` not `"moderate"` (generator literal-matches) |
+| Key Takeaways | auto from scam data | scam_name #1 must be the highest-impact scam (it gets surfaced as "The #1 reported scam is X") |
+| Quick Safety Tips | `SAFETY_TIPS["<City>"]` dict | **MUST populate per city — see quality bar below.** The fallback ships generic boilerplate ("Keep phones in pockets…") |
+| Table of Contents | auto from scam list | scam_name + `danger_level` are what the reader sees |
+| Scam cards | scams[] (Step 4) | already covered |
+| What to Do If You Get Scammed | `EMERGENCY_INFO["<Country>"]` (or city override) | per-city override uses key `"<Country> (<City>)"` for cities with distinct Tourist Police lines |
+| FAQ | `FAQS["<City>"]` dict | **MUST populate — see quality bar below.** Fallback is empty |
+| Related cities | auto from full corpus | none — Step 9 handles |
+
+**American English non-negotiable.** Every prose surface (`story`, `red_flags`, `how_to_avoid`, `SAFETY_TIPS`, `FAQS`, scam_name) must be en-US. Not "labelled," "colour," "centre," "neighbourhood," "whilst," "amongst," "travelling," "organised," "realised," "favourite," "behaviour." Lint rule 1 enforces this on all surfaces; if you draft prose that quotes a Reddit title with BrE spelling, leave it inside `reddit_sources[]` only — never paste it into rendered prose.
+
+**Quality bar — `SAFETY_TIPS["<City>"]` (4 bullets):**
+
+Each tip is a complete, imperative sentence with a verb up front. Each one names a specific street, station, neighborhood, currency amount, or operator the reader can act on. NYC-grade examples:
+
+```python
+"New York City": [
+    "Ignore anyone offering you a CD, friendship bracelet, or any unsolicited item on Times Square — it will cost you.",
+    "Use only licensed yellow cabs (medallion taxis), green boro taxis, or the Uber/Lyft apps — unlicensed cars are illegal and unaccountable.",
+    "Keep phones in pockets at all times on the subway — phone snatches through closing doors are a known and increasing pattern.",
+    "At Times Square and Penn Station, ignore scalpers offering discounted Broadway or concert tickets — use TodayTix or official box offices.",
+],
+```
+
+Anti-pattern (don't ship this — these are the generic fallbacks the generator inserts when `SAFETY_TIPS["<City>"]` is missing):
+
+```python
+# REJECT — generic, no city specificity, no named places, no prices
+"Keep phones and valuables in secure pockets when in crowded areas",
+"Use only licensed taxis or app-based ride services",
+"Book tours and tickets through verified operators with online reviews",
+"Keep a copy of your passport separate from the original",
+```
+
+If your draft tips read like the rejected list — rewrite. Each tip must name something a reader couldn't infer from the city name alone.
+
+**Quality bar — `FAQS["<City>"]` (5 questions):**
+
+Each Q&A is 2–4 sentences, names specific neighborhoods/operators/prices, and answers a question a real traveler would search. NYC-grade examples:
+
+```python
+"New York City": [
+    ("How do I get from JFK Airport to Manhattan?",
+     "The AirTrain to Jamaica Station, then LIRR to Penn Station costs about $15 total and takes 45–55 minutes — cheap but requires luggage management. The AirTrain to Jamaica then E/J/Z subway costs about $8.75 and takes 60–70 minutes. Licensed yellow taxis have a flat rate of $70 to Manhattan (plus tolls and tip). Uber/Lyft are typically $55–$90 depending on traffic. Avoid any driver who approaches you inside the airport."),
+    # …4 more, each city-specific
+],
+```
+
+Required slots in the 5 Q&As:
+1. "Is `<city>` safe for tourists?" — neighborhood-level safety, not abstract
+2. "What is the most common scam in `<city>`?" — references the #1 scam from your scams[] (and ideally the runner-up)
+3. Transport question — airport-to-city or local-transit fare and routing, with prices
+4. Free/safe-walking question — name actual neighborhoods, parks, or attractions
+5. Money/ATM/exchange question — name actual banks, ATM locations, or rates
+
+**Quality bar — `EMERGENCY_INFO["<Country>"]` (or city override):**
+
+Confirm by direct fetch from the embassy `.gov` site (Step 2C); never copy from SerpAPI summaries (numbers change annually). Required keys (see existing entries in `scams/generate_pages.py`):
+
+```python
+"Egypt": {
+    "police_name": "Egyptian Police / Tourist Police",
+    "police_number": "122 (Police) or 123 (Emergency)",
+    "report_url": "https://www.moi.gov.eg/",
+    "report_site": "moi.gov.eg",
+    "lost_passport": "<embassy address + emergency phone — verbatim from the embassy site>",
+    # ...follow the existing shape exactly
+},
+```
+
+City-level override (use when a city's Tourist Police line, US Consulate phone, or passport-replacement office differs from the country default — common in Egypt where Cairo, Sharm El Sheikh, and Hurghada each publish distinct Tourist Police numbers):
+
+```python
+"Egypt (Sharm El Sheikh)": { ... },
+```
+
+The generator looks up `EMERGENCY_INFO[f"{country} ({city})"]` first, falls back to `EMERGENCY_INFO[country]`, and finally falls back to UK as a last resort. **Never let a page ship with the UK fallback — that's a critical bug.**
 
 ### Step 5: Lint — pre-generation gate
 
