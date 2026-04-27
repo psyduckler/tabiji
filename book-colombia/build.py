@@ -3,9 +3,9 @@
 Build Kindle EPUB from JSON scam data + manuscript markdown.
 
 Usage:
-    python3 book-argentina/build.py
+    python3 book-colombia/build.py
 
-Produces: book-argentina/build/argentina-scams.epub
+Produces: book-colombia/build/colombia-scams.epub
 Requires: pandoc, pyyaml
 """
 from __future__ import annotations
@@ -34,24 +34,22 @@ DATA_DIR = (HERE / CONFIG["scam_data_dir"]).resolve()
 
 CITY_INSERTION_MARKER = "<!-- CITIES -->"
 
-# Rich alt text for Argentine city chapter openers (screen-reader friendly).
-CITY_ALT_TEXT: dict[str, str] = {
-    "buenos-aires": "Buenos Aires — the Casa Rosada and Plaza de Mayo at golden hour",
-    "cordoba-argentina": "Córdoba — the Manzana Jesuítica and Cathedral above Plaza San Martín",
-    "rosario": "Rosario — the Monumento Nacional a la Bandera above the Paraná river",
-    "mendoza": "Mendoza — Andean vineyard rows under the snow-capped Cordillera",
-    "salta": "Salta — the Cerro San Bernardo and colonial cathedral in afternoon light",
-    "bariloche": "Bariloche — Lake Nahuel Huapi and the Cathedral chairlift from Cerro Catedral",
-    "el-calafate": "El Calafate — Perito Moreno Glacier face above the Lago Argentino",
-    "el-chalten": "El Chaltén — Monte Fitz Roy jagged granite spires above Patagonian meadow",
-    "ushuaia": "Ushuaia — the Beagle Channel lighthouse and snow-topped mountains at dusk",
-    "puerto-iguazu": "Puerto Iguazú — the Garganta del Diablo and thundering Iguazú falls",
-    "tigre": "Tigre — wooden lanchas on the Paraná Delta at Estación Fluvial",
-}
-
-
 sys.path.insert(0, str(HERE / "scripts"))
 from polish_scam_prose import polish_description, polish_avoidance, polish_location, polish_markdown  # noqa: E402
+
+# Rich alt text for Colombian city chapter openers (screen-reader friendly).
+CITY_ALT_TEXT: dict[str, str] = {
+    "bogota": "Bogotá — La Candelaria's painted balconies and Cerro Monserrate above the Andean skyline",
+    "medellin": "Medellín — the Comuna 13 hillside escalators and brick-red barrios in the Aburrá Valley",
+    "cartagena": "Cartagena — the Walled City's bougainvillea balconies above Plaza Santo Domingo",
+    "cali": "Cali — the Cristo Rey statue and Río Cali bridges with palm-lined San Antonio rooftops",
+    "santa-marta": "Santa Marta — the colonial cathedral and Tayrona ridgeline above Rodadero beach",
+    "guatape": "Guatapé — the painted zócalos of Plaza de los Zócalos and La Piedra del Peñol monolith",
+    "salento": "Salento — Cocora Valley wax-palm silhouettes above coffee-axis hillsides",
+    "tayrona": "Tayrona — Cabo San Juan's twin coves and jungle-fringed Caribbean palms",
+    "san-andres": "San Andrés — the seven-color Caribbean shallows around Johnny Cay",
+    "villa-de-leyva": "Villa de Leyva — Plaza Mayor's whitewashed facades under Boyacá's high-altitude sky",
+}
 
 
 def load_city(slug: str) -> dict:
@@ -61,7 +59,20 @@ def load_city(slug: str) -> dict:
     return json.loads(path.read_text())
 
 
+def _normalize_scam(scam: dict) -> dict:
+    """Adapt newer api/v1 scams (howToAvoid array, no frequency, no tags) onto
+    the legacy shape this builder was written against. All 10 Colombia cities
+    are currently legacy-shaped, but keep the adapter for forward-compat."""
+    if "howToAvoid" in scam and not scam.get("avoidance"):
+        v = scam["howToAvoid"]
+        scam["avoidance"] = " ".join(v) if isinstance(v, list) else str(v)
+    scam.setdefault("frequency", "common")
+    scam.setdefault("tags", [])
+    return scam
+
+
 def scam_md(scam: dict, image_path: Path | None = None) -> str:
+    scam = _normalize_scam(scam)
     cat = scam["category"].title()
     sev = scam["severity"].title()
     freq = scam["frequency"].title()
@@ -75,6 +86,13 @@ def scam_md(scam: dict, image_path: Path | None = None) -> str:
             f'a {cat.lower()} scam rated {sev.lower()} severity'
         )
         parts.append(f"![{alt}]({image_path.resolve()})\n\n")
+    # Render tldr (when present) as an italic lead-in. Many Colombia scam
+    # descriptions begin with a sentence that references the tldr, so dropping
+    # it would leave the first paragraph reading like a sequel. Italy V2 uses
+    # the same pattern.
+    tldr = scam.get("tldr", "").strip()
+    if tldr:
+        parts.append(f"*{tldr}*\n\n")
     description = polish_description(scam["description"])
     avoidance = polish_avoidance(scam["avoidance"])
     location = polish_location(scam["location"])
@@ -88,40 +106,10 @@ def scam_md(scam: dict, image_path: Path | None = None) -> str:
     return "".join(parts)
 
 
-def city_display_name(slug: str, data: dict) -> str:
-    """Return the preferred display name for a city.
-
-    The API sometimes carries the internal slug suffix (e.g. "Córdoba Argentina")
-    for disambiguation — strip country suffixes for display-only text. Some
-    upstream city fields are also missing accent marks; we map
-    slug → accented-display-name here so the book consistently prints
-    "Córdoba," "Puerto Iguazú," etc. in chapter headings and the TOC.
-    """
-    ACCENTED = {
-        "buenos-aires": "Buenos Aires",
-        "cordoba-argentina": "Córdoba",
-        "rosario": "Rosario",
-        "mendoza": "Mendoza",
-        "salta": "Salta",
-        "bariloche": "Bariloche",
-        "el-calafate": "El Calafate",
-        "el-chalten": "El Chaltén",
-        "ushuaia": "Ushuaia",
-        "puerto-iguazu": "Puerto Iguazú",
-        "tigre": "Tigre",
-    }
-    if slug in ACCENTED:
-        return ACCENTED[slug]
-    name = data.get("city", slug.title())
-    # Collapse "Córdoba Argentina" → "Córdoba" for the chapter heading.
-    return re.sub(r"\s+Argentina$", "", name).strip()
-
-
 def city_chapter_md(data: dict) -> str:
     slug = data["slug"]
-    city = city_display_name(slug, data)
+    city = data.get("city", slug.title())
     parts = [f"\n\n# {city}\n\n"]
-    # Chapter-opening city illustration (flat-vector travel-poster style).
     city_img = HERE / "assets" / "cities" / f"{slug}.jpg"
     if city_img.exists():
         alt = CITY_ALT_TEXT.get(slug, f"Stylized illustration of {city}")
@@ -133,7 +121,7 @@ def city_chapter_md(data: dict) -> str:
         parts.append(
             f"> **TODO** — write a 1-page intro for {city}: "
             f"overall risk level, top 3 neighborhoods to watch, "
-            f"nearest Policía Federal / Policía Turística, one safe recommendation.\n\n"
+            f"nearest Policía de Turismo, one safe recommendation.\n\n"
         )
     parts.append(
         f'This chapter documents {len(data["scams"])} scams reported in {city}.\n\n'
@@ -174,7 +162,7 @@ def build_epub(md: str) -> Path:
     md_path = BUILD / "manuscript.md"
     md_path.write_text(md)
 
-    out_name = CONFIG.get("output_filename", "argentina-scams")
+    out_name = CONFIG.get("output_filename", "colombia-scams")
     epub_path = BUILD / f"{out_name}.epub"
     cover = ASSETS / "cover.jpg"
     css = TEMPLATES / "style.css"
@@ -184,6 +172,10 @@ def build_epub(md: str) -> Path:
         str(md_path),
         "-o",
         str(epub_path),
+        # Disable LaTeX math-dollar parsing — prose uses "$10–20" / "20,000 COP"
+        # paired with another "$N" elsewhere in paragraphs, which pandoc
+        # otherwise interprets as math and mangles.
+        "--from", "markdown-tex_math_dollars-tex_math_single_backslash-tex_math_double_backslash-raw_tex-raw_attribute",
         "--resource-path",
         str(HERE),
         "--metadata",

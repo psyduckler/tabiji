@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 """
-Generate 11 per-city cover illustrations for the Argentina book via Wavespeed
+Generate 10 per-city cover illustrations for the Colombia book via Wavespeed
 (Nano Banana Pro).
 
-Style brief — must match the Japan, Italy, France, Thailand, and Spain volumes:
+Style brief — must match the Japan, Italy, France, Thailand, Spain, Argentina,
+and Australia volumes:
   - Flat vector illustration, mid-century travel-book poster aesthetic
   - Warm cream / saffron / burgundy / deep-purple / muted teal palette,
     golden-hour light
   - Tourist figure in deep-burgundy jacket with small backpack, stylised
   - 1:1 aspect, 2K resolution, JPEG
 
-Output: book-argentina/assets/cities/<slug>.jpg
+Output: book-colombia/assets/cities/<slug>.jpg
 
 Usage:
-    python3 book-argentina/scripts/gen_city_illustrations.py                       # all 11 cities
-    python3 book-argentina/scripts/gen_city_illustrations.py buenos-aires          # just Buenos Aires
-    python3 book-argentina/scripts/gen_city_illustrations.py buenos-aires salta    # two cities
+    python3 book-colombia/scripts/gen_city_illustrations.py                  # all 10 cities
+    python3 book-colombia/scripts/gen_city_illustrations.py bogota           # just Bogotá
+    python3 book-colombia/scripts/gen_city_illustrations.py bogota medellin  # two cities
 """
 from __future__ import annotations
 
@@ -54,96 +55,99 @@ TRAVELER_F = (
     "behind or three-quarter view, looking toward the scene. "
 )
 
-# (slug, subject, gender) — in manuscript reading order; alternating gender.
+# (slug, subject, gender) — in book reading order; alternating gender.
 CITIES: list[tuple[str, str, str]] = [
     (
-        "buenos-aires",
-        "The pink facade of the Casa Rosada above Plaza de Mayo at golden hour, "
-        "the Pirámide de Mayo in the foreground, warm porteño evening light "
-        "catching the balcony balustrades, the Cabildo's colonial arcades in "
-        "soft silhouette to the side.",
+        "bogota",
+        "La Candelaria's painted colonial balconies in Bogotá at golden hour, "
+        "Cerro de Monserrate rising in the background with its hilltop chapel "
+        "silhouetted against an Andean dusty-purple sky, cobblestone streets "
+        "of the centro histórico catching warm saffron light, a single yellow "
+        "Bogotá taxi parked in the middle distance.",
         "f",
     ),
     (
-        "cordoba-argentina",
-        "The Manzana Jesuítica of Córdoba at golden hour, the Jesuit Iglesia de "
-        "la Compañía de Jesús with its cedar-shingled dome rising above Plaza "
-        "San Martín, warm sierras light glowing on colonial stucco walls, the "
-        "Cathedral's twin bell towers in the middle distance.",
+        "medellin",
+        "The Comuna 13 hillside escalators rising through brick-red barrios of "
+        "Medellín at golden hour, the Aburrá Valley stretching below filled "
+        "with warm haze, painted street art on retaining walls in saturated "
+        "saffron and teal, palm trees in the middle distance, the Andean "
+        "ridges in dusty-purple beyond.",
         "m",
     ),
     (
-        "rosario",
-        "The Monumento Nacional a la Bandera rising above the Paraná river at "
-        "golden hour, the great stone prow of the monument catching warm light, "
-        "the slow brown water of the Paraná stretching to a dusty-purple "
-        "horizon, sailboats in soft silhouette.",
+        "cartagena",
+        "The Walled City of Cartagena at golden hour, bougainvillea-draped "
+        "colonial balconies in deep burgundy and saffron above Plaza Santo "
+        "Domingo, the cathedral bell tower in the middle distance, the "
+        "Caribbean sea visible beyond the city walls in muted teal, warm "
+        "Caribbean evening light.",
         "f",
     ),
     (
-        "mendoza",
-        "Vineyard rows in the Uco Valley of Mendoza at golden hour, the "
-        "snow-capped Andes Cordillera rising behind, warm saffron light raking "
-        "across trellised Malbec vines, a single low bodega building in the "
-        "middle distance, dusty-purple altitude haze.",
+        "cali",
+        "The Cristo Rey statue rising above the city of Cali at golden hour, "
+        "the Río Cali winding through the centro with palm-lined San Antonio "
+        "rooftops, salsa club neon signs glowing in the middle distance, "
+        "warm tropical Andean light, the Farallones de Cali ridges in "
+        "dusty-purple silhouette.",
         "m",
     ),
     (
-        "salta",
-        "The Cerro San Bernardo above the colonial cathedral of Salta at "
-        "golden hour, the cathedral's pink Andalusian facade glowing saffron, "
-        "the Siete Colores mountain ridgeline in the middle distance, warm "
-        "northwestern Argentine light and a single palo borracho tree in the "
-        "foreground.",
+        "santa-marta",
+        "The colonial cathedral of Santa Marta in the foreground at golden "
+        "hour, the Sierra Nevada de Santa Marta rising behind in saturated "
+        "deep-purple silhouette, palm-lined Rodadero beach catching warm "
+        "Caribbean light, fishing boats in the middle distance, a saffron "
+        "sky over the Caribbean.",
         "f",
     ),
     (
-        "bariloche",
-        "Lake Nahuel Huapi and the alpine peaks of Cerro Catedral at golden "
-        "hour, the dark blue Patagonian lake reflecting warm light, the iconic "
-        "Swiss-style stone Centro Cívico belltower in the foreground, "
-        "snow-capped Andes in the distance.",
+        "guatape",
+        "La Piedra del Peñol monolith rising above the multi-fingered "
+        "Embalse del Peñol-Guatapé reservoir at golden hour, the white "
+        "concrete staircase visible up the granite face, the painted "
+        "zócalo houses of Guatapé pueblo in the foreground catching warm "
+        "saffron light, deep-teal reservoir water reflecting the dusty-"
+        "purple Antioquian sky.",
         "m",
     ),
     (
-        "el-calafate",
-        "The cobalt ice face of Perito Moreno Glacier at golden hour, deep blue "
-        "crevasses catching warm light, a narrow stretch of Lago Argentino "
-        "between the glacier front and the Patagonian forest, a lone viewing "
-        "platform in soft silhouette.",
+        "salento",
+        "The Cocora Valley above Salento at golden hour, towering wax-palm "
+        "silhouettes of Ceroxylon quindiuense rising 60 metres above a "
+        "rolling green coffee-axis hillside, warm saffron light raking "
+        "across the bosque de niebla, the painted bahareque facades of "
+        "Salento pueblo in the middle distance, dusty-purple Andean "
+        "ridges beyond.",
         "f",
     ),
     (
-        "el-chalten",
-        "The jagged granite spires of Monte Fitz Roy catching warm saffron "
-        "alpenglow at golden hour, a Patagonian meadow with pale grasses in "
-        "the foreground, a single hiking trail winding toward the base of the "
-        "massif, dusty-purple sky.",
+        "tayrona",
+        "Cabo San Juan's twin coves in Parque Nacional Tayrona at golden "
+        "hour, granite boulders meeting deep-teal Caribbean water, jungle "
+        "palms framing the cove, the Sierra Nevada de Santa Marta rising "
+        "behind in dusty-purple silhouette, warm Caribbean light catching "
+        "the white sand and the thatched lookout point on the rocks.",
         "m",
     ),
     (
-        "ushuaia",
-        "The Les Eclaireurs lighthouse at the mouth of the Beagle Channel "
-        "above dark water at golden hour, snow-capped Andes fuegia in the "
-        "background, a single black-and-white lighthouse tower against a warm "
-        "peach sky, the Atlantic stretching to a dusty-purple southern horizon.",
+        "san-andres",
+        "The seven-color Caribbean shallows around Johnny Cay near San "
+        "Andrés at golden hour, gradient bands of muted teal and turquoise "
+        "stretching to the horizon, palm-lined white-sand beach in the "
+        "foreground, a single wooden boat moored in the shallows, warm "
+        "Caribbean light, a saffron sky over the Seaflower reef.",
         "f",
     ),
     (
-        "puerto-iguazu",
-        "The Garganta del Diablo at Iguazú Falls at golden hour, a thundering "
-        "horseshoe of water cascading into mist, lush subtropical rainforest "
-        "in saturated green, warm saffron light catching the spray, a rainbow "
-        "arcing across the falls.",
+        "villa-de-leyva",
+        "Plaza Mayor in Villa de Leyva at golden hour — the largest "
+        "cobblestoned plaza in the Americas, ringed by whitewashed "
+        "colonial facades catching warm saffron light, the Iglesia "
+        "Parroquial bell tower at the eastern end, the Boyacá altiplano "
+        "stretching beyond in dusty-purple, a high-altitude Andean sky.",
         "m",
-    ),
-    (
-        "tigre",
-        "Wooden lanchas tied up at the Estación Fluvial of Tigre at golden "
-        "hour, the brown Paraná Delta water in the foreground, an ornate "
-        "Belle-Époque riverside casino facade in the middle distance, a soft "
-        "rose sky over the Buenos Aires delta.",
-        "f",
     ),
 ]
 
