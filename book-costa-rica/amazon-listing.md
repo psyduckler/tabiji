@@ -15,7 +15,7 @@ Copy-paste directly into KDP.
 
 > **Title:** Costa Rica Tourist Scams 2026
 >
-> **Subtitle:** 54 Real Scams Across San José, Manuel Antonio & 6 More Cities — Drawn from Reddit, U.S. Embassy Security Alerts & OIJ Police Reports
+> **Subtitle:** 69 Real Scams Across San José, Manuel Antonio & 9 More Costa Rican Destinations — Drawn from Embassy Alerts, Tico Times Reports & Real Traveler Accounts
 
 **Title field:** 31 characters. **Subtitle field:** 163 characters. Combined: 194 — just under the ~200-char mobile truncation point.
 
@@ -26,7 +26,7 @@ Indexed phrases this locks in for organic search:
 - *u.s. embassy security alerts* (authority anchor)
 - *oij police reports* (specific Tico institutional language)
 
-**Cover status:** `book-costa-rica/assets/svg/front.svg` shows "COSTA RICA · Tourist Scams · A Traveler's Field Guide · MMXXVI" with "54 DOCUMENTED SCAMS · 8 CITIES · 2026 EDITION" reinforcing at thumbnail size, over a Pan-Am tropical-deco turquoise-to-volcano-red palette.
+**Cover status:** `book-costa-rica/assets/svg/front.svg` shows "COSTA RICA · Tourist Scams · A Traveler's Field Guide · MMXXVI" with "69 DOCUMENTED SCAMS · 11 DESTINATIONS · 2026 EDITION" reinforcing at thumbnail size, over a deep-emerald rainforest palette. *TODO: regenerate front.svg + back.svg + cover.jpg from the v1 turquoise-Pacific palette to match the new 11-city/69-scam counts and the rainforest bleed colors specified in config.yaml.*
 
 ---
 
@@ -74,12 +74,12 @@ Character count below: **≈ 3,790** — safely under the 4,000 limit.
 <h4>What's inside this book</h4>
 
 <ul>
-<li><b>54 documented scams</b> across San José, Liberia, Tamarindo, Monteverde, La Fortuna, Jacó, Manuel Antonio, and Puerto Viejo de Talamanca — with the exact Spanish phrase, said calmly, that ends each one.</li>
+<li><b>69 documented scams</b> across San José, La Fortuna, Monteverde, Manuel Antonio, Quepos, Jacó, Tamarindo, Santa Teresa, Liberia, Tortuguero, and Puerto Viejo de Talamanca — with the exact Spanish phrase, said calmly, that ends each one.</li>
 <li><b>6 universal scam patterns</b> so you can spot the hundreds of variants still being invented on the Caribbean coast and at the LIR rental counters.</li>
 <li><b>A print-ready Costa Rican Spanish phrase card</b> — English, Spanish, and simple phonetic pronunciation, with the one phrase (<i>llame a la policía, por favor</i>) that changes the temperature of a scene instantly.</li>
 <li><b>A post-scam recovery playbook</b> — the 911 dispatch script, the OIJ tip line (800-8000-645), Tourist Police (2258-1008), card issuer chargeback windows, and the U.S. Embassy San José after-hours line (+506 2220-3127).</li>
 <li><b>Emergency contacts verified current for 2026</b> — Fuerza Pública non-emergency numbers for every covered city, CIMA and Clínica Bíblica English-speaking hospital contacts, and credit-card international-collect lines.</li>
-<li><b>Full-color city illustrations</b> for each chapter — eight original 1950s Pan American Airways tropical-deco travel-poster prints.</li>
+<li><b>Full-color city illustrations</b> for each chapter — eleven original 1950s Pan American Airways tropical-deco travel-poster prints.</li>
 </ul>
 
 <h4>Who this book is for</h4>
@@ -174,7 +174,7 @@ Paste these one per slot. Do not repeat anything already in title, subtitle, or 
 | Matchbook | **No** | E-book only for v1. |
 | Kindle Unlimited / KDP Select | **Yes — enrolled for 90 days** | Same launch playbook as prior volumes. KU page-reads compound the bestseller rank during launch. |
 
-**KU economics note:** Costa Rica volume is ~184 paperback pages (close to Japan's 180). A completed KU read-through should net roughly $0.85 at current per-page rates. Costa Rica's focused 8-city coverage with named-operator specificity should perform well in the low-competition Central-America travel category.
+**KU economics note:** Costa Rica volume v2 expands to 11 cities / 69 scams (~220+ paperback pages, page count to be re-spined when interior PDF is regenerated). A completed KU read-through should net roughly $1.00–$1.10 at current per-page rates. Costa Rica's named-operator specificity (Avis Liberia, Costa Joe, Lava Land Tours, monteverdetourscr.com, Santa Teresa fake-police, Tortuguero shadow turtle-walk) should perform well in the low-competition Central-America travel category.
 
 ---
 
@@ -183,14 +183,14 @@ Paste these one per slot. Do not repeat anything already in title, subtitle, or 
 | Setting | Value |
 |---|---|
 | Trim size | **6 × 9 in** (trade paperback) |
-| Page count | **184 pages** |
+| Page count | **~220 pages** *(v2 estimate; re-spine after build)* |
 | Paper | **Cream** |
 | Interior | **Black & white** (color per-city illustrations render as grayscale halftone) |
 | Bleed | **Yes** (chapter-opener images full-bleed) |
 | Cover finish | **Matte** |
 | List price paperback | **$12.99 USD** |
 
-Cover file: `book-costa-rica/build/costa-rica-paperback-cover.pdf` (12.710" × 9.250", 184-page spine = 0.460").
+Cover file: `book-costa-rica/build/costa-rica-paperback-cover.pdf` (re-spine after v2 interior PDF generation; 184-page v1 spine = 0.460").
 
 ---
 

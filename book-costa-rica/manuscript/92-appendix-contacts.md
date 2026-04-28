@@ -36,6 +36,8 @@ Every phone number in this appendix was verified current at the time of publicat
 - **Jacó Fuerza Pública:** **2643-3011** / Avenida Pastor Díaz.
 - **Quepos / Manuel Antonio Fuerza Pública:** **2777-0196** / Quepos centro.
 - **Manuel Antonio Tourist Police station** (opened September 2024, 16 officers, 24/7): **Playa Espadilla**, across from the beach.
+- **Santa Teresa / Cobano Fuerza Pública:** **2642-0211** / Cobano (the regional station; Santa Teresa village dispatches via Cobano).
+- **Tortuguero Fuerza Pública:** dial **911** for immediate response; non-emergency routes via the **Limón regional command 2758-0365**. The village has a small post inside the Cuatro Esquinas ranger station compound.
 - **Puerto Viejo Tourist Police:** **2586-4052**.
 - **Puerto Viejo Fuerza Pública:** Calle 217 (dial 911 for immediate; station number via Limón HQ **2758-0365**).
 - **Cahuita Fuerza Pública:** **2755-0217**.
@@ -110,6 +112,16 @@ Costa Rica runs a two-track healthcare system: the **CCSS** (*Caja Costarricense
 - **Hospital Max Terán Vals** (Quepos, public CCSS): **+506 2774-9500**. Main public hospital, 10 minutes from Manuel Antonio; for serious cases, medevac to CIMA San José (60 minutes by ambulance or 20 minutes by helicopter).
 - **Medical Service Manuel Antonio** (private clinic, walk-in): **+506 2777-7000**. English-speaking, accepts travel insurance.
 
+### Santa Teresa / Mal Pais (Nicoya tip)
+
+- **Clínica Santa Teresa** (central Santa Teresa, walk-in): **+506 2640-0524**. Primary local clinic; English-speaking, accepts travel insurance for outpatient care. For serious cases, ambulance transfer to Hospital Monseñor Sanabria in Puntarenas (3+ hours by road and ferry) or helicopter medevac to CIMA San José.
+- **Hospital Monseñor Sanabria** (Puntarenas, public CCSS, mainland reference hospital): **+506 2630-8000**.
+
+### Tortuguero (northern Caribbean canal village)
+
+- The village has no hospital. The nearest medical facility is the local clinic in Tortuguero village (Cuatro Esquinas area, limited hours, basic care). For anything serious, the protocol is boat to La Pavona, then ambulance or helicopter to **Hospital Tony Facio Castro Limón** (**+506 2758-2222**) or medevac to CIMA San José.
+- **Hospital Tony Facio Castro / MEPE Hospital Limón** (public CCSS, the regional Caribbean reference): **+506 2758-2222**.
+
 ### La Fortuna / Arenal
 
 - **Hospital San Carlos** (Ciudad Quesada, public CCSS, 40 min from La Fortuna): **+506 2401-1200**.
@@ -141,4 +153,4 @@ If you dial 911 from any Costa Rican phone, you will be asked which service you 
 
 If you are calling from a mobile with no signal, drive or walk until you have one and try again — Costa Rica has no equivalent of Australia's 112 auto-routing. For rural areas (Kekoldi / Bribrí, El Castillo / Chachagua, Osa Peninsula back roads), Fuerza Pública response times can run 30+ minutes; for major town centers, response is typically under 15 minutes.
 
-For non-emergency property theft or pickpocketing, go directly to the nearest **OIJ subdelegación** (for San José, Liberia, Quepos, Jacó, Puerto Viejo, Monteverde) or **Fuerza Pública station** to file a *denuncia*. The case number is mandatory for travel-insurance claims, credit-card chargebacks, and Airbnb/Vrbo/Booking refund requests.
+For non-emergency property theft or pickpocketing, go directly to the nearest **OIJ subdelegación** (for San José, Liberia, Quepos, Jacó, Puerto Viejo, Monteverde, Cobano-for-Santa-Teresa, and Limón-for-Tortuguero) or **Fuerza Pública station** to file a *denuncia*. The case number is mandatory for travel-insurance claims, credit-card chargebacks, and Airbnb/Vrbo/Booking refund requests.
