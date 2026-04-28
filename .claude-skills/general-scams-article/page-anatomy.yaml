@@ -1,0 +1,183 @@
+# Page Anatomy — the 15-section structure for every /scams/everywhere/<slug>/ page
+#
+# Order matters. Each section's `slot` is the canonical name; `required` and
+# `optional` enumerate the fields the slot consumes. `max_words` is a soft
+# cap (Pass 1 / Pass 8 will warn if exceeded). `class` is the CSS class to
+# apply (all pre-existing in scams.css or in the page-specific <style> block
+# from the pig-butchering page).
+
+sections:
+
+  - slot: hero
+    class: hero
+    required:
+      - eyebrow         # "🚨 Scam Guide · 2026 · Everywhere"
+      - headline        # "<N> Scam Variants and the Script Behind Them"
+      - subhead         # "$X stolen from <demographic>. <one-sentence framing>."
+      - byline          # Bernard Huang (default)
+      - channel_meta    # "💬 Channels: <list>"
+      - severity_pills  # "5 High Risk · 2 Medium" (counts must match TOC)
+      - reading_time    # auto-computed from word count
+    optional:
+      - hero_image      # leave empty for text-only first pass
+
+  - slot: tldr_card
+    class: safety-box tldr-box
+    required:
+      - title            # "📌 The 30-Second Version"
+      - body             # ≤80 words; AEO-snippet-targeted
+    max_words: 80
+
+  - slot: safety_rules
+    class: safety-box
+    required:
+      - title           # "⚡ Quick Safety Rules"
+      - rules           # exactly 5 ordered rules
+    rule_count: 5
+    rule_max_words: 50
+
+  - slot: self_assessment
+    class: assessment-box
+    required:
+      - title           # "🪞 Am I in this script right now?"
+      - intro           # one-sentence framing
+      - questions       # 3-5 yes/no questions
+      - verdict         # "2+ yes: <action>"
+      - skip_link       # → action grid
+    question_count: [3, 5]
+
+  - slot: toc
+    class: toc
+    required:
+      - title           # "Jump to a Variant"
+      - items           # one per variant, with severity badge
+    auto_generated: true
+
+  - slot: hook_story
+    class: hook-section
+    required:
+      - heading         # specific not bland — "The Anatomy of a $X Loss" preferred
+      - body_paragraphs # 2-3 paragraphs, real verbatim Reddit content (anonymized OK, no fabrication)
+      - source_link     # the canonical Reddit thread cited at end
+    min_words: 100
+    max_words: 250
+    voice: third_person
+    rule: must_use_real_reddit_content_not_composite
+
+  - slot: definition
+    class: section-heading + body
+    required:
+      - heading         # "What This Scam Actually Is"
+      - etymology       # if applicable (pig-butchering uses 杀猪盘); skip if not
+      - mechanism_phases # ordered list of phases (Entry/Fattening/Pivot/Trap was 4 for pig-butchering)
+      - intelligence_caveat  # "Why this works on intelligent people"
+    optional:
+      - glossary        # collapsed <details> with terms
+    max_words: 600
+
+  - slot: variants
+    class: scam-card (per variant)
+    required:
+      - count           # determined by Stage 1 cluster output (3-8 range)
+      - micro_template  # see variant-template.yaml
+    transition_lines: required_between_variants
+
+  - slot: numbers_section
+    class: section-heading + stat-strip
+    required:
+      - heading         # "The Numbers (and Where They Come From)"
+      - intro           # one paragraph framing verified vs estimated
+      - stat_cards      # 4 cards, each with verbatim source, ✓verified or ⚠estimated label
+      - context_paragraph # additional stats (DOJ seizure, etc.)
+    stat_card_count: [3, 5]
+
+  - slot: ethical_context_sidebar
+    class: context-sidebar
+    required:
+      - heading         # "📌 Where the script runs from, and why it matters"
+      - body            # 2-4 paragraphs on the operational infrastructure
+    skip_if: not_applicable_to_scam_type
+    note: |
+      Required for scams with organized-crime / trafficking / industrial
+      infrastructure (pig-butchering, BEC, AI voice clone). Skip for
+      individual-scammer scams (gift card, sextortion).
+
+  - slot: recovery_section
+    class: section-heading + body
+    required:
+      - heading         # "Recovery Reality" or similar
+      - body_paragraphs # 3-4 paragraphs covering: realistic recovery rate, narrow window, what bank fraud teams can do, legitimate recovery paths
+    max_words: 500
+
+  - slot: how_to_help
+    class: section-heading + help-list
+    required:
+      - heading         # "How to Help Someone in the Script"
+      - intro           # one paragraph framing
+      - steps           # 4-5 ordered steps
+      - warnings        # "Two warnings" closing paragraph
+    step_count: [4, 5]
+    skip_if: scam_does_not_target_others_via_proxy
+
+  - slot: action_grid
+    class: action-section + action-grid
+    required:
+      - heading         # "🆘 What to Do If You've Been <Verbed>"
+      - cells           # 6 action cells
+    cell_count: 6
+    cells_required:
+      - report_to_ic3
+      - call_bank_fraud_line
+      - file_with_ftc_state_ag
+      - block_recovery_dms
+      - aps_if_elderly
+      - share_your_story
+
+  - slot: international_reporting
+    class: section-heading + intl-list
+    required:
+      - heading         # "If You're Reporting Outside the United States"
+      - intro           # one paragraph
+      - items           # UK, Canada, Australia, EU at minimum
+    items_required:
+      - united_kingdom  # Action Fraud
+      - canada          # CAFC
+      - australia       # Scamwatch
+      - european_union  # Europol + national equivalents
+
+  - slot: faq
+    class: faq-section
+    required:
+      - heading
+      - questions       # 8-10 Q's; first 3 must match FAQ schema
+    answer_max_words: 80
+    answer_min_words: 60
+    answer_must_be_front_loaded: true
+
+  - slot: source_threads
+    class: action-section + action-grid (re-used)
+    required:
+      - heading         # "📚 Source Threads (Reddit, <year_range>)"
+      - cards           # one per anchoring Reddit thread
+    card_count_min: 4
+
+  - slot: related_reading
+    class: section-heading + paragraph
+    required:
+      - heading         # "Related Reading"
+      - internal_links  # /scams/everywhere/ siblings only (per user spec)
+      - external_links  # high-DA authority sources
+    internal_links_count: [2, 5]
+
+  - slot: books_cta_stub
+    class: book-end-cta
+    required: true
+    note: Use the existing "Coming Soon" stub format from pig-butchering page
+
+  - slot: legal_disclaimer
+    class: legal-disclaimer
+    required:
+      - corpus_size_claim   # "drawn from patterns across <N> Reddit posts and comments"
+      - last_updated        # today's date
+      - next_refresh        # +90 days from today
+      - archive_org_note    # "archived versions available via archive.org"

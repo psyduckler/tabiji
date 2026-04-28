@@ -1,0 +1,101 @@
+# Variant Template — micro-structure for each scam-card on the page
+#
+# Every variant inside the Variants section uses this 7-element template.
+# Order is fixed; consistency is what makes the page scannable.
+# All counts are exact, not "around" — Pass 3 (Design) will reject pages
+# that violate the structural requirements.
+
+elements:
+
+  - element: header
+    required:
+      - variant_number   # "Variant #N" (1-indexed, sequential)
+      - title            # Full descriptive title; no parentheticals
+      - severity_badge   # one of: high, medium, low
+    rules:
+      - title_max_words: 12
+      - title_no_parentheticals: true   # don't do "(the moment you try to cash out)"
+
+  - element: channel
+    class: scam-location  # legacy class name; semantically channel
+    required:
+      - channel_emoji    # 💬 (chat/online), 📞 (phone), ✉️ (email), 👥 (in-person)
+      - channel_label    # "Hinge → WhatsApp pivot → fake crypto exchange"
+    rules:
+      - emoji_must_match_channel_type: true
+      - dont_use_phone_emoji_for_text_or_online_channels: true
+
+  - element: tldr
+    class: scam-tldr
+    required:
+      - body             # one sentence, ≤30 words
+    rules:
+      - max_words: 30
+      - must_end_with_period_question_or_exclamation: true   # Rule 18
+      - no_em_dash_at_start_or_end: true
+
+  - element: story_paragraphs
+    class: scam-story-body
+    required:
+      - paragraphs       # 3 paragraphs
+    rules:
+      - paragraph_count: 3
+      - each_paragraph_words: [150, 300]
+      - voice: third_person_narrative   # "A 28-year-old in tech matches with..."
+      - no_first_person: true
+      - no_speculation_about_victim_intent: true
+      - if_naming_real_victim_must_be_anonymized: true
+      - if_referencing_reddit_thread_must_link_inline: true
+
+  - element: mechanics_paragraph
+    class: scam-story-body  # last of the body paragraphs typically
+    required:
+      - body
+    rules:
+      - max_words: 200
+      - voice: shifts_to_advisory_or_explanatory
+      - must_contain_one_actionable_takeaway_in_strong_tag: true
+      - takeaway_format: "<strong>The single sentence: ...</strong>"
+
+  - element: red_flags
+    class: detail-block red-flags
+    required:
+      - heading          # "Red Flags" (literal)
+      - flags            # exactly 5
+    rules:
+      - flag_count: 5
+      - each_flag_max_words: 30
+      - each_flag_must_be_observable_not_inferred: true
+      - no_overlap_with_defenses: true
+
+  - element: defenses
+    class: detail-block avoid
+    required:
+      - heading          # "How to Avoid" (literal)
+      - defenses         # exactly 5
+    rules:
+      - defense_count: 5
+      - each_defense_max_words: 35
+      - voice: imperative_second_person   # "Make a hard rule: ..."
+      - each_defense_must_be_actionable_not_aspirational: true
+
+  - element: reddit_quote
+    class: reddit-quote
+    required:
+      - body             # verbatim quote from a Reddit thread (no edits except [...] elision marks)
+      - source_attribution # "— [r/CryptoScams top reply, June 2025 (55 upvotes)](URL)"
+    rules:
+      - must_be_verbatim: true   # NO Claude paraphrase
+      - must_have_url: true
+      - max_words: 80
+      - must_be_topically_relevant_to_this_variant: true
+      - per_page_minimum: 1_per_variant   # NEW: was 1-2 across page in pig-butchering, now 1 PER variant
+
+transition_lines:
+  required_between_variants: true
+  class: transition-line
+  rules:
+    - max_words: 40
+    - voice: italic_narrative
+    - must_bridge_topically: true   # not just "next up..."
+    - last_variant_does_not_need_outgoing_transition: true
