@@ -141,17 +141,16 @@ def generate_page_content(slug: str, city: str, country: str, title: str, catego
 Return a JSON object with this EXACT structure (no markdown fences, no trailing commas):
 
 {{
-  "pageTitle": "{title} (2026) — Reddit-Backed Guide | tabiji.ai",
+  "pageTitle": "{title} (2026) — Editor's Guide | tabiji.ai",
   "h1": "10 Best {title.replace('Best ', '').replace('best ', '')}",
-  "metaDescription": "SEO meta description, 150-170 chars. Mention Reddit, local reviews, and that a map is included.",
+  "metaDescription": "SEO meta description, 150-170 chars. Editor-curated picks with map and insider tips. Do NOT claim Reddit sourcing or research methodology.",
   "heroSubtitle": "One or two sentence teaser about the food scene in {city}.",
   "intro": [
     "First paragraph — bold opening setting the scene for {category} in {city}. Make the first sentence bold-worthy.",
     "Second paragraph — history / cultural context.",
     "Third paragraph — overview of styles/variations available.",
-    "Fourth paragraph — how the guide was researched (mention Reddit subreddits, cross-referencing critics)."
+    "Fourth paragraph — closing context (what the scene is known for, neighborhoods to wander, season notes). Do NOT claim research methodology, Reddit analysis, or sourcing — this is editorial commentary only."
   ],
-  "methodology": "One dense paragraph: how many Reddit posts, which subreddits, which critic sources, verification date.",
   "quickAnswer": {{
     "lead": "2-3 sentence bold summary — mention price range and number of spots.",
     "bestOverall": "Name — short reason",
@@ -220,9 +219,9 @@ Return a JSON object with this EXACT structure (no markdown fences, no trailing 
       "lng": 0.0000,
       "phone": "+1XXXXXXXXXX (E.164 format)",
       "website": "https://example.com",
-      "redditQuotes": [
-        {{"text": "Natural Reddit-style quote mentioning the venue.", "source": "r/cityname"}},
-        {{"text": "Second Reddit-style quote.", "source": "r/food"}}
+      "editorNotes": [
+        "Short pithy editor note about the venue (1 sentence, observational tone). Do NOT impersonate a Redditor or attribute to a subreddit.",
+        "Second short editor note (1 sentence)."
       ]
     }}
   ],
@@ -248,7 +247,7 @@ REQUIREMENTS:
 - budgetTiers: exactly 3 groups with 3 items each (use real venue names matching the venues array)
 - budgetTiers items anchor values MUST match the slug form of the venue name (lowercase, hyphens, no special chars)
 - topVerdicts: exactly 3 items for the top 3 ranked venues
-- redditQuotes: exactly 2 per venue, should sound natural and mention the venue by name
+- editorNotes: exactly 2 per venue, written as the editor's own short observations. NEVER fabricate Reddit quotes or subreddit attributions.
 - planning.route: mention 4 venues and include their anchor IDs for linking
 - All content must be specific and factual — real place names, realistic prices
 - Do NOT use markdown in any field — only plain text
@@ -315,7 +314,7 @@ def build_venue_section(venue: dict, slug: str, city: str) -> str:
     what_to_order = venue.get('whatToOrder', '')
     insider_tip = venue.get('insiderTip', '')
     tags = venue.get('tags', [])
-    reddit_quotes = venue.get('redditQuotes', [])
+    editor_notes = venue.get('editorNotes') or venue.get('redditQuotes', [])
     rank = venue['rank']
 
     maps_query = f"{venue['name']}+{neighborhood}+{city}".replace(' ', '+')
@@ -326,12 +325,13 @@ def build_venue_section(venue: dict, slug: str, city: str) -> str:
         f'<span class="cuisine-tag">{_esc(t)}</span>' for t in tags
     )
 
-    # Reddit quotes HTML
+    # Editor's notes HTML (short observational commentary; never claim Reddit sourcing)
     quotes_html = ""
-    for q in reddit_quotes[:2]:
+    for note in editor_notes[:2]:
+        text = note if isinstance(note, str) else note.get('text', '')
         quotes_html += f"""    <div class="reddit-quote">
-        {_esc(q.get('text', ''))}
-        <span class="source">&mdash; {_esc(q.get('source', 'r/travel'))}</span>
+        {_esc(text)}
+        <span class="source">&mdash; Editor's note</span>
     </div>\n"""
 
     # Contact HTML
@@ -510,14 +510,6 @@ def _build_intro_section(paragraphs: list) -> str:
     return f"""      <section class="intro-section">
         {"".join(parts)}
       </section>"""
-
-
-def _build_methodology_section(text: str) -> str:
-    """Build methodology section."""
-    return f"""        <section class="methodology-section">
-          <h2>How we built this list</h2>
-          <p>{_esc(text)}</p>
-        </section>"""
 
 
 def _build_comparison_table(venues: list) -> str:
@@ -705,12 +697,6 @@ def _build_itemlist_schema(content: dict, slug: str, city: str, today: str) -> d
                     "addressCountry": "US",
                 },
                 "priceRange": price_symbol,
-                "aggregateRating": {
-                    "@type": "AggregateRating",
-                    "ratingValue": v.get("rating", 0),
-                    "reviewCount": v.get("reviewCount", 0),
-                    "bestRating": 5,
-                },
                 "geo": {
                     "@type": "GeoCoordinates",
                     "latitude": 0.0,
@@ -769,15 +755,56 @@ def _build_tourist_trip_schema(content: dict, slug: str, city: str, today: str) 
     }
 
 
-def _build_breadcrumb_schema(content: dict, slug: str) -> dict:
+# Country display name -> popular-picks hub slug (only countries with an
+# existing /popular-picks/<slug>/ hub).  Countries not listed here get a
+# 3-level breadcrumb (no country level) instead of a broken link.
+COUNTRY_HUB_SLUGS = {
+    "Argentina": "argentina", "Australia": "australia", "Austria": "austria",
+    "Azerbaijan": "azerbaijan", "Barbados": "barbados", "Belgium": "belgium",
+    "Botswana": "botswana", "Bulgaria": "bulgaria", "Cambodia": "cambodia",
+    "Canada": "canada", "China": "china", "Colombia": "colombia",
+    "Croatia": "croatia", "Denmark": "denmark", "Egypt": "egypt",
+    "Ethiopia": "ethiopia", "Finland": "finland", "France": "france",
+    "Georgia": "georgia", "Germany": "germany", "Ghana": "ghana",
+    "Greece": "greece", "Hungary": "hungary", "India": "india",
+    "Indonesia": "indonesia", "Ireland": "ireland", "Israel": "israel",
+    "Italy": "italy", "Japan": "japan", "Jordan": "jordan",
+    "Kazakhstan": "kazakhstan", "Kenya": "kenya", "Lebanon": "lebanon",
+    "Malaysia": "malaysia", "Mali": "mali", "Mauritius": "mauritius",
+    "Mexico": "mexico", "Morocco": "morocco", "Myanmar": "myanmar",
+    "Netherlands": "netherlands", "Nigeria": "nigeria", "Norway": "norway",
+    "Peru": "peru", "Philippines": "philippines", "Poland": "poland",
+    "Portugal": "portugal", "Romania": "romania", "Rwanda": "rwanda",
+    "Serbia": "serbia", "Singapore": "singapore", "Slovakia": "slovakia",
+    "Spain": "spain", "Switzerland": "switzerland", "Taiwan": "taiwan",
+    "Tanzania": "tanzania", "Thailand": "thailand", "Turkey": "turkey",
+    "UAE": "uae", "United Arab Emirates": "uae",
+    "United States": "usa", "USA": "usa",
+    "Vietnam": "vietnam",
+}
+
+
+def _build_breadcrumb_schema(content: dict, slug: str, country: str) -> dict:
+    items = [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
+        {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
+    ]
+    hub_slug = COUNTRY_HUB_SLUGS.get(country)
+    if hub_slug:
+        items.append({
+            "@type": "ListItem", "position": len(items) + 1,
+            "name": country,
+            "item": f"https://tabiji.ai/popular-picks/{hub_slug}/",
+        })
+    items.append({
+        "@type": "ListItem", "position": len(items) + 1,
+        "name": content["h1"],
+        "item": f"https://tabiji.ai/popular-picks/{slug}/",
+    })
     return {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://tabiji.ai/"},
-            {"@type": "ListItem", "position": 2, "name": "Popular Picks", "item": "https://tabiji.ai/popular-picks/"},
-            {"@type": "ListItem", "position": 3, "name": content["h1"]},
-        ],
+        "itemListElement": items,
     }
 
 
@@ -798,14 +825,13 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
     itemlist_schema = _build_itemlist_schema(content, slug, city, today)
     faq_schema = _build_faq_schema(content.get("faqs", []))
     tourist_trip = _build_tourist_trip_schema(content, slug, city, today)
-    breadcrumb = _build_breadcrumb_schema(content, slug)
+    breadcrumb = _build_breadcrumb_schema(content, slug, country)
 
     # Build sections
     qa = content.get("quickAnswer", {})
     top_verdicts = content.get("topVerdicts", [])
     quick_answer_html = _build_quick_answer_section(qa, top_verdicts, today)
     intro_html = _build_intro_section(content.get("intro", []))
-    methodology_html = _build_methodology_section(content.get("methodology", ""))
     comparison_table_html = _build_comparison_table(content["venues"])
     budget_tiers_html = _build_budget_tiers(content.get("budgetTiers", []))
     filter_bar_html = _build_filter_bar(content.get("filterStyles", []))
@@ -898,8 +924,6 @@ def build_full_page(slug: str, city: str, country: str, title: str, category: st
 
 
 {map_inline_html}
-
-{methodology_html}
 
       <section class="pick-list">
 
