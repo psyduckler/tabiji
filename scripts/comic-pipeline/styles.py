@@ -227,22 +227,26 @@ STYLES = {
         "scenes). Square 1:1 composition, 2K resolution."
     ),
     "malaysia": (
-        "A single illustrated comic book page in the vibrant naive folk-art "
-        "style of Yusof Gajah, Malaysia's beloved illustrator — bold flat "
-        "saturated colors (hot pink, marigold, turquoise, emerald, violet, "
-        "sunset orange) with confident black ink outlines, richly patterned "
-        "clothing and backgrounds with intricate dot-and-line decoration and "
-        "elephant and flora motifs, naive-folk figure proportions with "
-        "oversized friendly eyes, decorative repeating motifs of lotus, "
-        "tropical leaves, and batik flourishes, warm cream paper background "
-        "with subtle grain, cheerful Malaysian-children's-book sensibility. "
+        "A single illustrated comic book page in a warm Peranakan / Nyonya "
+        "heritage illustration style drawn from the Straits-Chinese aesthetic "
+        "of Penang and Melaka shophouses — soft pastel palette of porcelain "
+        "pink, mint green, butter yellow, sky blue, powder lavender, with cream "
+        "backgrounds and delicate gilt accents, decorative Peranakan tile and "
+        "batik motif borders around each panel (phoenix, peony, butterfly, "
+        "geometric chevron, and lotus patterns rendered as flat dyed shapes), "
+        "gentle fine black ink line drawing with transparent watercolor wash "
+        "interior, rounded friendly characters with soft expressive faces, "
+        "location-accurate Malaysian architecture and landmarks rendered "
+        "alongside heritage-shophouse-inspired interior framing, gentle "
+        "Peranakan storybook composition with visible watercolor texture. "
         "Showing four sequential panels arranged in a 2x2 grid with small "
-        "numbers 1, 2, 3, 4 in the upper-left corner of each panel, separated "
-        "by thin black panel borders with narrow cream gutters. Each panel "
-        "contains one clean white rounded speech bubble with a small pointer "
-        "tail, holding short printed English dialogue in simple black comic "
-        "lettering — text must be legible, in English only, and correctly "
-        "spelled. Square 1:1 composition, 2K resolution."
+        "hand-painted numbers 1, 2, 3, 4 in the upper-left corner of each "
+        "panel, separated by thin gilt panel borders inside the Peranakan tile "
+        "rim with narrow cream gutters. Each panel contains one clean white "
+        "rounded speech bubble with a small pointer tail, holding short printed "
+        "English dialogue in simple black comic lettering — text must be "
+        "legible, in English only, and correctly spelled. Square 1:1 "
+        "composition, 2K resolution."
     ),
     "mexico": (
         "A single illustrated comic book page rendered in the iconic Mexican Lotería card "
@@ -577,7 +581,7 @@ PILOTS = {
     "turkey": "https://img.tabiji.ai/scams/istanbul/scam-1.jpg",
     "japan": "https://img.tabiji.ai/scams/tokyo/scam-3.jpg",
     "united-states": "https://img.tabiji.ai/scams/philadelphia/scam-2.jpg",
-    "malaysia": "https://img.tabiji.ai/scam-comics/my/style-tests/4-yusof-gajah-folk-naif-nb2.jpg",
+    "malaysia": "https://img.tabiji.ai/scam-comics/my/style-tests/5-peranakan-nyonya-pastel.jpg",
     "mexico": "https://img.tabiji.ai/scam-comics/mx/style-tests/3-loteria-card-tarjeta.jpg",
     "colombia": "https://img.tabiji.ai/scam-comics/co/style-tests/2-macondo-magical-realism-watercolor.jpg",
     "australia": "https://img.tabiji.ai/scam-comics/au/style-tests/4-trompf-art-deco-travel-poster.jpg",
