@@ -2897,6 +2897,296 @@ body.editorial-v2 .ready-secondary:hover { color: var(--terracotta); }
 }
 
 /* ============================================================
+   ABOUT PAGE — recovered + P2/P3 polish (PR #1173)
+
+   Recovered from PR #1172 (CSS edits dropped in a detached-HEAD
+   incident; HTML on main references these classes but CSS was missing):
+     - .team-avatar bumped to 140px / 96px mobile
+     - .browse-card-anchor full-width hero variant for the books card
+
+   New for P2/P3:
+     - .disclosure-block (replaces inline .team-tools-block styles)
+     - .about-hero-masthead — left-aligned colophon hero variant
+     - serif body type for long-form .about-section paragraphs
+     - .about-toc — chip-row in-page nav
+     - .contact-rows — intent-labeled mailto grid
+     - .team-links — proper tap-target chips (WCAG 44px)
+   ============================================================ */
+
+/* Team-avatar — 52px circle -> 140px square w/ border + shadow.
+   Photo fills via inline style on the <img> child. */
+body.editorial-v2 .team-avatar {
+    flex-shrink: 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 6px;
+    background: var(--warm-cream);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    border: 1px solid var(--sand);
+    box-shadow: 0 2px 8px rgba(45, 58, 92, 0.08);
+}
+
+/* Browse-grid — books-anchor variant. Full-width hero spanning grid. */
+body.editorial-v2 .browse-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+body.editorial-v2 .browse-card-anchor {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, var(--warm-cream-soft) 0%, var(--warm-cream) 100%);
+    border: 2px solid var(--terracotta);
+    padding: 1.75rem 1.85rem 1.65rem;
+    box-shadow: 0 4px 16px rgba(156, 82, 50, 0.12);
+}
+body.editorial-v2 .browse-card-anchor .browse-title { font-size: 1.5rem; }
+body.editorial-v2 .browse-card-anchor .browse-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin: 0.4rem 0 0.2rem;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+body.editorial-v2 .browse-card-anchor .browse-meta-row strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* (#14) .disclosure-block — replaces inline .team-tools-block styles. */
+body.editorial-v2 .disclosure-block {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--warm-cream);
+    border-left: 3px solid var(--terracotta);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+body.editorial-v2 .disclosure-block p { margin: 0 0 0.5rem; max-width: none; }
+body.editorial-v2 .disclosure-block p:last-child { margin: 0; }
+
+/* (#15) Masthead-lockup hero — left-aligned colophon variant. */
+body.editorial-v2.about-hero-masthead .page-hero {
+    text-align: left;
+    padding: 3rem 2rem 0;
+}
+body.editorial-v2.about-hero-masthead .page-hero-inner { max-width: 920px; }
+body.editorial-v2.about-hero-masthead .page-hero-eyebrow {
+    padding-top: 0;
+    margin-bottom: 1.4rem;
+}
+body.editorial-v2.about-hero-masthead .page-hero-eyebrow::before {
+    left: 0;
+    transform: none;
+}
+body.editorial-v2.about-hero-masthead .page-hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    margin-bottom: 1rem;
+}
+body.editorial-v2.about-hero-masthead .page-hero p {
+    margin: 0 0 2rem;
+    text-align: left;
+}
+body.editorial-v2.about-hero-masthead .page-hero-stats {
+    margin: 0 -2rem;
+    padding: 0.85rem 2rem;
+    border-top: 1px solid var(--sand);
+    border-bottom: 1px solid var(--sand);
+    background: var(--warm-cream-soft);
+    justify-content: flex-start;
+    gap: 0;
+    flex-wrap: wrap;
+    font-feature-settings: "tnum" 1;
+}
+body.editorial-v2.about-hero-masthead .page-hero-stats .stat-pill {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0 1.25rem 0 0;
+    margin-right: 1.25rem;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-right: 1px solid var(--sand);
+}
+body.editorial-v2.about-hero-masthead .page-hero-stats .stat-pill:last-child {
+    border-right: 0;
+    padding-right: 0;
+    margin-right: 0;
+}
+body.editorial-v2.about-hero-masthead .page-hero-stats .stat-pill strong {
+    color: var(--indigo);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-right: 0.4rem;
+    letter-spacing: -0.01em;
+}
+
+/* (#16) Long-form serif body for .about-section paragraphs. */
+body.editorial-v2 .about-section p {
+    font-family: var(--font-serif);
+    font-size: 1.08rem;
+    line-height: 1.78;
+}
+body.editorial-v2 .about-section .team-body p,
+body.editorial-v2 .disclosure-block p {
+    font-size: 1rem;
+}
+
+/* (#17) In-page TOC — chip-row scrollable on mobile. */
+body.editorial-v2 .about-toc {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 0 2.5rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--sand);
+    border-bottom: 1px solid var(--sand);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+body.editorial-v2 .about-toc::-webkit-scrollbar { display: none; }
+body.editorial-v2 .about-toc-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0 0.75rem 0 0;
+    flex-shrink: 0;
+}
+body.editorial-v2 .about-toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0.4rem 0.95rem;
+    border: 1px solid var(--sand);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+body.editorial-v2 .about-toc a:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+    background: var(--warm-cream);
+}
+
+/* (#18) Contact section — intent-labeled mailto rows. */
+body.editorial-v2 .contact-rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    text-align: left;
+}
+body.editorial-v2 .contact-row {
+    display: flex;
+    flex-direction: column;
+    padding: 0.85rem 1rem;
+    background: var(--white);
+    border: 1px solid var(--sand);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+    min-height: 56px;
+}
+body.editorial-v2 .contact-row:hover { border-color: var(--terracotta); }
+body.editorial-v2 .contact-row .contact-row-intent {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+}
+body.editorial-v2 .contact-row .contact-row-addr {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--indigo);
+}
+
+/* (#20) .team-links — proper tap-target chips. */
+body.editorial-v2 .team-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    max-width: none;
+    line-height: 1;
+    font-family: var(--font-sans);
+}
+body.editorial-v2 .team-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--sand);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+}
+body.editorial-v2 .team-links a:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+}
+
+/* About-page mobile overrides for recovered + new components. */
+@media (max-width: 768px) {
+    body.editorial-v2 .team-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    body.editorial-v2 .team-avatar { width: 96px; height: 96px; font-size: 2rem; }
+    body.editorial-v2 .browse-card-anchor .browse-title { font-size: 1.25rem; }
+    body.editorial-v2.about-hero-masthead .page-hero { padding: 2rem 1.1rem 0; }
+    body.editorial-v2.about-hero-masthead .page-hero-stats {
+        margin: 0 -1.1rem;
+        padding: 0.75rem 1.1rem;
+    }
+    body.editorial-v2.about-hero-masthead .page-hero-stats .stat-pill {
+        padding: 0 0.85rem 0 0;
+        margin-right: 0.85rem;
+        font-size: 0.7rem;
+    }
+    body.editorial-v2.about-hero-masthead .page-hero-stats .stat-pill strong { font-size: 0.92rem; }
+    body.editorial-v2 .about-toc { margin-bottom: 1.75rem; flex-wrap: nowrap; padding: 0.6rem 0; }
+    body.editorial-v2 .about-toc-label { padding-right: 0.5rem; }
+    body.editorial-v2 .about-toc a { font-size: 0.78rem; padding: 0.35rem 0.8rem; }
+    body.editorial-v2 .about-section p { font-size: 1.02rem; line-height: 1.7; }
+    body.editorial-v2 .contact-rows { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+}
+@media (max-width: 480px) {
+    body.editorial-v2 .contact-rows { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
    REDUCED MOTION
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
