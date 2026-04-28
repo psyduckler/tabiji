@@ -1,0 +1,13 @@
+# Cloudflare Pages headers config
+# Docs: https://developers.cloudflare.com/pages/platform/headers/
+
+# Public JSON API endpoints — intentionally readable per llms.txt, but should
+# never appear in search-engine indexes (they exist to feed agents/clients,
+# not human SERPs). robots.txt already disallows /api/v1/, but many crawlers
+# ignore it; X-Robots-Tag is enforceable defense-in-depth.
+/api/v1/*
+  X-Robots-Tag: noindex, nofollow, nosnippet, noarchive
+
+# Same treatment for the lone raw-JSON file served outside /api/.
+/compare/cards-data.json
+  X-Robots-Tag: noindex, nofollow, nosnippet, noarchive
