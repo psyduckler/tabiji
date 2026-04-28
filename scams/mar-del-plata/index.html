@@ -485,16 +485,60 @@
         </div>
     </div>
 
-    <!-- CTA -->
-    <div class="cta-box">
-        <h2>Ready to Plan Your Mar del Plata Trip?</h2>
-        <p>Now you know what to watch for. Get a custom Mar del Plata itinerary with local tips, hidden spots, and restaurant picks — free.</p>
-        <a href="/plan/" class="cta-btn">Plan Your Mar del Plata Trip →</a>
-    </div>
+    <!-- @book-cta:start -->
+    <section class="book-end-cta" aria-label="Argentina: Tourist Scams book">
+        <a href="/books/argentina-tourist-scams/" class="book-end-cta-cover" aria-hidden="true">
+            <img src="/books/argentina-tourist-scams/covers/front-designed.jpg" alt="Argentina: Tourist Scams book cover — Buenos Aires colonial street with Galerías Pacífico facade, tango dancers in a window, and a cambio tout offering 'best rate today'" width="220" height="330" loading="lazy">
+        </a>
+        <div class="book-end-cta-body">
+            <div class="book-end-cta-eyebrow">📖 Argentina: Tourist Scams</div>
+            <h2 class="book-end-cta-headline">You just read 3 scams in Mar del Plata. The book has 63 more across 11 Argentine destinations.</h2>
+            <p class="book-end-cta-sub">Buenos Aires &ldquo;¡cambio! best rate today&rdquo; counterfeit-peso swaps. La Boca / San Telmo tango-show ticket markups. Patagonia (Bariloche / El Calafate / Ushuaia) tour-operator bait-and-switches. Iguazú &ldquo;closed today&rdquo; fake-guide reroutes. Mendoza wine-tour driver-tip pressure. Every documented Argentina scam &mdash; with the exact scripts, red flags, and Rioplatense Spanish phrases that shut each one down. Drawn from Clarín, La Nación, Página/12, Infobae, and Policía Federal records.</p>
+            <ul class="book-end-cta-benefits">
+                <li>66 documented scams across Buenos Aires, Patagonia, Mendoza, Iguazú &amp; 7 more destinations</li>
+                <li>A Rioplatense Spanish exit-phrase card you can screenshot to your phone</li>
+                <li>Updated annually &mdash; buy once, re-download future editions free</li>
+                <li>Readable in one flight &mdash; $4.99 on Amazon Kindle</li>
+            </ul>
+            <div class="book-end-cta-btns">
+                <a href="/books/argentina-tourist-scams/" class="book-end-cta-primary">See what's inside →</a>
+                <a href="https://amzn.to/4cMxlc8" target="_blank" rel="noopener" class="book-end-cta-secondary">Buy on Amazon · $4.99 →</a>
+            </div>
+        </div>
+    </section>
+    <!-- @book-cta:end -->
 
 </div>
 </main>
 
+<aside class="mobile-book-bar" data-mobile-book-bar role="complementary" aria-label="Buy the book">
+<img src="/books/argentina-tourist-scams/covers/front-designed.jpg" alt="" loading="lazy" width="32" height="48">
+<div class="mobile-book-bar-text">
+<strong>📖 Argentina Scams</strong>
+<span>$4.99 Kindle · 66 scams across 11 destinations</span>
+</div>
+<a href="https://amzn.to/4cMxlc8" class="mobile-book-bar-cta" target="_blank" rel="noopener">Buy →</a>
+<button class="mobile-book-bar-dismiss" aria-label="Dismiss book CTA" data-mobile-book-bar-dismiss>×</button>
+</aside>
+<script>
+(function () {
+    var bar = document.querySelector('[data-mobile-book-bar]');
+    if (!bar) return;
+    try { if (localStorage.getItem('book-bar-dismissed') === '1') { bar.classList.add('dismissed'); return; } } catch (e) {}
+    var dismiss = bar.querySelector('[data-mobile-book-bar-dismiss]');
+    if (dismiss) dismiss.addEventListener('click', function () {
+        bar.classList.add('dismissed');
+        try { localStorage.setItem('book-bar-dismissed', '1'); } catch (e) {}
+    });
+    var endCta = document.querySelector('.book-end-cta');
+    if (endCta && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) bar.classList.add('dismissed'); });
+        }, { rootMargin: '0px 0px 600px 0px' });
+        io.observe(endCta);
+    }
+})();
+</script>
 <!-- @include:footer:start -->
 <footer>
   <div class="footer-inner">
