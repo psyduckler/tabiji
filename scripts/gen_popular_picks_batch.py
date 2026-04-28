@@ -212,7 +212,7 @@ Return a JSON object with this EXACT structure (no markdown fences, no trailing 
       "reviewCount": 1234,
       "description": "2-3 sentence verdict about why this place is great.",
       "bestFor": "One sentence — who should come here and why.",
-      "strengths": "X.X★ from N Google reviews · Key strength · Another strength",
+      "strengths": "Key strength · Another strength · Third strength (NO ratings, review counts, or star symbols)",
       "whatToOrder": "Specific dish recommendation with details.",
       "insiderTip": "Practical insider tip for visiting.",
       "lat": 0.0000,
@@ -358,7 +358,6 @@ def build_venue_section(venue: dict, slug: str, city: str) -> str:
     <div class="restaurant-header">
         <h2><span class="restaurant-number">{rank}</span>{_esc(venue['name'])}</h2>
         <span class="cuisine-tag">{_esc(cuisine_style)}</span>
-        <span class="google-rating"><span class="star">&#9733;</span> {rating} &middot; {review_count:,} reviews</span>
     </div>
     <div class="restaurant-details">
         <span>\U0001F4B4 {_esc(price_symbol)}</span>
@@ -375,7 +374,7 @@ def build_venue_section(venue: dict, slug: str, city: str) -> str:
       <dl class="comparison-grid">
         <div class="comparison-row"><dt>Best for</dt><dd>{_esc(best_for)}</dd></div>
         <div class="comparison-row"><dt>Strengths</dt><dd>{_esc(strengths)}</dd></div>
-        <div class="comparison-row"><dt>Price / value</dt><dd>{_esc(price_symbol)} &middot; {rating}&#9733;</dd></div>
+        <div class="comparison-row"><dt>Price / value</dt><dd>{_esc(price_symbol)}</dd></div>
         <div class="comparison-row"><dt>What to order</dt><dd>{_esc(what_to_order)}</dd></div>
         <div class="comparison-row"><dt>Insider tip</dt><dd>{_esc(insider_tip)}</dd></div>
       </dl>
@@ -522,7 +521,6 @@ def _build_comparison_table(venues: list) -> str:
 <td><a href="#{sid}">{_esc(v['name'])}</a></td>
 <td>{_esc(v.get('cuisineStyle', ''))}</td>
 <td>{_esc(_price_tier_symbol(v.get('priceTier', 'mid')))}</td>
-<td>{v.get('rating', '')}&#9733;</td>
 <td>{_esc(v.get('neighborhood', ''))}</td>
 </tr>\n"""
 
@@ -535,7 +533,6 @@ def _build_comparison_table(venues: list) -> str:
 <th style="padding:.5rem .4rem;color:var(--earth);font-size:.8rem;">Name</th>
 <th style="padding:.5rem .4rem;color:var(--earth);font-size:.8rem;">Style</th>
 <th style="padding:.5rem .4rem;color:var(--earth);font-size:.8rem;">Price</th>
-<th style="padding:.5rem .4rem;color:var(--earth);font-size:.8rem;">Rating</th>
 <th style="padding:.5rem .4rem;color:var(--earth);font-size:.8rem;">Area</th>
 </tr>
 </thead>

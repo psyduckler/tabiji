@@ -48,8 +48,8 @@ SIMPLE = [
     ("approximately 320 pages on Kindle", "approximately 250 pages on Kindle"),
     ("about 78,000 words", "about 44,000 words"),
     ("1.03&#8221; spine", "0.585&#8221; spine"),
-    # Amazon link — placeholder until book is on Amazon
-    ("https://amzn.to/4mT6QGI", "https://amzn.to/morocco-book-tbd"),
+    # Amazon link — Morocco book live
+    ("https://amzn.to/4mT6QGI", "https://amzn.to/4twGLj8"),
     # Schema / language: Mexican Spanish → Moroccan Arabic (Darija) + French
     ("Spanish exit-phrase card", "Darija exit-phrase card"),
     ("Spanish phrase card", "Darija exit-phrase card"),
