@@ -33,7 +33,7 @@ def collect_scam_targets(
             p / "index.html"
             for p in sorted(SCAMS.iterdir())
             if p.is_dir()
-            and p.name not in ("country", "research")
+            and p.name not in ("country", "research", "everywhere")
             and (p / "index.html").exists()
         )
     if country_hubs:
