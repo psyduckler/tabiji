@@ -342,7 +342,7 @@ Page count may change. Cover SVG regenerates with updated spine automatically.
 ### PHASE 8 — SITE INTEGRATION
 
 1. **Create `books/<country>-tourist-scams/` site page**:
-   - Copy the most-recent book's page (`books/turkey-tourist-scams/index.html` at the time of writing) as a template
+   - Copy a recent book's page as a template (any of `books/{argentina,japan,turkey}-tourist-scams/index.html` works — all current landers carry the canonical structure including the `@book-sneak-peek:start ... :end` block)
    - Copy covers: `mkdir -p books/<country>-tourist-scams/covers && cp book-<country>/assets/covers/{front,back}.jpg books/<country>-tourist-scams/covers/`
    - Do a bulk search-and-replace through the HTML:
      - URL/slug swaps (`turkey-tourist-scams` → `<country>-tourist-scams`, `country/tr` → `country/<iso>`)
@@ -352,6 +352,11 @@ Page count may change. Cover SVG regenerates with updated spine automatically.
      - 3 teaser cards (one per flagship scam — write fresh for the new country)
      - 13-city / 16-city / N-city grid with Turkish-specific emoji + city names
      - Back-cover SVG text overlays
+     - **`@book-sneak-peek:start ... :end` "A look inside" block** — every lander page MUST keep this 2-comic sample section. Customize:
+       - 2 city slugs from this book (point to `https://img.tabiji.ai/scams/<city-slug>/scam-1.jpg`)
+       - 2 short scam titles matching each city's actual scam-1 (read from `scams/<city>/index.html` `alt="... — comic illustration"`)
+       - "A sneak peek of two of the N" — N is this book's total scam count
+       - Then add the new country to `scripts/book-cta-rollout/add_book_sneak_peek.py` (PAIRS + TOTALS) so the section can be re-injected idempotently if it's ever lost
      - "Why we write these books" 3 cards (press outlets, phrasebook angle, annual updates)
      - Roadmap tiles — promote all previously-live volumes to "Live" status
      - FAQ page count
