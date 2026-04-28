@@ -37,6 +37,9 @@ CITIES = [
     "liberia-costa-rica",
     "jaco-costa-rica",
     "monteverde",
+    "tortuguero",
+    "santa-teresa",
+    "quepos",
 ]
 
 IMG_TAG_TEMPLATE = (
