@@ -15,7 +15,7 @@ Copy-paste directly into KDP.
 
 > **Title:** Greece Tourist Scams 2026
 >
-> **Subtitle:** 65 Real Scams Across Athens, Santorini, Mykonos & 7 More Cities — Drawn from Greek News Reports and Tourist Police Records
+> **Subtitle:** 99 Real Scams Across Athens, Santorini, Mykonos, Meteora & 12 More Cities — Drawn from Greek News Reports and Tourist Police Records
 
 **Title field:** 27 characters. **Subtitle field:** 117 characters. Combined: 146 — under the ~200-char mobile truncation point.
 
@@ -25,7 +25,7 @@ Indexed phrases this locks in for organic search:
 - *athens santorini mykonos* (three flagship destinations in subtitle)
 - *greek phrases*
 
-**Cover status:** `book-greece/assets/svg/front.svg` composites a full-bleed red-figure pottery style background with "GREECE · Tourist Scams" overlay and "10 CITIES · 65 DOCUMENTED SCAMS" on the hook. The pottery-art style matches the four-panel comics inside every scam entry.
+**Cover status:** `book-greece/assets/svg/front.svg` composites a full-bleed red-figure pottery style background with "GREECE · Tourist Scams" overlay and "16 CITIES · 99 DOCUMENTED SCAMS" on the hook. The pottery-art style matches the four-panel comics inside every scam entry.
 
 ---
 
@@ -75,7 +75,7 @@ Character count below: **≈ 3,850** — safely under the 4,000 limit.
 <h4>What's inside this book</h4>
 
 <ul>
-<li><b>65 documented scams</b> across Athens, Santorini, Mykonos, Paros, Naxos, Thessaloniki, Rhodes, Corfu, Heraklion, and Chania — with the exact Greek phrase, said calmly, that ends each one.</li>
+<li><b>99 documented scams</b> across Athens, Delphi, Meteora, Nafplio, Santorini, Mykonos, Paros, Naxos, Milos, Thessaloniki, Rhodes, Kos, Corfu, Zakynthos, Heraklion, and Chania — with the exact Greek phrase, said calmly, that ends each one.</li>
 <li><b>6 universal scam patterns</b> so you can spot the hundreds of variations still being invented.</li>
 <li><b>A red-figure pottery comic for every scam</b> — see the script play out frame-by-frame before you're in it, rendered in ancient Greek vase-painting style.</li>
 <li><b>A print-ready Greek phrase card</b> — English, Greek script, romanized Greek, and simple phonetic pronunciation, with the one phrase (<i>Óchi, efcharistó</i>) that ends most tout interactions instantly.</li>
@@ -168,7 +168,7 @@ For BISAC (used outside KDP):
 | Matchbook | **No** |
 | Kindle Unlimited / KDP Select | **Yes — enrolled for 90 days** |
 
-**KU economics note:** Greece volume is ~245 Kindle pages (larger than Thailand — 65 scams with 65 embedded red-figure pottery comics). A completed KU read-through should net roughly $1.00 at current per-page rates. Greece's niche ("avoid Mykonos restaurant scam," "Santorini taxi overcharge") has high search volume on Kindle, so keyword-driven organic discovery is expected to drive most sales.
+**KU economics note:** Greece volume is ~360 Kindle pages (the largest in the series — 99 scams with 99 embedded red-figure pottery comics, 16 chapters). A completed KU read-through should net roughly $1.40 at current per-page rates. Greece's niche ("avoid Mykonos restaurant scam," "Santorini taxi overcharge," "Meteora day-trip scam") has high search volume on Kindle, so keyword-driven organic discovery is expected to drive most sales.
 
 ---
 

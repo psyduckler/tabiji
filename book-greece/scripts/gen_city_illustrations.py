@@ -125,6 +125,48 @@ CITIES: list[tuple[str, str, str]] = [
         "visible through the ancient doorway, warm golden-hour light.",
         "m",
     ),
+    (
+        "meteora",
+        "The clifftop monasteries of Meteora balanced on dramatic sandstone pinnacles "
+        "at sunrise, deep mist drifting through the valley below, soft warm light on "
+        "the rock spires, the Pindus mountains in the distance.",
+        "f",
+    ),
+    (
+        "delphi",
+        "The Tholos rotunda of Athena Pronaia at Delphi on the slopes of Mount Parnassus "
+        "at golden hour, three reconstructed Doric columns of the circular temple, the "
+        "Pleistos river valley sweeping below, warm honey light on ancient marble.",
+        "m",
+    ),
+    (
+        "nafplio",
+        "The Bourtzi sea-fortress in the Nafplio harbor at dusk, the small Venetian "
+        "island fortress glowing warm against a deep teal Argolic Gulf, the "
+        "Palamidi castle silhouetted on the cliff above the old town.",
+        "f",
+    ),
+    (
+        "kos",
+        "The ancient Asclepieion healing sanctuary on a hillside above Kos, terraced "
+        "ruins of marble columns and stone steps catching golden afternoon light, "
+        "olive groves below, the Aegean Sea and the coast of Bodrum in the distance.",
+        "m",
+    ),
+    (
+        "zakynthos",
+        "Navagio Shipwreck Beach in its cliff-ringed cove at golden hour, towering "
+        "white limestone cliffs framing the curve of bright turquoise water, the "
+        "rusted shipwreck silhouetted on the sand, deep blue Ionian Sea beyond.",
+        "f",
+    ),
+    (
+        "milos",
+        "The white-rock lunar landscape of Sarakiniko on Milos at sunset, smooth "
+        "sculptural volcanic-tuff formations glowing soft pink and gold, the deep "
+        "blue Aegean Sea contrasting with bone-white rock, dramatic Cycladic light.",
+        "m",
+    ),
 ]
 
 
