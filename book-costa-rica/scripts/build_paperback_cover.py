@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build the KDP paperback wraparound cover PDF for the Indonesia book.
+Build the KDP paperback wraparound cover PDF for the Costa Rica book.
 
 Composes back.svg (left) + spine (middle, with vertical title) + front.svg (right)
 into a single print-ready PDF at the exact dimensions KDP requires, including bleed.
@@ -8,18 +8,27 @@ into a single print-ready PDF at the exact dimensions KDP requires, including bl
 Target trim: 6" x 9" (the KDP-standard non-fiction trade paperback size).
 The source SVGs in assets/svg/ were designed for a 5"x8" viewBox (500x800 units);
 they are uniformly scaled to fit the 9" trim height and centered horizontally
-inside the 6" trim width — the side gap fills naturally with the navy bleed
-gradient so the preserved 5:8 composition reads as an intentionally-generous
-framed design rather than a letterbox.
+inside the 6" trim width — the side gap fills naturally with the bleed-color
+gradient (CONFIG["bleed_colors"]) so the preserved 5:8 composition reads as
+an intentionally-generous framed design rather than a letterbox.
 
-Default --pages (287, cream) produces an output exactly 12.968" x 9.250",
-which is what KDP's cover calculator expects for this title. Override with
---pages N if the final interior comes in at a different page count.
+Spine layout (read bottom-to-top per European convention so the title is
+right-side-up when the book lies face-up on a table):
+  - TABIJI mark near the top of the spine (small caps, gold)
+  - Country title + "Tourist Scams" centered on the spine (cream + gold)
+  - Roman-numeral edition year near the bottom of the spine (M M X X V I)
+The country title comes from CONFIG["spine_title"] (e.g. "COSTA RICA"),
+falling back to the leading word(s) of CONFIG["title"] before "Tourist".
+
+Default --pages (287, cream) produces an output exactly 12.968" x 9.250" at
+the typical Tabiji volume length. Override with --pages N if the final
+interior comes in at a different page count (e.g. Costa Rica V1 ships 236pp,
+which gives a 0.59" spine and a 12.840" x 9.250" wrap).
 
 Usage:
-    python3 book-france/scripts/build_paperback_cover.py                 # 287 pages, cream
-    python3 book-france/scripts/build_paperback_cover.py --pages 268
-    python3 book-france/scripts/build_paperback_cover.py --paper white
+    python3 book-costa-rica/scripts/build_paperback_cover.py --pages 236     # CR V1, cream
+    python3 book-costa-rica/scripts/build_paperback_cover.py --pages 287     # default
+    python3 book-costa-rica/scripts/build_paperback_cover.py --paper white
 """
 from __future__ import annotations
 
@@ -203,8 +212,8 @@ def main() -> None:
      viewBox="0 0 {total_w} {total_h}" xmlns="http://www.w3.org/2000/svg"
      preserveAspectRatio="xMidYMid meet" xmlns:xlink="http://www.w3.org/1999/xlink">
   <!-- ================================================================ -->
-  <!-- CANADA PAPERBACK WRAPAROUND COVER                              -->
-  <!-- KDP spec: 6"x9" trim, cream paper, {args.pages} pages            -->
+  <!-- COSTA RICA PAPERBACK WRAPAROUND COVER                          -->
+  <!-- KDP spec: 6"x9" trim, {args.paper} paper, {args.pages} pages           -->
   <!-- Spine: {spine_in:.4f}"; total {total_w / UNITS_PER_IN:.3f}"x{total_h / UNITS_PER_IN:.3f}" incl 0.125" bleed -->
   <!-- Order (left→right): BACK | SPINE | FRONT                        -->
   <!-- ================================================================ -->
