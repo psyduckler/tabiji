@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Inject the "A look inside" four-panel-comic sneak-peek section into the
-8 book landing pages that don't have it yet (Japan/Italy/France/Greece/
-Thailand already have it).
+"""Inject the "A look inside" four-panel-comic sneak-peek section into
+book landing pages that don't have it yet.
 
 Section is inserted between the 'Inside this book' teasers section and
 the 'N cities covered' section-alt, mirroring Italy's structure.
 
 Idempotent: skips pages that already contain @book-sneak-peek markers.
+
+When you ship a new country book, add an entry to PAIRS + TOTALS below
+and re-run. Every country book lander page should have this 2-comic
+sample block (matches Japan/Italy/etc.).
 
 Usage:
     python3 scripts/book-cta-rollout/add_book_sneak_peek.py
@@ -55,6 +58,42 @@ PAIRS: dict[str, list[tuple[str, str, str]]] = {
         ("hanoi",           "Hanoi",           "Noi Bai Fake-Grab Driver"),
         ("ho-chi-minh-city","Ho Chi Minh City", "Tan Son Nhat Fake-Grab Driver"),
     ],
+    "argentina": [
+        ("buenos-aires",        "Buenos Aires",    "The Florida Avenue “¡Cambio!” Tout"),
+        ("bariloche",           "Bariloche",       "The Bariloche Rental-Car Smash-and-Grab"),
+    ],
+    "australia": [
+        ("sydney",              "Sydney",          "The Sydney Airport Taxi “Top-Up”"),
+        ("gold-coast",          "Gold Coast",      "The Wyndham Timeshare Pitch"),
+    ],
+    "china": [
+        ("beijing",             "Beijing",         "The Beijing Airport Black-Taxi Switch"),
+        ("shanghai",            "Shanghai",        "The Nanjing Road Tea-House Scam"),
+    ],
+    "colombia": [
+        ("bogota",              "Bogotá",     "The Bogotá Scopolamine Drink-Spiking"),
+        ("medellin",            "Medellín",   "The El Poblado Scopolamine Setup"),
+    ],
+    "costa-rica": [
+        ("manuel-antonio",      "Manuel Antonio",  "The “Park Closed” Fake-Ranger Shake-Down"),
+        ("san-jose-costa-rica", "San José",   "The SJO Airport Pirate-Taxi Cartel"),
+    ],
+    "egypt": [
+        ("cairo",               "Cairo",           "The Camel-Ride Hostage at Giza"),
+        ("luxor",               "Luxor",           "The Caleche Bait-and-Switch"),
+    ],
+    "mexico": [
+        ("mexico-city",         "Mexico City",     "The MEX “Authorized Taxi” Overcharge"),
+        ("cancun",              "Cancún",     "The CUN Airport Fake-“Visitax” Shake-Down"),
+    ],
+    "morocco": [
+        ("marrakech",           "Marrakech",       "The “That Way’s Closed” Fake Guide"),
+        ("chefchaouen",         "Chefchaouen",     "The Hash-Tout Police Shakedown"),
+    ],
+    "turkey": [
+        ("istanbul",            "Istanbul",        "The Sultanahmet Shoe-Shine Drop"),
+        ("bodrum",              "Bodrum",          "The Cumhuriyet Caddesi Bar Trap"),
+    ],
 }
 
 # Country totals for the "A sneak peek of two of the N" line.
@@ -67,6 +106,15 @@ TOTALS = {
     "spain": 103,
     "indonesia": 73,
     "vietnam": 66,
+    "argentina": 66,
+    "australia": 84,
+    "china": 98,
+    "colombia": 58,
+    "costa-rica": 69,
+    "egypt": 43,
+    "mexico": 114,
+    "morocco": 61,
+    "turkey": 78,
 }
 
 
