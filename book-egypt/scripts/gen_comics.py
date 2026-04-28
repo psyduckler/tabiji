@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 """
-Generate the Italy book cover art via Wavespeed (Nano Banana Pro):
- - front cover (dramatic 2:3 portrait scene, Colosseum gladiator photo extortion)
- - back cover (2:3 portrait scene of a Venetian canal at golden hour)
+Generate the Egypt book cover art via Wavespeed (Nano Banana Pro):
+ - front cover (dramatic 2:3 portrait scene, Giza camel-handler scam in action)
+ - back cover (2:3 portrait scene of a calm Aswan Nile felucca at golden hour)
+
+Both prompts use the locked Egypt scam-comic style (modern-cairo-illustrated:
+gouache + ink, sand-gold/Nile-blue palette) adapted to a single hero scene
+rather than the 4-panel layout used for the per-scam comics.
 
 Saves to assets/svg/{front,back}.jpg so the same-directory SVGs resolve their
 relative xlink:href image references. Also mirrors to assets/covers/ so the
 desktop-bundle pattern (02-cover-art/front-raw.jpg etc.) picks them up.
 
 Usage:
-    python3 book-italy/scripts/gen_comics.py
-    python3 book-italy/scripts/gen_comics.py --front-only
-    python3 book-italy/scripts/gen_comics.py --back-only
+    python3 book-egypt/scripts/gen_comics.py
+    python3 book-egypt/scripts/gen_comics.py --front-only
+    python3 book-egypt/scripts/gen_comics.py --back-only
+    python3 book-egypt/scripts/gen_comics.py --force      # regenerate
 """
 from __future__ import annotations
 
@@ -35,11 +40,14 @@ COVERS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 STYLE_COMIC = (
-    "Watercolor-storybook illustration in soft hand-painted lines, pastel "
-    "palette with warm cream and muted saffron background, gentle shading. "
-    "Matches a travel-safety book interior illustration style. English text "
-    "in speech bubbles must be clear, grammatically correct, and legible. "
-    "No logos, no watermarks, no signatures."
+    "Contemporary illustrated Egyptian travel-comic style: confident fine "
+    "black ink outlines with richly digital-painted watercolor-and-gouache "
+    "fills, realistic character proportions and expressive faces, visible "
+    "painterly texture, soft shadows. Single full-bleed hero scene — NO "
+    "panel borders, NO grid layout, NO numbered panels. Palette of "
+    "sand-gold, terracotta, Nile-blue, dusty rose, and warm cream. Soft "
+    "golden-hour light, visible paper-grain texture. No logos, no "
+    "watermarks, no signatures."
 )
 
 
@@ -47,51 +55,62 @@ COVERS = [
     (
         "front",
         (
-            "A single dramatic watercolor-storybook scene, portrait 2:3 aspect, "
-            "depicting the iconic Italy tourist scam in action outside the "
-            "Roman Colosseum: a young female tourist with shoulder-length brown "
-            "hair, wearing a light cream linen sundress and a small straw "
-            "shoulder bag, stands on the warm-stone Via Sacra. A man dressed as "
-            "a Roman gladiator-centurion (red plumed helmet, leather "
-            "breastplate, sandals, a short red tunic) has just draped his arm "
-            "across her shoulders for a photograph; her travel companion is "
-            "lifting a phone to take the picture. The gladiator's face has "
-            "shifted from a smile to a hard demanding look. He is saying "
-            "'Trenta euro!' in a clean white speech bubble with a small "
-            "pointer tail. Two more costumed Roman 'friends' in similar red "
-            "tunics are visible in the middle distance, watching from the "
-            "Colosseum entrance. The massive curve of the Colosseum's outer "
-            "wall fills the right background, with umbrella-pine silhouettes "
-            "and the Arch of Constantine partly visible to the left. Warm "
-            "golden-hour Roman sky in saffron, dusty rose, and pale cream — "
-            "composition leaves generous empty sky in the upper third for a "
-            "book-cover title to be overlaid. Palette: warm ochre, saffron, "
-            "deep burgundy, muted teal shadows, terracotta. No book title "
-            "text, no watermark, no logo — just the illustration."
+            "A single dramatic richly-painted watercolor-and-gouache hero "
+            "scene, portrait 2:3 aspect, depicting the iconic Egypt tourist "
+            "scam in action on the Giza pyramids plateau in late-afternoon "
+            "golden raking light. Foreground (lower two-thirds): a female "
+            "tourist with shoulder-length brown hair, mid-30s, wearing a "
+            "tan canvas sun hat, a pale-blue button-down rolled at the "
+            "sleeves, beige hiking trousers, a small leather camera bag at "
+            "her hip — standing on the warm golden sand at three-quarter "
+            "view, hesitant body language, hand half-raised. Beside her, a "
+            "friendly tan-skinned Egyptian camel handler with a short black "
+            "beard, mid-30s, in a long ivory galabeya and a crisp white "
+            "turban, gesturing with an open hand toward a richly decorated "
+            "kneeling camel with red-and-orange tasseled saddle blankets, "
+            "small brass bells, embroidered halter. He says \"Free photo, "
+            "just one minute!\" in a clean white speech bubble with a small "
+            "pointer tail, in clear printed black comic lettering. Both "
+            "figures are roughly half the frame height — clearly readable "
+            "as the focal subjects, not tiny. Background (upper third): "
+            "the three pyramids of Khufu, Khafre, and Menkaure rise as "
+            "BOLD warm sandstone silhouettes against a deep saffron-and-"
+            "amber sky — substantial, dominant, unmistakably the Pyramids "
+            "of Giza, NOT faint or distant. Confident fine black ink "
+            "outlines around figures and architecture, richly painted "
+            "watercolor-and-gouache fills with visible painterly texture, "
+            "soft cast shadows on the sand. Palette: deep saffron, warm "
+            "sand-gold, burnt terracotta, deep ochre, Nile-blue mid-shadows, "
+            "rich amber sky. Composition reserves a roughly 18%-tall area "
+            "of high-contrast sky at the very top edge for a book-cover "
+            "title to be overlaid, and the very bottom edge has darker "
+            "ground-shadow tones for a hook block. No book title text, no "
+            "watermark, no logo, no hieroglyphs, no signature — just the "
+            "richly-painted illustration."
         ),
         "2:3",
     ),
     (
         "back",
         (
-            "A single quiet watercolor-storybook landscape painting, portrait "
-            "2:3 aspect, depicting a calm Venetian canal scene at golden hour, "
-            "viewed from a low vantage point on the water: warm-terracotta and "
-            "pale-yellow Venetian palazzo facades line both sides of a narrow "
-            "rio, their lower floors weathered by water; arched bridges cross "
-            "in the middle distance. A single empty black-prowed gondola is "
-            "moored at a striped mooring pole in the foreground, water "
-            "reflecting the warm sky. NO PEOPLE. NO HUMAN FIGURES. NO "
-            "FOREGROUND CHARACTERS. Late-afternoon Venetian sky filling the "
-            "upper half of the frame in saffron, dusty rose, and pale gold — "
-            "substantial empty calm sky in the upper two-thirds of the frame "
-            "to leave space for back-cover copy to be overlaid. Composition "
-            "is atmospheric, calm, completely empty of figures, and entirely "
-            "wordless. Palette: pastel watercolor, warm amber lantern glow, "
-            "hints of saffron, terracotta, deep burgundy and indigo shadows. "
-            "ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO SPEECH BUBBLES, NO "
-            "SIGNS, NO TYPOGRAPHY, NO CAPTIONS, NO WATERMARK, NO BOOK TITLE, "
-            "NO ANNOTATIONS, NO LANGUAGE OF ANY KIND ANYWHERE IN THE IMAGE — "
+            "A single quiet richly-painted watercolor-and-gouache landscape "
+            "painting, portrait 2:3 aspect, depicting a calm Aswan Nile "
+            "scene at golden hour, viewed from a low vantage point on the "
+            "sandstone riverbank. A single empty traditional Egyptian "
+            "felucca with a tall white triangular sail is moored at a "
+            "sandstone Nile bank in the lower foreground; date palms and "
+            "the soft silhouette of Elephantine Island rise in the middle "
+            "distance; warm amber-and-saffron Nubian sky fills the upper "
+            "half. NO PEOPLE. NO HUMAN FIGURES. NO FOREGROUND CHARACTERS. "
+            "Substantial empty calm sky in the upper two-thirds of the "
+            "frame to leave space for back-cover copy to be overlaid. "
+            "Confident fine black ink outlines, richly painted gouache "
+            "fills, visible painterly paper-grain texture. Palette: warm "
+            "amber sunset glow, sand-gold, terracotta, dusty rose, "
+            "Nile-blue and deep indigo shadows. ABSOLUTELY NO TEXT, NO "
+            "LETTERS, NO WORDS, NO SPEECH BUBBLES, NO SIGNS, NO TYPOGRAPHY, "
+            "NO CAPTIONS, NO WATERMARK, NO BOOK TITLE, NO HIEROGLYPHS, NO "
+            "ANNOTATIONS, NO LANGUAGE OF ANY KIND ANYWHERE IN THE IMAGE — "
             "this is a pure landscape painting only."
         ),
         "2:3",
