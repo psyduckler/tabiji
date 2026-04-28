@@ -148,6 +148,62 @@ EXTRA_REDDIT_SUBS = [
     (re.compile(r'\bEditor-curated curated\b', re.IGNORECASE), 'Editor-curated'),
 ]
 
+# (7) Visible "X.X★ from N reviews" rating fabrications.  The aggregateRating
+# JSON-LD was already stripped (pattern 1); these are the same fabricated
+# rating + reviewCount data rendered as visible HTML.  Three sub-patterns:
+#
+#   a) Comparison-table column "Rating" (header + cells).  Drop the column
+#      entirely so the table doesn't show empty cells.
+#   b) Per-venue google-rating span ("★ 4.2 · 5,500 reviews").  Drop entirely.
+#   c) Strengths comparison-row "X.X★ from N reviews · Area · ...".  Strip the
+#      "X★ from N reviews · " prefix; keep any trailing strengths.  If nothing
+#      remains, drop the whole row.
+
+# (7a) Comparison-table column.
+RATING_TH_RE = re.compile(r'<th>Rating</th>')
+RATING_TD_RE = re.compile(r'\s*<td>[\d.]+★</td>')
+
+# (7b) Per-venue google-rating span ("★ 4.2 · 5,500 reviews" inside .google-rating).
+# The outer span contains a nested <span class="star">★</span>, so a generic
+# .*? lazy match would close on the inner span.  Match the exact structure.
+GOOGLE_RATING_SPAN_RE = re.compile(
+    r'\s*<span class="google-rating"><span class="star">★</span>[^<]*</span>',
+)
+
+# (7c) Strengths comparison-row.  Two outcomes:
+#  - prefix "X★ from N reviews · " stripped, trailing kept -> rewrite
+#  - nothing trailing -> drop the whole row
+STRENGTHS_ROW_RE = re.compile(
+    r'<div class="comparison-row"><dt>Strengths</dt><dd>([\d.]+★ from [\d,]+ reviews)([^<]*)</dd></div>',
+)
+
+
+def _rewrite_strengths(match: re.Match) -> str:
+    trailing = match.group(2).lstrip(' ·').strip()
+    if not trailing:
+        return ''  # drop the row entirely
+    return f'<div class="comparison-row"><dt>Strengths</dt><dd>{trailing}</dd></div>'
+
+
+# (7d) "Price / value" comparison row.  The dd content is typically
+# "<price> · X.X★" or just "X.X★ Google rating" / "X.X★ from N reviews".
+# Strip the rating suffix; if nothing remains, drop the row entirely.
+PRICE_VALUE_ROW_RE = re.compile(
+    r'<div class="comparison-row"><dt>Price / value</dt><dd>([^<]*)</dd></div>',
+)
+
+
+def _rewrite_price_value(match: re.Match) -> str:
+    content = match.group(1)
+    # Drop the "X.X★ Google rating" or "X.X★ from N(,N)? reviews" suffix and
+    # any leading " · " separator.
+    cleaned = re.sub(r'\s*·?\s*[\d.]+★(?:\s*Google rating|\s*from\s*[\d,]+\s*reviews)?', '', content).strip()
+    cleaned = cleaned.strip(' ·')
+    if not cleaned:
+        return ''  # drop the entire row
+    return f'<div class="comparison-row"><dt>Price / value</dt><dd>{cleaned}</dd></div>'
+
+
 # (6) Intro paragraphs claiming Reddit sourcing.  Detection trigger: any of
 # "Reddit", "r/<lowercase-word>", or "subreddit" appears in the paragraph text.
 INTRO_SECTION_RE = re.compile(
@@ -186,6 +242,11 @@ def strip(html: str) -> tuple[str, dict]:
         "desc_phrase": 0,
         "intro_paragraphs": 0,
         "extra_phrase": 0,
+        "rating_th": 0,
+        "rating_td": 0,
+        "google_rating_span": 0,
+        "strengths_row": 0,
+        "price_value_row": 0,
     }
 
     new_html, counts["aggregateRating"] = AGGREGATE_RATING_RE.subn("", html)
@@ -197,6 +258,13 @@ def strip(html: str) -> tuple[str, dict]:
     for pattern, replacement in EXTRA_REDDIT_SUBS:
         new_html, n = pattern.subn(replacement, new_html)
         counts["extra_phrase"] += n
+
+    # (7) Visible-rating fabrications.
+    new_html, counts["rating_th"] = RATING_TH_RE.subn('', new_html)
+    new_html, counts["rating_td"] = RATING_TD_RE.subn('', new_html)
+    new_html, counts["google_rating_span"] = GOOGLE_RATING_SPAN_RE.subn('', new_html)
+    new_html, counts["strengths_row"] = STRENGTHS_ROW_RE.subn(_rewrite_strengths, new_html)
+    new_html, counts["price_value_row"] = PRICE_VALUE_ROW_RE.subn(_rewrite_price_value, new_html)
 
     def _intro_sub(m: re.Match) -> str:
         inner_clean, n = _clean_intro(m.group(2))
@@ -234,6 +302,8 @@ def main(argv: list[str]) -> int:
     totals = {k: 0 for k in (
         "aggregateRating", "methodology", "source_span",
         "title_suffix", "desc_phrase", "intro_paragraphs", "extra_phrase",
+        "rating_th", "rating_td", "google_rating_span", "strengths_row",
+        "price_value_row",
     )}
     changed_files = 0
     for path in paths:
@@ -253,6 +323,11 @@ def main(argv: list[str]) -> int:
     print(f"  desc phrase rewrites:    {totals['desc_phrase']}")
     print(f"  intro paragraphs cut:    {totals['intro_paragraphs']}")
     print(f"  extra phrase rewrites:   {totals['extra_phrase']}")
+    print(f"  rating column headers:   {totals['rating_th']}")
+    print(f"  rating column cells:     {totals['rating_td']}")
+    print(f"  google-rating spans:     {totals['google_rating_span']}")
+    print(f"  strengths rows rewrites: {totals['strengths_row']}")
+    print(f"  price/value rows:        {totals['price_value_row']}")
     return 0
 
 
