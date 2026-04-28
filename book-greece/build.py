@@ -47,6 +47,12 @@ CITY_ALT_TEXT: dict[str, str] = {
     "chania": "Chania — the Venetian Lighthouse and Old Harbour at dusk",
     "paros": "Paros — whitewashed houses of Naoussa fishing village at sunset",
     "naxos": "Naxos — the Portara gateway to the Temple of Apollo at sunset",
+    "meteora": "Meteora — clifftop monasteries balanced on sandstone pinnacles at sunrise",
+    "delphi": "Delphi — Tholos rotunda of Athena Pronaia on Mount Parnassus",
+    "nafplio": "Nafplio — the Bourtzi sea-fortress and the harbor below Palamidi",
+    "kos": "Kos — the Asclepieion ancient healing sanctuary on a hillside",
+    "zakynthos": "Zakynthos — Navagio Shipwreck Beach in the cliff-ringed cove",
+    "milos": "Milos — the white-rock lunar landscape of Sarakiniko at sunset",
 }
 
 
