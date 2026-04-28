@@ -10,7 +10,7 @@ Scam patterns change. A new Avis Liberia "mandatory insurance" threshold lands. 
 
 **[tabiji.ai/scams](https://tabiji.ai/scams)**
 
-For the full Costa Rica guide on the web, with all fifty-four scams in a searchable format, visit:
+For the full Costa Rica guide on the web, with all sixty-nine scams in a searchable format, visit:
 
 **[tabiji.ai/scams/country/cr](https://tabiji.ai/scams/country/cr/)**
 

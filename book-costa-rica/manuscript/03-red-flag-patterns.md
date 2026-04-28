@@ -1,6 +1,6 @@
 # The Six Universal Red-Flag Patterns {-}
 
-The fifty-four scams in this book may sound different from each other, but most of them are variations on just six patterns. Learn the patterns and you do not need to memorize every scam. You will recognize a new one the moment it starts to unfold, even if it has never been written down.
+The sixty-nine scams in this book may sound different from each other, but most of them are variations on just six patterns. Learn the patterns and you do not need to memorize every scam. You will recognize a new one the moment it starts to unfold, even if it has never been written down.
 
 Costa Rican scam patterns are not European or Southeast Asian scam patterns. Pickpocketing concentrates in narrow zones (the Coca-Cola terminal in San José, a handful of beach pullouts, the Tracopa rest stops) rather than across every plaza. The classic European street games — gold-ring finds, bracelet tying, bird-poop-and-wallet — are rare. What Costa Rica has built instead is a layered con economy: fake uniforms at national-park gates, a counter-level rental-car insurance trap that converts a $123 online quote into $444, a drug-and-robbery pipeline on Jacó and Tamarindo main strips, key-fob jammers at Caribbean beach pullouts, inside-job burglaries at isolated Airbnbs, and an SEO-copycat-domain layer (monteverdetourscr.com, not monteverdetours.com) that silently drains tour deposits. Read each of the six patterns below once, then let them settle into the way you make choices on the trip.
 

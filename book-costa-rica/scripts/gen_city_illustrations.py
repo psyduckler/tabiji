@@ -114,6 +114,30 @@ CITIES: list[tuple[str, str, str]] = [
         "scarlet macaw flying across the scene, tropical jungle backdrop.",
         "m",
     ),
+    (
+        "tortuguero",
+        "Tortuguero canal at golden hour with a wooden boat threading "
+        "through the mangroves, a green sea turtle nesting on the dark-"
+        "sand beach in the foreground, palms and rainforest behind, "
+        "warm cream sky with deep emerald jungle.",
+        "f",
+    ),
+    (
+        "santa-teresa",
+        "Playa Carmen in Santa Teresa at sunset — long Pacific surf "
+        "break with a single surfer paddling out, palm-fringed dirt "
+        "road of Mal País in the foreground, Nicoya Peninsula "
+        "headland in silhouette, warm magenta and turquoise sky.",
+        "m",
+    ),
+    (
+        "quepos",
+        "Marina Pez Vela in Quepos at golden hour — sportfishing "
+        "boats lined up at the dock, palm-fringed Pacific hills, "
+        "Manuel Antonio National Park headland on the horizon, "
+        "warm tropical palette with banana yellow sky.",
+        "f",
+    ),
 ]
 
 

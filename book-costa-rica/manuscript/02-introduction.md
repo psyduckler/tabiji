@@ -6,7 +6,7 @@ It is also, for first-time visitors, a country with a very specific catalog of h
 
 We want you to come home with stories about the volcano, the sloths, the coffee, the waves, and the *pura vida* — not about a $2,000 "mandatory insurance" stack at LIR or a $1,000 deposit lost to a monteverdetourscr.com "tour" that never happened.
 
-That is why this book is short and practical. It documents fifty-four specific scams that trip up first-time visitors across eight Costa Rican cities, and it tells you the exact moves that stop them. Nothing in it is theoretical. Every scam has been posted to r/CostaRicaTravel, r/costarica, or a related subreddit, cross-referenced against U.S. Embassy Security Alerts, OIJ reports, *Tico Times* coverage, TripAdvisor operator complaints, and confirmed by multiple traveler accounts with dollar or colón losses attached.
+That is why this book is short and practical. It documents sixty-nine specific scams that trip up first-time visitors across eleven Costa Rican destinations — the Central Valley capital, the Arenal volcano gateway, the cloud forest, the Central Pacific national-park and marina belt, the Nicoya tip, the Guanacaste airport, and both Caribbean coasts — and it tells you the exact moves that stop them. Nothing in it is theoretical. Every scam has been posted to r/CostaRicaTravel, r/costarica, or a related subreddit, cross-referenced against U.S. Embassy Security Alerts, OIJ reports, *Tico Times* coverage, TripAdvisor operator complaints, and confirmed by multiple traveler accounts with dollar or colón losses attached.
 
 ## How each scam is written
 
