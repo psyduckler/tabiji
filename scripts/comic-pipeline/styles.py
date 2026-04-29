@@ -402,20 +402,26 @@ STYLES = {
         "Square 1:1 composition, 2K resolution."
     ),
     "india": (
-        "A single illustrated comic book page in the classical Mughal miniature painting "
-        "style of the Akbar/Jahangir court ateliers — meticulous fine black-ink outline "
-        "drawing with bright opaque jewel-tone gouache fills (deep crimson, peacock-blue, "
-        "emerald, saffron yellow, lapis blue, gold leaf accents), classical Indian profile "
-        "poses with elongated almond eyes and refined gestures, intricately patterned "
-        "textiles and architectural detail (Mughal red sandstone arches, jharokha "
-        "balconies, marble inlay), decorative geometric and floral borders framing each "
-        "panel in red and gold, ornate calligraphic flourishes, courtly Indo-Islamic "
-        "painting tradition. Showing four sequential panels arranged in a 2x2 grid with "
-        "small numbers 1, 2, 3, 4 in the upper-left corner of each panel, separated by "
-        "thin gold borders with cream gutters. Each panel contains one clean white rounded "
-        "speech bubble with a small pointer tail, holding short printed English dialogue "
-        "in simple black lettering — text must be legible, in English only, and correctly "
-        "spelled. Square 1:1 composition, 2K resolution."
+        "A single illustrated comic book page in the iconic Amar Chitra Katha Indian "
+        "comic-book style of the Anant Pai 1970s-80s tradition — bold confident black "
+        "ink linework with decisive brush-tapered contours, flat primary-color cel-shaded "
+        "fills with minimal halftone or gradient, saturated four-color newsprint palette "
+        "of saffron orange, peacock blue, vermilion red, leaf green, sunflower yellow, "
+        "and ivory cream, cinematic three-quarter staging with dynamic close-ups and "
+        "dramatic low-and-high angles, ethnographically specific Indian costuming and "
+        "street-vendor / passenger detail, subtle 1970s-print color-separation feel, "
+        "location-accurate Indian backdrop appropriate to each scam (train-station portico "
+        "with Hindi+English signage, bazaar lanes with hanging shop boards, government "
+        "office interiors with India wall-maps, temple courtyards, beach shacks, etc. — "
+        "match each scam's location). Showing four sequential panels arranged in a 2x2 "
+        "grid with small bold numbers 1, 2, 3, 4 in the upper-left corner of each panel, "
+        "separated by thin black panel borders with narrow cream gutters. Each panel "
+        "contains one clean white rounded speech bubble with a small pointer tail, "
+        "holding short printed English dialogue in classic Amar Chitra Katha comic "
+        "lettering — text must be legible, in English only, and correctly spelled. Do "
+        "NOT add any footer or caption banner outside the four panels — the comic must "
+        "be exactly the 2x2 grid with no additional text, tagline, or banner below. "
+        "Square 1:1 composition, 2K resolution."
     ),
     "morocco": (
         "A single illustrated comic book page in the loose vibrant watercolor style of "
@@ -587,7 +593,7 @@ PILOTS = {
     "croatia": "https://img.tabiji.ai/scams/dubrovnik/scam-1.jpg",
     "italy": "https://img.tabiji.ai/scams/pisa/scam-1.jpg",
     "vietnam": "https://img.tabiji.ai/scams/ho-chi-minh-city/scam-1.jpg",
-    "india": "https://img.tabiji.ai/scam-comics/in/style-tests/mughal-miniature.jpg",
+    "india": "https://img.tabiji.ai/scam-comics/in/style-tests/5-amar-chitra-katha-comic.jpg",
     "morocco": "https://img.tabiji.ai/scam-comics/ma/style-tests/matisse-tangier-watercolor.jpg",
     "egypt": "https://img.tabiji.ai/scam-comics/eg/style-tests/modern-cairo-illustrated.jpg",
     "saudi-arabia": "https://img.tabiji.ai/scam-comics/sa/style-tests/contemporary-gulf-illustrated.jpg",
