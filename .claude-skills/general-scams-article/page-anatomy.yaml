@@ -274,3 +274,37 @@ sections:
 #
 # If you need a one-off style, scope it to a unique class on a single
 # element with inline style="" — never add a <style> block to a page.
+#
+# ============================================================
+# CSS landmine: NEVER use display:flex on <li> elements that
+# contain inline <a> links (added 2026-04-29 — third time this bit us)
+# ============================================================
+# When a <li> has `display: flex` AND its content includes inline mixed
+# nodes (text + <a> + text), every text node and every <a> becomes a
+# SEPARATE flex item. The result on screen: the bullet's text fragments
+# into narrow columns, with each link forming its own column.
+#
+# Bug history:
+#   - PR #1236: .safety-box li { display: flex }     → fragmented
+#   - 2026-04-29: .detail-block li { display: flex } → fragmented
+# Both fixed with the same pattern (below).
+#
+# Symptoms (look for these in screenshots):
+#   - Bullet text wraps in unexpectedly narrow columns
+#   - The link inside the bullet appears on its own line/column
+#   - Surrounding text wraps tightly to either side of the link
+#
+# Wrong (fragments):
+#   .my-list li { display: flex; gap: 0.5rem; }
+#   .my-list li::before { content: "✓"; flex-shrink: 0; }
+#
+# Right (renders as one block of inline text):
+#   .my-list li { position: relative; padding-left: 1.5rem; }
+#   .my-list li::before { content: "✓"; position: absolute; left: 0; top: 0; }
+#
+# Rule: ANY <li> that may contain inline links must use
+# `position: relative` + absolute-positioned `::before` for the bullet,
+# not `display: flex` + `flex-shrink:0` on `::before`. The flex pattern
+# only works for bullets whose content is a single text node — but every
+# scam-page list eventually grows an inline link, so default to the
+# absolute pattern.
