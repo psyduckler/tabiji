@@ -267,10 +267,18 @@ sections:
 # (.stat-strip, .assessment-box, .context-sidebar, .legal-disclaimer,
 # .transition-line, .tldr-box, .hook-section, .phase-list, .intl-list,
 # .help-list, .assessment-skip, .callback-box, .page-meta-row,
-# .page-meta-pill, .series-nav, .book-mid-cta) live in /assets/scams.css
-# under the body.editorial-v2 namespace. Pages must include
-# <link rel="stylesheet" href="/assets/scams.css"> and <body class="editorial-v2">
-# but should not duplicate component styles inline.
+# .page-meta-pill, .series-nav, .book-mid-cta, .reddit-quote) live in
+# /assets/scams.css under the body.editorial-v2 namespace. Pages must
+# include <link rel="stylesheet" href="/assets/scams.css"> and
+# <body class="editorial-v2"> but should not duplicate component styles
+# inline.
+#
+# When adding a NEW reusable component class to scam pages, the rule is:
+# add the editorial-v2 styles to scams.css FIRST, then use the class
+# in HTML. Several components have been used in HTML without being
+# styled (.reddit-quote was unstyled until 2026-04-29; rendered flush
+# against surrounding text). If you grep scams.css for the class name
+# and find nothing, that is the bug — add the style before shipping.
 #
 # If you need a one-off style, scope it to a unique class on a single
 # element with inline style="" — never add a <style> block to a page.
