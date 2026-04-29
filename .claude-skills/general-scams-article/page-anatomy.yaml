@@ -16,10 +16,21 @@ sections:
       - subhead         # "$X stolen from <demographic>. <one-sentence framing>."
       - byline          # Bernard Huang (default)
       - channel_meta    # "💬 Channels: <list>"
-      - severity_pills  # "5 High Risk · 2 Medium" (counts must match TOC)
+      - page_meta_row   # demographic + median-loss pills (replaces severity_pills as of 2026-04-29 audit)
       - reading_time    # auto-computed from word count
     optional:
       - hero_image      # leave empty for text-only first pass
+    notes:
+      page_meta_row: |
+        Use 2-3 .page-meta-pill items, each with an emoji + bolded label
+        + value. The audit on 2026-04-29 found that the previous
+        severity_pills slot ("5 High Risk") said the same thing on 4 of
+        5 pages and conveyed nothing. Replace with informative metrics:
+          - 🎯 Target: <demographic>  (e.g. "60+ adults · 5x more likely")
+          - 📈 Median loss / Older losses 2024 / Total losses 2024
+          - 📉 Loss range or other page-specific magnitude
+        Each pill must cite its source inline. See tech-support-scams
+        for a working reference.
 
   - slot: tldr_card
     class: safety-box tldr-box
@@ -133,6 +144,22 @@ sections:
       - aps_if_elderly
       - share_your_story
 
+  - slot: book_mid_cta
+    class: book-mid-cta
+    required:
+      - cover_or_emoji  # cover img if available, else emoji placeholder
+      - eyebrow         # "📖 Coming Soon · tabiji.ai General Scams"
+      - headline        # one-sentence pitch tied to the page topic
+      - meta            # price + "Notify me →" mailto link
+      - button          # "See current titles →" linking /books/
+    placement: directly_after_action_grid
+    notes: |
+      Added 2026-04-29 per Tier 4 audit. The single book-end-cta at the
+      bottom of a 14-min read missed the highest-intent moment, which is
+      right after the "🆘 What to Do" action grid. The mid-CTA must be
+      visually lighter than the book-end-cta (single row, ~110px tall on
+      desktop). Use the .book-mid-cta component already in scams.css.
+
   - slot: international_reporting
     class: section-heading + intl-list
     required:
@@ -174,6 +201,29 @@ sections:
     required: true
     note: Use the existing "Coming Soon" stub format from pig-butchering page
 
+  - slot: series_nav
+    class: series-nav
+    required:
+      - prev_link  # previous guide in /scams/everywhere/ series
+      - next_link  # next guide in /scams/everywhere/ series
+    placement: directly_above_legal_disclaimer
+    notes: |
+      Added 2026-04-29 per Tier 4 audit. Every page in the corpus was a
+      dead end — readers had no obvious next-step internal link beyond
+      the single "Related Reading" paragraph at the bottom. Series nav
+      shows ← prev guide and next → guide. The corpus order is circular
+      (last page's "next" wraps back to the first), so every page has
+      both a prev and next. Maintain the canonical order in
+      corpus-mapping.json so update_hub.py can compute these links
+      automatically when shipping new pages.
+
+      Canonical order (publish-time order):
+        pig-butchering → ai-voice-clone-scams → real-estate-wire-fraud
+        → bank-impersonation-and-zelle → tech-support-scams → (back to start)
+
+      Use the .series-nav component already in scams.css. See
+      tech-support-scams for a working reference.
+
   - slot: legal_disclaimer
     class: legal-disclaimer
     required:
@@ -181,3 +231,18 @@ sections:
       - last_updated        # today's date
       - next_refresh        # +90 days from today
       - archive_org_note    # "archived versions available via archive.org"
+
+# ============================================================
+# CSS / inline-style policy (added 2026-04-29 per Tier 4 audit)
+# ============================================================
+# Do NOT add a per-page <style> block to new pages. All component styles
+# (.stat-strip, .assessment-box, .context-sidebar, .legal-disclaimer,
+# .transition-line, .tldr-box, .hook-section, .phase-list, .intl-list,
+# .help-list, .assessment-skip, .callback-box, .page-meta-row,
+# .page-meta-pill, .series-nav, .book-mid-cta) live in /assets/scams.css
+# under the body.editorial-v2 namespace. Pages must include
+# <link rel="stylesheet" href="/assets/scams.css"> and <body class="editorial-v2">
+# but should not duplicate component styles inline.
+#
+# If you need a one-off style, scope it to a unique class on a single
+# element with inline style="" — never add a <style> block to a page.

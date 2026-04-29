@@ -54,6 +54,29 @@ Add more by editing `corpus-mapping.json` and `source-mapping.json`.
 4. `llms.txt` + `llms-full.txt` — entry added
 5. Other `/scams/everywhere/<sibling>/index.html` pages — Related Reading sections updated to cross-link to the new page
 6. `sources.md` sidecar at `tmp/scam-skill/<slug>/sources.md` (gitignored audit trail)
+7. Series-nav neighbors — when a new page joins the corpus, the prev/next siblings need their `.series-nav` updated (see "Canonical series order" in `page-anatomy.yaml`)
+
+## Editorial + UI lessons from the 2026-04-29 corpus audit
+
+Two follow-on audits (Tier 2 editorial + Tier 4 UI/UX) reshaped the skill.
+Read these BEFORE drafting a new page:
+
+- `voice-rules.md` § "Banned cross-page formula tics" — the sentence-shapes
+  caught when 5 pages in the same template were reviewed in one sitting.
+- `voice-rules.md` § "Variant paragraph-3 opener rotation" — defenses must
+  not all open with "The defense is..." Use the rotation set.
+- `voice-rules.md` § "Hook ↔ Variant #1 decoupling" — the hook story and
+  V1's first scene must be different cases.
+- `page-anatomy.yaml` § page_meta_row — the new severity replacement.
+  Don't ship "5 High Risk" pills; use 🎯 Target + 📈 Median loss pills.
+- `page-anatomy.yaml` § book_mid_cta — required mid-page CTA placed
+  directly after the action_grid (highest-intent moment).
+- `page-anatomy.yaml` § series_nav — required prev/next sibling links
+  above the legal disclaimer; circular order is canonical.
+- `page-anatomy.yaml` § CSS / inline-style policy — do NOT add a per-page
+  `<style>` block; use the consolidated styles in `/assets/scams.css`
+  under `body.editorial-v2`.
+- Pass 8 hard-fails the formula tics now; run the helper before commit.
 
 ## Hard checkpoints (the skill stops and waits for you here)
 
