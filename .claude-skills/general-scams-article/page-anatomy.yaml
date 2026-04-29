@@ -162,6 +162,32 @@ sections:
       visually lighter than the book-end-cta (single row, ~110px tall on
       desktop). Use the .book-mid-cta component already in scams.css.
 
+      MARKUP RULE (caught 2026-04-29 — broken card on all 5 pages):
+      The General Scams Coming-Soon variant has TWO clickable elements
+      (an inline "Notify me →" mailto link + a "See current titles →"
+      button). Nesting the mailto <a> inside an outer <a> breaks the
+      HTML — browsers auto-close the outer anchor and the rest of the
+      card renders as orphaned siblings. Use this exact structure:
+
+        <div class="book-mid-cta">
+          <div class="book-mid-cta-cover" aria-hidden="true" style="...">📖</div>
+          <div class="book-mid-cta-body">
+            <div class="book-mid-cta-eyebrow">📖 Coming Soon · tabiji.ai General Scams</div>
+            <div class="book-mid-cta-headline">[page-specific pitch]</div>
+            <div class="book-mid-cta-meta">$4.99 on Kindle when it ships · <a href="mailto:hello@tabiji.ai?subject=...">Notify me →</a></div>
+          </div>
+          <a href="/books/" class="book-mid-cta-btn">See current titles →</a>
+        </div>
+
+      Note: outer is <div>, NOT <a>. The button-styled element is an <a>
+      (the explicit click target). The "Notify me" mailto is a normal
+      inline link inside the meta line. NEVER use <a class="book-mid-cta">
+      when the body contains another <a>.
+
+      The tourist-scam (single-action) variant uses <a class="book-mid-cta">
+      with a <span class="book-mid-cta-btn"> — that pattern is fine
+      because there's no nested anchor.
+
   - slot: international_reporting
     class: section-heading + intl-list
     required:
