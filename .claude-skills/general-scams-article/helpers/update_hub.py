@@ -68,21 +68,24 @@ def main():
         flags=re.DOTALL,
     )
 
-    # Step 2: remove the matching <li> from Coming Soon list
-    # Match <li>...slug-relevant-name...</li> heuristically by display.name
-    name_keywords = display["name"].lower().split()[0:2]  # first 2 words usually identify
-    coming_soon_pattern_template = r'\n?\s*<li><strong>([^<]*({})[^<]*)</strong>[^<]*(<[^>]+>[^<]*)*</li>'
-    pattern_strings = [
-        re.escape(kw) for kw in name_keywords
-    ]
+    # Step 2: remove the matching <li> from Coming Soon list.
+    # Strict line-anchored pattern: match exactly ONE single-line <li>...</li>
+    # in the Coming Soon list. Uses [^<\n] to forbid newlines and < in the
+    # match body — prevents the regex from gobbling closing tags or footer
+    # columns when no <li> matches (the original pattern's
+    # `(<[^>]+>[^<]*)*` over-matched anything until it found </li>, eating
+    # whole </ul></div></main></footer> structures in some cases).
+    name_keywords = display["name"].lower().split()[0:2]
+    coming_soon_pattern_template = r'^[\s]*<li><strong>[^<\n]*?{}[^<\n]*?</strong>[^<\n]*?</li>\s*\n'
+    pattern_strings = [re.escape(kw) for kw in name_keywords]
     found_and_removed = False
     for pattern_str in pattern_strings:
         coming_soon_pattern = coming_soon_pattern_template.format(pattern_str)
-        matches = list(re.finditer(coming_soon_pattern, new_html, re.IGNORECASE))
+        matches = list(re.finditer(coming_soon_pattern, new_html, re.IGNORECASE | re.MULTILINE))
         if matches:
             new_html = new_html[: matches[0].start()] + new_html[matches[0].end() :]
             found_and_removed = True
-            print(f"✓ Removed Coming-Soon entry matching '{matches[0].group(1)}'")
+            print(f"✓ Removed Coming-Soon entry matching keyword '{pattern_str}'")
             break
 
     if not found_and_removed:
