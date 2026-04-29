@@ -1,0 +1,612 @@
+{
+  "$comment": "Source of truth for the Scam Atlas. Each entry becomes /scams/atlas/{slug}/. Authored 2026-04-29; revised 2026-04-29 — applied audit fixes #1–10 + stricter consolidation pass (75 → 64 entries). Counts and primaryBookFunnels are placeholder estimates; extract.py will populate real values from /api/v1/scams/*.json. NOTE: parentEntry is section-agnostic — soft hierarchy for cross-linking only, not URL nesting. _section markers are purely for editor readability.",
+  "version": "0.2.0-draft",
+  "lastModified": "2026-04-29",
+  "entries": [
+    {
+      "_section": "TRANSPORT — taxis, rideshare, airport, transit, rental"
+    },
+    {
+      "slug": "taxi-meter-manipulation",
+      "name": "Taxi Meter Manipulation",
+      "entryStyle": "broad",
+      "synonyms": ["taxi", "taxi_scam", "transport", "taxi-fraud", "predator_taxi", "tachero", "fake_broken_meter", "fare-fraud", "taxi-overcharging", "taxis", "meter-fraud", "rigged-meter", "taxi-meter-refusal"],
+      "subTypes": ["cloned-meter", "long-route", "counterfeit-return-bill-swap", "meter-refusal-flat-rate", "duplicate-charge"],
+      "primaryBookFunnels": ["argentina", "italy", "mexico", "thailand"],
+      "primaryQueryTarget": "taxi scam"
+    },
+    {
+      "slug": "rideshare-fare-inflation",
+      "name": "Rideshare Fare Inflation & Cancellation Hustle",
+      "entryStyle": "broad",
+      "synonyms": ["uber", "didi", "cabify", "lyft", "grab", "rideshare", "rideshare-overcharge"],
+      "subTypes": ["airport-uber-ban", "fake-cancellation-fee", "off-app-payment-demand", "license-plate-mismatch"],
+      "primaryBookFunnels": ["mexico", "morocco", "indonesia", "egypt"],
+      "primaryQueryTarget": "uber scam"
+    },
+    {
+      "slug": "tuk-tuk-rickshaw-detour",
+      "name": "Tuk-Tuk & Rickshaw Detour Scams",
+      "entryStyle": "broad",
+      "synonyms": ["tuk-tuk", "rickshaw", "auto-rickshaw", "tuktuk"],
+      "subTypes": ["closed-attraction-redirect", "gem-shop-detour", "carpet-shop-detour", "all-day-tour-bait-switch"],
+      "primaryBookFunnels": ["thailand", "india", "indonesia", "egypt"],
+      "primaryQueryTarget": "tuk tuk scam"
+    },
+    {
+      "slug": "airport-arrival-scams",
+      "name": "Airport Arrival Scams",
+      "entryStyle": "broad",
+      "synonyms": ["airport", "airport-taxi", "airport_transfer", "airport_train", "sim-card", "sim_card", "sim-swindle"],
+      "subTypes": ["unlicensed-airport-taxi", "meet-greet-hustle", "fake-private-transfer-website", "currency-exchange-arrival-trap", "sim-card-kiosk-overcharge"],
+      "primaryBookFunnels": ["italy", "argentina", "thailand", "egypt"],
+      "primaryQueryTarget": "airport scam"
+    },
+    {
+      "slug": "unlicensed-airport-taxi",
+      "name": "Unlicensed Airport Taxi Overcharge",
+      "entryStyle": "specific",
+      "synonyms": ["unlicensed-taxi", "tassisti_abusivi", "ncc_unlicensed", "ncc_abusivo", "abusivi", "remis"],
+      "parentEntry": "airport-arrival-scams",
+      "primaryBookFunnels": ["italy", "argentina", "thailand", "morocco"],
+      "primaryQueryTarget": "airport taxi scam"
+    },
+    {
+      "slug": "meet-and-greet-hustle",
+      "name": "Meet-and-Greet Airport Hustle",
+      "entryStyle": "specific",
+      "synonyms": ["meet-greet", "private-transfer-hustle", "fake_transfer", "private_transfer"],
+      "parentEntry": "airport-arrival-scams",
+      "primaryBookFunnels": ["argentina", "italy", "thailand", "egypt"],
+      "primaryQueryTarget": "meet and greet airport scam"
+    },
+    {
+      "slug": "express-kidnapping-taxi",
+      "name": "Express Kidnapping Taxi",
+      "entryStyle": "specific",
+      "synonyms": ["express-kidnap", "secuestro-express", "kidnap-taxi"],
+      "parentEntry": "taxi-meter-manipulation",
+      "primaryBookFunnels": ["mexico", "colombia", "brazil", "argentina"],
+      "primaryQueryTarget": "express kidnapping"
+    },
+    {
+      "slug": "bus-train-station-scams",
+      "name": "Bus & Train Station Scams",
+      "entryStyle": "broad",
+      "synonyms": ["bus", "bus_scam", "bus_ticket_scam", "train_station", "metro", "transit", "transit_fine"],
+      "subTypes": ["fake-fare-checker", "ticket-machine-help-scam", "luggage-helper-theft", "wrong-platform-redirect"],
+      "primaryBookFunnels": ["italy", "france", "germany", "spain"],
+      "primaryQueryTarget": "train station scam"
+    },
+    {
+      "slug": "ferry-boat-tour-overcharge",
+      "name": "Ferry & Boat Tour Overcharge",
+      "entryStyle": "broad",
+      "synonyms": ["ferry", "ferry_scam", "boat_tour", "boat_tour_scam", "hydrofoil", "barcaioli", "water_taxi"],
+      "subTypes": ["fake-ferry-tickets", "off-platform-charter", "blue-grotto-fee-layering", "all-island-tour-bait-switch"],
+      "primaryBookFunnels": ["greece", "italy", "indonesia", "thailand"],
+      "primaryQueryTarget": "boat tour scam"
+    },
+    {
+      "slug": "rental-car-phantom-damage",
+      "name": "Rental Car Phantom Damage & Deposit Trap",
+      "entryStyle": "broad",
+      "synonyms": ["rental_car_scam", "phantom_damage", "rental-car-fine", "damage-deposit", "car_rental_scam", "rental-fraud", "rental_scam", "watersports", "jet_ski", "jet-ski-scam"],
+      "subTypes": ["mandatory-insurance-bait-switch", "post-dropoff-charge", "unsealed-road-clause", "traffic-camera-fee-cascade", "jet-ski-damage-extortion"],
+      "primaryBookFunnels": ["italy", "costa-rica", "mexico", "australia"],
+      "primaryQueryTarget": "rental car damage scam"
+    },
+    {
+      "slug": "scooter-moped-rental-trap",
+      "name": "Scooter & Moped Rental Damage Trap",
+      "entryStyle": "specific",
+      "synonyms": ["scooter_rental", "moped_rental", "passport_hostage"],
+      "parentEntry": "rental-car-phantom-damage",
+      "primaryBookFunnels": ["indonesia", "thailand", "vietnam", "greece"],
+      "primaryQueryTarget": "bali scooter scam"
+    },
+    {
+      "slug": "ztl-fine-cascade-italy",
+      "name": "ZTL Fine Cascade (Italy Driving Zone Fines)",
+      "entryStyle": "specific",
+      "synonyms": ["ztl", "ztl_fine", "ztl_fine_cascade", "limited-traffic-zone-fine"],
+      "parentEntry": "rental-car-phantom-damage",
+      "primaryBookFunnels": ["italy"],
+      "primaryQueryTarget": "ztl fine italy"
+    },
+    {
+      "_section": "MONEY — currency, ATM, counterfeit, taxes/fees"
+    },
+    {
+      "slug": "atm-skimming",
+      "name": "ATM Skimming & Card Cloning",
+      "entryStyle": "broad",
+      "synonyms": ["atm", "card-skimming", "card_skimming", "skim", "skimm", "card-cloning", "shimming", "atm_dcc", "card-fraud", "card_scam"],
+      "subTypes": ["overlay-skimmer", "shoulder-surf-pin", "private-atm-machine", "card-trap-lebanese-loop"],
+      "primaryBookFunnels": ["france", "italy", "spain", "thailand"],
+      "primaryQueryTarget": "atm skimming"
+    },
+    {
+      "slug": "atm-currency-conversion-trap",
+      "name": "Dynamic Currency Conversion (DCC) Trap",
+      "entryStyle": "specific",
+      "synonyms": ["dcc", "dynamic_currency_conversion", "atm_dcc", "card-surcharge-undisclosed"],
+      "parentEntry": "atm-skimming",
+      "primaryBookFunnels": ["italy", "germany", "spain", "portugal"],
+      "primaryQueryTarget": "dynamic currency conversion scam"
+    },
+    {
+      "slug": "currency-exchange-cambio",
+      "name": "Currency Exchange & Cambio Scams",
+      "entryStyle": "broad",
+      "synonyms": ["cambio", "currency_exchange", "money-exchange", "money-fraud", "exchange-hustle", "arbolito"],
+      "subTypes": ["street-cambio-hustle", "airport-exchange-window-markup", "back-room-cueva-rate-switch", "small-bill-shortcount"],
+      "primaryBookFunnels": ["argentina", "morocco", "egypt", "mexico"],
+      "primaryQueryTarget": "currency exchange scam"
+    },
+    {
+      "slug": "florida-avenue-cambio-hustle",
+      "name": "Florida Avenue Cambio Hustle (Buenos Aires)",
+      "entryStyle": "specific",
+      "synonyms": ["arbolito", "florida-avenue-cambio", "blue-dollar-hustle"],
+      "parentEntry": "currency-exchange-cambio",
+      "primaryBookFunnels": ["argentina"],
+      "primaryQueryTarget": "florida avenue cambio scam"
+    },
+    {
+      "slug": "counterfeit-currency-returns",
+      "name": "Counterfeit Currency Returned as Change",
+      "entryStyle": "broad",
+      "synonyms": ["counterfeit", "counterfeit-bills", "counterfeit_banknotes", "fake-bills", "fake_note"],
+      "subTypes": ["taxi-bill-swap", "small-shop-change-padding", "cambio-counterfeit-mix", "private-atm-counterfeit-dispense"],
+      "primaryBookFunnels": ["argentina", "morocco", "egypt", "vietnam"],
+      "primaryQueryTarget": "counterfeit money scam"
+    },
+    {
+      "slug": "qr-code-quishing",
+      "name": "QR Code 'Quishing' Scams",
+      "entryStyle": "broad",
+      "synonyms": ["qr_code", "quishing", "qr_phishing", "fake_fine_qr", "qr-phishing"],
+      "subTypes": ["parking-meter-quishing", "restaurant-menu-quishing", "fake-fine-qr", "transit-ticket-quishing"],
+      "primaryBookFunnels": ["france", "italy", "germany", "spain"],
+      "primaryQueryTarget": "qr code scam"
+    },
+    {
+      "slug": "tourist-tax-bogus-levy",
+      "name": "Bogus Tourist Tax & Fake Levy Sites",
+      "entryStyle": "specific",
+      "synonyms": ["imposta_soggiorno", "imposta_di_soggiorno", "tourism-tax", "fake-tourist-levy", "tourist-levy-bali"],
+      "primaryBookFunnels": ["italy", "indonesia", "spain", "france"],
+      "primaryQueryTarget": "fake tourist tax"
+    },
+    {
+      "_section": "RESTAURANT & FOOD"
+    },
+    {
+      "slug": "restaurant-bill-padding",
+      "name": "Restaurant Bill Padding",
+      "entryStyle": "broad",
+      "synonyms": ["restaurant", "restaurant-bill", "bill_trap", "bill-padding", "restaurant_overcharge", "menu-scam", "bar_bill_ambush", "forced-tip", "tip-pressure", "mandatory-tip", "service-charge-stacking"],
+      "subTypes": ["item-not-ordered", "swapped-menu-prices", "card-retry-triple-charge", "rounding-up-cash", "forced-tip-pressure", "service-charge-stacked"],
+      "primaryBookFunnels": ["italy", "france", "spain", "greece"],
+      "primaryQueryTarget": "restaurant bill scam"
+    },
+    {
+      "slug": "tourist-trap-restaurants",
+      "name": "Tourist-Trap Restaurants",
+      "entryStyle": "broad",
+      "synonyms": ["tourist-trap", "tourist_trap", "tourist-trap-restaurant", "tourist-menu", "tourist_menu", "tourist-zone-restaurant"],
+      "subTypes": ["pesce-al-etto-fish-by-weight", "no-menu-no-prices", "tour-guide-kickback-restaurant", "monument-adjacent-markup"],
+      "primaryBookFunnels": ["italy", "greece", "france", "spain"],
+      "primaryQueryTarget": "tourist trap restaurant"
+    },
+    {
+      "slug": "cover-charge-coperto-otoshi",
+      "name": "Cover Charge Surprises (Coperto, Otoshi, Couvert)",
+      "entryStyle": "specific",
+      "synonyms": ["coperto", "otoshi", "couvert", "cover-charge", "gedeck", "besteckgebuhr", "servizio_scam"],
+      "parentEntry": "tourist-trap-restaurants",
+      "primaryBookFunnels": ["italy", "japan", "germany", "france"],
+      "primaryQueryTarget": "coperto cover charge scam"
+    },
+    {
+      "slug": "fish-by-weight-pesce-al-etto",
+      "name": "Fish-by-Weight Bill Shock (Pesce al Etto)",
+      "entryStyle": "specific",
+      "synonyms": ["pesce_al_etto", "al_etto", "al_etto_fish", "fish-by-weight", "weight_scam"],
+      "parentEntry": "tourist-trap-restaurants",
+      "primaryBookFunnels": ["italy", "greece", "spain", "portugal"],
+      "primaryQueryTarget": "pesce al etto scam"
+    },
+    {
+      "slug": "limoncello-tasting-upsell",
+      "name": "Limoncello Tasting & Souvenir Upsell (Amalfi Coast)",
+      "entryStyle": "specific",
+      "synonyms": ["limoncello_scam", "limoncello_upsell", "factory_tour_kickback", "factory_tour_upsell"],
+      "parentEntry": "tourist-trap-restaurants",
+      "primaryBookFunnels": ["italy"],
+      "primaryQueryTarget": "limoncello tasting scam"
+    },
+    {
+      "slug": "beach-chair-lounger-hustle",
+      "name": "Beach Chair & Lounger Minimum-Spend Hustle",
+      "entryStyle": "specific",
+      "synonyms": ["beach-chair", "beach_club", "lido-overcharge", "lido_scam", "lido_minimum_spend"],
+      "parentEntry": "tourist-trap-restaurants",
+      "primaryBookFunnels": ["italy", "greece", "turkey", "spain"],
+      "primaryQueryTarget": "beach club scam tourist"
+    },
+    {
+      "_section": "PICKPOCKETING & THEFT"
+    },
+    {
+      "slug": "pickpocketing-tactics",
+      "name": "Pickpocketing Tactics",
+      "entryStyle": "broad",
+      "synonyms": ["pickpocket", "pick-pocket", "petty-theft", "petty_theft", "bag_dip", "wallet-theft"],
+      "subTypes": ["crowd-crush-lift", "metro-door-snatch", "cafe-bag-grab", "festival-pickpocket"],
+      "primaryBookFunnels": ["france", "italy", "spain", "argentina"],
+      "primaryQueryTarget": "pickpocketing tourist"
+    },
+    {
+      "slug": "phone-snatch-motorcycle",
+      "name": "Motorcycle Phone Snatch",
+      "entryStyle": "specific",
+      "synonyms": ["phone-snatch", "moto-snatch", "motorcycle-snatch", "phone-snatching", "necklace_snatch", "bag_snatch"],
+      "parentEntry": "pickpocketing-tactics",
+      "primaryBookFunnels": ["colombia", "vietnam", "indonesia", "italy"],
+      "primaryQueryTarget": "motorcycle phone snatch"
+    },
+    {
+      "slug": "luggage-theft-train",
+      "name": "Luggage Theft on Trains & Stations",
+      "entryStyle": "specific",
+      "synonyms": ["luggage_theft", "luggage-helper-theft", "train_pickpocket", "train_gang"],
+      "parentEntry": "pickpocketing-tactics",
+      "primaryBookFunnels": ["italy", "france", "spain", "germany"],
+      "primaryQueryTarget": "train luggage theft"
+    },
+    {
+      "slug": "hotel-room-theft",
+      "name": "Hotel Room & Hostel Theft",
+      "entryStyle": "specific",
+      "synonyms": ["hostel-theft", "room-theft", "burglary"],
+      "parentEntry": "pickpocketing-tactics",
+      "primaryBookFunnels": ["thailand", "indonesia", "vietnam", "morocco"],
+      "primaryQueryTarget": "hotel room theft"
+    },
+    {
+      "slug": "beach-theft-distraction",
+      "name": "Beach Bag Theft & Distraction",
+      "entryStyle": "specific",
+      "synonyms": ["beach_theft", "beach_scam", "beach-blanket-theft", "valuables-on-beach"],
+      "parentEntry": "pickpocketing-tactics",
+      "primaryBookFunnels": ["spain", "france", "italy", "greece"],
+      "primaryQueryTarget": "beach theft tourist"
+    },
+    {
+      "slug": "rental-car-break-in",
+      "name": "Rental Car Break-In & Smash-and-Grab",
+      "entryStyle": "specific",
+      "synonyms": ["car-break-in", "smash-and-grab", "rental-break-in", "trunk-snatch"],
+      "parentEntry": "pickpocketing-tactics",
+      "primaryBookFunnels": ["france", "italy", "spain", "costa-rica"],
+      "primaryQueryTarget": "rental car break in"
+    },
+    {
+      "_section": "DISTRACTION & CONFIDENCE SCAMS"
+    },
+    {
+      "slug": "distraction-theft-pickpocket-team",
+      "name": "Distraction Theft (the 'Helpful Stranger' Family)",
+      "entryStyle": "broad",
+      "synonyms": ["distraction", "distraction-theft", "distraction_theft", "distraction_scam"],
+      "subTypes": ["bird-poop-mustard-spill", "spilled-coffee-helper", "dropped-camera-pickup", "map-help-confusion"],
+      "primaryBookFunnels": ["argentina", "italy", "france", "spain"],
+      "primaryQueryTarget": "distraction theft tourist"
+    },
+    {
+      "slug": "the-gold-ring-trick",
+      "name": "The Gold Ring Trick",
+      "entryStyle": "specific",
+      "synonyms": ["gold-ring", "gold-ring-scam", "gold-ring-trick"],
+      "parentEntry": "distraction-theft-pickpocket-team",
+      "primaryBookFunnels": ["france", "italy", "spain"],
+      "primaryQueryTarget": "the gold ring trick"
+    },
+    {
+      "slug": "friendship-bracelet-trap",
+      "name": "Friendship Bracelet Trap",
+      "entryStyle": "specific",
+      "synonyms": ["friendship-bracelet", "bracelet_scam", "bracelet-hawker", "string-bracelet", "sacre-coeur-bracelet", "hakuna-matata-bracelet"],
+      "parentEntry": "distraction-theft-pickpocket-team",
+      "primaryBookFunnels": ["france", "spain", "italy", "greece"],
+      "primaryQueryTarget": "friendship bracelet scam"
+    },
+    {
+      "slug": "bird-poop-mustard-distraction",
+      "name": "The Bird-Poop / Mustard Distraction",
+      "entryStyle": "specific",
+      "synonyms": ["bird-poop", "bird_poop_scam", "mustard-spray", "mustard_spray", "bird-dropping-distraction"],
+      "parentEntry": "distraction-theft-pickpocket-team",
+      "primaryBookFunnels": ["argentina", "spain", "italy", "france"],
+      "primaryQueryTarget": "bird poop scam tourist"
+    },
+    {
+      "slug": "deaf-mute-petition",
+      "name": "Deaf-Mute Petition Scam",
+      "entryStyle": "specific",
+      "synonyms": ["deaf-mute", "fake_deaf", "petition_scam", "petition-scam"],
+      "parentEntry": "distraction-theft-pickpocket-team",
+      "primaryBookFunnels": ["france", "italy", "spain", "germany"],
+      "primaryQueryTarget": "deaf mute petition scam"
+    },
+    {
+      "slug": "three-card-monte",
+      "name": "Three-Card Monte & Shell Game",
+      "entryStyle": "specific",
+      "synonyms": ["three-card-monte", "three_card_monte", "shell-game", "shell_game", "street-gambling"],
+      "parentEntry": "distraction-theft-pickpocket-team",
+      "primaryBookFunnels": ["france", "italy", "spain", "united-kingdom"],
+      "primaryQueryTarget": "three card monte scam"
+    },
+    {
+      "slug": "bump-and-lift-distraction",
+      "name": "Bump-and-Lift Distraction (Crowd Crush, Clumsy Jogger, Dropped Camera)",
+      "entryStyle": "specific",
+      "synonyms": ["bump-and-lift", "clumsy-jogger", "bump-spill", "boarding-crush", "metro-pickpocket", "doors-closing-snatch", "dropped-camera", "camera-drop"],
+      "parentEntry": "distraction-theft-pickpocket-team",
+      "primaryBookFunnels": ["france", "italy", "spain", "argentina"],
+      "primaryQueryTarget": "bump and lift pickpocket"
+    },
+    {
+      "_section": "FAKE AUTHORITY & IMPERSONATION"
+    },
+    {
+      "slug": "fake-police-shakedown",
+      "name": "Fake Police Officer Shakedown",
+      "entryStyle": "broad",
+      "synonyms": ["fake-police", "fake_police", "fake-cop", "finti_poliziotti", "falsche_polizisten", "fake-officer", "finti-finanzieri", "fake_legionary", "finto"],
+      "subTypes": ["wallet-id-check", "drug-search-shakedown", "fake-fine-passport-hold", "phone-call-impersonation"],
+      "primaryBookFunnels": ["italy", "spain", "thailand", "argentina"],
+      "primaryQueryTarget": "fake police scam"
+    },
+    {
+      "slug": "fake-tour-guide",
+      "name": "Fake & Unlicensed Tour Guide",
+      "entryStyle": "broad",
+      "synonyms": ["fake-guide", "fake_guide", "unlicensed_guide", "unlicensed-mountain-guide", "unlicensed_tour_guide", "fake_park_ranger", "horseback-extortion", "trail-shakedown", "mid-trail-extortion"],
+      "subTypes": ["closed-attraction-redirect", "fake-museum-guide", "fake-mountain-instructor", "fake-park-ranger", "horseback-trail-mid-extortion"],
+      "primaryBookFunnels": ["egypt", "morocco", "thailand", "italy"],
+      "primaryQueryTarget": "fake tour guide scam"
+    },
+    {
+      "slug": "fake-government-tourist-office",
+      "name": "Fake Government Tourist Office / Information Booth",
+      "entryStyle": "specific",
+      "synonyms": ["fake-info-point", "fake_info_point", "fake-tourist-office", "fake-tourism-board"],
+      "parentEntry": "fake-tour-guide",
+      "primaryBookFunnels": ["thailand", "egypt", "morocco", "vietnam"],
+      "primaryQueryTarget": "fake tourist information office"
+    },
+    {
+      "slug": "fake-monk-donation",
+      "name": "Fake Monk Donation Scam",
+      "entryStyle": "specific",
+      "synonyms": ["fake-monk", "fake_monks", "temple-beg", "buddhist-beg", "donation_scam"],
+      "parentEntry": "fake-charity-petition",
+      "primaryBookFunnels": ["thailand", "china", "vietnam"],
+      "primaryQueryTarget": "fake monk scam"
+    },
+    {
+      "slug": "parking-extortion",
+      "name": "Parking Attendant Extortion",
+      "entryStyle": "specific",
+      "synonyms": ["parking-extortion", "guachiman", "parcheggiatore_abusivo", "parcheggiatori_abusivi", "parking_scam", "fake-parking-attendant"],
+      "parentEntry": "fake-police-shakedown",
+      "primaryBookFunnels": ["italy", "costa-rica", "south-africa", "mexico"],
+      "primaryQueryTarget": "parking attendant scam"
+    },
+    {
+      "_section": "BOOKING & ACCOMMODATION FRAUD"
+    },
+    {
+      "slug": "airbnb-off-platform-fraud",
+      "name": "Airbnb Off-Platform & Phantom Listing Fraud",
+      "entryStyle": "broad",
+      "synonyms": ["airbnb", "airbnb_scam", "off_platform", "off-platform-wire", "phantom_listing", "fake_listing", "hotel_fantasma", "vacation-rental-fraud", "rental-fraud", "apartment_fraud"],
+      "subTypes": ["partial-cash-on-arrival", "stolen-photo-clone-listing", "whatsapp-deposit-wire", "double-booking-bait"],
+      "primaryBookFunnels": ["argentina", "italy", "morocco", "mexico"],
+      "primaryQueryTarget": "airbnb scam"
+    },
+    {
+      "slug": "hotel-fake-listing",
+      "name": "Fake Hotel Listing & Booking Fraud",
+      "entryStyle": "specific",
+      "synonyms": ["hotel-fraud", "hotel-impersonation", "booking-redirect", "booking_scam", "fake-hotel-website", "clone_site"],
+      "parentEntry": "airbnb-off-platform-fraud",
+      "primaryBookFunnels": ["malaysia", "italy", "indonesia", "vietnam"],
+      "primaryQueryTarget": "fake hotel booking scam"
+    },
+    {
+      "slug": "timeshare-presentation-trap",
+      "name": "Timeshare Presentation Pressure",
+      "entryStyle": "broad",
+      "synonyms": ["timeshare", "timeshare-presentation", "vilamoura-pressure"],
+      "subTypes": ["beach-recruiter-comp-tour", "wyndham-style-marathon-pitch", "hurricane-recovery-resale-pitch"],
+      "primaryBookFunnels": ["mexico", "portugal", "united-states", "spain"],
+      "primaryQueryTarget": "timeshare scam"
+    },
+    {
+      "slug": "fake-rental-website-clone",
+      "name": "Fake Booking & Tour Website Fraud (Including AI-Generated)",
+      "entryStyle": "specific",
+      "synonyms": ["fake-website", "clone_site", "booking_redirect", "fake-booking-site", "ai-generated-listing", "ai-fake-tour", "synthetic-tour-website", "phishing"],
+      "parentEntry": "airbnb-off-platform-fraud",
+      "primaryBookFunnels": ["italy", "france", "australia", "argentina"],
+      "primaryQueryTarget": "fake booking website"
+    },
+    {
+      "slug": "whatsapp-fixer-deposit-fraud",
+      "name": "WhatsApp / Facebook 'Fixer' Deposit Fraud",
+      "entryStyle": "specific",
+      "synonyms": ["whatsapp_phishing", "facebook_marketplace", "whatsapp-fixer", "named-fixer"],
+      "parentEntry": "airbnb-off-platform-fraud",
+      "primaryBookFunnels": ["costa-rica", "morocco", "thailand"],
+      "primaryQueryTarget": "whatsapp travel scam"
+    },
+    {
+      "_section": "TOURS, TICKETS & SIGHTSEEING"
+    },
+    {
+      "slug": "fake-skip-the-line-tickets",
+      "name": "Fake Skip-the-Line & Reseller Ticket Markup",
+      "entryStyle": "broad",
+      "synonyms": ["skip-the-line", "skip_the_line", "fake_skip_the_line", "fake_ticket", "ticket_fraud", "reseller_markup", "ticket_scalping", "fake_tickets", "ticketone-resale"],
+      "subTypes": ["online-clone-checkout-skim", "third-party-markup-resale", "expired-fake-paper-ticket", "tour-bundle-skip-line-bait"],
+      "primaryBookFunnels": ["italy", "france", "spain", "turkey"],
+      "primaryQueryTarget": "fake skip the line ticket"
+    },
+    {
+      "slug": "closed-attraction-redirect",
+      "name": "'That Way's Closed' Attraction Redirect",
+      "entryStyle": "specific",
+      "synonyms": ["closed-attraction", "park-closed-redirect", "fake-closure-redirect", "that-way-closed"],
+      "parentEntry": "fake-tour-guide",
+      "primaryBookFunnels": ["thailand", "egypt", "morocco", "vietnam"],
+      "primaryQueryTarget": "closed attraction redirect scam"
+    },
+    {
+      "slug": "free-walking-tour-tip-extortion",
+      "name": "Free Walking Tour Tip-Extortion",
+      "entryStyle": "specific",
+      "synonyms": ["free-walking-tour", "free_walking_tour", "guilt-trip", "guilt-trip-tip"],
+      "parentEntry": "fake-tour-guide",
+      "primaryBookFunnels": ["spain", "portugal", "germany", "italy"],
+      "primaryQueryTarget": "free walking tour tip scam"
+    },
+    {
+      "slug": "fake-charity-petition",
+      "name": "Fake Charity Petition & Donation Scam",
+      "entryStyle": "broad",
+      "synonyms": ["fake-charity", "fake-charity-collector", "charity_beggar", "charity-petition", "fake-charity-orphanage", "fake_charity"],
+      "subTypes": ["clipboard-petition-pickpocket", "orphanage-tour-fee", "guilt-trip-tip-demand", "fake-foundation-collection"],
+      "primaryBookFunnels": ["france", "italy", "spain", "thailand"],
+      "primaryQueryTarget": "fake charity scam tourist"
+    },
+    {
+      "_section": "VENDOR & SHOPPING"
+    },
+    {
+      "slug": "aggressive-street-vendor",
+      "name": "Aggressive Street Vendor & Hustler Scams",
+      "entryStyle": "broad",
+      "synonyms": ["street-vendor", "street_vendor", "tout", "hawker", "aggressive-selling", "aggressive_touting", "pressure-sales", "clipboard_hawker", "rose-seller", "rose_seller_scam", "flower_scam", "flower-seller", "rose-flower-seller"],
+      "subTypes": ["forced-gift-bracelet", "rose-seller-restaurant-shakedown", "henna-grab", "selfie-stick-overcharge", "trinket-shakedown"],
+      "primaryBookFunnels": ["italy", "france", "morocco", "spain"],
+      "primaryQueryTarget": "aggressive street vendor scam"
+    },
+    {
+      "slug": "gem-jewelry-shop-pressure",
+      "name": "Gem, Jewelry, Carpet & Custom-Goods Shop Pressure",
+      "entryStyle": "broad",
+      "synonyms": ["gem", "jewelry", "gem-investment", "jewelry-shop-pressure", "gem-shop-detour", "tailor_scam", "bespoke_suit", "custom-suit-overcharge", "spice-shop", "spice-merchant", "spice-detour"],
+      "subTypes": ["bangkok-tuk-tuk-gem-loop", "marrakesh-jewelry-tea-pitch", "fake-export-tax-rebate", "investment-resell-promise", "thai-bespoke-tailor-overcharge", "moroccan-spice-detour-overcharge"],
+      "primaryBookFunnels": ["thailand", "morocco", "egypt", "india"],
+      "primaryQueryTarget": "gem shop scam"
+    },
+    {
+      "slug": "carpet-shop-pressure",
+      "name": "Carpet Shop High-Pressure Sale",
+      "entryStyle": "specific",
+      "synonyms": ["carpet", "carpet-shop", "rug-shop", "kilim-pressure"],
+      "parentEntry": "gem-jewelry-shop-pressure",
+      "primaryBookFunnels": ["morocco", "turkey", "egypt"],
+      "primaryQueryTarget": "carpet shop scam"
+    },
+    {
+      "slug": "henna-tattoo-ambush",
+      "name": "Henna Tattoo Street Ambush",
+      "entryStyle": "specific",
+      "synonyms": ["henna", "henna-tattoo", "henna-ambush"],
+      "parentEntry": "aggressive-street-vendor",
+      "primaryBookFunnels": ["morocco", "egypt", "turkey", "india"],
+      "primaryQueryTarget": "henna tattoo scam"
+    },
+    {
+      "slug": "fake-antique-souvenir-markup",
+      "name": "Fake 'Antique' & Souvenir Markup",
+      "entryStyle": "broad",
+      "synonyms": ["souvenir", "fake-antique", "souvenir_overcharge", "antico_branding", "igp_fraud", "factory_tour_kickback"],
+      "subTypes": ["fake-aboriginal-art", "fake-damascene", "fake-dead-sea-cosmetics", "antico-branding-bait", "counterfeit-luxury-handbag"],
+      "primaryBookFunnels": ["morocco", "egypt", "turkey", "australia"],
+      "primaryQueryTarget": "fake antique souvenir scam"
+    },
+    {
+      "slug": "tea-house-invitation",
+      "name": "Tea House Invitation Scam (Beijing & Shanghai)",
+      "entryStyle": "specific",
+      "synonyms": ["tea-house", "tea-ceremony-scam", "friendly-local-tea"],
+      "parentEntry": "aggressive-street-vendor",
+      "primaryBookFunnels": ["china"],
+      "primaryQueryTarget": "tea house scam beijing"
+    },
+    {
+      "slug": "photo-fee-shakedown",
+      "name": "Photo-Fee Shakedown (Costumed Touts & Animal Photos)",
+      "entryStyle": "specific",
+      "synonyms": ["fake_centurion", "gladiator-photo", "costume_photo_scam", "photo_fee_scam", "legionary-photo", "monkey-photo", "snake-charmer-photo", "falcon-photo", "animal-photo-scam"],
+      "parentEntry": "aggressive-street-vendor",
+      "primaryBookFunnels": ["italy", "morocco", "egypt", "indonesia"],
+      "primaryQueryTarget": "gladiator photo scam"
+    },
+    {
+      "slug": "casino-tourist-trap",
+      "name": "Casino Tourist-Trap Hustle",
+      "entryStyle": "specific",
+      "synonyms": ["casino-overcharge", "monte-carlo-tourist-trap", "casino-bait"],
+      "parentEntry": "aggressive-street-vendor",
+      "primaryBookFunnels": ["united-states", "monaco"],
+      "primaryQueryTarget": "casino tourist scam"
+    },
+    {
+      "_section": "DRINKS & DRUGS"
+    },
+    {
+      "slug": "drink-spiking-bar-bill-trap",
+      "name": "Drink Spiking & Bar Bill Trap",
+      "entryStyle": "broad",
+      "synonyms": ["drink-spike", "drink-spiking", "drink_spiking", "scopolamine", "bar-bill-trap", "host-club-bill-shock", "kabukicho-bar-trap"],
+      "subTypes": ["scopolamine-tinto-summit", "kabukicho-host-club", "thai-bar-bill-shock", "honeytrap-credit-card-charge"],
+      "primaryBookFunnels": ["colombia", "japan", "thailand", "vietnam"],
+      "primaryQueryTarget": "drink spiking scam"
+    },
+    {
+      "slug": "fake-stepped-on-drug-deal",
+      "name": "Fake / Stepped-On Drug Deal",
+      "entryStyle": "specific",
+      "synonyms": ["fake-weed", "fake-hash", "stepped-on-weed", "fake-cannabis", "drug-bait"],
+      "parentEntry": "drink-spiking-bar-bill-trap",
+      "primaryBookFunnels": ["netherlands", "thailand", "morocco", "spain"],
+      "primaryQueryTarget": "fake hash scam amsterdam"
+    },
+    {
+      "slug": "fake-drug-sting-police",
+      "name": "Fake Drug-Search Police Sting",
+      "entryStyle": "specific",
+      "synonyms": ["fake-drug-sting", "drug-search-shakedown", "drug-plant-shakedown"],
+      "parentEntry": "fake-police-shakedown",
+      "primaryBookFunnels": ["colombia", "thailand", "morocco"],
+      "primaryQueryTarget": "fake drug bust scam"
+    },
+    {
+      "slug": "massage-spa-pressure",
+      "name": "Massage & Spa Pressure Sale",
+      "entryStyle": "specific",
+      "synonyms": ["massage", "massage_scam", "spa-overcharge", "massage-pressure"],
+      "parentEntry": "aggressive-street-vendor",
+      "primaryBookFunnels": ["thailand", "indonesia", "vietnam"],
+      "primaryQueryTarget": "massage scam thailand"
+    }
+  ]
+}
