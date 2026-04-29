@@ -50,6 +50,11 @@ def _eligible(path: Path) -> bool:
     """Matches the exclusions used by HTML_FILES scanning."""
     if ".git" in path.parts or "node_modules" in path.parts or "tmp" in path.parts:
         return False
+    # Skip git worktrees — they're isolated repo copies that shouldn't be
+    # propagated into. Without this, a build-partials run iterates 23+ worktrees
+    # × thousands of HTML files each (effectively hangs the script).
+    if ".claude" in path.parts:
+        return False
     if path.is_relative_to(INCLUDES):
         return False
     return True
