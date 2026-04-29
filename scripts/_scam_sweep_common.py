@@ -29,11 +29,14 @@ def collect_scam_targets(
     """Build a target path list. Each flag adds one asset class."""
     out: list[Path] = []
     if city_pages:
+        # NOTE: scams/atlas/ is a different page type (Scam Atlas entries) with
+        # a different H1 schema and JSON-LD shape — excluded from city-page lint
+        # passes that expect the "N Tourist Scams" headline format.
         out.extend(
             p / "index.html"
             for p in sorted(SCAMS.iterdir())
             if p.is_dir()
-            and p.name not in ("country", "research", "everywhere")
+            and p.name not in ("country", "research", "everywhere", "atlas")
             and (p / "index.html").exists()
         )
     if country_hubs:
