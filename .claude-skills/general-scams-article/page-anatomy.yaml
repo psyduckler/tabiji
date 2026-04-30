@@ -93,7 +93,39 @@ sections:
     required:
       - count           # determined by Stage 1 cluster output (3-8 range)
       - micro_template  # see variant-template.yaml
+      - scam_comic      # 1:1 flat-cel-shaded comic per variant; see notes
     transition_lines: required_between_variants
+    notes: |
+      SCAM-COMIC PER VARIANT (locked 2026-04-30):
+
+      Every scam-card on /scams/everywhere/ has an <img class="scam-comic">
+      directly below its <div class="scam-location"> (per memory:
+      scam_comic_placement). Comics are 4-panel 2x2 grids generated via
+      openai/gpt-image-2 in the locked _everywhere flat-cel-shaded style
+      (see scripts/comic-pipeline/styles.py["_everywhere"]).
+
+      Pipeline:
+        1. Add per-variant entry to scripts/comic-pipeline/everywhere_comics_manifest.py
+           with (page_slug, card_id, variant_slug, character, scene).
+        2. Run scripts/comic-pipeline/generate_everywhere_comics.py
+           (auto-uploads to scam-comics/everywhere/<page_slug>/<variant_slug>.png on R2).
+        3. Run scripts/comic-pipeline/insert_everywhere_comics.py
+           to slot the <img> tags into each card.
+
+      Cast: pick from cast.py (margie 62F / priya 34F / harry 64M / marcus 34M).
+      Match the demographic to the variant's typical victim.
+
+      gpt-image-2 silently fails on prompts naming living illustrators
+      (memory: comic_pipeline_gpt_image_2_filter). Never reference
+      Niemann/Watterson/Breathed/etc. by name in scene blocks.
+
+      Markup pattern:
+        <img class="scam-comic" src="https://img.tabiji.ai/scam-comics/everywhere/<page>/<variant>.png?v=1"
+             alt="<title> — comic illustration" loading="lazy"
+             style="width:100%;height:auto;border-radius:12px;margin:1rem 0 1.25rem;display:block;"
+             width="1024" height="1024" decoding="async">
+
+      Cache-busting: increment ?v=N on any image change to force CDN refresh.
 
   - slot: numbers_section
     class: section-heading + stat-strip

@@ -2,9 +2,45 @@
 
 The "_default" key is the fallback style used when a country has no specific lock —
 see synthesize.py and styles/_default.md.
+
+The "_everywhere" key is the locked style for /scams/everywhere/ comics
+(domestic-consumer-scam content, distinct from travel scams). This style
+is used with the openai/gpt-image-2 endpoint, NOT Nano Banana Pro — gpt-
+image-2 renders speech-bubble text more reliably and respects the flat
+constraint better. Style locked 2026-04-30 after a 5-vendor x 5-style
+bakeoff (see scripts/comic-pipeline/bakeoff_everywhere_*).
+
+IMPORTANT: gpt-image-2 silently fails when prompts name living illustrators.
+Never reference Niemann, Watterson, Breathed, etc. by name — describe the
+aesthetic abstractly.
 """
 
 STYLES = {
+    "_everywhere": (
+        "A single illustrated comic book page in a clean flat cel-shaded "
+        "animation style — single-weight black outlines, solid flat color "
+        "fills with at most one single tone of darker flat shadow per shape "
+        "(no gradient, no airbrush, no painterly texture, no photorealism), "
+        "warm friendly palette of cream, sky blue, soft coral, mustard, sage "
+        "green, and accent black, simplified expressive figures, animation-"
+        "cel cleanliness. STRICT STYLE CONSTRAINTS — these override any "
+        "default tendency: FLAT 2D illustration only. No painterly texture, "
+        "no visible brush strokes, no realistic rendering, no gradient fills, "
+        "no soft airbrush shading, no atmospheric perspective. Solid flat "
+        "color fills only. Limited palette of 5–6 named colors maximum across "
+        "the entire page. Backgrounds contain ONLY essential props directly "
+        "referenced in the panel description — no incidental clutter, no "
+        "decorative bowls of fruit, no extra picture frames, no busy "
+        "storefront set-dressing. Generous flat negative space. Universal "
+        "cross-generational appeal — clean, modern, approachable. Showing "
+        "four sequential panels arranged in a 2x2 grid with small numbers "
+        "1, 2, 3, 4 in the upper-left corner of each panel, separated by "
+        "thin black panel borders with narrow white gutters. Each panel "
+        "contains one clean white rounded speech bubble with a small pointer "
+        "tail, holding short printed English dialogue in simple black comic "
+        "lettering — text must be legible, in English only, and correctly "
+        "spelled. Square 1:1 composition, 2K resolution."
+    ),
     "_default": (
         "A single illustrated comic book page in a warm soft watercolor-and-ink "
         "storybook style — confident fine black-ink contour drawing with light hand-"
