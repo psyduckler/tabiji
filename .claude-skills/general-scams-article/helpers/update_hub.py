@@ -54,10 +54,17 @@ def main():
     html = HUB_PATH.read_text()
 
     # Step 1: insert card into the city-grid (before its closing </div>)
+    #
+    # Anchor: city-grid close → grid-section close → </main>. The previous
+    # anchor used the Coming Soon section as its boundary, but that section
+    # was removed on 2026-04-30 once the live grid had enough cards (8) that
+    # it didn't need a roadmap leak below it. The new anchor is stable as
+    # long as the hub keeps a single .city-grid wrapped in a .grid-section
+    # immediately before </main>.
     card = card_markup(slug, display)
-    grid_close_pattern = r'(<div class="city-grid">.*?)(\n\s*</div>\s*\n\s*</div>\s*\n\s*<div class="grid-section">\s*\n\s*<h2 class="grid-label">Coming Soon</h2>)'
+    grid_close_pattern = r'(<div class="city-grid">.*?)(\n\s*</div>\s*\n\s*</div>\s*\n\s*</main>)'
     if not re.search(grid_close_pattern, html, re.DOTALL):
-        print("⚠ Could not locate city-grid + Coming Soon boundary", file=sys.stderr)
+        print("⚠ Could not locate city-grid → </main> boundary", file=sys.stderr)
         sys.exit(1)
 
     new_html = re.sub(
@@ -68,32 +75,22 @@ def main():
         flags=re.DOTALL,
     )
 
-    # Step 2: remove the matching <li> from Coming Soon list.
-    # Strict line-anchored pattern: match exactly ONE single-line <li>...</li>
-    # in the Coming Soon list. Uses [^<\n] to forbid newlines and < in the
-    # match body — prevents the regex from gobbling closing tags or footer
-    # columns when no <li> matches (the original pattern's
-    # `(<[^>]+>[^<]*)*` over-matched anything until it found </li>, eating
-    # whole </ul></div></main></footer> structures in some cases).
-    name_keywords = display["name"].lower().split()[0:2]
-    coming_soon_pattern_template = r'^[\s]*<li><strong>[^<\n]*?{}[^<\n]*?</strong>[^<\n]*?</li>\s*\n'
-    pattern_strings = [re.escape(kw) for kw in name_keywords]
-    found_and_removed = False
-    for pattern_str in pattern_strings:
-        coming_soon_pattern = coming_soon_pattern_template.format(pattern_str)
-        matches = list(re.finditer(coming_soon_pattern, new_html, re.IGNORECASE | re.MULTILINE))
-        if matches:
-            new_html = new_html[: matches[0].start()] + new_html[matches[0].end() :]
-            found_and_removed = True
-            print(f"✓ Removed Coming-Soon entry matching keyword '{pattern_str}'")
-            break
-
-    if not found_and_removed:
-        print(
-            f"⚠ Could not auto-remove Coming-Soon entry for '{display['name']}'. "
-            f"Add it manually.",
-            file=sys.stderr,
-        )
+    # Step 2: legacy Coming-Soon list cleanup.
+    #
+    # The Coming Soon section was removed on 2026-04-30. This step now only
+    # runs if the section is somehow still present (e.g. on a forked or
+    # older hub). Otherwise it silently no-ops — the absence is expected.
+    if 'class="grid-label">Coming Soon</h2>' in new_html:
+        name_keywords = display["name"].lower().split()[0:2]
+        coming_soon_pattern_template = r'^[\s]*<li><strong>[^<\n]*?{}[^<\n]*?</strong>[^<\n]*?</li>\s*\n'
+        pattern_strings = [re.escape(kw) for kw in name_keywords]
+        for pattern_str in pattern_strings:
+            coming_soon_pattern = coming_soon_pattern_template.format(pattern_str)
+            matches = list(re.finditer(coming_soon_pattern, new_html, re.IGNORECASE | re.MULTILINE))
+            if matches:
+                new_html = new_html[: matches[0].start()] + new_html[matches[0].end() :]
+                print(f"✓ Removed legacy Coming-Soon entry matching keyword '{pattern_str}'")
+                break
 
     HUB_PATH.write_text(new_html)
     print(f"✓ Updated hub: {HUB_PATH}")
