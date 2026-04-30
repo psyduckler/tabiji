@@ -111,6 +111,24 @@ def main():
     fails = []
     warns = []
 
+    # Structural HTML checks (run on raw HTML, not body text).
+    # Nested-anchor bug: when book-mid-cta uses the General-Scams Coming-Soon
+    # variant, the body has TWO clickable elements (Notify mailto + See-titles
+    # button). If the outer wrapper is <a class="book-mid-cta">, the browser
+    # auto-closes the outer anchor at the first inner <a>, splitting the card
+    # into orphaned siblings. Caught in the wild on 7 pages 2026-04-30.
+    nested_anchor = re.search(
+        r'<a[^>]*class="book-mid-cta"[^>]*>.*?<a[^>]*class="book-mid-cta-btn"',
+        html,
+        re.DOTALL,
+    )
+    if nested_anchor:
+        fails.append(
+            "Nested-anchor bug: <a class=\"book-mid-cta\"> contains an inner "
+            "<a class=\"book-mid-cta-btn\">. Outer must be <div>. See "
+            "page-anatomy.yaml book_mid_cta MARKUP RULE."
+        )
+
     # Em-dash density
     em_dash_density = em_dash_count / (word_count / 100) if word_count else 0
     if em_dash_density > 1.5:
