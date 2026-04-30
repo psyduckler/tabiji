@@ -46,10 +46,29 @@ GEMINI_ENDPOINT = (
 
 
 def _gemini_key() -> str:
-    return subprocess.run(
-        ["security", "find-generic-password", "-s", "gemini-api-key", "-w"],
-        capture_output=True, text=True,
-    ).stdout.strip()
+    """Read Gemini API key from macOS keychain, with GEMINI_API_KEY env-var fallback.
+
+    The cron sandbox is Linux and has no `security` CLI; without the env-var
+    fallback, callers get an empty string and the upstream Gemini call returns
+    a 401 with no signal that credentials were the problem.
+    """
+    import os, shutil
+    if shutil.which("security"):
+        try:
+            out = subprocess.run(
+                ["security", "find-generic-password", "-s", "gemini-api-key", "-w"],
+                capture_output=True, text=True, check=True,
+            ).stdout.strip()
+            if out:
+                return out
+        except subprocess.CalledProcessError:
+            pass
+    val = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not val:
+        raise RuntimeError(
+            "missing Gemini key: not in macOS keychain and $GEMINI_API_KEY is unset"
+        )
+    return val
 
 
 SYSTEM_PROMPT = """You are a master comic-strip writer creating 4-panel cautionary scam illustrations for an international travel-safety book aimed at older (55+), slightly female-skewing readers. These will be printed. Quality matters.
