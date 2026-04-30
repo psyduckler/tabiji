@@ -120,6 +120,25 @@ Common over-reached words to watch for:
 - "myriad" / "plethora"
 - "showcase" / "highlight"
 
+### Diction-trio hard-cap (added 2026-04-30 from recovery-scams audit)
+
+The combined count of **calibrated + engineered + industrial** must
+stay ≤ 4 per page. `verify_anti_tics.py` enforces this as a HARD FAIL.
+Recovery-scams initial draft hit 7× because "calibrated" felt natural
+in scam-pattern writing ("the pitch is calibrated for...", "the script
+is calibrated to...", "the most psychologically calibrated variant").
+
+Pre-emptive rewrites — when you find yourself reaching for "calibrated":
+- "the pitch is calibrated for X" → "the pitch is **written for** X"
+- "the script is calibrated to X" → "the script is **built for** / **tuned to** X"
+- "calibrated to feel like Y" → "**written to feel like** Y"
+- "calibrated to the size of Z" → "**scales to** the size of Z"
+- "the most psychologically calibrated" → "the most psychologically **loaded**"
+
+If a page absolutely needs more than 2 instances of "calibrated", that
+is a signal to vary the surrounding prose, not a signal to use the
+trio cap up to its max.
+
 ## American English (en-US)
 
 Per `docs/scam-pages-style-guide.md`:
