@@ -29,8 +29,10 @@ sections:
           - 🎯 Target: <demographic>  (e.g. "60+ adults · 5x more likely")
           - 📈 Median loss / Older losses 2024 / Total losses 2024
           - 📉 Loss range or other page-specific magnitude
-        Each pill must cite its source inline. See tech-support-scams
-        for a working reference.
+        Each pill must cite its source inline. The row is horizontally
+        centered in the hero (justify-content: center on the .page-meta-row
+        flex container in scams.css — do not override). See
+        tech-support-scams for a working reference.
 
   - slot: tldr_card
     class: safety-box tldr-box
@@ -160,6 +162,32 @@ sections:
       visually lighter than the book-end-cta (single row, ~110px tall on
       desktop). Use the .book-mid-cta component already in scams.css.
 
+      MARKUP RULE (caught 2026-04-29 — broken card on all 5 pages):
+      The General Scams Coming-Soon variant has TWO clickable elements
+      (an inline "Notify me →" mailto link + a "See current titles →"
+      button). Nesting the mailto <a> inside an outer <a> breaks the
+      HTML — browsers auto-close the outer anchor and the rest of the
+      card renders as orphaned siblings. Use this exact structure:
+
+        <div class="book-mid-cta">
+          <div class="book-mid-cta-cover" aria-hidden="true" style="...">📖</div>
+          <div class="book-mid-cta-body">
+            <div class="book-mid-cta-eyebrow">📖 Coming Soon · tabiji.ai General Scams</div>
+            <div class="book-mid-cta-headline">[page-specific pitch]</div>
+            <div class="book-mid-cta-meta">$4.99 on Kindle when it ships · <a href="mailto:hello@tabiji.ai?subject=...">Notify me →</a></div>
+          </div>
+          <a href="/books/" class="book-mid-cta-btn">See current titles →</a>
+        </div>
+
+      Note: outer is <div>, NOT <a>. The button-styled element is an <a>
+      (the explicit click target). The "Notify me" mailto is a normal
+      inline link inside the meta line. NEVER use <a class="book-mid-cta">
+      when the body contains another <a>.
+
+      The tourist-scam (single-action) variant uses <a class="book-mid-cta">
+      with a <span class="book-mid-cta-btn"> — that pattern is fine
+      because there's no nested anchor.
+
   - slot: international_reporting
     class: section-heading + intl-list
     required:
@@ -239,10 +267,52 @@ sections:
 # (.stat-strip, .assessment-box, .context-sidebar, .legal-disclaimer,
 # .transition-line, .tldr-box, .hook-section, .phase-list, .intl-list,
 # .help-list, .assessment-skip, .callback-box, .page-meta-row,
-# .page-meta-pill, .series-nav, .book-mid-cta) live in /assets/scams.css
-# under the body.editorial-v2 namespace. Pages must include
-# <link rel="stylesheet" href="/assets/scams.css"> and <body class="editorial-v2">
-# but should not duplicate component styles inline.
+# .page-meta-pill, .series-nav, .book-mid-cta, .reddit-quote) live in
+# /assets/scams.css under the body.editorial-v2 namespace. Pages must
+# include <link rel="stylesheet" href="/assets/scams.css"> and
+# <body class="editorial-v2"> but should not duplicate component styles
+# inline.
+#
+# When adding a NEW reusable component class to scam pages, the rule is:
+# add the editorial-v2 styles to scams.css FIRST, then use the class
+# in HTML. Several components have been used in HTML without being
+# styled (.reddit-quote was unstyled until 2026-04-29; rendered flush
+# against surrounding text). If you grep scams.css for the class name
+# and find nothing, that is the bug — add the style before shipping.
 #
 # If you need a one-off style, scope it to a unique class on a single
 # element with inline style="" — never add a <style> block to a page.
+#
+# ============================================================
+# CSS landmine: NEVER use display:flex on <li> elements that
+# contain inline <a> links (added 2026-04-29 — third time this bit us)
+# ============================================================
+# When a <li> has `display: flex` AND its content includes inline mixed
+# nodes (text + <a> + text), every text node and every <a> becomes a
+# SEPARATE flex item. The result on screen: the bullet's text fragments
+# into narrow columns, with each link forming its own column.
+#
+# Bug history:
+#   - PR #1236: .safety-box li { display: flex }     → fragmented
+#   - 2026-04-29: .detail-block li { display: flex } → fragmented
+# Both fixed with the same pattern (below).
+#
+# Symptoms (look for these in screenshots):
+#   - Bullet text wraps in unexpectedly narrow columns
+#   - The link inside the bullet appears on its own line/column
+#   - Surrounding text wraps tightly to either side of the link
+#
+# Wrong (fragments):
+#   .my-list li { display: flex; gap: 0.5rem; }
+#   .my-list li::before { content: "✓"; flex-shrink: 0; }
+#
+# Right (renders as one block of inline text):
+#   .my-list li { position: relative; padding-left: 1.5rem; }
+#   .my-list li::before { content: "✓"; position: absolute; left: 0; top: 0; }
+#
+# Rule: ANY <li> that may contain inline links must use
+# `position: relative` + absolute-positioned `::before` for the bullet,
+# not `display: flex` + `flex-shrink:0` on `::before`. The flex pattern
+# only works for bullets whose content is a single text node — but every
+# scam-page list eventually grows an inline link, so default to the
+# absolute pattern.
