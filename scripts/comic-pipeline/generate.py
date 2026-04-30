@@ -50,10 +50,34 @@ MIN_IMAGE_BYTES = 120_000  # below this is suspected as malformed / tiny
 
 
 def _keychain(service: str) -> str:
-    return subprocess.run(
-        ["security", "find-generic-password", "-s", service, "-w"],
-        capture_output=True, text=True,
-    ).stdout.strip()
+    """Read credential from macOS keychain, with env-var fallback for non-macOS hosts.
+
+    Service-name → env-var mapping is the ALL-CAPS, hyphens-to-underscores form:
+      gemini-api-key       → GEMINI_API_KEY
+      wavespeed-api-key    → WAVESPEED_API_KEY
+      cloudflare-api-token → CLOUDFLARE_API_TOKEN
+
+    Raises RuntimeError if neither source has the credential, so the caller fails
+    loudly instead of submitting an empty Bearer token to the upstream API.
+    """
+    import os, shutil
+    if shutil.which("security"):
+        try:
+            out = subprocess.run(
+                ["security", "find-generic-password", "-s", service, "-w"],
+                capture_output=True, text=True, check=True,
+            ).stdout.strip()
+            if out:
+                return out
+        except subprocess.CalledProcessError:
+            pass
+    val = os.environ.get(service.upper().replace("-", "_"), "").strip()
+    if not val:
+        raise RuntimeError(
+            f"missing credential for '{service}': not in macOS keychain "
+            f"and ${service.upper().replace('-', '_')} env var is unset"
+        )
+    return val
 
 
 def extract_scams(city: str) -> list[dict]:
