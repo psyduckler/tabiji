@@ -484,6 +484,8 @@ KDP flagged 20+ pages with `"text outside margins"` and page 78 with `"insuffici
 
 Both `templates/scripts/build.py.template` and `templates/scripts/build_paperback_cover.py.template` in the skill carry the fix as of 2026-04-27. Older book-X/ directories (created before 2026-04-21 for Spain, before 2026-04-27 for Australia's pre-shipped variant) may carry the pre-fix versions and need the same retro-patch.
 
+**Confirmed case 2026-04-30 — Malaysia Vol 17 retrofit (#1313 forthcoming):** Malaysia shipped 2026-04-22 with the *exact same combination of all three sub-bugs as Australia*: (1) front.svg + back.svg were hand-built as Yusof-Gajah gradient designs with NO `<image>` tag, (2) build.py's render_cover() lacked base64 inlining, (3) build_paperback_cover.py's extract_inner() lacked the assets/covers/ fallback. KDP's automated cover-QA preview flagged the resulting cover ("text blends with background, blocked by elements"). The retrofit applied the canonical templates verbatim plus regenerated the comic-style watercolor (Peranakan/Nyonya pastel: KLIA2 teksi-sapu front, George Town shophouse back). Total fix-cycle: ~30 min once the diagnosis was clear. Lesson: when a book ships with non-comic-scene cover art (decorative-frame skyline view, gradient-only design) it almost certainly also has the corresponding pipeline bugs because the SVG is the visible artifact of "we never wired the Wavespeed art in." Audit the SVG → build.py → cover-builder chain together, not separately.
+
 **Why audits don't catch this:** the publisher-audit prompts (Phase 6) inspect the EPUB and paperback PDF for content/typography/voice — they don't load the cover JPG. Phase 5 now contains an explicit cover-art verification step (see book-generator.md) that catches both bugs before audits run:
 
 ```bash
@@ -571,3 +573,64 @@ The `61` numeral is unaffected — it's centered at x=0 and stays exactly where 
 grep -E '<rect[^>]*width="116"' book-<country>/assets/svg/front.svg
 # Expect 0 hits. Any match → widen to 144 before render.
 ```
+
+---
+
+## Gotcha #23 — Cover front MUST be a comic-style scam-in-action scene, not a decorative-frame skyline (Malaysia Vol 17 case, 2026-04-30)
+
+**Symptom:** A shipped book has a front cover that is a *decorative-framed skyline view* (Petronas Towers + peony border + empty negative space at top for the title) instead of the series-canonical *full-bleed comic-style scam-in-action scene* (a tourist + a scammer + a recognizable landmark + a speech bubble of the scam line). The cover passes the build pipeline because it has correct dimensions and text overlays; it just doesn't match the series quality bar set by Egypt (camel-handler "Free photo" scam at Giza), Australia (KLIA-style taxi-tout "$48 + $85 mate" at Sydney harbor), Turkey (Sultanahmet shoe-shine brush drop). KDP's automated cover-QA preview later flags it for legibility because there's no scene context — just text floating in negative space.
+
+**Cause:** When a book scaffolder writes `gen_comics.py` with a "scenic landmark + decorative border" prompt instead of "scam in action with two figures + speech bubble + landmark", the resulting cover misses the series identity. The book-generator.md Phase 2.5 wording says "depicting a flagship scam in action" but at that level of generality it's easy to mis-interpret as "a representative landmark scene of the country."
+
+**Fix — make Phase 2.5 prompt requirements explicit:**
+
+The front-cover Wavespeed prompt MUST contain ALL of these elements:
+
+1. **A clearly-female-or-male tourist figure** (matches one of the 4 canonical cast: Margie 62F, Priya 34F, Harry 64M, Marcus 34M). Specify hat, suitcase, posture.
+2. **A scam perpetrator in a recognizable role** for the scam (taxi tout, vendor, "free photo" guide, etc.).
+3. **A speech bubble with the actual scam-line in English** (e.g., "Meter rosak — RM 250, special airport rate", "Free photo, just one minute!", "Plus airport top-up — eighty-five mate").
+4. **A recognizable local landmark visible in the background** (Petronas Towers, pyramids, Opera House, Hagia Sophia).
+5. **Generous empty sky / negative space in the upper third** for the title overlay.
+6. **A darker band across the lower fifth** for the hook overlay (this is what the dark gradient overlay in the SVG sits over).
+
+The back cover is moody and atmospheric — no characters, no speech bubble, just the destination at golden hour with substantial empty sky for back-cover copy.
+
+**Verification:** before merging the gen_comics.py prompt, read the prompt aloud and confirm: does it describe a *scene where someone is being scammed right now*? If the prompt only describes a landmark or a vista, rewrite it.
+
+**Why audits don't catch this:** publisher-audit prompts (Phase 6) inspect the EPUB and paperback PDF for content/typography/voice — they don't load the cover JPG and they don't compare it against the Egypt/Australia quality bar. The only catch-points are (a) explicit Phase 2.5 prompt requirements (above), (b) eyeballing the rendered cover before Phase 9 deploy, and (c) the KDP-side cover-QA preview, which is post-upload (too late — fix-cycle costs a re-upload + retry).
+
+**Confirmed case 2026-04-30:** Malaysia Vol 17 shipped with a Peranakan-framed Petronas-skyline cover (decorative border, empty negative space, no scam scene) plus the gotcha #20 pipeline bugs. KDP cover-QA flagged it. Retrofit regenerated the comic art (KLIA2 taxi-tout + female tourist + "Meter rosak — RM 250" speech bubble + Petronas Towers + KLIA control tower) and rewrote both SVGs to the full-bleed Egypt/Australia template. ~30-minute fix once diagnosis was clear. The interior PDF + manuscript were untouched — only the cover changed.
+
+---
+
+## Gotcha #24 — `bleed_colors` must synergize with the cover-art palette, not be picked from a generic country flag (Malaysia Vol 17 case, 2026-04-30)
+
+**Symptom:** The KDP wraparound cover renders with a bleed gradient (the spine background + the 0.125" outer-trim margins on front + back) in colors that visually clash with the cover art. Common pattern: cover art is a soft pastel watercolor (Peranakan/Nyonya pinks + mints, Italian terracotta + olive, Spanish saffron + indigo) and the bleed gradient is an unrelated saturated brand pair (marigold→teal, navy→gold). The eye reads the spine as a *separate piece* glued onto the wraparound, not as a continuous part of the art.
+
+**Cause:** `book-<country>/config.yaml` carries a `bleed_colors:` 2-item list that the wraparound build script reads. When this is set during scaffolding before the cover art exists (or set to a generic country-flag pair like Yusof-Gajah marigold/teal for Malaysia), the colors don't pick up the dominant tones the eventual cover ends up using.
+
+**Fix — pick `bleed_colors` AFTER the front + back cover art is rendered, not before:**
+
+1. Open the rendered front.jpg + back.jpg (the Wavespeed output, not the composed SVG).
+2. Identify the two dominant tonal poles:
+   - **Top color**: a deeper, more saturated version of the warm tones that dominate the upper half of the cover (the sky band — usually corals, peaches, ochres, sand-golds).
+   - **Bottom color**: a deeper version of the cool tones in the lower half (the foreground/landmarks — usually teals, deep blues, plums, forest greens).
+3. Both colors must be saturated enough to keep the cream spine title (`#F5E9D3`, font-weight 700) legible against the gradient mid-band.
+
+**Reference palettes shipped:**
+
+| Country | bleed_colors | Why |
+|---|---|---|
+| Egypt (Vol 4) | `#C9A24A` → `#1F4E6B` | Sand-gold pyramid-light → Nile-blue night |
+| Australia (Vol N) | `#1B7FA8` → `#E8A454` | Deep harbor-sky → golden-sand ochre |
+| Turkey (Vol 9) | (check book-turkey/config.yaml) | Ottoman pottery palette |
+| Malaysia retrofit (2026-04-30) | `#C68870` → `#2F5E5A` | Heritage rose terracotta (Peranakan tile clay) → deep Peranakan teal (heritage ceramic mint) — picks up pink shophouse tones at top + mint shophouse accents at bottom |
+
+**Don't pick:**
+- Pure flag colors (e.g., Malaysia's red-blue-yellow flag would look garish next to Peranakan pastels).
+- Two highly-saturated complementary primaries (e.g., marigold→teal) when the cover is a soft pastel — the spine will scream and the cover will whisper.
+- Two colors of similar luminance — the spine title needs gradient contrast to read; cream text needs the mid-band to be at least 50% darker than the cream.
+
+**Verification:** render the wraparound to JPG (`pdftoppm -r 100 ... -jpeg -f 1 -l 1`) and view it next to the rendered front.jpg/back.jpg. The spine + bleed should feel like a continuous tonal frame around the watercolor, not a separate stripe.
+
+**Confirmed case 2026-04-30:** Malaysia Vol 17 shipped with `bleed_colors: ["#E8A454", "#1DA5A0"]` (Yusof Gajah marigold + tropical teal) — chosen during scaffolding when the planned art style was Yusof-Gajah-flat-color. The actual shipped cover used Peranakan/Nyonya pastel watercolor, which clashed with the saturated marigold/teal spine. Retrofit replaced with `["#C68870", "#2F5E5A"]` (heritage rose terracotta → Peranakan teal). Spine title remained legible, and the gradient now reads as a natural extension of the watercolor scenes.

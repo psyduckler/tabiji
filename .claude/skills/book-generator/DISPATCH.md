@@ -24,7 +24,7 @@ Read **`book-generator.md`** (the main skill file, one directory up from this on
 - `templates/build-templates/{style.css,header-includes.tex}` — EPUB CSS + LaTeX override
 - `checklists/publisher-audit-prompts.md` — three parallel-audit agent prompts
 - `checklists/desktop-readme-template.txt` — the desktop bundle README skeleton
-- `checklists/gotchas-and-known-fixes.md` — 22 known anti-patterns with fixes — **READ IF YOU HIT ANY ERROR, especially #16 (Reddit scaffolding/word-breaks demand the polish module), #17 (patch-script escape bugs when editing existing build.py), #18 (KDP twoside gutter), #19 (always copy from templates/, never another shipped book), #20 (cover-art silent strip), #21 (cover-overlay tagline halo on light skies), and #22 (stat-badge box width)**
+- `checklists/gotchas-and-known-fixes.md` — 24 known anti-patterns with fixes — **READ IF YOU HIT ANY ERROR, especially #16 (Reddit scaffolding/word-breaks demand the polish module), #17 (patch-script escape bugs when editing existing build.py), #18 (KDP twoside gutter), #19 (always copy from templates/, never another shipped book), #20 (cover-art silent strip — all 3 sub-bugs), #21 (cover-overlay tagline halo on light skies), #22 (stat-badge box width), #23 (front cover MUST be a comic-style scam-in-action scene — read prompt aloud), and #24 (`bleed_colors` synergy with cover art, picked AFTER render)**
 
 ## 3. Reference volumes to pattern-match against
 

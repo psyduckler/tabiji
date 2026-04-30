@@ -136,8 +136,15 @@ A country slug / name. Examples: `germany`, `mexico`, `portugal`, `greece`, `sou
 
 5. **Generate front + back cover art via Wavespeed** (long-running, ~4-6 min background):
    - Write `scripts/gen_comics.py` — copy `.claude/skills/book-generator/templates/scripts/gen_comics.py.template` into `book-<country>/scripts/` and rewrite the `COVERS` list.
-   - **Front cover**: a dramatic 2:3 portrait watercolor-storybook scene depicting a flagship scam in action. Include: a clearly-female-or-male tourist figure, the scam perpetrator with a speech bubble, a recognizable local landmark in the background. Upper third should have negative sky space for the title overlay. See `book-turkey/scripts/gen_comics.py` Sultanahmet shoe-shine example.
-   - **Back cover**: a moody atmospheric 2:3 scene of the destination (bazaar, market, old town, harbor at evening) with substantial upper-area negative space for copy overlay.
+   - **Front cover MUST include ALL six elements** (gotcha #23 — Malaysia Vol 17 shipped without these and KDP cover-QA flagged it):
+     1. A clearly-female-or-male tourist figure (matches one of the 4 canonical cast: Margie 62F, Priya 34F, Harry 64M, Marcus 34M). Specify hat/suitcase/posture.
+     2. A scam perpetrator in a recognizable role (taxi tout, vendor, "free photo" guide, etc.).
+     3. A speech bubble with the *actual scam-line in English* (e.g., "Meter rosak — RM 250, special airport rate", "Free photo, just one minute!", "Plus airport top-up — eighty-five mate").
+     4. A recognizable local landmark in the background.
+     5. Generous empty sky / negative space in the upper third for title overlay.
+     6. A darker band across the lower fifth for hook overlay.
+     **Read the prompt aloud before submitting.** If it only describes a landmark or vista, rewrite it — the prompt must describe a scene where someone is being scammed *right now*. References: `book-turkey/scripts/gen_comics.py` Sultanahmet shoe-shine, `book-egypt/` Giza camel-handler, `book-australia/` Sydney taxi-tout.
+   - **Back cover**: a moody atmospheric 2:3 scene of the destination (bazaar, market, old town, harbor at evening) with substantial upper-area negative space for copy overlay. No characters, no speech bubble.
    - Style block (shared across series, do not change):
      ```
      Watercolor-storybook illustration in soft hand-painted lines, pastel
@@ -147,6 +154,15 @@ A country slug / name. Examples: `germany`, `mexico`, `portugal`, `greece`, `sou
      No logos, no watermarks, no signatures.
      ```
    - Run: `PYTHONUNBUFFERED=1 python3 book-<country>/scripts/gen_comics.py` in the background
+
+6. **Pick `bleed_colors` AFTER the cover art renders, not during scaffolding** (gotcha #24 — Malaysia shipped with a marigold/teal Yusof-Gajah-flag pair that clashed against the eventual Peranakan-pastel watercolor):
+   Once front.jpg + back.jpg exist, view them and pick a 2-color gradient that synergizes with the dominant tones — *not* generic country-flag colors. Top color = deeper version of the warm tones (sky/sunset). Bottom color = deeper version of the cool tones (foreground/landmarks). Both saturated enough that cream spine title (`#F5E9D3`) reads against the mid-band.
+   ```yaml
+   bleed_colors:
+     - "#xxxxxx"   # top — describe (e.g., "heritage rose terracotta")
+     - "#xxxxxx"   # bottom — describe (e.g., "deep Peranakan teal")
+   ```
+   Reference palettes shipped: Egypt `#C9A24A → #1F4E6B` (sand-gold → Nile-blue), Australia `#1B7FA8 → #E8A454` (harbor-sky → ochre), Malaysia `#C68870 → #2F5E5A` (rose terracotta → Peranakan teal).
 
 ---
 
