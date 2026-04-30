@@ -179,24 +179,61 @@ def download_verify(url: str, out_path: Path) -> tuple[bool, str]:
     return True, "ok"
 
 
-def upload_r2(src: Path, r2_key: str, r2_token: str) -> bool:
-    url = (f"https://api.cloudflare.com/client/v4/accounts/{R2_ACCT}"
-           f"/r2/buckets/{R2_BUCKET}/objects/{r2_key}")
+_S3_CLIENT = None
+
+
+def _s3_client():
+    """Lazy-init boto3 S3 client pointed at the R2 S3-compatible endpoint.
+
+    Reads two new keychain entries (with env-var fallbacks):
+      cloudflare-r2-access-key-id      → CLOUDFLARE_R2_ACCESS_KEY_ID
+      cloudflare-r2-secret-access-key  → CLOUDFLARE_R2_SECRET_ACCESS_KEY
+
+    The earlier `cloudflare-api-token` (Bearer-style) doesn't have R2
+    write scope on this account, so the v4 Cloudflare API path silently
+    fails. The S3-compatible endpoint with the access keys does work.
+    """
+    global _S3_CLIENT
+    if _S3_CLIENT is not None:
+        return _S3_CLIENT
+    try:
+        import boto3
+        from botocore.config import Config as _BotoConfig
+    except ImportError as e:
+        raise RuntimeError(
+            "boto3 not available — install with `pip3 install boto3`"
+        ) from e
+    _S3_CLIENT = boto3.client(
+        "s3",
+        endpoint_url=f"https://{R2_ACCT}.r2.cloudflarestorage.com",
+        aws_access_key_id=_keychain("cloudflare-r2-access-key-id"),
+        aws_secret_access_key=_keychain("cloudflare-r2-secret-access-key"),
+        config=_BotoConfig(signature_version="s3v4", region_name="auto"),
+    )
+    return _S3_CLIENT
+
+
+def upload_r2(src: Path, r2_key: str, _r2_token: str) -> bool:
+    """Upload a JPEG to R2 via the S3-compatible endpoint.
+
+    The `_r2_token` arg is preserved for backward-compat with callers but
+    no longer used — auth comes from the access-key/secret pair stored
+    under the cloudflare-r2-{access-key-id,secret-access-key} keychain
+    entries.
+    """
     body = src.read_bytes()
     for attempt in range(5):
-        req = urllib.request.Request(url, method="PUT", data=body)
-        req.add_header("Authorization", f"Bearer {r2_token}")
-        req.add_header("Content-Type", "image/jpeg")
         try:
-            with urllib.request.urlopen(req, timeout=60) as r:
-                return bool(json.loads(r.read()).get("success"))
-        except urllib.error.HTTPError as e:
-            if e.code in (429, 500, 502, 503, 504) and attempt < 4:
-                time.sleep(3 + attempt * 3)
-                continue
-            return False
-        except Exception:
-            if attempt < 4:
+            _s3_client().put_object(
+                Bucket=R2_BUCKET, Key=r2_key, Body=body,
+                ContentType="image/jpeg",
+                CacheControl="public, max-age=31536000, immutable",
+            )
+            return True
+        except Exception as e:
+            transient = any(s in str(e).lower() for s in
+                            ("throttl", "timeout", "503", "502", "500", "429"))
+            if transient and attempt < 4:
                 time.sleep(3 + attempt * 3)
                 continue
             return False
