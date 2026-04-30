@@ -301,6 +301,20 @@ Apply all findings before proceeding.
    ```
    **Verify the wraparound also embeds the art:** `grep -c "data:image" book-<country>/build/<country>-paperback-cover.svg` must return ≥ 2 (front + back). 0 means the same `extract_inner` covers/ fallback bug fired and the wraparound is text-only.
 
+   **Spine-title verification (BLOCKING — this caused a UK paperback to ship with "CANADA" on the spine):** the template script derives `spine_title` from `CONFIG["title"]` so the spine should never carry a stale country name. If you cloned a non-template script (e.g. from another `book-<X>/scripts/build_paperback_cover.py`), explicitly verify:
+   ```bash
+   # No previous-country slug should appear anywhere in the build script.
+   grep -nE '"[A-Z]{4,}"' book-<country>/scripts/build_paperback_cover.py
+   # ↑ should match only generic words ("TABIJI", "KDP", etc.); any country name
+   #   like CANADA/TURKEY/JAPAN/SPAIN means the clone kept hardcoded text — port
+   #   the spine_title CONFIG.get() pattern in from .claude/skills/book-generator/
+   #   templates/scripts/build_paperback_cover.py.template before re-running.
+
+   # The rendered spine SVG must reflect the current country.
+   grep -c ">$(echo $COUNTRY | tr a-z A-Z)<" book-<country>/build/<country>-paperback-cover.svg
+   # ↑ must be ≥ 1; 0 means the spine title is wrong.
+   ```
+
 ---
 
 ### PHASE 6 — PUBLISHER AUDITS (3 PARALLEL)

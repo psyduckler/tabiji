@@ -48,6 +48,22 @@ Each match = 1 violation. Threshold: 0 violations allowed.
 - [ ] "This is not [X]. This is [Y]." pattern ≤ 1 per page
 - [ ] "Without exception, in any jurisdiction" ≤ 2 per page
 
+## Cross-page formula tics (added 2026-04-29 corpus audit)
+
+These are sentence-shapes that emerged when the variant template was applied
+across multiple pages. The audit caught them because a careful reader hit
+the same opener on two pages in one session.
+
+- [ ] "The script is one. The N masks it wears" — **0 occurrences** (use a page-specific transition framed around the page's actual taxonomy)
+- [ ] "The defense is..." as a paragraph-3 opener — **≤ 1 per page** (rotate openers across variants — see `voice-rules.md` § Variant paragraph-3 opener rotation)
+- [ ] "The single decision rule:" / "The single sentence to remember:" / "The single sentence:" — **≤ 1 per page** combined (the bolded-imperative formula at every variant's close becomes audible after V2)
+
+## Hook ↔ Variant #1 collision check (manual)
+
+- [ ] Hook story and Variant #1's primary case must NOT be the same Reddit thread or scenario
+- [ ] If they are, V1 must be rewritten to either (a) a different demographic/case or (b) a near-miss where the page's central defense fires in real time
+- [ ] Per-page check: the first sentence of Variant #1's body and the first sentence of the hook must not share the protagonist, dollar amount, or platform name
+
 ## Diction over-reach
 
 For each canonical AI noun pair:

@@ -173,10 +173,17 @@ body {
 .safety-box li {
     font-size: 0.92rem;
     color: var(--text);
-    display: flex;
-    gap: 0.5rem;
+    position: relative;
+    padding-left: 1.25rem;
 }
-.safety-box li::before { content: "✓"; color: var(--low); font-weight: 700; flex-shrink: 0; }
+.safety-box li::before {
+    content: "✓";
+    color: var(--low);
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
 
 /* Section heading */
 .section-heading {
@@ -3178,6 +3185,121 @@ body.editorial-v2 .team-links a:hover {
 @media (max-width: 480px) {
     body.editorial-v2 .contact-rows { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   GENERAL-SCAMS PAGE COMPONENTS (editorial-v2 namespace)
+   Consolidated from per-page <style> blocks across the
+   /scams/everywhere/ corpus. Single source of truth.
+   ============================================================ */
+body.editorial-v2 .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+body.editorial-v2 .stat-strip .stat-card { background: var(--warm-cream-soft); border-left: 4px solid var(--terracotta); padding: 1rem 1.25rem; border-radius: var(--radius-md); }
+body.editorial-v2 .stat-strip .stat-num { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--indigo); line-height: 1; }
+body.editorial-v2 .stat-strip .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem; line-height: 1.4; }
+body.editorial-v2 .stat-strip .stat-source { font-size: 0.7rem; color: var(--earth-light); margin-top: 0.3rem; }
+body.editorial-v2 .stat-strip .stat-card.estimated { border-left-color: var(--earth-light); }
+
+body.editorial-v2 .assessment-box { background: #FFF8EC; border: 1px solid var(--gold); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; margin: 1.5rem 0 2rem; }
+body.editorial-v2 .assessment-box h3 { font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--deep-brown); }
+body.editorial-v2 .assessment-box ol { margin: 0.5rem 0 0.75rem 1.25rem; line-height: 1.7; }
+body.editorial-v2 .assessment-box .verdict { font-size: 0.9rem; color: var(--text-muted); border-top: 1px dashed var(--earth-light); padding-top: 0.75rem; margin-top: 0.5rem; }
+body.editorial-v2 .assessment-skip { display: inline-block; margin-top: 0.4rem; background: var(--terracotta); color: var(--white); padding: 0.4rem 0.85rem; border-radius: var(--radius-pill); font-weight: 600; text-decoration: none; font-size: 0.85rem; }
+body.editorial-v2 .assessment-skip:hover { background: var(--terracotta-deep); }
+
+body.editorial-v2 .context-sidebar { background: var(--sand-light); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; margin: 2rem 0; font-size: 0.95rem; }
+body.editorial-v2 .context-sidebar h3 { font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--deep-brown); }
+body.editorial-v2 .context-sidebar p { margin-bottom: 0.6rem; line-height: 1.6; }
+body.editorial-v2 .context-sidebar p:last-child { margin-bottom: 0; }
+
+body.editorial-v2 .legal-disclaimer { font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--sand); padding-top: 1rem; margin-top: 2rem; line-height: 1.5; font-style: italic; }
+body.editorial-v2 .transition-line { margin: 1rem 0 1.5rem; font-style: italic; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+body.editorial-v2 .tldr-box { border-left: 4px solid var(--terracotta); background: var(--warm-cream-soft); }
+body.editorial-v2 .tldr-box h2 { margin-bottom: 0.5rem; }
+body.editorial-v2 .tldr-box p { margin: 0; line-height: 1.7; }
+body.editorial-v2 .hook-section p { font-size: 1.05rem; line-height: 1.75; color: var(--text); margin-bottom: 1rem; }
+body.editorial-v2 .phase-list, body.editorial-v2 .intl-list, body.editorial-v2 .help-list { line-height: 1.75; margin: 1rem 0 1rem 1.5rem; }
+body.editorial-v2 .intl-list li, body.editorial-v2 .help-list li { margin-bottom: 0.5rem; }
+body.editorial-v2 .callback-box { background: var(--ed-low-bg); border: 2px dashed var(--sage); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+body.editorial-v2 .callback-box h3 { font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--deep-brown); }
+
+/* Hero meta-row replaces the non-informative "X High Risk" severity-pill on
+   /scams/everywhere/ pages with two specific demographic + loss-magnitude
+   pills. Lives next to (or replaces) .severity-summary in the hero. */
+body.editorial-v2 .page-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+body.editorial-v2 .page-meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--warm-cream-soft);
+    border: 1px solid var(--sand);
+    border-radius: var(--radius-pill);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    font-weight: 500;
+}
+body.editorial-v2 .page-meta-pill strong { font-weight: 700; color: var(--indigo); }
+
+/* Sibling navigation between general-scams guides — addresses the dead-end
+   problem (every page is a terminal node otherwise). Sits at the bottom of
+   the article body, above the legal disclaimer. */
+body.editorial-v2 .series-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
+    margin: 2.5rem 0 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--sand);
+    border-bottom: 1px solid var(--sand);
+}
+body.editorial-v2 .series-nav a {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: var(--warm-cream-soft);
+    color: var(--text);
+    text-decoration: none;
+    transition: background 0.15s, transform 0.15s;
+    min-width: 0;
+}
+body.editorial-v2 .series-nav a:hover {
+    background: var(--sand-light);
+    transform: translateY(-1px);
+}
+body.editorial-v2 .series-nav .series-nav-direction {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+body.editorial-v2 .series-nav .series-nav-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--indigo);
+    font-weight: 600;
+    line-height: 1.3;
+}
+body.editorial-v2 .series-nav .series-nav-prev { text-align: left; }
+body.editorial-v2 .series-nav .series-nav-next { text-align: right; align-items: flex-end; }
+body.editorial-v2 .series-nav .series-nav-spacer { background: transparent; cursor: default; pointer-events: none; }
+body.editorial-v2 .series-nav .series-nav-spacer:hover { background: transparent; transform: none; }
+@media (max-width: 640px) {
+    body.editorial-v2 .series-nav { flex-direction: column; }
+    body.editorial-v2 .series-nav .series-nav-next { align-items: flex-start; text-align: left; }
+}
+
+/* Remove the misleading hover-shadow on .scam-card under editorial-v2 — these
+   cards are not links (they expand inline). Hover affordance suggested they
+   were clickable, which they are not. */
+body.editorial-v2 .scam-card:hover { box-shadow: var(--shadow-soft, 0 2px 8px rgba(45,58,92,0.04)); }
 
 /* ============================================================
    REDUCED MOTION

@@ -64,6 +64,40 @@ each. Any hit is a hard fail.
 - "Without exception, in any jurisdiction" (allow ≤2 per page)
 ```
 
+### Banned cross-page formula tics (caught in 2026-04-29 corpus audit)
+These are the patterns that emerged when the 5-variant template was applied
+across multiple pages. Each one was caught because a careful reader hit the
+same sentence-shape on two pages in one session and lost trust.
+```
+- "The script is one. The N masks it wears are below."
+  (use a page-specific transition framed around the actual taxonomy)
+- "The defense is..." as the paragraph-3 opener of every variant.
+  (rotate openers across variants: imperative, question, Reddit-quote-led,
+   climax-beat, structural-not-exhortative — see Variant openers below)
+- "The single decision rule:" / "The single sentence to remember:" /
+  "The single sentence:" — bolded-imperative formula closing every variant.
+  (vary closings: direct fact-then-imperative; Reddit-quote-led; question
+   that lands the answer; declarative without a labeled "rule")
+```
+
+## Variant paragraph-3 opener rotation
+
+Every variant's paragraph 3 (the defense / what-works paragraph) used to open
+with "The defense is..." across every page. Caught in the corpus audit. Going
+forward, rotate openers across the variants on a single page so the reader
+never hits the same construction twice in the same article. Pick from this
+set:
+
+1. **Imperative-first** — "Kill the browser via Task Manager — never via the page's own buttons."
+2. **Question-led** — "So what stops it?" / "So how do you verify a verification?"
+3. **Reddit-quote-led** — Open with the canonical victim or community quote and let it carry the framing.
+4. **Climax-beat-led** — Lead with what happens next ("The friend who turned off Wi-Fi didn't avoid the worst because he was lucky — he avoided it because he stopped engaging within minutes.")
+5. **Structural-not-exhortative** — "What works at scale is structural, not exhortative." Frame the rule as system design.
+6. **Diagnostic-led** — Open on what the diagnostic signal is ("The 'social worker' intermediary is the tell.")
+
+Use each opener at most once per page. By V5 the reader should not be able
+to predict the rhythm of the defense paragraph.
+
 ## Diction variation rules
 
 If you find yourself reaching for the same word 3+ times in a 1,500-word
@@ -100,6 +134,32 @@ Per `docs/scam-pages-style-guide.md`:
 Exceptions:
 - Verbatim quotes from non-US Reddit users keep their original spelling
 - Proper nouns keep their canonical spelling (Action Fraud, not Action Frawd; An Garda Síochána keeps the diacritics)
+
+## Hook ↔ Variant #1 decoupling
+
+The hook story and Variant #1's body must not be the same Reddit case.
+The first major audit of the corpus caught all five pages doing this:
+the hook would set up a case, then Variant #1's first paragraph would
+retell it with added age/timestamp/zip-code specifics. The reader hits
+the variants section already knowing the story, and engagement decays
+immediately.
+
+Rule: the hook is its own scene. Variant #1's body must be either
+- a different demographic (different age, role, channel, dollar magnitude); or
+- a near-miss where the page's central defense actually fires in real time
+  (best option — demonstrates the rule rather than asserting it).
+
+Examples that work:
+- ai-voice-clone V1: a near-miss where "What's the safe word?" comes out
+  of the mother's mouth before the social worker can finish his sentence.
+- pig-butchering V1: a different victim who googles the platform name in
+  week 6 and finds the Reddit thread describing her own situation.
+- bank-impersonation V1: hook = Chase $5K case; V1 primary = US Bank
+  variant + a $7,200 BoA loss case where the script did not break.
+
+If you can't find a near-miss, find a different demographic. If you can't
+find either, cut the variant or shrink the page to fewer variants. Do not
+ship hook-recap V1.
 
 ## Tone calibration — the friend test
 

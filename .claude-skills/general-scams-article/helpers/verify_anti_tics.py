@@ -34,6 +34,10 @@ BANNED_PHRASES = [
     "Delve",
     "Delving",
     "Let me be clear",
+    # Cross-page formula tics (added 2026-04-29 corpus audit) — appearing
+    # verbatim across multiple /scams/everywhere/ pages was the worst
+    # editorial smell in the audit. These hard-fail to keep them out.
+    "The script is one. The",
 ]
 
 # --- Soft-capped phrases (caps per 5,000 words) ---
@@ -44,6 +48,13 @@ SOFT_CAPS = {
     "Moreover,": 2,
     "However,": 4,
     "Indeed,": 2,
+    # Cross-page formula tics (2026-04-29 corpus audit). These were the
+    # paragraph-3 / paragraph-close formulas that appeared in every variant
+    # of every page until the audit caught them. Allow ≤1 per page so the
+    # phrase can still appear as language but not as the cross-variant formula.
+    "The defense is ": 1,
+    "The single decision rule": 1,
+    "The single sentence": 1,
 }
 
 # --- Banned constructions (regex) ---
