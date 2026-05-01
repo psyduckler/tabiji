@@ -46,12 +46,14 @@ REVIEWS: dict[str, dict] = {
         ],
     },
     "thailand": {
-        "avg": 5.0, "count": 2,
+        "avg": 5.0, "count": 4,
         "items": [
             {"name": "Michael", "rating": 5, "verified": True, "format": "Kindle",
              "quote": "Great book that easily paid for itself. Sometimes I forget how much stronger the dollar is — even if it's not a lot of money, I'd still be overpaying by multiple times in Thailand. An easy read that educated me and prepared me for one of my favorite countries."},
             {"name": "Rachel Nicholls", "rating": 5, "format": "Kindle",
              "quote": "Goes beyond typical travel advice by exposing real scams backed by Thai news reports and tourist police records, which adds serious credibility. Perfect for both first-time visitors and seasoned travelers."},
+            {"name": "Jeff Wolff", "rating": 5, "format": "Kindle",
+             "quote": "This is a very comprehensive book that covers all of the scams imaginable. What really makes this book great is that it breaks the scams down by location. With so many to keep an eye out for, it can be hard to keep track of them all, but by knowing what to look for in each specific place, it makes everything much more manageable."},
         ],
     },
     "greece": {
@@ -167,6 +169,13 @@ REVIEWS: dict[str, dict] = {
              "quote": "France Tourist Scams 2026 is a well-researched and highly practical book that gives travelers a clear understanding of what to watch out for. The real case examples make it easy to stay alert, and the guidance is straightforward and helpful. A must-have resource for anyone planning to visit France."},
             {"name": "Bobby Bell", "rating": 4, "format": "Paperback",
              "quote": "This book is an essential guide for anyone planning a trip to France. With 191 real scams covered, it goes far beyond basic travel advice. I was impressed by how detailed and well-organized everything is. The use of French news reports and official records adds credibility, making it a reliable resource. It definitely helped me feel more confident about exploring cities like Paris and Nice."},
+        ],
+    },
+    "turkey": {
+        "avg": 5.0, "count": 1,
+        "items": [
+            {"name": "Micheal suggs", "rating": 5, "format": "Kindle",
+             "quote": "Very practical and straight to the point. The book explains real scams with clear examples, exact scripts and useful warning signs. The Turkish phrases and recovery steps make it even more valuable. It feels like a real safety manual, not just a travel guide. Highly recommended for anyone visiting Türkiye."},
         ],
     },
 }
