@@ -1719,6 +1719,79 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "the tweet. Speech bubble (real celebrity post): \"My account "
         "was compromised — never run giveaways.\""
     )),
+    # ============================================================
+    # LOTTERY & SWEEPSTAKES (5 variants)
+    # ============================================================
+    ("lottery-and-sweepstakes", "scam-1", "pch-impersonation", "margie", (
+        "Panel 1: Margie at her kitchen counter answers the phone. "
+        "Speech bubble (voice): \"Publishers Clearing House — you've "
+        "won $5 million plus a Mercedes!\"\n"
+        "Panel 2: The voice asks for $200 in tax payments via wire "
+        "before the prize patrol can deliver. Speech bubble (voice): "
+        "\"Just wire the federal tax to claim.\"\n"
+        "Panel 3: Margie hangs up and visits pch.com/scam-warning "
+        "directly. Speech bubble (PCH website): \"Real PCH delivers in "
+        "person — never asks for fees.\"\n"
+        "Panel 4: Margie reports the call to FTC + AARP Fraud Watch "
+        "Helpline. Speech bubble (Margie): \"Real PCH wins come with a "
+        "Prize Patrol van — never advance fees.\""
+    )),
+    ("lottery-and-sweepstakes", "scam-2", "international-lottery", "harry", (
+        "Panel 1: Harry at his mailbox opens an official-looking "
+        "letter: 'Spanish El Gordo — you have won €1.2 million.' "
+        "Speech bubble (Harry): \"I never bought a Spanish lottery "
+        "ticket.\"\n"
+        "Panel 2: The letter asks for a $4,500 wire to an "
+        "'international tax processor' before winnings can be released. "
+        "Speech bubble (Harry): \"U.S. federal law bans foreign-lottery "
+        "imports.\"\n"
+        "Panel 3: Harry reports the letter to USPIS at uspis.gov/"
+        "report. Speech bubble (USPIS): \"REPORT FILED.\"\n"
+        "Panel 4: Harry shreds the letter + warns his neighbor about "
+        "the Spanish-lottery pattern. Speech bubble (Harry): \"18 USC "
+        "§ 1302 — foreign-lottery winnings can't be imported.\""
+    )),
+    ("lottery-and-sweepstakes", "scam-3", "advance-fee-sweepstakes", "margie", (
+        "Panel 1: Margie at her mailbox opens a letter: 'You won "
+        "$250,000! $5,000 advance check enclosed for taxes.' Speech "
+        "bubble (Margie): \"Wait — wire $4,200 to release prize?\"\n"
+        "Panel 2: Margie pauses + remembers our check-fraud guide on "
+        "Reg CC + advance-check pattern. Speech bubble (Margie): \"Bank-"
+        "available isn't cleared.\"\n"
+        "Panel 3: Margie calls her bank: 'Has this check cleared?' "
+        "Speech bubble (real bank rep): \"PROVISIONAL — could bounce in "
+        "2-4 weeks.\"\n"
+        "Panel 4: Margie shreds the letter + reports to USPIS + FTC. "
+        "Speech bubble (Margie): \"Real lotteries don't require advance "
+        "fees.\""
+    )),
+    ("lottery-and-sweepstakes", "scam-4", "fake-grant-disguised-as-lottery", "harry", (
+        "Panel 1: Harry at his desk reads an email: 'You've been "
+        "selected for a Senior Citizen Grant — $25,000 cash.' Speech "
+        "bubble (email): \"Pay $850 processing fee to release.\"\n"
+        "Panel 2: Harry searches grants.gov for 'Senior Citizen Grant.' "
+        "Speech bubble (grants.gov): \"NO RESULTS FOUND.\"\n"
+        "Panel 3: Harry reports the email to FTC + checks our advance-"
+        "fee guide. Speech bubble (Harry): \"Real federal grants live on "
+        "grants.gov — if not there, not real.\"\n"
+        "Panel 4: Harry deletes the email + warns his retired friends. "
+        "Speech bubble (Harry): \"If I didn't apply, I didn't win.\""
+    )),
+    ("lottery-and-sweepstakes", "scam-5", "phone-call-winner-notification", "margie", (
+        "Panel 1: Margie at her kitchen counter answers the phone. "
+        "Speech bubble (voice): \"Mega Millions claims department — "
+        "you've won $2.5 million!\"\n"
+        "Panel 2: The voice asks for bank-account details + a $5,000 "
+        "wire for federal tax withholding. Speech bubble (voice): \"Just "
+        "share your account so we can deposit.\"\n"
+        "Panel 3: Margie hangs up + visits her state lottery website "
+        "directly to verify. Speech bubble (state lottery): \"Real "
+        "winners claim in person at state lottery offices — we never "
+        "call.\"\n"
+        "Panel 4: Margie reports the call to AARP Fraud Watch Helpline "
+        "1-877-908-3360. Speech bubble (Margie): \"Real lotteries "
+        "never call — winners present tickets in person.\""
+    )),
 ]
 
-assert len(MANIFEST) == 116, f"Expected 116 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 121, f"Expected 121 entries, got {len(MANIFEST)}"
