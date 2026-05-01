@@ -973,6 +973,78 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "the scam to the FTC. Speech bubble (Margie): \"Real federal "
         "grants live on grants.gov — if not there, not real.\""
     )),
+    # ============================================================
+    # SUBSCRIPTION-TRAP & FREE-TRIAL SCAMS (5 variants)
+    # ============================================================
+    ("subscription-trap-and-free-trial", "scam-1", "free-trial-auto-enrollment", "priya", (
+        "Panel 1: Priya at her apartment desk on her laptop, signing up "
+        "for a '7-day free trial' of Speechify. Speech bubble (Priya): "
+        "\"Free for a week — I'll cancel before day 7.\"\n"
+        "Panel 2: Eight days later her credit-card app pings with a "
+        "$229.99 charge. Speech bubble (Priya): \"Annual auto-renewal? "
+        "I forgot.\"\n"
+        "Panel 3: Priya cancels via Capital One Eno — locks the virtual "
+        "card she used for the trial. Speech bubble (Capital One Eno "
+        "app): \"VIRTUAL CARD LOCKED.\"\n"
+        "Panel 4: Priya disputes the charge under FCBA + sets a calendar "
+        "alert for next time. Speech bubble (Priya): \"Virtual card + "
+        "calendar reminder defeats every free trial.\""
+    )),
+    ("subscription-trap-and-free-trial", "scam-2", "hidden-subscription-pdf-apps", "marcus", (
+        "Panel 1: Marcus at his desk searches 'convert PDF online' on "
+        "his laptop. Speech bubble (Marcus): \"Just need this one "
+        "conversion.\"\n"
+        "Panel 2: A site charges $1 for the conversion. Marcus pays. "
+        "Three weeks later his card is hit with a $39.99 'premium "
+        "subscription' charge. Speech bubble (card-app notification): "
+        "\"$39.99 PDFPaw subscription.\"\n"
+        "Panel 3: Marcus disputes the charge under FCBA + reports to "
+        "the FTC. Speech bubble (FTC ReportFraud): \"REPORT FILED.\"\n"
+        "Panel 4: Marcus uses LibreOffice for free PDF conversion next "
+        "time. Speech bubble (Marcus): \"$1 sites are bait — the "
+        "subscription is the trap.\""
+    )),
+    ("subscription-trap-and-free-trial", "scam-3", "bundled-checkout-prime-auto-enrollment", "harry", (
+        "Panel 1: Harry at his laptop checking out on Amazon. The "
+        "checkout page shows a prominent 'Continue with Prime' button "
+        "and a tiny 'No, thanks' link. Speech bubble (Harry): \"Just "
+        "trying to buy this one item.\"\n"
+        "Panel 2: A month later Harry's card is hit with a $14.99 Prime "
+        "charge he didn't intend. Speech bubble (card-app): \"AMAZON "
+        "PRIME $14.99/mo.\"\n"
+        "Panel 3: Harry checks the FTC's Amazon $2.5B refund-claim "
+        "portal on his laptop. Speech bubble (FTC website): \"FILE "
+        "CLAIM.\"\n"
+        "Panel 4: Harry files the refund claim + always reads checkout "
+        "boxes now. Speech bubble (Harry): \"Pre-checked boxes are "
+        "subscription enrollments.\""
+    )),
+    ("subscription-trap-and-free-trial", "scam-4", "cancellation-labyrinth-uber-23-screens", "priya", (
+        "Panel 1: Priya at her phone trying to cancel Uber One. The app "
+        "shows screen 1 of a 23-screen cancellation flow. Speech bubble "
+        "(app): \"Are you sure? Get 50% off!\"\n"
+        "Panel 2: Priya is on screen 12, tapping through retention "
+        "loops. Speech bubble (Priya): \"This is the labyrinth the FTC "
+        "complaint mentioned.\"\n"
+        "Panel 3: Priya gives up, sends written cancellation by certified "
+        "mail + disputes the charge with her card issuer. Speech bubble "
+        "(certified-mail receipt): \"DELIVERED.\"\n"
+        "Panel 4: Priya's card issuer blocks Uber from billing further. "
+        "Speech bubble (real card issuer): \"Merchant blocked under "
+        "ROSCA.\""
+    )),
+    ("subscription-trap-and-free-trial", "scam-5", "weekly-billing-wellness-app-trap", "marcus", (
+        "Panel 1: Marcus on his phone downloads a free 'Breeze "
+        "Wellbeing' app. The first-launch screen demands $9.99/week "
+        "premium. Speech bubble (app): \"$9.99/week — try premium.\"\n"
+        "Panel 2: Marcus pauses and converts $9.99/week to annual on a "
+        "calculator. Speech bubble (calculator): \"$519/YEAR.\"\n"
+        "Panel 3: Marcus rejects the prompt and uninstalls the app. "
+        "Speech bubble (Marcus): \"Weekly framing hides annual cost.\"\n"
+        "Panel 4: Marcus posts a warning on r/Scams about the weekly-"
+        "billing pattern. Speech bubble (r/Scams post): \"Always convert "
+        "weekly to annual first.\""
+    )),
 ]
 
-assert len(MANIFEST) == 66, f"Expected 66 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 71, f"Expected 71 entries, got {len(MANIFEST)}"
