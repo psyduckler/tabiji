@@ -1792,6 +1792,82 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "1-877-908-3360. Speech bubble (Margie): \"Real lotteries "
         "never call — winners present tickets in person.\""
     )),
+
+    # ============================================================
+    # PUPPY-AND-PET-SCAMS · 5 variants
+    # ============================================================
+    ("puppy-and-pet-scams", "scam-1", "fake-breeder-website", "priya", (
+        "Panel 1: Priya at her laptop browses a polished breeder website "
+        "showing French Bulldog puppies at $1,800. Speech bubble (Priya): "
+        "\"Market price is $3,500 — this is suspicious.\"\n"
+        "Panel 2: Priya reverse-image-searches the puppy photo on Google "
+        "Images. Speech bubble (Priya): \"Same photo on twelve other "
+        "breeder sites — stolen.\"\n"
+        "Panel 3: Priya checks AKC Marketplace at akc.org/marketplace for "
+        "the breeder's name. Speech bubble (AKC site): \"NO MATCH — not a "
+        "verified breeder.\"\n"
+        "Panel 4: Priya closes the tab + reports the site to BBB Scam "
+        "Tracker. Speech bubble (Priya): \"AKC Marketplace + reverse-"
+        "image-search + in-person visit catch every fake breeder.\""
+    )),
+    ("puppy-and-pet-scams", "scam-2", "escalating-shipping-fees", "harry", (
+        "Panel 1: Harry at his desk reads a text from the breeder after "
+        "his $1,500 deposit. Speech bubble (text): \"Need $850 for "
+        "temperature-controlled cage before shipping.\"\n"
+        "Panel 2: Another text arrives requesting $620 for pet insurance, "
+        "then $480 for USDA health certificate. Speech bubble (Harry): "
+        "\"Each fee is just one more before delivery.\"\n"
+        "Panel 3: Harry recognizes the sunk-cost fallacy + stops sending "
+        "money. Speech bubble (Harry): \"Real breeders quote one upfront "
+        "price — no post-deposit fees.\"\n"
+        "Panel 4: Harry disputes the original Zelle charge with his bank "
+        "+ files at petscams.com. Speech bubble (Harry): \"Any post-"
+        "deposit fee request is the diagnostic for fraud.\""
+    )),
+    ("puppy-and-pet-scams", "scam-3", "social-media-puppy-ad", "marcus", (
+        "Panel 1: Marcus on his phone sees a sponsored Instagram ad for a "
+        "Cavalier King Charles puppy at $950. Speech bubble (Marcus): "
+        "\"Market price is $2,800 — too low.\"\n"
+        "Panel 2: Marcus reverse-image-searches the puppy photo and finds "
+        "it on a real breeder's Instagram from three years ago. Speech "
+        "bubble (real breeder DM): \"Yes that photo was stolen from my "
+        "account.\"\n"
+        "Panel 3: Marcus reports the sponsored ad to Instagram's ad-"
+        "policy team. Speech bubble (Instagram): \"Ad removed — thank you "
+        "for reporting.\"\n"
+        "Panel 4: Marcus shares the warning with friends searching for "
+        "puppies. Speech bubble (Marcus): \"Up to 80% of sponsored pet "
+        "ads may be fake — reverse-image-search first.\""
+    )),
+    ("puppy-and-pet-scams", "scam-4", "fake-online-adoption-rescue", "margie", (
+        "Panel 1: Margie at her kitchen table reads a Facebook page about "
+        "rescue dogs supposedly saved from an overseas kill shelter. "
+        "Speech bubble (Margie): \"Free adoption — just $850 for "
+        "shipping?\"\n"
+        "Panel 2: Margie checks if the rescue is listed at petfinder.com "
+        "or adoptapet.com. Speech bubble (petfinder): \"NO MATCH — not a "
+        "verified rescue.\"\n"
+        "Panel 3: Margie phones her local Humane Society to ask about the "
+        "rescue. Speech bubble (Humane Society rep): \"Real rescues "
+        "operate locally + require home checks.\"\n"
+        "Panel 4: Margie adopts from her local shelter in person + warns "
+        "her neighbors. Speech bubble (Margie): \"Real rescues you can "
+        "visit — the online-only ones are scams.\""
+    )),
+    ("puppy-and-pet-scams", "scam-5", "marketplace-puppy-listing", "priya", (
+        "Panel 1: Priya on her laptop sees a Facebook Marketplace Yorkie "
+        "listing at $600. Speech bubble (Priya): \"Market price is "
+        "$2,000 — and the seller has no profile photo.\"\n"
+        "Panel 2: Priya checks the seller's Facebook account creation "
+        "date. Speech bubble (Priya): \"Account is two days old + has no "
+        "friends.\"\n"
+        "Panel 3: Priya messages requesting an in-person visit at the "
+        "seller's home. Speech bubble (seller): \"Can't meet — relocating "
+        "for work, send Zelle deposit.\"\n"
+        "Panel 4: Priya reports the listing to Facebook + walks away. "
+        "Speech bubble (Priya): \"New account + no in-person visit + "
+        "Zelle-only = same script as fake breeder websites.\""
+    )),
 ]
 
-assert len(MANIFEST) == 121, f"Expected 121 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 126, f"Expected 126 entries, got {len(MANIFEST)}"
