@@ -901,6 +901,78 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "the FTC. Speech bubble (Priya): \"Caller ID can be spoofed — "
         "the script tells you what's real.\""
     )),
+    # ============================================================
+    # ADVANCE-FEE LOAN & DEBT-RELIEF SCAMS (5 variants)
+    # ============================================================
+    ("advance-fee-loan-and-debt-relief", "scam-1", "bad-credit-guaranteed-approval-loan", "priya", (
+        "Panel 1: Priya at her apartment desk answers a robocall on her "
+        "phone. Speech bubble (voice): \"Pre-approved for a $5,000 loan "
+        "regardless of credit — Acme Lending Group.\"\n"
+        "Panel 2: A live operator demands $400 'first-month insurance' "
+        "via Cash App. Speech bubble (operator): \"Send the $400 to lock "
+        "in the loan.\"\n"
+        "Panel 3: Priya searches the lender on her state Department of "
+        "Banking website. Speech bubble (state-website): \"NOT "
+        "LICENSED.\"\n"
+        "Panel 4: Priya files an FTC + CFPB report and applies at her "
+        "local credit union instead. Speech bubble (Priya): \"Real "
+        "lenders deduct fees from disbursement.\""
+    )),
+    ("advance-fee-loan-and-debt-relief", "scam-2", "student-loan-forgiveness-doe-impersonation", "marcus", (
+        "Panel 1: Marcus at his desk reads a Facebook ad on his laptop. "
+        "Speech bubble (ad): \"Federal Loan Forgiveness Program — qualify "
+        "in 5 minutes.\"\n"
+        "Panel 2: A 'USA Student Debt Relief' agent demands $899 "
+        "enrollment + $39/month on a phone call. Speech bubble (agent): "
+        "\"We'll handle the PSLF application for you.\"\n"
+        "Panel 3: Marcus opens studentaid.gov directly and finds the "
+        "free PSLF application. Speech bubble (studentaid.gov): \"Apply "
+        "for PSLF — Free.\"\n"
+        "Panel 4: Marcus files the FREE PSLF form himself and reports "
+        "the scam to the FTC. Speech bubble (Marcus): \"Real federal "
+        "forgiveness costs $0 to apply for.\""
+    )),
+    ("advance-fee-loan-and-debt-relief", "scam-3", "credit-repair-remove-items-illegal", "priya", (
+        "Panel 1: Priya at her laptop sees an Instagram ad. Speech "
+        "bubble (ad): \"Boost your credit score by 120+ points in 60 "
+        "days.\"\n"
+        "Panel 2: A salesman demands $999 setup + $99/month over the "
+        "phone. Speech bubble (salesman): \"We have insider relationships "
+        "with the bureaus.\"\n"
+        "Panel 3: Priya checks the federal Credit Repair Organizations "
+        "Act on the FTC website. Speech bubble (FTC website): \"CROA "
+        "BANS UPFRONT FEES.\"\n"
+        "Panel 4: Priya disputes inaccurate items at "
+        "annualcreditreport.com directly for free. Speech bubble "
+        "(Priya): \"DIY credit repair is free and federally protected.\""
+    )),
+    ("advance-fee-loan-and-debt-relief", "scam-4", "mortgage-modification-mars-illegal", "harry", (
+        "Panel 1: Harry at his kitchen table opens a 'Foreclosure "
+        "Defense Group' mailer. Speech bubble (mailer): \"Save Your Home "
+        "— $3,500 upfront.\"\n"
+        "Panel 2: A salesman calls and demands $3,500 wire transfer plus "
+        "$200/month case management. Speech bubble (salesman): \"We'll "
+        "negotiate a 30% principal reduction.\"\n"
+        "Panel 3: Harry checks the FTC's MARS rule on his laptop. Speech "
+        "bubble (FTC website): \"MARS BANS UPFRONT FEES.\"\n"
+        "Panel 4: Harry calls his loan servicer directly + a HUD-"
+        "approved counselor. Speech bubble (real HUD counselor): "
+        "\"Modification help is free — let's apply.\""
+    )),
+    ("advance-fee-loan-and-debt-relief", "scam-5", "fake-government-grant-free-money", "margie", (
+        "Panel 1: Margie at her kitchen counter reads a Facebook DM "
+        "from what looks like a friend. Speech bubble (DM): \"I got "
+        "$25,000 from the Senior Assistance Grant — you should apply!\"\n"
+        "Panel 2: A 'government agent' demands $850 'delivery fee' via "
+        "Cash App over the same DM. Speech bubble (agent): \"Send the "
+        "fee to release the grant.\"\n"
+        "Panel 3: Margie searches grants.gov for 'Senior Assistance "
+        "Grant' on her laptop. Speech bubble (grants.gov): \"NO RESULTS "
+        "FOUND.\"\n"
+        "Panel 4: Margie reports the impersonated friend's account and "
+        "the scam to the FTC. Speech bubble (Margie): \"Real federal "
+        "grants live on grants.gov — if not there, not real.\""
+    )),
 ]
 
-assert len(MANIFEST) == 61, f"Expected 61 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 66, f"Expected 66 entries, got {len(MANIFEST)}"
