@@ -1868,6 +1868,81 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "Speech bubble (Priya): \"New account + no in-person visit + "
         "Zelle-only = same script as fake breeder websites.\""
     )),
+
+    # ============================================================
+    # TIMESHARE-EXIT-SCAMS · 5 variants
+    # ============================================================
+    ("timeshare-exit-scams", "scam-1", "fake-exit-attorney", "harry", (
+        "Panel 1: Harry sits in a hotel conference room watching a "
+        "polished timeshare-exit presentation. Speech bubble (presenter): "
+        "\"Federal law lets us cancel any timeshare contract — only "
+        "$9,800 retainer.\"\n"
+        "Panel 2: The presenter pressures Harry to apply for a Wells "
+        "Fargo card during the pitch. Speech bubble (presenter): \"Sign "
+        "the card application now to lock in the rate.\"\n"
+        "Panel 3: Harry pauses + checks Tug2.net on his phone. Speech "
+        "bubble (Tug2.net): \"Wyndham Cares deedback program — $500 "
+        "admin fee, free for owners in good standing.\"\n"
+        "Panel 4: Harry walks out of the seminar + contacts his resort "
+        "directly. Speech bubble (Harry): \"Real exit costs $0-$2K — "
+        "anyone charging $5K+ upfront is fraud.\""
+    )),
+    ("timeshare-exit-scams", "scam-2", "fake-mass-tort-solicitation", "margie", (
+        "Panel 1: Margie at her kitchen counter answers the phone. "
+        "Speech bubble (caller): \"You're eligible for a $35,000 class-"
+        "action settlement — pay $2,400 filing fee within 48 hours.\"\n"
+        "Panel 2: Margie searches the federal PACER court system for the "
+        "case number. Speech bubble (PACER): \"NO MATCHING CASE FOUND.\"\n"
+        "Panel 3: Margie calls Wyndham's general counsel directly to "
+        "verify. Speech bubble (Wyndham counsel): \"No such class action "
+        "exists — and we never charge plaintiffs upfront.\"\n"
+        "Panel 4: Margie hangs up + reports the call to FTC + her state "
+        "AG. Speech bubble (Margie): \"Real class-action lawyers work on "
+        "contingency — never pay to join.\""
+    )),
+    ("timeshare-exit-scams", "scam-3", "fake-resale-buyer", "harry", (
+        "Panel 1: Harry on the phone hears a resale broker's pitch. "
+        "Speech bubble (broker): \"A Saudi buyer wants your Hilton "
+        "timeshare for $48,000 — 20x market value.\"\n"
+        "Panel 2: Harry checks resale prices at RedWeek + Tug2.net "
+        "Marketplace. Speech bubble (RedWeek listing): \"Same Hilton "
+        "unit listed at $1,800.\"\n"
+        "Panel 3: The broker requests $4,200 in 'foreign-buyer "
+        "documentation fees' wired to a title company. Speech bubble "
+        "(Harry): \"If the buyer were real, they'd pay closing costs.\"\n"
+        "Panel 4: Harry hangs up + lists his unit on RedWeek directly "
+        "for $25 listing fee. Speech bubble (Harry): \"Above-market "
+        "buyers requesting upfront fees = fictional buyer.\""
+    )),
+    ("timeshare-exit-scams", "scam-4", "fake-rental-management", "margie", (
+        "Panel 1: Margie at her desk reads an email from a 'rental "
+        "management company.' Speech bubble (email): \"We can rent your "
+        "timeshare at $4,500/week — pay $1,800 marketing fee upfront.\"\n"
+        "Panel 2: Margie compares to RedWeek's per-rental commission "
+        "model. Speech bubble (RedWeek): \"Free listing, 10% commission "
+        "from actual rental income — no upfront fees.\"\n"
+        "Panel 3: Margie searches the rental-management company name on "
+        "BBB Scam Tracker. Speech bubble (BBB site): \"23 complaints "
+        "filed for same upfront-fee pattern.\"\n"
+        "Panel 4: Margie deletes the email + lists her unit on RedWeek + "
+        "Tug2.net Marketplace herself. Speech bubble (Margie): \"Real "
+        "rental managers earn from bookings — never upfront.\""
+    )),
+    ("timeshare-exit-scams", "scam-5", "recovery-on-recovery", "harry", (
+        "Panel 1: Harry, six months after losing $8,500 to a fake exit "
+        "company, answers the phone. Speech bubble (caller): \"FTC "
+        "consumer-recovery specialist — pay $1,800 to file your refund "
+        "claim.\"\n"
+        "Panel 2: Harry pauses + checks the real FTC's published refund "
+        "process. Speech bubble (FTC website): \"Real federal "
+        "restitution is FREE — court contacts victims by mail.\"\n"
+        "Panel 3: Harry searches the 'recovery firm' name on BBB Scam "
+        "Tracker. Speech bubble (BBB site): \"Multiple complaints — "
+        "same upfront-fee recovery scam.\"\n"
+        "Panel 4: Harry hangs up + files a free FTC complaint at "
+        "reportfraud.ftc.gov instead. Speech bubble (Harry): \"Real "
+        "recovery is always free — pay-to-recover is its own scam.\""
+    )),
 ]
 
-assert len(MANIFEST) == 126, f"Expected 126 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 131, f"Expected 131 entries, got {len(MANIFEST)}"
