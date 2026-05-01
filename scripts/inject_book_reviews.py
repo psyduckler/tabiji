@@ -158,6 +158,17 @@ REVIEWS: dict[str, dict] = {
              "quote": "An absolute lifesaver for anyone planning a trip to Argentina. The detailed breakdown of 66 real scams makes it incredibly practical and eye-opening. I especially appreciated how the information is backed by credible sources like news reports and police records."},
         ],
     },
+    "france": {
+        "avg": 4.8, "count": 4,
+        "items": [
+            {"name": "Margo Golden", "rating": 5, "format": "Kindle",
+             "quote": "An essential and eye-opening guide for anyone planning a trip to France. This book stands out for its depth and credibility, compiling 191 real scams from verified news reports and official sources. It not only exposes common tourist traps across Paris, Nice, Provence, and beyond, but also equips readers with practical knowledge to avoid them. Clear, well-researched, and highly relevant for modern travelers."},
+            {"name": "RolfDuarte", "rating": 5, "format": "Kindle",
+             "quote": "France Tourist Scams 2026 is a well-researched and highly practical book that gives travelers a clear understanding of what to watch out for. The real case examples make it easy to stay alert, and the guidance is straightforward and helpful. A must-have resource for anyone planning to visit France."},
+            {"name": "Bobby Bell", "rating": 4, "format": "Paperback",
+             "quote": "This book is an essential guide for anyone planning a trip to France. With 191 real scams covered, it goes far beyond basic travel advice. I was impressed by how detailed and well-organized everything is. The use of French news reports and official records adds credibility, making it a reliable resource. It definitely helped me feel more confident about exploring cities like Paris and Nice."},
+        ],
+    },
 }
 
 
