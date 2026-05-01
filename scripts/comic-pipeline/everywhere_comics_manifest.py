@@ -750,6 +750,84 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "account. Speech bubble (real teller): \"You stopped it — we'll "
         "reverse the transfer.\""
     )),
+    # ============================================================
+    # DOOR-TO-DOOR CONTRACTOR SCAMS (5 variants)
+    # ============================================================
+    ("door-to-door-contractor-scams", "scam-1", "storm-chaser-roofing-deductible-waiver", "harry", (
+        "Panel 1: Harry at his front door talks to a contractor with a "
+        "clipboard and out-of-state-plates truck visible behind him. "
+        "Speech bubble (contractor): \"We saw storm damage on your roof "
+        "— we can absorb your $1,000 deductible.\"\n"
+        "Panel 2: The contractor on Harry's roof points a phone camera "
+        "at shingles. Speech bubble (contractor): \"Sign the Assignment "
+        "of Benefits today — 48-hour insurance window.\"\n"
+        "Panel 3: Harry at his kitchen table calls his real insurance "
+        "carrier, the contractor's clipboard untouched. Speech bubble "
+        "(real carrier): \"Deductible waivers are illegal — we'll send "
+        "our own inspector.\"\n"
+        "Panel 4: Harry hands the contractor's card to a state-insurance-"
+        "commissioner intake clerk. Speech bubble (Harry): \"Real local "
+        "contractors wait three days.\""
+    )),
+    ("door-to-door-contractor-scams", "scam-2", "asphalt-leftover-materials-driveway", "margie", (
+        "Panel 1: Margie at her front door speaks with a paving-truck "
+        "salesman on her walkway. Speech bubble (salesman): \"We just "
+        "finished a job down the road — leftover sealant, half price "
+        "today.\"\n"
+        "Panel 2: The salesman points to her driveway and demands "
+        "$1,200 cash up front. Speech bubble (salesman): \"Cash only — "
+        "lock in materials now.\"\n"
+        "Panel 3: Margie on her phone looking up the LLC name on her "
+        "state contractor-licensing board. Speech bubble (website): "
+        "\"NO LICENSE FOUND.\"\n"
+        "Panel 4: Margie closes the door and files a BBB Scam Tracker "
+        "report on her laptop. Speech bubble (Margie): \"Real driveway "
+        "contractors send written estimates first.\""
+    )),
+    ("door-to-door-contractor-scams", "scam-3", "post-storm-tree-work-cash-up-front", "harry", (
+        "Panel 1: Harry at his front door speaks with a tree-crew lead "
+        "after a windstorm. Speech bubble (crew lead): \"That limb's "
+        "about to drop — $1,500 cash, two hours.\"\n"
+        "Panel 2: Harry asks for the crew's general-liability insurance "
+        "certificate; the crew lead hesitates. Speech bubble (Harry): "
+        "\"Can I see your insurance certificate?\"\n"
+        "Panel 3: Harry on the phone with his real homeowner's insurance "
+        "carrier instead. Speech bubble (real carrier): \"We cover "
+        "hazard-tree removal — we'll dispatch a vetted ISA arborist.\"\n"
+        "Panel 4: A real ISA-certified arborist removes the limb safely "
+        "from Harry's roof. Speech bubble (Harry): \"Insurance + ISA "
+        "credential beats cash discount every time.\""
+    )),
+    ("door-to-door-contractor-scams", "scam-4", "fake-inspection-pretext-entry", "margie", (
+        "Panel 1: Margie at her front door speaks with a man in a polo "
+        "shirt with an embroidered patch holding a clipboard. Speech "
+        "bubble (man): \"Utility flagged your address — emergency gas-"
+        "line inspection.\"\n"
+        "Panel 2: The man asks to enter the home; Margie pauses, hand "
+        "on the door. Speech bubble (Margie): \"Let me call the utility "
+        "first.\"\n"
+        "Panel 3: Margie at her kitchen table calls the customer-service "
+        "number from her last utility bill. Speech bubble (real utility "
+        "rep): \"We never canvass door-to-door — that's a scam.\"\n"
+        "Panel 4: Margie reports the visit to her utility's fraud line "
+        "and her state AG. Speech bubble (Margie): \"Real utilities call "
+        "first; they don't show up.\""
+    )),
+    ("door-to-door-contractor-scams", "scam-5", "door-to-door-solar-utility-program", "priya", (
+        "Panel 1: Priya at her front door speaks with a solar canvasser "
+        "in a polo with an embroidered government-looking patch. Speech "
+        "bubble (canvasser): \"You qualify for a state energy program — "
+        "no upfront cost, sign today.\"\n"
+        "Panel 2: The canvasser holds out a tablet with a 25-year power-"
+        "purchase agreement loaded. Speech bubble (canvasser): \"Just "
+        "sign here on the tablet.\"\n"
+        "Panel 3: Priya searches the company name and the claimed "
+        "program on her laptop — no record at the state energy office. "
+        "Speech bubble (state-website): \"No such program.\"\n"
+        "Panel 4: Priya files a state-AG report and books three "
+        "independent solar quotes. Speech bubble (Priya): \"25-year "
+        "contracts deserve more than thirty seconds.\""
+    )),
 ]
 
-assert len(MANIFEST) == 51, f"Expected 51 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 56, f"Expected 56 entries, got {len(MANIFEST)}"
