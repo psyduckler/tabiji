@@ -1415,6 +1415,80 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "Panel 4: Margie shreds the letter + reports to USPIS + FTC. "
         "Speech bubble (Margie): \"If I didn't enter, I didn't win.\""
     )),
+    # ============================================================
+    # CAR-BUYING SCAMS (5 variants)
+    # ============================================================
+    ("car-buying-scams", "scam-1", "fake-escrow-scam", "harry", (
+        "Panel 1: Harry at his laptop reads a buyer's message: 'Use "
+        "ShieldEscrowServices.com — I'm relocating from Ohio.' Speech "
+        "bubble (Harry): \"Never heard of that escrow service.\"\n"
+        "Panel 2: A 'funds held' screenshot arrives via email — looks "
+        "convincing. Speech bubble (Harry): \"But it's just a "
+        "screenshot, not a verified bank transfer.\"\n"
+        "Panel 3: Harry refuses + counter-proposes Escrow.com or "
+        "in-person bank closing. Speech bubble (Harry): \"Real escrow "
+        "via Escrow.com or in-person at my bank only.\"\n"
+        "Panel 4: Harry sells the car to a verified local buyer at his "
+        "bank. Speech bubble (real bank teller): \"CASHIER'S CHECK "
+        "VERIFIED.\""
+    )),
+    ("car-buying-scams", "scam-2", "vin-cloning", "marcus", (
+        "Panel 1: Marcus at his laptop sees a 2020 4Runner on "
+        "Craigslist for $32,000 (market $36,000). Speech bubble "
+        "(Marcus): \"Slightly below market — needs a careful check.\"\n"
+        "Panel 2: Marcus brings the 4Runner to his mechanic for a "
+        "pre-purchase inspection. The mechanic checks VINs at engine, "
+        "dash, doors. Speech bubble (mechanic): \"Engine VIN doesn't "
+        "match dashboard.\"\n"
+        "Panel 3: Marcus runs the VIN through NMVTIS at "
+        "vehiclehistory.gov. Speech bubble (NMVTIS): \"VIN registered "
+        "to different vehicle in Texas.\"\n"
+        "Panel 4: Marcus walks away + reports to local police. Speech "
+        "bubble (Marcus): \"Cloned VIN — three-source check caught "
+        "it.\""
+    )),
+    ("car-buying-scams", "scam-3", "curbstoning", "priya", (
+        "Panel 1: Priya at a Walmart parking lot meets seller 'John' "
+        "selling a 2017 Explorer at $12,500. Speech bubble (John): "
+        "\"Cash only, no paperwork until after the sale.\"\n"
+        "Panel 2: Priya searches John's phone number on Facebook "
+        "Marketplace — 12 other vehicle listings under the same number. "
+        "Speech bubble (Priya): \"Curbstoner — 12 listings under one "
+        "number.\"\n"
+        "Panel 3: Priya walks away + reports John to her state DMV. "
+        "Speech bubble (state DMV portal): \"REPORT FILED.\"\n"
+        "Panel 4: Priya finds a different car from a verified private "
+        "seller at their home address. Speech bubble (Priya): "
+        "\"Residence + same-number search caught the curbstoner.\""
+    )),
+    ("car-buying-scams", "scam-4", "vehicle-history-report-harvest", "marcus", (
+        "Panel 1: Marcus selling his Honda Accord on Craigslist gets a "
+        "buyer message: 'Need a report from VinHistoryCheck.com first.' "
+        "Speech bubble (buyer): \"Pay $34.99 + send me the report.\"\n"
+        "Panel 2: Marcus pauses — real Carfax/AutoCheck reports are paid "
+        "by the buyer, not the seller. Speech bubble (Marcus): \"Buyer "
+        "pays for due diligence.\"\n"
+        "Panel 3: Marcus refuses + offers Carfax instead. Speech bubble "
+        "(Marcus): \"Carfax or AutoCheck — your cost, not mine.\"\n"
+        "Panel 4: Buyer disappears. Marcus reports to FTC + Craigslist. "
+        "Speech bubble (Marcus): \"Niche history-report sites are "
+        "credit-card harvest scams.\""
+    )),
+    ("car-buying-scams", "scam-5", "overseas-buyer-wire-fraud", "harry", (
+        "Panel 1: Harry selling a Civic gets a message: 'I'm Navy, "
+        "deployed overseas — full asking + $700 shipping.' Speech "
+        "bubble (buyer): \"Pay you via cashier's check for $14K total.\"\n"
+        "Panel 2: A $14,000 cashier's check arrives — buyer asks Harry "
+        "to wire $3,500 to 'shipping company' from the funds. Speech "
+        "bubble (Harry): \"Real military buyers don't buy sight-"
+        "unseen.\"\n"
+        "Panel 3: Harry calls his bank: 'Has this cleared?' Speech "
+        "bubble (real bank rep): \"PROVISIONAL — 2-4 weeks for "
+        "clearance.\"\n"
+        "Panel 4: Harry returns the check + reports to FTC + IC3. "
+        "Speech bubble (Harry): \"Overseas-buyer wire fraud = check-"
+        "fraud guide variant 5.\""
+    )),
 ]
 
-assert len(MANIFEST) == 96, f"Expected 96 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 101, f"Expected 101 entries, got {len(MANIFEST)}"
