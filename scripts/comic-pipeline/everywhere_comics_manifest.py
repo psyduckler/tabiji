@@ -1121,6 +1121,76 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "AI-deepfake variant. Speech bubble (Priya): \"AI bypasses "
         "reverse-image search — property records still work.\""
     )),
+    # ============================================================
+    # QR CODE SCAMS (5 variants)
+    # ============================================================
+    ("qr-code-scams", "scam-1", "parking-meter-sticker-overlay", "priya", (
+        "Panel 1: Priya at a city parking meter notices a fresh QR-code "
+        "sticker on top of an etched code. Speech bubble (Priya): "
+        "\"That sticker wasn't there yesterday.\"\n"
+        "Panel 2: Priya peels back the sticker and sees the real "
+        "etched QR underneath. Speech bubble (Priya): \"Sticker overlay "
+        "= scam.\"\n"
+        "Panel 3: Priya opens the official ParkNYC app on her phone "
+        "directly. Speech bubble (ParkNYC app): \"PAYMENT SUCCESS.\"\n"
+        "Panel 4: Priya reports the tampered meter to NYC DOT. Speech "
+        "bubble (Priya): \"Type the URL or use the official app — never "
+        "scan a sticker QR.\""
+    )),
+    ("qr-code-scams", "scam-2", "restaurant-menu-qr-sticker", "marcus", (
+        "Panel 1: Marcus at a restaurant table sees a QR code on a "
+        "fresh paper sticker on the laminated menu. Speech bubble "
+        "(Marcus): \"Sticker on top of the printed menu — suspicious.\"\n"
+        "Panel 2: Marcus asks the server to confirm the URL. Speech "
+        "bubble (server): \"That's not our URL — someone tampered.\"\n"
+        "Panel 3: The server peels off the fake sticker and gives "
+        "Marcus the printed bill instead. Speech bubble (server): "
+        "\"Pay at the counter — we'll alert management.\"\n"
+        "Panel 4: Marcus pays with a card-tap at the counter. Speech "
+        "bubble (Marcus): \"Server-mediated payment beats QR every "
+        "time.\""
+    )),
+    ("qr-code-scams", "scam-3", "unsolicited-package-qr-code", "harry", (
+        "Panel 1: Harry finds an unsolicited package on his doorstep "
+        "with a QR code labeled 'Scan to identify sender.' Speech "
+        "bubble (Harry): \"I didn't order this.\"\n"
+        "Panel 2: Harry checks the FBI's 2025 alert page on his laptop. "
+        "Speech bubble (FBI alert): \"DO NOT SCAN — Unsolicited-package "
+        "QR-code fraud.\"\n"
+        "Panel 3: Harry calls the carrier directly through the number "
+        "on USPS.com to verify the package. Speech bubble (real USPS "
+        "rep): \"No record of this delivery — discard.\"\n"
+        "Panel 4: Harry disposes of the package without scanning. "
+        "Speech bubble (Harry): \"Unexpected package + QR code = FBI-"
+        "documented scam.\""
+    )),
+    ("qr-code-scams", "scam-4", "toll-text-qr-scam", "priya", (
+        "Panel 1: Priya gets a text on her phone: 'E-ZPass: $12.75 "
+        "outstanding toll — scan QR to pay.' Speech bubble (text): "
+        "\"Avoid $50 late fee.\"\n"
+        "Panel 2: Priya pauses — real E-ZPass mails notices, never "
+        "texts. Speech bubble (Priya): \"Toll authority never texts.\"\n"
+        "Panel 3: Priya types e-zpassny.com directly into her browser "
+        "and logs in. Speech bubble (real E-ZPass): \"NO OUTSTANDING "
+        "BALANCE.\"\n"
+        "Panel 4: Priya forwards the scam text to 7726 and her state "
+        "DOT. Speech bubble (Priya): \"Type the URL — toll texts are "
+        "always fake.\""
+    )),
+    ("qr-code-scams", "scam-5", "corporate-quishing-email-qr", "marcus", (
+        "Panel 1: Marcus at his office desk sees an email from 'IT' "
+        "with a QR code: 'Password expires in 24 hours — scan to "
+        "reset.' Speech bubble (Marcus): \"QR code in an email?\"\n"
+        "Panel 2: Marcus opens his company's IT-helpdesk Slack channel "
+        "to verify. Speech bubble (real IT-security): \"That's a "
+        "phishing email — we never send QR codes.\"\n"
+        "Panel 3: Marcus reports the email to IT-security via Slack. "
+        "Speech bubble (real IT rep): \"Forwarded to email-security — "
+        "thanks for not scanning.\"\n"
+        "Panel 4: Marcus changes his password through the SSO portal "
+        "directly (typed URL). Speech bubble (Marcus): \"IT-helpdesk "
+        "verification beats every email QR.\""
+    )),
 ]
 
-assert len(MANIFEST) == 76, f"Expected 76 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 81, f"Expected 81 entries, got {len(MANIFEST)}"
