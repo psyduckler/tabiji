@@ -1344,6 +1344,77 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "lock his accounts. Speech bubble (real bank rep): \"Your "
         "accounts are secured.\""
     )),
+    # ============================================================
+    # CHECK FRAUD & OVERPAYMENT (5 variants)
+    # ============================================================
+    ("check-fraud-and-overpayment", "scam-1", "mail-theft-check-washing", "harry", (
+        "Panel 1: Harry drops a $1,800 mortgage check into his "
+        "residential mailbox + raises the flag. Speech bubble (Harry): "
+        "\"Bills mailed.\"\n"
+        "Panel 2: A thief in a car at night reaches into Harry's mailbox "
+        "and grabs the envelope. Speech bubble (thief): \"Flag's up — "
+        "perfect.\"\n"
+        "Panel 3: Two weeks later Harry's bank statement shows a "
+        "$9,800 debit instead of $1,800. Speech bubble (Harry): \"Check "
+        "got washed.\"\n"
+        "Panel 4: Harry switches to ACH bill-pay + reports to USPIS at "
+        "uspis.gov/report. Speech bubble (Harry): \"Mail at the post "
+        "office, never the box.\""
+    )),
+    ("check-fraud-and-overpayment", "scam-2", "marketplace-overpayment", "priya", (
+        "Panel 1: Priya at her laptop reads a Facebook Marketplace "
+        "buyer's offer. Speech bubble (buyer): \"Cashier check for "
+        "$2,800 — please Zelle me back the $2,000 difference.\"\n"
+        "Panel 2: The check arrives — looks legitimate. Priya pauses. "
+        "Speech bubble (Priya): \"Real buyers don't accidentally "
+        "overpay.\"\n"
+        "Panel 3: Priya calls her bank: 'Has this cleared, or is it "
+        "provisional?' Speech bubble (real bank rep): \"PROVISIONAL — "
+        "could take 2-4 weeks.\"\n"
+        "Panel 4: Priya returns the check uncashed + asks for Zelle "
+        "G&S for the actual price. Speech bubble (Priya): \"Wait for "
+        "full clearance — never wire 'overpayment' back.\""
+    )),
+    ("check-fraud-and-overpayment", "scam-3", "secret-shopper-fake-check", "marcus", (
+        "Panel 1: Marcus on his phone reads a DM: 'Mystery Shopper "
+        "Position — $500/assignment.' Speech bubble (DM): \"Free "
+        "training, work from home.\"\n"
+        "Panel 2: A $4,000 check arrives FedEx with instructions to buy "
+        "$3,500 in MoneyGram money orders as the 'evaluation.' Speech "
+        "bubble (instructions): \"Photograph + send codes back.\"\n"
+        "Panel 3: Marcus checks the MSPA-NA directory for the firm — "
+        "no match. Speech bubble (Marcus): \"Real firms pay AFTER "
+        "work, via direct deposit.\"\n"
+        "Panel 4: Marcus reports the scam at FTC + tears up the check. "
+        "Speech bubble (Marcus): \"Pre-work checks = fraud.\""
+    )),
+    ("check-fraud-and-overpayment", "scam-4", "job-offer-first-paycheck", "priya", (
+        "Panel 1: Priya at her desk gets a FedEx envelope from a new "
+        "'employer' with a $3,500 cashier's check. Speech bubble "
+        "(letter): \"Equipment funds — Zelle $2,800 to our preferred "
+        "vendor.\"\n"
+        "Panel 2: Priya pauses. Real employers ship equipment via IT, "
+        "not via employee-purchased equipment. Speech bubble (Priya): "
+        "\"Real employers ship gear directly.\"\n"
+        "Panel 3: Priya searches the company on LinkedIn — no real "
+        "employees match the recruiter. Speech bubble (Priya): \"Fake "
+        "employer.\"\n"
+        "Panel 4: Priya reports to FTC + the impersonated company's "
+        "security team. Speech bubble (Priya): \"Pre-employment checks "
+        "are always fraud.\""
+    )),
+    ("check-fraud-and-overpayment", "scam-5", "lottery-advance-fee-check", "margie", (
+        "Panel 1: Margie at her kitchen counter opens a mailed letter: "
+        "'You won $250,000! $5,000 advance check enclosed for taxes.' "
+        "Speech bubble (letter): \"Wire $4,200 to release prize.\"\n"
+        "Panel 2: Margie pauses — she never entered any sweepstakes. "
+        "Speech bubble (Margie): \"Real lotteries deduct taxes from the "
+        "prize, not in advance.\"\n"
+        "Panel 3: Margie calls her son for verification. Speech bubble "
+        "(real son): \"Mom — that's a sweepstakes scam. Tear it up.\"\n"
+        "Panel 4: Margie shreds the letter + reports to USPIS + FTC. "
+        "Speech bubble (Margie): \"If I didn't enter, I didn't win.\""
+    )),
 ]
 
-assert len(MANIFEST) == 91, f"Expected 91 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 96, f"Expected 96 entries, got {len(MANIFEST)}"
