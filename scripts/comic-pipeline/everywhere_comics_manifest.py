@@ -1641,6 +1641,84 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "bubble (Priya): \"No paid Telegram signal group is "
         "legitimate.\""
     )),
+    # ============================================================
+    # CELEBRITY-IMPERSONATION CRYPTO (5 variants)
+    # ============================================================
+    ("celebrity-impersonation-crypto", "scam-1", "musk-deepfake-youtube-livestream", "marcus", (
+        "Panel 1: Marcus at his laptop sees a YouTube 'live' stream — "
+        "deepfake of a famous tech-billionaire CEO promoting a Bitcoin "
+        "doubling event. Speech bubble (deepfake): \"Send 0.1 BTC and "
+        "I'll send back 0.2.\"\n"
+        "Panel 2: Marcus pauses — no real billionaire has ever run a "
+        "Bitcoin doubling giveaway. Speech bubble (Marcus): \"The "
+        "premise is impossible.\"\n"
+        "Panel 3: Marcus reports the livestream to YouTube + the wallet "
+        "to Chainabuse. Speech bubble (YouTube report panel): \"REPORT "
+        "FILED.\"\n"
+        "Panel 4: Marcus warns his crypto-curious friends. Speech "
+        "bubble (Marcus): \"AI deepfakes pass casual viewing — operate "
+        "on the structural rule.\""
+    )),
+    ("celebrity-impersonation-crypto", "scam-2", "hijacked-channel-executive-deepfake", "priya", (
+        "Panel 1: Priya at her laptop sees a notification from a "
+        "350K-subscriber YouTube channel that suddenly rebranded to "
+        "'Major Crypto Co Official.' Speech bubble (channel): "
+        "\"Verification airdrop — send to claim.\"\n"
+        "Panel 2: Priya checks the actual crypto company's website + "
+        "verified Twitter — no such airdrop. Speech bubble (real "
+        "company site): \"NO AIRDROP ANNOUNCED.\"\n"
+        "Panel 3: Priya reports the hijacked channel to YouTube + the "
+        "impersonated company's security team. Speech bubble (Priya): "
+        "\"Cross-channel verification catches hijacks.\"\n"
+        "Panel 4: The company posts a public warning about the "
+        "hijacked channel. Speech bubble (real company exec): \"That "
+        "wasn't us — the hijacked channel has been reported.\""
+    )),
+    ("celebrity-impersonation-crypto", "scam-3", "tiktok-fake-giveaway", "marcus", (
+        "Panel 1: Marcus on his phone scrolls TikTok and sees a "
+        "30-second deepfake of a celebrity holding a paper with a "
+        "wallet address. Speech bubble (deepfake): \"Tesla giving away "
+        "$5B in BTC — scan QR to claim!\"\n"
+        "Panel 2: Marcus pauses — no celebrity has ever run a real "
+        "crypto giveaway. Speech bubble (Marcus): \"The premise is the "
+        "diagnostic.\"\n"
+        "Panel 3: Marcus reports the TikTok video + blocks the "
+        "account. Speech bubble (TikTok report flow): \"REPORT "
+        "FILED.\"\n"
+        "Panel 4: Marcus shares a warning post on his own social. "
+        "Speech bubble (Marcus): \"Short-form deepfake giveaways are "
+        "fraud on every platform.\""
+    )),
+    ("celebrity-impersonation-crypto", "scam-4", "fake-celebrity-email-pitch", "harry", (
+        "Panel 1: Harry at his desk gets an email from 'Arthur Hayes' "
+        "with a deepfake-video introduction inviting him to an "
+        "exclusive trading group. Speech bubble (email): \"Selected "
+        "for early access.\"\n"
+        "Panel 2: Harry checks Arthur Hayes's actual Twitter — no "
+        "such program. Speech bubble (Harry): \"Real public figures "
+        "don't DM retail investors.\"\n"
+        "Panel 3: Harry blocks the email + checks our pig-butchering "
+        "guide. Speech bubble (Harry): \"This is celebrity-credentialed "
+        "pig-butchering.\"\n"
+        "Panel 4: Harry reports the email to FTC + SEC TCR. Speech "
+        "bubble (Harry): \"Unsolicited celebrity contact = "
+        "diagnostic.\""
+    )),
+    ("celebrity-impersonation-crypto", "scam-5", "x-verified-account-hijack", "priya", (
+        "Panel 1: Priya on her phone sees a tweet from a verified "
+        "blue-check celebrity account — sudden crypto-giveaway "
+        "announcement. Speech bubble (tweet): \"Sending double back to "
+        "first 1,000 wallets!\"\n"
+        "Panel 2: Priya checks the celebrity's website + Instagram + "
+        "YouTube — no corresponding announcement. Speech bubble "
+        "(Priya): \"Hijacked verified account.\"\n"
+        "Panel 3: Priya reports the tweet to X + warns followers in "
+        "replies. Speech bubble (Priya): \"This account has been "
+        "hijacked — don't send anything.\"\n"
+        "Panel 4: The celebrity's team recovers the account + deletes "
+        "the tweet. Speech bubble (real celebrity post): \"My account "
+        "was compromised — never run giveaways.\""
+    )),
 ]
 
-assert len(MANIFEST) == 111, f"Expected 111 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 116, f"Expected 116 entries, got {len(MANIFEST)}"
