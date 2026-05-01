@@ -131,25 +131,30 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 
 ### 3.1 Current Stats
 
+*Last verified: 2026-05-01. Counts exclude `.git/` and `.claude/worktrees/`.*
+
 | Metric | Value |
 |--------|-------|
-| **Total HTML pages** | ~3,542 |
-| **Total JSON files** | ~12,913 |
-| **JS scripts** | ~142 |
-| **Python scripts** | ~97 |
-| **Repo size** | ~1.7 GB (1.1 GB in `.git`) |
+| **Total HTML pages** (`*.html` recursive) | ~3,412 |
+| **Total JSON files** (`*.json` recursive) | ~2,816 |
+| **JS scripts** (`*.js` recursive) | ~74 |
+| **Python scripts** (`*.py` recursive) | ~477 |
+| **Working tree size** | ~454 MB |
+| **`.git` size** | ~604 MB (after PR #1411/#1415 R2 migration + `git gc`) |
 
 ### 3.2 Content Directories (Live Pages)
 
+*Counts as of 2026-05-01 (file count of `index.html` per directory).*
+
 | Directory | Count | Description |
 |-----------|-------|-------------|
-| `popular-picks/` | ~1,001 | Food & activity guides (SEO backbone) |
-| `compare/` | ~926 | VS comparison pages (e.g., Bali vs Thailand) |
-| `scams/` | ~546 | Scam awareness pages by destination |
-| `i/` | ~400 | Paid customer itineraries (delivered products) |
-| `health/` | ~228 | Health & vaccination info by destination |
-| `countries/` | ~211 | Country info pages |
-| `destinations/` | ~69 | City destination pages |
+| `popular-picks/` | 936 | Food & activity guides (SEO backbone) |
+| `compare/` | 855 | VS comparison pages (e.g., Bali vs Thailand) |
+| `scams/` | 660 | Scam awareness pages by destination |
+| `i/` | 401 | Paid customer itineraries (delivered products) |
+| `health/` | 235 | Health & vaccination info by destination |
+| `countries/` | 211 | Country info pages |
+| `destinations/` | 69 | City destination pages |
 
 ### 3.3 Top-Level Layout
 
