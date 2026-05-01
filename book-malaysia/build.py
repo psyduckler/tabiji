@@ -34,6 +34,14 @@ DATA_DIR = (HERE / CONFIG["scam_data_dir"]).resolve()
 
 CITY_INSERTION_MARKER = "<!-- CITIES -->"
 
+# R2 fallback — when a local asset is absent, fall back to the same path
+# served from img.tabiji.ai. Mirror keys; rsvg-convert/pandoc consume the
+# fetched bytes via inlining (rsvg-convert) or HTTPS download (pandoc).
+# Necessary because the local JPGs are scheduled for git-rm in a follow-up
+# commit; without this fallback the cover would render as a text-only
+# gradient.
+R2_BASE = "https://img.tabiji.ai"
+
 # Polish integration — strips r/SUB citation scaffolding, normalizes
 # UK→US spellings, removes age-framing, repairs mid-word truncations.
 sys.path.insert(0, str(HERE / "scripts"))
@@ -243,10 +251,32 @@ def render_cover() -> None:
         return
     svg_text = svg.read_text()
 
+    import urllib.request as _urlreq
+    repo_root = HERE.parent
+
     def _inline(match: re.Match) -> str:
         attr, quote, href = match.group(1), match.group(2), match.group(3)
-        if href.startswith(("http://", "https://", "data:", "file://")):
+        if href.startswith("data:") or href.startswith("file://"):
             return match.group(0)
+        if href.startswith(("http://", "https://")):
+            # Prefer local mirror for R2 URLs; otherwise fetch the bytes.
+            data: bytes | None = None
+            mime: str | None = None
+            r2_prefix = f"{R2_BASE}/"
+            if href.startswith(r2_prefix):
+                local = repo_root / href[len(r2_prefix):]
+                if local.exists():
+                    data = local.read_bytes()
+                    mime = mimetypes.guess_type(local.name)[0] or "image/jpeg"
+            if data is None:
+                try:
+                    with _urlreq.urlopen(href, timeout=30) as r:
+                        data = r.read()
+                        mime = r.headers.get("Content-Type", "image/jpeg")
+                except Exception:
+                    return match.group(0)
+            encoded = base64.b64encode(data).decode("ascii")
+            return f"{attr}={quote}data:{mime};base64,{encoded}{quote}"
         candidates: list[Path] = []
         if href.startswith("/"):
             candidates.append(Path(href))
