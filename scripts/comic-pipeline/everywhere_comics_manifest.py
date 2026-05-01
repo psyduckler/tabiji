@@ -1191,6 +1191,81 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "directly (typed URL). Speech bubble (Marcus): \"IT-helpdesk "
         "verification beats every email QR.\""
     )),
+    # ============================================================
+    # SOCIAL MEDIA ACCOUNT TAKEOVER (5 variants)
+    # ============================================================
+    ("social-media-account-takeover", "scam-1", "phishing-link-instagram-login", "priya", (
+        "Panel 1: Priya at her laptop reads an email from "
+        "'notification-instagram.com': 'Account violates community "
+        "guidelines — verify identity in 24h.' Speech bubble (Priya): "
+        "\"Domain isn't instagram.com.\"\n"
+        "Panel 2: Priya opens the official Instagram app instead of "
+        "clicking the link. Speech bubble (Instagram app): \"NO "
+        "VIOLATIONS — ACCOUNT ACTIVE.\"\n"
+        "Panel 3: Priya enables authenticator-app 2FA in Settings → "
+        "Security. Speech bubble (Authy app): \"2FA ACTIVATED.\"\n"
+        "Panel 4: Priya reports the phishing email to Meta. Speech "
+        "bubble (Priya): \"Type the URL or use the official app — never "
+        "click email login links.\""
+    )),
+    ("social-media-account-takeover", "scam-2", "friend-recovery-code-hijack", "margie", (
+        "Panel 1: Margie at her kitchen counter gets a Messenger DM "
+        "from her best friend: 'I'm locked out — Facebook is sending a "
+        "code to your phone, can you forward it?' Speech bubble (DM): "
+        "\"Just screenshot it.\"\n"
+        "Panel 2: Margie's phone receives an SMS: 'Your Facebook code "
+        "is 837492.' Margie pauses. Speech bubble (Margie): \"Why am I "
+        "getting a code?\"\n"
+        "Panel 3: Margie calls her friend on her real phone number "
+        "instead. Speech bubble (real friend): \"I never sent that DM — "
+        "my account is hacked.\"\n"
+        "Panel 4: Margie changes her password + enables 2FA. Speech "
+        "bubble (Margie): \"Never forward verification codes — even to "
+        "friends.\""
+    )),
+    ("social-media-account-takeover", "scam-3", "blue-check-verification-phishing", "marcus", (
+        "Panel 1: Marcus at his desk sees an email: 'Meta Verified "
+        "Support — verification expires in 48h, submit ID + selfie.' "
+        "Speech bubble (Marcus): \"Meta never asks for ID by email.\"\n"
+        "Panel 2: Marcus opens the official Instagram app, navigates "
+        "to Settings → Account → Meta Verified. Speech bubble "
+        "(Instagram app): \"VERIFIED STATUS: ACTIVE.\"\n"
+        "Panel 3: Marcus reports the phishing email to Meta + the FTC. "
+        "Speech bubble (Marcus): \"Verification is managed in-app, "
+        "never via email.\"\n"
+        "Panel 4: Marcus updates his password manager + reviews active "
+        "sessions. Speech bubble (Marcus): \"Strong password + auth-app "
+        "2FA + never share ID.\""
+    )),
+    ("social-media-account-takeover", "scam-4", "hijacked-friend-crypto-pitch", "harry", (
+        "Panel 1: Harry on his laptop sees a Facebook post from his "
+        "cousin: 'Made $8K in two weeks on this trading platform — DM "
+        "for the link.' Speech bubble (Harry): \"Cousin doesn't talk "
+        "about crypto.\"\n"
+        "Panel 2: Harry calls his cousin on her real phone number to "
+        "verify. Speech bubble (real cousin): \"I never posted that — "
+        "my account is hacked.\"\n"
+        "Panel 3: Harry reports the post to Facebook + warns the "
+        "cousin's followers via group text. Speech bubble (Harry): "
+        "\"Real friends don't pitch trading platforms.\"\n"
+        "Panel 4: Cousin recovers her account through facebook.com/"
+        "hacked. Speech bubble (Harry): \"Cross-channel verification "
+        "defeats hijacked-account crypto pitches.\""
+    )),
+    ("social-media-account-takeover", "scam-5", "account-recovery-scam-followon", "priya", (
+        "Panel 1: Priya posts on r/Scams: 'My Instagram got hacked, "
+        "Meta recovery is taking days.' Speech bubble (Priya): "
+        "\"Anyone have advice?\"\n"
+        "Panel 2: Within hours, multiple DMs offer 'account recovery "
+        "specialist' services for $500-$2,000 upfront. Speech bubble "
+        "(DM): \"I can recover your account in 24h.\"\n"
+        "Panel 3: Priya checks Meta's official path at instagram.com/"
+        "hacked — the only legitimate route. Speech bubble (Meta site): "
+        "\"FREE OFFICIAL RECOVERY.\"\n"
+        "Panel 4: Priya blocks all recovery DMs + waits for Meta's "
+        "verification. Speech bubble (Priya): \"100% of third-party "
+        "recovery services are scams.\""
+    )),
 ]
 
-assert len(MANIFEST) == 81, f"Expected 81 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 86, f"Expected 86 entries, got {len(MANIFEST)}"
