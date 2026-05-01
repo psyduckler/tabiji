@@ -1565,6 +1565,82 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "abuse address. Speech bubble (Priya): \"Type the .org URL — "
         "never click email donation links.\""
     )),
+    # ============================================================
+    # TELEGRAM CRYPTO PUMP & WALLET-DRAINER (5 variants)
+    # ============================================================
+    ("telegram-crypto-pump-and-drainer", "scam-1", "telegram-pump-and-dump", "marcus", (
+        "Panel 1: Marcus at his laptop in a Telegram VIP channel sees "
+        "an alert: 'PUMP ANNOUNCED — buy XYZ Token at 3:00 PM UTC.' "
+        "Speech bubble (channel): \"Synchronized buy in 5 minutes!\"\n"
+        "Panel 2: Marcus pauses + remembers SEC pump-and-dump "
+        "enforcement actions. Speech bubble (Marcus): \"Insiders are "
+        "the ones who exit at peak.\"\n"
+        "Panel 3: Marcus refuses + cancels the VIP subscription. The "
+        "token spikes then crashes 90%. Speech bubble (price chart): "
+        "\"PEAK → DUMP\"\n"
+        "Panel 4: Marcus reports the channel to SEC TCR. Speech bubble "
+        "(Marcus): \"Real legitimate trading doesn't work via "
+        "synchronized buys.\""
+    )),
+    ("telegram-crypto-pump-and-drainer", "scam-2", "wallet-drainer-inferno", "priya", (
+        "Panel 1: Priya at her laptop sees an X / Twitter ad: 'Uniswap "
+        "V4 early-access airdrop — claim 5,000 UNI tokens.' Speech "
+        "bubble (Priya): \"That URL is uniswap-airdrop.com, not "
+        "uniswap.org.\"\n"
+        "Panel 2: Priya checks the announcement on Uniswap's official "
+        "Twitter — no such airdrop. Speech bubble (Uniswap official): "
+        "\"NO V4 AIRDROP ANNOUNCED.\"\n"
+        "Panel 3: Priya runs Revoke.cash to audit existing approvals + "
+        "revokes anything unused. Speech bubble (Revoke.cash): \"3 "
+        "STALE APPROVALS REVOKED.\"\n"
+        "Panel 4: Priya buys a hardware wallet for non-trivial holdings. "
+        "Speech bubble (Priya): \"Hardware wallet + Revoke.cash audit "
+        "+ no unsolicited connect.\""
+    )),
+    ("telegram-crypto-pump-and-drainer", "scam-3", "fake-telegram-support", "harry", (
+        "Panel 1: Harry at his laptop posts in MetaMask Discord asking "
+        "about a failed transaction. A DM arrives from 'MetaMask Help "
+        "Desk' offering private support. Speech bubble (DM): \"Join "
+        "this private support channel.\"\n"
+        "Panel 2: Harry checks the channel name — 'MetaMask Help Desk' "
+        "vs 'MetaMask Official' — clear lookalike. Speech bubble "
+        "(Harry): \"Lookalike channel.\"\n"
+        "Panel 3: The fake support agent asks for Harry's 12-word seed "
+        "phrase to 'verify recovery.' Speech bubble (Harry): \"Real "
+        "MetaMask never asks for the seed phrase.\"\n"
+        "Panel 4: Harry blocks the DM + reports the fake channel to "
+        "Discord. Speech bubble (Harry): \"Seed-phrase request = always "
+        "scam.\""
+    )),
+    ("telegram-crypto-pump-and-drainer", "scam-4", "fake-airdrop-wallet-connect", "marcus", (
+        "Panel 1: Marcus on his phone sees a viral X post: 'OpenSea "
+        "Genesis Airdrop — $50,000 in free tokens.' Speech bubble "
+        "(post): \"Connect wallet to claim.\"\n"
+        "Panel 2: Marcus types opensea.io directly in his browser to "
+        "verify. Speech bubble (real OpenSea): \"NO AIRDROP "
+        "ANNOUNCED.\"\n"
+        "Panel 3: Marcus closes the X post + audits his approvals via "
+        "Revoke.cash. Speech bubble (Marcus): \"Free is not free if it "
+        "requires a signature.\"\n"
+        "Panel 4: Marcus reports the X post + the airdrop URL to "
+        "Chainabuse. Speech bubble (Marcus): \"Real airdrops push "
+        "automatically; claim-pages are drainers.\""
+    )),
+    ("telegram-crypto-pump-and-drainer", "scam-5", "fake-trading-bot-subscription", "priya", (
+        "Panel 1: Priya at her laptop sees a Telegram channel "
+        "advertising 'AlphaSignal Pro — $200/month for 3-5x monthly "
+        "returns.' Speech bubble (ad): \"Verified members report "
+        "consistent profits!\"\n"
+        "Panel 2: Priya pauses — real consistent-return strategies "
+        "don't sell on Telegram. Speech bubble (Priya): \"If it "
+        "actually worked, why sell access?\"\n"
+        "Panel 3: Priya skips the subscription + holds spot crypto in "
+        "a hardware wallet instead. Speech bubble (Ledger wallet): "
+        "\"PORTFOLIO SECURE.\"\n"
+        "Panel 4: Priya reports the channel to FTC + SEC TCR. Speech "
+        "bubble (Priya): \"No paid Telegram signal group is "
+        "legitimate.\""
+    )),
 ]
 
-assert len(MANIFEST) == 106, f"Expected 106 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 111, f"Expected 111 entries, got {len(MANIFEST)}"
