@@ -828,6 +828,79 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "independent solar quotes. Speech bubble (Priya): \"25-year "
         "contracts deserve more than thirty seconds.\""
     )),
+    # ============================================================
+    # PHONE-IMPERSONATION GOVERNMENT SCAMS (5 variants)
+    # ============================================================
+    ("phone-impersonation-government", "scam-1", "ssa-number-suspended-robocall", "margie", (
+        "Panel 1: Margie at her kitchen counter answers her landline. "
+        "Speech bubble (recorded voice): \"This is the Social Security "
+        "Administration — your number has been suspended.\"\n"
+        "Panel 2: Margie listens as the recording instructs her to press "
+        "1; her finger hovers over the keypad. Speech bubble (recording): "
+        "\"Press 1 to speak with an investigating agent.\"\n"
+        "Panel 3: Margie hangs up and calls 1-800-772-1213 (the SSA's "
+        "real published number) on her phone. Speech bubble (real SSA "
+        "rep): \"SSA never suspends Social Security numbers.\"\n"
+        "Panel 4: Margie files a report at oig.ssa.gov on her laptop. "
+        "Speech bubble (Margie): \"SSN can't be suspended — that's the "
+        "diagnostic.\""
+    )),
+    ("phone-impersonation-government", "scam-2", "irs-tax-debt-arrest-threat", "harry", (
+        "Panel 1: Harry at his desk answers his cell phone; the caller-"
+        "ID display reads '1-800-829-1040'. Speech bubble (voice): "
+        "\"This is Special Agent Matthews — IRS warrant for $7,200 "
+        "unpaid taxes.\"\n"
+        "Panel 2: The voice tells Harry to drive to a Walmart and buy "
+        "$7,200 in prepaid debit cards. Speech bubble (voice): \"Stay on "
+        "the line until you read me the codes.\"\n"
+        "Panel 3: Harry hangs up and logs into his real IRS account on "
+        "his laptop. Speech bubble (IRS website): \"BALANCE OWED: $0.\"\n"
+        "Panel 4: Harry files a TIGTA report at tigta.gov. Speech bubble "
+        "(Harry): \"IRS never calls — they mail letters.\""
+    )),
+    ("phone-impersonation-government", "scam-3", "sheriff-missed-jury-duty-bond", "priya", (
+        "Panel 1: Priya at her office desk answers her cell phone. "
+        "Speech bubble (voice): \"Deputy Williams — bench warrant for "
+        "missed jury duty, deputies en route.\"\n"
+        "Panel 2: The voice tells Priya to drive to the courthouse "
+        "parking lot with $1,500 cash to clear the warrant. Speech "
+        "bubble (voice): \"Hand the cash to a uniformed officer.\"\n"
+        "Panel 3: Priya hangs up and calls her county courthouse's "
+        "published number directly. Speech bubble (real court clerk): "
+        "\"No warrant — courts never collect bond by phone.\"\n"
+        "Panel 4: Priya reports the call to the sheriff's non-emergency "
+        "line and the FTC. Speech bubble (Priya): \"Real courts use "
+        "mail, not parking lots.\""
+    )),
+    ("phone-impersonation-government", "scam-4", "ice-cbp-deportation-threat", "marcus", (
+        "Panel 1: Marcus at his apartment desk answers his cell phone; "
+        "the caller-ID display reads 'ICE Field Office'. Speech bubble "
+        "(voice): \"Officer Reyes — administrative deportation order for "
+        "your visa.\"\n"
+        "Panel 2: The voice instructs Marcus to drive to a 7-Eleven "
+        "Bitcoin ATM and pay a $4,500 'compliance bond'. Speech bubble "
+        "(voice): \"Stay on the line until the Bitcoin clears.\"\n"
+        "Panel 3: Marcus hangs up and calls a free immigration legal-aid "
+        "line (NILC) on his laptop. Speech bubble (real NILC attorney): "
+        "\"ICE never calls to collect Bitcoin bonds — that's a scam.\"\n"
+        "Panel 4: Marcus files an FTC report and shares the script "
+        "warning with his Spanish-speaking neighbors. Speech bubble "
+        "(Marcus): \"Real removal orders come on paper, not phones.\""
+    )),
+    ("phone-impersonation-government", "scam-5", "spoofed-local-pd-civil-fee", "priya", (
+        "Panel 1: Priya at her apartment desk answers her cell phone; "
+        "the caller-ID display reads her city's police-department non-"
+        "emergency number. Speech bubble (voice): \"You're a witness in "
+        "an active investigation — $400 civil filing fee due today.\"\n"
+        "Panel 2: The voice tells Priya to pay the fee in gift cards. "
+        "Speech bubble (voice): \"Apple gift cards, read me the codes.\"\n"
+        "Panel 3: Priya hangs up and calls her local PD's non-emergency "
+        "line directly from city-name.gov. Speech bubble (real PD "
+        "dispatcher): \"We never collect fees by gift card.\"\n"
+        "Panel 4: Priya reports the spoofed call to the local PD and "
+        "the FTC. Speech bubble (Priya): \"Caller ID can be spoofed — "
+        "the script tells you what's real.\""
+    )),
 ]
 
-assert len(MANIFEST) == 56, f"Expected 56 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 61, f"Expected 61 entries, got {len(MANIFEST)}"
