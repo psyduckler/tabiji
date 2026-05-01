@@ -286,7 +286,7 @@
     <p class="optional-section-label">Optional — personalize your trip</p>
 
     <div class="accordion" data-accordion>
-        <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this);}">
             <div><span class="acc-title">🥾 Travel style</span><span class="acc-subtitle">Adventure, cultural, foodie…</span></div>
             <span class="acc-chevron">▾</span>
         </div>
@@ -304,7 +304,7 @@
     </div>
 
     <div class="accordion" data-accordion>
-        <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this);}">
             <div><span class="acc-title">🍽️ Dining preferences</span><span class="acc-subtitle">Fine dining, casual, mix…</span></div>
             <span class="acc-chevron">▾</span>
         </div>
@@ -319,7 +319,7 @@
     </div>
 
     <div class="accordion" data-accordion>
-        <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this);}">
             <div><span class="acc-title">💰 Budget per person</span><span class="acc-subtitle">Helps us tailor recommendations</span></div>
             <span class="acc-chevron">▾</span>
         </div>
@@ -337,7 +337,7 @@
     </div>
 
     <div class="accordion" data-accordion>
-        <div class="accordion-header" onclick="toggleAccordion(this)">
+        <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" onclick="toggleAccordion(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this);}">
             <div><span class="acc-title">✨ Anything else?</span><span class="acc-subtitle">Special requests, must-sees, vibes…</span></div>
             <span class="acc-chevron">▾</span>
         </div>
@@ -414,7 +414,8 @@
 
 function toggleAccordion(header) {
     const accordion = header.closest('.accordion');
-    accordion.classList.toggle('open');
+    const isOpen = accordion.classList.toggle('open');
+    header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 async function submitForm(e) {
