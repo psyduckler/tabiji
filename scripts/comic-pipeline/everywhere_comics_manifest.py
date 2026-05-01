@@ -1489,6 +1489,82 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "Speech bubble (Harry): \"Overseas-buyer wire fraud = check-"
         "fraud guide variant 5.\""
     )),
+    # ============================================================
+    # CHARITY & DISASTER SCAMS (5 variants)
+    # ============================================================
+    ("charity-and-disaster-scams", "scam-1", "fake-gofundme-fabricated-victims", "priya", (
+        "Panel 1: Priya at her laptop sees a Facebook share for a "
+        "GoFundMe page: 'Help the Johnson family — lost everything in "
+        "Hurricane Helene.' Speech bubble (Priya): \"Wait, that photo's "
+        "from CNN's coverage.\"\n"
+        "Panel 2: Priya reverse-image-searches the photo on her browser. "
+        "Speech bubble (Google Images): \"News-outlet stock photo — "
+        "stolen.\"\n"
+        "Panel 3: Priya donates to World Central Kitchen instead via "
+        "wck.org typed directly. Speech bubble (WCK site): \"VERIFIED "
+        "501(c)(3) — DONATION RECEIVED.\"\n"
+        "Panel 4: Priya reports the fake GoFundMe to the platform's "
+        "trust-and-safety team. Speech bubble (Priya): \"Donate to "
+        "established orgs, not to strangers' pages.\""
+    )),
+    ("charity-and-disaster-scams", "scam-2", "sound-alike-charity-organization", "marcus", (
+        "Panel 1: Marcus at his laptop reads an email: 'Hurricane "
+        "Helene Survivors Fund — donate now.' Speech bubble (Marcus): "
+        "\"Never heard of this organization.\"\n"
+        "Panel 2: Marcus searches the org name on Charity Navigator. "
+        "Speech bubble (Charity Navigator): \"NO RESULTS — NOT A "
+        "REGISTERED 501(c)(3).\"\n"
+        "Panel 3: Marcus also checks the IRS Tax Exempt search at "
+        "irs.gov. Speech bubble (IRS site): \"NO RECORD — NOT VERIFIED "
+        "CHARITY.\"\n"
+        "Panel 4: Marcus donates to the actual American Red Cross via "
+        "redcross.org typed directly. Speech bubble (Marcus): \"Three-"
+        "source verification before any donation.\""
+    )),
+    ("charity-and-disaster-scams", "scam-3", "fema-impersonation", "harry", (
+        "Panel 1: Harry at his front door speaks to a man in a polo "
+        "shirt with a 'FEMA Disaster Inspector' patch. Speech bubble "
+        "(man): \"Need your SSN + bank info + $300 expedite fee for "
+        "your grant.\"\n"
+        "Panel 2: Harry pauses — FEMA never charges for assistance. "
+        "Speech bubble (Harry): \"Real FEMA never asks for fees.\"\n"
+        "Panel 3: Harry closes the door + logs into disasterassistance."
+        "gov directly. Speech bubble (DisasterAssistance.gov): \"NO "
+        "PENDING INSPECTION — VERIFIED.\"\n"
+        "Panel 4: Harry calls the National Center for Disaster Fraud at "
+        "1-866-720-5721. Speech bubble (real NCDF rep): \"Report filed "
+        "— investigating impersonation.\""
+    )),
+    ("charity-and-disaster-scams", "scam-4", "post-disaster-contractor", "margie", (
+        "Panel 1: Margie at her front door after a hurricane meets a "
+        "contractor with out-of-state plates demanding $4,000 cash for "
+        "roof repair. Speech bubble (contractor): \"State inspector will "
+        "fine you in 72 hours — must start today.\"\n"
+        "Panel 2: Margie pauses — her insurance carrier has preferred "
+        "vendors. Speech bubble (Margie): \"Let me call my carrier "
+        "first.\"\n"
+        "Panel 3: Margie calls her insurance carrier directly. Speech "
+        "bubble (real carrier): \"We'll dispatch our vetted preferred "
+        "vendor at no cost.\"\n"
+        "Panel 4: Margie's carrier-vetted contractor arrives + files "
+        "the claim properly. Speech bubble (Margie): \"Insurance carrier "
+        "first — door-to-door storm chasers second.\""
+    )),
+    ("charity-and-disaster-scams", "scam-5", "donation-phishing-email", "priya", (
+        "Panel 1: Priya at her laptop reads an email: 'American Red "
+        "Cross Emergency Appeal — donate now.' Speech bubble (Priya): "
+        "\"Sender domain is 'redcross-disaster-appeal.org' — that's a "
+        "lookalike.\"\n"
+        "Panel 2: Priya types redcross.org directly into her browser "
+        "instead. Speech bubble (Priya): \"Type the URL, not the email "
+        "link.\"\n"
+        "Panel 3: Priya donates through the real Red Cross site by "
+        "credit card. Speech bubble (real Red Cross): \"$50 received — "
+        "thank you.\"\n"
+        "Panel 4: Priya reports the phishing email to FTC + Red Cross "
+        "abuse address. Speech bubble (Priya): \"Type the .org URL — "
+        "never click email donation links.\""
+    )),
 ]
 
-assert len(MANIFEST) == 101, f"Expected 101 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 106, f"Expected 106 entries, got {len(MANIFEST)}"
