@@ -1045,6 +1045,82 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "billing pattern. Speech bubble (r/Scams post): \"Always convert "
         "weekly to annual first.\""
     )),
+    # ============================================================
+    # RENTAL SCAMS (5 variants)
+    # ============================================================
+    ("rental-scams", "scam-1", "facebook-craigslist-fake-apartment", "priya", (
+        "Panel 1: Priya at her laptop sees a Facebook Marketplace "
+        "listing: '1BR Austin $1,400/mo' (market rate $2,200). Speech "
+        "bubble (Priya): \"Below market — too good?\"\n"
+        "Panel 2: The 'landlord' messages saying he's overseas, asks for "
+        "$2,800 Zelle deposit before any tour. Speech bubble (landlord): "
+        "\"Send Zelle to lock the unit today.\"\n"
+        "Panel 3: Priya reverse-image-searches the listing photos. "
+        "Speech bubble (Google Images): \"Same photos on Zillow — "
+        "different city.\"\n"
+        "Panel 4: Priya reports the listing to Facebook + finds a "
+        "verified listing on Apartments.com instead. Speech bubble "
+        "(Priya): \"Verified platforms only.\""
+    )),
+    ("rental-scams", "scam-2", "hijacked-zillow-listing", "marcus", (
+        "Panel 1: Marcus at his desk reads a Facebook listing: same "
+        "photos as a Zillow listing he saw earlier, but $1,000/mo "
+        "cheaper. Speech bubble (Marcus): \"Same photos, different "
+        "price.\"\n"
+        "Panel 2: The 'agent' uses a near-lookalike email of the real "
+        "Denver agency. Speech bubble (email): \"info@denver-realty.com "
+        "(real: denverrealty.com).\"\n"
+        "Panel 3: Marcus contacts the real agent through Zillow's "
+        "verified flow. Speech bubble (real agent): \"That's a hijacked "
+        "listing — actual rent is $2,950.\"\n"
+        "Panel 4: Marcus reports the cloned listing to Facebook + the "
+        "real agency's fraud team. Speech bubble (Marcus): \"Reverse-"
+        "image-search catches every hijack.\""
+    )),
+    ("rental-scams", "scam-3", "vrbo-vacation-rental-fake", "harry", (
+        "Panel 1: Harry at his laptop books a beach house on VRBO at "
+        "$4,200/week (market rate $7,500). Speech bubble (Harry): \"Big "
+        "discount for spring break.\"\n"
+        "Panel 2: The host messages: 'Save 10% more if you Zelle me "
+        "directly off-platform.' Speech bubble (Harry): \"That's the "
+        "diagnostic.\"\n"
+        "Panel 3: Harry refuses, books on Airbnb instead with credit-"
+        "card payment through-platform. Speech bubble (Harry): \"Pay "
+        "through-platform with credit card only.\"\n"
+        "Panel 4: Harry arrives at a verified Airbnb that matches the "
+        "listing. Speech bubble (Harry): \"Airbnb pays hosts after "
+        "check-in — the structural protection.\""
+    )),
+    ("rental-scams", "scam-4", "section-8-voucher-fast-track", "margie", (
+        "Panel 1: Margie at her kitchen table reads a Facebook group "
+        "post: 'Section 8 fast-track placement — $750 fee.' Speech "
+        "bubble (post): \"Guaranteed approval in 30 days.\"\n"
+        "Panel 2: The 'specialist' demands $750 Zelle to start the "
+        "process. Speech bubble (specialist): \"Send Zelle to expedite "
+        "your voucher.\"\n"
+        "Panel 3: Margie calls her local Public Housing Authority "
+        "directly from hud.gov/phacontact. Speech bubble (real PHA "
+        "rep): \"No third party can speed up Section 8 — it's free "
+        "through us.\"\n"
+        "Panel 4: Margie reports the scam to the FTC + helps her "
+        "neighbor avoid it. Speech bubble (Margie): \"Real PHA = free. "
+        "Anyone charging is a scam.\""
+    )),
+    ("rental-scams", "scam-5", "ai-deepfake-fabricated-listing", "priya", (
+        "Panel 1: Priya at her laptop sees a Facebook listing with "
+        "professional-looking photos at $1,300/mo. Reverse-image search "
+        "returns no hits. Speech bubble (Priya): \"No hits — but is it "
+        "real?\"\n"
+        "Panel 2: Priya zooms in on the photos and notices subtle AI "
+        "artifacts — repeating patterns, odd shadows. Speech bubble "
+        "(Priya): \"AI-generated photos.\"\n"
+        "Panel 3: Priya searches the address in the county property-"
+        "records portal. Speech bubble (county website): \"Owner: not "
+        "the listed landlord.\"\n"
+        "Panel 4: Priya reports the listing + warns r/Scams about the "
+        "AI-deepfake variant. Speech bubble (Priya): \"AI bypasses "
+        "reverse-image search — property records still work.\""
+    )),
 ]
 
-assert len(MANIFEST) == 71, f"Expected 71 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 76, f"Expected 76 entries, got {len(MANIFEST)}"
