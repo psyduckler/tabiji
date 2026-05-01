@@ -1266,6 +1266,84 @@ MANIFEST: list[tuple[str, str, str, str, str]] = [
         "verification. Speech bubble (Priya): \"100% of third-party "
         "recovery services are scams.\""
     )),
+    # ============================================================
+    # AMAZON & REFUND SCAMS (5 variants)
+    # ============================================================
+    ("amazon-and-refund-scams", "scam-1", "fake-refund-text", "margie", (
+        "Panel 1: Margie at her kitchen counter gets a text on her "
+        "phone: 'AMAZON: Routine quality inspection — full refund "
+        "available, click to claim.' Speech bubble (text): \"$47.99 "
+        "REFUND PENDING.\"\n"
+        "Panel 2: Margie pauses and opens the official Amazon app "
+        "instead of clicking the link. Speech bubble (Amazon app): "
+        "\"NO PENDING REFUNDS.\"\n"
+        "Panel 3: Margie forwards the scam text to 7726 + reports to "
+        "stop-spoofing@amazon.com. Speech bubble (Margie): \"Real "
+        "refunds appear in the app.\"\n"
+        "Panel 4: Margie deletes the text + warns her neighbor about "
+        "the scam pattern. Speech bubble (Margie): \"Click the app, "
+        "never the text link.\""
+    )),
+    ("amazon-and-refund-scams", "scam-2", "prime-auto-renewal-phishing", "harry", (
+        "Panel 1: Harry at his desk reads an email: 'Your Prime "
+        "auto-renews tomorrow at $249.99 — click to cancel.' Speech "
+        "bubble (Harry): \"Prime is $139, not $249.\"\n"
+        "Panel 2: Harry opens amazon.com directly and checks Manage "
+        "Prime Membership. Speech bubble (Amazon page): \"NEXT RENEWAL: "
+        "$139.00.\"\n"
+        "Panel 3: Harry forwards the phishing email to stop-spoofing@"
+        "amazon.com + enables auth-app 2FA. Speech bubble (Authy): "
+        "\"AMAZON 2FA ACTIVATED.\"\n"
+        "Panel 4: Harry warns his Prime-using friends about the $249 "
+        "tell. Speech bubble (Harry): \"Wrong renewal price = "
+        "diagnostic for fraud.\""
+    )),
+    ("amazon-and-refund-scams", "scam-3", "amazon-account-takeover-call", "margie", (
+        "Panel 1: Margie at her kitchen counter answers her phone — "
+        "caller-ID reads 'Amazon Customer Service.' Speech bubble "
+        "(voice): \"Your account has 5 unauthorized purchases — "
+        "verify the 2FA code we just sent.\"\n"
+        "Panel 2: Margie's phone shows a 6-digit Amazon 2FA code SMS. "
+        "She pauses. Speech bubble (Margie): \"Amazon never asks for "
+        "the code.\"\n"
+        "Panel 3: Margie hangs up and logs into amazon.com directly to "
+        "check for any actual issue. Speech bubble (Amazon page): \"NO "
+        "ISSUES — ACCOUNT ACTIVE.\"\n"
+        "Panel 4: Margie reports the call to stop-spoofing@amazon.com "
+        "+ FTC. Speech bubble (Margie): \"Amazon CS never asks for "
+        "codes — that's the scam.\""
+    )),
+    ("amazon-and-refund-scams", "scam-4", "product-recall-scam", "marcus", (
+        "Panel 1: Marcus on his phone gets a text: 'AMAZON RECALL: "
+        "Your recent purchase of [item] has been recalled — click for "
+        "refund.' Speech bubble (Marcus): \"Real recalls live on "
+        "cpsc.gov.\"\n"
+        "Panel 2: Marcus opens cpsc.gov/recalls on his laptop and "
+        "searches the product. Speech bubble (CPSC website): \"NO "
+        "RECALLS FOUND.\"\n"
+        "Panel 3: Marcus also checks his Amazon account → Recall "
+        "Notifications. Speech bubble (Amazon page): \"NO RECALL "
+        "NOTIFICATIONS.\"\n"
+        "Panel 4: Marcus forwards the text to 7726 + reports to "
+        "stop-spoofing@amazon.com. Speech bubble (Marcus): \"Cross-"
+        "check at cpsc.gov + Amazon account directly.\""
+    )),
+    ("amazon-and-refund-scams", "scam-5", "refund-overpayment-remote-access", "harry", (
+        "Panel 1: Harry at his laptop on a phone call with an 'Amazon "
+        "refund agent.' The agent has him install AnyDesk to 'process "
+        "the refund.' Speech bubble (voice): \"Install AnyDesk to "
+        "verify your refund.\"\n"
+        "Panel 2: The agent fakes a $5,000 overpayment on Harry's bank "
+        "screen via remote control. Speech bubble (voice): \"You got "
+        "$5,000 instead of $50 — wire $4,950 back!\"\n"
+        "Panel 3: Harry recognizes the script — Amazon never uses "
+        "remote-access tools. He unplugs the laptop ethernet + powers "
+        "it off. Speech bubble (Harry): \"Amazon never installs "
+        "AnyDesk.\"\n"
+        "Panel 4: Harry calls his real bank from a different device to "
+        "lock his accounts. Speech bubble (real bank rep): \"Your "
+        "accounts are secured.\""
+    )),
 ]
 
-assert len(MANIFEST) == 86, f"Expected 86 entries, got {len(MANIFEST)}"
+assert len(MANIFEST) == 91, f"Expected 91 entries, got {len(MANIFEST)}"
