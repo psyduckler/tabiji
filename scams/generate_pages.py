@@ -36,19 +36,29 @@ from _scam_sweep_common import git_first_commit as _git_first_commit
 
 from _nav_util import get_nav_html
 NAV_HTML = get_nav_html()
+DEFAULT_OG_IMAGE = "https://img.tabiji.ai/tabiji-owl-logo.png"
+
 
 
 def _sanitize_reddit_shards(text: str) -> str:
-    """Strip Reddit citation URL shards and NAMED-anchor workflow tags.
+    """Strip Reddit research shards and normalize trust-breaking copy artifacts.
 
     Applied to all user-facing prose (SAFETY_TIPS, FAQs, scam stories)
     so research artifacts like `r/sub 'title' (comments/xxx, 2025) is
-    the 2025 NAMED anchor` do not survive into rendered HTML. Safe
-    (idempotent) on already-clean text — returns input unchanged.
+    the 2025 NAMED anchor` do not survive into rendered HTML. Also fixes
+    malformed fragments left behind by cleaner passes, e.g. ``documents 10,``.
+    Safe (idempotent) on already-clean text — returns input unchanged.
     """
     if not text:
         return text
-    return _clean_reddit_shards(text)
+    text = _clean_reddit_shards(text)
+    # Cleaner passes can leave grammar fragments when a citation scaffold was
+    # embedded mid-sentence. Normalize the visible reader-facing residue.
+    text = re.sub(r"\s+documents\s+(?=\d)", "; official/local reports document ", text, flags=re.I)
+    text = re.sub(r"\s+documenting\s+(?=\d)", "; official/local reports document ", text, flags=re.I)
+    text = re.sub(r"\s+confirm\s+(['\"])", r"; reports confirm \1", text, flags=re.I)
+    text = re.sub(r"\s+is the named\s+", " — the named ", text, flags=re.I)
+    return text
 
 # ── Region-appropriate ride-service advice ─────────────────────────────
 _REGION_SETS = {
@@ -1191,7 +1201,7 @@ EMERGENCY_INFO = {
 
 # Country to health page slug mapping
 COUNTRY_HEALTH_SLUGS = {
-    "United Kingdom": "united-kingdom", "Japan": "japan", "United Arab Emirates": "united-arab-emirates",
+    "United Kingdom": "united-kingdom", "Japan": "japan",
     "Netherlands": "netherlands", "Singapore": "singapore", "Malaysia": "malaysia",
     "South Korea": "south-korea", "Portugal": "portugal", "Greece": "greece",
     "Germany": "germany", "Spain": "spain", "Vietnam": "vietnam", "Mexico": "mexico",
@@ -1220,6 +1230,24 @@ COUNTRY_HEALTH_SLUGS = {
     "Rwanda": "rwanda", "Mozambique": "mozambique", "Fiji": "fiji",
     "Russia": "russia", "Guatemala": "guatemala", "Saudi Arabia": "saudi-arabia",
 }
+
+
+def _existing_health_slug(country: str) -> str:
+    """Return the health-guide slug only when the static target exists.
+
+    COUNTRY_HEALTH_SLUGS intentionally includes only supported health guide
+    pages. This filesystem guard prevents future broken cross-links when a
+    country appears in scam data before its /health/ page ships.
+    """
+    slug = COUNTRY_HEALTH_SLUGS.get(country, "")
+    if not slug:
+        return ""
+    return slug if (_REPO_ROOT / "health" / slug / "index.html").exists() else ""
+
+
+def _without_leading_the(name: str) -> str:
+    """Avoid generated copy like 'the The Westminster Bridge Shell Game'."""
+    return re.sub(r"^the\s+", "", name or "", flags=re.I).strip()
 
 # City slugs mapping
 CITY_SLUGS = {
@@ -7799,7 +7827,7 @@ def generate_page(city_data, related_cities_map):
     country_code = city_data.get("country_code", "")
 
     # Cross-links to health guide and country scam page
-    health_slug = COUNTRY_HEALTH_SLUGS.get(country, "")
+    health_slug = _existing_health_slug(country)
     cc_lower = country_code.lower() if country_code else ""
     cross_links = []
     if health_slug:
@@ -7835,7 +7863,7 @@ def generate_page(city_data, related_cities_map):
                 "headline": f"{n} Tourist Scams in {city} (2026)",
                 "description": meta_desc,
                 "url": f"https://tabiji.ai/scams/{slug}/",
-                "image": f"https://img.tabiji.ai/scams-{slug}-og.jpg",
+                "image": DEFAULT_OG_IMAGE,
                 "datePublished": date_published,
                 "dateModified": date_modified,
                 "author": {"@type": "Organization", "name": "tabiji.ai"},
@@ -7868,7 +7896,8 @@ def generate_page(city_data, related_cities_map):
     # Build key takeaways from scam data
     scam_names = [s['scam_name'] for s in scams]
     high_risk = [s['scam_name'] for s in scams if s.get('danger_level', '').lower() == 'high']
-    takeaway_top = f"The #1 reported scam is the {scam_names[0] if scam_names else 'financial deception'}"
+    top_scam_name = _without_leading_the(scam_names[0]) if scam_names else "financial deception"
+    takeaway_top = f"The #1 reported scam is the {top_scam_name}"
     takeaway_high = f"{len(high_risk)} of {n} scams are rated high risk" if high_risk else f"Most scams in {city} are low-to-medium risk"
     no_rideshare_cities = {"Aruba", "Turks and Caicos"}
     takeaway_transport = "Only use official taxis with government-set rates \u2014 confirm the fare before getting in" if city in no_rideshare_cities else _get_ride_advice(country_code)
@@ -7940,7 +7969,7 @@ def generate_page(city_data, related_cities_map):
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/scams/{slug}/">
     <meta property="og:site_name" content="tabiji.ai">
-    <meta property="og:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
+    <meta property="og:image" content="{DEFAULT_OG_IMAGE}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="article:published_time" content="{date_published}">
@@ -7948,7 +7977,7 @@ def generate_page(city_data, related_cities_map):
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{n} Tourist Scams in {city} (2026)">
     <meta name="twitter:description" content="{twitter_desc}">
-    <meta name="twitter:image" content="https://img.tabiji.ai/scams-{slug}-og.jpg">
+    <meta name="twitter:image" content="{DEFAULT_OG_IMAGE}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tabiji.ai/scams/{slug}/">
     <link rel="stylesheet" href="/assets/shared-shell.css">
@@ -8280,7 +8309,7 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
         )
 
     # Cross-links — adds /books/ link alongside Health + Back
-    health_slug = COUNTRY_HEALTH_SLUGS.get(country, "")
+    health_slug = _existing_health_slug(country)
     cross_links_items = []
     cross_links_items.append('<a class="cross-link" href="/books/">📚 Travel Safety Series</a>')
     if health_slug:
