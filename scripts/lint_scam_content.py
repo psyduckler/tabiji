@@ -355,8 +355,8 @@ def lint_city(data: dict):
 # ---- Rule 18/19/20: rendered-HTML lint ----
 from _scam_sweep_common import is_tldr_complete, collect_scam_targets  # noqa: E402
 
-_H1_SCAM_COUNT = re.compile(r"^(?:(?:Don[\u2019']t Fall for These\s+)?)?(\d+)\s+Tourist\s+Scams", re.IGNORECASE)
-_HERO_SCAMS_DOCUMENTED = re.compile(r"(\d+)\s+scams\s+documented", re.IGNORECASE)
+_H1_SCAM_COUNT = re.compile(r"^(?:(?:Don[\u2019']t Fall for These\s+)?)?(\d+)\s+Tourist\s+Scams?", re.IGNORECASE)
+_HERO_SCAMS_DOCUMENTED = re.compile(r"(\d+)\s+scams?\s+documented", re.IGNORECASE)
 _HERO_UPDATED = re.compile(
     r"Updated\s+(January|February|March|April|May|June|July|August|"
     r"September|October|November|December)\s+(\d{4})",
