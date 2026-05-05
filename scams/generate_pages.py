@@ -56,7 +56,6 @@ def _sanitize_reddit_shards(text: str) -> str:
     # embedded mid-sentence. Normalize the visible reader-facing residue.
     text = re.sub(r"\s+documents\s+(?=\d)", "; official/local reports document ", text, flags=re.I)
     text = re.sub(r"\s+documenting\s+(?=\d)", "; official/local reports document ", text, flags=re.I)
-    text = re.sub(r"\s+confirm\s+(['\"])", r"; reports confirm \1", text, flags=re.I)
     text = re.sub(r"\s+is the named\s+", " — the named ", text, flags=re.I)
     return text
 
