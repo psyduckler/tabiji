@@ -28,6 +28,8 @@ from bs4 import BeautifulSoup
 REPO = Path(__file__).resolve().parents[1]
 SCAMS = REPO / "scams"
 HUB = SCAMS / "index.html"
+DEFAULT_OG_IMAGE = "https://img.tabiji.ai/tabiji-owl-logo.png"
+NON_CITY_DIRS = {"country", "everywhere", "atlas"}
 
 _H1_RE = re.compile(r"^\d+\s+Tourist Scams in\s+(.+?)$")
 
@@ -231,7 +233,7 @@ def _render_stats_bar(total_cities: int, total_scams: int, total_countries: int)
 def regenerate_hub(dry_run: bool = False) -> tuple[int, int, int]:
     entries = sorted(
         (e for e in (_scan_city_page(p / "index.html")
-                     for p in sorted(SCAMS.iterdir()) if p.is_dir() and p.name != "country")
+                     for p in sorted(SCAMS.iterdir()) if p.is_dir() and p.name not in NON_CITY_DIRS)
          if e is not None),
         key=lambda e: e["city"].lower(),
     )
@@ -261,8 +263,8 @@ def regenerate_hub(dry_run: bool = False) -> tuple[int, int, int]:
     # 1. stats-bar
     new_stats = _render_stats_bar(total_cities, total_scams, total_countries)
     hub_src = re.sub(
-        r'<div class="stats-bar">.+?</div>\s*(?=\n\s*<div class="search-section)',
-        new_stats + "\n\n",
+        r'<div class="stats-bar">\s*(?:<div class="stat">.*?</div>\s*){4}</div>',
+        new_stats,
         hub_src,
         count=1,
         flags=re.DOTALL,
@@ -294,6 +296,14 @@ def regenerate_hub(dry_run: bool = False) -> tuple[int, int, int]:
     # 5. meta descriptions that mention "N+ cities"
     hub_src = re.sub(r'\b\d{3,4}\+ cities', f"{total_cities}+ cities", hub_src)
     hub_src = re.sub(r'\b\d{3,4}\+ destinations', f"{total_cities}+ destinations", hub_src)
+
+    # 6. Shell-level trust fixes preserved across hub regenerations.
+    hub_src = re.sub(r"https://img\.tabiji\.ai/scams-[^\"']+-og\.jpg", DEFAULT_OG_IMAGE, hub_src)
+    hub_src = re.sub(
+        r"<a href=\"mailto:hello@tabiji\.ai[^\"']*\" class=\"report-cta-btn\">([^<]+)</a>",
+        r"<a href=\"/about/\" class=\"report-cta-btn\">Contact Tabiji</a>",
+        hub_src,
+    )
 
     if dry_run:
         print(f"DRY RUN — would write {len(hub_src):,} bytes to {HUB}")
