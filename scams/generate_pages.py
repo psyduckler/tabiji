@@ -1750,6 +1750,7 @@ CITY_SLUGS = {
     "Hakone": "hakone",
     "Kanazawa": "kanazawa",
     "Nikko": "nikko",
+    "Takayama": "takayama",
 }
 
 # City-specific safety tips
@@ -3810,6 +3811,12 @@ SAFETY_TIPS = {
         "Buy both the Tobu base fare AND the Limited Express Reserved Seat ticket together at Asakusa — Nikko All-Area Pass and World Heritage Pass do NOT include the limited-express surcharge (¥1,450-2,140 each way), and onboard staff bill the full surcharge plus a penalty fare.",
         "Refuse all street cash demands from anyone in plain clothes claiming to be police — Japan's new ¥12,000 bicycle blue-ticket fines are paid at convenience-store and bank counters, never to officers in parked cars; Tochigi Prefecture confirmed an April 2026 ¥15,000 shakedown nearby.",
         "Use the Tobu bus from Tobu-Nikko Station to Chuzenji Onsen (¥1,250 one way, covered by Nikko All-Area Pass) during autumn 2025-2026 bear-closure seasons — the Akechidaira Ropeway suspended one-way tickets and locks visitors into round-trip rides.",
+    ],
+    "Takayama": [
+        "Buy JR Hida Limited Express tickets directly at any JR ticket counter or via smartEX.jr-central.co.jp (¥4,100 one-way Nagoya-Takayama, fully covered by JR Pass) — refuse Klook and GetYourGuide phantom-tour bundles priced at $300-450 per person; many are PO Box operators with no physical office.",
+        "Book Hida-Takayama ryokans directly through the property's own website or by phone — Booking.com 'only 1 room left' urgency on Hida-Takayama listings drives travelers into non-refundable deposit forfeits when transit plans shift.",
+        "Walk five minutes off Sannomachi's central Edo-period blocks before sitting at any Hida-beef yakiniku — corridor restaurants mark per-piece A-5 cuts two to three times higher than equivalent yakiniku near JR Takayama Station.",
+        "Confirm the ryokan check-in cutoff in writing at booking and arrive at least two hours before — most Hida-Takayama ryokans lock the door at 8 or 9 PM and forfeit the night if you miss kaiseki dinner service.",
     ],
 }
 
@@ -7550,6 +7557,18 @@ FAQS = {
          "The Shinkyo Bridge is a free photo stop at the entrance to the Toshogu shrine complex; crossing the bridge itself costs ¥300 but viewing it from the riverbank is free. The Toshogu shrine complex (Tokugawa Ieyasu's mausoleum) costs ¥1,300 for adults — a single ticket covers Toshogu, Futarasan Shrine, and Rinnoji Temple grounds. Kanmangafuchi Abyss with its row of stone Jizo statues is free to walk along the Daiya River. Lake Chuzenji and Kegon Falls are reached by the ¥1,250 Tobu bus (covered by the Nikko All-Area Pass)."),
         ("How do I avoid the Tobu Limited-Express surcharge trap?",
          "Buy both the base fare AND the Limited Express Reserved Seat ticket together at the Asakusa Tobu Tourist Information Center counter. Confirm before boarding which train type your platform serves — the Spacia X and Spacia trains require both tickets, while the regular Tobu train at ¥1,400 needs only the base fare. The Nikko All-Area Pass at ¥4,800 covers the round-trip base fare and Nikko-area buses but you must still purchase the limited-express surcharge separately if you want Spacia or Spacia X. Photograph both tickets before boarding to dispute any onboard surcharge."),
+    ],
+    "Takayama": [
+        ("Is Takayama safe for tourists?",
+         "Takayama is one of the safest tourist destinations in Japan, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: Klook and GetYourGuide phantom Takayama day-tour resellers, Booking.com ryokan deposit forfeits when transit plans change, Hida-beef yakiniku tourist markup on Sannomachi's central blocks, and 8 to 9 PM ryokan check-in cutoffs that forfeit the night if missed. Sannomachi old town, Takayama Asaichi morning market, and the Hida-no-Sato folk village are all safe at all hours."),
+        ("What is the most common scam in Takayama?",
+         "The most-reported pattern is Hida-beef tourist-corridor markup. Sannomachi's central Edo-period blocks line up yakiniku restaurants advertising A-5 Hida-gyu at per-piece prices that translate to ¥18,000-plus dinners for two — when an honest yakiniku five minutes off the corridor charges ¥6,000 for the same A-5 cuts. The Klook phantom-tour reseller pattern is more financially serious: bundles priced at $300-450 per person from Tokyo or Kanazawa frequently fail to deliver the bundled JR Hida Limited Express tickets, with refund disputes routed back to the platform."),
+        ("How do I get from Tokyo or Nagoya to Takayama?",
+         "From Nagoya, the JR Hida Limited Express runs Nagoya-Takayama in about 2 hours 20 minutes at ¥4,100 one-way (fully covered by the JR Pass). From Tokyo, the fastest route is Shinkansen to Nagoya (¥11,090, 1h40m) then JR Hida to Takayama, totaling about 4 hours. The Hokuriku Shinkansen to Toyama then JR Hida to Takayama is a slightly longer alternative that the Hokuriku Arch Pass and Takayama-Hokuriku Area Pass cover. Buy tickets directly at any JR counter or via smartEX.jr-central.co.jp — never bundle through Klook."),
+        ("What can I see in Takayama for free or low-cost?",
+         "Sannomachi old town's Edo-period sake-brewery streets are free to walk through and are best at sunrise before tour buses arrive. The Takayama Asaichi morning market on the Miya River is free to browse — vendors sell pickles, sansai vegetables, and ¥800-1,500 Hida-beef skewers as the cheaper portion option. The Higashiyama walking course (Takayama's Kyoto-style temple trail) is free and connects 13 temples on a 4-kilometer loop. The Takayama Jinya (former government office) costs ¥440 and is the single most-recommended paid stop. The Hida-no-Sato open-air folk village is ¥700."),
+        ("How do I avoid the ryokan check-in cutoff trap?",
+         "Confirm the check-in cutoff in writing at booking — most Hida-Takayama ryokans cut off check-in between 8 and 9 PM because kaiseki dinner is served at a fixed time around 6:30 PM. Save the ryokan's front-desk phone number to your itinerary and call ahead if you anticipate a same-day delay. Plan to arrive at least two hours before the published cutoff to absorb JR Hida Limited Express delays or weather closures on the Tateyama Kurobe route. If your transit window is tight, choose a Western hotel chain near JR Takayama Station instead of a ryokan."),
     ],
 }
 
