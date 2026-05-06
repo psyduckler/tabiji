@@ -1747,6 +1747,7 @@ CITY_SLUGS = {
     "Chamonix": "chamonix",
     "Mont-Saint-Michel": "mont-saint-michel",
     "Biarritz": "biarritz",
+    "Hakone": "hakone",
 }
 
 # City-specific safety tips
@@ -3789,6 +3790,12 @@ SAFETY_TIPS = {
         "Pre-book your Sharm El Sheikh airport pickup through your Dahab hotel for a flat 1,500 to 1,800 EGP — refuse all $70 curbside dollar quotes from drivers parked past the official SSH rank",
         "Refuse every \"free tea\" sit-down invitation along the Mashraba and Lighthouse beach strips — real Bedouin cafés post printed prices at the entrance, and the unsolicited tent setups run 800 EGP bills on a 50-EGP tea",
         "Get every Dahab bungalow fee — towel, AC, water, service — printed on an itemized rate sheet at check-in and photograph it; Mashraba camps that refuse to print are running the surcharge play that turns a 200-EGP nightly rate into a 1,400-EGP total",
+    ],
+    "Hakone": [
+        "Buy the Hakone Free Pass directly from Odakyu's Sightseeing Service Center at Shinjuku station's west exit — the official 2-day adult fare is ¥7,100 and includes the Tozan train, ropeway, sightseeing cruise, and Hakone-area buses with no per-redemption fees.",
+        "Book ryokan stays through the property's own English-language website or by phone — Booking.com and Agoda 'only 1 room left' banners are platform-level inventory displays, not property reality, and non-refundable deposits there cannot be recovered if your dates change.",
+        "Sort Google Maps reviews by Lowest first before booking any premium ryokan — recent low-star reviews surface stale-kaiseki, drilling-noise, and rushed-service complaints that get buried under glowing Reddit aggregations.",
+        "Decline the on-pier Special Class upgrade at Hakone Sightseeing Cruise piers in Togendai, Hakonemachi, and Moto-Hakone — it is the same boat, the same 30-minute Lake Ashi crossing, and the same Mount Fuji view as standard class.",
     ],
 }
 
@@ -7493,6 +7500,18 @@ FAQS = {
          "Lighthouse Reef, Three Pools, Eel Garden, and the shallow side of the Canyon are excellent shore dives suitable for beginners and intermediate divers — they are easy to access from the Mashraba and Assalah promenades and run safely with most reputable operators. The Blue Hole's Bells route and Arch pass-through demand experienced technical divers with Tec-Trimix certifications and a chamber-evacuation plan. Book all Dahab dives only with established operators — Reef 2000, Big Blue, or H2O — verify the lead instructor's PADI or SSI number before paying, and inspect every regulator and BCD on land."),
         ("How much should I tip in Dahab?",
          "Tipping in Dahab is expected but proportional. Restaurant tips run 10 to 15 percent if a service charge is not already included; dive guides and instructors typically receive 50 to 100 EGP per dive day; bungalow housekeeping and porters earn 20 to 50 EGP. Bedouin tea-camp staff should be tipped only for service you actually requested — not for unsolicited \"free\" platters. Carry small Egyptian-pound notes (10s, 20s, 50s) for tipping rather than handing over a 200 to make change with."),
+    ],
+    "Hakone": [
+        ("Is Hakone safe for tourists?",
+         "Hakone is among the safest destinations in Japan, which is among the safest countries in the world for visitors. Violent crime against tourists is exceptionally rare. The practical risks are financial: Klook voucher-bundle traps that deliver redemption codes instead of tickets, Booking.com 'last room' urgency that drives travelers into non-refundable deposit forfeits, premium-ryokan quality bait-and-switch at Yama no Chaya and Hakone Ginyu, and on-pier Special Class upsells at Hakone Sightseeing Cruise piers. Hakone-Yumoto, Gora, Owakudani, and Moto-Hakone are all safe at all hours, and the Tozan railway and area buses run reliably."),
+        ("What is the most common scam in Hakone?",
+         "The two most-reported patterns in 2025 are the Klook Hakone Free Pass voucher bundle, where a discounted bundle delivers per-item redemption codes with hidden service fees instead of actual tickets — flagged by an 824-upvote Reddit warning thread from a Japanese native — and Booking.com 'only 1 room left' urgency driving travelers into non-refundable ryokan deposit forfeits when their plans change. Premium ryokans like Yama no Chaya and Hakone Ginyu also draw 200-plus-upvote trip-report complaints about stale kaiseki and dated rooms despite ¥80,000–¥120,000 nightly rates."),
+        ("How do I get from Tokyo to Hakone?",
+         "The Odakyu Romance Car from Shinjuku to Hakone-Yumoto takes about 85 minutes and costs around ¥2,330 for a reserved seat. The 2-day Hakone Free Pass at ¥7,100 from Shinjuku covers the round-trip Odakyu local fare plus the Tozan train, ropeway, sightseeing cruise, and Hakone-area buses — buy directly at Odakyu's Sightseeing Service Center at Shinjuku station's west exit, never through Klook. JR Tokaido Shinkansen to Odawara then Hakone-Tozan to Hakone-Yumoto is faster (about 60 minutes) and is covered by the Japan Rail Pass."),
+        ("What can I see in Hakone for free or low-cost?",
+         "Hakone Shrine on the shore of Lake Ashi is free to enter, and the famous red torii gate in the water is the iconic photo spot — go before 10 a.m. when the tour buses arrive. The walking trail from Moto-Hakone to Hakone-en past the cedar avenue is a 30-minute lakeside walk with shrine glimpses and no entry fee. Owakudani's outdoor sulfur vents are visible from the ropeway station; the kuro-tamago black eggs cost ¥500 for five. The Hakone Open-Air Museum at ¥1,600 is the single most-recommended paid stop."),
+        ("How do I avoid the Booking.com ryokan deposit trap?",
+         "Book ryokans directly through the property's own website — most have English booking forms and email confirmation in 24 hours. Many ryokans hold a credit card on file and only charge at check-in, so date changes can be negotiated with the front desk directly. If you must book through Booking.com or Agoda, choose the flexible refundable rate even if it costs a few thousand yen more. Ignore 'only 1 room left' banners — cross-check the property's own site for actual availability before paying any non-refundable deposit."),
     ],
 }
 
