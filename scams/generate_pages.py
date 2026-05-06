@@ -1761,6 +1761,7 @@ CITY_SLUGS = {
     "Takayama": "takayama",
     "Bergen": "bergen",
     "Tromsø": "tromso",
+    "Lofoten": "lofoten",
 }
 
 # City-specific safety tips
@@ -3839,6 +3840,12 @@ SAFETY_TIPS = {
         "Book aurora tours only through visittromso.no's curated operator list or directly with the operator's own website — refuse Viator and TripAdvisor listings that hide the operator behind a reseller (the 2026 Marianne's Heaven on Earth Aurora Chaser case documents the bait-and-switch pattern).",
         "Record timestamped video of every panel of any rental car at pickup AND drop-off — SixT and other operators in northern Norway (Tromsø Airport pickup, Leknes Airport drop-off) bill phantom scratches by email weeks after return.",
         "Pre-book Tromsø Taxi at +47 03011 for a metered fare around 280 NOK or take the Flybussen airport bus for 130 NOK — Uber in Norway runs 2 to 3 times the metered rate, especially during aurora-tour peak winter months.",
+    ],
+    "Lofoten": [
+        "Verify any motorhome or campervan rental on brreg.no (Norwegian Business Register) before paying a deposit — refuse .com domains lacking a Norwegian organization number; Motorhome Norway (motorhomenorway.com) was flagged as a phantom operator in a 2025 Reddit warning.",
+        "Record timestamped pickup AND drop-off videos of every panel of any rental car — SixT phantom-damage charges land hardest at unmanned Leknes Airport (LKN) drop-offs, with damage emails arriving 14-20 days after return.",
+        "Book rorbu (red fishing-cabin) stays through verified operators on lofoten.info or directly via .no property sites (Eliassen Rorbuer, Reine Rorbuer, Nyvågar Rorbuhotell) — refuse hosts who email asking for wire-transfer deposits outside the booking platform.",
+        "Park only in marked municipal lots near photo spots like Reine, Hamnøy, Sakrisøy, and Henningsvær — pull-offs onto unmarked shoulders trigger 600-1,200 NOK private-land parking fines plus rental-company admin fees.",
     ],
 }
 
@@ -7615,6 +7622,18 @@ FAQS = {
          "Book only through visittromso.no's curated operator list or directly with the operator's own website — refuse Viator, TripAdvisor, and GetYourGuide listings that hide the operator behind a reseller. Read the visibility-guarantee fine print before paying: if the language says 'eye OR camera', the guarantee is meaningless. Reputable small operators like Guide Gunnar publish honest expectations and drive to the Finnish border for clear skies. Plan 4-5 nights in Tromsø rather than 1-2 to absorb cloud cover; tour cost is typically 1,200-1,800 NOK per adult."),
         ("How do I avoid the SixT rental-car phantom-damage charge?",
          "Record timestamped video of every panel of the car at pickup AND drop-off. Email the videos to yourself before leaving Norway as proof. Insist on a signed inspection slip at drop-off if any staff are present at Tromsø Airport (TOS) or Leknes Airport (LKN). If a damage email arrives weeks after drop-off, dispute it in writing within 14 days using your videos and request SixT's photographic documentation. Norwegian rental-car companies cannot affect your visa or arrest you; the worst they can do is ban future rentals or attempt small-claims."),
+    ],
+    "Lofoten": [
+        ("Is Lofoten safe for tourists?",
+         "Lofoten is among the safest tourist destinations in Norway, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: Motorhome Norway-style phantom rental operators on .com domains, SixT phantom damage charges at unmanned Leknes Airport (LKN) drop-offs, off-platform rorbu cabin booking fraud around Reine and Hamnøy, and 600-1,200 NOK parking fines at unmarked photo-spot pull-offs. Reine, Henningsvær, Svolvær, and Hamnøy are all safe at all hours."),
+        ("What is the most common scam in Lofoten?",
+         "The most-reported pattern is rental-car phantom damage at Leknes Airport (LKN). A 2024 Reddit thread documented a tourist who picked up at Tromsø Airport and dropped off at Leknes recording timestamped videos, then receiving a damage email 20 days later for phantom right-side scratches. The Motorhome Norway phantom-operator scam (.com domain, no Norwegian organization number, no Google-verifiable office) is the parallel high-cost scam targeting Lofoten road-trippers. Off-platform rorbu booking fraud and unmarked photo-spot parking fines round out the financial-risk landscape."),
+        ("How do I get to Lofoten?",
+         "By air: Widerøe flies to Leknes Airport (LKN) and Svolvær Airport (SVJ) from Oslo via Bodø; tickets typically run 1,200-2,500 NOK one-way. By ferry: Hurtigruten coastal ferry stops at Stamsund and Svolvær; Torghatten Nord runs the Bodø-to-Moskenes car ferry at about 250 NOK per adult passenger plus 700 NOK for a small car. By road: the E10 highway is the only direct road into Lofoten from Bodø. Rent cars only from operators with .no domains and verified Norwegian organization numbers — refuse Motorhome Norway (motorhomenorway.com) and similar phantom operators."),
+        ("Where can I stay in Lofoten?",
+         "Stay in a rorbu (traditional red fishing cabin) for the iconic Lofoten experience. Verified operators include Eliassen Rorbuer in Hamnøy (the most-photographed cabins in Lofoten), Reine Rorbuer at Reine harbor, and Nyvågar Rorbuhotell near Henningsvær. Book directly through the property's .no website with a refundable card-hold deposit — refuse Booking.com and Airbnb hosts who email asking for wire-transfer deposits outside the platform. Off-season rates (October-April) run 1,200-2,500 NOK per night; peak summer rates double or triple."),
+        ("Where can I park at Lofoten photo spots?",
+         "Use only marked municipal parking lots — every iconic Lofoten photo spot at Reine, Hamnøy, Sakrisøy, and Henningsvær has a paid public lot within five minutes' walk, run by local municipalities at 30-60 NOK per hour with EasyPark app payment. Pulling onto unmarked verges or private-property shoulders triggers 600-1,200 NOK fines (the property owner photographs your license plate) plus a 250 NOK administrative fee from your rental company weeks later. Check lofoten.info's parking map before driving the E10 photo-spot loop."),
     ],
 }
 
