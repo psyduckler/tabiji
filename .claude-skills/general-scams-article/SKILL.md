@@ -51,7 +51,7 @@ Add more by editing `corpus-mapping.json` and `source-mapping.json`.
 1. `/scams/everywhere/<slug>/index.html` — flagship 6,000–8,500-word page
 2. `/scams/everywhere/index.html` — hub updated (slug moved Coming Soon → Live Guides)
 3. `sitemap.xml` — regenerated
-4. `llms.txt` + `llms-full.txt` — entry added
+4. `llms.txt` — entry added
 5. Other `/scams/everywhere/<sibling>/index.html` pages — Related Reading sections updated to cross-link to the new page
 6. `sources.md` sidecar at `tmp/scam-skill/<slug>/sources.md` (gitignored audit trail)
 7. Series-nav neighbors — when a new page joins the corpus, the prev/next siblings need their `.series-nav` updated (see "Canonical series order" in `page-anatomy.yaml`)
