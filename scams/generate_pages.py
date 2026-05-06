@@ -1762,6 +1762,7 @@ CITY_SLUGS = {
     "Bergen": "bergen",
     "Tromsø": "tromso",
     "Lofoten": "lofoten",
+    "Zermatt": "zermatt",
 }
 
 # City-specific safety tips
@@ -3846,6 +3847,12 @@ SAFETY_TIPS = {
         "Record timestamped pickup AND drop-off videos of every panel of any rental car — SixT phantom-damage charges land hardest at unmanned Leknes Airport (LKN) drop-offs, with damage emails arriving 14-20 days after return.",
         "Book rorbu (red fishing-cabin) stays through verified operators on lofoten.info or directly via .no property sites (Eliassen Rorbuer, Reine Rorbuer, Nyvågar Rorbuhotell) — refuse hosts who email asking for wire-transfer deposits outside the booking platform.",
         "Park only in marked municipal lots near photo spots like Reine, Hamnøy, Sakrisøy, and Henningsvær — pull-offs onto unmarked shoulders trigger 600-1,200 NOK private-land parking fines plus rental-company admin fees.",
+    ],
+    "Zermatt": [
+        "Book chalets only through zermatt.ch's verified-operator list or directly via .ch property sites — refuse premiumskichalets.com and similar wire-transfer-only operators; a 2025 Reddit thread documented a coordinated chalet-booking scam ring at premiumskichalets.com.",
+        "Carry both the QR ticket screen-shot AND the booking confirmation email on the Visp-Zermatt MGB segment — conductors have been documented forcing cash repurchase by claiming valid mobile tickets are invalid; escalate at Zermatt Bahnhof rather than paying onboard.",
+        "Book room-only at Zermatt hotels and eat at independent restaurants (Whymper-Stube, Brown Cow, Café DuSud, Restaurant Walliserkanne) — half-pension dinners run 80-140 CHF per person for fixed menus that independents serve at 50-75 CHF.",
+        "Buy Gornergrat Bahn tickets on the SBB or Matterhorn Gotthard Bahn app linked to your Swiss Travel Pass or Half Fare Card — counter staff sell the 132 CHF rack rate by default, but pass holders pay 66 CHF round-trip with auto-applied discount.",
     ],
 }
 
@@ -7634,6 +7641,18 @@ FAQS = {
          "Stay in a rorbu (traditional red fishing cabin) for the iconic Lofoten experience. Verified operators include Eliassen Rorbuer in Hamnøy (the most-photographed cabins in Lofoten), Reine Rorbuer at Reine harbor, and Nyvågar Rorbuhotell near Henningsvær. Book directly through the property's .no website with a refundable card-hold deposit — refuse Booking.com and Airbnb hosts who email asking for wire-transfer deposits outside the platform. Off-season rates (October-April) run 1,200-2,500 NOK per night; peak summer rates double or triple."),
         ("Where can I park at Lofoten photo spots?",
          "Use only marked municipal parking lots — every iconic Lofoten photo spot at Reine, Hamnøy, Sakrisøy, and Henningsvær has a paid public lot within five minutes' walk, run by local municipalities at 30-60 NOK per hour with EasyPark app payment. Pulling onto unmarked verges or private-property shoulders triggers 600-1,200 NOK fines (the property owner photographs your license plate) plus a 250 NOK administrative fee from your rental company weeks later. Check lofoten.info's parking map before driving the E10 photo-spot loop."),
+    ],
+    "Zermatt": [
+        ("Is Zermatt safe for tourists?",
+         "Zermatt is among the safest tourist destinations in Switzerland, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: premiumskichalets.com-style wire-transfer chalet booking scams, Visp-Zermatt train conductor mobile-ticket repurchase pressure, hotel half-pension captive-restaurant markup, and Gornergrat Bahn rack-rate sales to Swiss-Travel-Pass holders. Bahnhofstrasse, the Matterhorn-view promenade, and the Sunnegga, Klein Matterhorn, and Gornergrat lift bases are all safe at all hours."),
+        ("What is the most common scam in Zermatt?",
+         "The most-reported pattern is chalet-booking wire-transfer fraud. A 2025 Reddit thread with 27 upvotes documented a coordinated scam ring at premiumskichalets.com that took deposits from multiple groups via wire transfer with polished communication, then disappeared on the morning of check-in. The Visp-Zermatt MGB train ticket repurchase scam is the second-most-cited pattern: conductors claim valid mobile tickets are invalid and demand cash repurchase, threatening trouble if travelers refuse. Hotel half-pension captive-restaurant markup and Gornergrat Bahn rack-rate sales to pass holders round out the financial-risk landscape."),
+        ("How do I get to Zermatt?",
+         "Zermatt is car-free, so visitors leave their cars in Täsch (5 km away) and ride the Zermatt Shuttle to the village. By train: SBB to Visp, then Matterhorn Gotthard Bahn to Zermatt — total Zurich Airport to Zermatt about 3 hours 20 minutes for 110 CHF (covered by Swiss Travel Pass). Geneva Airport to Zermatt is 3 hours 40 minutes. Carry both the QR ticket screen-shot AND the booking confirmation email on the MGB segment in case of conductor scanner issues at Visp."),
+        ("What can I see in Zermatt for free or low-cost?",
+         "Bahnhofstrasse, Zermatt's main pedestrian street, is free to walk and the Matterhorn-view promenade from the church area to the Vispa river is the iconic photo spot. The Old Zermatt district (Hinterdorf) with traditional Walser timber houses is free to explore. The Matterhorn Museum on Kirchplatz costs 10 CHF and is the single most-recommended low-cost stop. The Gornergrat Bahn round-trip is 132 CHF rack rate but 66 CHF with a Swiss Travel Pass or Half Fare Card — a must-do excursion at the discounted rate."),
+        ("How do I avoid the Gornergrat rack-rate trap?",
+         "Buy Gornergrat Bahn tickets on the SBB or Matterhorn Gotthard Bahn app linked to your Swiss Travel Pass or Half Fare Card — the 50 percent discount applies automatically. The 132 CHF round-trip rack rate drops to 66 CHF with either pass; for a family of four, that's 264 CHF saved in a single morning. At the counter, explicitly state in English: 'I have a Swiss Travel Pass — half fare please.' Counter staff at Zermatt Bahnhof do not surface the discount automatically."),
     ],
 }
 
