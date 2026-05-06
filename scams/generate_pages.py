@@ -1749,6 +1749,7 @@ CITY_SLUGS = {
     "Biarritz": "biarritz",
     "Hakone": "hakone",
     "Kanazawa": "kanazawa",
+    "Nikko": "nikko",
 }
 
 # City-specific safety tips
@@ -3803,6 +3804,12 @@ SAFETY_TIPS = {
         "Photograph both the Japanese and English menus before sitting at any Higashi Chaya tea house or Kenrokuen-area cafe — a 2025 Reddit thread with 465 upvotes documents systematic dual-pricing where the English menu lists higher prices for the same dishes.",
         "Use only Roman-ya rickshaws at the Higashi Chaya Enchoji Temple stand (¥8,000 for 2 / ¥6,000 for 1, 30-minute basic course) — refuse mid-ride extension offers and confirm the route, duration, and yen amount in writing before boarding.",
         "Buy Kenrokuen Garden tickets at the Renchi-mon or Katsurazaka gate (adult ¥320, free with ID over 65) — refuse all voucher resellers and bus-stop touts pricing the same entry at ¥1,000-8,500.",
+    ],
+    "Nikko": [
+        "Buy Tobu Spacia X limited-express tickets directly at Asakusa Tobu station counter or tobu.co.jp/en — refuse Klook and GetYourGuide bundles labeled 'Nikko private day tour' priced at $300-500 per person; many are PO Box operators with phantom delivery.",
+        "Buy both the Tobu base fare AND the Limited Express Reserved Seat ticket together at Asakusa — Nikko All-Area Pass and World Heritage Pass do NOT include the limited-express surcharge (¥1,450-2,140 each way), and onboard staff bill the full surcharge plus a penalty fare.",
+        "Refuse all street cash demands from anyone in plain clothes claiming to be police — Japan's new ¥12,000 bicycle blue-ticket fines are paid at convenience-store and bank counters, never to officers in parked cars; Tochigi Prefecture confirmed an April 2026 ¥15,000 shakedown nearby.",
+        "Use the Tobu bus from Tobu-Nikko Station to Chuzenji Onsen (¥1,250 one way, covered by Nikko All-Area Pass) during autumn 2025-2026 bear-closure seasons — the Akechidaira Ropeway suspended one-way tickets and locks visitors into round-trip rides.",
     ],
 }
 
@@ -7531,6 +7538,18 @@ FAQS = {
          "Kenrokuen Garden costs ¥320 at the gate (free for visitors over 65 with ID) and admits visitors free during the early-morning hours roughly 7-8 a.m. seasonally. Higashi Chaya District's lantern-lined cobblestone streets are best walked at sunrise before tour buses arrive. The 21st Century Museum of Contemporary Art's outdoor pieces and central courtyard are free to walk through. Oyama Shrine, Nagamachi samurai district, and the Kazuemachi Chaya tea-house quarter on the Asano River are all free to wander. Kanazawa Castle Park entry is free; only the inner Tower Tatsumi Yagura tower has a fee."),
         ("How do I avoid the Omicho Market sushi overcharge?",
          "Ask for a written per-piece price before the first nigiri lands. Premium tuna at Omicho stalls runs ¥2,500-3,000 per piece — by the time you have eaten three or four pieces plus rice, tea, and tax, the bill is past ¥10,000. The Sushiro and Hama-zushi chains in Kanazawa post printed yen prices on every plate (typically ¥120-330) and are a much safer counter-sushi option. If you eat at Omicho's specialty stalls, cap your spend by ordering one piece at a time and asking the price before each plate."),
+    ],
+    "Nikko": [
+        ("Is Nikko safe for tourists?",
+         "Nikko is among the safest tourist destinations in Japan, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: Klook and GetYourGuide phantom-tour resellers, Tobu Limited Express surcharge confusion that triggers onboard penalty fares, fake-police bike-fine shakedowns flagged by Tochigi Prefectural Police in April 2026, and round-trip lock-in at the Akechidaira Ropeway during autumn 2025-2026 bear closures. The Toshogu shrine complex, Shinkyo Bridge, and Lake Chuzenji are all safe at all hours, and the Nikko World Heritage Pass covers the main sites at a transparent rate."),
+        ("What is the most common scam in Nikko?",
+         "The most-reported pattern is the Tobu Limited-Express surcharge trap. The Spacia X and Spacia trains from Asakusa to Tobu-Nikko require two tickets — the base fare AND a separate Limited Express Reserved Seat Ticket (¥1,450-2,140 each way) — that the Nikko All-Area Pass and World Heritage Pass do NOT include. Tourists boarding with only the base ticket are billed onboard at the full surcharge plus a same-day penalty. The Klook phantom Nikko tour reseller pattern is more financially serious: ones flagged by 558-upvote Reddit warning threads cost $300-500 per person and frequently fail to deliver the bundled Spacia X tickets."),
+        ("How do I get from Tokyo to Nikko?",
+         "The Tobu Spacia X limited-express from Asakusa to Tobu-Nikko takes about 110 minutes and costs ¥2,850-3,540 one-way (base fare ¥1,400 plus ¥1,450-2,140 limited-express surcharge). The regular Tobu train from Asakusa is ¥1,400 one-way with one to three transfers and about a three-hour journey. JR Pass holders should take the JR-Tobu through service from Shinjuku at ¥4,140 one-way (Tokyo Wide Pass and JR East Pass cover this route). The Tobu Nikko All-Area Pass at ¥4,800 covers both the round-trip base fare and area buses but does NOT include the limited-express surcharge."),
+        ("What can I see in Nikko for free or low-cost?",
+         "The Shinkyo Bridge is a free photo stop at the entrance to the Toshogu shrine complex; crossing the bridge itself costs ¥300 but viewing it from the riverbank is free. The Toshogu shrine complex (Tokugawa Ieyasu's mausoleum) costs ¥1,300 for adults — a single ticket covers Toshogu, Futarasan Shrine, and Rinnoji Temple grounds. Kanmangafuchi Abyss with its row of stone Jizo statues is free to walk along the Daiya River. Lake Chuzenji and Kegon Falls are reached by the ¥1,250 Tobu bus (covered by the Nikko All-Area Pass)."),
+        ("How do I avoid the Tobu Limited-Express surcharge trap?",
+         "Buy both the base fare AND the Limited Express Reserved Seat ticket together at the Asakusa Tobu Tourist Information Center counter. Confirm before boarding which train type your platform serves — the Spacia X and Spacia trains require both tickets, while the regular Tobu train at ¥1,400 needs only the base fare. The Nikko All-Area Pass at ¥4,800 covers the round-trip base fare and Nikko-area buses but you must still purchase the limited-express surcharge separately if you want Spacia or Spacia X. Photograph both tickets before boarding to dispute any onboard surcharge."),
     ],
 }
 
