@@ -1748,6 +1748,7 @@ CITY_SLUGS = {
     "Mont-Saint-Michel": "mont-saint-michel",
     "Biarritz": "biarritz",
     "Hakone": "hakone",
+    "Kanazawa": "kanazawa",
 }
 
 # City-specific safety tips
@@ -3796,6 +3797,12 @@ SAFETY_TIPS = {
         "Book ryokan stays through the property's own English-language website or by phone — Booking.com and Agoda 'only 1 room left' banners are platform-level inventory displays, not property reality, and non-refundable deposits there cannot be recovered if your dates change.",
         "Sort Google Maps reviews by Lowest first before booking any premium ryokan — recent low-star reviews surface stale-kaiseki, drilling-noise, and rushed-service complaints that get buried under glowing Reddit aggregations.",
         "Decline the on-pier Special Class upgrade at Hakone Sightseeing Cruise piers in Togendai, Hakonemachi, and Moto-Hakone — it is the same boat, the same 30-minute Lake Ashi crossing, and the same Mount Fuji view as standard class.",
+    ],
+    "Kanazawa": [
+        "Ask for a written per-piece price before the first nigiri lands at Omicho Market sushi counters — Iki-iki Tei and similar stalls quote premium tuna verbally at ¥2,500-3,000 per piece, padding bills past ¥10,000 for what Sushiro chains price at ¥100-300 a plate.",
+        "Photograph both the Japanese and English menus before sitting at any Higashi Chaya tea house or Kenrokuen-area cafe — a 2025 Reddit thread with 465 upvotes documents systematic dual-pricing where the English menu lists higher prices for the same dishes.",
+        "Use only Roman-ya rickshaws at the Higashi Chaya Enchoji Temple stand (¥8,000 for 2 / ¥6,000 for 1, 30-minute basic course) — refuse mid-ride extension offers and confirm the route, duration, and yen amount in writing before boarding.",
+        "Buy Kenrokuen Garden tickets at the Renchi-mon or Katsurazaka gate (adult ¥320, free with ID over 65) — refuse all voucher resellers and bus-stop touts pricing the same entry at ¥1,000-8,500.",
     ],
 }
 
@@ -7512,6 +7519,18 @@ FAQS = {
          "Hakone Shrine on the shore of Lake Ashi is free to enter, and the famous red torii gate in the water is the iconic photo spot — go before 10 a.m. when the tour buses arrive. The walking trail from Moto-Hakone to Hakone-en past the cedar avenue is a 30-minute lakeside walk with shrine glimpses and no entry fee. Owakudani's outdoor sulfur vents are visible from the ropeway station; the kuro-tamago black eggs cost ¥500 for five. The Hakone Open-Air Museum at ¥1,600 is the single most-recommended paid stop."),
         ("How do I avoid the Booking.com ryokan deposit trap?",
          "Book ryokans directly through the property's own website — most have English booking forms and email confirmation in 24 hours. Many ryokans hold a credit card on file and only charge at check-in, so date changes can be negotiated with the front desk directly. If you must book through Booking.com or Agoda, choose the flexible refundable rate even if it costs a few thousand yen more. Ignore 'only 1 room left' banners — cross-check the property's own site for actual availability before paying any non-refundable deposit."),
+    ],
+    "Kanazawa": [
+        ("Is Kanazawa safe for tourists?",
+         "Kanazawa is among the safest tourist destinations in Japan, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: Omicho Market sushi counters quoting premium tuna verbally at ¥2,500-3,000 per piece without written prices, GO taxi app's International Service Charge for foreign visitors, mid-ride rickshaw route extensions in Higashi Chaya, dual-pricing English menus at tea houses and cafes, and resold Kenrokuen tour tickets at ten times the ¥320 gate price. Higashi Chaya, Kenrokuen, Kanazawa Castle Park, and the 21st Century Museum corridor are all safe at all hours."),
+        ("What is the most common scam in Kanazawa?",
+         "The most-reported pattern is dual-pricing English menu markup at restaurants near Higashi Chaya, Kenrokuen, and Omicho Market — flagged by an 824-upvote Reddit warning thread from 2025 and confirmed by the Japanese government's announced March 2027 dual-pricing guidelines. Omicho Market sushi counters specifically quote premium tuna verbally without writing the price down, padding bills to ¥10,000 or more. The Kanazawa Sightseeing Rickshaw Roman-ya operator at Higashi Chaya is honest at the published ¥8,000 30-minute basic course, but ad-hoc independent rickshaws at the same district extend routes mid-ride and quote inflated final fares."),
+        ("How do I get from Kanazawa Station to Higashi Chaya and Kenrokuen?",
+         "The Hokutetsu Kanazawa Loop Bus runs from Kanazawa Station's east gate to Kenrokuen, Higashi Chaya, the 21st Century Museum, and back at a flat ¥200 per ride or ¥600 for an unlimited day pass. The Right Loop and Left Loop run opposite directions every 12-15 minutes. Higashi Chaya and Omicho Market are also walkable from the station — both are about 15-20 minutes on foot. GO taxi apps work but add a ¥200 International Service Charge for foreign visitors that does not appear in the fare preview."),
+        ("What can I see in Kanazawa for free or low-cost?",
+         "Kenrokuen Garden costs ¥320 at the gate (free for visitors over 65 with ID) and admits visitors free during the early-morning hours roughly 7-8 a.m. seasonally. Higashi Chaya District's lantern-lined cobblestone streets are best walked at sunrise before tour buses arrive. The 21st Century Museum of Contemporary Art's outdoor pieces and central courtyard are free to walk through. Oyama Shrine, Nagamachi samurai district, and the Kazuemachi Chaya tea-house quarter on the Asano River are all free to wander. Kanazawa Castle Park entry is free; only the inner Tower Tatsumi Yagura tower has a fee."),
+        ("How do I avoid the Omicho Market sushi overcharge?",
+         "Ask for a written per-piece price before the first nigiri lands. Premium tuna at Omicho stalls runs ¥2,500-3,000 per piece — by the time you have eaten three or four pieces plus rice, tea, and tax, the bill is past ¥10,000. The Sushiro and Hama-zushi chains in Kanazawa post printed yen prices on every plate (typically ¥120-330) and are a much safer counter-sushi option. If you eat at Omicho's specialty stalls, cap your spend by ordering one piece at a time and asking the price before each plate."),
     ],
 }
 
