@@ -1760,6 +1760,7 @@ CITY_SLUGS = {
     "Nikko": "nikko",
     "Takayama": "takayama",
     "Bergen": "bergen",
+    "Tromsø": "tromso",
 }
 
 # City-specific safety tips
@@ -3832,6 +3833,12 @@ SAFETY_TIPS = {
         "Take the Skyss airport bus from BGO to the city center for 195 NOK or the Bybanen light rail to Byparken for 50 NOK — refuse all curbside flat-fare quotes from drivers without app booking.",
         "Refuse all 'struggling traveler' cash requests in Torgallmenningen and Bryggen — the script (UK origin, stolen wallet, repayment promise) is a documented Bergen scam; offer to call police on 02800 instead.",
         "Skip every card-terminal tip prompt — Norway has no tipping culture and the menu price is the full price; ISKCON volunteers offering 'free' books in tourist plazas will demand 200-500 NOK donations and capture your personal-number ID for state subsidy.",
+    ],
+    "Tromsø": [
+        "Read the 'eye OR camera' fine print on every aurora-tour visibility guarantee before booking — operators fulfill the guarantee the moment a long-exposure camera captures any green pixel, even when nothing is visible to the naked eye.",
+        "Book aurora tours only through visittromso.no's curated operator list or directly with the operator's own website — refuse Viator and TripAdvisor listings that hide the operator behind a reseller (the 2026 Marianne's Heaven on Earth Aurora Chaser case documents the bait-and-switch pattern).",
+        "Record timestamped video of every panel of any rental car at pickup AND drop-off — SixT and other operators in northern Norway (Tromsø Airport pickup, Leknes Airport drop-off) bill phantom scratches by email weeks after return.",
+        "Pre-book Tromsø Taxi at +47 03011 for a metered fare around 280 NOK or take the Flybussen airport bus for 130 NOK — Uber in Norway runs 2 to 3 times the metered rate, especially during aurora-tour peak winter months.",
     ],
 }
 
@@ -7596,6 +7603,18 @@ FAQS = {
          "The Bryggen Hanseatic Wharf is free to walk through; the wood-shingled buildings and narrow alleys are the iconic photo spot. The Fish Market (Fisketorget) is free to browse, though prices in stall-side seating are tourist-zone. The Mount Floyen viewpoint is reachable on foot via the Floyfjellet trail (about 45 minutes from the city center) or via the Floibanen funicular at 160 NOK round-trip. Bergenhus Fortress grounds are free; the Rosenkrantz Tower is 110 NOK. Stop by Korskirken or Bergen Cathedral — both are free to enter."),
         ("Should I tip in Bergen restaurants?",
          "No. Norway does not have a tipping culture, and Bergen restaurant servers earn a full living wage without tip dependency. The menu price is the full price you owe. Card terminals in tourist-zone restaurants default to a 10 to 20 percent tip prompt that locals skip without guilt — tap the no-tip option (sometimes labeled 'avbryt' or 'hopp over' in Norwegian) and the meal proceeds normally. The same applies to museum admissions, takeaway counters, and Floibanen tickets where the tip prompt fires for transactions involving no table service."),
+    ],
+    "Tromsø": [
+        ("Is Tromsø safe for tourists?",
+         "Tromsø is among the safest tourist destinations in Norway, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: aurora-tour visibility guarantees with 'eye OR camera' loopholes, Viator and TripAdvisor reseller listings that hide bait-and-switch operators (2026 Marianne's Aurora Chaser case), SixT rental-car phantom damage charges weeks after drop-off, and Uber app premium markups at Tromsø Airport. The city center, Storgata pedestrian zone, and the Arctic Cathedral are all safe at all hours."),
+        ("What is the most common scam in Tromsø?",
+         "The most-reported pattern is aurora-tour visibility-guarantee abuse. Operators advertise 95-98 percent guarantees that fulfill the moment a long-exposure camera captures any green pixel, even when nothing is visible to the naked eye. A 2026 Reddit thread documented the Marianne's Heaven on Earth Aurora Chaser pattern: a Viator-listed tour delivered a colleague-with-dogs in a run-down vehicle instead of the photos, food, and warm clothing the listing promised. SixT rental-car phantom damage charges at Tromsø Airport pickup and Leknes Airport drop-off run a parallel high-cost scam."),
+        ("How do I get from Tromsø Airport (TOS) to the city center?",
+         "The Flybussen airport bus runs Tromsø Airport (TOS) to the city center every 15 minutes for 130 NOK with a Skyss Tromsø app ticket. Tromsø Taxi at +47 03011 books at metered rates around 280 NOK; Norgestaxi at +47 08000 is a second option. Refuse Uber — Norwegian taxi regulations cap the meter rate, and Uber adds a surge-priced app fee on top, costing 2-3 times the metered taxi rate during aurora-tour peak (October-March)."),
+        ("How do I book a legitimate Northern Lights tour?",
+         "Book only through visittromso.no's curated operator list or directly with the operator's own website — refuse Viator, TripAdvisor, and GetYourGuide listings that hide the operator behind a reseller. Read the visibility-guarantee fine print before paying: if the language says 'eye OR camera', the guarantee is meaningless. Reputable small operators like Guide Gunnar publish honest expectations and drive to the Finnish border for clear skies. Plan 4-5 nights in Tromsø rather than 1-2 to absorb cloud cover; tour cost is typically 1,200-1,800 NOK per adult."),
+        ("How do I avoid the SixT rental-car phantom-damage charge?",
+         "Record timestamped video of every panel of the car at pickup AND drop-off. Email the videos to yourself before leaving Norway as proof. Insist on a signed inspection slip at drop-off if any staff are present at Tromsø Airport (TOS) or Leknes Airport (LKN). If a damage email arrives weeks after drop-off, dispute it in writing within 14 days using your videos and request SixT's photographic documentation. Norwegian rental-car companies cannot affect your visa or arrest you; the worst they can do is ban future rentals or attempt small-claims."),
     ],
 }
 
