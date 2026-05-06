@@ -276,8 +276,18 @@ def enrich_place(place, *, guide_slug, guide_title, guide_url, city, category):
 
 
 def write_json(path, payload):
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w') as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
+
+
+def reset_json_dir(path):
+    """Remove stale generated JSON details before rebuilding a collection."""
+    path = Path(path)
+    if path.is_dir():
+        for fp in path.glob("*.json"):
+            fp.unlink()
+    path.mkdir(parents=True, exist_ok=True)
 
 
 def same_record_ignoring_updated_at(left, right):
@@ -450,10 +460,14 @@ def _slim_projection(details: dict) -> list:
 
 def _catalog_projection(summaries: list) -> list:
     """Project enriched in-memory summaries down to public-catalog fields."""
-    return [
-        {k: v for k, v in s.items() if k in CATALOG_KEEP_FIELDS}
-        for s in summaries
-    ]
+    catalog = []
+    for s in summaries:
+        row = {k: v for k, v in s.items() if k in CATALOG_KEEP_FIELDS}
+        slug = row.get("slug")
+        if slug and not row.get("url"):
+            row["url"] = f"{API_BASE_URL}/destinations/{slug}.json"
+        catalog.append(row)
+    return catalog
 
 
 def build_destinations():
@@ -1109,7 +1123,7 @@ def parse_itinerary_page(html_path, slug, source_dir):
 
 def build_itineraries():
     output_itin_dir = OUTPUT_DIR / "itineraries"
-    output_itin_dir.mkdir(parents=True, exist_ok=True)
+    reset_json_dir(output_itin_dir)
 
     summaries = []
     all_itineraries = []
@@ -1119,7 +1133,10 @@ def build_itineraries():
         for slug in slugs:
             result = parse_itinerary_page(src_path / slug / "index.html", slug, "i")
             if result:
-                all_itineraries.append(result)
+                title = (result.get("title") or "").strip().lower()
+                # Do not publish placeholder/broken itinerary records into API artifacts.
+                if title and "undefined" not in title:
+                    all_itineraries.append(result)
 
     for itin in all_itineraries:
         filename = itin["slug"]
@@ -1472,7 +1489,11 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
     # by the CF Pages Function at functions/api/v1/destinations/[slug].js).
     with open(OUTPUT_DIR / "destinations-full.json", "w") as _full_f:
         json.dump(_DEST_DETAILS, _full_f, separators=(",", ":"), ensure_ascii=False)
-    write_json(OUTPUT_DIR / "picks.json", {"count": len(pick_summaries), "picks": pick_summaries})
+    write_json(OUTPUT_DIR / "picks.json", {
+        "count": len(pick_summaries),
+        "totalPlaces": sum(int(pick.get("placeCount") or 0) for pick in pick_summaries),
+        "picks": pick_summaries,
+    })
     write_json(OUTPUT_DIR / "itineraries.json", {"count": len(itin_summaries), "itineraries": itin_summaries})
     write_json(OUTPUT_DIR / "compare.json", {"count": len(compare_summaries), "comparisons": compare_summaries})
 
@@ -1501,7 +1522,7 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
     for c in compare_summaries:
         records.append(build_search_item(
             # url points to HTML canonical page (per-file /api/v1/compare/<slug>.json endpoints removed 2026-04-20)
-            item_type="comparison", slug=c["slug"], title=c["title"], subtitle=f"{c.get('destination1', '')} vs {c.get('destination2', '')}".strip(),
+            item_type="compare", slug=c["slug"], title=c["title"], subtitle=f"{c.get('destination1', '')} vs {c.get('destination2', '')}".strip(),
             url=c["url"], site_url=c["url"], tags=c.get("tags", []),
             extra={"destination1": c.get("destination1", ""), "destination2": c.get("destination2", "")}
         ))
@@ -2339,24 +2360,85 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
         if path_key in paths and 'get' in paths[path_key]:
             paths[path_key]['get']['description'] = desc
 
+    error_response = {
+        'description': 'JSON API error envelope',
+        'content': {
+            'application/json': {
+                'schema': {'$ref': '#/components/schemas/ErrorResponse'}
+            }
+        }
+    }
+
     if '/search.json' in paths:
         search_get = paths['/search.json'].setdefault('get', {})
+        search_get['description'] = (
+            'Search the normalized Tabiji catalog. `q` is required and must be non-empty. '
+            '`limit` must be an integer from 1 to 100. Canonical comparison type is `compare`; '
+            'the runtime accepts legacy `comparison` as an alias and normalizes hyphenated queries.'
+        )
+        responses = search_get.setdefault('responses', {})
+        responses.setdefault('400', error_response)
         for param in search_get.get('parameters', []):
+            if param.get('name') == 'q':
+                param.setdefault('schema', {})['minLength'] = 1
+                param['required'] = True
+                param['description'] = 'Required search query. Hyphens and underscores are normalized to spaces.'
+            if param.get('name') == 'limit':
+                param['description'] = 'Maximum results to return. Integer from 1 to 100.'
+                param['schema'] = {'type': 'integer', 'minimum': 1, 'maximum': 100, 'default': 20}
             if param.get('name') == 'type':
-                param.setdefault('schema', {})['enum'] = ['destination', 'pick', 'itinerary', 'compare']
+                param['description'] = 'Optional canonical type filter. Legacy alias `comparison` is accepted as `compare`.'
+                param['schema'] = {
+                    'type': 'string',
+                    'enum': ['destination', 'pick', 'itinerary', 'compare', 'country', 'safety', 'alert', 'scam']
+                }
+                param['x-tabiji-aliases'] = {'comparison': 'compare'}
 
     paths['/catalog.json'] = {
         'get': {
-            'summary': 'Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons',
+            'summary': 'Catalog index for chunked and sharded normalized entities',
+            'description': 'Returns the catalog manifest, not the entity array. Follow `chunkUrls` for chunks or `shards` for per-type shard files.',
             'responses': {
                 '200': {
-                    'description': 'Catalog response',
+                    'description': 'Catalog index response',
                     'content': {
                         'application/json': {
-                            'schema': {'$ref': '#/components/schemas/CatalogResponse'}
+                            'schema': {'$ref': '#/components/schemas/CatalogIndex'}
                         }
                     }
-                }
+                },
+                '404': error_response,
+                '405': error_response,
+            }
+        }
+    }
+    paths['/catalog/{chunk}.json'] = {
+        'get': {
+            'summary': 'Catalog chunk by number',
+            'parameters': [{
+                'name': 'chunk', 'in': 'path', 'required': True,
+                'schema': {'type': 'integer', 'minimum': 1},
+                'description': 'Numeric chunk id from the `chunkUrls` array in /catalog.json.'
+            }],
+            'responses': {
+                '200': {'description': 'Catalog chunk', 'content': {'application/json': {'schema': {'$ref': '#/components/schemas/CatalogChunk'}}}},
+                '404': error_response,
+                '405': error_response,
+            }
+        }
+    }
+    paths['/catalog/{shard}.json'] = {
+        'get': {
+            'summary': 'Catalog shard by entity collection',
+            'parameters': [{
+                'name': 'shard', 'in': 'path', 'required': True,
+                'schema': {'type': 'string', 'enum': ['destinations', 'picks', 'itineraries', 'comparisons', 'countries', 'safety', 'alerts', 'scams']},
+                'description': 'Shard key from the `shards` object in /catalog.json.'
+            }],
+            'responses': {
+                '200': {'description': 'Catalog shard', 'content': {'application/json': {'schema': {'$ref': '#/components/schemas/CatalogShard'}}}},
+                '404': error_response,
+                '405': error_response,
             }
         }
     }
@@ -2439,16 +2521,69 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
         },
         'additionalProperties': True,
     }
-    schemas['CatalogResponse'] = {
+    schemas['CatalogIndex'] = {
         'type': 'object',
         'properties': {
             'version': {'type': 'string'},
             'schemaVersion': {'type': 'string'},
             'generatedAt': {'type': 'string', 'format': 'date-time'},
             'itemCount': {'type': 'integer'},
+            'chunks': {'type': 'integer'},
+            'chunkUrls': {'type': 'array', 'items': {'type': 'string'}, 'example': ['/api/v1/catalog/1.json']},
+            'shards': {
+                'type': 'object',
+                'additionalProperties': {'type': 'string'},
+                'example': {'destinations': '/api/v1/catalog/destinations.json'}
+            },
+        },
+        'required': ['version', 'schemaVersion', 'generatedAt', 'itemCount', 'chunks', 'chunkUrls', 'shards'],
+    }
+    schemas['CatalogChunk'] = {
+        'type': 'object',
+        'properties': {
+            'version': {'type': 'string'},
+            'schemaVersion': {'type': 'string'},
+            'generatedAt': {'type': 'string', 'format': 'date-time'},
+            'chunk': {'type': 'integer'},
+            'itemCount': {'type': 'integer'},
             'items': {'type': 'array', 'items': {'$ref': '#/components/schemas/CatalogEntity'}},
         },
-        'required': ['version', 'schemaVersion', 'generatedAt', 'itemCount', 'items'],
+        'required': ['version', 'schemaVersion', 'generatedAt', 'chunk', 'itemCount', 'items'],
+    }
+    schemas['CatalogShard'] = {
+        'type': 'object',
+        'properties': {
+            'version': {'type': 'string'},
+            'schemaVersion': {'type': 'string'},
+            'generatedAt': {'type': 'string', 'format': 'date-time'},
+            'entityType': {'type': 'string'},
+            'itemCount': {'type': 'integer'},
+            'items': {'type': 'array', 'items': {'$ref': '#/components/schemas/CatalogEntity'}},
+        },
+        'required': ['version', 'schemaVersion', 'generatedAt', 'entityType', 'itemCount', 'items'],
+    }
+    schemas['CatalogResponse'] = {
+        'deprecated': True,
+        'description': 'Deprecated legacy name retained for generated clients; use CatalogChunk for responses that contain items and CatalogIndex for /catalog.json.',
+        **schemas['CatalogChunk'],
+    }
+    schemas['ErrorResponse'] = {
+        'type': 'object',
+        'required': ['error'],
+        'properties': {
+            'error': {
+                'type': 'object',
+                'required': ['code', 'message', 'status'],
+                'properties': {
+                    'code': {'type': 'string', 'example': 'not_found'},
+                    'message': {'type': 'string', 'example': 'Resource not found'},
+                    'status': {'type': 'integer', 'example': 404},
+                    'resource': {'type': 'string', 'example': 'itinerary'},
+                    'id': {'type': 'string', 'example': 'tokyo-4-days'},
+                },
+                'additionalProperties': True,
+            }
+        },
     }
 
     destination_summary = schemas.setdefault('DestinationSummary', {}).setdefault('properties', {})
@@ -2749,6 +2884,12 @@ def main():
     safety_items = _load_index_items("safety.json", "profiles")
     alert_items = _load_index_items("alerts.json", "alerts")
     scam_items = _load_index_items("scams.json", "items")
+    scams_index_path = OUTPUT_DIR / "scams.json"
+    if scams_index_path.exists():
+        scams_index = load_json_if_exists(scams_index_path) or {}
+        if scams_index.get("count") != len(scam_items):
+            scams_index["count"] = len(scam_items)
+            write_json(scams_index_path, scams_index)
 
     print("🧭 Building normalized catalog...")
     catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
@@ -2881,7 +3022,11 @@ def verify_catalog_disk():
         if missing:
             issues.append(f"{detail_dir}: {len(missing)} catalog entries with no JSON file: {missing[:5]}{'...' if len(missing) > 5 else ''}")
         if extras:
-            issues.append(f"{detail_dir}: {len(extras)} JSON files not in catalog: {extras[:5]}{'...' if len(extras) > 5 else ''}")
+            for slug in extras:
+                stale_path = detail_path / f"{slug}.json"
+                if stale_path.exists():
+                    stale_path.unlink()
+            print(f"   🧹 removed {len(extras)} stale {detail_dir} JSON files not present in the index")
     return issues
 
 

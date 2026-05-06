@@ -1,0 +1,31 @@
+name: API contract lint
+
+on:
+  pull_request:
+    paths:
+      - 'api/**'
+      - 'functions/api/v1/**'
+      - 'scripts/audit-api-contract.py'
+      - '.well-known/agents.json'
+      - 'llms.txt'
+  push:
+    branches: [main]
+    paths:
+      - 'api/**'
+      - 'functions/api/v1/**'
+      - 'scripts/audit-api-contract.py'
+      - '.well-known/agents.json'
+      - 'llms.txt'
+
+jobs:
+  api-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build API artifacts
+        run: python api/build-api.py
+      - name: Validate API contract and generated data
+        run: python scripts/audit-api-contract.py
