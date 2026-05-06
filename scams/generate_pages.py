@@ -1028,6 +1028,14 @@ EMERGENCY_INFO = {
         "report_site": "gouv.mc",
         "lost_passport": "Contact the US Consulate General in Marseille. The nearest US Consulate is at Place Varian Fry, 13006 Marseille: +33 1-43-12-22-22.",
     },
+    "Norway": {
+        "police_name": "Norwegian Police (Politiet)",
+        "police_number": "112 (Police) or 113 (Ambulance) or 110 (Fire)",
+        "emergency_number": "112",
+        "report_url": "https://www.politiet.no/en/",
+        "report_site": "politiet.no",
+        "lost_passport": "Contact the US Embassy in Oslo at Morgedalsvegen 36, 0378 Oslo. For emergencies: +47 21-30-85-40. Norway also operates a 24-hour tourist police hotline at +47 22 66 90 50.",
+    },
     "Oman": {
         "police_name": "Royal Oman Police",
         "police_number": "9999 (Police) or 9999 (Emergency)",
@@ -1751,6 +1759,7 @@ CITY_SLUGS = {
     "Kanazawa": "kanazawa",
     "Nikko": "nikko",
     "Takayama": "takayama",
+    "Bergen": "bergen",
 }
 
 # City-specific safety tips
@@ -3817,6 +3826,12 @@ SAFETY_TIPS = {
         "Book Hida-Takayama ryokans directly through the property's own website or by phone — Booking.com 'only 1 room left' urgency on Hida-Takayama listings drives travelers into non-refundable deposit forfeits when transit plans shift.",
         "Walk five minutes off Sannomachi's central Edo-period blocks before sitting at any Hida-beef yakiniku — corridor restaurants mark per-piece A-5 cuts two to three times higher than equivalent yakiniku near JR Takayama Station.",
         "Confirm the ryokan check-in cutoff in writing at booking and arrive at least two hours before — most Hida-Takayama ryokans lock the door at 8 or 9 PM and forfeit the night if you miss kaiseki dinner service.",
+    ],
+    "Bergen": [
+        "Book taxis only through the Bolt or Taxifix app or use companies whose name includes 'Bergen' (Bergen Taxi, Norgestaxi Bergen) — unlicensed cabs at Bergen Airport (BGO) and Skoltegrunnskaien cruise port quote 2 to 3 times the metered fare.",
+        "Take the Skyss airport bus from BGO to the city center for 195 NOK or the Bybanen light rail to Byparken for 50 NOK — refuse all curbside flat-fare quotes from drivers without app booking.",
+        "Refuse all 'struggling traveler' cash requests in Torgallmenningen and Bryggen — the script (UK origin, stolen wallet, repayment promise) is a documented Bergen scam; offer to call police on 02800 instead.",
+        "Skip every card-terminal tip prompt — Norway has no tipping culture and the menu price is the full price; ISKCON volunteers offering 'free' books in tourist plazas will demand 200-500 NOK donations and capture your personal-number ID for state subsidy.",
     ],
 }
 
@@ -7569,6 +7584,18 @@ FAQS = {
          "Sannomachi old town's Edo-period sake-brewery streets are free to walk through and are best at sunrise before tour buses arrive. The Takayama Asaichi morning market on the Miya River is free to browse — vendors sell pickles, sansai vegetables, and ¥800-1,500 Hida-beef skewers as the cheaper portion option. The Higashiyama walking course (Takayama's Kyoto-style temple trail) is free and connects 13 temples on a 4-kilometer loop. The Takayama Jinya (former government office) costs ¥440 and is the single most-recommended paid stop. The Hida-no-Sato open-air folk village is ¥700."),
         ("How do I avoid the ryokan check-in cutoff trap?",
          "Confirm the check-in cutoff in writing at booking — most Hida-Takayama ryokans cut off check-in between 8 and 9 PM because kaiseki dinner is served at a fixed time around 6:30 PM. Save the ryokan's front-desk phone number to your itinerary and call ahead if you anticipate a same-day delay. Plan to arrive at least two hours before the published cutoff to absorb JR Hida Limited Express delays or weather closures on the Tateyama Kurobe route. If your transit window is tight, choose a Western hotel chain near JR Takayama Station instead of a ryokan."),
+    ],
+    "Bergen": [
+        ("Is Bergen safe for tourists?",
+         "Bergen is among the safest tourist destinations in Norway, which is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: unlicensed taxis at Bergen Airport (BGO) and the Skoltegrunnskaien cruise port quoting 2 to 3 times the metered fare, 'struggling traveler' fake-hardship begs in Torgallmenningen and Bryggen, ISKCON volunteers using free-book pretexts to extract donations and personal-number ID, and card-terminal tip prompts in a country with no tipping culture. Bryggen, Torgallmenningen, the Fish Market, and the Floibanen funicular base are all safe at all hours."),
+        ("What is the most common scam in Bergen?",
+         "The most-reported pattern is taxi overcharging at Bergen Airport and the cruise port. A 2024 Reddit thread with 88 upvotes documented a 21-kilometer ride that cost 1,500 NOK in an unlicensed cab versus 646 NOK on the Bolt app — a 2.3x markup. The 'struggling traveler' fake-hardship beg in Torgallmenningen and Bryggen is a steadier-volume scam: a stranger claims UK origin and asks for 200 to 500 NOK with a fake repayment promise. ISKCON Bergen's free-book-for-donation pattern at the Fish Market plaza and Floibanen queue captures both cash and personal-number IDs."),
+        ("How do I get from Bergen Airport (BGO) to the city center?",
+         "The Skyss airport bus runs every 15 minutes during peak hours from BGO to the central Bergen bus station for 195 NOK one-way. The Bybanen light rail (line 1) runs from BGO to Byparken in central Bergen in about 45 minutes for 50 NOK with a Skyss app ticket. Bolt and Taxifix app rides typically run 350 to 500 NOK. Refuse all curbside flat-fare quotes from unlicensed drivers — the documented overcharge ratio is 2 to 3 times metered."),
+        ("What can I see in Bergen for free or low-cost?",
+         "The Bryggen Hanseatic Wharf is free to walk through; the wood-shingled buildings and narrow alleys are the iconic photo spot. The Fish Market (Fisketorget) is free to browse, though prices in stall-side seating are tourist-zone. The Mount Floyen viewpoint is reachable on foot via the Floyfjellet trail (about 45 minutes from the city center) or via the Floibanen funicular at 160 NOK round-trip. Bergenhus Fortress grounds are free; the Rosenkrantz Tower is 110 NOK. Stop by Korskirken or Bergen Cathedral — both are free to enter."),
+        ("Should I tip in Bergen restaurants?",
+         "No. Norway does not have a tipping culture, and Bergen restaurant servers earn a full living wage without tip dependency. The menu price is the full price you owe. Card terminals in tourist-zone restaurants default to a 10 to 20 percent tip prompt that locals skip without guilt — tap the no-tip option (sometimes labeled 'avbryt' or 'hopp over' in Norwegian) and the meal proceeds normally. The same applies to museum admissions, takeaway counters, and Floibanen tickets where the tip prompt fires for transactions involving no table service."),
     ],
 }
 
