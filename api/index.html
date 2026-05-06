@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabiji API — Free Travel Data API | tabiji.ai</title>
-    <meta name="description" content="Free REST API for AI-curated travel data — 6,498 destinations, 9,407 place records across 876 picks guides, 399 itineraries, and 854 destination comparisons. No API key required.">
-    <meta property="og:title" content="Tabiji API — Free Travel Data API">
-    <meta property="og:description" content="Free REST API for AI-curated travel data. No API key required.">
+    <title>Tabiji API — Free Travel Data API + x402 Agent Briefs | tabiji.ai</title>
+    <meta name="description" content="Free REST API for AI-curated travel data plus x402-paid Tabiji scam and safety briefs for agents. No API key required for the public API.">
+    <meta property="og:title" content="Tabiji API — Free Travel Data API + x402 Agent Briefs">
+    <meta property="og:description" content="Free REST API for AI-curated travel data, plus x402-paid scam and safety briefs for agents.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/api/">
     <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
@@ -402,6 +402,8 @@
 
         <div class="api-links">
             <a href="/api/openapi.json">📄 OpenAPI Spec</a>
+            <a href="https://x402.tabiji.ai/v1/meta">💸 x402 Meta</a>
+            <a href="https://agentic.market/?service=x402-tabiji-ai">🤖 Agentic Market</a>
             <a href="/llms.txt">🤖 llms.txt</a>
             <a href="/.well-known/agents.json">🔧 agents.json</a>
             <a href="https://github.com/psyduckler/tabiji">⭐ GitHub</a>
@@ -420,6 +422,141 @@
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 12px;">
                 Hosted on Cloudflare Pages with generous rate limits and global CDN. CORS headers are permissive by default — call from any origin.
             </p>
+        </section>
+
+        <!-- x402 Agent Briefs -->
+        <section>
+            <h2>x402 Agent Briefs</h2>
+            <p>Paid, deterministic scam and safety briefs for agents that want a ready-to-use traveler risk summary instead of assembling raw JSON themselves.</p>
+
+            <div class="data-source">
+                <h3>💸 Base USDC via x402</h3>
+                <p>The public Tabiji API above remains free. These hosted x402 endpoints synthesize the same Tabiji corpus into source-linked briefs and charge per request in USDC on Base.</p>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Service</td>
+                        <td><code>Tabiji Scam &amp; Safety Briefs</code></td>
+                    </tr>
+                    <tr>
+                        <td>Base URL</td>
+                        <td><code>https://x402.tabiji.ai</code></td>
+                    </tr>
+                    <tr>
+                        <td>Network</td>
+                        <td><code>eip155:8453</code> / Base</td>
+                    </tr>
+                    <tr>
+                        <td>Currency</td>
+                        <td>USDC</td>
+                    </tr>
+                    <tr>
+                        <td>USDC contract</td>
+                        <td><code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code></td>
+                    </tr>
+                    <tr>
+                        <td>payTo</td>
+                        <td><code>0x59959450bb3DA79A8bC07CC078696D6CBA3bEB4a</code></td>
+                    </tr>
+                    <tr>
+                        <td>Marketplace</td>
+                        <td><a href="https://agentic.market/?service=x402-tabiji-ai" style="color: var(--link); text-decoration: none;">View on Agentic Market</a></td>
+                    </tr>
+                    <tr>
+                        <td>Discovery</td>
+                        <td><a href="https://x402.tabiji.ai/v1/meta" style="color: var(--link); text-decoration: none;">https://x402.tabiji.ai/v1/meta</a></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">https://x402.tabiji.ai/v1/scam-brief</span>
+                </div>
+                <p class="endpoint-desc">Destination-specific tourist scam brief. Price: <code>$0.05</code> / <code>50000</code> USDC atomic units.</p>
+<pre>npx awal x402 pay "https://x402.tabiji.ai/v1/scam-brief" \
+  --method POST \
+  --max-amount 50000 \
+  --data '{
+    "destination": "Barcelona",
+    "travelerProfile": "US first-time visitor age 45+",
+    "includeAlerts": true,
+    "format": "agent_brief"
+  }'</pre>
+                <div class="example-label">Response shape</div>
+<pre>{
+  "service": "Tabiji Scam & Safety Briefs",
+  "mode": "scam",
+  "destination": "Barcelona",
+  "riskLevel": "medium",
+  "summary": "Barcelona is classified as medium risk...",
+  "topScams": [
+    {
+      "name": "Pickpocketing and distraction theft",
+      "risk": "medium",
+      "where": "Crowded sightseeing areas, transit hubs...",
+      "avoidance": "Keep phone/wallet zipped and front-facing..."
+    }
+  ],
+  "avoidanceChecklist": ["..."],
+  "whatToDoIfTargeted": ["..."],
+  "contentAngles": ["..."],
+  "sourceUrls": [
+    "https://tabiji.ai/api/v1/destinations/barcelona.json",
+    "https://tabiji.ai/scams/barcelona/"
+  ],
+  "provenance": {
+    "freeSourceApi": "https://tabiji.ai/api/v1",
+    "deterministic": true,
+    "generatedWithoutLlm": true
+  }
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">https://x402.tabiji.ai/v1/safety-brief</span>
+                </div>
+                <p class="endpoint-desc">Destination/country safety and advisory brief. Price: <code>$0.05</code> / <code>50000</code> USDC atomic units.</p>
+<pre>npx awal x402 pay "https://x402.tabiji.ai/v1/safety-brief" \
+  --method POST \
+  --max-amount 50000 \
+  --data '{
+    "destination": "Japan",
+    "travelerProfile": "US solo traveler",
+    "includeAlerts": true,
+    "format": "agent_brief"
+  }'</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">https://x402.tabiji.ai/v1/travel-risk-brief</span>
+                </div>
+                <p class="endpoint-desc">Combined scam, safety, alert, and practical risk brief. Price: <code>$0.10</code> / <code>100000</code> USDC atomic units.</p>
+<pre>npx awal x402 pay "https://x402.tabiji.ai/v1/travel-risk-brief" \
+  --method POST \
+  --max-amount 100000 \
+  --data '{
+    "destination": "Barcelona",
+    "travelerProfile": "US first-time visitor age 45+",
+    "includeAlerts": true,
+    "format": "agent_brief"
+  }'</pre>
+            </div>
+
+            <div class="data-source">
+                <h3>Agentic Market discovery</h3>
+                <p>Agents can discover the listing through Agentic Market or the x402 Bazaar. The current marketplace service id is <code>x402-tabiji-ai</code>.</p>
+<pre>npx awal x402 bazaar search "Tabiji Scam" --network base
+npx awal x402 details https://x402.tabiji.ai/v1/scam-brief</pre>
+            </div>
         </section>
 
         <!-- Destinations -->
@@ -969,6 +1106,16 @@
                     <td>agents.json</td>
                     <td><code><a href="/.well-known/agents.json" style="color: var(--link); text-decoration: none;">/.well-known/agents.json</a></code></td>
                     <td>AI agent workflow definitions</td>
+                </tr>
+                <tr>
+                    <td>x402 meta</td>
+                    <td><code><a href="https://x402.tabiji.ai/v1/meta" style="color: var(--link); text-decoration: none;">https://x402.tabiji.ai/v1/meta</a></code></td>
+                    <td>Paid endpoint catalog, pricing, payTo address, source corpus counts, and sample request</td>
+                </tr>
+                <tr>
+                    <td>Agentic Market</td>
+                    <td><code><a href="https://agentic.market/?service=x402-tabiji-ai" style="color: var(--link); text-decoration: none;">agentic.market/?service=x402-tabiji-ai</a></code></td>
+                    <td>x402 marketplace listing for Tabiji Scam &amp; Safety Briefs</td>
                 </tr>
             </table>
         </section>

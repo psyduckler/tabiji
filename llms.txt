@@ -28,6 +28,21 @@
 ### Cross-Collection Search
 - [Unified Search](https://tabiji.ai/api/v1/search.json?q=tokyo): Search destinations, picks, itineraries, and comparisons from one endpoint (`q`, optional `type`, optional `limit`)
 
+## Paid Agent Briefs (x402)
+
+Hosted, deterministic scam and safety briefs synthesized from the free Tabiji corpus. Charged per request in USDC on Base via the [x402 protocol](https://x402.org). The free API above is unaffected.
+
+- [x402 Meta](https://x402.tabiji.ai/v1/meta): Service catalog, pricing, payTo address, source corpus counts, and sample request
+- [Agentic Market listing](https://agentic.market/?service=x402-tabiji-ai)
+- Network: `eip155:8453` (Base) · USDC contract `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` · payTo `0x59959450bb3DA79A8bC07CC078696D6CBA3bEB4a`
+
+### Paid endpoints
+- `POST https://x402.tabiji.ai/v1/scam-brief` — destination tourist-scam brief ($0.05 / 50000 USDC atomic units)
+- `POST https://x402.tabiji.ai/v1/safety-brief` — destination/country safety + advisory brief ($0.05 / 50000 USDC atomic units)
+- `POST https://x402.tabiji.ai/v1/travel-risk-brief` — combined scam + safety + alerts + practical risk brief ($0.10 / 100000 USDC atomic units)
+
+Request body shape: `{ "destination": "Barcelona", "travelerProfile": "US first-time visitor age 45+", "includeAlerts": true, "format": "agent_brief" }`. Each response includes `sourceUrls` linking back to the free `https://tabiji.ai/api/v1/*` corpus so agents can verify or expand on the brief.
+
 ## Data Fields
 
 ### Place Object (in Picks)
