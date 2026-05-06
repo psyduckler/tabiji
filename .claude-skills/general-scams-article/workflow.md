@@ -199,9 +199,9 @@ python3 scripts/generate_sitemap.py
 ```
 The new page (and the hub mod) will appear automatically.
 
-### 5.3 Update `llms.txt` and `llms-full.txt`
+### 5.3 Update `llms.txt`
 Add an 80-word page summary entry for the new page. Lock the format
-to whatever is already in those files.
+to whatever is already in the file.
 
 ### 5.4 Cross-link from sibling general-scam pages
 For each existing `/scams/everywhere/<sibling>/index.html`:
@@ -241,7 +241,7 @@ git add .claude-skills/general-scams-article/  # if updated
 git add scams/everywhere/<slug>/
 git add scams/everywhere/index.html  # hub update
 git add sitemap.xml
-git add llms.txt llms-full.txt
+git add llms.txt
 # All sibling /scams/everywhere/<sibling>/index.html updated for cross-links
 git add scams/everywhere/*/index.html
 
@@ -322,7 +322,7 @@ re-confirm the most recent checkpoint before continuing.
 - Adds /scams/everywhere/<slug>/ — flagship page on <scam category>
 - N variants documented from <N> Reddit threads + <N> comments in tmp/scam_research/corpus.json
 - Updates hub to move <slug> from Coming Soon → Live Guides
-- Sitemap regenerated; llms.txt + llms-full.txt updated; <N> sibling general-scam pages cross-linked
+- Sitemap regenerated; llms.txt updated; <N> sibling general-scam pages cross-linked
 
 ## Variants documented
 1. <variant 1 title>
@@ -351,7 +351,7 @@ source reread, accessibility, AI-tic detection). All passes ✓.
 ## Hub + sitemap
 - /scams/everywhere/index.html: <slug> moved from Coming Soon → Live Guides
 - sitemap.xml: regenerated, new URL indexed
-- llms.txt + llms-full.txt: entry added
+- llms.txt: entry added
 
 ## Test plan
 - [ ] Page loads at /scams/everywhere/<slug>/

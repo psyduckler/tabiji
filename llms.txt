@@ -5,7 +5,8 @@
 ## API Documentation
 - [API Docs](https://tabiji.ai/api/): Full endpoint documentation with examples
 - [OpenAPI Spec](https://tabiji.ai/api/openapi.json): Machine-readable API specification (OpenAPI 3.1)
-- [agents.json](https://tabiji.ai/.well-known/agents.json): AI agent workflow definitions
+- [agents.json](https://tabiji.ai/.well-known/agents.json): AI agent workflow definitions (OpenAgents format)
+- [agent.json](https://tabiji.ai/.well-known/agent.json): A2A Agent Card (Google A2A Protocol v1.0.0)
 
 ## Endpoints
 
@@ -24,6 +25,17 @@
 ### Comparisons
 - [All Comparisons](https://tabiji.ai/api/v1/compare.json): 854 head-to-head destination comparisons, each linking to its canonical HTML page
 - Single Comparison (HTML canonical): `https://tabiji.ai/compare/{slug}/` — full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto`). Per-slug JSON was retired on 2026-04-20.
+
+### Countries
+- [All Countries](https://tabiji.ai/api/v1/countries.json): 250 countries with capitals, population, area, region, borders, currencies, languages, timezones, driving side, dial codes, flags, and maps links
+- [Single Country](https://tabiji.ai/api/v1/countries/{iso2}.json): Facts for one country by lowercase ISO code (e.g., `jp.json`, `fr.json`, `us.json`)
+
+### Travel Health
+- [All Health Records](https://tabiji.ai/api/v1/health.json): Country health guides, US insurance carrier guides, and tier-1 medication guides — each country includes healthcare quality (1–5 stars), water safety, insurance/yellow-fever flags, emergency number, pharmacy access, banned + restricted medications. `insuranceCarriers[]` and `tier1Medications[]` arrays provide per-carrier and per-medication metadata.
+- Per-country health pages (HTML): `https://tabiji.ai/health/{slug}/` — hospitals with phones, local-language pharmacy phrases, medication legal status, cash prices, evacuation costs, mental-health crisis lines, vaccination lists.
+- Per-carrier pages (HTML): `https://tabiji.ai/health/insurance/{slug}/` — claim walkthroughs, cost scenarios, FAQs (BCBS, UHC, Aetna, Cigna, Kaiser, Humana, Anthem, etc.).
+- Per-medication pages (HTML): `https://tabiji.ai/health/medications/{slug}/` — banned/restricted country lists, travel strategy, FAQ (`adderall`, `sudafed`, `codeine`, `cbd`, `tramadol`, `xanax`, `opioids`).
+- **Not personal medical or legal advice** — verify safety-critical decisions with a clinician and controlled-substance rules with the destination's embassy before flying.
 
 ### Cross-Collection Search
 - [Unified Search](https://tabiji.ai/api/v1/search.json?q=tokyo): Search destinations, picks, itineraries, and comparisons from one endpoint (`q`, optional `type`, optional `limit`)
@@ -52,7 +64,13 @@ Each place includes: name, position, tags, googleRating, reviewCount, priceRange
 Each day includes: dayLabel, neighborhoods, title, description, activities (with time, name, description, details, tips)
 
 ### Destination Object
-Each destination includes: slug, name, region, continent, budget ($–$$$$), season, vibes (array), travelStyles (array), photo, pitch, editorialSummary, bestFor, relatedPicks, relatedItineraries, relatedComparisons, relatedDestinations, sourceMeta
+Each destination includes: slug, name, region, continent, country, countryCode, currency (code/name/symbol), language, languages, coordinates (lat/lng), photo, pitch, budget ($–$$$$), season, vibes (array), travelStyles (array), editorialSummary, bestFor, relatedPicks, relatedItineraries, relatedComparisons, relatedDestinations, sourceMeta, flag, timezone, drivingSide, dialCode, tapWaterSafe, tippingCustom, visaNote
+
+### Country Object
+Each country includes: id, name, officialName, iso2, iso3, capital, population, area (km²), region, subregion, borders (ISO3 codes), landlocked, demonyms, startOfWeek, maps, currencies, languages, timezones, flag (emoji), flagSvg, flagPng, drivingSide, dialCode, tld
+
+### Country Health Object (in `/api/v1/health.json`)
+Each country health record includes: slug, name, flag, region, url, iso2, healthcareQuality (1–5 int), healthcareQualityLabel, waterSafety (safe/caution/unsafe/unknown), emergencyNumber, healthcareSystem, pharmacyAccess, insuranceRequired (bool), yellowFeverRequired (bool), strictMedications (bool), bannedMedications (array, up to 10), restrictedMedications (array, up to 10), lastUpdated
 
 ## What Makes This Data Unique
 Unlike generic travel APIs, tabiji data is curated from real traveler discussions plus Tabiji editorial judgment, then cross-linked across destinations, picks, itineraries, and comparisons. Records now expose provenance/freshness metadata and lighter-weight enrichment fields so agents can traverse the graph instead of scraping pages.
