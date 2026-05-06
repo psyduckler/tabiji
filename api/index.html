@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabiji API — Free Travel Data API | tabiji.ai</title>
-    <meta name="description" content="Free REST API for AI-curated travel data — 6,498 destinations, 10,498 place records across 990 picks guides, 400 itineraries, and 1,636 destination comparisons. No API key required.">
+    <meta name="description" content="Free REST API for AI-curated travel data — 6,498 destinations, 9,407 place records across 876 picks guides, 399 itineraries, and 854 destination comparisons. No API key required.">
     <meta property="og:title" content="Tabiji API — Free Travel Data API">
     <meta property="og:description" content="Free REST API for AI-curated travel data. No API key required.">
     <meta property="og:type" content="website">
@@ -376,7 +376,7 @@
 
 <div class="hero">
     <div class="container">
-        <img src="https://img.tabiji.ai/tabiji-owl-logo.png" width="120" height="128" alt="tabiji owl" class="logo">
+        <img src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji owl" class="logo">
         <div class="badge">🆓 No API Key Required</div>
         <h1>tabiji <span>API</span></h1>
         <p class="tagline">Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and more. Built from real traveler discussions on Reddit.</p>
@@ -387,15 +387,15 @@
                 <div class="stat-label">Destinations</div>
             </div>
             <div class="stat">
-                <div class="stat-value">10,498</div>
+                <div class="stat-value">9,407</div>
                 <div class="stat-label">Places</div>
             </div>
             <div class="stat">
-                <div class="stat-value">990</div>
+                <div class="stat-value">876</div>
                 <div class="stat-label">Picks Guides</div>
             </div>
             <div class="stat">
-                <div class="stat-value">400</div>
+                <div class="stat-value">399</div>
                 <div class="stat-label">Itineraries</div>
             </div>
         </div>
@@ -491,8 +491,8 @@
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/picks.json">https://tabiji.ai/api/v1/picks.json</a>
 <pre>{
-  "count": 990,
-  "totalPlaces": 10498,
+  "count": 876,
+  "totalPlaces": 9407,
   "picks": [
     {
       "slug": "amsterdam-brunch",
@@ -521,7 +521,7 @@
         <!-- Itineraries -->
         <section>
             <h2>Itineraries</h2>
-            <p>400 day-by-day travel itineraries with activities, restaurants, transport tips, and accommodation suggestions.</p>
+            <p>399 day-by-day travel itineraries with activities, restaurants, transport tips, and accommodation suggestions.</p>
 
             <div class="endpoint">
                 <div class="endpoint-header">
@@ -532,7 +532,7 @@
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/itineraries.json">https://tabiji.ai/api/v1/itineraries.json</a>
 <pre>{
-  "count": 400,
+  "count": 399,
   "itineraries": [
     {
       "slug": "bach-wave",
@@ -595,7 +595,7 @@
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/compare.json">https://tabiji.ai/api/v1/compare.json</a>
 <pre>{
-  "count": 1636,
+  "count": 854,
   "comparisons": [
     {
       "slug": "tokyo-vs-kyoto",
@@ -722,16 +722,94 @@
         <!-- Agent endpoints -->
         <section>
             <h2>Agent Endpoints</h2>
-            <p>A unified catalog plus a lightweight cross-collection search endpoint built for agents.</p>
+            <p>New in v1.1: a unified catalog plus runtime search, filter, and recommend endpoints built for agents. The compatibility `/search.json` endpoint is also available for lighter cross-collection lookup.</p>
 
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method">GET</span>
                     <span class="endpoint-url">/api/v1/catalog.json</span>
                 </div>
-                <p class="endpoint-desc">Catalog manifest with checksums and pointers to per-entityType shards (destinations, picks, itineraries, comparisons, countries, safety, alerts, scams, insurance).</p>
+                <p class="endpoint-desc">Unified catalog spanning destinations and picks with normalized tags, good-for signals, freshness, and provenance.</p>
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/catalog.json">https://tabiji.ai/api/v1/catalog.json</a>
+<pre>{
+  "version": "1.1.0",
+  "generatedAt": "2026-03-19T16:00:00Z",
+  "itemCount": 4000,
+  "items": [
+    {
+      "id": "place:tokyo-cheap-eats:1",
+      "entityType": "place",
+      "name": "Matsuya (松屋)",
+      "city": "Tokyo",
+      "category": "Cheap Eats",
+      "tags": ["food", "late_night"],
+      "priceLevel": "$",
+      "freshness": {
+        "confidence": "mixed",
+        "operationalFieldsMayChange": true
+      },
+      "provenance": {
+        "sources": ["tabiji_editorial", "reddit", "google_places"]
+      }
+    }
+  ]
+}</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/search</span>
+                </div>
+                <p class="endpoint-desc">Natural-language retrieval over the unified catalog with optional structured filters.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/search \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "query": "quiet coffee shop with good wifi in tokyo",
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "tags": ["remote_work"],
+    "limit": 5
+  }'</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/filter</span>
+                </div>
+                <p class="endpoint-desc">Deterministic hard constraints for city, entity type, budget band, tags, and open-now state.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/filter \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "budget": ["$", "$$"],
+    "open_now": true,
+    "limit": 10
+  }'</pre>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method">GET/POST</span>
+                    <span class="endpoint-url">/api/v1/recommend</span>
+                </div>
+                <p class="endpoint-desc">Intent-based ranking with short explanations and tradeoffs.</p>
+<pre>curl -X POST https://tabiji.ai/api/v1/recommend \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "intent": "first_night_dinner",
+    "location": "Tokyo",
+    "entity_types": ["place"],
+    "party": { "traveler_type": "couple" },
+    "preferences": {
+      "atmosphere": ["local_feeling", "romantic"],
+      "avoid": ["touristy"]
+    },
+    "limit": 5
+  }'</pre>
             </div>
         </section>
 
@@ -743,35 +821,35 @@
             <h3 style="margin-top: 24px; color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Destination Photos (6,498 destinations)</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0 32px 0;">
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/kyoto-japan.webp" width="1584" height="672" alt="Kyoto, Japan" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/kyoto-japan.webp" alt="Kyoto, Japan" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Kyoto</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/santorini-greece.webp" width="1408" height="768" alt="Santorini, Greece" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/santorini-greece.webp" alt="Santorini, Greece" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Santorini</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/cappadocia-turkey.webp" width="1024" height="559" alt="Cappadocia, Turkey" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/cappadocia-turkey.webp" alt="Cappadocia, Turkey" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Cappadocia</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/amalfi-coast-italy.webp" width="1024" height="687" alt="Amalfi Coast, Italy" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/amalfi-coast-italy.webp" alt="Amalfi Coast, Italy" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Amalfi Coast</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/cape-town-south-africa.webp" width="1408" height="768" alt="Cape Town, South Africa" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/cape-town-south-africa.webp" alt="Cape Town, South Africa" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Cape Town</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/dubai-uae.webp" width="1584" height="672" alt="Dubai, UAE" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/dubai-uae.webp" alt="Dubai, UAE" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Dubai</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/hoi-an-vietnam.webp" width="1408" height="768" alt="Hoi An, Vietnam" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/hoi-an-vietnam.webp" alt="Hoi An, Vietnam" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Hoi An</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 16/10;">
-                    <img src="https://img.tabiji.ai/find/img/lake-como.webp" width="1600" height="1065" alt="Lake Como, Italy" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/find/img/lake-como.webp" alt="Lake Como, Italy" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.8rem;">Lake Como</span>
                 </div>
             </div>
@@ -780,23 +858,23 @@
             <h3 style="margin-top: 32px; color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Restaurant & Food Photos (3,600+ places)</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0 24px 0;">
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/paris-croissants/du-pain-et-des-id-es.jpg" width="800" height="1066" alt="Du Pain et des Idées, Paris" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/popular-picks/paris-croissants/du-pain-et-des-id-es.jpg" alt="Du Pain et des Idées, Paris" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Du Pain et des Idées — Paris Croissants</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/osaka-takoyaki/wanaka.jpg" width="800" height="449" alt="Takoyaki Wanaka, Osaka" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/popular-picks/osaka-takoyaki/wanaka.jpg" alt="Takoyaki Wanaka, Osaka" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Wanaka — Osaka Takoyaki</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/rome-gelato/torce.jpg" width="800" height="800" alt="Torcé Gelato, Rome" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/popular-picks/rome-gelato/torce.jpg" alt="Torcé Gelato, Rome" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Torcé — Rome Gelato</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/bangkok-rooftop-bars/octave.jpg" width="800" height="266" alt="Octave Rooftop Bar, Bangkok" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/popular-picks/bangkok-rooftop-bars/octave.jpg" alt="Octave Rooftop Bar, Bangkok" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Octave — Bangkok Rooftop Bars</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/lisbon-pastel-de-nata/pasteis-de-belem.jpg" width="800" height="468" alt="Pastéis de Belém, Lisbon" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="https://img.tabiji.ai/popular-picks/lisbon-pastel-de-nata/pasteis-de-belem.jpg" alt="Pastéis de Belém, Lisbon" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
                     <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Pastéis de Belém — Lisbon Pastel de Nata</span>
                 </div>
                 <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">

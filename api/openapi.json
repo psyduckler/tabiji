@@ -3,7 +3,7 @@
   "info": {
     "title": "tabiji.ai API",
     "version": "1.5.0",
-    "description": "Free REST API for AI-curated travel data — 6498 destinations, 990 curated picks guides (10,498 place records), 400 day-by-day itineraries, 1636 destination comparisons, and unified search. No API key required.",
+    "description": "Free REST API for AI-curated travel data — 6498 destinations, 876 curated picks guides (9,407 place records), 399 day-by-day itineraries, 854 destination comparisons, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -106,7 +106,7 @@
       "get": {
         "operationId": "listPicks",
         "summary": "List all picks guides",
-        "description": "Returns all 990 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
+        "description": "Returns all 876 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
         "tags": [
           "Picks"
         ],
@@ -128,7 +128,7 @@
       "get": {
         "operationId": "listItineraries",
         "summary": "List all itineraries",
-        "description": "Returns all 400 day-by-day travel itineraries with summary metadata.",
+        "description": "Returns all 399 day-by-day travel itineraries with summary metadata.",
         "tags": [
           "Itineraries"
         ],
@@ -187,7 +187,7 @@
       "get": {
         "operationId": "listComparisons",
         "summary": "List all destination comparisons",
-        "description": "Returns all 1636 head-to-head destination comparisons with summary metadata.",
+        "description": "Returns all 854 head-to-head destination comparisons with summary metadata.",
         "tags": [
           "Comparisons"
         ],
@@ -209,7 +209,7 @@
       "get": {
         "operationId": "searchCollections",
         "summary": "Search across all collections",
-        "description": "Search destinations, picks, itineraries, and comparisons from one endpoint. Supports q, optional type filter, and optional limit.",
+        "description": "Search the normalized Tabiji catalog. `q` is required and must be non-empty. `limit` must be an integer from 1 to 100. Canonical comparison type is `compare`; the runtime accepts legacy `comparison` as an alias and normalizes hyphenated queries.",
         "tags": [
           "Search"
         ],
@@ -218,9 +218,10 @@
             "name": "q",
             "in": "query",
             "required": true,
-            "description": "Free-text search query",
+            "description": "Required search query. Hyphens and underscores are normalized to spaces.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             },
             "example": "tokyo"
           },
@@ -228,22 +229,29 @@
             "name": "type",
             "in": "query",
             "required": false,
-            "description": "Filter to destination, pick, itinerary, or comparison",
+            "description": "Optional canonical type filter. Legacy alias `comparison` is accepted as `compare`.",
             "schema": {
               "type": "string",
               "enum": [
                 "destination",
                 "pick",
                 "itinerary",
-                "compare"
+                "compare",
+                "country",
+                "safety",
+                "alert",
+                "scam"
               ]
+            },
+            "x-tabiji-aliases": {
+              "comparison": "compare"
             }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Maximum results to return (1-100)",
+            "description": "Maximum results to return. Integer from 1 to 100.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -259,6 +267,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -384,14 +402,142 @@
     },
     "/catalog.json": {
       "get": {
-        "summary": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
+        "summary": "Catalog index for chunked and sharded normalized entities",
+        "description": "Returns the catalog manifest, not the entity array. Follow `chunkUrls` for chunks or `shards` for per-type shard files.",
         "responses": {
           "200": {
-            "description": "Catalog response",
+            "description": "Catalog index response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CatalogResponse"
+                  "$ref": "#/components/schemas/CatalogIndex"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/{chunk}.json": {
+      "get": {
+        "summary": "Catalog chunk by number",
+        "parameters": [
+          {
+            "name": "chunk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Numeric chunk id from the `chunkUrls` array in /catalog.json."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalog chunk",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogChunk"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/{shard}.json": {
+      "get": {
+        "summary": "Catalog shard by entity collection",
+        "parameters": [
+          {
+            "name": "shard",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "destinations",
+                "picks",
+                "itineraries",
+                "comparisons",
+                "countries",
+                "safety",
+                "alerts",
+                "scams"
+              ]
+            },
+            "description": "Shard key from the `shards` object in /catalog.json."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalog shard",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogShard"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -2027,6 +2173,8 @@
         ]
       },
       "CatalogResponse": {
+        "deprecated": true,
+        "description": "Deprecated legacy name retained for generated clients; use CatalogChunk for responses that contain items and CatalogIndex for /catalog.json.",
         "type": "object",
         "properties": {
           "version": {
@@ -2038,6 +2186,9 @@
           "generatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "chunk": {
+            "type": "integer"
           },
           "itemCount": {
             "type": "integer"
@@ -2053,9 +2204,167 @@
           "version",
           "schemaVersion",
           "generatedAt",
+          "chunk",
           "itemCount",
           "items"
         ]
+      },
+      "CatalogIndex": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "schemaVersion": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "itemCount": {
+            "type": "integer"
+          },
+          "chunks": {
+            "type": "integer"
+          },
+          "chunkUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "/api/v1/catalog/1.json"
+            ]
+          },
+          "shards": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "destinations": "/api/v1/catalog/destinations.json"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "schemaVersion",
+          "generatedAt",
+          "itemCount",
+          "chunks",
+          "chunkUrls",
+          "shards"
+        ]
+      },
+      "CatalogChunk": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "schemaVersion": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "chunk": {
+            "type": "integer"
+          },
+          "itemCount": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntity"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "schemaVersion",
+          "generatedAt",
+          "chunk",
+          "itemCount",
+          "items"
+        ]
+      },
+      "CatalogShard": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "schemaVersion": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "entityType": {
+            "type": "string"
+          },
+          "itemCount": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatalogEntity"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "schemaVersion",
+          "generatedAt",
+          "entityType",
+          "itemCount",
+          "items"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message",
+              "status"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "not_found"
+              },
+              "message": {
+                "type": "string",
+                "example": "Resource not found"
+              },
+              "status": {
+                "type": "integer",
+                "example": 404
+              },
+              "resource": {
+                "type": "string",
+                "example": "itinerary"
+              },
+              "id": {
+                "type": "string",
+                "example": "tokyo-4-days"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
       }
     }
   },
