@@ -1028,6 +1028,14 @@ EMERGENCY_INFO = {
         "report_site": "gouv.mc",
         "lost_passport": "Contact the US Consulate General in Marseille. The nearest US Consulate is at Place Varian Fry, 13006 Marseille: +33 1-43-12-22-22.",
     },
+    "Slovenia": {
+        "police_name": "Slovenian Police (Policija)",
+        "police_number": "113 (Police) or 112 (Emergency)",
+        "emergency_number": "112",
+        "report_url": "https://www.policija.si/eng/",
+        "report_site": "policija.si",
+        "lost_passport": "Contact the US Embassy in Ljubljana at Prešernova 31, 1000 Ljubljana. For emergencies: +386 1-200-5500. The Slovenian tourist police hotline is +386 1-432-5400.",
+    },
     "Norway": {
         "police_name": "Norwegian Police (Politiet)",
         "police_number": "112 (Police) or 113 (Ambulance) or 110 (Fire)",
@@ -1763,6 +1771,7 @@ CITY_SLUGS = {
     "Tromsø": "tromso",
     "Lofoten": "lofoten",
     "Zermatt": "zermatt",
+    "Ljubljana": "ljubljana",
 }
 
 # City-specific safety tips
@@ -3853,6 +3862,12 @@ SAFETY_TIPS = {
         "Carry both the QR ticket screen-shot AND the booking confirmation email on the Visp-Zermatt MGB segment — conductors have been documented forcing cash repurchase by claiming valid mobile tickets are invalid; escalate at Zermatt Bahnhof rather than paying onboard.",
         "Book room-only at Zermatt hotels and eat at independent restaurants (Whymper-Stube, Brown Cow, Café DuSud, Restaurant Walliserkanne) — half-pension dinners run 80-140 CHF per person for fixed menus that independents serve at 50-75 CHF.",
         "Buy Gornergrat Bahn tickets on the SBB or Matterhorn Gotthard Bahn app linked to your Swiss Travel Pass or Half Fare Card — counter staff sell the 132 CHF rack rate by default, but pass holders pay 66 CHF round-trip with auto-applied discount.",
+    ],
+    "Ljubljana": [
+        "Take the Nomago airport bus from Brnik (LJU) to Ljubljana center for 4.10 EUR per adult or pre-book a GoOpti private transfer at 15-25 EUR — refuse the curbside taxi rank where Prolist and unbranded cabs add fabricated DODATEK 18 EUR supplements to push 30 km transfers past 60 EUR.",
+        "Use the Bolt app for app-locked Ljubljana taxi fares or refuse any unbranded taxi at the Bus Station rank — legitimate Slovenian cabs display Taxi Metro, Taxi Rumeni, or Taxi Center on the door, while unbranded private cabs run the meter from 1.50 EUR to 5 EUR before the car has moved.",
+        "Refuse all cash requests from strangers in mismatched camouflage gear at BTC City, Tivoli Park, and Prešernov trg — the wallet-flash 'I need 5-10 EUR to get home' beg is documented at Decathlon outside BTC and across central Ljubljana.",
+        "Record timestamped pickup AND drop-off videos of every panel of any SixT rental car at Brnik Airport (LJU) — phantom-damage charges arrive by email weeks after drop-off; use Hertz, Europcar, or Budget at manned counters when possible.",
     ],
 }
 
@@ -7653,6 +7668,18 @@ FAQS = {
          "Bahnhofstrasse, Zermatt's main pedestrian street, is free to walk and the Matterhorn-view promenade from the church area to the Vispa river is the iconic photo spot. The Old Zermatt district (Hinterdorf) with traditional Walser timber houses is free to explore. The Matterhorn Museum on Kirchplatz costs 10 CHF and is the single most-recommended low-cost stop. The Gornergrat Bahn round-trip is 132 CHF rack rate but 66 CHF with a Swiss Travel Pass or Half Fare Card — a must-do excursion at the discounted rate."),
         ("How do I avoid the Gornergrat rack-rate trap?",
          "Buy Gornergrat Bahn tickets on the SBB or Matterhorn Gotthard Bahn app linked to your Swiss Travel Pass or Half Fare Card — the 50 percent discount applies automatically. The 132 CHF round-trip rack rate drops to 66 CHF with either pass; for a family of four, that's 264 CHF saved in a single morning. At the counter, explicitly state in English: 'I have a Swiss Travel Pass — half fare please.' Counter staff at Zermatt Bahnhof do not surface the discount automatically."),
+    ],
+    "Ljubljana": [
+        ("Is Ljubljana safe for tourists?",
+         "Ljubljana is among the safest tourist destinations in Europe and Slovenia is among the safest countries in the world for visitors. Violent crime against foreigners is exceptionally rare. The practical risks are financial: Brnik Airport (LJU) Prolist taxi DODATEK fake-supplement adding 18 EUR to a 35 EUR airport transfer, unbranded Bus Station taxis manipulating the meter from 1.50 EUR to 5 EUR before moving, fake-soldier cash-need begs at BTC City and Tivoli Park, and SixT phantom-damage charges at Brnik Airport. The Old Town pedestrian zone, Prešernov trg, Tivoli Park, and the Triple Bridge are all safe at all hours."),
+        ("What is the most common scam in Ljubljana?",
+         "The most-reported pattern is taxi overcharging — both at Brnik Airport (LJU) and at Ljubljana Bus Station. A 2025 Reddit thread with 49 upvotes documented a Prolist airport taxi receipt for 65.90 EUR including a fabricated 18 EUR DODATEK supplement that does not exist in legitimate Slovenian taxi tariffs. A 2024 Reddit thread with 70 upvotes documented unbranded Bus Station taxis manipulating the meter from 1.50 EUR to 5 EUR before the car had moved. The fake-soldier cash-need beg at BTC City Decathlon (317-upvote 2025 Reddit thread) is the second-most-reported pattern."),
+        ("How do I get from Brnik Airport (LJU) to Ljubljana center?",
+         "The Nomago airport bus runs scheduled coaches from LJU arrivals to Ljubljana Bus Station for 4.10 EUR per adult, departing roughly hourly. Pre-booked GoOpti private transfers run 15-25 EUR with all-in pricing — book at goopti.com or through your hotel before arrival. Bolt app rides typically run 28-40 EUR with app-locked fares. Refuse the curbside taxi rank — Prolist and unbranded cabs add fabricated DODATEK supplements that push a normal 35 EUR fare past 60 EUR."),
+        ("What can I see in Ljubljana for free or low-cost?",
+         "Ljubljana's Old Town pedestrian zone, the Triple Bridge (Tromostovje), the Dragon Bridge, and Prešernov trg are all free to walk through and best at sunrise before tour groups arrive. Ljubljana Castle is reached by free walking trails (uphill from Old Town) or by the funicular at 6 EUR round-trip; the castle grounds are free to enter. Tivoli Park is free and good for a 2-hour walk. The Central Market on Vodnikov trg is free to browse and runs morning to early afternoon. The Ljubljana Card (29 EUR for 24 hours) bundles museums and transport."),
+        ("Should I use Bolt or local taxi apps in Ljubljana?",
+         "Bolt is the safest taxi app in Ljubljana — fares are app-locked at booking, drivers are vetted, and credit-card payment is automatic. Avoid the curbside taxi rank at the Bus Station and Brnik Airport where unbranded cabs and Prolist add fabricated surcharges. Legitimate local taxi companies are Taxi Metro, Taxi Rumeni, and Taxi Center — all display their company name on the door. Refuse any taxi that does not display branding or that offers a flat fare without metering. The Ljubljana Pass (LPP city bus) is 1.30 EUR per ride with an Urbana card and covers most central routes."),
     ],
 }
 
