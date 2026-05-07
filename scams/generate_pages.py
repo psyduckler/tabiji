@@ -1772,6 +1772,7 @@ CITY_SLUGS = {
     "Lofoten": "lofoten",
     "Zermatt": "zermatt",
     "Ljubljana": "ljubljana",
+    "Zagreb": "zagreb",
 }
 
 # City-specific safety tips
@@ -3868,6 +3869,12 @@ SAFETY_TIPS = {
         "Use the Bolt app for app-locked Ljubljana taxi fares or refuse any unbranded taxi at the Bus Station rank — legitimate Slovenian cabs display Taxi Metro, Taxi Rumeni, or Taxi Center on the door, while unbranded private cabs run the meter from 1.50 EUR to 5 EUR before the car has moved.",
         "Refuse all cash requests from strangers in mismatched camouflage gear at BTC City, Tivoli Park, and Prešernov trg — the wallet-flash 'I need 5-10 EUR to get home' beg is documented at Decathlon outside BTC and across central Ljubljana.",
         "Record timestamped pickup AND drop-off videos of every panel of any SixT rental car at Brnik Airport (LJU) — phantom-damage charges arrive by email weeks after drop-off; use Hertz, Europcar, or Budget at manned counters when possible.",
+    ],
+    "Zagreb": [
+        "Use the Bolt or Uber app for Zagreb taxi rides or take the ZET tram (1.30 EUR single-ride) — refuse all unbranded taxis at Glavni Kolodvor where unmetered cars charge 40 EUR for 1.7 km and 80 EUR for the airport run that legitimate apps complete at 12 EUR.",
+        "Use only Croatian-bank ATMs (Zagrebačka banka, PBZ, Erste, OTP) and refuse Dynamic Currency Conversion at the screen — Euronet, Cardpoint, and Cashzone kiosks in tourist zones charge 5-12 percent above the inter-bank rate plus 5-10 EUR per-transaction fees.",
+        "Take detailed timestamped photos of every panel of any Green Motion rental car at pickup AND drop-off — pre-existing damage is pressed onto renters at drop-off with on-the-spot pressure to sign before flight time.",
+        "Verify Zagreb apartment listings on njuškalo.hr or index.hr — refuse any landlord using a USA-number Telegram or WhatsApp; legitimate Croatian landlords have Croatian-mobile +385 numbers and accept in-person viewings before any deposit.",
     ],
 }
 
@@ -7680,6 +7687,18 @@ FAQS = {
          "Ljubljana's Old Town pedestrian zone, the Triple Bridge (Tromostovje), the Dragon Bridge, and Prešernov trg are all free to walk through and best at sunrise before tour groups arrive. Ljubljana Castle is reached by free walking trails (uphill from Old Town) or by the funicular at 6 EUR round-trip; the castle grounds are free to enter. Tivoli Park is free and good for a 2-hour walk. The Central Market on Vodnikov trg is free to browse and runs morning to early afternoon. The Ljubljana Card (29 EUR for 24 hours) bundles museums and transport."),
         ("Should I use Bolt or local taxi apps in Ljubljana?",
          "Bolt is the safest taxi app in Ljubljana — fares are app-locked at booking, drivers are vetted, and credit-card payment is automatic. Avoid the curbside taxi rank at the Bus Station and Brnik Airport where unbranded cabs and Prolist add fabricated surcharges. Legitimate local taxi companies are Taxi Metro, Taxi Rumeni, and Taxi Center — all display their company name on the door. Refuse any taxi that does not display branding or that offers a flat fare without metering. The Ljubljana Pass (LPP city bus) is 1.30 EUR per ride with an Urbana card and covers most central routes."),
+    ],
+    "Zagreb": [
+        ("Is Zagreb safe for tourists?",
+         "Zagreb is among the safest tourist destinations in Croatia and Europe. Violent crime against foreigners is exceptionally rare. The practical risks are financial: unbranded Bus Station taxis charging 40 EUR for 1.7-kilometer rides and 80 EUR airport runs (Bolt or Uber complete the same trips at 4-12 EUR), Polish/Czech-owned private ATMs at Ban Jelačić square offering bad exchange rates via Dynamic Currency Conversion, Green Motion rental pre-existing-damage pressure at Zagreb Airport, and Facebook Marketplace USA-number apartment listings targeting students. Old Town, Ban Jelačić square, Tkalčićeva, and the Upper Town Funicular are all safe at all hours."),
+        ("What is the most common scam in Zagreb?",
+         "The most-reported pattern is unbranded taxi overcharging at Glavni Kolodvor (Bus Station). A 2025 Reddit thread documented a 40 EUR charge for a 1.7-kilometer ride; a 2023 Reddit thread documented an 80 EUR charge for a 20-minute airport run that the same Uber booking would have cost 12 EUR. The taxis paint themselves to look like legitimate Cammeo or Eko Taxi cabs but operate as private hire vehicles outside the Croatian taxi tariff. The 2025 Reddit 111-upvote Green Motion rental scam thread is the second-most-documented pattern."),
+        ("How do I get from Zagreb Airport (ZAG) to the city center?",
+         "The Pleso Prijevoz airport bus runs from Zagreb Airport (ZAG) to the central bus station (Glavni Kolodvor) for 8 EUR per adult, departing every 30 minutes. The Bolt or Uber app typically books the same airport-to-center ride at 12-18 EUR with app-locked fares. Refuse the curbside taxi rank — unbranded cabs charge 40-80 EUR for the same route with rate-card claims about 'private service.' Cammeo (taxi.cammeo.hr) and Eko Taxi (ekotaxi.hr) are the legitimate Croatian radio-taxi companies if you must call directly."),
+        ("What can I see in Zagreb for free or low-cost?",
+         "Ban Jelačić square is the central pedestrian gathering point and free to walk through. The Dolac open-air market (just north of Ban Jelačić) is free to browse — the red umbrellas are the iconic photo. The Upper Town (Gornji Grad) with St. Mark's Church and the Lotrščak Tower is best reached by the Zagreb Funicular at 1.30 EUR one-way (the world's shortest funicular at 66 meters). Stone Gate (Kamenita vrata) is a free historic Catholic shrine in the Upper Town. Tkalčićeva Street is the cafe corridor — free to walk, paid to drink. The Mirogoj Cemetery is free and architecturally stunning."),
+        ("How do I avoid the private-ATM Dynamic Currency Conversion trap?",
+         "Use only Croatian-bank ATMs: Zagrebačka banka (ZABA), Privredna banka Zagreb (PBZ), Erste Bank, or OTP. Refuse the Dynamic Currency Conversion screen prompt — when the ATM asks 'Lock the rate?' or 'Convert to USD/GBP?', select 'No' or 'Continue without conversion' so the transaction posts in EUR (Croatia's currency since January 2023) and your home bank applies the standard inter-bank rate. The Euronet, Cardpoint, and Cashzone kiosks at Ban Jelačić square and Old Town pedestrian streets charge 5-12 percent above the inter-bank rate plus 5-10 EUR per-transaction fees. Withdraw larger amounts less frequently to amortize fees, or use a credit card with 0 percent foreign-transaction fees for purchases."),
     ],
 }
 
