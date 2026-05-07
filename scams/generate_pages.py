@@ -1774,6 +1774,7 @@ CITY_SLUGS = {
     "Ljubljana": "ljubljana",
     "Zagreb": "zagreb",
     "Český Krumlov": "cesky-krumlov",
+    "Brașov": "brasov",
 }
 
 # City-specific safety tips
@@ -3882,6 +3883,12 @@ SAFETY_TIPS = {
         "Refuse passport inspections from anyone in plain clothes who cannot show a Czech tricolor police ID — fake-police shakedowns at Cesky Krumlov bus station and the Ceske Budejovice transfer use toy-grade badges and demand 1,000-3,000 CZK on-the-spot 'fines' that real Policie ČR never collect on the street.",
         "Ask the waiter how much each side dish costs before ordering at any tourist-zone restaurant — a 190 CZK Švíčková becomes a 760 CZK bill when the bread dumplings are charged at 190 CZK each, and the per-item dumpling pricing is rarely on the printed menu.",
         "Book Cesky Krumlov pensions only via .cz operator websites or the verified-operator list at ckrumlov.info — refuse any host who emails for a wire-transfer deposit outside the booking platform; legitimate Czech accommodations accept refundable card holds and display a Czech VAT (DIČ) number.",
+    ],
+    "Brașov": [
+        "Skip the $100 Bran Castle Dracula day-tour packages from Bucharest — take bus 1670 from Brașov Bus Station Autogara 2 (8-12 RON one-way) and pay the 70 RON gate entry directly at bran-castle.com.",
+        "Use the Bolt or Uber app for Romanian taxi rides — refuse all train-station rank cabs that quote a station rate; the documented pattern is 16x markup (334 RON for a 20 RON ride).",
+        "Keep wallets in front pockets and bag straps looped around chair legs at outdoor cafés in Piața Sfatului and along Strada Republicii — coordinated distraction-pickpocket crews work the Council Square cluster.",
+        "Refuse all unordered bread, olives, or table covers at delivery in tourist-zone Brașov restaurants — ask 'is this complimentary?' before letting items stay on the table; bills are padded with 12-25 RON cover charges and 3x mineral-water markups.",
     ],
 }
 
@@ -7718,6 +7725,18 @@ FAQS = {
          "The Old Town pedestrian zone, Náměstí Svornosti, and the cobbled streets along the Vltava River are all free to walk through and best at sunrise before tour buses arrive. The Castle Garden (Zámecká Zahrada) is free year-round, and the Cloak Bridge (Plášťový most) gives the iconic castle photo without an entry fee. The Castle Round Tower costs 180 CZK; castle interior tours are 250 CZK each. Climbing Kleť mountain via the chairlift from Krasetín costs 200 CZK round-trip (or hike free)."),
         ("How do I avoid the restaurant per-side-dish markup?",
          "Ask the waiter how much each side dish costs before ordering at any tourist-zone restaurant. Czech tradition serves Švíčková with bread or potato dumplings (knedlíky) and sauerkraut — most diners assume these are included with the main, but tourist-zone restaurants charge 100-200 CZK per piece of dumpling separately. Refuse to pay any item not printed on the menu — point at the printed price and offer that amount. Czech-locals-priced restaurants list dumplings at 30-60 CZK per piece or include them with the main. Use Honest Guide YouTube channel recommendations for vetted Czech-local restaurants."),
+    ],
+    "Brașov": [
+        ("Is Brașov safe for tourists?",
+         "Brașov is among the safest tourist destinations in Romania and Eastern Europe. Violent crime against foreigners is exceptionally rare. The practical risks are financial: Bran Castle Dracula day-tour reseller markup at $90-150 per person (direct entry is 70 RON), Bucharest Gara de Nord and Brașov train-station taxi 16x station-rate overcharges (334 RON for 20 RON rides), coordinated distraction-pickpocket crews in Piața Sfatului and along Strada Republicii, and tourist-zone restaurant per-item bill padding. Council Square, the Black Church, Strada Republicii, and the Tâmpa cable-car base are all safe at all hours."),
+        ("What is the most common scam in Brașov?",
+         "The most-reported pattern is the Bran Castle Dracula day-tour reseller markup. A 2025 Reddit thread documented the $100 per-person tour from Bucharest as a flat-out tourist trap when direct entry is 70 RON ($15) and Bucharest-Brașov-Bran public transport totals 130 RON ($28). The 2017 Reddit 136-upvote Gara de Nord taxi case (334 RON for a 20 RON ride) is the second-most-cited pattern; coordinated pickpocket crews in Piața Sfatului and along Strada Republicii follow the regional Romanian/Hungarian distraction-then-lift script."),
+        ("How do I get from Bucharest to Brașov?",
+         "BlaBlaCar Bus and Memento direct lines run Bucharest-Brașov at 50-80 RON one-way with 2.5-hour transit; book on blablacar.com or memento.ro. Direct train from București Nord to Brașov takes about 2.5 hours and costs 50-100 RON one-way (book on cfrcalatori.ro, the Romanian Railways official site). Avoid private taxi transfers from Bucharest hotels — the documented pattern is route-padding with extra stops and a final fare 3-4x the legitimate train cost."),
+        ("How do I visit Bran Castle on a budget?",
+         "Take bus 1670 from Brașov Bus Station Autogara 2 to Bran every 30 minutes for 8-12 RON one-way. Bran Castle entry is 70 RON for adults, bookable on bran-castle.com or paid at the gate. Total round-trip transport plus entry is roughly 90 RON ($19) — versus $90-150 per person for the Klook/Viator/GetYourGuide bundled tours. Combine with Râșnov Citadel (15 minutes south of Bran) for a fuller day trip, or pair with Peleș Castle in Sinaia (45 minutes south of Brașov by train) for the more architecturally impressive Renaissance castle."),
+        ("What can I see in Brașov for free or low-cost?",
+         "Piața Sfatului (Council Square) with the 1420-built Council House is free to walk through. The Black Church (Biserica Neagră), Romania's largest Gothic church, costs 15 RON entry. Strada Sforii (Rope Street, one of the narrowest streets in Europe) is free to walk. The Tâmpa cable-car to the Hollywood-style 'BRAȘOV' sign costs 18 RON round-trip; the hike up is free and takes 45-60 minutes. The First Romanian School Museum on Strada Spătaru is 10 RON. Poiana Brașov ski resort (12 km from city) is reachable by city bus for 8 RON."),
     ],
 }
 
