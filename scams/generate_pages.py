@@ -1773,6 +1773,7 @@ CITY_SLUGS = {
     "Zermatt": "zermatt",
     "Ljubljana": "ljubljana",
     "Zagreb": "zagreb",
+    "Český Krumlov": "cesky-krumlov",
 }
 
 # City-specific safety tips
@@ -3875,6 +3876,12 @@ SAFETY_TIPS = {
         "Use only Croatian-bank ATMs (Zagrebačka banka, PBZ, Erste, OTP) and refuse Dynamic Currency Conversion at the screen — Euronet, Cardpoint, and Cashzone kiosks in tourist zones charge 5-12 percent above the inter-bank rate plus 5-10 EUR per-transaction fees.",
         "Take detailed timestamped photos of every panel of any Green Motion rental car at pickup AND drop-off — pre-existing damage is pressed onto renters at drop-off with on-the-spot pressure to sign before flight time.",
         "Verify Zagreb apartment listings on njuškalo.hr or index.hr — refuse any landlord using a USA-number Telegram or WhatsApp; legitimate Croatian landlords have Croatian-mobile +385 numbers and accept in-person viewings before any deposit.",
+    ],
+    "Český Krumlov": [
+        "Buy castle tickets at the main box office at the second courtyard, not the Round Tower booth — the Round Tower (180 CZK) and castle interior tours (250 CZK each) require separate tickets, and tourists routinely pay 2,000 CZK for a family of four where bundled tickets would have cost 1,400 CZK.",
+        "Refuse passport inspections from anyone in plain clothes who cannot show a Czech tricolor police ID — fake-police shakedowns at Cesky Krumlov bus station and the Ceske Budejovice transfer use toy-grade badges and demand 1,000-3,000 CZK on-the-spot 'fines' that real Policie ČR never collect on the street.",
+        "Ask the waiter how much each side dish costs before ordering at any tourist-zone restaurant — a 190 CZK Švíčková becomes a 760 CZK bill when the bread dumplings are charged at 190 CZK each, and the per-item dumpling pricing is rarely on the printed menu.",
+        "Book Cesky Krumlov pensions only via .cz operator websites or the verified-operator list at ckrumlov.info — refuse any host who emails for a wire-transfer deposit outside the booking platform; legitimate Czech accommodations accept refundable card holds and display a Czech VAT (DIČ) number.",
     ],
 }
 
@@ -7699,6 +7706,18 @@ FAQS = {
          "Ban Jelačić square is the central pedestrian gathering point and free to walk through. The Dolac open-air market (just north of Ban Jelačić) is free to browse — the red umbrellas are the iconic photo. The Upper Town (Gornji Grad) with St. Mark's Church and the Lotrščak Tower is best reached by the Zagreb Funicular at 1.30 EUR one-way (the world's shortest funicular at 66 meters). Stone Gate (Kamenita vrata) is a free historic Catholic shrine in the Upper Town. Tkalčićeva Street is the cafe corridor — free to walk, paid to drink. The Mirogoj Cemetery is free and architecturally stunning."),
         ("How do I avoid the private-ATM Dynamic Currency Conversion trap?",
          "Use only Croatian-bank ATMs: Zagrebačka banka (ZABA), Privredna banka Zagreb (PBZ), Erste Bank, or OTP. Refuse the Dynamic Currency Conversion screen prompt — when the ATM asks 'Lock the rate?' or 'Convert to USD/GBP?', select 'No' or 'Continue without conversion' so the transaction posts in EUR (Croatia's currency since January 2023) and your home bank applies the standard inter-bank rate. The Euronet, Cardpoint, and Cashzone kiosks at Ban Jelačić square and Old Town pedestrian streets charge 5-12 percent above the inter-bank rate plus 5-10 EUR per-transaction fees. Withdraw larger amounts less frequently to amortize fees, or use a credit card with 0 percent foreign-transaction fees for purchases."),
+    ],
+    "Český Krumlov": [
+        ("Is Český Krumlov safe for tourists?",
+         "Český Krumlov is among the safest tourist destinations in the Czech Republic and Europe. Violent crime against foreigners is exceptionally rare. The practical risks are financial: castle two-ticket-office confusion that doubles the entry cost, fake-police passport-inspection shakedowns at the bus station and Ceske Budejovice transfer point, restaurant per-side-dish bread-dumpling markup turning 190 CZK menus into 760 CZK bills, and off-platform pension booking deposit fraud targeting day-trippers. The Old Town, castle courtyards, Vltava riverbank, and Latrán pedestrian street are all safe at all hours."),
+        ("What is the most common scam in Český Krumlov?",
+         "The most-reported pattern is the castle two-ticket-office confusion. Tourists buy the cheaper Round Tower ticket (180 CZK) thinking it covers the whole castle, then discover at the interior entrance they need a separate 250 CZK ticket per tour. A 2017 Reddit traveler-tips thread documented the pattern explicitly: the two ticket offices are visually indistinguishable. The fake-police passport-inspection shakedown documented at Ceske Budejovice in a 2023 Reddit thread is the second-most-cited pattern; restaurant per-side-dish dumpling markup runs across the broader Czech tourist zones."),
+        ("How do I get from Prague to Český Krumlov?",
+         "Direct train from Prague Hlavní Nádraží to Český Krumlov takes about 3 hours via České Budějovice, with a transfer at Budějovice. Tickets cost 200-400 CZK one-way (book on cd.cz, the Czech Railways official site). RegioJet and FlixBus run direct buses from Prague to Český Krumlov for 200-350 CZK one-way (roughly 3 hours). Both operators allow seat reservations and credit-card payment online. Avoid private taxi transfers offered at Prague hotels; expected price is 3,500-5,000 CZK and the standard scam pattern is route-padding with extra stops you did not request."),
+        ("What can I see in Český Krumlov for free or low-cost?",
+         "The Old Town pedestrian zone, Náměstí Svornosti, and the cobbled streets along the Vltava River are all free to walk through and best at sunrise before tour buses arrive. The Castle Garden (Zámecká Zahrada) is free year-round, and the Cloak Bridge (Plášťový most) gives the iconic castle photo without an entry fee. The Castle Round Tower costs 180 CZK; castle interior tours are 250 CZK each. Climbing Kleť mountain via the chairlift from Krasetín costs 200 CZK round-trip (or hike free)."),
+        ("How do I avoid the restaurant per-side-dish markup?",
+         "Ask the waiter how much each side dish costs before ordering at any tourist-zone restaurant. Czech tradition serves Švíčková with bread or potato dumplings (knedlíky) and sauerkraut — most diners assume these are included with the main, but tourist-zone restaurants charge 100-200 CZK per piece of dumpling separately. Refuse to pay any item not printed on the menu — point at the printed price and offer that amount. Czech-locals-priced restaurants list dumplings at 30-60 CZK per piece or include them with the main. Use Honest Guide YouTube channel recommendations for vetted Czech-local restaurants."),
     ],
 }
 
