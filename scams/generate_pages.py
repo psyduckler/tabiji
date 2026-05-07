@@ -1775,6 +1775,7 @@ CITY_SLUGS = {
     "Zagreb": "zagreb",
     "Český Krumlov": "cesky-krumlov",
     "Brașov": "brasov",
+    "Plovdiv": "plovdiv",
 }
 
 # City-specific safety tips
@@ -3889,6 +3890,12 @@ SAFETY_TIPS = {
         "Use the Bolt or Uber app for Romanian taxi rides — refuse all train-station rank cabs that quote a station rate; the documented pattern is 16x markup (334 RON for a 20 RON ride).",
         "Keep wallets in front pockets and bag straps looped around chair legs at outdoor cafés in Piața Sfatului and along Strada Republicii — coordinated distraction-pickpocket crews work the Council Square cluster.",
         "Refuse all unordered bread, olives, or table covers at delivery in tourist-zone Brașov restaurants — ask 'is this complimentary?' before letting items stay on the table; bills are padded with 12-25 RON cover charges and 3x mineral-water markups.",
+    ],
+    "Plovdiv": [
+        "Use the TaxiMe or Yandex Go app for app-locked-fare Plovdiv taxi rides — refuse all bus-station rank cabs that quote a flat fare over 15 leva; the documented pattern is 8x markup (50 leva for 2.5-km rides that legitimate cabs complete at 6.50 leva).",
+        "Track the route on Google Maps in real time during every TaxiMe app ride — drivers spot foreign passengers and pad the route to inflate the meter; refuse fares that exceed the booking estimate by more than 20 percent.",
+        "Hang up immediately on any AI-generated voice call in Bulgarian offering medications or services — never share personal-number ID or bank details over the phone; report suspicious numbers on prevenciq.bg.",
+        "Refuse all unordered bread, olives, or table covers at delivery in Plovdiv tourist-zone restaurants (Kapana creative district, Old Town) — ask 'is this complimentary?' before letting items stay on the table; bills are padded with 6-12 leva covers and 10 percent service charges.",
     ],
 }
 
@@ -7737,6 +7744,18 @@ FAQS = {
          "Take bus 1670 from Brașov Bus Station Autogara 2 to Bran every 30 minutes for 8-12 RON one-way. Bran Castle entry is 70 RON for adults, bookable on bran-castle.com or paid at the gate. Total round-trip transport plus entry is roughly 90 RON ($19) — versus $90-150 per person for the Klook/Viator/GetYourGuide bundled tours. Combine with Râșnov Citadel (15 minutes south of Bran) for a fuller day trip, or pair with Peleș Castle in Sinaia (45 minutes south of Brașov by train) for the more architecturally impressive Renaissance castle."),
         ("What can I see in Brașov for free or low-cost?",
          "Piața Sfatului (Council Square) with the 1420-built Council House is free to walk through. The Black Church (Biserica Neagră), Romania's largest Gothic church, costs 15 RON entry. Strada Sforii (Rope Street, one of the narrowest streets in Europe) is free to walk. The Tâmpa cable-car to the Hollywood-style 'BRAȘOV' sign costs 18 RON round-trip; the hike up is free and takes 45-60 minutes. The First Romanian School Museum on Strada Spătaru is 10 RON. Poiana Brașov ski resort (12 km from city) is reachable by city bus for 8 RON."),
+    ],
+    "Plovdiv": [
+        ("Is Plovdiv safe for tourists?",
+         "Plovdiv is among the safest tourist destinations in Bulgaria and Eastern Europe. Violent crime against foreigners is exceptionally rare. The practical risks are financial: bus-station taxi 8x overcharge (50 leva for 2.5-km rides that legitimate cabs complete at 6.50 leva), TaxiMe app driver route-padding for foreign passengers, AI-voice phone scams targeting Bulgarian-SIM numbers, and tourist-zone restaurant bill padding in Kapana and Old Town. Old Town (Stariya Grad), Kapana creative district, the Roman Theatre, and Главна улица (Main Street) are all safe at all hours."),
+        ("What is the most common scam in Plovdiv?",
+         "The most-reported pattern is bus-station taxi overcharge. A 2024 Reddit thread with 21 upvotes documented a 50-leva charge for a 2.5-kilometer Bus-Station-to-Old-Town ride where the return trip on the same route cost 6.50 leva — an 8x markup. The 2024 Reddit 88-upvote TaxiMe app route-padding pattern is the second-most-cited transport scam. AI-voice phone scams targeting Bulgarian SIMs (2025 Reddit 91↑ and 148↑ threads) round out the financial-risk landscape."),
+        ("How do I get from Sofia to Plovdiv?",
+         "Direct buses from Sofia Central Bus Station (Centralna avtogara) to Plovdiv Yug Bus Station run every 30-60 minutes during the day, taking about 2 hours and costing 14-18 leva one-way. You can buy tickets on the spot at the station or in advance at bgrazpisanie.com. Direct train from Sofia Tsentralna to Plovdiv takes 2.5-3 hours and costs 8-15 leva one-way (book at bdz.bg, the Bulgarian Railways official site). FlixBus runs the same route at similar pricing with 1-hour intervals during peak season."),
+        ("How do I get from Plovdiv Bus Station to Old Town?",
+         "Use the TaxiMe or Yandex Go app for app-locked fares — a Plovdiv Yug Bus Station to Old Town ride runs 5-8 leva on TaxiMe versus 50 leva from the unbranded rank cab. The Plovdiv city bus routes 1, 26, and 29 connect Yug Bus Station to the central pedestrian zone for 1.50 leva per ride. Plovdiv Old Town is also walkable from the bus station — about 25 minutes uphill via Главна улица. Refuse all flat-fare quotes from rank-stand cabs that do not display TaxiMe or OK Supertrans branding."),
+        ("What can I see in Plovdiv for free or low-cost?",
+         "Plovdiv Old Town (Stariya Grad) cobbled streets, Nebet Tepe ancient hilltop, and the Kapana creative district are all free to walk through. The Roman Theatre (Antichen Teatar) costs 5 leva for entry. The Roman Stadium ruins on Главна улица are free to view from the surface. Tsar Simeon Garden is free year-round. The Ethnographic Museum on Dr. Stoyan Chomakov costs 5 leva. The Nebet Tepe sunset view is free and one of Bulgaria's iconic photo spots."),
     ],
 }
 
