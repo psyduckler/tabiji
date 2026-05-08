@@ -1777,6 +1777,7 @@ CITY_SLUGS = {
     "Brașov": "brasov",
     "Plovdiv": "plovdiv",
     "Rotterdam": "rotterdam",
+    "Antwerp": "antwerp",
 }
 
 # City-specific safety tips
@@ -3903,6 +3904,12 @@ SAFETY_TIPS = {
         "Refuse all cash requests from strangers at Rotterdam Centraal, Zuidplein, and Pathé Schouwburgplein — the stranded-driver Romanian-passport script and the app-screen wire transfer in exchange for ATM cash are documented patterns that cost lenders €20–€600.",
         "Demand to see a Dutch politie ID card with photo, badge number, and watermark before handing over a passport at Depot Boijmans, Erasmusbrug, or Markthal — call 112 in front of any plain-clothes person who refuses, and never let anyone count your cash on the street.",
         "Verify any Rotterdam apartment-listing makelaar's KvK Chamber-of-Commerce registration on kvk.nl before paying — refuse all pre-contract reservation, administration, or viewing fees of €30–€600; legitimate Dutch landlords accept refundable card deposits only after a signed lease.",
+    ],
+    "Antwerp": [
+        "Refuse all grocery, baby-formula, or food-buying requests from strangers with a buggy at Antwerpen-Centraal, Pelikaanstraat, or Meir — the buggy-mom team works 2pm to 5pm and ends 40-60 EUR per mark; call Securail on 0800 30 230 to report a live encounter.",
+        "Buy a paper or QR De Lijn ticket at the station vending machine or via the De Lijn app on your phone before boarding any tram or bus — never tap a foreign Visa or Mastercard at the on-board reader; first-offense adult fines rose to 127 EUR in 2025 and apply even when the green checkmark sounded.",
+        "Buy diamonds and gold only from AWDC directory members at awdc.be — refuse any Pelikaanstraat, Hoveniersstraat, or Rijfstraat shop that will not issue an HRD or GIA certificate with the stone; locals describe the unmarked storefront strip as 500-percent markup retail.",
+        "Refuse all 500 EUR cash requests from strangers at Antwerpen-Centraal, Meir, or Astrid Plaza — a queued Revolut transfer offered as proof can be cancelled inside two days, and FlixBus tickets to Brussels Airport cost around 5 EUR while Lyon flights start near 120 EUR.",
     ],
 }
 
@@ -7775,6 +7782,18 @@ FAQS = {
          "Use the TaxiMe or Yandex Go app for app-locked fares — a Plovdiv Yug Bus Station to Old Town ride runs 5-8 leva on TaxiMe versus 50 leva from the unbranded rank cab. The Plovdiv city bus routes 1, 26, and 29 connect Yug Bus Station to the central pedestrian zone for 1.50 leva per ride. Plovdiv Old Town is also walkable from the bus station — about 25 minutes uphill via Главна улица. Refuse all flat-fare quotes from rank-stand cabs that do not display TaxiMe or OK Supertrans branding."),
         ("What can I see in Plovdiv for free or low-cost?",
          "Plovdiv Old Town (Stariya Grad) cobbled streets, Nebet Tepe ancient hilltop, and the Kapana creative district are all free to walk through. The Roman Theatre (Antichen Teatar) costs 5 leva for entry. The Roman Stadium ruins on Главна улица are free to view from the surface. Tsar Simeon Garden is free year-round. The Ethnographic Museum on Dr. Stoyan Chomakov costs 5 leva. The Nebet Tepe sunset view is free and one of Bulgaria's iconic photo spots."),
+    ],
+    "Antwerp": [
+        ("Is Antwerp safe for tourists?",
+         "Antwerp is among the safer Western European tourist cities and violent crime against foreigners is rare. The practical risks are financial and concentrated around Antwerpen-Centraal: a buggy-mom grocery-pay scam working the departure board and Pelikaanstraat exit (40-60 EUR per mark, documented in a 2025 Reddit thread with 374 upvotes), a 500 EUR Revolut FlixBus cash-need pitch run by two well-dressed men, the Pelikaanstraat-Hoveniersstraat Diamond District 500-percent tourist markup on uncertified stones, and De Lijn 127 EUR fines on foreign-card taps that fail to settle in the database. The Old Town, MAS museum quarter, Het Eilandje, and Zuid are safe at all hours; the immediate Astrid Plaza forecourt at Centraal warrants situational awareness 2pm-5pm."),
+        ("What is the most common scam in Antwerp?",
+         "The buggy-mom grocery-pay scam at Antwerpen-Centraal is the most-reported pattern in 2025. Two women linger near the departure board and Pelikaanstraat exit (Panos, Capri Coffee, Louis Delhaize) with a baby buggy, ask tourists in English to buy groceries because they have no money, fill the basket with energy drinks and premium baby formula, then return the goods for a cash refund after the mark leaves. A Meir variant uses NAN 3 Pro baby formula as the prop. The runner-up is the Centraal Station 500 EUR Revolut FlixBus cash-need pitch, where two men show a queued Revolut transfer that gets cancelled the moment you refuse."),
+        ("How do I get from Brussels Airport to Antwerp city center?",
+         "Direct trains from Brussels Airport (BRU) to Antwerpen-Centraal run every 30 minutes via Brussels-Schuman, taking 50-60 minutes and costing about 16 EUR one-way (book at nmbs.be or sncb.be, the Belgian Railways official site). The standard SNCB Diabolo airport surcharge of about 6.40 EUR is included in that fare. From Antwerpen-Centraal, De Lijn trams 2, 3, 5, 9, and 15 cover central destinations including Meir, Groenplaats, and Het Eilandje. Avoid taxis from Brussels Airport directly to Antwerp — the documented pattern is 150-220 EUR for a ride the train completes for 16 EUR."),
+        ("Are diamonds in Antwerp's Diamond District worth buying?",
+         "Diamonds from AWDC (Antwerp's diamond trade council) directory members at awdc.be can be a legitimate purchase if you bring a clear specification (carat, cut, color, clarity) and demand HRD or GIA certification with the stone. The Pelikaanstraat-Hoveniersstraat-Rijfstraat shopfront strip immediately around Antwerpen-Centraal runs a 500-percent markup pattern on tourists who do not know the wholesale baseline, with very pushy sales staff and frequent refusals to issue third-party certificates. A 2025 Reddit thread from a self-identified Pelikaanstraat shop owner spelled out the rule: never buy without an HRD or GIA certificate, and walk out of any shop that pressures a same-day cash purchase."),
+        ("Is De Lijn safe to use with a foreign credit card?",
+         "Tap-to-pay with a foreign Visa or Mastercard on De Lijn trams and buses is technically supported but settlement through Worldline can fail silently — the on-board reader plays the accepted sound and shows a green checkmark, but the inspector's scanner queries the De Lijn local database and finds no record. A 2026 Reddit thread documented a 128 EUR fine for a Guatemalan-card payment that never settled. Buy a paper or QR ticket at the station vending machine, or use the official De Lijn mobile app on your own phone, rather than tapping a foreign card directly. First-offense adult fines rose from 107 EUR to 127 EUR in 2025."),
     ],
 }
 
