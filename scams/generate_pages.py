@@ -1778,6 +1778,7 @@ CITY_SLUGS = {
     "Plovdiv": "plovdiv",
     "Rotterdam": "rotterdam",
     "Antwerp": "antwerp",
+    "Galway": "galway",
 }
 
 # City-specific safety tips
@@ -3910,6 +3911,12 @@ SAFETY_TIPS = {
         "Buy a paper or QR De Lijn ticket at the station vending machine or via the De Lijn app on your phone before boarding any tram or bus — never tap a foreign Visa or Mastercard at the on-board reader; first-offense adult fines rose to 127 EUR in 2025 and apply even when the green checkmark sounded.",
         "Buy diamonds and gold only from AWDC directory members at awdc.be — refuse any Pelikaanstraat, Hoveniersstraat, or Rijfstraat shop that will not issue an HRD or GIA certificate with the stone; locals describe the unmarked storefront strip as 500-percent markup retail.",
         "Refuse all 500 EUR cash requests from strangers at Antwerpen-Centraal, Meir, or Astrid Plaza — a queued Revolut transfer offered as proof can be cancelled inside two days, and FlixBus tickets to Brussels Airport cost around 5 EUR while Lyon flights start near 120 EUR.",
+    ],
+    "Galway": [
+        "Use the Free Now app or Bolt for Galway taxi rides — refuse Eyre Square or O'Brien's Bridge rank cabs that quote a flat 25 EUR cash fare instead of running the meter; legitimate Salthill-to-Eyre-Square fares run 8-12 EUR by meter, and illegal card-fee surcharges should be reported to the NTA at 0818 064 000.",
+        "Refuse all unsolicited cash requests at Eyre Square, Shop Street, and Salthill — the camo-jacketed beggar at the Eyre Square mall rear entrance and the Shop Street balloon-clown work organized rotations; donate to galwaysimon.ie if you want to help genuine homelessness.",
+        "Verify every Galway rental on daft.ie or rent.ie and demand an in-person viewing with photo ID — refuse any landlord using a foreign mobile, foreign IBAN, or Telegram contact, and pay deposits only by card with chargeback protection, never by bank transfer or crypto.",
+        "Book Aran Islands ferries only at aranislandferries.com or doolinferry.com and Cliffs of Moher admission only at cliffsofmoher.ie — type the operator domain manually rather than clicking a search-result link, since lookalike reseller sites take card payments then cancel by email at midnight before the sail.",
     ],
 }
 
@@ -7794,6 +7801,18 @@ FAQS = {
          "Diamonds from AWDC (Antwerp's diamond trade council) directory members at awdc.be can be a legitimate purchase if you bring a clear specification (carat, cut, color, clarity) and demand HRD or GIA certification with the stone. The Pelikaanstraat-Hoveniersstraat-Rijfstraat shopfront strip immediately around Antwerpen-Centraal runs a 500-percent markup pattern on tourists who do not know the wholesale baseline, with very pushy sales staff and frequent refusals to issue third-party certificates. A 2025 Reddit thread from a self-identified Pelikaanstraat shop owner spelled out the rule: never buy without an HRD or GIA certificate, and walk out of any shop that pressures a same-day cash purchase."),
         ("Is De Lijn safe to use with a foreign credit card?",
          "Tap-to-pay with a foreign Visa or Mastercard on De Lijn trams and buses is technically supported but settlement through Worldline can fail silently — the on-board reader plays the accepted sound and shows a green checkmark, but the inspector's scanner queries the De Lijn local database and finds no record. A 2026 Reddit thread documented a 128 EUR fine for a Guatemalan-card payment that never settled. Buy a paper or QR ticket at the station vending machine, or use the official De Lijn mobile app on your own phone, rather than tapping a foreign card directly. First-offense adult fines rose from 107 EUR to 127 EUR in 2025."),
+    ],
+    "Galway": [
+        ("Is Galway safe for tourists?",
+         "Galway is among the safest tourist destinations in Ireland and Western Europe, and violent crime against foreigners is exceptionally rare. The practical risks are financial: rogue taxis at Eyre Square and O'Brien's Bridge ranks padding the meter or refusing card payment (37 NTA complaints in the first half of 2025, third-highest in Ireland), organized street begging at Eyre Square and Shop Street, Daft.ie phantom-landlord deposit fraud targeting tourists and short-term tenants, and lookalike Aran Islands ferry booking sites that take card payments then cancel by email at midnight before the sail. Eyre Square, Shop Street, Quay Street, the Latin Quarter, the Long Walk, and the Salthill Promenade are all safe at all hours."),
+        ("What is the most common scam in Galway?",
+         "The most-reported pattern is taxi card-refusal and meter padding. A 2024 Reddit thread with 137 upvotes documented two taxis on the same Salthill-to-Eyre-Square route the same weekend — one cost 15 EUR by meter, the other 33 EUR cash. A 2024 Reddit thread with 100 upvotes documented an O'Brien's Bridge taxi tapping a card for a 50 EUR phantom charge on a ride that should have cost 12 EUR. The Connacht Tribune reported the National Transport Authority and Garda joint sting that fined more than 20 Galway drivers in a single operation for refusing card payment, and 57 percent of all 2024 Irish taxi complaints were for overcharging or fare disputes."),
+        ("How do I get from Shannon Airport (SNN) or Dublin Airport (DUB) to Galway?",
+         "Citylink and GoBus run direct coaches between Dublin Airport and Galway Bus Station for 22-26 EUR one-way, departing roughly hourly and taking 2.5-3 hours; book at citylink.ie or gobus.ie. Bus Éireann route 51 connects Shannon Airport (SNN) to Galway in about 1.5 hours for 14-18 EUR. Iarnród Éireann (Irish Rail) runs Dublin-Heuston to Galway-Ceannt trains for 30-45 EUR one-way. Pre-booked taxis from Shannon to Galway run 130-160 EUR. Refuse any rank cab at Shannon or Dublin that quotes a flat 200+ EUR cash fare and book through Free Now or Bolt instead."),
+        ("How do I book Aran Islands ferry and Cliffs of Moher tickets safely?",
+         "Type the operator domain into the address bar manually. Aran Island Ferries at aranislandferries.com runs the only year-round Rossaveel route (22 EUR adult single, 34 EUR return) plus a seasonal March-September Galway City Docks service at 30 EUR adult one-way. Doolin Ferries at doolinferry.com is the County Clare alternative. Cliffs of Moher admission costs 12 EUR online at cliffsofmoher.ie, and the Galway-to-Cliffs Express bus combo runs 45 EUR including admission. Lookalike third-party reseller sites take card payments then send a midnight cancellation email — pay only by card with chargeback protection."),
+        ("What can I see in Galway for free or low-cost?",
+         "The Eyre Square garden, the Spanish Arch, the Long Walk along the Corrib river, Shop Street and Quay Street pedestrian zone, the Latin Quarter, Galway Cathedral, and the 2-km Salthill Promenade are all free to walk through. The University of Galway Quadrangle is open during the day for visitor walk-throughs. The Galway City Museum at the Spanish Arch is free. Buy a Leap Card at any TFI ticket point for Bus Éireann city routes at 1.20-2.20 EUR per trip; buses 401 and 402 cover Salthill, Knocknacarra, and the city circle, and route 401 connects Eyre Square to Salthill in 15 minutes."),
     ],
 }
 
