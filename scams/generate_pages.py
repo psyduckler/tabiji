@@ -1779,6 +1779,7 @@ CITY_SLUGS = {
     "Rotterdam": "rotterdam",
     "Antwerp": "antwerp",
     "Galway": "galway",
+    "Matera": "matera",
 }
 
 # City-specific safety tips
@@ -3917,6 +3918,12 @@ SAFETY_TIPS = {
         "Refuse all unsolicited cash requests at Eyre Square, Shop Street, and Salthill — the camo-jacketed beggar at the Eyre Square mall rear entrance and the Shop Street balloon-clown work organized rotations; donate to galwaysimon.ie if you want to help genuine homelessness.",
         "Verify every Galway rental on daft.ie or rent.ie and demand an in-person viewing with photo ID — refuse any landlord using a foreign mobile, foreign IBAN, or Telegram contact, and pay deposits only by card with chargeback protection, never by bank transfer or crypto.",
         "Book Aran Islands ferries only at aranislandferries.com or doolinferry.com and Cliffs of Moher admission only at cliffsofmoher.ie — type the operator domain manually rather than clicking a search-result link, since lookalike reseller sites take card payments then cancel by email at midnight before the sail.",
+    ],
+    "Matera": [
+        "Take Pugliairbus from Bari Airport (BRI) arrivals to Matera Via Aldo Moro at 3 EUR per ticket (5 daily departures, 1h 15m) or the FAL train from Bari Centrale to Matera Sud at 4-8 EUR — refuse all curbside taxi quotes above 100 EUR for the BRI-Matera route.",
+        "Park at Lot Centro Storico (Via Lucana), Parking Vena, or Lot Aldo Moro at 1.50-2.50 EUR per hour and walk into the Sassi — Matera's seven ZTL cameras issue 80-300 EUR fines per crossing and the comune now pursues foreign-plate violations through US and UK collection agencies.",
+        "Book the official 2-hour-30-minute Sassi tour at Info Matera (Piazza Vittorio Veneto, 39) or sassidimatera.net at 20 EUR per person 16+ (free under 16) — refuse every Sassi tout who cannot show a regional-license badge with photo ID and registration number.",
+        "Refuse all unordered bread, taralli, and olives at Sassi panoramic-terrace restaurants on Via Ridola and Piazza Vittorio Veneto — ask 'is this complimentary?' before items stay on the table and confirm the coperto and servizio compreso prices on the printed Italian menu.",
     ],
 }
 
@@ -7813,6 +7820,18 @@ FAQS = {
          "Type the operator domain into the address bar manually. Aran Island Ferries at aranislandferries.com runs the only year-round Rossaveel route (22 EUR adult single, 34 EUR return) plus a seasonal March-September Galway City Docks service at 30 EUR adult one-way. Doolin Ferries at doolinferry.com is the County Clare alternative. Cliffs of Moher admission costs 12 EUR online at cliffsofmoher.ie, and the Galway-to-Cliffs Express bus combo runs 45 EUR including admission. Lookalike third-party reseller sites take card payments then send a midnight cancellation email — pay only by card with chargeback protection."),
         ("What can I see in Galway for free or low-cost?",
          "The Eyre Square garden, the Spanish Arch, the Long Walk along the Corrib river, Shop Street and Quay Street pedestrian zone, the Latin Quarter, Galway Cathedral, and the 2-km Salthill Promenade are all free to walk through. The University of Galway Quadrangle is open during the day for visitor walk-throughs. The Galway City Museum at the Spanish Arch is free. Buy a Leap Card at any TFI ticket point for Bus Éireann city routes at 1.20-2.20 EUR per trip; buses 401 and 402 cover Salthill, Knocknacarra, and the city circle, and route 401 connects Eyre Square to Salthill in 15 minutes."),
+    ],
+    "Matera": [
+        ("Is Matera safe for tourists?",
+         "Matera is among the safest UNESCO heritage cities in southern Italy. Violent crime against tourists is rare; the documented risks are financial. The Sassi di Matera (Sasso Barisano, Sasso Caveoso), Piazza Vittorio Veneto, and the historic center are safe at all hours. The practical risks are Bari-airport curbside taxi inflation (100-150 EUR quotes versus 3 EUR Pugliairbus), Matera ZTL camera fines for foreign-plate drivers (80-300 EUR per crossing), unauthorized Sassi tour touts at Piazza Vittorio Veneto, and Sassi panoramic-terrace restaurant bill padding."),
+        ("What is the most common scam in Matera?",
+         "Two patterns dominate. The first is the Bari Airport curbside transfer overcharge: drivers quote 100-150 EUR for the 65-kilometer trip to Matera while Pugliairbus runs the same route at 3 EUR per ticket and the FAL train from Bari Centrale runs at 4-8 EUR. The second is the Matera ZTL fine — Mayor Domenico Bennardi confirmed in regional press that 70 percent of all ZTL fine revenue from September 2023 through April 2024 came from foreign-registered vehicles, with US and UK collection agencies pursuing drivers 6-24 months after the trip."),
+        ("How do I get from Bari Airport (BRI) to Matera?",
+         "The cheapest and most predictable option is Pugliairbus, operated by Cotrap, at 3 EUR per ticket with 5 daily departures and a 1-hour-15-minute ride to Matera Via Aldo Moro. The FAL (Ferrovie Appulo Lucane) train from Bari Centrale to Matera Sud runs at 4-8 EUR with a transfer at Altamura, taking 1h 46m to 2h 7m — note that the line is under partial bus replacement during 2025 reconstruction. Pre-booked private transfers via your Matera hotel run 80-100 EUR. Refuse curbside transfer touts quoting above 100 EUR and never pre-pay any operator without an Italian VAT number on the booking confirmation."),
+        ("Can I drive into the Sassi di Matera?",
+         "No — Matera has seven ZTL camera gates protecting the Sassi (10:00-20:00 daily), Centro (24/7), and Mercato (evening) zones, with fines of 80-300 EUR per crossing and a 30 percent statutory discount if paid within 5 days. Park at Lot Centro Storico (Via Lucana), Parking Vena, or the larger Lot Aldo Moro at 1.50-2.50 EUR per hour with daily caps near 15 EUR — all sit outside the ZTL perimeter and the Sassi are fully foot-accessible from the lots. If your hotel is inside the ZTL, ask the concierge to register your plate for the 07:00-10:30 loading-window slot before you drive in. Polizia Municipale di Matera is reachable at 0835 267111."),
+        ("What can I see in Matera for free or low-cost?",
+         "The Sassi di Matera viewpoint walks (Sasso Barisano, Sasso Caveoso panoramic terraces, Belvedere Murgia Timone across the gravina ravine) are all free. The official Sassi tour at Info Matera (Piazza Vittorio Veneto, 39) or sassidimatera.net is 20 EUR per person 16+, free under 16, and includes the cave-house and the Madonna de Idris and San Giovanni Monterrone rock churches. The Crypt of the Original Sin (Cripta del Peccato Originale) is the one premium add-on at 10 EUR and must be pre-booked. Many other rock churches, Sassi miradors, and the Cathedral square are admission-free."),
     ],
 }
 
