@@ -1780,6 +1780,7 @@ CITY_SLUGS = {
     "Antwerp": "antwerp",
     "Galway": "galway",
     "Matera": "matera",
+    "Lecce": "lecce",
 }
 
 # City-specific safety tips
@@ -3924,6 +3925,12 @@ SAFETY_TIPS = {
         "Park at Lot Centro Storico (Via Lucana), Parking Vena, or Lot Aldo Moro at 1.50-2.50 EUR per hour and walk into the Sassi — Matera's seven ZTL cameras issue 80-300 EUR fines per crossing and the comune now pursues foreign-plate violations through US and UK collection agencies.",
         "Book the official 2-hour-30-minute Sassi tour at Info Matera (Piazza Vittorio Veneto, 39) or sassidimatera.net at 20 EUR per person 16+ (free under 16) — refuse every Sassi tout who cannot show a regional-license badge with photo ID and registration number.",
         "Refuse all unordered bread, taralli, and olives at Sassi panoramic-terrace restaurants on Via Ridola and Piazza Vittorio Veneto — ask 'is this complimentary?' before items stay on the table and confirm the coperto and servizio compreso prices on the printed Italian menu.",
+    ],
+    "Lecce": [
+        "Book the integrated Trenitalia + STP shuttle at 4.10 EUR online or at the BDS ticket office — refuse all in-terminal taxi-tout approaches at Brindisi Salento Airport where unlicensed drivers quote 70-110 EUR for the 50-km Lecce transfer.",
+        "Pay only at the SGM machine for strisce-blu spaces (0.60-1.50 EUR per hour) and refuse any cash demand from a parcheggiatore abusivo at Piazzale Bene, Ex Arena Aurora, Piazza Bottazzi, or Piazza Palio — the Polizia Locale di Lecce has run formal sweeps against this pattern in 2026.",
+        "Skip the front-row Salento lido umbrellas at 80-90 EUR per day in Gallipoli, Torre Lapillo, and Pescoluse — use spiagge libere such as Punta Pizzo, Lovers' Beach, or Porto Selvaggio with your own umbrella, and walk away from any lido that won't post a written tariff card at the cassa.",
+        "Park outside the centro storico ZTL at Parcheggio Carlo V or Parcheggio Foro Boario (1-2 EUR per hour) — never follow Google Maps into Piazza Sant'Oronzo in a rental car without a hotel-issued ZTL permit; each accidental gate crossing costs 83 EUR plus 5-13 EUR notification fees plus 30-60 EUR rental admin.",
     ],
 }
 
@@ -7832,6 +7839,18 @@ FAQS = {
          "No — Matera has seven ZTL camera gates protecting the Sassi (10:00-20:00 daily), Centro (24/7), and Mercato (evening) zones, with fines of 80-300 EUR per crossing and a 30 percent statutory discount if paid within 5 days. Park at Lot Centro Storico (Via Lucana), Parking Vena, or the larger Lot Aldo Moro at 1.50-2.50 EUR per hour with daily caps near 15 EUR — all sit outside the ZTL perimeter and the Sassi are fully foot-accessible from the lots. If your hotel is inside the ZTL, ask the concierge to register your plate for the 07:00-10:30 loading-window slot before you drive in. Polizia Municipale di Matera is reachable at 0835 267111."),
         ("What can I see in Matera for free or low-cost?",
          "The Sassi di Matera viewpoint walks (Sasso Barisano, Sasso Caveoso panoramic terraces, Belvedere Murgia Timone across the gravina ravine) are all free. The official Sassi tour at Info Matera (Piazza Vittorio Veneto, 39) or sassidimatera.net is 20 EUR per person 16+, free under 16, and includes the cave-house and the Madonna de Idris and San Giovanni Monterrone rock churches. The Crypt of the Original Sin (Cripta del Peccato Originale) is the one premium add-on at 10 EUR and must be pre-booked. Many other rock churches, Sassi miradors, and the Cathedral square are admission-free."),
+    ],
+    "Lecce": [
+        ("Is Lecce safe for tourists?",
+         "Lecce is one of the safest cities in southern Italy for both residents and tourists. Violent crime against foreigners is rare and the centro storico (anchored by Piazza Sant'Oronzo, Piazza del Duomo, and Basilica di Santa Croce) is well-policed at all hours. The practical risks are financial: Brindisi Salento Airport unlicensed-taxi overcharges to Lecce (110 EUR vs 4.10 EUR public transport), parcheggiatori abusivi shake-downs at strisce-blu lots, Salento lido sticker-shock at Gallipoli and Pescoluse, and ZTL camera fines through rental cars. Save 112 (Carabinieri), 113 (Polizia di Stato), and Polizia Locale di Lecce 0832-298-282."),
+        ("What is the most common scam in Lecce?",
+         "The most-reported pattern targeting drivers is the parcheggiatore abusivo shake-down at city paid-parking lots — illegal attendants demanding 1-5 EUR cash on top of the legitimate strisce-blu meter at Piazzale Bene, Ex Arena Aurora, Piazza Bottazzi, and Piazza Palio. The Polizia Locale di Lecce ran a March 2026 sweep against this pattern. The runner-up is Brindisi Salento Airport (BDS) unlicensed-taxi overcharges to Lecce (up to 110 EUR for the 50-km transfer that the integrated Trenitalia + STP shuttle covers for 4.10 EUR)."),
+        ("How do I get from Brindisi Airport to Lecce?",
+         "The cheapest official route is the integrated Trenitalia + STP shuttle at 4.10 EUR — a 1 EUR Air & Port Link bus from BDS to Brindisi Centrale, then a Trenitalia regional train to Lecce Centrale. Total around 50 minutes with 37 daily departures. Book online at trenitalia.com or at the BDS ticket office. Cotrap also runs a direct STP coach from BDS to Lecce. The official Radio Taxi fare via 0831-597901 runs 110 EUR for 3-4 passengers — refuse all in-terminal taxi-tout approaches at the arrivals hall, where unlicensed drivers operate without permission to provide airport service."),
+        ("Where is it safe to walk in Lecce?",
+         "The centro storico — Piazza Sant'Oronzo, Piazza del Duomo, Basilica di Santa Croce, Porta Napoli, and the entire ZTL pedestrian zone — is the safest walking area at all hours, with steady foot traffic and visible Polizia Locale presence. Via Augusto Imperatore and the Roman amphitheater approaches stay safe in daytime. Use a taxi or the Lecce city bus rather than walking from the train station alone late at night. Beach day trips to Punta Pizzo, Porto Selvaggio, and Santa Maria al Bagno are safe in daytime; avoid leaving valuables in the car at any unattended Salento beach lot."),
+        ("Should I rent a car in Lecce?",
+         "Lecce itself is fully walkable in the centro storico, but a rental car is the practical way to reach Salento beaches, Otranto, Gallipoli, Lecce-province masserie, and the Adriatic coast. Park outside the ZTL at Parcheggio Carlo V or Parcheggio Foro Boario (1-2 EUR per hour) — never follow Google Maps into the centro storico in a rental car without a hotel-issued ZTL transit permit. Each accidental ZTL camera crossing costs 83 EUR base plus 5-13 EUR notification fees plus 30-60 EUR rental admin charges, and the rental company forwards the ticket weeks after drop-off. Confirm your hotel registers your plate for a 24-hour ZTL permit before arrival."),
     ],
 }
 
