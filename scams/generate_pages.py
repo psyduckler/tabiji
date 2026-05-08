@@ -1776,6 +1776,7 @@ CITY_SLUGS = {
     "Český Krumlov": "cesky-krumlov",
     "Brașov": "brasov",
     "Plovdiv": "plovdiv",
+    "Rotterdam": "rotterdam",
 }
 
 # City-specific safety tips
@@ -3896,6 +3897,12 @@ SAFETY_TIPS = {
         "Track the route on Google Maps in real time during every TaxiMe app ride — drivers spot foreign passengers and pad the route to inflate the meter; refuse fares that exceed the booking estimate by more than 20 percent.",
         "Hang up immediately on any AI-generated voice call in Bulgarian offering medications or services — never share personal-number ID or bank details over the phone; report suspicious numbers on prevenciq.bg.",
         "Refuse all unordered bread, olives, or table covers at delivery in Plovdiv tourist-zone restaurants (Kapana creative district, Old Town) — ask 'is this complimentary?' before letting items stay on the table; bills are padded with 6-12 leva covers and 10 percent service charges.",
+    ],
+    "Rotterdam": [
+        "Book Uber or Bolt for app-locked-fare rides at Rotterdam Centraal — refuse any driver who asks you to cancel an in-app booking for an off-app refund or who hides the meter; the legitimate Dutch maximum is €4.31 start, €3.17 per km, €0.52 per minute.",
+        "Refuse all cash requests from strangers at Rotterdam Centraal, Zuidplein, and Pathé Schouwburgplein — the stranded-driver Romanian-passport script and the app-screen wire transfer in exchange for ATM cash are documented patterns that cost lenders €20–€600.",
+        "Demand to see a Dutch politie ID card with photo, badge number, and watermark before handing over a passport at Depot Boijmans, Erasmusbrug, or Markthal — call 112 in front of any plain-clothes person who refuses, and never let anyone count your cash on the street.",
+        "Verify any Rotterdam apartment-listing makelaar's KvK Chamber-of-Commerce registration on kvk.nl before paying — refuse all pre-contract reservation, administration, or viewing fees of €30–€600; legitimate Dutch landlords accept refundable card deposits only after a signed lease.",
     ],
 }
 
@@ -7744,6 +7751,18 @@ FAQS = {
          "Take bus 1670 from Brașov Bus Station Autogara 2 to Bran every 30 minutes for 8-12 RON one-way. Bran Castle entry is 70 RON for adults, bookable on bran-castle.com or paid at the gate. Total round-trip transport plus entry is roughly 90 RON ($19) — versus $90-150 per person for the Klook/Viator/GetYourGuide bundled tours. Combine with Râșnov Citadel (15 minutes south of Bran) for a fuller day trip, or pair with Peleș Castle in Sinaia (45 minutes south of Brașov by train) for the more architecturally impressive Renaissance castle."),
         ("What can I see in Brașov for free or low-cost?",
          "Piața Sfatului (Council Square) with the 1420-built Council House is free to walk through. The Black Church (Biserica Neagră), Romania's largest Gothic church, costs 15 RON entry. Strada Sforii (Rope Street, one of the narrowest streets in Europe) is free to walk. The Tâmpa cable-car to the Hollywood-style 'BRAȘOV' sign costs 18 RON round-trip; the hike up is free and takes 45-60 minutes. The First Romanian School Museum on Strada Spătaru is 10 RON. Poiana Brașov ski resort (12 km from city) is reachable by city bus for 8 RON."),
+    ],
+    "Rotterdam": [
+        ("Is Rotterdam safe for tourists?",
+         "Rotterdam is generally safe for tourists, with violent crime against visitors uncommon. The practical risks are financial: Centraal taxi-rank scams (€80–€110 charged for sub-15-minute rides at meters that exceed the Dutch maximum tariff), stranded-driver cash-need begs at Centraal and Zuidplein, fake-police passport inspections near Depot Boijmans Van Beuningen and Erasmusbrug, and pre-contract apartment reservation fees of €500–€600. The Centrum, Kop van Zuid, Witte de Withstraat, and Markthal districts are safe to walk at most hours; Kruiskade and Zuidplein late at night warrant pocketed phones."),
+        ("What is the most common scam in Rotterdam?",
+         "The most-reported pattern is the Rotterdam Centraal taxi overcharge tied to NS train cancellations. A 2025 Reddit thread documented a driver who asked the passenger to cancel the Uber booking three times for a fake \"NS refund,\" then ran a hidden meter at 55 cents per minute and €3.75 per kilometer. The 2022 Dutch-wide 325-upvote thread (€80 for a 12-minute ride) and the 2023 300-upvote Schiphol case (€142 for a 37-km run) anchor the broader pattern. Stranded-driver cash-need scams at Centraal forecourt and Zuidplein are the second-most-cited threat."),
+        ("How do I get from Schiphol Airport to Rotterdam?",
+         "The NS InterCity Direct from Schiphol Airport to Rotterdam Centraal takes 25 minutes and costs about €17 one-way (book on ns.nl). Standard Intercity trains take about 40 minutes for €13 with one stop at Den Haag HS. The metered Dutch taxi maximum tariff is €4.31 start plus €3.17 per kilometer plus €0.52 per minute — a Schiphol-to-Rotterdam-Centraal sedan ride should be roughly €100–€130. Avoid any driver who approaches you inside the airport or shouts \"taxi\" — those are the tout patterns documented in NL Times reporting on the Schiphol exploitation gang."),
+        ("How do I get from Rotterdam Centraal to my hotel?",
+         "Use Uber or Bolt with an app-locked fare for taxi rides — most central Rotterdam destinations cost €10–€18. The RET metro line E from Rotterdam Centraal serves Wilhelminaplein (cruise terminal area), Beurs, and Blaak using OVpay tap-in with any contactless bank card for under €4 per single ride. The water taxi from Leuvehaven to Hotel New York and Kop van Zuid runs €5.50 per person. Refuse any curbside taxi at Centraal who asks you to cancel an in-app booking or covers the meter — those are documented Centraal-rank scams."),
+        ("Are ATMs and money exchanges safe in Rotterdam?",
+         "Use bank-branded ATMs from ABN AMRO, ING, Rabobank, or Knab inside or directly attached to bank branches — these are the safest. Avoid the standalone Euronet Worldwide ATMs scattered around Centraal, Markthal, and the Erasmusbrug approach; they apply 5-15 percent dynamic-currency-conversion markups at the screen. Always select \"pay in EUR\" (without conversion) when prompted. For larger exchanges, use GWK Travelex offices inside Centraal during business hours rather than tourist-zone bureaux on Kruiskade. Never change money with anyone who approaches you on the street."),
     ],
     "Plovdiv": [
         ("Is Plovdiv safe for tourists?",
