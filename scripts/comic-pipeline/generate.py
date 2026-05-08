@@ -213,20 +213,53 @@ def _s3_client():
     return _S3_CLIENT
 
 
-def upload_r2(src: Path, r2_key: str, _r2_token: str) -> bool:
-    """Upload a JPEG to R2 via the S3-compatible endpoint.
+_CT_BY_EXT = {
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg",
+    "png": "image/png",
+    "webp": "image/webp",
+    "gif": "image/gif",
+    "avif": "image/avif",
+}
 
+
+def _content_type_for(src: Path, key: str) -> str:
+    """Detect Content-Type from the file's magic bytes, falling back to the
+    R2 key extension. Earlier versions of this function hardcoded
+    `image/jpeg` regardless of input, which produced PNG bytes served as
+    JPEG (broken on strict clients and CDN crawlers)."""
+    try:
+        head = src.open("rb").read(12)
+    except OSError:
+        head = b""
+    if head[:8] == b"\x89PNG\r\n\x1a\n":
+        return "image/png"
+    if head[:3] == b"\xff\xd8\xff":
+        return "image/jpeg"
+    if head[:4] == b"RIFF" and head[8:12] == b"WEBP":
+        return "image/webp"
+    if head[4:12] in (b"ftypavif", b"ftypavis"):
+        return "image/avif"
+    ext = key.rsplit(".", 1)[-1].lower() if "." in key else ""
+    return _CT_BY_EXT.get(ext, "application/octet-stream")
+
+
+def upload_r2(src: Path, r2_key: str, _r2_token: str) -> bool:
+    """Upload an image file to R2 via the S3-compatible endpoint.
+
+    Sets Content-Type from magic bytes (preferred) or the R2 key extension.
     The `_r2_token` arg is preserved for backward-compat with callers but
     no longer used — auth comes from the access-key/secret pair stored
     under the cloudflare-r2-{access-key-id,secret-access-key} keychain
     entries.
     """
     body = src.read_bytes()
+    content_type = _content_type_for(src, r2_key)
     for attempt in range(5):
         try:
             _s3_client().put_object(
                 Bucket=R2_BUCKET, Key=r2_key, Body=body,
-                ContentType="image/jpeg",
+                ContentType=content_type,
                 CacheControl="public, max-age=31536000, immutable",
             )
             return True
