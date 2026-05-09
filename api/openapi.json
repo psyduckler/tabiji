@@ -544,6 +544,633 @@
           }
         }
       }
+    },
+    "/alerts.json": {
+      "get": {
+        "summary": "Travel advisory index across 200+ countries (US State Department + UK FCDO).",
+        "description": "Travel advisory index across 200+ countries (US State Department + UK FCDO).",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alerts/{iso2}.json": {
+      "get": {
+        "summary": "Combined US + UK travel advisory for a single country (lowercase ISO 3166-1 alpha-2 code).",
+        "description": "Combined US + UK travel advisory for a single country (lowercase ISO 3166-1 alpha-2 code).",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "iso2",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z]{2}$",
+              "example": "jp"
+            }
+          }
+        ]
+      }
+    },
+    "/scams.json": {
+      "get": {
+        "summary": "Catalog index of all scam-city pages with slug and canonical URL.",
+        "description": "Catalog index of all scam-city pages with slug and canonical URL.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scams/{slug}.json": {
+      "get": {
+        "summary": "Per-city scam record with city, country, severity, scams[], and avoidance notes.",
+        "description": "Per-city scam record with city, country, severity, scams[], and avoidance notes.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/packs.json": {
+      "get": {
+        "summary": "Catalog of offline travel packs (country, region, and theme bundles).",
+        "description": "Catalog of offline travel packs (country, region, and theme bundles).",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packs/{slug}.json": {
+      "get": {
+        "summary": "Single offline pack with embedded destinations, safety, picks, itineraries, and scam data.",
+        "description": "Single offline pack with embedded destinations, safety, picks, itineraries, and scam data.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/filter.json": {
+      "get": {
+        "summary": "Filterable destination index for hard-constraint queries (city, budget, safety, vibes, open-now).",
+        "description": "Filterable destination index for hard-constraint queries (city, budget, safety, vibes, open-now).",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/facets.json": {
+      "get": {
+        "summary": "Available facet values for filtering destinations.",
+        "description": "Available facet values for filtering destinations.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health.json": {
+      "get": {
+        "summary": "Travel-health index: per-country healthcare quality, water safety, insurance carriers, tier-1 medications.",
+        "description": "Travel-health index: per-country healthcare quality, water safety, insurance carriers, tier-1 medications.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offline-maps.json": {
+      "get": {
+        "summary": "Coordinate-format reference and tile-estimate metadata for offline-map renderers.",
+        "description": "Coordinate-format reference and tile-estimate metadata for offline-map renderers.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manifest.json": {
+      "get": {
+        "summary": "Top-level manifest: per-collection counts, sizes, checksums, and update timestamps.",
+        "description": "Top-level manifest: per-collection counts, sizes, checksums, and update timestamps.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/destinations-full.json": {
+      "get": {
+        "summary": "Bulk bundle of all destination detail records keyed by slug. Backs the /destinations/{slug}.json Worker.",
+        "description": "Bulk bundle of all destination detail records keyed by slug. Backs the /destinations/{slug}.json Worker.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search-index.json": {
+      "get": {
+        "summary": "Pre-built search index that backs /search.json. Public for offline / static-search consumers.",
+        "description": "Pre-built search index that backs /search.json. Public for offline / static-search consumers.",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/knowledge/chunks.json": {
+      "get": {
+        "summary": "Aggregated knowledge chunks (one chunk per safety summary, alert, scam list, destination summary).",
+        "description": "Aggregated knowledge chunks (one chunk per safety summary, alert, scam list, destination summary).",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/knowledge/chunks/{name}.json": {
+      "get": {
+        "summary": "Per-pack knowledge chunks (e.g. japan, italy, se-asia, solo-female-safe).",
+        "description": "Per-pack knowledge chunks (e.g. japan, italy, se-asia, solo-female-safe).",
+        "responses": {
+          "200": {
+            "description": "JSON response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "JSON API error envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -720,6 +1347,70 @@
           "url": {
             "type": "string",
             "format": "uri"
+          },
+          "country": {
+            "type": "string",
+            "example": "Japan",
+            "description": "Country name (resolved via destination-country-map.json)."
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "JP",
+            "description": "ISO 3166-1 alpha-2 country code."
+          },
+          "currency": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "example": "JPY"
+              },
+              "name": {
+                "type": "string",
+                "example": "yen"
+              },
+              "symbol": {
+                "type": "string",
+                "example": "¥"
+              }
+            }
+          },
+          "language": {
+            "type": "string",
+            "example": "Japanese"
+          },
+          "flag": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Flag image URLs and emoji."
+          },
+          "coordinates": {
+            "type": "object",
+            "properties": {
+              "lat": {
+                "type": "number",
+                "example": 35.6762
+              },
+              "lng": {
+                "type": "number",
+                "example": 139.6503
+              },
+              "source": {
+                "type": "string",
+                "example": "geonames-city"
+              }
+            }
+          },
+          "travelStyles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "solo",
+              "food",
+              "city"
+            ]
           }
         }
       },

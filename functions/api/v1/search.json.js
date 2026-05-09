@@ -39,6 +39,14 @@ export async function onRequestPost() {
   return errorResponse(405, 'method_not_allowed', 'Use GET /api/v1/search.json with q, type, and limit query parameters.');
 }
 
+// RFC 7231 §4.3.2: HEAD must return the same headers as GET. Without this,
+// HEAD /api/v1/search.json?q=… falls through to a static-asset 404, even
+// though the GET handler responds 200 for the same URL.
+export async function onRequestHead(context) {
+  const response = await onRequestGet(context);
+  return new Response(null, { status: response.status, headers: response.headers });
+}
+
 export async function onRequestGet(context) {
   const { request } = context;
   const url = new URL(request.url);

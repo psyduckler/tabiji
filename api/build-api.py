@@ -1041,7 +1041,23 @@ def derive_destination_from_itinerary_slug(slug):
 
 
 def clean_itinerary_destination(value):
-    value = re.sub(r'\b(Itinerary|Guide|Solo Adventure|Adventure|Relaxation|Foodie|Cultural|Family Visit|Long Weekend|Escape|Getaway|Trip|Travel)\b', '', value, flags=re.IGNORECASE).strip(' :-—()')
+    # Strip travel-package noise that frequently dangles after a destination phrase
+    # ("Tokyo Itinerary" → "Tokyo", "Costa Rica Adventure" → "Costa Rica"), and a
+    # leading article that the case-insensitive regex sometimes drags in
+    # ("the Pacific Coast" → "Pacific Coast").
+    value = re.sub(r'^(the|a|an|of)\s+', '', value, flags=re.IGNORECASE)
+    # Trim at known modifier words that frequently appear AFTER the destination
+    # ("Cairo After Dark" → "Cairo", "Tokyo with Tiny Explorers" → "Tokyo").
+    value = re.split(r'\s+(?:After|Before|With|Without|For|Beyond|During)\s+', value, maxsplit=1, flags=re.IGNORECASE)[0]
+    value = re.sub(
+        r'\b('
+        r'Itinerary|Guide|Adventure|Adventures|Relaxation|Foodie|Cultural|Romantic'
+        r'|Family Visit|Family|Long Weekend|Escape|Escapes|Getaway|Getaways|Trip|Trips'
+        r'|Travel|Tour|Tours|Vacation|Holiday|Holidays|Honeymoon|Bachelorette'
+        r'|Solo Adventure|Solo|Foodie Adventure|Food Trail|Food Crawl'
+        r')\b',
+        '', value, flags=re.IGNORECASE,
+    ).strip(' :-—()')
     value = re.sub(r'\s+', ' ', value).strip()
     return value
 
@@ -1060,15 +1076,101 @@ def extract_destination_candidates(title):
     return unique_list(candidates)
 
 
+# Caps phrase used by the fallback patterns: 1-3 capitalized words. Case-sensitive
+# on purpose — the inner letter classes must NOT match lowercase, otherwise
+# IGNORECASE on the surrounding pattern would extend captures into arbitrary
+# lowercase text ("from Madrid to Mallorca" → "Madrid to Mallorca").
+_FALLBACK_CAPS = r'[A-Z][A-Za-zÀ-ÿ]+(?:[\s/&·\-][A-Z][A-Za-zÀ-ÿ]+){0,2}'
+
+
+def _fallback_destination_candidates(title):
+    """Secondary extraction patterns, only used when the primary set is empty.
+
+    Adds:
+      - Case-insensitive prepositions (catches "Through Tokyo" as well as "through Tokyo").
+      - Leading caps phrase ending at a lowercase connector ("Tokyo with Tiny Explorers").
+      - First chunk before an arrow/em-dash separator ("Tokyo → Hakone → Kyoto").
+      - First caps phrase after the first colon ("Two Worlds, One Journey: Sri Lanka & ...").
+
+    Kept separate from extract_destination_candidates so we don't regress titles
+    that already extract correctly with the original two patterns. Only kicks
+    in for the ~95 itineraries the original patterns leave with destination=''.
+    """
+    if not title:
+        return []
+    candidates = []
+    # Strip a leading "N-Day / N-Night" prefix so the destination is the next phrase.
+    body = re.sub(r'^\s*\d+\s*[-–]?\s*(?:day|days|night|nights)\b\s*[:—-]?\s*', '', title, flags=re.IGNORECASE)
+
+    # Case-insensitive preposition (scoped flag keeps the capture case-sensitive).
+    for m in re.finditer(rf'\b(?i:in|through|across|around|from|to|on)\s+({_FALLBACK_CAPS})', title):
+        c = clean_itinerary_destination(m.group(1))
+        if c:
+            candidates.append(c)
+
+    # Leading caps phrase ending at a lowercase word.
+    m = re.match(rf'^({_FALLBACK_CAPS})\b', body)
+    if m:
+        c = clean_itinerary_destination(m.group(1))
+        if c:
+            candidates.append(c)
+
+    # First chunk before an arrow / em-dash / en-dash / middot separator.
+    parts = re.split(r'\s*[—–→·]\s*', body)
+    if len(parts) > 1:
+        head = parts[0].strip()
+        m = re.match(rf'^({_FALLBACK_CAPS})\b', head)
+        if m:
+            c = clean_itinerary_destination(m.group(1))
+            if c:
+                candidates.append(c)
+
+    # After the first colon ("Two Worlds, One Journey: Sri Lanka & the Maldives").
+    if ':' in body:
+        rest = body.split(':', 1)[1].strip()
+        m = re.match(rf'^({_FALLBACK_CAPS})\b', rest)
+        if m:
+            c = clean_itinerary_destination(m.group(1))
+            if c:
+                candidates.append(c)
+
+    return unique_list(candidates)
+
+
+# Words that can appear inside a caps run but never identify a destination on
+# their own. If a candidate's tokens are all bad, we drop it. Tunable list:
+# add words sparingly — overzealous filtering excludes real city/country names.
+_BAD_DEST_TOKENS = {
+    'solo', 'adventure', 'relaxation', 'trip', 'days', 'nights', 'foodie',
+    'cultural', 'budget', 'family', 'guide', 'itinerary', 'full', 'bloom',
+    'through', 'under', 'big', 'with', 'after', 'before',
+    'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+    'one', 'worlds', 'journey', 'wisteria', 'romantic',
+}
+
+
+def _candidate_passes_token_filter(candidate):
+    words = [w.lower() for w in re.split(r'\s+', candidate) if w]
+    if not words:
+        return False
+    if all(word in _BAD_DEST_TOKENS for word in words):
+        return False
+    if len(words) == 1 and words[0] in _BAD_DEST_TOKENS:
+        return False
+    return True
+
+
 def choose_itinerary_destination(title, slug):
-    bad_tokens = {'solo', 'adventure', 'relaxation', 'trip', 'days', 'nights', 'foodie', 'cultural', 'budget', 'family', 'guide', 'itinerary', 'full', 'bloom', 'through', 'under', 'big'}
+    # Primary patterns — preserve existing extraction so previously-correct
+    # destinations don't churn.
     for candidate in extract_destination_candidates(title):
-        words = [w.lower() for w in re.split(r'\s+', candidate) if w]
-        if not words or all(word in bad_tokens for word in words):
-            continue
-        if len(words) == 1 and words[0] in bad_tokens:
-            continue
-        return candidate
+        if _candidate_passes_token_filter(candidate):
+            return candidate
+    # Fallback patterns — only used when the primary set yields nothing usable.
+    # This is what closes the 95 itineraries with destination="" from the audit.
+    for candidate in _fallback_destination_candidates(title):
+        if _candidate_passes_token_filter(candidate):
+            return candidate
     return clean_itinerary_destination(derive_destination_from_itinerary_slug(slug))
 
 
@@ -2465,6 +2567,60 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
         }
     }
 
+    # Generic JSON response — used for endpoints that exist on the live API but
+    # don't have a dedicated schema yet. Better to advertise the path with an
+    # opaque response than to hide it from generated clients entirely.
+    generic_object_response = {
+        'description': 'JSON response',
+        'content': {
+            'application/json': {
+                'schema': {'type': 'object', 'additionalProperties': True}
+            }
+        },
+    }
+
+    # Endpoints that exist on the live API but were missing from the OpenAPI
+    # spec entirely. Found during the 2026-05 audit. Each entry advertises the
+    # path with a generic JSON shape; tightening the schemas is a follow-up.
+    additional_paths = [
+        ('/alerts.json', 'Travel advisory index across 200+ countries (US State Department + UK FCDO).'),
+        ('/alerts/{iso2}.json', 'Combined US + UK travel advisory for a single country (lowercase ISO 3166-1 alpha-2 code).'),
+        ('/scams.json', 'Catalog index of all scam-city pages with slug and canonical URL.'),
+        ('/scams/{slug}.json', 'Per-city scam record with city, country, severity, scams[], and avoidance notes.'),
+        ('/packs.json', 'Catalog of offline travel packs (country, region, and theme bundles).'),
+        ('/packs/{slug}.json', 'Single offline pack with embedded destinations, safety, picks, itineraries, and scam data.'),
+        ('/filter.json', 'Filterable destination index for hard-constraint queries (city, budget, safety, vibes, open-now).'),
+        ('/facets.json', 'Available facet values for filtering destinations.'),
+        ('/health.json', 'Travel-health index: per-country healthcare quality, water safety, insurance carriers, tier-1 medications.'),
+        ('/offline-maps.json', 'Coordinate-format reference and tile-estimate metadata for offline-map renderers.'),
+        ('/manifest.json', 'Top-level manifest: per-collection counts, sizes, checksums, and update timestamps.'),
+        ('/destinations-full.json', 'Bulk bundle of all destination detail records keyed by slug. Backs the /destinations/{slug}.json Worker.'),
+        ('/search-index.json', 'Pre-built search index that backs /search.json. Public for offline / static-search consumers.'),
+        ('/knowledge/chunks.json', 'Aggregated knowledge chunks (one chunk per safety summary, alert, scam list, destination summary).'),
+        ('/knowledge/chunks/{name}.json', 'Per-pack knowledge chunks (e.g. japan, italy, se-asia, solo-female-safe).'),
+    ]
+    for path_, summary in additional_paths:
+        if path_ in paths:
+            continue
+        path_params = []
+        for token in re.findall(r'\{([^}]+)\}', path_):
+            schema = {'type': 'string'}
+            if token == 'iso2':
+                schema = {'type': 'string', 'pattern': '^[a-z]{2}$', 'example': 'jp'}
+            path_params.append({'name': token, 'in': 'path', 'required': True, 'schema': schema})
+        op = {
+            'summary': summary,
+            'description': summary,
+            'responses': {
+                '200': generic_object_response,
+                '404': error_response,
+                '405': error_response,
+            },
+        }
+        if path_params:
+            op['parameters'] = path_params
+        paths[path_] = {'get': op}
+
     schemas = spec.setdefault('components', {}).setdefault('schemas', {})
 
     schemas['RelatedRecordSummary'] = {
@@ -2616,6 +2772,28 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
     destination_summary['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
     destination_summary['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
     destination_summary['relatedDestinations'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
+    # Fields the audit found present on every record but undocumented in the schema.
+    destination_summary['country'] = {'type': 'string', 'example': 'Japan', 'description': 'Country name (resolved via destination-country-map.json).'}
+    destination_summary['countryCode'] = {'type': 'string', 'example': 'JP', 'description': 'ISO 3166-1 alpha-2 country code.'}
+    destination_summary['currency'] = {
+        'type': 'object',
+        'properties': {
+            'code': {'type': 'string', 'example': 'JPY'},
+            'name': {'type': 'string', 'example': 'yen'},
+            'symbol': {'type': 'string', 'example': '¥'},
+        },
+    }
+    destination_summary['language'] = {'type': 'string', 'example': 'Japanese'}
+    destination_summary['flag'] = {'type': 'object', 'additionalProperties': True, 'description': 'Flag image URLs and emoji.'}
+    destination_summary['coordinates'] = {
+        'type': 'object',
+        'properties': {
+            'lat': {'type': 'number', 'example': 35.6762},
+            'lng': {'type': 'number', 'example': 139.6503},
+            'source': {'type': 'string', 'example': 'geonames-city'},
+        },
+    }
+    destination_summary['travelStyles'] = {'type': 'array', 'items': {'type': 'string'}, 'example': ['solo', 'food', 'city']}
 
     place_props = schemas.setdefault('Place', {}).setdefault('properties', {})
     place_props['area'] = {'type': 'string', 'example': 'De Pijp'}
