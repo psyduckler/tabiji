@@ -197,44 +197,46 @@ def main():
     back_content_right = BACK_RIGHT - 80
     back_content_w = back_content_right - back_content_left
 
-    # Series tag at very top
+    # All back-cover font sizes are in pixels at 300 DPI; pt = px * 72/300.
+    # Body text upgraded to ~14pt (60px), hook to ~26pt (108px) — print-readable.
+
+    # Series tag at very top — ~12pt
     bd = d
-    tag_fnt = font("avenir", 36, idx=2)
+    tag_fnt = font("avenir", 50, idx=2)
     draw_centered(bd, "TABIJI  ·  TRAVEL SAFETY SERIES",
                   tag_fnt, back_content_top, CREAM,
                   region_left=back_content_left,
-                  region_right=back_content_right, letter_spacing=8)
+                  region_right=back_content_right, letter_spacing=10)
 
-    # Hook headline
-    hook_y = back_content_top + 90
-    hook_fnt = font("helvetica_neue", 72, idx=8)
+    # Hook headline — ~26pt
+    hook_y = back_content_top + 130
+    hook_fnt = font("helvetica_neue", 108, idx=8)
     draw_centered(bd, "DON'T BE THEIR",
                   hook_fnt, hook_y, YELLOW,
                   region_left=back_content_left,
                   region_right=back_content_right)
     draw_centered(bd, "NEXT TARGET.",
-                  hook_fnt, hook_y + 90, YELLOW,
+                  hook_fnt, hook_y + 132, YELLOW,
                   region_left=back_content_left,
                   region_right=back_content_right)
 
-    # Body copy
-    body_top = hook_y + 220
-    body_fnt = font("georgia", 32)
+    # Body copy — ~14pt (60px)
+    body_top = hook_y + 320
+    body_fnt = font("georgia", 56)
 
     paragraphs = [
         "On a sunny morning in Paris, a woman picks up a brass gold "
         "ring at your feet and insists you dropped it. You didn't. "
         "Twenty euros and ten minutes later, you walk away with a "
-        "worthless trinket and the quiet sense that something wasn't "
-        "right.",
-        "Multiply that scene by a thousand, across 24 countries, with "
-        "variants you've never heard of. That's the world this book maps.",
-        "Inside: 30 documented scams from Paris to Bangkok, painted in "
-        "each country's signature illustrated style. The Seven Universal "
-        "Patterns. Four recurring travelers — Margie, Priya, Marcus, and "
-        "Harry — navigating real scenarios. Five red flags per chapter. "
-        "Exit phrases in 11 languages. The recovery playbook for the "
-        "first hour, day, and week if a scam hits.",
+        "worthless trinket.",
+        "Multiply that scene by a thousand, across 24 countries. "
+        "That's the world this book maps.",
+        "Inside: 30 documented scams from Paris to Bangkok, painted "
+        "in each country's signature illustrated style. The Seven "
+        "Universal Patterns. Four recurring travelers — Margie, Priya, "
+        "Marcus, and Harry. Five red flags per chapter. Exit phrases "
+        "in 11 languages. The recovery playbook for the first hour, "
+        "day, and week.",
         "The scammers ran their script ten times this week. You will "
         "run it once. This book is the asymmetry made portable.",
     ]
@@ -244,43 +246,38 @@ def main():
         y = draw_paragraph(bd, para, body_fnt,
                            back_content_left, y,
                            back_content_w, CREAM,
-                           line_spacing=12)
-        y += 20  # paragraph gap
+                           line_spacing=18)
+        y += 32  # paragraph gap
 
-    # Pull-quote / promise (italic, larger) — directly below body copy
-    promise_fnt = font("georgia_italic", 38)
+    # Pull-quote / promise (italic) — ~16pt
+    promise_y = y + 50
+    promise_fnt = font("georgia_italic", 64)
     draw_centered(bd, "Travel like you've already been everywhere.",
-                  promise_fnt, y + 30, YELLOW,
+                  promise_fnt, promise_y, YELLOW,
                   region_left=back_content_left,
                   region_right=back_content_right)
 
-    # Byline placed directly below the promise quote — well clear of the
-    # barcode area at the bottom-right.
-    byline_y = y + 130
-    byline_fnt = font("avenir", 32, idx=2)
+    # Byline placed RIGHT BELOW the promise quote — keeps the bottom 1.5"
+    # of the back cover entirely clear for KDP's auto-overlaid ISBN barcode
+    # (which lands somewhere in the bottom 15%, exact placement varies).
+    # The KDP previewer flagged a collision when byline was bottom-anchored;
+    # promoting it above the barcode safe zone fixes it.
+    byline_y = promise_y + 130
+    byline_fnt = font("avenir", 50, idx=2)
     draw_centered(bd, "BERNARD HUANG, EDITOR",
                   byline_fnt, byline_y, CREAM,
                   region_left=back_content_left,
-                  region_right=back_content_right, letter_spacing=4)
-    edition_fnt = font("avenir", 24, idx=0)
+                  region_right=back_content_right, letter_spacing=8)
+    edition_fnt = font("avenir", 38, idx=0)
     draw_centered(bd, "TABIJI  ·  2026 EDITION",
-                  edition_fnt, byline_y + 50, CREAM,
+                  edition_fnt, byline_y + 80, CREAM,
                   region_left=back_content_left,
-                  region_right=back_content_right, letter_spacing=6)
+                  region_right=back_content_right, letter_spacing=10)
 
-    # ISBN/barcode placeholder (KDP places automatically; leave a white box
-    # in the bottom-right safe-zone). Barcode area is separate from the byline.
-    barcode_w = round(2.0 * DPI)  # 2" wide
-    barcode_h = round(1.2 * DPI)  # 1.2" tall
-    barcode_x = back_content_right - barcode_w
-    barcode_y = TRIM_BOTTOM - BLEED_PX - barcode_h - 80
-    d.rectangle([barcode_x, barcode_y,
-                 barcode_x + barcode_w, barcode_y + barcode_h],
-                fill=WHITE_BARCODE)
-    d.text((barcode_x + 30, barcode_y + 30),
-           "ISBN / Barcode\n(KDP places\nautomatically)",
-           font=font("avenir", 24, idx=0),
-           fill=(80, 80, 80))
+    # ISBN/barcode zone — bottom ~1.5" of the back cover left intentionally
+    # blank. KDP automatically overlays the barcode + ISBN there during
+    # paperback submission. No reserved white box; KDP renders the barcode
+    # on a white background of its own at upload time.
 
     # ── Save ──────────────────────────────────────────────────────────────
     canvas.save(OUT_PNG, format="PNG", optimize=True)
