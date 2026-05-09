@@ -55,6 +55,7 @@ COUNTRY_META: dict[str, tuple[str, str]] = {
     "CW": ("Curaçao", "🇨🇼"), "CY": ("Cyprus", "🇨🇾"),
     "CZ": ("Czech Republic", "🇨🇿"), "DE": ("Germany", "🇩🇪"),
     "DK": ("Denmark", "🇩🇰"), "DO": ("Dominican Republic", "🇩🇴"),
+    "DZ": ("Algeria", "🇩🇿"),
     "EC": ("Ecuador", "🇪🇨"), "EE": ("Estonia", "🇪🇪"),
     "EG": ("Egypt", "🇪🇬"), "ES": ("Spain", "🇪🇸"),
     "ET": ("Ethiopia", "🇪🇹"), "FI": ("Finland", "🇫🇮"),
