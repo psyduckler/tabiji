@@ -1,0 +1,220 @@
+/* Print stylesheet for KDP 6×9 paperback interior — weasyprint */
+
+/* Page setup — KDP 6×9 with mirrored margins for facing pages */
+@page {
+  size: 6in 9in;
+  margin: 0.75in 0.5in 0.75in 0.875in;  /* T R B L (right-page default) */
+  @bottom-center {
+    content: counter(page);
+    font-family: "Charter", "Iowan Old Style", "Hoefler Text", Georgia, serif;
+    font-size: 9pt;
+    color: #555;
+  }
+}
+
+@page :left {
+  margin: 0.75in 0.875in 0.75in 0.5in;  /* mirrored: gutter on the right */
+  @top-left {
+    content: "The Big Book of Travel Scams";
+    font-family: "Charter", Georgia, serif;
+    font-size: 8.5pt;
+    font-style: italic;
+    color: #777;
+  }
+}
+
+@page :right {
+  @top-right {
+    content: string(chapter-title);
+    font-family: "Charter", Georgia, serif;
+    font-size: 8.5pt;
+    font-style: italic;
+    color: #777;
+  }
+}
+
+/* No header/page-number on first page of each chapter */
+@page :first {
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+  @bottom-center { content: ""; }
+}
+
+/* Paper-friendly base typography */
+html, body {
+  font-family: "Charter", "Iowan Old Style", "Hoefler Text", Georgia, "Times New Roman", serif;
+  font-size: 10pt;
+  line-height: 1.45;
+  color: #000;
+  background: #fff;
+}
+
+body {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  word-spacing: -0.05em;
+}
+
+/* Suppress the title-block header & TOC on print (front-matter handled in source) */
+header.title-block { display: none; }
+nav#TOC { display: none; }
+
+/* Chapters: page break before each H1, capture for running header */
+h1 {
+  page-break-before: always;
+  break-before: page;
+  string-set: chapter-title content();
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 22pt;
+  line-height: 1.2;
+  color: #000;
+  margin: 0.25in 0 0.35in;
+  text-align: left;
+  page: chapter-first;
+}
+
+/* Special @page for chapter-opening pages — no running header */
+@page chapter-first {
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+}
+
+h2 {
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 14pt;
+  margin: 1.5em 0 0.4em;
+  color: #000;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 11pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 1.4em 0 0.3em;
+  color: #555;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 10pt;
+  margin: 1.2em 0 0.25em;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 0 0 0.75em;
+  orphans: 2;
+  widows: 2;
+}
+
+/* Drop-caps disabled in print to avoid weasyprint float-layout edge case.
+   (Looks fine on screen / ePub via book.css; print uses simple chapter openers.) */
+
+/* Block quote — atlas chapter front-matter */
+blockquote {
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-size: 9pt;
+  font-weight: 600;
+  margin: 0 0 1em;
+  padding: 0.45em 0.75em;
+  border-left: 2pt solid #b91c1c;
+  background: #f6f4f0;
+  color: #333;
+  page-break-inside: avoid;
+}
+
+blockquote p { margin: 0; }
+
+/* Lists */
+ul, ol {
+  margin: 0 0 0.75em 0;
+  padding-left: 1.4em;
+}
+
+li { margin: 0.15em 0; }
+
+/* Tables — phrase tables and contact tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+  font-size: 9pt;
+  page-break-inside: avoid;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.3em 0.5em;
+  border-bottom: 0.5pt solid #c8c8c8;
+  vertical-align: top;
+}
+
+th {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  background: #efefef;
+  border-bottom: 1pt solid #999;
+}
+
+/* Images — atlas chapter comics */
+figure, p > img {
+  page-break-inside: avoid;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.5em auto 1em;
+}
+
+/* Pattern icons — smaller width centered */
+img[src*="icon-"] {
+  max-width: 2.2in;
+  margin: 0.5em auto;
+}
+
+/* Hero illustrations — full width */
+img[src*="hero-"] {
+  max-width: 4.5in;
+  margin: 0.5em auto 1em;
+}
+
+/* Atlas comic — full width */
+img[src*="atlas-"] {
+  max-width: 4.5in;
+  margin: 0.4em auto 0.8em;
+}
+
+/* Em-dash / italics */
+em { font-style: italic; }
+strong { font-weight: 700; }
+
+/* Hyphens auto */
+p, li { hyphens: auto; -webkit-hyphens: auto; }
+
+/* Avoid breaking inside small structural elements */
+ul, ol { page-break-inside: avoid; }
+
+/* Horizontal rule between sections */
+hr {
+  border: none;
+  border-top: 0.5pt solid #c8c8c8;
+  margin: 1.2em auto;
+  width: 30%;
+}
+
+/* No links underline in print (most are tabiji.ai cross-refs) */
+a { color: #000; text-decoration: none; }
