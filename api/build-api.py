@@ -1419,7 +1419,12 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
 
     # Build cross-ref lookups for safety/alerts/scams
     safety_data_dir = BASE_DIR / "app" / "data" / "safety"
-    scam_data_dir = BASE_DIR / "app" / "data" / "scams"
+    # Scam JSONs live at api/v1/scams/<slug>.json since the migration off
+    # app/data/scams/ (which no longer exists). Reading the now-empty old path
+    # left _scams_by_country empty, which meant scamsRef was never refreshed —
+    # destinations kept stale URLs pointing to slugs that had been renamed
+    # (e.g. cordoba → cordoba-spain in #999), producing 103 dead links.
+    scam_data_dir = OUTPUT_DIR / "scams"
     _safety_iso2s = set()
     if safety_data_dir.exists():
         _safety_iso2s = {f.stem.upper() for f in safety_data_dir.glob("*.json")}
@@ -1533,18 +1538,28 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             detail["relatedComparisons"] = truncate_list(related_compares)
             detail["relatedDestinations"] = truncate_list(nearby_destinations)
 
-            # Cross-references to safety, alerts, and scams endpoints
+            # Cross-references to safety, alerts, and scams endpoints. We
+            # set-or-remove on every build so a country whose data was renamed
+            # or removed can't leave a stale ref behind. Earlier the code was
+            # set-only, which is how scamsRef froze with the pre-migration
+            # cordoba slug for 103 destinations.
             _dest_cc = detail.get("countryCode", "")
             if _dest_cc:
                 _dest_cc_upper = _dest_cc.upper()
                 _dest_cc_lower = _dest_cc.lower()
                 if _dest_cc_upper in _safety_iso2s:
                     detail["safetyRef"] = f"{API_BASE_URL}/safety/{_dest_cc_lower}.json"
+                elif "safetyRef" in detail:
+                    del detail["safetyRef"]
                 if _dest_cc_upper in _alert_iso2s:
                     detail["alertsRef"] = f"{API_BASE_URL}/alerts/{_dest_cc_lower}.json"
+                elif "alertsRef" in detail:
+                    del detail["alertsRef"]
                 _dest_scam_slugs = _scams_by_country.get(_dest_cc_upper, [])
                 if _dest_scam_slugs:
                     detail["scamsRef"] = [f"{API_BASE_URL}/scams/{s}.json" for s in sorted(_dest_scam_slugs)]
+                elif "scamsRef" in detail:
+                    del detail["scamsRef"]
 
         dest["relatedPicks"] = truncate_list(related_picks)
         dest["relatedItineraries"] = truncate_list(related_itins)
