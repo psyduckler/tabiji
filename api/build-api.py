@@ -2333,6 +2333,28 @@ def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_c
 
     html_path.write_text(content, encoding='utf-8')
 
+    # Keep the managed shared-head / nav / footer blocks in api/index.html in sync
+    # with _includes/. Without this, every rebuild re-emits stale partials from
+    # api/index.html.template (the template lives outside scripts/build-partials.py's
+    # *.html scan), and CI's check-partials job fails downstream.
+    _sync_partials_in_place(html_path)
+
+
+def _sync_partials_in_place(html_path):
+    """Re-run scripts/build-partials.py:process_file on a single HTML page.
+
+    Imports the sync logic dynamically so build-api.py doesn't gain an import-time
+    dependency on the partials script.
+    """
+    import importlib.util
+    script_path = BASE_DIR / "scripts" / "build-partials.py"
+    if not script_path.exists():
+        return
+    spec = importlib.util.spec_from_file_location("_build_partials_inline", script_path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    mod.process_file(Path(html_path), write=True)
+
 
 def build_openapi(dest_count, picks_count, places_count, itin_count, compare_count):
     openapi_path = BASE_DIR / 'api' / 'openapi.json'
@@ -2883,13 +2905,11 @@ def main():
     country_items = _load_index_items("countries.json", "countries")
     safety_items = _load_index_items("safety.json", "profiles")
     alert_items = _load_index_items("alerts.json", "alerts")
-    scam_items = _load_index_items("scams.json", "items")
-    scams_index_path = OUTPUT_DIR / "scams.json"
-    if scams_index_path.exists():
-        scams_index = load_json_if_exists(scams_index_path) or {}
-        if scams_index.get("count") != len(scam_items):
-            scams_index["count"] = len(scam_items)
-            write_json(scams_index_path, scams_index)
+
+    # Always rebuild scams.json[items] from on-disk api/v1/scams/*.json so the catalog
+    # cannot drift behind the per-slug detail JSONs that PRs add directly.
+    scam_items = _reindex_scams_index_from_disk()
+    print(f"   ✅ scams.json reindexed: {len(scam_items)} items from {OUTPUT_DIR / 'scams'}")
 
     print("🧭 Building normalized catalog...")
     catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
@@ -3022,11 +3042,16 @@ def verify_catalog_disk():
         if missing:
             issues.append(f"{detail_dir}: {len(missing)} catalog entries with no JSON file: {missing[:5]}{'...' if len(missing) > 5 else ''}")
         if extras:
-            for slug in extras:
-                stale_path = detail_path / f"{slug}.json"
-                if stale_path.exists():
-                    stale_path.unlink()
-            print(f"   🧹 removed {len(extras)} stale {detail_dir} JSON files not present in the index")
+            # Previously this silently unlink()'d the on-disk files so the audit would
+            # pass. That hid drift — Cloudflare Pages serves the repo state directly,
+            # so the deleted-from-CI files were still deployed but missing from the
+            # catalog index. Now we surface drift as an error and let the upstream
+            # build/reindex step decide how to fix it (build-api.py reindexes
+            # scams.json from disk; other catalogs require explicit handling).
+            issues.append(
+                f"{detail_dir}: {len(extras)} on-disk JSON files not listed in {catalog_file}: "
+                f"{extras[:5]}{'...' if len(extras) > 5 else ''}"
+            )
     return issues
 
 
@@ -3171,6 +3196,32 @@ def _load_index_items(index_file, list_key):
     with open(path) as f:
         data = json.load(f)
     return data.get(list_key, [])
+
+
+def _reindex_scams_index_from_disk():
+    """Rewrite api/v1/scams.json from the actual contents of api/v1/scams/*.json.
+
+    Eliminates a class of drift where PRs add a per-slug scam JSON without
+    updating the catalog index — the audit + verify_catalog_disk used to either
+    fail loudly or silently delete the unindexed JSON. This pulls the index back
+    in line with disk every build.
+    """
+    scams_dir = OUTPUT_DIR / "scams"
+    items = []
+    if scams_dir.is_dir():
+        for path in sorted(scams_dir.glob("*.json")):
+            slug = path.stem
+            items.append({
+                "slug": slug,
+                "url": f"{SITE_URL}/scams/{slug}/",
+            })
+    payload = {
+        "count": len(items),
+        "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "items": items,
+    }
+    write_json(OUTPUT_DIR / "scams.json", payload)
+    return items
 
 
 def _read_json_file(path):
