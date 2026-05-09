@@ -3502,14 +3502,23 @@ def _build_single_pack(pack_id, name, description, pack_type, countries,
         },
     }
 
-    # Compute size/checksum from serialised payload
-    raw = json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8")
-    payload["sizeBytes"] = len(raw)
-    payload["checksum"] = _pack_checksum(raw)
+    # Pack integrity checksum: sha256 of the canonical form of the embedded
+    # `data` object (sorted keys, no whitespace). The previous implementation
+    # hashed the file content BEFORE adding sizeBytes/checksum, then wrote the
+    # file WITH those fields appended, so the recorded checksum couldn't match
+    # any sha256(file) recompute by a consumer. Hashing only `data` makes the
+    # value stable and round-trip verifiable: a consumer canonicalises
+    # `pack.data` the same way and compares.
+    data_canonical = json.dumps(payload["data"], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    payload["checksum"] = _pack_checksum(data_canonical)
+    payload["checksumSubject"] = "data"
 
     packs_dir = OUTPUT_DIR / "packs"
     packs_dir.mkdir(parents=True, exist_ok=True)
     write_json(packs_dir / f"{pack_id}.json", payload)
+    # sizeBytes is the actual size of the pack file as deployed — read it back
+    # so the catalog entry matches what HTTP clients see in Content-Length.
+    payload["sizeBytes"] = (packs_dir / f"{pack_id}.json").stat().st_size
 
     return {
         "id": f"pack:{pack_id}",
@@ -3535,12 +3544,22 @@ def build_packs():
     # Build slug -> countryCode lookup from destinations index
     dest_slug_to_country = {d["slug"]: d.get("countryCode", "") for d in all_dest_summaries}
 
-    # Build scam city slugs grouped by countryCode
-    scam_cities_list = _load_index_items("scams.json", "items")
+    # Build scam city slugs grouped by countryCode. We can't read this from
+    # api/v1/scams.json[items] — that index is intentionally minimal
+    # ({slug, url} only) — so walk the per-slug detail files instead. Without
+    # this, every pack's scams[] came out empty because every slug clustered
+    # under the empty-string key.
+    scams_dir = OUTPUT_DIR / "scams"
     scam_slugs_by_country = {}
-    for city in scam_cities_list:
-        cc = city.get("countryCode", "").upper()
-        scam_slugs_by_country.setdefault(cc, []).append(city["slug"])
+    if scams_dir.is_dir():
+        for path in sorted(scams_dir.glob("*.json")):
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            cc = (data.get("countryCode") or "").upper()
+            if cc:
+                scam_slugs_by_country.setdefault(cc, []).append(path.stem)
 
     # Filter records may have nested fields explicitly set to None (not just missing); use `or {}` so
     # the chained .get() doesn't blow up on AttributeError.
@@ -3629,12 +3648,14 @@ def build_packs():
         },
         "metadata": {"packType": "theme", "tags": ["solo-female", "safe", "recommended"]},
     }
-    raw = json.dumps(solo_payload, indent=2, ensure_ascii=False).encode("utf-8")
-    solo_payload["sizeBytes"] = len(raw)
-    solo_payload["checksum"] = _pack_checksum(raw)
+    # Same canonical-data checksum approach as _build_single_pack — see comment there.
+    solo_data_canonical = json.dumps(solo_payload["data"], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    solo_payload["checksum"] = _pack_checksum(solo_data_canonical)
+    solo_payload["checksumSubject"] = "data"
     packs_dir = OUTPUT_DIR / "packs"
     packs_dir.mkdir(parents=True, exist_ok=True)
     write_json(packs_dir / "solo-female-safe.json", solo_payload)
+    solo_payload["sizeBytes"] = (packs_dir / "solo-female-safe.json").stat().st_size
     catalog_entries.append({
         "id": "pack:solo-female-safe",
         "name": "Solo Female Safe Pack",
@@ -3675,10 +3696,11 @@ def build_packs():
         },
         "metadata": {"packType": "theme", "tags": ["budget", "backpacker", "cheap"]},
     }
-    raw = json.dumps(budget_payload, indent=2, ensure_ascii=False).encode("utf-8")
-    budget_payload["sizeBytes"] = len(raw)
-    budget_payload["checksum"] = _pack_checksum(raw)
+    budget_data_canonical = json.dumps(budget_payload["data"], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    budget_payload["checksum"] = _pack_checksum(budget_data_canonical)
+    budget_payload["checksumSubject"] = "data"
     write_json(packs_dir / "budget-backpacker.json", budget_payload)
+    budget_payload["sizeBytes"] = (packs_dir / "budget-backpacker.json").stat().st_size
     catalog_entries.append({
         "id": "pack:budget-backpacker",
         "name": "Budget Backpacker Pack",
