@@ -62,6 +62,35 @@ Different title framings will lift CTR on big-vs-big and big-vs-niche pages wher
 
 Average popularity score is within ~6% across arms (109–116). Big-vs-big share is 6–11 per arm.
 
+### Per-arm GSC baseline (T+0, from 2026-05-09 export)
+
+The 2026-05-09 GSC export was pulled the same day round 1 deployed, so it represents pre-treatment baseline for these pages (28-day window of data with the *old* titles). Snapshot stored at [docs/data/gsc-snapshots/compare-pages-2026-05-09.csv](data/gsc-snapshots/compare-pages-2026-05-09.csv).
+
+| Arm | Pages | WithGSC | Imps | Clicks | CTR | WeightedPos |
+|---|---:|---:|---:|---:|---:|---:|
+| Control | 33 | 19 | 3,982 | 4 | **0.10%** | 11.64 |
+| A | 33 | 17 | 1,680 | 11 | **0.65%** | 12.64 |
+| B | 33 | 18 | 2,367 | 7 | 0.30% | 13.12 |
+| C | 33 | 16 | 2,063 | 11 | 0.53% | 10.77 |
+| D | 33 | 18 | 2,584 | 4 | 0.15% | 11.57 |
+| E | 33 | 24 | 3,044 | 11 | 0.36% | 10.39 |
+| F | 33 | 20 | 2,515 | 6 | 0.24% | 11.65 |
+| G | 33 | 21 | 1,680 | 3 | 0.18% | 8.94 |
+| H | 34 | 19 | 1,631 | 2 | 0.12% | 14.96 |
+| I | 33 | 18 | 6,376 | 7 | 0.11% | 12.45 |
+| J | 33 | 22 | 3,476 | 12 | 0.35% | 10.48 |
+| **Total cohort** | **364** | **212** | **31,398** | **78** | **0.25%** | — |
+
+Two findings worth flagging at T+0:
+
+1. **The cohort baseline CTR is 0.25%**, lower than the section-wide 0.44% reported in the pre-test analysis. This is consistent with the hypothesis: big-vs-niche + big-vs-big pages are the *underperforming subset*. Niche-vs-niche pages (excluded from this cohort) carry the section average up.
+
+2. **Per-arm baseline CTR varies 0.10%–0.65%** — wider than the popularityScore-based balance suggested. With ~17–24 GSC-data pages per arm and only 78 clicks total in the cohort, single high- or zero-CTR pages dominate arm averages. The *delta* (post-treatment – baseline) per arm is the cleaner read at review time, not absolute post-treatment CTR. Arm A's 0.65% baseline already runs above the 0.44% section average — beating that bar takes a real lift, not a regression to the mean.
+
+### Position imbalance worth tracking
+
+Weighted-position spread is 8.94 (G) to 14.96 (H) — a 6-position gap. If a variant arm shifts >0.5 weighted positions during the test that's a confound; flag any arm whose post position drifts meaningfully.
+
 ### Variant title patterns
 
 All variants set `<title>`, `<meta property="og:title">`, and `<meta name="twitter:title">` in sync. Meta description, H1, body, URL unchanged.
