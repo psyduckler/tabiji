@@ -68,3 +68,11 @@ export async function onRequestGet(context) {
 
   return new Response(JSON.stringify(destination), { headers: JSON_HEADERS });
 }
+
+// RFC 7231 §4.3.2: HEAD must return the same headers (and status) as GET, with
+// no body. Without an explicit handler the Pages router returns 404 for HEAD,
+// breaking monitors and CDN warmers that probe with HEAD before issuing GET.
+export async function onRequestHead(context) {
+  const response = await onRequestGet(context);
+  return new Response(null, { status: response.status, headers: response.headers });
+}
