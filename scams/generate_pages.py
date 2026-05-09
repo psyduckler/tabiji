@@ -364,6 +364,14 @@ EMERGENCY_INFO = {
         "report_site": "moi.gov.eg",
         "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Cairo is at 5 Tawfik Diab Street, Garden City, Cairo. For emergencies: +20 2-2797-3300.",
     },
+    "Algeria": {
+        "police_name": "Sûreté Nationale (DGSN) / Tourist Police",
+        "police_number": "17 (Police) or 1548 (Tourist Police)",
+        "emergency_number": "14 (Civil Protection / Fire / Medical), 17 (Police), 1055 (Gendarmerie)",
+        "report_url": "https://www.dgsn.dz/",
+        "report_site": "dgsn.dz",
+        "lost_passport": "Contact your nearest embassy or consulate. The US Embassy in Algiers is at 5 Chemin Cheikh Bachir Ibrahimi, El-Biar, 16030 Algiers. For emergencies: +213 770-08-2000 (general) or +213 770-08-2200 (after-hours). Email: ACSAlgiers@state.gov. The UK Embassy is at 3 Chemin Capitaine Hocine Slimane (ex Chemin des Glycines), Algiers, +213 770-08-5000.",
+    },
     "Argentina": {
         "police_name": "Policía Federal Argentina",
         "police_number": "911 (Police) or 107 (Medical Emergency)",
@@ -1222,7 +1230,7 @@ COUNTRY_HEALTH_SLUGS = {
     "Germany": "germany", "Spain": "spain", "Vietnam": "vietnam", "Mexico": "mexico",
     "Brazil": "brazil", "Peru": "peru", "Poland": "poland", "France": "france",
     "Italy": "italy", "Thailand": "thailand", "Turkey": "turkey", "Czech Republic": "czech-republic",
-    "Morocco": "morocco", "Egypt": "egypt", "Argentina": "argentina", "United States": "united-states",
+    "Morocco": "morocco", "Egypt": "egypt", "Algeria": "algeria", "Argentina": "argentina", "United States": "united-states",
     "Austria": "austria", "Canada": "canada", "Ireland": "ireland", "Denmark": "denmark",
     "Hungary": "hungary", "Croatia": "croatia", "Jordan": "jordan", "Israel": "israel",
     "Iceland": "iceland", "Belgium": "belgium", "Cambodia": "cambodia", "Philippines": "philippines",
@@ -1786,6 +1794,7 @@ CITY_SLUGS = {
     "Matera": "matera",
     "Lecce": "lecce",
     "Plitvice": "plitvice",
+    "Algiers": "algiers",
 }
 
 # City-specific safety tips
@@ -3966,6 +3975,12 @@ SAFETY_TIPS = {
         "Pay only at the SGM machine for strisce-blu spaces (0.60-1.50 EUR per hour) and refuse any cash demand from a parcheggiatore abusivo at Piazzale Bene, Ex Arena Aurora, Piazza Bottazzi, or Piazza Palio — the Polizia Locale di Lecce has run formal sweeps against this pattern in 2026.",
         "Skip the front-row Salento lido umbrellas at 80-90 EUR per day in Gallipoli, Torre Lapillo, and Pescoluse — use spiagge libere such as Punta Pizzo, Lovers' Beach, or Porto Selvaggio with your own umbrella, and walk away from any lido that won't post a written tariff card at the cassa.",
         "Park outside the centro storico ZTL at Parcheggio Carlo V or Parcheggio Foro Boario (1-2 EUR per hour) — never follow Google Maps into Piazza Sant'Oronzo in a rental car without a hotel-issued ZTL permit; each accidental gate crossing costs 83 EUR plus 5-13 EUR notification fees plus 30-60 EUR rental admin.",
+    ],
+    "Algiers": [
+        "Walk past every blazer-and-key tout in the Houari Boumediene (ALG) arrivals hall and exit to the official rank — insist on the meter, refuse euro and dollar quotes, and pay only in Algerian dinars; the official metered fare to downtown is 1,000-2,000 DZD versus 50-100 EUR rouge quotes, and ETUSA bus 100 runs to Place des Martyrs at 50 DZD hourly from 06:00 to midnight.",
+        "Count every dinar stack twice in front of the Square Port-Said money-changer before stepping back from the window — the parallel-market rate is real (about 240 DZD per euro at the May 2026 quote vs 145 at the bank) but short-counts and 500-for-2,000 note swap-ins are routine; bring small-denomination euros to cap each exchange under 50 EUR.",
+        "Refuse the first English or French opener at the Casbah, Notre-Dame d'Afrique, and Bardo entrances — book any guide via the hotel concierge or the Direction of Tourism and Handicrafts at alger.mta.gov.dz before walking in, and carry a printed Casbah map from whc.unesco.org/en/list/565/ as a fallback against the cousin-with-a-carpet-shop pitch.",
+        "Take the Tafourah-to-Tipasa public bus at 80-100 DZD rather than book through the Hyatt, Sofitel, or El-Aurassi concierge — hotel quotes for a Tipasa Roman-ruins half-day land at 18,000-25,000 DZD (about 75-105 USD) for a trip that costs 400-600 DZD all-in via Tafourah bus station, the local Tipasa town minibus, and the on-site 100-DZD admission.",
     ],
 }
 
@@ -7946,6 +7961,18 @@ FAQS = {
          "The centro storico — Piazza Sant'Oronzo, Piazza del Duomo, Basilica di Santa Croce, Porta Napoli, and the entire ZTL pedestrian zone — is the safest walking area at all hours, with steady foot traffic and visible Polizia Locale presence. Via Augusto Imperatore and the Roman amphitheater approaches stay safe in daytime. Use a taxi or the Lecce city bus rather than walking from the train station alone late at night. Beach day trips to Punta Pizzo, Porto Selvaggio, and Santa Maria al Bagno are safe in daytime; avoid leaving valuables in the car at any unattended Salento beach lot."),
         ("Should I rent a car in Lecce?",
          "Lecce itself is fully walkable in the centro storico, but a rental car is the practical way to reach Salento beaches, Otranto, Gallipoli, Lecce-province masserie, and the Adriatic coast. Park outside the ZTL at Parcheggio Carlo V or Parcheggio Foro Boario (1-2 EUR per hour) — never follow Google Maps into the centro storico in a rental car without a hotel-issued ZTL transit permit. Each accidental ZTL camera crossing costs 83 EUR base plus 5-13 EUR notification fees plus 30-60 EUR rental admin charges, and the rental company forwards the ticket weeks after drop-off. Confirm your hotel registers your plate for a 24-hour ZTL permit before arrival."),
+    ],
+    "Algiers": [
+        ("Is Algiers safe for tourists?",
+         "Algiers is generally safe for daytime tourism in the central Bab El Oued, Sidi M'Hamed, El-Biar, and Hydra districts, with violent crime against foreigners rare and the Algerian government devoting significant resources to foreign-visitor protection. The US State Department travel advisory is Level 2 (Exercise Increased Caution) for terrorism and kidnapping concerns. The practical risks are financial: Houari Boumediene Airport (ALG) arrivals-hall taxi touts quoting 50-100 EUR for trips that cost 1,000-2,000 DZD by meter, Square Port-Said black-market dinar short-counts (the parallel rate is 66 percent above the bank rate but the count and the 500-for-2,000 note swap-in are the play), Casbah freelance-guide pestering with cousin-shop carpet pivots, and hotel-arranged Tipasa day-trip markups at 10x the independent bus fare. Tourist Police is 1548; police is 17; civil protection is 14; gendarmerie is 1055; the US Embassy in El-Biar is +213 770-08-2000."),
+        ("How do I get from Houari Boumediene Airport (ALG) to central Algiers?",
+         "The cheapest official option is ETUSA bus line 100 from the airport to Place des Martyrs at 50 DZD (about 20 US cents at the May 2026 parallel rate), running hourly from 06:00 to midnight on a 45-60 minute route — pay the conductor in cash. The SNTF airport rail to Agha station runs at 80 DZD with first train at 06:00 and last at 22:25, roughly hourly. Official metered taxis from the rank outside the terminal door run 1,000-2,000 DZD (about 7-15 USD) to downtown — insist on the meter and refuse euro or dollar quotes. Yassir, the dominant local ride-hail app, requires an Algerian SIM-card phone number for sign-up so international travelers cannot register on arrival. Pre-arrange a hotel pickup for the first night so the driver waits with your name on a card; the UK Foreign Office advises asking the hotel to phone a reputable firm rather than allow unknown drivers."),
+        ("Should I exchange money on the black market in Algiers?",
+         "Black-market currency exchange at Place du Square Port-Said is technically illegal under Algerian Exchange Code rules but openly tolerated, and the rate gap is real — a 2024 Voice of America investigation confirmed one euro trading at 241 DZD on the parallel market against 145 DZD at the bank counter on the same day, and the May 2026 ChangeDA app quote tracks similarly at about 240 DZD per euro. The risk is not the rate; the risk is the count. Tripadvisor's 'Beware Square Port Said - scammed' thread documents standard short-counts where a brick of 2,000-DZD notes is counted at high speed and the customer leaves with two to five notes missing, and a second variant mixes brown 500-DZD notes into a stack of olive 2,000-DZD notes at the bottom. Bring small-denomination euros (5s and 10s), exchange in daylight only, count the stack twice in front of the changer before walking away, never let a vendor combine the price count and the change count, and refuse all hotel-lobby cash desks. Counterfeit dinar notes are reportedly rare; sleight-of-hand short-counts are not."),
+        ("How do I visit the Casbah of Algiers without getting hassled by guides?",
+         "The Casbah of Algiers is a UNESCO World Heritage site listed in 1992 (whc.unesco.org/en/list/565/) and the freelance-guide tail at the Place des Martyrs entrance and the Sidi Abderrahmane stairs is a known operational risk — the UK Foreign Office advises using a good local guide and making sure the hotel knows the plan. Book a verified guide through the hotel concierge or the Direction of Tourism and Handicrafts at alger.mta.gov.dz before walking in, and refuse the first English or French opener at the Place des Martyrs entrance. If you want to walk the Casbah independently in daylight, carry a printed UNESCO map and decline every cousin-with-a-carpet-shop pitch — the typical fee demand at the end of an unbadged tour lands at 1,500-4,000 DZD plus a 'tea ceremony' add-on at 500 DZD per cup. Two full days are recommended for the Casbah given the steep stairs and hillside layout. Do not enter the Casbah at night; daytime visits are reasonable risk."),
+        ("How do I get to Tipasa Roman ruins from Algiers without overpaying?",
+         "Tipasa is a UNESCO World Heritage Roman archaeological site 70 kilometers west of Algiers along the Mediterranean coast. The Tafourah bus station — a 15-minute walk from Place des Martyrs — runs hourly buses to Tipasa town for 80-100 DZD (about 35-45 US cents at the May 2026 parallel rate). From the Tipasa town bus terminal, a local minibus to the archaeological site costs another 25 DZD, and on-site admission is 100 DZD. The full round trip with admission comes to roughly 400-600 DZD all-in (about 1.70-2.50 USD). Hotel concierges at the Hyatt Regency, Sofitel, El-Aurassi, and Sheraton sell the same trip as a private-driver day at 18,000-25,000 DZD (about 75-105 USD), often bundled with a Cherchell amphitheater stop — that's roughly ten times the independent fare. Take the Tafourah bus and pay the on-site cashier; for Cherchell, continue the same Tafourah bus west to reach the amphitheater at the local fare."),
     ],
 }
 
