@@ -465,21 +465,21 @@ def clean_text(text: str) -> str:
         # Bare "comments/xxx" without parens
         text = re.sub(r"\bcomments/[a-z0-9]{4,}\b", "", text)
         # "per the r/X community" / "per r/X community"
-        text = re.sub(r"per\s+(?:the\s+)?r/\w+\s+community\b", "per community reports", text)
+        text = re.sub(r"per\s+(?:the\s+)?r/\w+\s+community\b", "per Reddit", text)
         # "the r/X community"
-        text = re.sub(r"\bthe\s+r/\w+\s+community\b", "the traveler community", text)
+        text = re.sub(r"\bthe\s+r/\w+\s+community\b", "Reddit", text)
         # "r/X community"
-        text = re.sub(r"\br/\w+\s+community\b", "the traveler community", text)
+        text = re.sub(r"\br/\w+\s+community\b", "Reddit", text)
         # "per r/X"
-        text = re.sub(r"\bper\s+r/\w+\b", "per community reports", text)
+        text = re.sub(r"\bper\s+r/\w+\b", "per Reddit", text)
         # "r/X threads?"
-        text = re.sub(r"\br/\w+\s+threads?\b", "community threads", text)
+        text = re.sub(r"\br/\w+\s+threads?\b", "Reddit threads", text)
         # "r/X traveler reports?"
-        text = re.sub(r"\br/\w+\s+traveler\s+reports?\b", "traveler community reports", text)
+        text = re.sub(r"\br/\w+\s+traveler\s+reports?\b", "Reddit reports", text)
         # "r/X users?"
-        text = re.sub(r"\br/\w+\s+users?\b", "travelers", text)
-        # Catch-all: bare r/X remaining → "community forums"
-        text = re.sub(r"\br/[A-Za-z][A-Za-z0-9_]*\b", "community forums", text)
+        text = re.sub(r"\br/\w+\s+users?\b", "Redditors", text)
+        # Catch-all: bare r/X remaining → "Reddit"
+        text = re.sub(r"\br/[A-Za-z][A-Za-z0-9_]*\b", "Reddit", text)
 
         # Dangling "— is a YYYY report" / "— documents" / "— describes" etc.
         # after em-dash where shard was stripped.
