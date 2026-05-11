@@ -2998,5 +2998,395 @@ The complication that did not happen was not avoided by luck. It was avoided bec
 
 ---
 
+## Chapter 18 — Anesthesia Is the Single Highest-Stakes Variable
+
+This chapter exists because the published evidence on cosmetic-surgery deaths abroad, in the settings the rest of this book describes, repeatedly points at the same root cause: an anesthesia complication that the facility was not equipped to recognize early or to rescue from. It is not the only cause of harm. It is, in the documented case series, the most frequent immediate one. Every other chapter in this book asks you to verify a clinic, a surgeon, a quote, a plan. This chapter asks you to verify the person who will keep you alive while the surgeon operates.
+
+You do not need to become an anesthesiologist. You need to ask three questions and accept only specific answers. The rest of the chapter explains why those three questions matter and what counts as a specific answer.
+
+### The baseline numbers, and why they look reassuring until you read past them
+
+For all surgical settings combined, anesthesia mortality in the United States is in the range of roughly one death per million anesthetics, drawing on data summarized in peer-reviewed reviews of perioperative anesthesia mortality. That number is reassuringly low and is sometimes cited by clinics that want to end the conversation there.
+
+For elective cosmetic surgery specifically, published estimates of fatal anesthesia complications fall in the range of roughly 0.01 percent to 0.016 percent of procedures — about one in six thousand to one in ten thousand cases — under the conditions studied (US office-based facial plastic surgery, with anesthesia time as a primary risk indicator). That is a different order of magnitude than the all-settings baseline.
+
+Then there is the data from cosmetic surgery abroad in lower-regulation settings. The CDC's *Morbidity and Mortality Weekly Report* documented 93 deaths of US citizens undergoing cosmetic surgery in the Dominican Republic between 2009 and 2022. Ninety-two percent of those deaths involved gluteal fat transfer (BBL). The repeated cause-of-death patterns were pulmonary fat embolism and venous thromboembolism. The pattern was concentrated in non-accredited facilities, in combination procedures, and on patients with comorbidities. *(Sources: CDC MMWR 73(3); peer-reviewed perioperative mortality reviews; ASPS BBL guidance; cited in the back-matter Source Notes.)*
+
+The takeaway is not "anesthesia abroad is unsafe." The takeaway is that the safety floor depends almost entirely on three factors: who is providing the anesthesia, what monitoring equipment is in the room, and what happens in the first sixty seconds if something goes wrong. A facility that gets those three right has approximately the same safety profile as a US accredited surgical center for the same procedure. A facility that gets those three wrong has a safety profile that does not appear in the reassuring all-settings baseline.
+
+### The three questions
+
+Before consent, get these three answers in writing from the clinic — not from the surgeon's coordinator, and not from the marketing brochure.
+
+1. **Who specifically will provide my anesthesia? Full legal name, credential type, registration number in this country, and signature on my consent form.**
+2. **What monitoring will be in continuous use during my surgery? Pulse oximetry, capnography (end-tidal CO₂), continuous ECG, non-invasive blood pressure at intervals no longer than every five minutes, and temperature monitoring for cases over one hour.**
+3. **What is the emergency protocol if I have an anesthesia complication? What rescue equipment is in the operating room (airway management, difficult-airway equipment, defibrillator, malignant hyperthermia kit if relevant, advanced cardiac life support medications)? What is the transfer plan to a higher-level facility, and what is the response time?**
+
+A facility that can answer these three questions specifically, in writing, before the surgical date is operating at a defensible safety floor. A facility that answers with "our team will manage it," "we use general anesthesia, don't worry," or "all our cases are safe" is not refusing to provide information by accident — they are refusing to provide information because the specifics are not what you would want them to be.
+
+### Provider type: anesthesiologist vs. nurse anesthetist
+
+In the United States, anesthesia is provided by anesthesiologists (physicians with four-year residency training after medical school) or by certified registered nurse anesthetists (CRNAs, advanced practice nurses with specialized anesthesia training and certification). In other countries, the credentials, scope of practice, and supervision requirements vary; the closest equivalents in many cosmetic-tourism destinations are anesthesiologists trained in country, sometimes with sub-specialty training abroad.
+
+The published research on provider type, controlled for patient and procedure factors, does not show a mortality difference between physician anesthesiologists and CRNAs. *(Source: NIH/NCBI Bookshelf review of anesthesia care provided by nurses; cited in the back-matter Source Notes.)* The safety variables that do appear repeatedly are patient comorbidities, procedure type, anesthesia time, monitoring, and emergency response capability — not provider type alone.
+
+What matters more than the credential is whether the provider is:
+
+- **Named on your consent form**, not described as "the team";
+- **Registered in the destination country** with a verifiable license number you can check;
+- **Continuously present in the operating room for the duration of your case**, not supervising remotely from another OR or another floor;
+- **Trained in advanced airway management and cardiac life support** with current certification.
+
+"Nurse monitoring under remote anesthesiologist supervision" is not the same as a named anesthesia provider in the room. If that is the model, you should know it before consent, not afterward.
+
+### The combination-procedure risk multiplier
+
+This is where the CDC Dominican Republic series concentrates. The cases involved patients undergoing combination procedures — BBL plus tummy tuck plus breast surgery, often in a single anesthesia session of four to eight hours. Anesthesia time is itself a risk multiplier; published research links operative duration to morbidity and mortality in office-based plastic surgery. Combination procedures additionally compound blood loss, fluid shifts, fat embolism risk (in BBL specifically, through intramuscular injection technique), and post-operative monitoring complexity.
+
+The American Society of Plastic Surgeons has issued repeated guidance recommending caution around combination procedures, particularly any combination including BBL. *(Source: ASPS BBL safety guidance, 2018 and 2019 updates; cited in the back-matter Source Notes.)* If a clinic is recommending a combination procedure, ask:
+
+> What will be my total anesthesia time? How does your team manage fluid shifts and blood loss during a case of that length? At what point during the case do you stop adding procedures even if there is time? What is your published serious-complication rate for this specific combination, not for the individual procedures?
+
+A surgeon who cannot answer those questions specifically should not be performing combination cases on you.
+
+### Types of anesthesia and what each requires
+
+You may encounter several types of anesthesia in cosmetic surgery. Each has its own safety floor.
+
+- **Local anesthesia only**: injection at the surgical site; patient fully awake. Used for minor procedures (small lesion removal, lip lift, minor revision). Safety floor is high; emergency events are rare. Verify that resuscitation equipment is available even for local cases (rare but documented anaphylaxis to local anesthetic).
+- **Local with oral sedation**: oral anxiolytic plus local. Patient awake but relaxed. Safety floor is high if dosing is conservative.
+- **IV sedation (light, moderate, deep)**: ranges from anxiolysis to near-general anesthesia. The transition between deep sedation and general anesthesia is not always cleanly controlled, particularly in the hands of a less-experienced provider. Capnography and continuous oxygen saturation monitoring are not optional at this level.
+- **Regional anesthesia (nerve blocks, epidural, spinal)**: used in some larger cases. Requires specific training; complications include systemic local anesthetic toxicity if dosing is incorrect.
+- **General anesthesia**: full loss of consciousness with mechanical ventilation. The safety floor is high in trained hands with full monitoring; the floor is dramatically lower without those conditions.
+
+The most concerning pattern in cosmetic-tourism settings is *unsupervised deep IV sedation* — sedation deep enough to function as general anesthesia, delivered by a provider not trained or equipped to manage a general anesthetic, in a facility without capnography or full airway equipment. The marketing language for this is often "we don't use general anesthesia, just sedation, so the recovery is faster." The clinical reality is that the patient is in a general-anesthesia state with sub-general-anesthesia monitoring and rescue capability. That is the gap most often associated with preventable harm.
+
+If the clinic tells you sedation will be used, ask specifically:
+
+> Will I be breathing on my own, or will I have a breathing tube or LMA? Will end-tidal CO₂ be monitored continuously? Who is responsible for managing my airway if I stop breathing adequately?
+
+### Monitoring you should expect for any case longer than thirty minutes
+
+For any anesthetic deeper than light sedation, the standard monitoring set is: continuous pulse oximetry, continuous ECG, continuous end-tidal CO₂ (capnography), non-invasive blood pressure no less often than every five minutes, and temperature for cases over one hour. *(These reflect long-standing American Society of Anesthesiologists basic monitoring standards.)* For longer cases, central or arterial monitoring may be added.
+
+A facility that cannot answer "yes" to each monitor on that list is operating below the published standard. The capnography monitor is the one most often missing in lower-regulation settings; it is also the monitor most likely to catch a developing problem before it becomes irreversible.
+
+### Conditions that should trigger an extra pre-op anesthesia consult
+
+Some patient histories should result in a separate, named pre-operative anesthesia consultation, not just a form review on the day of surgery:
+
+- diagnosed or suspected obstructive sleep apnea;
+- known cardiovascular disease (coronary artery disease, prior MI, valvular disease, heart failure);
+- poorly controlled diabetes (HbA1c above the surgeon's threshold);
+- BMI above the facility's published cutoff;
+- prior difficult intubation or any prior anesthesia complication, including malignant hyperthermia susceptibility (personal or family);
+- current GLP-1 agonist use (see Chapter 17);
+- current opioid dependence or use of buprenorphine;
+- pregnancy or recent postpartum status;
+- significant respiratory disease;
+- significant kidney or liver disease;
+- patients over 65 years of age.
+
+If you fit any of these categories, request a video or in-person consult with the named anesthesia provider — not the coordinator, not the surgeon — before your travel date. A facility that will not arrange one is telling you something useful.
+
+### The day-of script
+
+In pre-operative holding, before any sedation is administered, look for the named anesthesia provider. Introduce yourself. Ask:
+
+> Are you the anesthesia provider performing my case today? May I confirm your full name and credential? Will you be in the operating room for the entire duration of my surgery? Have you reviewed my health history and medication list? Do you have any questions for me?
+
+This conversation is not adversarial. A good anesthesia provider welcomes it. Their answers should be specific and unhurried. If the answer is "I am here for the start; my colleague will take over later," ask who that colleague is and confirm they have also reviewed your record. If the answer is "we will work that out," do not sign consent.
+
+### Red flags
+
+Slow down or walk if you encounter any of these:
+
+- the anesthesia provider is unnamed at the time of deposit;
+- the consent form lists "our anesthesia team" rather than a specific provider;
+- the clinic cannot tell you what monitoring will be used;
+- the clinic uses "sedation" language for a case that is clearly general-anesthesia in length and depth;
+- no capnography is available;
+- the clinic has no defibrillator or no documented difficult-airway equipment in the OR;
+- the transfer protocol to a higher-level facility cannot be described concretely;
+- the same provider is described as managing multiple cases simultaneously in different rooms;
+- prior anesthesia complications you reported are met with "we have never had a problem" rather than a plan.
+
+::: {.pullquote}
+The takeaway is not "anesthesia abroad is unsafe." The takeaway is that the safety floor depends almost entirely on three factors: who is providing the anesthesia, what monitoring is in the room, and what happens in the first sixty seconds if something goes wrong.
+:::
+
+---
+
+## Chapter 19 — Mental-Health Pre-Op Screening
+
+This chapter is in the book because the published prevalence of body dysmorphic disorder (BDD) in cosmetic surgery patients ranges from roughly 7 to 18 percent depending on the population and screening tool used, and because the clinical literature consistently reports that surgical outcomes — measured as patient satisfaction, distress, and pursuit of further procedures — are poor for patients with untreated BDD. The literature does not tell us this is anyone's fault. It tells us that the screening step, which adds a few minutes to a consult, prevents a foreseeable harm.
+
+This chapter is *not* in the book to medicalize the decision to seek cosmetic surgery. Wanting your appearance to match your sense of yourself is not a disorder. The book is not a gatekeeper. The book is a screening tool. If a screening tool suggests pausing, that is protection, not judgment.
+
+### What the book screens for, and what it does not
+
+The book screens for two things:
+
+1. **The probability that a validated diagnostic screen would flag body dysmorphic concerns serious enough that a qualified mental-health professional should weigh in before surgery.**
+2. **The presence of life-circumstance factors that the surgical literature associates with poor outcomes regardless of BDD status.**
+
+The book does not diagnose. The book does not tell you whether you should have surgery. The book uses validated screening tools (the BDDQ and the DCQ; see back-matter Worksheet 12) and reports their results to you and only to you. What you do with that information is your decision, and the people qualified to help you act on it are licensed mental-health clinicians, not authors.
+
+### Body dysmorphic disorder, in plain language
+
+BDD is a mental-health condition in which a person experiences distressing preoccupation with a perceived flaw in their appearance that is not observable, or is only slightly observable, to others. The preoccupation typically consumes hours of the day, drives avoidance or compulsive behaviors (mirror-checking, comparison, reassurance-seeking, grooming), and produces significant functional impairment in work, relationships, or self-care.
+
+Cosmetic surgery for an underlying BDD presentation typically does not resolve the distress. The published outcome data shows that patients with BDD tend to be dissatisfied with their surgical results, to pursue further procedures, and in some cases to experience worsening of the underlying condition. The treatment with the strongest evidence base for BDD is cognitive behavioral therapy adapted for BDD, with or without SSRI medication — not surgery.
+
+The board-certified plastic surgery societies in both the United States and Europe recommend screening for BDD as part of a cosmetic surgery consultation. *(Source: ASPS / ISAPS BDD screening recommendations; cited in the back-matter Source Notes.)* A foreign clinic that does not screen is not following standard practice. A foreign clinic that screens and then proceeds with surgery on a patient who screens positive without a mental-health clearance is also not following standard practice.
+
+### The two validated screening tools
+
+The book includes both tools in the back-matter worksheets. The short version of what each is:
+
+- **The Body Dysmorphic Disorder Questionnaire (BDDQ)**: a brief self-report instrument adapted from the Body Dysmorphic Disorder Questionnaire developed in the clinical literature. It asks about preoccupation, distress, functional impairment, and whether weight or shape is the primary concern (to differentiate from eating disorders). A positive screen suggests further evaluation, not a diagnosis.
+- **The Dysmorphic Concerns Questionnaire (DCQ)**: a longer, dimensional self-report instrument that captures appearance-related concerns and distress on a continuum. Useful as a complement to the BDDQ for screening severity.
+
+Worksheet 12 in the back matter contains both instruments and instructions for self-administration. The result is intended for the patient's own use and for sharing with a qualified mental-health professional if the screen is positive.
+
+### What to do with a positive screen
+
+A positive screen does not mean you cannot have surgery. It means the decision should not be made in the consultation room or under the time pressure of an international trip. The recommended pathway is:
+
+1. **Pause the surgical timeline.** Do not send a deposit. Do not book non-refundable travel.
+2. **Schedule an evaluation with a licensed mental-health clinician** in your home country. Ideally one with experience treating BDD or appearance-related distress. Tell them you have a positive screen and that you are considering cosmetic surgery.
+3. **Follow their recommendation.** That may be a short course of therapy, a longer course, a medication trial, or — for some patients — a determination that surgery is reasonable to pursue after a defined treatment window.
+4. **Document the clearance, if obtained, and bring it to your surgical consult.** A foreign clinic operating at standard will welcome this; a clinic that resists is signaling something about its screening culture.
+
+This is not "surgery denied." This is "surgery considered under conditions designed to protect the person making the decision."
+
+### Realistic expectation calibration — for everyone
+
+Even patients who screen negative benefit from a structured expectation calibration. The questions are:
+
+- What specifically about my appearance am I trying to change?
+- What do I expect the change will do for me beyond the physical result — in my relationships, my career, my self-image?
+- Have I tried non-surgical alternatives (training, dermatologic care, photography, clothing, dental work, hair styling, posture)?
+- What does the photographic outcome literature show for this procedure on bodies similar to mine — not just the dramatic before/afters in marketing?
+- How will I evaluate the result at six months, two years, and five years?
+- What outcome would make me consider the surgery successful even if the result is not perfect?
+- What outcome would I consider a failure?
+
+A cosmetic surgery decision made by someone who can answer these questions calmly is a more durable decision. A cosmetic surgery decision made under the pressure of a relationship change, a job change, a recent loss, or a social-media spiral is a more fragile one.
+
+### Eating disorder considerations
+
+For procedures focused on body shape (BBL, abdominoplasty, breast surgery in either direction, body contouring), a current or past eating disorder deserves explicit discussion. The published literature reports higher rates of post-operative distress and dissatisfaction in patients with active or recently active eating disorders. A surgeon who is informed can plan accordingly; a surgeon who is not informed cannot.
+
+Disclosure does not automatically mean cancellation. It means the surgeon has a chance to assess whether the procedure is appropriate at this point in your treatment course and to coordinate with your treating clinician. A clinic that responds to disclosure with "we don't ask about that" is not the right setting for the procedure.
+
+### Major life events: the six-to-twelve-month window
+
+The plastic surgery and mental-health literature reports that cosmetic surgery undertaken within six to twelve months of significant grief (death of a partner, parent, or child), divorce or significant relationship rupture, job loss, or major health diagnosis is associated with higher rates of post-operative distress and lower rates of satisfaction. The surgery is rarely the cause of the distress; the timing is the issue.
+
+If you are within six to twelve months of one of these events and considering cosmetic surgery, the screening conversation deserves more time, not less. Pause the timeline. Talk to a clinician you trust about whether now is the right window or whether a future window would be better. There is no calendar in which cosmetic surgery becomes unavailable forever; there is only a calendar in which a decision made under acute distress becomes harder to revisit.
+
+### The role of a pre-op psych consult
+
+Some jurisdictions require a documented mental-health consult before certain procedures (gender-affirming care, bariatric surgery). For most cosmetic surgery, it is optional. The board-certified surgery societies recommend it when screening flags concern; many surgeons recommend it routinely for combination procedures, revision procedures, and any procedure where the patient's stated reasons do not match the surgeon's clinical sense of the conversation.
+
+If a pre-op psych consult is recommended to you, the goal is not to "pass" it. The goal is for the clinician to help you make a more informed decision and, if surgery is the right next step, to help you set expectations and plan post-operative emotional support.
+
+### Editorial framing
+
+This chapter does not tell anyone whether they should or should not pursue cosmetic surgery. It tells you that surgery decisions made under conditions of acute distress, undiagnosed BDD, or active eating disorders are decisions the published evidence says you may not be able to live with at five years. The screening step exists to help you avoid that outcome — not to keep you from getting what you want.
+
+Your body. Your decision. The book's job is to make sure the decision is made under conditions that protect you.
+
+::: {.pullquote}
+If a screening tool suggests pausing, that is protection, not judgment. There is no calendar in which cosmetic surgery becomes unavailable forever.
+:::
+
+---
+
+## Chapter 20 — Before You're Wheeled In: The Day-of-Procedure Leverage Checklist
+
+The most important moment of your trip may be the last quiet minute before you are wheeled into the operating room. Everything in the book up to now has been about earning that moment — clinic verified, surgeon verified, anesthesia provider verified, plan written and signed, deposit protected, records ready, companion briefed. This chapter is about using it.
+
+The leverage at the OR doors is real but small. It is not the leverage you had four months ago when you were comparing clinics, or two months ago when you were deciding on the procedure, or two weeks ago when you were getting your second opinion. It is the residual leverage of refusal: at any point before sedation is administered, you can decline to proceed, and the clinic cannot start without your verbal and written consent. That residual leverage is what this checklist preserves.
+
+### The pause sentence
+
+The first thing to know, before any of the checklist items below, is the sentence that buys you time without escalation:
+
+> I need a few more minutes before I am ready. Please bring me my surgeon and confirm the plan with me one more time before sedation.
+
+That sentence is not a request to cancel. It is a request to pause. A clinic operating at standard accommodates it. A clinic that does not is telling you something about how the morning will go.
+
+### Checklist 1 — Identity and responsibility
+
+Before sedation, confirm in person, by name and verbal introduction:
+
+- **Surgeon.** Same name on the consent form as on the original written plan from your pre-trip communications. If a different surgeon is in the room, do not proceed without renewed written consent and a clear answer to *why* the original surgeon is not performing the case.
+- **Anesthesia provider.** Same name on the consent form. Verbal confirmation that they have reviewed your record and will be present for the entire case (see Chapter 18).
+- **Circulating nurse.** Name; this is the person who can be your advocate during the procedure.
+- **Scrub tech, surgical assistant, surgical fellow or trainee.** If any trainee will be participating in the surgical portion, this should be disclosed and documented before consent — many patients have strong feelings about trainee involvement, and you have the right to know.
+
+### Checklist 2 — Final plan matches the written quote
+
+Read the consent form against your pre-trip written plan. Look for:
+
+- the same procedure names;
+- the same procedure side (left, right, bilateral) and area;
+- the same implant brand, size, and model where applicable;
+- the same operative-time estimate;
+- no additions that were not discussed and approved during the in-person consult.
+
+If something differs, ask. If the answer is "we updated the plan based on the in-person exam," confirm that you reviewed and approved the updated plan in writing the night before — not five minutes before sedation. If the answer is "this is just our standard form," that is not an answer. Sign nothing under those conditions.
+
+### Checklist 3 — Consent you can understand
+
+Consent forms in international clinics are often translated, sometimes well, sometimes badly. If the form is in a language you do not read fluently, request a translation in writing before signing. The clinic may have a bilingual staff member read it aloud; that is helpful but not a substitute for a written copy you can take with you.
+
+The non-negotiable rules:
+
+- **Do not sign consent under sedation.** Once any sedating medication has been administered, you are not legally or ethically able to consent to new procedures. Consent for everything in the surgical plan must be signed before any sedation.
+- **A companion does not consent for you in non-emergency situations.** If a plan change is proposed mid-procedure, the answer is to wake you up, give you time, and have *you* consent. The companion's role is communication and care, not decision-making on your behalf except in true medical emergencies.
+- **You can decline any part of the plan.** "The whole package or nothing" is not a clinical position; it is a sales position. If you decline an add-on, the primary procedure should still be performable as originally agreed.
+
+### Checklist 4 — Payment boundaries
+
+Confirm verbally and in writing:
+
+- what has already been paid;
+- what is due today, before surgery;
+- what, if anything, is due after surgery and against what milestone;
+- the refund policy if you decline to proceed at this moment;
+- the receipt format for today's payment.
+
+If the clinic raises the price at the OR doors, the answer is to pause and resolve the discrepancy before sedation. A clinic that pressures payment at this point has crossed a professional line.
+
+### Checklist 5 — Records you will receive
+
+Confirm what records you will receive and when:
+
+- operative report, with surgeon signature, before discharge;
+- anesthesia record;
+- implant cards or UDI documentation, in hand at discharge;
+- before-and-after imaging if part of the package;
+- pathology report if any tissue was sent;
+- discharge summary with medications, post-op instructions, flight-clearance criteria, and emergency contact.
+
+This is not the moment to introduce new records requests, but it is a reasonable moment to confirm the list that was agreed in pre-trip communications.
+
+### Checklist 6 — The exit option
+
+The most powerful sentence at the OR doors, available to you at any time before sedation, is:
+
+> I need time to think. I am not ready to begin today.
+
+The cost of using that sentence is real — your deposit, your trip, your scheduled life events around recovery. The cost of not using it when something is genuinely wrong is larger. Patients who later wished they had used that sentence consistently report the same theme: "Something felt off, and I went ahead anyway because I had already paid and traveled."
+
+Your trip is not the sunk cost. Your body is the durable asset. The trip can be rebooked.
+
+### Cosmetic-surgery–specific additions
+
+A few items belong on this checklist that would not appear on a dental version:
+
+- **Implant verification at the time of surgery.** For breast augmentation, gluteal implants, and any other implant case, ask to see the implant box or the implant identification card in the OR before opening. This sounds excessive; it is standard at well-run facilities and is the single most reliable way to ensure the implant matches the plan.
+- **Photo consent boundaries.** If the clinic photographs you pre-operatively, confirm what those photos may be used for and what the storage and consent terms are. Refuse marketing-use photos if you do not want them taken. Refuse face-included photography if your consent is for body-only.
+- **Marking verification.** Surgical markings made on your body before the procedure should match the plan. Verify them in the mirror with the surgeon before sedation. This is your last opportunity to catch a misunderstanding.
+
+The checklist is not paranoia. It is a final, structured handoff between the person you have been for the last four months — the careful, prepared, informed purchaser this book has been training — and the patient you are about to become for the next several hours. Make the handoff complete.
+
+::: {.pullquote}
+Your trip is not the sunk cost. Your body is the durable asset. The trip can be rebooked.
+:::
+
+---
+
+## Chapter 21 — If the Plan Changes After You Arrive
+
+### Composite Scenario K: The Revised Plan on Arrival
+
+Diane is 39. She came for a tummy tuck and a breast lift — two procedures, discussed at length in pre-trip consults, quoted at one price, with the same surgeon she has video-called twice. After the in-person exam on the morning of her arrival day, the surgeon tells her that "while we are in there," she should also have liposuction of her flanks and a fat transfer to the breast pocket. Same surgical date, same anesthesia session, an additional total of about $4,200, "and we can use the financing." The coordinator is already pulling up the consent form.
+
+Diane took notes in her phone before this trip. She knows her walk-away number from Chapter 5. She knows the plan-change five-step from Chapter 13. She knows that the moment a coordinator pulls up a consent form for an unsigned addition is the moment the leverage starts disappearing if she does not slow it down.
+
+She says:
+
+> Thank you for the recommendation. Before I decide, please send me the proposed addition in writing — the procedures, the operative-time addition, the anesthesia-time addition, the reason for each addition, the new total, and the refund implication if I decline. I would like to take it back to my room tonight and decide tomorrow morning before surgery.
+
+The coordinator hesitates. The surgical date is the day after tomorrow. The surgeon — who is in the room — says "I understand." He writes the addendum himself, has it translated, signs it, and gives Diane a copy.
+
+That evening, Diane reads the addendum twice. She calls her sister in the US. She decides to decline the liposuction, accept the fat transfer, and proceed with the original tummy tuck and breast lift. She tells the clinic in the morning. The surgeon performs the agreed plan. The case goes well.
+
+That is the working version of a plan change. The surgeon makes a recommendation. The patient pauses. The patient decides. Both parties accept the patient's decision.
+
+### The same five-step framework, with cosmetic stakes
+
+The five-step plan-change framework from Chapter 13 applies here. The cosmetic stakes change some of the language, but the structure is the same.
+
+1. **Ask for the new findings in writing.** What changed clinically? What imaging or examination finding supports the change?
+2. **Identify the type of change.** Is this a scope addition (new procedure), a volume change (more implant, more fat, more skin removal), a combination expansion (one procedure becoming several), a candidacy downgrade (BMI, blood work, anesthesia), an implant substitution (different brand or size than agreed), or a surgeon substitution (different operator than agreed)? Each has a different appropriate response.
+3. **Create a decision pause.** Do not consent the same day. Sleep on it. The pause sentence from Chapter 20 applies: "I need a few more minutes before I am ready. Please bring me my surgeon and confirm the plan with me one more time before sedation."
+4. **Ask for records.** Get the addendum in writing, signed, with the same level of detail as the original plan.
+5. **Manage deposits and sunk costs.** If you decline the addition and the clinic threatens the deposit, ask for the relevant clause from the deposit policy that supports the threat. Many clinics use the threat without an enforceable contract behind it.
+6. **Know when to walk.** Some plan changes are clarifying refinements. Some are not. If the change involves a substitute surgeon you have not vetted, a substitute implant you have not approved, a non-accredited room you have not seen, or a price that exceeds your walk-away number from Chapter 5, the answer is not to negotiate. The answer is to reschedule.
+
+### "While we have you on the table"
+
+There is a specific pressure pattern worth naming separately. The phrase — or variants like "while you're already under," "since we have the time today," "easier to do it now than come back" — typically appears either at the in-person consult, at the OR doors, or, in the worst version, after you are already sedated.
+
+The first two versions are addressable. Pause, ask for the proposal in writing, decline or accept in writing, do not consent same-day. The third version is not addressable in the moment because you cannot consent under sedation. The protection against the third version is the consent paragraph in Chapter 20, set up in advance:
+
+> I do not consent to any addition, expansion, or substitution to my surgical plan beyond the procedures listed on this consent form, regardless of intraoperative findings, except for procedures that are immediately medically necessary to address an emergency (uncontrolled bleeding, airway, cardiac event). Any non-emergency addition must be discussed with me, in a non-sedated state, with informed written consent.
+
+A surgeon who refuses to sign that paragraph is telling you what their practice culture is. A surgeon who signs it has set a written boundary that protects both of you.
+
+### The companion's role in a plan change
+
+A companion is not your decision-maker. A companion is your witness, your time-keeper, your translator, and — when you are exhausted, jet-lagged, or post-procedure — your slow-down voice. If the clinic proposes a plan change while your companion is in the room with you, ask the companion to do one specific thing: read the proposed change out loud, ask the clinic to confirm each element, and write down the answers.
+
+The companion does not sign for you in non-emergency situations. The companion's job is to make sure *you* can make the decision with full information, not to make it for you. (Chapter 23 expands on the companion role in recovery.)
+
+### The final rule before the OR
+
+Three sentences, in order:
+
+> Slow down.
+> Get it in writing.
+> Keep the right to leave.
+
+A patient who can say all three at the OR doors is a patient with the leverage this book was designed to preserve.
+
+::: {.pullquote}
+The pause sentence is not a request to cancel. It is a request to pause. A clinic operating at standard accommodates it.
+:::
+
+---
+
+## Part V Closing Decision Gate — Before You Are Wheeled In
+
+Part V is about the last sixty hours: the conversations, the consent forms, the medication holds, the screening, the markings, the names on the consent. The decisions in Part I-IV bought you the right to be at this point. The decisions in Part V determine whether the leverage you preserved gets used.
+
+Before you are wheeled in, you should have, in writing:
+
+- the surgical plan, surgeon-signed, identical to the consent form;
+- the surgeon's name on the consent form, matching the surgeon you consulted with;
+- the anesthesia provider's name on the consent form, matching a provider you have spoken with;
+- documented review of your medications and supplements by the anesthesia provider;
+- a mental-health screen completed and a clearance if a positive screen was flagged;
+- a written no-non-emergency-additions clause;
+- a refund clause for declined additions;
+- the post-op records list confirmed.
+
+You should also have, in your head:
+
+- the pause sentence;
+- your walk-away number;
+- your exit option.
+
+If any of the items above is missing or unclear at the OR doors, the right answer is not to negotiate from a stretcher. The right answer is to stand up, ask for time, and resolve it before sedation.
+
+The body is the durable asset. The trip can be rebooked.
+
+---
+
 
 
