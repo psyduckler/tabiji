@@ -98,9 +98,9 @@ First Edition — Data current as of 2026
 
 ---
 
-## Front Matter
+# Front Matter
 
-### A Note to the Reader
+## A Note to the Reader
 
 You may have come to this book because a friend traveled abroad for surgery and came back with a story that made you wonder if you should do the same. You may have come because the dental quote in your hand has a number that does not match any savings you have. You may have come because your mother needs a hip replacement and her insurance just denied the prior authorization for the third time. You may have come because you have been scrolling Instagram and a transformation reel held your attention longer than you meant it to. You may have come because someone you love is sick, and the US oncology consult ended with a plan you cannot afford and a deadline you cannot meet.
 
@@ -122,7 +122,7 @@ The work the book asks of you is real but finite. The work it saves you, on the 
 
 ---
 
-### Important Disclaimer
+## Important Disclaimer
 
 This book is general educational material. It is not medical advice, surgical advice, anesthesia advice, mental-health advice, legal advice, insurance advice, financial advice, travel-safety advice, or a substitute for professional evaluation. Reading this book does not create a doctor-patient, attorney-client, insurance-adviser, or fiduciary relationship with Tabiji, the editor, reviewers, publisher, or any contributor.
 
@@ -144,7 +144,7 @@ Readers are responsible for decisions. When in doubt, slow down, get the plan in
 
 ---
 
-### How This Book Makes Money
+## How This Book Makes Money
 
 This book makes money in the same way Volumes One and Two do: through retail sales on Amazon and through Tabiji's companion site. That is it.
 
@@ -160,7 +160,7 @@ If this commercial model changes — if Tabiji ever accepts paid placement, affi
 
 ---
 
-### The Five Rules
+## The Five Rules
 
 Five rules organize the work this book asks of you. They appear in every Tabiji Field Guide. They are not procedure-specific; they apply to any healthcare decision that crosses an international border.
 
@@ -178,7 +178,7 @@ The five rules are framework. The chapters that follow are how to apply them to 
 
 ---
 
-### Read This First — The 20-Minute Safety Pause
+## Read This First — The 20-Minute Safety Pause
 
 This page exists for the reader who is about to send a deposit, sign a contract, or board a plane. The next twenty minutes — the time it takes to read this page and answer eight questions — can prevent the most documented patterns of harm in cross-border medical care.
 
@@ -241,7 +241,7 @@ Hope is important. It is not enough to sign consent.
 
 ---
 
-### Scenario Index
+## Scenario Index
 
 Nine composite scenarios run through this book. Each is a fictional combination of documented patterns, never a real patient. Each is identified by a letter and a protagonist; chapter pointers indicate where the scenes appear.
 
@@ -253,13 +253,13 @@ Nine composite scenarios run through this book. Each is a fictional combination 
 - **Composite F — Marcus revisited** (framework-works closing). Ch 31.
 - **Composite G — Daniel revisited** (companion role). Ch 36.
 - **Composite H — Eleanor revisited** (multi-procedure year-1 follow-up). Ch 35.
-- **Composite I — Maria** (closing positive; bariatric surgery; year-5 outcome).
+- **Composite L — Maria** (closing positive; bariatric surgery; year-5 outcome).
 
 Composite scenarios show near-misses and successful trips, not deaths or permanent disability. Composite L (Maria) is the closing positive scenario at year five.
 
 ---
 
-### Reading Paths
+## Reading Paths
 
 You can read this book in order; the chapters are laid out in the sequence that serves the cost-crisis reader best. If you came to the book with a different situation, six paths through the book will get you to the chapters you need fastest.
 
@@ -279,7 +279,7 @@ If none of these matches your situation exactly, Path B (read in order) is the s
 
 ---
 
-### Introduction — The Seven Leverage Points and the Journey at a Glance
+## Introduction — The Seven Leverage Points and the Journey at a Glance
 
 Every healthcare decision that crosses a border passes through seven leverage points. At each one, you have some power and some risk; at each one, you can preserve leverage or give it up. The decisions you make at the earliest leverage points have the biggest effect on the decisions available at the later ones. The book is organized around this sequence.
 
@@ -332,7 +332,7 @@ He is sitting at his kitchen table at eleven o'clock at night. His wife is aslee
 
 The first is Reddit, where r/MedicalTourism has eighty-four thousand subscribers and a pinned post from a moderator titled *"Please read before posting your knee/hip question."* The post is from 2022 and links to three other posts that are also from 2022, two of which point to a clinic in Costa Rica that has since changed its name twice. Marcus knows this because he has spent the last twenty minutes trying to track the actual current name and accreditation status.
 
-The second is *Patients Beyond Borders,* a website whose pages on Costa Rica list four hospitals he can vaguely tell are not all the same kind of facility. He cannot quite figure out the difference between Hospital CIMA San José and Hospital Clínica Bíblica. He cannot quite figure out whether the JCI accreditation he keeps reading about is the same JCI accreditation the websites are showing.
+The second is *Patients Beyond Borders,* a website whose pages on Costa Rica list four hospitals he can vaguely tell are not all the same kind of facility. He cannot quite figure out the difference between a JCI-accredited tertiary hospital in San José and Hospital Clínica Bíblica. He cannot quite figure out whether the JCI accreditation he keeps reading about is the same JCI accreditation the websites are showing.
 
 The third is a Costa Rican facilitator who DM'd him on Instagram two days ago after he liked a post about knee replacement. The facilitator, whose name is something like *KneeNoMore* on the platform and *International Patient Concierge* in the email, has been very responsive. The current message in the WhatsApp thread is a quote: *$13,800 USD all-inclusive for bilateral TKA, includes accommodation, transfers, and follow-up. Surgeon Dr. ___ Board-certified. JCI hospital. Available next month.* The hospital name in the quote is one of the four on the Patients Beyond Borders page. The surgeon name has a Dr. in front of it but no specific verifiable credential beyond *Board-certified.*
 
@@ -1139,7 +1139,7 @@ Marcus, in our opening scene, was at Week 0 of this plan. The framework's discip
 
 ### Composite Scenario A — Marcus at Week 2
 
-Marcus is two weeks into the plan. The self-test result said proceed with research, with attention to the complexity-ladder step (his bilateral TKA is Step 4 — inpatient, implants, general anesthesia). He has identified three candidate facilities — Hospital CIMA San José in Costa Rica, Apollo Hospitals in Chennai, and Anadolu Medical Center near Istanbul. Two are JCI-accredited; one is in the accreditation directory but the accreditation date is from 2022 and he is checking whether reaccreditation has occurred.
+Marcus is two weeks into the plan. The self-test result said proceed with research, with attention to the complexity-ladder step (his bilateral TKA is Step 4 — inpatient, implants, general anesthesia). He has identified three candidate facilities — a JCI-accredited tertiary hospital in San José in Costa Rica, Apollo Hospitals in Chennai, and Anadolu Medical Center near Istanbul. Two are JCI-accredited; one is in the accreditation directory but the accreditation date is from 2022 and he is checking whether reaccreditation has occurred.
 
 He has not yet contacted any of the three clinics. He has reviewed the surgeon credentialing patterns in each country (Chapter 16 has the patterns). He has scheduled a telemedicine second opinion through Cleveland Clinic Connect for Week 4 — the cost is $1,800 and the turnaround is 10 days.
 
@@ -1490,7 +1490,7 @@ Verification: search the Turkish Medical Association registry; verify specialty 
 
 ### Costa Rica
 
-The Colegio de Médicos y Cirujanos de Costa Rica maintains the physician registry. CINME (Centro de Investigación en Mejoramiento Sanitario) and Acreditación Costa Rica handle hospital accreditation; JCI is also common for top hospitals (Hospital CIMA San José, Hospital Clínica Bíblica).
+The Colegio de Médicos y Cirujanos de Costa Rica maintains the physician registry. CINME (Centro de Investigación en Mejoramiento Sanitario) and Acreditación Costa Rica handle hospital accreditation; JCI is also common for top hospitals (a JCI-accredited tertiary hospital in San José, Hospital Clínica Bíblica).
 
 Verification: search the Colegio de Médicos registry at *medicos.cr*; verify specialty certification through the relevant specialty association.
 
@@ -2399,7 +2399,7 @@ The framework's discipline applies again, with the additional consideration of t
 
 Daniel arranges a telemedicine second opinion through Cleveland Clinic Connect ($2,400; the family is paying it). The Cleveland Clinic orthopedic specialist reviews the father's case. The opinion: total hip replacement is appropriate; the surgical risk is elevated given the father's age and mild dementia but not prohibitive; the procedure should be performed at a hospital with full medical-surgical capability (not an ambulatory surgical center), with explicit attention to post-operative delirium prevention.
 
-The Mexicali eye clinic had been a good match for the cataract surgery. For the hip replacement, the framework says: a higher-tier facility with inpatient capability and geriatric anesthesia expertise. Daniel and his sister consider Hospital CIMA San José in Costa Rica (JCI-accredited, established orthopedic program, geriatric-anesthesia expertise documented). The cost is higher than the Mexicali option would have been but well below the US price.
+The Mexicali eye clinic had been a good match for the cataract surgery. For the hip replacement, the framework says: a higher-tier facility with inpatient capability and geriatric anesthesia expertise. Daniel and his sister consider a JCI-accredited tertiary hospital in San José in Costa Rica (JCI-accredited, established orthopedic program, geriatric-anesthesia expertise documented). The cost is higher than the Mexicali option would have been but well below the US price.
 
 The family proceeds with the planning. Daniel is the companion (Chapter 34). The sister will visit at days 5 and 10. The father's US PCP has agreed to coordinate post-return follow-up. The PT will be at a US facility within 24 hours of return.
 
@@ -2707,7 +2707,7 @@ The success is not the procedure alone. It is the procedure plus the framework. 
 
 ### Composite Scenario A continued — Marcus at 8 months
 
-Marcus is now eight months post-procedure. The bilateral total knee arthroplasty was performed at Hospital CIMA San José in Costa Rica by a JCI-credentialed orthopedic surgeon. The surgeon's full name and Costa Rican cédula are in Marcus's records. The implant — Stryker Triathlon, both knees — is documented with manufacturer lot numbers and warranty registration. The anesthesia record is signed by a named cardiac anesthesia provider. The operative report is two pages, signed.
+Marcus is now eight months post-procedure. The bilateral total knee arthroplasty was performed at a JCI-accredited tertiary hospital in San José in Costa Rica by a JCI-credentialed orthopedic surgeon. The surgeon's full name and Costa Rican cédula are in Marcus's records. The implant — Stryker Triathlon, both knees — is documented with manufacturer lot numbers and warranty registration. The anesthesia record is signed by a named cardiac anesthesia provider. The operative report is two pages, signed.
 
 The all-in cost was $14,800 for both knees, including a 14-day stay in San José for surgery, recovery, and the first post-operative follow-up. The True Cost Calculator that Marcus completed at week 5 of the 60-day plan estimated $27,000 all-in including the travel, the lost income, the complication reserve, and the US-based PT. The actual all-in cost ended up at $26,400 — within a few percent of the estimate.
 
@@ -3037,7 +3037,7 @@ For procedures where the US insurance does not cover any portion of the procedur
 
 ### Composite Scenario C continued — Eleanor at year 1 follow-up
 
-Eleanor is 14 months post-bilateral knee replacement, 9 months post-cataract surgery, 6 months post-dental rehabilitation. She has a thick records folder. The bilateral knee replacement was at Hospital CIMA San José; the cataract surgery was at the Mexicali clinic Daniel had used for his father (a connection Eleanor made through the medical-tourism patient community); the dental rehabilitation was in Los Algodones.
+Eleanor is 14 months post-bilateral knee replacement, 9 months post-cataract surgery, 6 months post-dental rehabilitation. She has a thick records folder. The bilateral knee replacement was at a JCI-accredited tertiary hospital in San José; the cataract surgery was at the Mexicali clinic Daniel had used for his father (a connection Eleanor made through the medical-tourism patient community); the dental rehabilitation was in Los Algodones.
 
 Her US PCP has reviewed all four sets of records — the three medical-tourism procedures plus the in-network hernia repair that happened at home. The PCP knows the implant brand and serial for both knees, knows the IOL brand for the cataract, knows the dental specifications. The records are filed in the patient's chart at the PCP's clinic.
 
@@ -3272,7 +3272,7 @@ Things that some patients regret:
 
 These are not universal regrets. The framework, applied, delivers good outcomes for most patients. The "what would I do differently" reflection is the patient's own honesty about where the framework could have been applied more rigorously.
 
-### The Composite F, G, H, I trajectory
+### The Composite F, G, H, L trajectory
 
 The composite scenarios have shown the framework applied across reader segments:
 - Marcus (Composite A/F): cost-crisis, framework-works closing at month 8.
@@ -3281,7 +3281,7 @@ The composite scenarios have shown the framework applied across reader segments:
 - Daniel (Composite D/G): adult-child researcher, two-procedure father's care.
 - Karen (Composite E): exploratory, telemedicine second opinion that confirmed US plan.
 
-Maria (Composite I), the closing scenario, is at year 5 — the bariatric patient who applied the framework fully and is doing well at 5 years post-procedure.
+Maria (Composite L), the closing scenario, is at year 5 — the bariatric patient who applied the framework fully and is doing well at 5 years post-procedure.
 
 The framework's arc is from year 0 (before the search) to year 5 (durable outcome). The book ends with year 5 because that is where buyer-protection has done its work.
 
