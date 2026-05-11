@@ -7,6 +7,12 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = 'https://tabiji.ai'
 EXCLUDE_DIRS = {'tmp', 'archive', '_includes', '.git', '.claude', 'node_modules', '.next', '.wrangler', '.well-known'}
 
+def is_excluded_path(rel_path):
+    """Exclude top-level book-* source/manuscript dirs (book-italy/, book-cosmetic-surgery/, etc.).
+    These contain manuscripts, briefs, and dev prototypes — not site content."""
+    first = rel_path.split(os.sep, 1)[0]
+    return first.startswith('book-') or first == 'book'
+
 def get_priority(path):
     if path == '/': return '1.0'
     if path == '/plan/': return '0.9'
@@ -42,11 +48,13 @@ def main():
     for root, dirs, files in os.walk(REPO):
         dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
         if 'index.html' in files:
+            rel = os.path.relpath(root, REPO)
+            if rel != '.' and is_excluded_path(rel):
+                continue
             html_path = os.path.join(root, 'index.html')
             if is_redirect_stub(html_path):
                 skipped_redirects += 1
                 continue
-            rel = os.path.relpath(root, REPO)
             path = '/' if rel == '.' else f'/{rel}/'
             pages.append(path)
     pages.sort()
