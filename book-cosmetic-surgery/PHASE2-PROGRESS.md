@@ -1,208 +1,128 @@
-# Phase 2 Progress — Manuscript Narrative Complete
+# Phase 2 Complete — First-Draft Manuscript Ready for Phase 3 Editorial
 
-**Last updated:** 2026-05-11 (Part VII + closing committed)
-**Manuscript word count:** 62,759 / ~76,000 target (~83% — but narrative is complete; remaining gap is back matter)
-**Sections complete:** Front matter, all seven Parts (Chs 1-31 + Decision Gates), Composite Scenario L, Final Note
-**Sections remaining:** Back Matter only (worksheets, glossary, source notes, about, acknowledgments, appendix disclaimer)
-
----
-
-## What's drafted
-
-### Front matter (~5,000 words) ✅
-
-- Title, contents
-- A Note to the Reader (with Iris/Diane-equivalent through-line teaser, companion site reference)
-- Important Disclaimer (strengthened for surgery; cites CDC MMWR DR data and ASPS BBL warnings; awaits malpractice attorney review in Phase 5)
-- How This Book Makes Money (extends dental's editorial position to cosmetic-specific patterns)
-- The Five Rules (same five rules; surgical examples rewritten)
-- Read This First: The 20-Minute Safety Pause (eight questions adapted; BDD self-screen reference; Decision Gate has 10 cosmetic-specific pause triggers)
-- Scenario Index (12 composites listed)
-- Introduction: The Seven Leverage Points (with Journey at a Glance map — 10 stages, 5 columns)
-
-### Part I — Before You Ask for a Quote (~9,000 words) ✅
-
-| Chapter | Status | Composite scenario |
-|---|---|---|
-| 1. The Moment Your Leverage Starts Disappearing | ✅ ~2,200 words | A — Aisha (32, BBL via Instagram booking) |
-| 2. The Funnel: How Curiosity Becomes Commitment | ✅ ~2,400 words | B — Marcus (38, hair transplant via friendly funnel) |
-| 3. Reviews, Before-and-Afters, and the Fog of Social Proof | ✅ ~2,500 words | C — Priya (41, multi-procedure facial via curated reviews) |
-| 4. Destination Fit Without Rankings | ✅ ~1,900 words | D — Robert (58, combination procedures with comorbidities) |
-
-### Part II — Money and Quotes (~5,500 words) ✅
-
-| Chapter | Status | Composite scenario |
-|---|---|---|
-| 5. The True Cost of Cheaper Surgery | ✅ ~3,000 words | E — Lena (34, rhinoplasty bargain that wasn't) |
-| 6. The Cosmetic Surgery Quote Decoder | ✅ ~2,500 words | (no scenario; reference chapter) |
-
-### Part III — Clinic and Surgeon Due Diligence (~11,600 words) ✅
-
-| Chapter | Status | Composite scenario |
-|---|---|---|
-| 7. Verify the Clinic, Not the Website | ✅ ~2,000 words | F — Mara (46, three-business clinic identity) |
-| 8. Verify the Surgeon | ✅ ~2,300 words | (none — heavy net-new chapter) |
-| 9. The Independent Second Opinion | ✅ ~2,100 words | G — Jon (50, facelift question list) |
-| 10. Facilitators, Coordinators, and Conflicts of Interest | ✅ ~1,600 words | (none) |
-| 11. Safety, Infection Control, and Materials | ✅ ~1,600 words | (none; CDC M. abscessus anchor) |
-| 12. Implants, UDIs, Lot Numbers, and the Surgical Record | ✅ ~1,800 words | H — Carmen (48, implant without a card) |
-| Part III Closing Decision Gate | ✅ ~200 words | — |
-
-### Part IV — Deposits, Payment, and Commitment (~6,800 words) ✅
-
-| Chapter | Status | Notes |
-|---|---|---|
-| 13. Before You Send a Deposit | ✅ ~4,200 words | Includes demonstration-case waiver trap, 15-question readiness test, 6 plan-change-after-arrival patterns |
-| 14. Insurance, Payment, and Financial Problems | ✅ ~2,600 words | UCR/alternate-benefit gap, travel-medical vs. cosmetic-tourism-complication insurance distinction, revision fund |
-
-### Part V — Before You're Wheeled In (~10,300 words) ✅
-
-| Chapter | Status | Composite scenario |
-|---|---|---|
-| 15. The Procedure Travel Complexity Ladder | ✅ ~1,400 words | (none) |
-| 16. The Body Transformation Package Pattern | ✅ ~1,500 words | I — Aisha continuation (32, BBL → Complete Body Transformation Package upsell) |
-| 17. Health History, Medications, Allergies | ✅ ~1,800 words | J — Tomás (45, missed fish-oil + NSAID + SSRI + beta-blocker; anesthesiologist catches it) |
-| **18. Anesthesia — The Single Highest-Stakes Variable** | ✅ ~2,200 words | (none — net-new heavy clinical chapter) |
-| **19. Mental-Health Pre-Op Screening** | ✅ ~1,700 words | (none — net-new BDD screening chapter) |
-| 20. The Day-of-Procedure Leverage Checklist | ✅ ~1,300 words | (none) |
-| 21. If the Plan Changes After You Arrive | ✅ ~1,200 words | K — Diane (39, in-person upsell with overnight decision) |
-| Part V Closing Decision Gate | ✅ ~200 words | — |
-
-### Part VI — Recovery and Coming Home (~8,850 words) ✅
-
-| Chapter | Status | Notes |
-|---|---|---|
-| 22. Recovery Is Not a Vacation | ✅ ~1,200 words | "Body has the deciding vote" mindset; recovery markers; recovery command center |
-| **23. The Companion's Role (Expanded)** | ✅ ~2,500 words | **Heaviest net-new recovery chapter** — pre-trip briefing, day-of role, non-emergency consent rule, recovery week 1 medical observation duties, escalation framework, travel home, awkward weeks, companion self-care, substitute systems for alone traveler |
-| 24. Hotel, Border, and Transportation Logistics | ✅ ~1,400 words | Accommodation specs, transportation, border/airport realities, flying with incisions, DVT prevention, mid-flight emergency escalation |
-| 25. Before You Leave the Clinic | ✅ ~1,200 words | Final clinic visit as closing conference, operative report, implant cards + warranty registration, 15-item departure checklist |
-| 26. The Surgical Records Packet | ✅ ~1,400 words | 22-item records inventory; DICOM / high-res JPEG / proper PDF format specs; what to do when clinic refuses to release |
-| 27. Arranging Follow-Up Care at Home | ✅ ~1,200 words | Willingness gradient for local providers, the framing-the-request script, FDA implant surveillance schedule, 12-month follow-up timeline |
-| Part VI Closing Decision Gate | ✅ ~200 words | — |
-
-### Part VII — Procedure-Specific Cautions and What to Do When Things Go Wrong (~7,250 words) ✅
-
-| Chapter | Status | Notes |
-|---|---|---|
-| **28. Procedures We Recommend Against in Low-Regulation Settings** | ✅ ~2,200 words | **The editorial-position chapter.** Seven-item list with full sourced evidence per BRIEF §6: (1) BBL with intramuscular fat injection anywhere; (2) combination procedures involving BBL; (3) the CDC DR pattern by structural criteria not destination; (4) stem-cell/regenerative/anti-aging unapproved biologics; (5) non-accredited "boutique" facilities Step 3+; (6) unverified surgeon credentials; (7) unverified anesthesia credentials. Phase 5 plastic-surgeon-reviewer right-of-refusal noted in commit. |
-| **29. Warning Signs in the OR and Recovery — Non-Negotiable Rules** | ✅ ~1,400 words | **Net-new.** 8 numbered rules incl. no consent under sedation, companion-no-consent rule, implant verification before opening, operative report before discharge, no financial leverage at discharge, 11 transfer-demand triggers, the do-not-fly-home decision tree |
-| 30. Complaints, Chargebacks, Legal Recourse, Documentation | ✅ ~1,700 words | Document-first discipline; result-dissatisfaction vs. clinical-error framing; 11 escalation channels; cross-border malpractice realities; patient-facing complaint script |
-| 31. Helping a Parent, Spouse, or Friend | ✅ ~1,950 words | Start-from-autonomy framing; 7 due-diligence handoff items; once-clearly-then-step-back disagreement protocol; 5 funnel patterns a loved one can see; partner-pressure red flags; after-the-surgery and surgery-went-badly support sequences |
-
-### Closing (~1,750 words) ✅
-
-| Section | Status | Notes |
-|---|---|---|
-| Composite Scenario L — What It Looks Like When It Works | ✅ ~1,000 words | Iris, 45, rhinoplasty; ISAPS surgeon, JCI facility, named anesthesiologist, 7-day buffer, complete records, home follow-up arranged before travel, 12-month outcome stable |
-| Final Note — What Prepared Looks Like | ✅ ~750 words | Four-stage prepared-patient checklist (before deposit / before OR / after OR / 12 months) |
+**Last updated:** 2026-05-11 (back matter committed; Phase 2 COMPLETE)
+**Manuscript word count:** 74,407 words
+**Status:** First-draft complete. Ready for Phase 3 editorial passes.
 
 ---
 
-## What's still to write
+## Phase 2 final inventory
 
-### Back Matter (~7,000 words target)
-
-This is the only remaining writing task before Phase 3 editorial.
-
-| Section | Approx words | Notes |
+| Section | Words | Status |
 |---|---:|---|
-| How to Use This Back Matter | 400 | Adapt dental |
-| Worksheets and Scripts (1-18) | 5,000 | 15 adapted from dental + 3 net-new: (a) anesthesia provider verification, (b) BDDQ + expectation calibration screen, (c) companion responsibility checklist. References to specific worksheets are already present throughout the manuscript (Worksheet 3 in Ch 13, Worksheet 12 in Ch 19, Worksheet 16 in Ch 26, etc.) — these are the anchors. |
-| Glossary | 800 | Cosmetic-surgery-specific terms (BBL, BIA-ALCL, capsular contracture, capsulorrhaphy, exosome, lipedema, lymphatic drainage, MIA-MMP, panniculectomy, ptosis, seroma, UDI, etc.). Manuscript references many of these. |
-| Source Notes and Further Reading | 600 | Substantially longer than dental's. Primary sources from PHASE1-RESEARCH-NOTES.md including CDC MMWR 73(3), ASPS BBL safety guidance 2018/2019, peer-reviewed perioperative anesthesia mortality reviews, NIH/NCBI Bookshelf anesthesia review, ASA pre-anesthesia eval guidelines, ASA GLP-1 guidance, FDA implant surveillance guidance, EU MDR Article 18, GS1 UDI framework, ISAPS/ASPS BDD screening recommendations. |
-| About Tabiji | 200 | Same as dental |
-| About the Editor | 300 | Bernard Huang placeholder; expand pre-publication |
-| Acknowledgments | 200 | Acknowledge Phase 5 reviewers by name with consent |
-| Appendix Disclaimer | 600 | Stronger than dental's; vetted by malpractice attorney in Phase 5 |
+| Front matter | ~5,000 | ✅ |
+| Part I — Before You Ask for a Quote (Chs 1-4) | ~9,000 | ✅ |
+| Part II — Money and Quotes (Chs 5-6) | ~5,500 | ✅ |
+| Part III — Clinic and Surgeon Due Diligence (Chs 7-12 + DG) | ~11,600 | ✅ |
+| Part IV — Deposits, Payment, Commitment (Chs 13-14) | ~6,800 | ✅ |
+| Part V — Before You're Wheeled In (Chs 15-21 + DG) | ~10,300 | ✅ |
+| Part VI — Recovery and Coming Home (Chs 22-27 + DG) | ~8,850 | ✅ |
+| Part VII — When the Pattern Is the Risk (Chs 28-31) | ~6,500 | ✅ |
+| Composite Scenario L (Iris) | ~1,000 | ✅ |
+| Final Note — What Prepared Looks Like | ~750 | ✅ |
+| Back Matter (How to Use + 19 worksheets) | ~7,700 | ✅ |
+| Glossary (42 terms) | ~1,000 | ✅ |
+| Source Notes (14 source categories) | ~900 | ✅ |
+| About Tabiji + About the Editor + Acknowledgments | ~750 | ✅ |
+| Appendix Disclaimer | ~900 | ✅ |
+| **Total** | **74,407** | **✅** |
+
+(Words above are summary estimates; exact total is 74,407 per `wc -w`.)
 
 ---
 
-## How to continue in the next session
+## Editorial position summary (for Phase 5 reviewer briefing)
 
-The next session should write the back matter. Approach:
+The first-draft manuscript holds the editorial positions set in `BRIEF.md`:
 
-1. **Read these documents in order:**
-   - `BRIEF.md` (strategic brief — especially §6 high-risk procedure list framing and §11 reviewer budget)
-   - `PHASE1-RESEARCH-NOTES.md` (sourced foundation — pull citations for Source Notes)
-   - `PHASE1-OUTLINE.md` (chapter-level structure with worksheet references)
-   - `PHASE1-FRAMEWORK-ADAPTATION.md` (worksheet 1-18 inventory)
-   - `PHASE2-PROGRESS.md` (this file — current state)
-   - The drafted manuscript at `manuscript/00-the-cosmetic-surgery-field-guide.md` (full narrative draft, 62,759 words)
-   - The dental back matter for adaptation reference (`book-dental/manuscript/00-the-dental-tourism-field-guide.md` — search for "Worksheet 1" or "Back Matter")
+1. **High-risk procedure list (BRIEF §6)** is delivered in Chapter 28 as the seven-item editorial recommendation against specific patterns: BBL with intramuscular fat injection anywhere; combination procedures involving BBL; the CDC MMWR DR pattern by structural criteria (non-accredited / combination / comorbid); stem-cell and unapproved regenerative cosmetic biologics; non-accredited "boutique" facilities Step 3+; unverifiable surgeon credentials; unverifiable anesthesia provider credentials. Each entry is sourced.
+2. **Anesthesia framing (BRIEF §6, §7)** is delivered in Chapter 18 as the three-question framework (named provider + monitoring + emergency protocol), with the provider-type literature framing per BRIEF §7 — no statistically significant mortality difference physician vs CRNA when patient/procedure factors controlled.
+3. **BDD screening (BRIEF §6)** is delivered in Chapter 19 with the BDDQ + DCQ referenced in Worksheet 12. Editorial frame: "Your body. Your decision. The book's job is to make sure the decision is made under conditions that protect you."
+4. **Composite scenarios show near-misses, not deaths (BRIEF §10).** All 12 composites (A–L) hold this discipline.
+5. **No clinic recommendations.** The book recommends *against* specific patterns; it does not recommend *for* specific clinics, surgeons, destinations, or facilitators.
+6. **Buyer's-seat editorial voice.** The editor is consumer journalist, not clinician. The disclaimer (Appendix) is strong.
 
-2. **Suggested chunk size:** All of back matter in one session is feasible (~7,000 words). Order of writing:
-   - Source Notes first (so worksheet and glossary references can cite back)
-   - Worksheets next (15 adaptations + 3 net-new; the manuscript already names which worksheets exist where)
-   - Glossary
-   - How to Use, About Tabiji, About the Editor, Acknowledgments, Appendix Disclaimer last (short pieces)
+---
 
-3. **Worksheets to net-new draft:**
-   - **Worksheet 12 — BDDQ + Expectation Calibration Screen** (referenced in Ch 19; high importance for clinical reviewer)
-   - **Worksheet 3 — Deposit Readiness Test** (referenced in Ch 13; lightly adapted from dental but with cosmetic-specific BMI / anesthesia / second-opinion items)
-   - **Anesthesia Provider Verification** (new — captures Ch 18 three-question framework as a reusable checklist)
-   - **Companion Responsibility Checklist** (new — captures Ch 23 medical-observation duties)
-   - **Records Packet Cover Sheet** (referenced in Ch 26)
-   - **Claim Worksheet** (referenced in Ch 14 — lightly adapted from dental)
+## What Phase 3 should address
 
-   Other worksheets carry over from dental with cosmetic-specific edits.
+The first draft is shippable to reviewers in principle. Phase 3 sharpens it before reviewer outreach. Suggested structure mirrors the dental Phase 3 pattern:
 
-4. **Manuscript-level edits this session deliberately did NOT do** (deferred to Phase 3 editorial):
-   - No final consistency pass for cross-references and pull quote selection
-   - No final copy edit
-   - No final fact-check of cited numbers and source attributions (Phase 5 reviewer territory)
-   - No tagging of pull quotes for designer extraction
+### Tier 1 — Structural, factual, clinical-safety pass
 
-5. **After back matter is complete:**
-   - Combined word count should land in 68,000-72,000 words
-   - Phase 3 editorial pass (1-2 sessions): consistency, tone leveling, fact-check pre-pass
-   - Phase 4 production (1 session): CSS/typesetting setup mirroring dental book, build EPUB + KDP paperback
-   - Phase 5 human reviewers (parallel, external — see BRIEF.md §11): plastic surgeon, anesthesiologist, malpractice attorney, sensitivity reader, copyeditor, proofreader
+Items the editorial team can address from inside the manuscript before reviewer involvement:
+
+- **Cross-reference verification.** The book uses inline references like "(Chapter 19)" or "Worksheet 12 in the back matter." Verify every cross-reference points to the right place.
+- **Pull-quote tagging consistency.** Pull quotes are marked `::: {.pullquote}`. Verify each is on its own paragraph and the designer can extract them.
+- **Cited-number consistency.** Numbers cited multiple times across chapters (BBL mortality 1:3,000–1:6,241, CDC MMWR 93 deaths 2009–2022 92% BBL, anesthesia mortality 1/M baseline + 0.01–0.016% cosmetic, BDD prevalence 7–18%, etc.) should match exactly between mentions.
+- **Source-note coverage.** Every clinical claim in the manuscript should have a source category in the Source Notes that covers it. If a clinical claim lacks coverage, either remove the claim or add a source category.
+- **Composite scenario consistency.** Twelve composites (A–L); verify each scenario's character details are internally consistent across mentions (e.g., Aisha is 32 in Ch 1 and again in Ch 16).
+- **Worksheet cross-references.** The manuscript references Worksheet 3 (Ch 13), Worksheet 12 (Ch 19), Worksheet 16 (Ch 26). Verify each exists at the referenced number and contains what the manuscript says it does.
+- **Chapter 28 sourcing.** Every item on the seven-item list cites its evidence base. Phase 5 plastic-surgeon reviewer will pressure-test specifically here.
+
+### Tier 2 — Voice consistency and redundancy pass
+
+- The book is long (74K words); some redundancy has accumulated. Identify passages that repeat the same point across chapters with minor variation, and either tighten or remove.
+- Voice should remain consistent: calm, protective, non-judgmental. Spot-check for any passage that drifts to alarmist, dismissive, or paternalistic tone.
+- "We" vs. "you" pronoun usage: review for consistency. The dental book established "we" (editorial) and "you" (reader) as the two voices; "I" is rare.
+- Sentence-length variation: long technical chapters (Ch 18, Ch 28) benefit from occasional short declarative sentences as structure.
+
+### Tier 3 — Line-level polish
+
+- Comma usage, em-dash usage, hyphenation consistency.
+- US English spelling (the dental book is US English; maintain consistency).
+- Numbers: spell out one to nine, numerals from 10 onward, with consistent exceptions (currency, percentages, dates, ages, doses).
+- Procedure names lowercase (rhinoplasty, abdominoplasty) per medical convention; brand names (Ozempic, Mentor MentorPromise) capitalized per source.
+
+---
+
+## How to continue in Phase 3
+
+Suggested approach for the editorial pass:
+
+1. **Read the entire manuscript first.** Tier 1 audit notes go into a single working document — a Phase 3 audit log — listing every issue by location (chapter, section, paragraph or line reference).
+2. **Batch the fixes by tier.** Tier 1 first (one commit per Part), then Tier 2 (voice/redundancy, one commit), then Tier 3 (polish, one commit). Avoid mixing tiers in a single commit.
+3. **Use the dental book pattern.** The dental book had three iterative passes; the same iterative discipline applies here.
+4. **Stop short of reviewer-territory issues.** Phase 3 is internal editorial; Phase 5 is external review. Do not over-engineer language Chapter 28 reviewers should weigh in on. If a passage seems likely to draw reviewer pushback, flag it in the audit log rather than pre-editing it.
+
+After Phase 3, the manuscript should be reviewer-ready.
+
+---
+
+## Realistic remaining timeline
+
+Per BRIEF §13, the realistic launch window from Phase 0 sign-off is 11–13 weeks. We are at:
+
+- **Phase 0** (brief): complete
+- **Phase 1** (research + outline + framework adaptation): complete
+- **Phase 2** (first-draft manuscript): complete ← we are here
+- **Phase 3** (editorial passes): 1–2 sessions
+- **Phase 4** (production: CSS, EPUB, KDP paperback, cover): 1 session, mirrors dental
+- **Phase 5** (human reviewers, in parallel): 4–6 weeks external
+
+If Phase 3 begins immediately and reviewer outreach is already in flight (per BRIEF §17), the book remains on track for late August / early September 2026 launch.
+
+---
+
+## What still requires user action
+
+1. **Reviewer outreach.** Per BRIEF §11 the reviewer panel is plastic surgeon, anesthesiologist (especially for Ch 18), mental-health clinician (for Ch 19), malpractice attorney (for Ch 28 and Appendix Disclaimer), sensitivity reader, copyeditor, proofreader. Outreach should be in flight now; book budget $4,400–$8,800.
+2. **About the Editor expansion.** Phase 4 prereq.
+3. **Cover production direction.** BRIEF §12 — continue Direction 2 (Field Guide aesthetic) per dental volume for series consistency, or change.
+4. **Phase 5 reviewer attribution.** Acknowledgments section reserves named acknowledgments with each reviewer's consent.
 
 ---
 
 ## What this session deliberately did NOT do
 
-- Did not write back-matter worksheets, glossary, source notes, or appendix disclaimer. These are the only remaining writing tasks for Phase 2.
-- Did not finalize the cover SVG for cosmetic surgery (Phase 4).
-- Did not begin reviewer outreach (BRIEF.md §17 — user action).
-- Did not soften Chapter 28 below BRIEF §6 candidate-list level. Per the brief, the candidate list is the editorial position; the Phase 5 plastic-surgeon-reviewer right-of-refusal applies but until then the strong position holds.
+- Did not begin Phase 3 editorial pass within this session. The first-draft commit is a clean handoff point; Phase 3 deserves a dedicated session with fresh context and the full manuscript readable in one pass.
+- Did not begin Phase 4 production setup. Phase 4 happens after Phase 3 and after final word count and chapter count are locked.
+- Did not produce reviewer briefing materials. Those are derived from BRIEF.md + this PROGRESS file + the manuscript; preparing them is a small task best done at Phase 5 outreach time.
 
 ---
 
-## Realistic timeline if continued
+## Honest assessment
 
-- One more session writes back matter (~7,000 words): manuscript complete at ~70,000 words.
-- One Phase 3 editorial session: consistency + fact-check pre-pass.
-- One Phase 4 production session: build EPUB + KDP paperback artifacts mirroring book-dental.
-- Phase 5 reviewers run in parallel; 4-6 weeks to receive all feedback.
+The book is a strong first draft. The editorial discipline of the dental volume held through 74,000 words. The two highest-stakes net-new chapters (Ch 18 Anesthesia, Ch 19 Mental-Health Pre-Op, Ch 28 Procedures We Recommend Against) are drafted to the BRIEF's editorial position with sourced citations. Phase 5 reviewer pressure-testing remains the binding constraint on whether the editorial positions ship as drafted or require softening; the structural decisions hold either way.
 
-**Realistic launch window** per BRIEF §13: 11-13 weeks from Phase 0 sign-off. We are inside that window if reviewer outreach starts now.
-
----
-
-## Honest progress assessment
-
-The manuscript narrative is complete. The structural, editorial, and voice decisions in the front matter and Part I have held consistently through 62,759 words across seven Parts and 31 chapters. The two highest-stakes net-new chapters (Ch 18 Anesthesia and Ch 28 Procedures We Recommend Against) are drafted to the BRIEF's editorial position with sourced citations; both will require Phase 5 reviewer pressure-testing but the structural decisions are made.
-
-**Word count distribution:**
-- Front matter: 5,000 (~8%)
-- Part I (pre-quote): 9,000 (~14%)
-- Part II (money): 5,500 (~9%)
-- Part III (clinic + surgeon): 11,600 (~18%)
-- Part IV (deposits + payment): 6,800 (~11%)
-- Part V (before OR — incl. anesthesia + BDD): 10,300 (~16%)
-- Part VI (recovery + home): 8,850 (~14%)
-- Part VII (procedures we recommend against, warning rules, complaints, helping others): 7,250 (~12%)
-- Closing (Scenario L + Final Note): 1,750 (~3%)
-- **Total narrative: 62,759 words** (vs. dental Volume 1 at ~52,000 words)
-
-The expanded scope vs. dental is concentrated where the BRIEF predicted it would be: Part III (surgeon verification heavier), Part V (anesthesia + mental-health net-new), Part VI (expanded companion role), Part VII (procedures-we-recommend-against editorial chapter).
-
-**What still requires human action regardless of how much I write:**
-
-1. Sign-off confirmation on the 9 open decisions in `BRIEF.md` §15 (the editorial position is implicitly approved by "go ahead with phase 1 and 2"; explicit sign-off helps Phase 5)
-2. Reviewer outreach should be in flight now (clinical reviewer, anesthesiologist, malpractice attorney, sensitivity reader, copyeditor, proofreader)
-3. Final About-the-Editor expansion with Bernard's bio details (Phase 4 prereq)
-4. Cover production direction confirmation (per BRIEF §12)
-
-The book is on a credible path to launch in the BRIEF's stated 11-13 week realistic window.
+The book is on a credible path to launch in the BRIEF's stated 11-13 week window if reviewer outreach starts now (or is already underway).
