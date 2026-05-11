@@ -2492,7 +2492,7 @@ The categories where it is wrong:
 
 ### Sources
 
-STS National Database; ACC/AHA guidelines (American College of Cardiology / American Heart Association); *NEJM*, *Lancet*, *JACC*, *JAMA Cardiology*, *Annals of Thoracic Surgery*. Narayana Health and Apollo Hospitals published outcomes.
+STS National Database; ACC/AHA guidelines (American College of Cardiology / American Heart Association); *NEJM*, *The Lancet*, *JACC*, *JAMA Cardiology*, *Annals of Thoracic Surgery*. Narayana Health and Apollo Hospitals published outcomes.
 
 *A reusable copy of the cardiac-specific anesthesia provider checklist (named provider, cardiac anesthesia experience, ICU coverage, perfusion staffing) is Worksheet 6 (Anesthesia Provider Verification) in the back matter.*
 
@@ -2591,7 +2591,7 @@ The book takes the strongest editorial position on transplant tourism. The patie
 
 **Documented corridors** in peer-reviewed literature:
 - **China.** Kidney, liver, heart, lung — sourced from prisoners including political prisoners. The China Tribunal's findings on forced organ harvesting are detailed and sourced.
-- **Pakistan.** Kidney — economically coerced donors documented in *Lancet* and *Transplantation* series.
+- **Pakistan.** Kidney — economically coerced donors documented in *The Lancet* and *Transplantation* series.
 - **Egypt.** Kidney — documented donor coercion.
 - **Philippines.** Kidney — until 2008 ban; some illegal market persists.
 - **Bangladesh.** Kidney — documented poverty-driven donor markets.
@@ -3869,17 +3869,45 @@ For legal counsel consultation:
 
 ## Glossary
 
+**AAAASF** — American Association for Accreditation of Ambulatory Surgery Facilities. US-based ambulatory-surgical-facility accreditation body with international scope; common for cosmetic surgery centers.
+
+**AAO** — American Academy of Ophthalmology. US ophthalmology professional society and standards body.
+
+**AAOS** — American Academy of Orthopaedic Surgeons. US orthopedic professional society; operates the AJRR.
+
+**ABMS** — American Board of Medical Specialties. US umbrella body coordinating physician specialty board certifications.
+
 **Accreditation** — A process by which an outside organization evaluates a clinic, hospital, surgical center, or system against stated standards (JCI, AAAASF, ISO 9001, ISQua-recognized country bodies). Necessary, not sufficient.
 
-**AJRR** — American Joint Replacement Registry. The US joint replacement outcome registry operated by AAOS.
+**ACHSI** — Australian Council on Healthcare Standards International. ISQua-recognized hospital accreditation body operating internationally.
 
-**ASMBS** — American Society for Metabolic and Bariatric Surgery. The US bariatric surgery professional society.
+**ACR** — American College of Radiology. US radiology professional society and standards body for imaging.
 
-**Bariatric surgery** — Surgical treatment of severe obesity (sleeve gastrectomy, gastric bypass, duodenal switch).
+**AJRR** — American Joint Replacement Registry. The US joint replacement outcome registry, operated by AAOS, covering more than two million procedures across more than a thousand institutions.
 
-**BBL** — Brazilian Butt Lift. Gluteal fat transfer. The highest-mortality cosmetic procedure in published literature. Recommend-against pattern in non-accredited facilities with intramuscular fat injection.
+**AOANJRR** — Australian Orthopaedic Association National Joint Replacement Registry. Australian joint replacement outcome registry.
+
+**ASA** — American Society of Anesthesiologists. US anesthesiology professional society; publishes pre-operative medication-hold guidance (including for GLP-1 agonists).
+
+**ASCO** — American Society of Clinical Oncology. US oncology professional society; publishes treatment-planning position statements.
+
+**ASCRS** — American Society of Cataract and Refractive Surgery. US ophthalmology subspecialty society for cataract and refractive procedures.
+
+**ASMBS** — American Society for Metabolic and Bariatric Surgery. The US bariatric surgery professional society; designates Centers of Excellence (COE).
+
+**ASPS** — American Society of Plastic Surgeons. US plastic surgery professional society; issues BBL safety guidance.
+
+**ASRM** — American Society for Reproductive Medicine. US reproductive medicine professional society.
+
+**Bariatric surgery** — Surgical treatment of severe obesity (sleeve gastrectomy, gastric bypass, duodenal switch, revision procedures).
+
+**BBL** — Brazilian Butt Lift. Gluteal fat transfer. The highest-mortality cosmetic procedure in published literature (1 in 3,000 to 1 in 6,241 per the South Florida case series). Recommend-against pattern in non-accredited facilities with intramuscular fat injection.
 
 **BIA-ALCL** — Breast Implant-Associated Anaplastic Large Cell Lymphoma. A rare lymphoma associated with textured breast implants. FDA recommends symptom-based surveillance.
+
+**BMI** — Body Mass Index. Weight-for-height ratio used in clinical assessment of weight status.
+
+**BPD-DS** — Biliopancreatic Diversion with Duodenal Switch. Highest weight-loss outcome among bariatric procedures; highest complication rate; most demanding surgical technique.
 
 **CABG** — Coronary Artery Bypass Grafting. Surgical treatment of multi-vessel coronary artery disease.
 
@@ -3887,55 +3915,91 @@ For legal counsel consultation:
 
 **CDC MMWR** — Centers for Disease Control and Prevention Morbidity and Mortality Weekly Report. Federal-government primary source for public health data.
 
-**CPT** — Current Procedural Terminology. US-standard procedure coding.
+**Cédula profesional** — Mexican professional license registry, maintained by the Secretaría de Educación Pública. The license number that confirms a Mexican physician's basic professional registration.
 
-**DICOM** — Digital Imaging and Communications in Medicine. The standard medical imaging file format.
+**Composite scenario** — A fictional patient composite drawn from documented patterns rather than any one real patient. This book uses nine: Marcus, Priya, Eleanor, Daniel, Karen, Marcus revisited (F), Daniel revisited (G), Eleanor revisited (H), Maria.
+
+**CPT** — Current Procedural Terminology. US-standard procedure coding maintained by the American Medical Association.
+
+**CRNA** — Certified Registered Nurse Anesthetist. US advanced-practice nurse credentialed to deliver anesthesia.
+
+**DICOM** — Digital Imaging and Communications in Medicine. The standard medical imaging file format readable by any qualified radiologist.
+
+**DNB** — Diplomate of National Board. Indian specialty certification granted by the National Board of Examinations.
 
 **DVT/PE** — Deep Vein Thrombosis / Pulmonary Embolism. Clotting complications particularly relevant post-orthopedic, post-cardiac, post-bariatric.
 
-**ESHRE** — European Society of Human Reproduction and Embryology. International reproductive medicine society.
-
-**FUE** — Follicular Unit Extraction. Hair restoration technique using individual follicle extraction.
+**ESHRE** — European Society of Human Reproduction and Embryology. International reproductive medicine society; publishes outcome data comparable to SART.
 
 **Facilitator** — A coordinator, agency, or concierge service arranging medical tourism. Four business models: commission, retainer, hospital-employed, transparent fee.
 
-**HSA** — Health Savings Account. US tax-advantaged medical savings account.
+**FRCS** — Fellow of the Royal College of Surgeons. UK-issued surgical specialty fellowship held by many internationally trained surgeons.
+
+**FUE** — Follicular Unit Extraction. Hair restoration technique using individual follicle extraction; standard technique in the Turkey-dominated international market.
+
+**GLP-1** — Glucagon-like Peptide-1. The hormone class for which agonist medications (semaglutide, tirzepatide) are now widely used in weight management; pre-operative hold guidance is published by ASA.
+
+**HAI** — Healthcare Accreditation Institute. Thailand's hospital accreditation body; ISQua-recognized.
+
+**HDHP** — High Deductible Health Plan. US insurance plan type that allows HSA contributions.
+
+**HSA** — Health Savings Account. US tax-advantaged medical savings account; requires HDHP coverage to contribute. Balance accumulated pre-Medicare remains spendable in retirement.
 
 **ICSI** — Intracytoplasmic Sperm Injection. IVF variant for male-factor infertility.
 
-**IOL** — Intraocular Lens. Implanted during cataract surgery.
+**IFSO** — International Federation for the Surgery of Obesity and Metabolic Disorders. International bariatric professional society.
+
+**IOL** — Intraocular Lens. Implanted during cataract surgery. Monofocal, multifocal, accommodating, or toric variants.
+
+**ISAPS** — International Society of Aesthetic Plastic Surgery. International plastic surgery professional society; membership generally requires national board certification.
 
 **ISO 9001** — General quality-management system standard. Insufficient alone as healthcare accreditation.
 
-**ISQua** — International Society for Quality in Health Care. Accredits accreditation bodies.
+**ISQua** — International Society for Quality in Health Care. Accredits accreditation bodies (the meta-accreditor).
 
 **IVF** — In Vitro Fertilization. Reproductive medicine procedure.
 
-**JCI** — Joint Commission International. Major international hospital accreditation body.
+**JCI** — Joint Commission International. Major international hospital accreditation body; same parent organization as The Joint Commission (TJC) in the US.
 
 **LASIK** — Laser-Assisted in Situ Keratomileusis. Refractive surgery for myopia, hyperopia, astigmatism.
 
 **MAUDE** — Manufacturer and User Facility Device Experience. FDA medical device adverse event database.
 
+**MitraClip** — Transcatheter mitral valve repair device and procedure. Structural cardiac intervention.
+
 **NABH** — National Accreditation Board for Hospitals and Healthcare Providers (India). ISQua-recognized.
 
-**NSQIP** — National Surgical Quality Improvement Program. US surgical quality registry.
+**NCDR** — National Cardiovascular Data Registry. Broader US cardiovascular registry, with modules for cath-lab procedures, ICD implants, and structural intervention.
+
+**NJR** — National Joint Registry (England and Wales). Joint replacement outcome registry comparable to AJRR.
+
+**NMC** — National Medical Commission (India). Replaced the Medical Council of India (MCI) in 2020 as the national physician regulator.
+
+**NSQIP** — National Surgical Quality Improvement Program. American College of Surgeons' general surgery quality registry.
+
+**OECD** — Organisation for Economic Co-operation and Development. Source of cross-country health-system statistics.
 
 **PGT** — Preimplantation Genetic Testing. PGT-A (aneuploidy), PGT-M (specific mutation), PGT-SR (structural rearrangement).
 
-**SART** — Society for Assisted Reproductive Technology. US IVF outcome registry.
+**SART** — Society for Assisted Reproductive Technology. US IVF outcome registry; publishes clinic-level success rates by maternal age band.
 
-**Sleeve gastrectomy** — Most common bariatric procedure. Removal of lateral two-thirds of stomach.
+**SHAR** — Swedish Hip Arthroplasty Register. Swedish joint replacement outcome registry.
 
-**STS** — Society of Thoracic Surgeons. US cardiac surgery professional society and outcome registry.
+**Sleeve gastrectomy** — Most common bariatric procedure. Removal of lateral two-thirds of stomach; banana-shaped narrow gastric sleeve remains.
 
-**TAVR** — Transcatheter Aortic Valve Replacement. Structural cardiac intervention.
+**STS** — Society of Thoracic Surgeons. US cardiac surgery professional society and outcome registry; the STS National Database is the cardiac-surgery benchmark.
+
+**TAVR** — Transcatheter Aortic Valve Replacement. Structural cardiac intervention; alternative to surgical aortic valve replacement in selected patients.
 
 **TKA** — Total Knee Arthroplasty.
 
 **THA** — Total Hip Arthroplasty.
 
-**UCR** — Usual, Customary, and Reasonable. US insurance reimbursement rate schedule.
+**UCR** — Usual, Customary, and Reasonable. US insurance reimbursement rate schedule; basis for out-of-network and (where applicable) out-of-country reimbursement.
+
+**UDI** — Unique Device Identifier. The serialized identifier on every regulated medical implant, used for warranty registration and recall tracking.
+
+**VSD / ASD** — Ventricular Septal Defect / Atrial Septal Defect. Congenital heart defects sometimes treated surgically; also addressed by structural intervention.
 
 **WHCRA** — Women's Health and Cancer Rights Act (1998). US federal law requiring insurance coverage of reconstruction after mastectomy.
 
