@@ -78,16 +78,20 @@ pandoc "$BUILD_DIR/manuscript-processed.md" \
   --css="$PRINT_CSS"
 weasyprint "$BUILD_DIR/manuscript.html" "$BUILD_DIR/paperback-interior.pdf"
 
-echo "==> Building paperback wrap cover PDF"
-# Read width/height from the SVG viewBox (assumes "viewBox=\"0 0 W H\"")
-SVG_W=$(grep -oE 'viewBox="0 0 [0-9.]+' "$WRAP_SVG" | awk '{print $3}')
-SVG_H=$(grep -oE 'viewBox="0 0 [0-9.]+ [0-9.]+' "$WRAP_SVG" | awk '{print $4}')
-WIDTH_IN=$(python3 -c "print($SVG_W / 100)")
-HEIGHT_IN=$(python3 -c "print($SVG_H / 100)")
-rsvg-convert \
-  --page-width "${WIDTH_IN}in" --page-height "${HEIGHT_IN}in" \
-  --width "${WIDTH_IN}in" --height "${HEIGHT_IN}in" \
-  -f pdf1.7 -o "$BUILD_DIR/paperback-wrap-cover.pdf" "$WRAP_SVG"
+if [ -f "$WRAP_SVG" ]; then
+  echo "==> Building paperback wrap cover PDF"
+  # Read width/height from the SVG viewBox (assumes "viewBox=\"0 0 W H\"")
+  SVG_W=$(grep -oE 'viewBox="0 0 [0-9.]+' "$WRAP_SVG" | awk '{print $3}')
+  SVG_H=$(grep -oE 'viewBox="0 0 [0-9.]+ [0-9.]+' "$WRAP_SVG" | awk '{print $4}')
+  WIDTH_IN=$(python3 -c "print($SVG_W / 100)")
+  HEIGHT_IN=$(python3 -c "print($SVG_H / 100)")
+  rsvg-convert \
+    --page-width "${WIDTH_IN}in" --page-height "${HEIGHT_IN}in" \
+    --width "${WIDTH_IN}in" --height "${HEIGHT_IN}in" \
+    -f pdf1.7 -o "$BUILD_DIR/paperback-wrap-cover.pdf" "$WRAP_SVG"
+else
+  echo "==> SKIPPING wrap cover (cover-wrap.svg not yet built — needs final page count first)"
+fi
 
 echo ""
 echo "==> Build complete. Files in $BUILD_DIR:"
@@ -102,9 +106,13 @@ echo "  Interior page count: $PAGES"
 echo "  Required spine width: ${SPINE}\""
 echo "  Required wrap cover width: ${EXPECTED_W}\""
 echo ""
-echo "  Verify wrap cover dimensions match:"
-pdfinfo "$BUILD_DIR/paperback-wrap-cover.pdf" | grep -E "Page size"
-echo ""
-echo "  If the wrap cover width does not match the required width above,"
-echo "  edit assets/svg/cover-wrap.svg to update the spine width to ${SPINE}\""
-echo "  and re-run this script."
+if [ -f "$BUILD_DIR/paperback-wrap-cover.pdf" ]; then
+  echo "  Verify wrap cover dimensions match:"
+  pdfinfo "$BUILD_DIR/paperback-wrap-cover.pdf" | grep -E "Page size"
+  echo ""
+  echo "  If the wrap cover width does not match the required width above,"
+  echo "  edit assets/svg/cover-wrap.svg to update the spine width to ${SPINE}\""
+  echo "  and re-run this script."
+else
+  echo "  Next: build cover-wrap.svg using the spine width above, then re-run."
+fi
