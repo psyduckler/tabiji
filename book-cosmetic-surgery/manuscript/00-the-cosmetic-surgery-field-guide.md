@@ -2757,3 +2757,246 @@ Debt does not heal with the implant. A revision six months later is a new bill, 
 
 ---
 
+# Part V — Before You're Wheeled In
+
+## Chapter 15 — The Procedure Travel Complexity Ladder
+
+Cosmetic surgery tourism becomes risky when every procedure is discussed as if it were the same kind of purchase. A consultation, a single-area liposuction touch-up, a "mommy makeover" combination, a breast augmentation with implants, and a head-to-toe surgical transformation are not different sizes of one product. They create different kinds of uncertainty, different anesthesia loads, different recovery timelines, different record needs, different follow-up burdens, and different ways for a quote to change after you arrive.
+
+This chapter is not a clinical guide and does not tell you which procedure is right for you. Its purpose is buyer leverage. Before you buy flights, send imaging, or pay a deposit, you need a simple way to ask: how complicated is this trip as a travel purchase, and how much pre-deposit specificity should I demand?
+
+Think of the procedure travel complexity ladder as five steps. The higher you climb, the less you should rely on price, speed, or social-media examples, and the more you should demand written specificity, named providers, and documented safety processes before committing.
+
+### Step 1 — Low-surprise visits
+
+At the bottom are visits where the likely outcome is easy to understand and the appointment is not being sold as a transformation. Examples include an in-person second-opinion consult before you commit to a procedure, a photo follow-up after a procedure done elsewhere, a basic dermatologic assessment, an injectable touch-up at an established practice, or a hair-restoration density evaluation. Even here, you verify the clinic, prices, language support, and records policy. But the travel risk is usually about wasted time, poor communication, or paying for a consult that is really a sales pitch — not about an irreversible decision in the chair.
+
+Your leverage question is:
+
+> What exactly am I paying for at this first appointment, and what records or written findings will I receive afterward — independent of whether I book a procedure?
+
+A green-flag answer separates the consultation from treatment. The clinic charges a reasonable consult fee, applies it to a procedure only if you choose to proceed, and gives you imaging or notes you can take to a second opinion. A red-flag answer is "the consult is free if you book today," which converts the appointment from evaluation to closing.
+
+### Step 2 — Single-area, single-session cosmetic procedures
+
+The next step includes work focused on one anatomic area in a single session: one-area liposuction, eyelid surgery (upper or lower, not both), single-session hair restoration, lip lift, earlobe repair, scar revision, minor breast revision under local. The travel issue is that the scope is contained. If the plan changes, the change should be explainable in ordinary language and documented.
+
+The leverage question at this step is:
+
+> If the in-person exam changes the plan, will you pause and give me the revised options, itemized costs, the clinical reason for the change, and my choice to decline without losing my deposit?
+
+The answer matters because many cosmetic-tourism disputes begin with a sentence at the chair: "Now that you are here, we can do more in the same session." That may be a legitimate clinical observation. The issue is not whether a plan can change. It is whether the clinic treats the change as your decision or as a trap already sprung.
+
+### Step 3 — Multi-procedure aesthetic packages
+
+The third step is where most cosmetic tourism marketing concentrates. The "mommy makeover" (commonly some combination of tummy tuck, breast surgery, and liposuction), the "daddy do-over" (liposuction with gynecomastia correction and minor facial), combination facial procedures (facelift plus eyelid surgery plus neck), and multi-session hair restoration spread across a single trip all live here. Each individual procedure may be reasonable; the combination introduces compounding risk in anesthesia time, blood loss, and recovery complexity.
+
+The American Society of Plastic Surgeons has issued guidance recommending caution around combined procedures, particularly any combination including BBL plus another major procedure. Combination procedures appear repeatedly in the CDC's Dominican Republic mortality data referenced in Chapter 4.
+
+The leverage question at this step is:
+
+> If you recommend a combination, please tell me in writing the additional risk each combination element adds — anesthesia time, blood loss, recovery complexity, and post-operative monitoring requirements — and whether staging the procedures across two trips would be lower risk.
+
+A clinic that documents the trade-offs treats you as a decision-maker. A clinic that dismisses the question is asking you to assume risk you cannot price.
+
+### Step 4 — Surgical procedures with implants or significant tissue alteration
+
+This step includes breast augmentation, BBL (fat transfer to buttocks), large-volume liposuction, rhinoplasty, facelift, and abdominoplasty as standalone procedures. These are not necessarily more dangerous than Step 3 combinations — but they are irreversible in ways that single-area work is not. An implant placed is an implant that will need surveillance for decades. A nose reshaped is a nose that cannot be returned to its original shape. Fat transferred to the buttock cannot be retrieved.
+
+The leverage question at this step is:
+
+> Please give me, in writing, the names and credentials of the surgeon and anesthesiologist; the facility's accreditation; the implant or material specification including manufacturer, model, and size range; the operative time and anesthesia plan; the expected blood loss and transfusion protocol if relevant; and the criteria the team uses to abort the procedure if a problem develops intraoperatively.
+
+If the clinic cannot answer those questions in writing before the deposit, the deposit is premature. A clinic comfortable at this step has those documents ready because regulators, insurers, and accreditation bodies require them.
+
+### Step 5 — Major combination, full-body, or high-risk procedures
+
+The top step includes full-body rehabilitation surgery after massive weight loss (often four-to-six-hour cases combining lower-body lift, breast surgery, and arm lift), BBL combined with abdominoplasty or breast surgery, large revision cases after prior failed surgery, gender-affirmation surgical care (which deserves its own field guide and is outside the scope of this volume), and any procedure where the surgeon describes operative time of six hours or more in a non-hospital setting.
+
+This is the territory where most published cosmetic-surgery-abroad deaths occur. The CDC's 2009–2022 Dominican Republic series of 93 US-citizen deaths skewed heavily toward Step 5 cases: combination procedures, longer operative times, ambulatory surgical centers without immediate access to higher-level care.
+
+The leverage question at this step is:
+
+> Why is a fully accredited hospital not the right setting for this case? What is your transfer protocol if a complication requires ICU-level care? What is the response time of the nearest hospital, and which one is it? Has any patient required transfer in the last two years, and how was that handled?
+
+If the clinic cannot answer those questions specifically, the procedure should not happen at that facility — not at any price.
+
+### How to use the ladder
+
+The ladder is a self-check. Find the step that matches the procedure you are considering, then make sure the leverage question for that step is answered in writing before deposit. If you are climbing more than one step at once — for example, you came for a Step 2 and the consultation has expanded to a Step 4 combination — slow down and reset. Climbing two steps in a single consultation is itself a red flag.
+
+The ladder does not say "Steps 4 and 5 are unsafe abroad." It says: the higher you climb, the more written specificity, named providers, and documented safety processes you should require, and the less willing you should be to accept "we will handle it" as an answer.
+
+::: {.pullquote}
+Climbing more than one step in a single consultation is itself a red flag. Slow down. Reset.
+:::
+
+---
+
+## Chapter 16 — The Body Transformation Package Pattern
+
+Some chapters in this book name a clinic risk. This chapter names a *marketing* risk — and like Chapter 16 in our dental volume, the risk is not a country, it is a pattern. The pattern has been called many things in many places: the "Hollywood smile" for teeth, the "snatched" body package on social media, the "Turkey teeth" pattern for hair restoration, the "mommy makeover" promotion. The brand names change. The structure does not.
+
+This chapter is about the structure.
+
+### Composite Scenario I: The Body Transformation Package
+
+Aisha is 32. (We met her in Chapter 1 as the BBL Instagram booking. This is her trip if no one had intervened — or her sister Yara's trip, if you prefer to think of it that way.) She arrives at a clinic abroad for what she booked as a BBL. The in-person consult is twenty minutes. The surgeon, whom she meets for the first time, photographs her in standardized poses, then sits with her and a coordinator. He tells her she is a "perfect candidate" for the clinic's *Complete Body Transformation Package* — BBL, tummy tuck, breast lift, arm contouring, and "minor" facial liposuction. The package price is roughly the same as the BBL she booked plus thirty percent. The coordinator pulls up the financing screen and shows her the monthly payment.
+
+Two things are true at once. The surgeon may have a clinical reason for some of the recommendations. And the clinic recommends this same package, with small variations, to nearly every patient who walks in for any single procedure. Aisha cannot tell from inside the room which is which. The package was decided before the diagnosis, even if some of the diagnosis matches the package.
+
+She asks to take the rest of the day to think. The coordinator says the surgical slot for the package is tomorrow; if she does not commit today, the BBL alone goes on Friday and she loses her Wednesday slot. Aisha is alone. She has already paid a forty-percent deposit. She tells the coordinator she will think about it over dinner.
+
+She does not eat dinner. She calls her sister.
+
+That is the pattern. Not every package recommendation is wrong. But the pattern of recommending the same expanded package to every patient, the pattern of pricing it as a bundle that makes individual components look subsidized, the pattern of tying the larger package to the more convenient surgical date — that pattern is a marketing system, not a clinical assessment.
+
+### How to recognize the pattern
+
+The pattern has six recurring features. The presence of one is not a problem. The presence of four or more in a single consultation is the pattern.
+
+1. **The package is decided before the diagnosis.** The clinic's promotional material described the same package before they had ever seen you. The package description is more detailed than the surgical findings.
+2. **Every concern has the same solution.** Whether the patient came for a tummy tuck, a BBL, a breast surgery, or hair restoration, the recommended package includes the same combination of add-ons.
+3. **The celebrity reference is more specific than the records policy.** The clinic can name three named celebrities or influencers who chose this package and cannot tell you in writing what records you will receive after surgery.
+4. **Urgency aimed at insecurity.** The deadline is tied to body image ("you'll be summer-ready") or to a life event the clinic learned about from your social media or intake form, not to a surgical or scheduling reality.
+5. **Revisions promised vaguely.** "We cover revisions" with no written terms, no warranty period, no manufacturer registration for implants, and no specifics on what is and is not included.
+6. **The destination is sold as proof.** "Our country / our city is famous for this surgery" is offered as evidence in place of named surgeon credentials, facility accreditation, or outcome data.
+
+### Why the "demonstration case" trap is worse here
+
+Chapter 13 covered the demonstration-case waiver as a deposit trap. The body-transformation package is the marketing engine that drives the waiver. A patient who has accepted a heavy discount in exchange for image rights has, by the structure of the deal, agreed to be a marketing case for the package. The pattern of the package is what makes the imagery valuable to the clinic — the package is what they sell next. Your post-op photos become the next prospect's "social proof flood."
+
+If you are offered a demonstration-case discount in connection with a transformation package, the answer should be no even if you are comfortable with image release for a single procedure. The combination makes you the package's salesperson, not just its customer.
+
+### Replace the destination debate with clinic-specific questions
+
+The body-transformation package pattern often hides behind a destination conversation: "Surgery is cheaper in Country X" or "Country Y is famous for this combination." That framing is unanswerable as a single question because the answer depends entirely on which clinic in which country with which surgeon at which facility. Replace the destination debate with these clinic-specific questions:
+
+> Is this recommended combination the same one you recommend to most patients who come in for [your original single procedure], or is it specific to my anatomy and goals?
+>
+> How many of the patients you saw last month received this same package?
+>
+> What is your published serious-complication rate for this combination — not for any of the individual procedures?
+>
+> If I want only the procedure I booked, what is the price for that, and what is the surgical date?
+>
+> If I decline the package and proceed with just my original procedure, will the same surgeon perform it, or do you reserve the senior surgeon for package patients?
+
+The last question matters. Some clinics use the body-transformation package not just to upsell but to allocate their best surgeon to bigger cases, leaving single-procedure patients with junior staff. That allocation may not be disclosed. Ask.
+
+### The honest version of the pattern
+
+There is a legitimate version of combination surgery. A surgeon who recommends combining a tummy tuck and a breast lift after pregnancy and breastfeeding, for a patient whose anatomy supports both, who has time and a companion for the longer recovery, who is medically cleared for the longer operative time, and who can afford the procedure without financing distress, may be making a reasonable recommendation.
+
+The difference between the honest version and the package version is not whether combination is recommended. The difference is whether the recommendation was built from your anatomy and goals or whether your anatomy and goals were fit into a pre-existing package. A surgeon making an honest recommendation can explain what they would *remove* from the standard package for you, and why. A clinic running a package marketing system rarely removes anything; they may add.
+
+If you cannot tell which version is in front of you, the answer is to leave the room, sleep on it, and obtain an independent second opinion before consent. That is not a sign of distrust. That is the only test the pattern cannot pass.
+
+::: {.pullquote}
+The package was decided before the diagnosis, even if some of the diagnosis matches the package.
+:::
+
+---
+
+## Chapter 17 — Health History, Medications, Allergies
+
+### Composite Scenario J: The Missed Medication
+
+Tomás is 45. He is a marathon runner with a deviated septum, mild hypertension controlled by a low-dose beta-blocker, and a recurring lower-back issue he treats with high-dose fish oil and occasional NSAIDs. He has been on a low-dose SSRI for eighteen months for anxiety. He is booked for body contouring abroad — liposuction of the flanks and abdomen, four-hour case under general anesthesia.
+
+When the clinic sends the pre-op intake form, Tomás fills it out at the kitchen table the night before he flies. He lists the SSRI and the beta-blocker. He does not list the fish oil because he thinks of it as a supplement, not a medication. He does not list the NSAID because he had not taken one in three weeks. He does not mention that he occasionally uses cannabis on weekends; he had not had any in nine days.
+
+The clinic anesthesiologist reviews the form forty minutes before surgery. She asks Tomás the same questions again in person — what medications, what supplements, when last taken, alcohol use, recreational drug use. This time, prompted by her specific questions, Tomás remembers the fish oil and the recent NSAID. The anesthesiologist hesitates. The fish oil and NSAID together raise his bleeding risk for a four-hour case where the surgeon will be working in well-vascularized tissue. The beta-blocker complicates her plan for blood pressure management. The SSRI raises the bleeding risk further and complicates the post-operative pain plan because it interacts with several common analgesics.
+
+She does not cancel the case. She modifies the anesthesia plan, adjusts the antihypertensive bridging, plans for tighter intraoperative bleeding monitoring, and changes the post-operative pain regimen. The surgery proceeds without complication.
+
+That is the near-miss. The complication that did not happen was not avoided by luck. It was avoided because the anesthesiologist asked questions the intake form did not, and because Tomás answered honestly the second time. If the anesthesiologist had not been thorough, or if Tomás had not been honest the second time, the case might have ended differently.
+
+This chapter is about not relying on luck.
+
+### The health questionnaire is not paperwork
+
+A pre-operative health questionnaire is not paperwork to clear before the real appointment begins. It is the medical record on which every anesthesia decision, every drug dose, every monitoring choice, and every emergency response will be built. A questionnaire filled out hurriedly, defensively, or with omissions because the patient is afraid of losing the appointment is the leading remediable cause of preventable anesthesia complications in cosmetic surgery.
+
+The American Society of Anesthesiologists publishes pre-anesthesia evaluation guidelines that recommend a focused history including: current medications and supplements (with last dose), allergies (with reaction details), prior anesthesia experiences (especially any difficulty or complication), prior surgeries, cardiac and respiratory history, family history of malignant hyperthermia or pseudocholinesterase deficiency, pregnancy status, substance use including alcohol, tobacco, cannabis, and recreational drugs, and current symptoms (recent illness, fever, cough). A foreign clinic that does not collect this information in writing before surgery — or that collects it but does not have an anesthesiologist review it in advance — is a higher-risk setting regardless of price.
+
+### Build a one-page health summary
+
+Create a one-page health summary before you fill out the clinic's form. Keep it on your phone, printed in your bag, and shared with your companion. Update it whenever a medication changes.
+
+Contents:
+
+- Full legal name, date of birth, blood type if known
+- Allergies, with the specific reaction (rash, throat closing, anaphylaxis, GI symptoms — "I had a reaction" is not enough)
+- Current prescription medications, with dose, frequency, and prescribing physician
+- Over-the-counter medications taken regularly (NSAIDs, antihistamines, antacids, sleep aids)
+- Supplements and herbal products with brand and dose
+- Past medical conditions, including diabetes, hypertension, asthma, sleep apnea, bleeding disorders, clotting disorders, thyroid disease, kidney or liver disease, cancer history, autoimmune disease
+- Past surgeries with year and complication notes
+- Anesthesia history with any difficulties documented
+- Family history of anesthesia complications (malignant hyperthermia, pseudocholinesterase deficiency)
+- Pregnancy status and contraception
+- Smoking, vaping, alcohol, cannabis, and recreational drug history with last use
+- Mental health history including current treatment, current medication, prior hospitalizations
+- Recent illness, fever, cough, COVID exposure within thirty days
+
+This summary is for the anesthesiologist, not the marketing team. Provide it to the clinic in advance, and bring a copy on the day of surgery to give to the anesthesiologist in person.
+
+### Medications particularly relevant to cosmetic surgery
+
+Cosmetic surgery has specific medication and supplement sensitivities that may not appear on the intake form's checklist. These are the ones most often missed:
+
+- **Blood-thinning prescription drugs**: warfarin, clopidogrel, apixaban, rivaroxaban, dabigatran, aspirin (even low-dose cardioprotective). Holding regimens vary; never stop without prescriber consultation. Disclose.
+- **NSAIDs**: ibuprofen, naproxen, diclofenac, ketorolac. Even occasional use within two weeks of surgery raises bleeding risk. Disclose.
+- **Aspirin in OTC combinations**: many cold medications, headache combinations (Excedrin), and "rapid relief" formulations contain aspirin. Read labels.
+- **Supplements with bleeding effects**: fish oil, vitamin E, ginkgo biloba, garlic in pill form, ginger in concentrated form, turmeric in high doses, ginseng, St. John's Wort. Many surgeons recommend stopping these two to four weeks before surgery.
+- **SSRIs and SNRIs**: paroxetine, fluoxetine, sertraline, citalopram, escitalopram, venlafaxine, duloxetine. Raise bleeding risk through platelet effect. Do not stop without prescriber consultation; disclose.
+- **Beta-blockers and antihypertensives**: complicate intraoperative blood pressure management. Disclose with dose and timing.
+- **GLP-1 agonists**: semaglutide (Ozempic, Wegovy), tirzepatide (Mounjaro, Zepbound), liraglutide. The American Society of Anesthesiologists issued guidance in 2023 (updated subsequently) recommending that weekly GLP-1 agonists be held for at least one week before elective surgery under anesthesia, due to delayed gastric emptying and aspiration risk. Some surgical centers will refuse to proceed if the medication has not been held. Disclose at consult, not in pre-op holding.
+- **Hormonal contraceptives and HRT**: raise clotting risk; surgeons may recommend stopping four weeks before major surgery. Disclose.
+- **Recreational substances**: cannabis (regular use raises anesthesia drug tolerance), cocaine (raises arrhythmia and ischemia risk), MDMA, opioids prescribed or otherwise. Disclose; the anesthesiologist cannot manage what they do not know.
+
+### Allergies need reaction details
+
+"I'm allergic to penicillin" is not enough. The anesthesiologist needs to know: penicillin given how (oral, IV), how old were you, what reaction (rash, hives, swelling, anaphylaxis, GI upset, mood change). Many recorded "allergies" are intolerances or coincidences that block the use of effective antibiotics unnecessarily. Some recorded "allergies" are true anaphylaxis that the clinic must plan around. The difference matters.
+
+The same applies to latex, contrast dye, adhesive tape, local anesthetics, and any food allergy severe enough to cause systemic reaction.
+
+### Smoking, nicotine, and vaping
+
+Cosmetic surgery is one of the most nicotine-sensitive surgical categories. Nicotine constricts blood vessels, impairs wound healing, increases skin necrosis risk in flap-based procedures (facelift, tummy tuck, breast lift), and raises infection rates. Many cosmetic surgeons require four to six weeks smoke-free before surgery and two to four weeks after, including vaping and nicotine patches in most surgeons' definition. Some surgeons test cotinine on the day of surgery and cancel the case if it is positive.
+
+If you smoke or vape, disclose honestly at the consultation, not on the day of surgery. A surgeon who knows can plan; a surgeon who finds out at the OR doors will either cancel or take a risk you did not consent to. Either outcome is worse than honest disclosure two months earlier.
+
+### BMI and surgical risk
+
+BMI is a blunt clinical tool, but in cosmetic surgery it correlates with several specific risks: longer operative time, higher blood loss, slower wound healing, higher infection rate, higher venous thromboembolism (VTE) risk, and — in BBL specifically — higher mortality. Many cosmetic surgeons have BMI cutoffs above which they decline certain procedures, particularly BBL and abdominoplasty. These cutoffs vary; ASPS guidance recommends caution above BMI 30 for BBL specifically.
+
+A clinic that does not weigh you, does not record height, or does not discuss BMI as part of candidacy is not following standard preoperative screening. A clinic that records BMI but accepts cases well above their published cutoff for the right deposit is choosing revenue over screening.
+
+The conversation deserves clinical accuracy without weight-shaming language. You are not "too fat" for surgery; you may not be a candidate for a specific procedure at a specific facility at the present time, and you have the right to a written explanation of why and what alternatives exist.
+
+### Pregnancy considerations
+
+A pregnancy test is standard before elective surgery for patients who could be pregnant, regardless of contraception. Elective cosmetic surgery is generally deferred during pregnancy. Disclose pregnancy intent, current pregnancy possibility, breastfeeding status, and contraception accurately. A clinic that does not test, or that tests but proceeds despite a positive result, is not operating at standard.
+
+### Mental health disclosure
+
+Disclose current mental health treatment, current medication, prior diagnoses, prior hospitalizations, eating disorder history (current or past), and any history of body dysmorphic preoccupation. The clinic's anesthesiologist needs the medication information for safe anesthesia planning. The surgeon needs the history for candidacy assessment. Chapter 19 covers the body-dysmorphic-disorder (BDD) screen in detail; the disclosure here is the prerequisite for that conversation.
+
+The fear most patients carry is that disclosure will result in surgery being denied. Sometimes it should. More often, it results in a better-planned surgery, a coordinated post-operative mental-health follow-up, or a recommendation to defer until a current treatment is stable. None of those outcomes is worse than the alternative — a surgery performed without the team knowing what they need to know.
+
+### Sedation and anesthesia preview
+
+Anesthesia is the highest-risk variable in cosmetic surgery. Chapter 18 is the full treatment. The handoff from this chapter is simple: every medication and supplement in your one-page health summary, every allergy with reaction details, every prior anesthesia experience, every substance use disclosure — all of it goes to the anesthesiologist for review before the surgical date, not on the morning of surgery. If the clinic does not have a named anesthesiologist who reviews your record in advance, the safety floor is lower than the marketing material claims.
+
+That is the bridge to the next chapter.
+
+::: {.pullquote}
+The complication that did not happen was not avoided by luck. It was avoided because the anesthesiologist asked questions the intake form did not.
+:::
+
+---
+
+
+
