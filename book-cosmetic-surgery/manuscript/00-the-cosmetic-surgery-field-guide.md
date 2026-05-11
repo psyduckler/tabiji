@@ -4475,6 +4475,1262 @@ The body is yours. The decision is yours. The book is the second pair of eyes.
 
 ---
 
+# Back Matter
+
+*The Cosmetic Surgery Field Guide*
+
+*A Tabiji Field Guide*
+
+First Edition
+
+---
+
+## How to Use This Back Matter
+
+The pages that follow are designed for the unglamorous part of cosmetic surgery travel: comparing documents, slowing down sales pressure, verifying credentials, preserving records, and making sure a plan still makes sense after new information appears. These worksheets are not clinical tools. They do not diagnose, recommend treatment, or replace a surgeon, anesthesiologist, physician, mental-health professional, pharmacist, insurer, lawyer, or emergency service.
+
+Use them in four passes.
+
+**First pass: before you commit.** Complete the cost calculator, quote comparison, clinic verification, surgeon credential worksheet, anesthesia provider verification, BDDQ + expectation calibration screen, and second-opinion request. If a clinic, coordinator, or surgeon will not answer reasonable questions in writing, pause.
+
+**Second pass: after you book but before you travel.** Complete the deposit readiness test, coordinator log, emergency contact sheet, records packet inventory, companion responsibility checklist, and day-of-procedure checklist. Make sure a trusted person knows where you are going, who is treating you, who will provide your anesthesia, and how to reach the clinic. Confirm your companion has read the responsibility checklist and is willing to play the role.
+
+**Third pass: before you leave the destination.** Complete the implant passport (if applicable), records packet cover sheet, before-leaving-the-clinic checklist, follow-up care script, and final go/pause/independent-review page. The most important records — operative report, anesthesia record, implant cards — are easiest to obtain while you are still in the clinic.
+
+**Fourth pass: after you return.** Use the follow-up care script and records packet inventory to coordinate ongoing care at home. Use the final go/pause/independent-review page again if revision or repeat surgery is being considered.
+
+Print these pages or copy them into a notebook. Keep screenshots, emails, PDFs, invoices, consent forms, treatment plans, imaging files, prescription labels, warranty language, implant manufacturer registrations, and payment receipts in one folder. If anything changes, write down who told you, when they told you, what changed, why it changed, and what alternatives were discussed.
+
+A clean paper trail will not guarantee a good outcome. It can, however, preserve options if you need follow-up care, a second opinion, an insurance appeal, a chargeback, a complaint to a regulator, a manufacturer warranty claim, or a clear explanation for any clinician at home.
+
+---
+
+## Worksheets and Scripts
+
+## 1. True Cost Calculator
+
+The advertised procedure price is not the trip cost. Use this worksheet to estimate the full cost before comparing one destination with another.
+
+**Procedure quote**
+
+- Clinic name or quote ID: ______________________________
+- Date quote received: ______________________________
+- Quoted currency: ______________________________
+- Exchange rate used today: ______________________________
+- Procedure(s) described in quote: ______________________________
+- Number of visits expected: ______________________________
+- Quote includes pre-op labs and imaging? Yes / No / Unclear
+- Quote includes anesthesia and anesthesia provider fee? Yes / No / Unclear
+- Quote includes operating-room and facility fees? Yes / No / Unclear
+- Quote includes implants and implant fees? Yes / No / Unclear / Not applicable
+- Quote includes garments, drains, supplies? Yes / No / Unclear
+- Quote includes medications? Yes / No / Unclear
+- Quote includes overnight stay if required? Yes / No / Unclear
+- Quote includes first follow-up visits? Yes / No / Unclear
+- Quote includes revisions or written warranty? Yes / No / Unclear
+
+**Direct surgical costs**
+
+| Item | Estimated cost | Notes |
+|---|---:|---|
+| Consultation and pre-op exam | | |
+| Pre-operative labs (CBC, metabolic, coagulation, pregnancy if relevant) | | |
+| Pre-operative imaging (CT, MRI, mammogram if relevant) | | |
+| Surgeon fee | | |
+| Anesthesia provider fee | | |
+| Operating-room and facility fee | | |
+| Implants (per item) | | |
+| Lab/pathology fees (if any tissue is sent) | | |
+| Disposable supplies, drains, garments | | |
+| Medications supplied by clinic or pharmacy | | |
+| First follow-up visits in destination | | |
+| Revision/remediation fees, if any | | |
+| Other surgical charges | | |
+| **Surgical subtotal** | | |
+
+**Travel and support costs**
+
+| Item | Estimated cost | Notes |
+|---|---:|---|
+| Passport/visa/entry documents | | |
+| Flights or ground transportation | | |
+| Baggage, seat, and itinerary-change fees | | |
+| Recovery-friendly lodging (often longer than usual) | | |
+| Local transportation, including discharge-day car | | |
+| Meals, hydration, electrolytes, protein supplements | | |
+| Companion travel costs (highly recommended for surgical cases) | | |
+| Translation/interpreter services | | |
+| Travel insurance | | |
+| Cosmetic-tourism complication insurance, if available | | |
+| Time off work or lost income (often 2–6 weeks for desk work) | | |
+| Child, elder, or pet care | | |
+| Extra nights if recovery runs slow or surgeon defers flight clearance | | |
+| Emergency return/change reserve | | |
+| Home follow-up care (Chapter 27 — typically not insurance-covered) | | |
+| Scar care, garment replacement, lymphatic massage | | |
+| **Travel/support subtotal** | | |
+
+**Repair and revision fund**
+
+Even excellent cosmetic surgery may require revision. Reported revision rates: rhinoplasty 5–15%, breast augmentation 10–20% within ten years, BBL with variable fat resorption, hair restoration commonly multi-session. Budget separately.
+
+- Repair/revision reserve considered: ______________________________
+- Personal reserve chosen: ______________________________
+
+**Risk reserve**
+
+Add a reserve for delays, plan changes on arrival, additional imaging, complication treatment, and follow-up care not covered by the destination clinic.
+
+- Minimum risk reserve considered: ______________________________
+- Personal reserve chosen: ______________________________
+
+**Total estimated cost**
+
+- Surgical subtotal: ______________________________
+- Travel/support subtotal: ______________________________
+- Repair/revision fund: ______________________________
+- Risk reserve: ______________________________
+- **True estimated cost:** ______________________________
+
+**Pause point:** If the true cost approaches the local quote you were trying to avoid, the case for travel may be weaker than the headline price suggests. If the only way the trip "works" is by assuming nothing changes, no one needs revision, and flights never move, pause and get an independent review.
+
+---
+
+## 2. Cosmetic Surgery Quote Comparison
+
+For planned care, avoid comparing surgical quotes only by final price. Compare what is included, what is excluded, what is conditional, and what is not yet known.
+
+| Question | Quote A | Quote B | Quote C |
+|---|---|---|---|
+| Clinic/contact | | | |
+| Date received | | | |
+| Currency | | | |
+| Written surgical plan provided? | | | |
+| Specific procedures named (not marketing labels)? | | | |
+| Imaging or video review before quote? | | | |
+| Surgeon named on quote? | | | |
+| Surgeon's board certification and registration number? | | | |
+| Anesthesia provider named and credentialed? | | | |
+| Facility accreditation (JCI / AAAASF / equivalent) confirmed? | | | |
+| Implant brand, model, size range specified? | | | |
+| Operative-time estimate provided? | | | |
+| Combination procedures explicit (no hidden bundling)? | | | |
+| Number of days required in destination | | | |
+| Pre-op consult and labs included? | | | |
+| Anesthesia included? OR fees? | | | |
+| Garments, drains, supplies included? | | | |
+| First follow-up included? | | | |
+| Risks/alternatives discussed in writing? | | | |
+| Revision warranty terms provided? | | | |
+| Deposit amount and refund terms | | | |
+| Payment methods accepted, surcharges if any | | | |
+| Home follow-up plan after return | | | |
+| Records promised before departure | | | |
+| Total surgical cost | | | |
+| Estimated true trip cost | | | |
+
+**Questions to ask when quotes differ:**
+
+1. Are these clinics proposing the same procedure, or only using similar marketing words?
+2. Does one quote omit anesthesia, OR fees, implants, garments, or follow-up?
+3. Is the low quote conditional on an in-person exam that may change the price?
+4. Is any quote unusually fast for the complexity described?
+5. Which quote names a surgeon I can verify in an official register?
+6. Which quote names an anesthesia provider I can verify?
+7. Which quote gives me the clearest path if something needs revision later?
+
+**Best comparison is not "cheapest."** The most useful quote names the surgeon and anesthesia provider, identifies the facility's accreditation, specifies implants if applicable, separates surgical from facility from anesthesia fees, describes pre-op and post-op care, and makes exclusions visible.
+
+---
+
+## 3. Deposit Readiness Test
+
+*Referenced from Chapter 13.* Cosmetic surgery deposits commonly run 20–50% of total quote, sometimes higher. Before paying, complete this 15-question self-check.
+
+| Question | Yes / No | Notes |
+|---|---|---|
+| Do I have a written treatment plan with named procedures, not just package marketing? | | |
+| Does the plan identify which procedures are primary and which are add-ons? | | |
+| Are exclusions listed (revisions, garments, lab work, anesthesia, hospital fees)? | | |
+| Do I know what imaging, labs, and exams are required on arrival? | | |
+| Do I know what findings could change the plan or disqualify me as a candidate? | | |
+| Do I know the deposit amount, currency, and what it specifically reserves? | | |
+| Do I know whether card, wire, cash, or financing is used and what dispute rights each provides? | | |
+| Do I have the refund and cancellation policy in writing? | | |
+| Do I know whether the deposit is transferable to another date or another procedure? | | |
+| Do I know what happens if the surgeon recommends a different plan on arrival? | | |
+| Do I know what happens if I am medically not cleared (BMI, blood work, anesthesia consult)? | | |
+| Do I know what happens if travel disruption prevents arrival? | | |
+| Have I confirmed the surgeon by name, credentials, and consent-form signature — not just the clinic? | | |
+| Have I obtained at least one independent second opinion on the procedure scope? | | |
+| Do I have enough buffer money to walk away from the deposit without financial distress? | | |
+
+**If you cannot answer yes:** the deposit is premature. Each "no" is a piece of leverage you are sending into the future without protection.
+
+**Deposit script:**
+
+> Before I pay a deposit, please send the deposit terms in writing, including the legal name of the clinic, the procedure the deposit secures, the refund deadline, what happens if the clinical plan changes after the in-person exam, what happens if I am not medically cleared, and whether the deposit is held in escrow or transferred to operations. I am not asking for a special exception; I need the standard terms before I can authorize payment.
+
+**Pause point:** If the answer is "trust us," "everyone pays this," "the surgeon will explain later," or "this price disappears today," consider pausing until you have written terms you understand.
+
+---
+
+## 4. Clinic Verification
+
+Verification does not prove quality. It reduces confusion about who you are dealing with.
+
+**Clinic identity**
+
+- Public clinic name (the marketing brand): ______________________________
+- Legal/business name on invoice: ______________________________
+- Physical address: ______________________________
+- Website: ______________________________
+- Main phone: ______________________________
+- Email domain used: ______________________________
+- Social media handles used in sales process: ______________________________
+- Accreditation body and date confirmed: ______________________________
+- Country of registration: ______________________________
+
+**Basic checks**
+
+- ☐ Website lists a physical address
+- ☐ Address matches maps, website, invoice, and appointment confirmation
+- ☐ Clinic provides legal entity name on invoice or contract
+- ☐ Clinic provides verifiable accreditation (JCI, AAAASF, or equivalent)
+- ☐ Clinic identifies the treating surgeon by name, not only "our team"
+- ☐ Clinic identifies the anesthesia provider by name, not only "our team"
+- ☐ Clinic provides a written surgical plan before deposit
+- ☐ Clinic states what cannot be finalized until in-person exam
+- ☐ Clinic explains records you will receive
+- ☐ Clinic explains follow-up route after you return home
+- ☐ Clinic does not require secrecy, review manipulation, or cash-only terms without documentation
+- ☐ Clinic does not offer to falsify documents for insurance, customs, employer leave, or financing
+
+**Questions to ask:**
+
+1. What is the legal name of the clinic or company on the invoice?
+2. Is the surgical facility the same legal entity as the consultation clinic? If not, what is the relationship?
+3. Who will perform each stage of treatment (consultation, surgery, anesthesia, post-op)?
+4. What records will I receive before I leave the destination?
+5. What parts of the quote are estimates pending in-person examination?
+6. Who handles complications or revisions after I return home?
+7. If the plan changes, will I receive a written revised plan and price before treatment begins?
+8. What is your transfer protocol to a higher-level facility in case of emergency?
+
+**Red flags to document, not debate:**
+
+- Refusal to identify the treating surgeon or anesthesia provider
+- Refusal to provide facility accreditation documentation
+- Pressure to book before written terms are provided
+- Dramatic discounts tied to same-day payment
+- Demonstration-case waiver offered before any clinical assessment
+- Claims that every patient is a candidate based only on photos
+- Advertising that guarantees specific cosmetic outcomes
+- Requests to misrepresent the purpose of travel or treatment
+- Hostility toward independent second opinions
+
+---
+
+## 5. Surgeon Credential Worksheet
+
+Surgical titles, specialty boards, licensure terms, and professional registers vary by country. This worksheet helps document who is performing your surgery and how the clinic describes that person's qualifications.
+
+- Surgeon name (as it appears on professional registration): ______________________________
+- Role in your case: ______________________________
+- Clinic: ______________________________
+- Country/jurisdiction of operation: ______________________________
+- License/registration number in country of operation: ______________________________
+- Public register checked (URL or name): ______________________________
+- Date checked: ______________________________
+- Board certification (specific board name, country): ______________________________
+- Year of board certification: ______________________________
+- ISAPS / IPRAS / country-society membership status: ______________________________
+
+**Information requested from clinic:**
+
+- ☐ Full name as it appears on professional registration in the destination country
+- ☐ Public license or registration number in that country
+- ☐ Board certification (specific board, year, country) — note ABPS vs. ABCS distinction for US-trained surgeons (Chapter 8)
+- ☐ Professional society memberships with verification
+- ☐ Hospital privileges at a fully accredited hospital (a useful proxy for peer review)
+- ☐ Languages used for informed consent
+- ☐ Who substitutes if this surgeon is unavailable on the surgical date
+- ☐ Whether the named surgeon will be present for the entire operative case
+- ☐ Whether trainees, fellows, or assistants will participate; if so, what role
+- ☐ Annual case volume in the specific procedure proposed (an indicator of subspecialty focus)
+
+**Credential script:**
+
+> For my records and for follow-up care at home, please send the full name and registration details of the surgeon who will perform each stage of treatment. I would also like the board-certification body, the country of registration, and a public register link I can verify independently. If a specialist title is used in marketing, please also send the jurisdiction where that specialty status is recognized.
+
+**Notes:**
+
+A license or registration does not guarantee a good outcome. Board certification by a non-recognized board (the ABCS vs. ABPS distinction is one example; similar distinctions exist in other countries) does not equal recognition by the national surgical society. A prestigious association logo may indicate membership, sponsorship, continuing education, or something else. The purpose of this worksheet is not to rank surgeons; it is to make sure you know who is operating on you and how to verify claims that influenced your decision.
+
+---
+
+## 6. Anesthesia Provider Verification
+
+*Referenced from Chapter 18. Net-new for the cosmetic-surgery volume.* Anesthesia is the single highest-stakes variable in cosmetic surgery safety. Verify the named provider before consent.
+
+- Anesthesia provider name (as it appears on professional registration): ______________________________
+- Credential type (anesthesiologist / CRNA / equivalent in country): ______________________________
+- License/registration number in country of operation: ______________________________
+- Public register checked: ______________________________
+- Date checked: ______________________________
+- Years of experience in office-based surgical anesthesia: ______________________________
+- Continuous presence in OR confirmed (not supervising remotely): Yes / No
+
+**The three questions (Chapter 18):**
+
+1. **Who specifically will provide my anesthesia? Full legal name, credential type, registration number, signature on consent form.**
+2. **What monitoring will be in continuous use during my surgery?**
+   - ☐ Continuous pulse oximetry
+   - ☐ Continuous ECG
+   - ☐ Continuous end-tidal CO₂ (capnography)
+   - ☐ Non-invasive blood pressure at intervals no longer than every 5 minutes
+   - ☐ Temperature monitoring (cases over 1 hour)
+3. **What is the emergency protocol if I have an anesthesia complication?**
+   - ☐ Rescue cart with ACLS medications
+   - ☐ Difficult-airway equipment
+   - ☐ Defibrillator
+   - ☐ Malignant hyperthermia kit (if general anesthesia or relevant agents)
+   - ☐ Transfer protocol to a higher-level facility documented in writing
+   - ☐ Distance and response time to nearest hospital
+   - ☐ Most recent case requiring transfer (if any) and how it was handled
+
+**Anesthesia type planned:**
+
+- ☐ Local only
+- ☐ Local + oral sedation
+- ☐ IV sedation (light / moderate / deep)
+- ☐ Regional (nerve block / epidural / spinal)
+- ☐ General anesthesia
+
+If sedation is planned: will I be breathing on my own or have a breathing tube/LMA? Who manages the airway if I stop breathing adequately?
+
+**Conditions that should trigger a separate pre-op anesthesia consult (Chapter 18):**
+
+- ☐ Diagnosed or suspected obstructive sleep apnea
+- ☐ Cardiovascular disease (CAD, prior MI, heart failure, valvular)
+- ☐ Diabetes (especially HbA1c above surgeon's threshold)
+- ☐ BMI above facility cutoff
+- ☐ Prior difficult intubation or any anesthesia complication
+- ☐ Personal or family history of malignant hyperthermia
+- ☐ Current GLP-1 agonist use (Ozempic, Wegovy, Mounjaro, Zepbound)
+- ☐ Current opioid dependence or buprenorphine treatment
+- ☐ Pregnancy or recent postpartum
+- ☐ Significant respiratory disease
+- ☐ Significant kidney or liver disease
+- ☐ Age 65 or older
+
+If any box is checked, request a video or in-person consult with the named anesthesia provider before travel.
+
+**Red flags (Chapter 18):**
+
+- ☐ Provider unnamed at the time of deposit
+- ☐ Consent form lists "our anesthesia team"
+- ☐ No capnography available
+- ☐ No defibrillator or documented difficult-airway equipment
+- ☐ Transfer protocol cannot be described concretely
+- ☐ Same provider managing multiple cases simultaneously
+
+---
+
+## 7. Second Opinion Request
+
+A second opinion is most useful when the reviewer receives organized records, not scattered screenshots.
+
+**Subject line:** Request for independent second opinion on proposed cosmetic surgical plan
+
+**Message template:**
+
+Hello Dr. __________________,
+
+I am considering cosmetic surgery away from my usual area and would like an independent review before I commit. I understand you may need an examination and appropriate imaging before giving a clinical opinion, and I am not asking you to guarantee whether another clinic's plan is right or wrong based only on documents.
+
+I can provide:
+
+- The written surgical plan and quote
+- Pre-operative photographs in standardized poses
+- Any imaging or labs already obtained
+- My medical and medication history
+- My mental-health history (if relevant) and BDDQ screen result
+- The proposed timeline and recovery plan
+- My main concerns and goals
+
+The questions I hope to discuss are:
+
+1. Does the proposed procedure appear appropriate from the documents and my goals?
+2. Is the scope reasonable, or does the package include procedures that may not be necessary?
+3. Is the surgeon's named credential meaningful for this procedure in the destination country?
+4. Is the anesthesia plan appropriate for the procedure complexity?
+5. What records should I obtain if I proceed?
+6. What follow-up should I plan locally?
+
+Please let me know your fee for this consultation and what records you prefer to receive.
+
+Thank you,
+
+__________________
+
+**Your preparation notes:**
+
+- Main reason for seeking treatment: ______________________________
+- Main concern about the proposed plan: ______________________________
+- Budget pressure or timeline pressure to disclose: ______________________________
+- Records attached: ______________________________
+
+---
+
+## 8. Coordinator Log
+
+Coordinators can be helpful. They can also become the only person who knows what was promised. Keep a log.
+
+| Date/time | Name/role | Channel | What was discussed | Promise made | Follow-up needed |
+|---|---|---|---|---|---|
+| | | WhatsApp/email/phone | | | |
+| | | | | | |
+| | | | | | |
+
+**After-call confirmation script:**
+
+> Thank you for speaking with me today. To confirm: my current plan is [brief summary]. The quoted price is [amount/currency], including [items]. Items not included are [items]. The treating surgeon is [name] and the anesthesia provider is [name]. I should expect [number] days in destination with surgery on [date]. Please reply if any part of this summary is incorrect.
+
+**Why this matters:** A friendly conversation is easy to remember differently. Written summaries reduce misunderstandings and make it easier to spot changes before you are committed.
+
+---
+
+## 9. Implant Passport
+
+If you receive implants — breast, gluteal, cheek, chin, calf, pectoral, or other — request manufacturer documentation you can share with future surgeons and your home physician. Some manufacturers provide patient cards or digital records. If the clinic has its own form, attach it here.
+
+**Patient name:** ______________________________
+
+**Clinic:** ______________________________
+
+**Treating surgeon:** ______________________________
+
+**Date of placement:** ______________________________
+
+**Implant record — repeat for each implant**
+
+- Anatomic site (left / right / specific location): ______________________________
+- Manufacturer: ______________________________
+- Product name / system: ______________________________
+- Model number / catalog number: ______________________________
+- Size and volume (cc, dimensions): ______________________________
+- Texture (smooth / textured / micro-textured), if applicable: ______________________________
+- Lot/batch number: ______________________________
+- UDI (Unique Device Identifier): ______________________________
+- Serial number, if available: ______________________________
+- Date of manufacture, if available: ______________________________
+- Date of placement: ______________________________
+- Surgical plane (subglandular / submuscular / dual plane, where applicable): ______________________________
+
+**Manufacturer warranty registration:**
+
+- ☐ Manufacturer warranty program identified (Mentor MentorPromise, Sientra Platinum20, Allergan ConfidencePlus, other): ______________________________
+- ☐ Registered with the manufacturer at the clinic (preferred)
+- ☐ Patient card received and stored
+- ☐ Warranty terms received in writing
+- ☐ Process for invoking the warranty understood
+
+**Additional records requested:**
+
+- ☐ Operative note documenting implant placement
+- ☐ Implant labels, manufacturer barcode stickers, and original packaging photograph
+- ☐ Pre-operative and post-operative imaging
+- ☐ Pathology report (if any tissue was sent — required for any case involving breast tissue removal or capsular tissue)
+- ☐ Long-term surveillance schedule (FDA recommends breast implant MRI or ultrasound at 5–6 years and every 2–3 years thereafter)
+- ☐ Signs of complication to watch for (BIA-ALCL surveillance signs for textured breast implants)
+
+**Script:**
+
+> For long-term maintenance and future care, please provide the implant manufacturer, system, model, size, lot/batch and UDI for each implant placed. I would like this in hand before I leave the clinic, with manufacturer warranty registration completed and a written commitment if any item is delayed.
+
+---
+
+## 10. Day-of-Procedure Checklist
+
+Use this as a communication checklist, not a clinical instruction sheet.
+
+**Before sedation:**
+
+- ☐ I know the name and role of each clinician involved today
+- ☐ The surgeon performing my case is the surgeon named on the consent form
+- ☐ The anesthesia provider is named on the consent form and has introduced themselves
+- ☐ I have received the final surgical plan in a language I understand
+- ☐ The plan matches my pre-trip written surgical plan, or any differences have been explained and documented overnight
+- ☐ I have received the price for today's surgery and any changes from the prior quote
+- ☐ I have had an opportunity to ask questions of the surgeon, in person
+- ☐ I have discussed medical history, medications (including GLP-1 agonists, blood thinners, supplements), allergies, and prior complications
+- ☐ My surgical markings have been verified in a mirror with the surgeon
+- ☐ For implant cases: the implant box is available for verification before opening
+- ☐ I understand the consent form well enough to sign it voluntarily
+- ☐ I am not signing because a coordinator, driver, companion, or deadline is pressuring me
+- ☐ I know who to contact after hours
+- ☐ My companion knows where I am, who is treating me, and how to reach the clinic
+
+**Questions to ask before signing if anything changed:**
+
+1. What changed from the written plan I received before traveling?
+2. Why is the change being recommended?
+3. What are the alternatives, including doing less today or staging for a later trip?
+4. How does this change affect cost, anesthesia time, recovery, and follow-up?
+5. Can I have the revised plan and price in writing before consent?
+
+**Stop phrase:**
+
+> I need a few more minutes before I am ready. Please bring me my surgeon and confirm the plan with me one more time before sedation. If I am not comfortable, I will reschedule.
+
+---
+
+## 11. Plan Change Script
+
+Plan changes happen in surgery. The issue is not that a plan changed; it is whether the change is explained, documented, priced, and consented to without pressure — and whether the consent occurs before any sedation has been administered.
+
+**Use this script when the surgeon recommends more, different, or faster surgery than expected:**
+
+> I understand the in-person exam may have changed the recommendation. Before I agree, please write down: what changed, why it changed, what alternatives exist, what happens if I do not do this today, how the change affects total cost, anesthesia time, and recovery, and whether the new plan affects my flight clearance date. I would like to review the revised plan overnight before consent.
+
+**If you are told the change must happen immediately:**
+
+> Please explain what makes this urgent today and what the risks are of waiting until tomorrow for a final decision. I am not refusing care; I am asking for the calm decision time my pre-trip preparation said I should take before consent. If the change is genuinely medically urgent, the clinic and I will treat it as such; if it is convenience-urgent, I will reschedule.
+
+**If price changes:**
+
+> Please provide the revised total price, including what I have already paid, what remains due, and how any deposit or prior payment applies to the revised plan. Please also confirm the refund implication if I decline the addition.
+
+**If the treating surgeon changes:**
+
+> Please provide the name, role, and registration details of the surgeon who will perform my case. I agreed to the plan based on the originally named surgeon, so I need to understand and consent to the substitution before any sedation.
+
+**If the anesthesia provider changes:**
+
+> Please provide the name and credentials of the anesthesia provider who will manage my case. I would like to meet them before sedation and confirm they have reviewed my health history.
+
+**If the proposal happens after sedation has begun:**
+
+You cannot consent under sedation. The pre-signed Chapter 20 consent paragraph applies: *"I do not consent to any addition, expansion, or substitution beyond the procedures listed, regardless of intraoperative findings, except for procedures immediately medically necessary to address an emergency."* The companion's role is to refuse on your behalf for any non-emergency addition.
+
+---
+
+## 12. BDDQ + Expectation Calibration Screen
+
+*Referenced from Chapter 19. Net-new for the cosmetic-surgery volume.*
+
+This is a screening tool for personal use. It is not a diagnosis. A positive screen suggests that the surgical decision deserves a pause and an evaluation by a licensed mental-health professional before proceeding, not that the surgery should not happen. Results stay with you unless you choose to share them.
+
+### Part A — BDDQ (Body Dysmorphic Disorder Questionnaire, brief screening form)
+
+Answer honestly. There are no wrong answers.
+
+**1. Are you concerned about how you look?**
+☐ Yes ☐ No
+
+If yes:
+
+**2. Do you think about your appearance problem(s) and wish you could think about them less?**
+☐ Yes ☐ No
+
+**3. What about your appearance concerns you most? Briefly describe:**
+
+_________________________________________________
+
+_________________________________________________
+
+**4. What effect has your preoccupation with your appearance had on your life?**
+
+a. Has it caused you a lot of distress?
+☐ Yes ☐ No
+
+b. Has it significantly interfered with your social life or relationships?
+☐ Yes ☐ No
+
+c. Has it significantly interfered with school, work, or other important activities?
+☐ Yes ☐ No
+
+d. Are there things you avoid because of your appearance concerns?
+☐ Yes ☐ No
+
+**5. Approximately how much time do you spend thinking about your appearance each day?**
+☐ Less than 1 hour ☐ 1 to 3 hours ☐ 3 or more hours
+
+**Interpretation:**
+
+A positive screen on this instrument is generally indicated by: "Yes" to question 1 *and* question 2; "Yes" to question 4 (any part: a, b, c, or d); and 1 hour or more per day spent thinking about appearance.
+
+A positive screen does not mean you have BDD. It means a licensed mental-health professional should evaluate the concern before you proceed with cosmetic surgery. The validated diagnostic process is more thorough than this screen.
+
+### Part B — Expectation Calibration
+
+These questions are for *every* patient, regardless of BDD screen result. Answer in writing. Take time.
+
+**1. What specifically about my appearance am I trying to change?**
+
+_________________________________________________
+
+_________________________________________________
+
+**2. What do I expect the change will do for me beyond the physical result — in my relationships, my career, my self-image?**
+
+_________________________________________________
+
+_________________________________________________
+
+**3. Have I tried non-surgical alternatives (training, dermatologic care, photography skills, clothing, dental work, hair styling, posture work, mental-health support)?**
+
+_________________________________________________
+
+**4. What does the photographic outcome literature show for this procedure on bodies similar to mine — not just the dramatic before-and-after marketing photos?**
+
+_________________________________________________
+
+**5. How will I evaluate the result at 6 months, 2 years, and 5 years?**
+
+_________________________________________________
+
+**6. What outcome would I consider successful even if the result is not perfect?**
+
+_________________________________________________
+
+**7. What outcome would I consider a failure?**
+
+_________________________________________________
+
+### Part C — Major life-event screen
+
+Cosmetic surgery undertaken within 6–12 months of certain life events is associated with higher rates of post-operative distress. Check any that apply:
+
+- ☐ Death of a partner, parent, or child within the past 12 months
+- ☐ Divorce or significant relationship rupture within the past 12 months
+- ☐ Job loss within the past 12 months
+- ☐ Major health diagnosis within the past 12 months
+- ☐ Other significant life transition: ______________________________
+
+If any box is checked, the screening conversation deserves more time, not less. Talk to a clinician you trust about whether now is the right window.
+
+### Part D — Substance and treatment screen
+
+- Current alcohol use (drinks/week): ______________________________
+- Current cannabis use: ______________________________
+- Current recreational drug use: ______________________________
+- Current SSRIs or other antidepressants: ______________________________ (do not stop without prescriber)
+- Current anxiolytic or sleep medications: ______________________________
+- Current eating disorder treatment or history: ______________________________
+- Current or past mental-health hospitalization: ______________________________
+
+Disclose these honestly to your surgeon and anesthesia provider. Disclosure protects you; concealment does not.
+
+---
+
+## 13. Companion Responsibility Checklist
+
+*Referenced from Chapter 23. Net-new for the cosmetic-surgery volume.* For the companion to complete before travel and bring to the destination.
+
+**Companion identity**
+
+- Companion name: ______________________________
+- Relationship to patient: ______________________________
+- Phone (international): ______________________________
+- Home address: ______________________________
+- Emergency contact at home, if companion is also incapacitated: ______________________________
+
+**Pre-trip briefing (☐ completed and understood)**
+
+- ☐ I know what procedures are planned and what they involve at a basic level
+- ☐ I know the expected recovery timeline and the highest-risk days
+- ☐ I have the surgeon's name, the clinic's emergency line, and the destination hospital's address saved in my phone
+- ☐ I have the patient's full medication list, allergy list, and medical history
+- ☐ I understand the warning signs that warrant a clinic call vs. an emergency-room visit
+- ☐ I have the travel-insurance and complication-insurance details
+- ☐ I have read Chapter 23 and the rest of this checklist
+
+**Day of surgery**
+
+- ☐ I will be present during the consent process to witness, not to consent on the patient's behalf
+- ☐ I will help verify the surgeon and anesthesia provider names on the consent form
+- ☐ I will photograph or accept written copies of the discharge instructions
+- ☐ I understand that I do not sign post-operative consent for non-emergency changes (Chapter 20, Chapter 23, Rule 2 of Chapter 29)
+
+**Recovery week 1 — daily observation duties**
+
+- ☐ Pain level recorded morning and evening
+- ☐ Temperature recorded twice daily (fever ≥ 101°F / 38.3°C triggers a clinic call)
+- ☐ Drain output recorded if drains are placed
+- ☐ Swelling and bruising photographed daily in consistent lighting
+- ☐ Medication doses logged with timing
+- ☐ Hydration and protein intake tracked
+- ☐ Bowel movements tracked (constipation is common on opioids)
+- ☐ Mental state observed (post-anesthesia confusion, post-op blues, acute distress)
+- ☐ Calves observed for swelling, tenderness, warmth (DVT signs)
+- ☐ Incisions observed for spreading redness, foul drainage, or expanding pain
+
+**Escalation framework (memorize before travel)**
+
+- Routine question → next business day or follow-up
+- Concerning observation requiring guidance → clinic after-hours line
+- Significant warning sign (fever, expanding redness, new asymmetric swelling, increasing pain) → clinic immediately; if no response in 30 minutes, proceed to ER
+- Medical emergency (DVT/PE signs, severe bleeding, respiratory distress, severe infection, cardiac symptoms, severe medication reaction, significant mental status change) → local emergency services first, then clinic
+- Clinic not responsive to a serious concern → nearest accredited hospital, not back to the clinic
+
+**Travel home**
+
+- ☐ Wheelchair requested at both airports
+- ☐ Compression stockings worn for the flight per surgeon's instructions
+- ☐ Hydration and cabin mobilization plan in place
+- ☐ Printed copy of discharge summary, operative report, and medication list in carry-on
+- ☐ Implant cards in carry-on, photographed in phone, emailed to self
+
+**The companion sentence I will use if pressed for non-emergency consent on the patient's behalf:**
+
+> The patient is not in a position to consent, and I am not authorized to consent for them. We will wait until the patient is alert and unsedated.
+
+**Companion self-care (Chapter 23)**
+
+- ☐ I have at least one block of off-duty time per day
+- ☐ I have adequate sleep planned
+- ☐ I have my own food, water, and supplies separate from the patient's
+- ☐ If the trip exceeds 7 days, I have considered a backup companion or paid post-operative caregiver
+
+---
+
+## 14. Before Leaving the Clinic
+
+For planned surgical care, do not wait until you are at the airport to request records.
+
+**Before your final clinic visit ends, request:**
+
+- ☐ Operative report, surgeon-signed, in writing
+- ☐ Anesthesia record, signed
+- ☐ Pathology report (if any tissue was sent) or written commitment with delivery date
+- ☐ Implant cards, in hand, with manufacturer warranty registered
+- ☐ Before-and-after photographs in matching poses
+- ☐ Final invoice with all payments, balance, currency, method
+- ☐ Receipts for all payments
+- ☐ Discharge summary with warning signs, emergency contacts, and flight-clearance criteria
+- ☐ Medication list with doses, durations, and prescribing physician
+- ☐ Scar-care, drain, suture, garment, lymphatic-massage, sun-protection, and activity instructions in writing
+- ☐ Suture removal schedule and instructions for the local provider, if removal is at home
+- ☐ Follow-up timeline with specific dates and modes (in-person at destination, telehealth, in-person at home)
+- ☐ Warranty/revision terms in writing, with the procedure for invoking them
+- ☐ Surgeon's direct contact for the next 30–90 days
+- ☐ Clinic's 24-hour emergency contact with international dialing
+- ☐ The named anesthesia provider's contact, in case of delayed anesthesia-related questions
+- ☐ Departure-day photographs taken by the patient or companion (in matching poses, in good lighting)
+
+**Script:**
+
+> Before I leave, I need my complete records packet for follow-up care. Please include the operative report, anesthesia record, pathology if relevant, implant cards, photographs, invoices, discharge summary, written care instructions, and contact information. If any item is not available today, please write down when and how it will be sent, with a name on the commitment.
+
+---
+
+## 15. Records Packet
+
+Create one folder named: `Cosmetic Surgery Records — [Your Name] — [Destination] — [Year]`.
+
+**Include:**
+
+- ☐ Passport/ID copy
+- ☐ Clinic surgical plan and quote
+- ☐ Revised plans and addenda
+- ☐ Consent forms, signed
+- ☐ The no-non-emergency-additions consent paragraph (Chapter 20), signed
+- ☐ Invoices and receipts
+- ☐ Payment confirmations
+- ☐ Pre-operative imaging (DICOM files preferred, not just JPEGs)
+- ☐ Pre-operative labs
+- ☐ Pre-operative photographs in standardized poses
+- ☐ Operative report
+- ☐ Anesthesia record
+- ☐ Pathology report (if any tissue was sent)
+- ☐ Post-operative photographs in matching poses
+- ☐ Implant passport / device documentation
+- ☐ Manufacturer warranty registration confirmation
+- ☐ Materials list (sutures, mesh, biologics, fillers)
+- ☐ Medication list, doses, durations
+- ☐ Aftercare instructions
+- ☐ Warranty/revision policy
+- ☐ Communications with clinic/coordinator
+- ☐ Travel insurance and complication insurance policy and contact
+- ☐ Emergency contacts
+- ☐ Second-opinion notes (pre-op and post-op if applicable)
+- ☐ Local follow-up provider notes after return
+- ☐ BDDQ + expectation calibration results
+- ☐ Companion responsibility checklist (completed)
+
+**File naming suggestion:**
+
+`YYYY-MM-DD — Clinic — Document Type — Short Description.pdf`
+
+Examples:
+
+- `2026-03-14 — Madrid Clinic — Quote — Rhinoplasty Plan.pdf`
+- `2026-03-22 — Madrid Clinic — Invoice — Deposit Receipt.pdf`
+- `2026-04-02 — Madrid Clinic — Operative Report — Surgeon Signed.pdf`
+- `2026-04-02 — Madrid Clinic — Implant Cards — Bilateral Augmentation.pdf`
+
+**Storage:** physical binder at home (ideally fireproof), personal cloud with two-factor, and one copy with a trusted family member or attorney. Implant card photographs also in your phone's photo library, labeled clearly.
+
+**Practical rule:** If you would need it to explain your case to a surgeon, insurer, credit-card company, manufacturer, or regulator, keep it.
+
+---
+
+## 16. Records Packet Cover Sheet
+
+*Referenced from Chapter 26.* Keep this as the first page of your binder or first PDF in your cloud folder. It is what a new clinician will read first.
+
+**Patient information**
+
+- Full legal name: ______________________________
+- Date of birth: ______________________________
+- Medical record / chart number: ______________________________
+
+**Surgical event**
+
+- Date of surgery: ______________________________
+- Surgeon name: ______________________________
+- Clinic name: ______________________________
+- Facility name (if different): ______________________________
+- Facility accreditation: ______________________________
+- Anesthesia provider: ______________________________
+
+**Procedures performed (clinical names, not marketing labels)**
+
+1. ______________________________
+2. ______________________________
+3. ______________________________
+4. ______________________________
+
+**Implants placed (if applicable)**
+
+| Site | Manufacturer | Model | Size | Lot / UDI | Notes |
+|---|---|---|---|---|---|
+| | | | | | |
+| | | | | | |
+
+**Significant intraoperative findings or events**
+
+_________________________________________________
+
+_________________________________________________
+
+**Post-operative course (week 1 — week 6)**
+
+_________________________________________________
+
+_________________________________________________
+
+**Warranty terms — summary**
+
+_________________________________________________
+
+**Key contacts**
+
+- Surgeon direct (30–90 days): ______________________________
+- Clinic 24-hour line: ______________________________
+- Anesthesia provider (if needed): ______________________________
+- Manufacturer warranty registration: ______________________________
+
+**Index of documents included** (check each as filed)
+
+- ☐ Operative report
+- ☐ Anesthesia record
+- ☐ Pre-op imaging / labs / photographs
+- ☐ Post-op imaging / photographs
+- ☐ Implant cards
+- ☐ Pathology report
+- ☐ Discharge summary
+- ☐ Aftercare instructions
+- ☐ Medication list
+- ☐ Warranty terms
+- ☐ Invoices and receipts
+- ☐ Consent forms
+- ☐ Communications thread
+- ☐ Second-opinion notes
+- ☐ Insurance policies
+
+---
+
+## 17. Follow-Up Care Script
+
+Use this when contacting a clinician at home after cosmetic surgery abroad. The framing matters: a request that lowers the local provider's perceived liability is more likely to succeed.
+
+**Subject line:** Follow-up appointment after cosmetic surgery abroad
+
+Hello Dr. __________________,
+
+I recently had cosmetic surgery in __________________ on [date] and would like to schedule local follow-up care. I am not asking anyone to take over my surgical care or to perform a revision. I have complete records from the surgeon abroad, including the operative report, anesthesia record, and implant cards if relevant. I am looking for evaluation, scar-care guidance, wound monitoring, and a local point of contact if questions arise. I am happy to pay out of pocket for the consultation.
+
+I can provide before the appointment:
+
+- The records packet cover sheet
+- Operative report
+- Anesthesia record
+- Pre-operative and post-operative photographs
+- Implant cards (if applicable)
+- Pathology report (if any tissue was sent)
+- Discharge summary and aftercare instructions
+- My medication and allergy list
+- My current concerns
+
+My goals for the appointment are:
+
+1. Establish local follow-up care
+2. Review whether my records are sufficient for ongoing care
+3. Discuss scar care, garment progression, and activity progression
+4. Understand what to monitor and when to seek care
+5. For implant cases: establish a long-term surveillance schedule
+
+Please let me know whether your office is comfortable seeing patients after surgery elsewhere, what records you would like in advance, and the consultation fee.
+
+Thank you,
+
+__________________
+
+**Provider tiers to try, in order of typically higher to lower receptivity (Chapter 27):**
+
+1. Reconstructive plastic surgeons affiliated with hospitals or cancer centers
+2. University-affiliated plastic surgery departments
+3. Multi-location corporate plastic surgery practices
+4. Solo aesthetic-only practices
+5. Solo practices directly competing with cosmetic tourism
+
+If plastic surgeons are unwilling: general surgeons, dermatologists for scar care, wound-care nurses, primary care physicians for medication management and lab follow-up, concierge medicine, telehealth from original surgeon for clinical guidance with local provider for hands-on care.
+
+---
+
+## 18. Emergency Contact Sheet
+
+Keep one copy with you, one with a companion, and one with a trusted contact at home.
+
+**Traveler/patient**
+
+- Name: ______________________________
+- Date of birth: ______________________________
+- Passport number and country: ______________________________
+- Phone: ______________________________
+- Email: ______________________________
+- Lodging address in destination: ______________________________
+- Travel dates: ______________________________
+
+**Clinic and providers**
+
+- Clinic name and address: ______________________________
+- Clinic main phone: ______________________________
+- Clinic 24-hour emergency phone: ______________________________
+- Treating surgeon name and direct contact: ______________________________
+- Anesthesia provider name and contact: ______________________________
+- Coordinator name and contact: ______________________________
+
+**Local emergency**
+
+- Local emergency services number (not always 911): ______________________________
+- Nearest fully accredited hospital with ER: ______________________________
+- Hospital address: ______________________________
+- Estimated travel time from accommodation: ______________________________
+
+**Trusted contacts**
+
+- Contact 1 name/relationship: ______________________________
+- Phone/email: ______________________________
+- Contact 2 name/relationship: ______________________________
+- Phone/email: ______________________________
+
+**Home providers**
+
+- Primary care physician: ______________________________
+- Plastic surgeon or specialist arranged for home follow-up: ______________________________
+- Mental-health clinician (if relevant): ______________________________
+
+**Health and logistics**
+
+- Allergies: ______________________________
+- Current medications and supplements: ______________________________
+- Significant medical conditions to disclose: ______________________________
+- Travel insurance policy and 24-hour hotline: ______________________________
+- Cosmetic-tourism complication insurance and hotline, if separate: ______________________________
+- Embassy/consulate contact: ______________________________
+
+**Instruction for companion/trusted contact:**
+
+> If I cannot communicate, help clinicians access my records packet and contact my emergency contacts. Do not consent to non-emergency cosmetic changes on my behalf. Emergency interventions necessary to save my life proceed under the treating team's protocols.
+
+---
+
+## 19. Final Go / Pause / Get Independent Review
+
+Use this page at four moments: before deposit, before travel, before treatment begins, and before any revision or repeat procedure.
+
+**GO may be reasonable when most of these are true:**
+
+- ☐ I have a written surgical plan I understand
+- ☐ The surgeon and anesthesia provider are named, credentialed, and verifiable
+- ☐ The facility's accreditation is current and verifiable
+- ☐ I have compared total trip cost, not only procedure price
+- ☐ I understand payment, deposit, and refund terms
+- ☐ I have discussed relevant medical history, medications, and mental-health status with the treating team
+- ☐ I have a negative BDDQ screen or a positive screen with mental-health clearance
+- ☐ I have an independent second opinion supporting the proposed scope
+- ☐ I know what records I will receive
+- ☐ I have a home follow-up plan
+- ☐ I have a companion briefed or substitute systems in place
+- ☐ I can afford a delay, revision, or local follow-up need
+- ☐ I do not feel coerced by urgency, partner pressure, social media, or sunk cost
+
+**PAUSE when any of these are true:**
+
+- ☐ The clinic will not name the treating surgeon or anesthesia provider
+- ☐ The facility's accreditation cannot be verified
+- ☐ The plan changed but the explanation is verbal only
+- ☐ Price changed without a written revised quote
+- ☐ I am told not to seek a second opinion
+- ☐ I am being pushed to sign or pay before understanding the plan
+- ☐ The timeline feels built around my flight rather than my care
+- ☐ I am relying on influencer content more than documents
+- ☐ A demonstration-case discount is offered before clinical assessment
+- ☐ I cannot obtain records needed for follow-up
+- ☐ I would be financially trapped if complications, revisions, or delays occur
+- ☐ My BDDQ screen was positive and I have not been evaluated by a mental-health professional
+
+**GET INDEPENDENT REVIEW when any of these are true:**
+
+- ☐ Combination procedures involving BBL are proposed
+- ☐ Large-volume liposuction is proposed
+- ☐ The proposed plan includes any procedure on the Chapter 28 list
+- ☐ The plan becomes more extensive after arrival
+- ☐ Two clinics recommend very different plans
+- ☐ A same-day decision would commit me to irreversible work
+- ☐ I do not understand the risks, alternatives, or revision likelihood
+- ☐ My primary physician, mental-health clinician, or insurer needs to weigh in
+- ☐ I am within 6–12 months of a major life event (Chapter 19)
+
+**Final sentence to write by hand:**
+
+> The reason I am proceeding, pausing, or seeking review is: ______________________________.
+
+---
+
+## Glossary
+
+**Abdominoplasty** — Surgical removal of excess skin and fat from the abdomen, often combined with tightening of the underlying muscle. Recovery and risk profile vary; combination with other procedures (especially BBL) raises risk.
+
+**Accreditation** — A process by which an outside organization evaluates a clinic, hospital, surgical center, or system against stated standards (JCI, AAAASF, the Joint Commission, country-specific bodies). Accreditation can be useful but does not guarantee a good outcome.
+
+**Anesthesia** — A broad term for methods used to reduce pain, sensation, awareness, or memory during surgery. Forms (local, regional, sedation, general), staffing, monitoring, risks, and regulations vary. Travelers should identify who provides anesthesia, what monitoring is used, what emergency equipment is available, and what records will be supplied.
+
+**Anesthesiologist** — A physician with residency-level training in anesthesia. In some countries, the term is reserved for physicians; in others, advanced practice nurses (CRNAs in the US) may also be called anesthesia providers. Verify the credential type, registration, and country.
+
+**BBL (Brazilian Butt Lift)** — Fat transfer from one part of the body to the buttocks. The procedure with the highest documented mortality among common cosmetic operations, primarily due to pulmonary fat embolism from intramuscular fat injection. Strictly subcutaneous, ultrasound-guided BBL by a board-certified surgeon in an accredited facility has dramatically better safety data than blind technique in non-accredited settings.
+
+**BDD (Body Dysmorphic Disorder)** — A mental-health condition characterized by distressing preoccupation with a perceived flaw in appearance that is not observable or only slightly observable to others. Surgical outcomes for untreated BDD are poor. Screening (BDDQ, DCQ) is recommended before cosmetic surgery; first-line treatment is CBT, with or without SSRI medication.
+
+**BDDQ** — Body Dysmorphic Disorder Questionnaire. A brief self-report screening instrument used to identify patients who should be evaluated by a mental-health professional before cosmetic surgery.
+
+**BIA-ALCL** — Breast Implant–Associated Anaplastic Large-Cell Lymphoma. A rare lymphoma associated with textured breast implants. Surveillance signs include late seromas, fluid collections, breast asymmetry, or palpable masses. The FDA recommends symptom-based surveillance for patients with textured implants.
+
+**Blepharoplasty** — Surgical reshaping of the eyelids (upper, lower, or both). May be cosmetic or functional (when visual-field testing documents functional impairment).
+
+**Board certification** — Recognition by a specialty board that a clinician has completed training and examination requirements in a specialty. In the US, ABPS (American Board of Plastic Surgery, recognized by ABMS) and ABCS (American Board of Cosmetic Surgery, not ABMS-recognized) are sometimes confused; only ABPS represents completion of an ACGME plastic surgery residency. Equivalent distinctions exist in other countries.
+
+**Capnography** — Continuous monitoring of end-tidal carbon dioxide. Standard during moderate and deep sedation and general anesthesia. Often absent in lower-regulation facilities, which is a meaningful safety gap.
+
+**Capsular contracture** — Tightening of scar tissue around a breast implant, sometimes causing distortion, firmness, or discomfort. A common reason for breast implant revision.
+
+**CMC / Cosmetic specialty boards** — Country-specific boards that recognize specialty training in cosmetic or aesthetic surgery. Recognition varies; verify in the country where the surgeon operates.
+
+**Consent form** — A document recording that a patient has received information and agreed to treatment. A signature is not meaningful if the patient does not understand the procedure, risks, alternatives, or costs, or if the patient is sedated.
+
+**CRNA** — Certified Registered Nurse Anesthetist. An advanced practice nurse with specialized anesthesia training. In the US, mortality outcomes for CRNAs and anesthesiologists, controlled for patient and procedure factors, are not statistically different per published reviews.
+
+**DCQ** — Dysmorphic Concerns Questionnaire. A longer dimensional self-report instrument for appearance-related concerns; complements the BDDQ.
+
+**DICOM** — Digital Imaging and Communications in Medicine. The standard medical imaging file format. Request DICOM files for any imaging (CT, MRI, ultrasound, mammography) — not just printed JPEGs.
+
+**Drain** — A tube placed in the surgical site to collect post-operative fluid. Common in abdominoplasty and body contouring. Daily output is logged; removal is based on output thresholds.
+
+**DVT / PE (Deep Vein Thrombosis / Pulmonary Embolism)** — Clotting complications. DVT presents as calf swelling, tenderness, warmth. PE presents as chest pain, shortness of breath, racing pulse. Both are emergencies. Risk is elevated by surgery, immobility, hormonal contraceptives, and long flights.
+
+**Facelift (rhytidectomy)** — Surgical tightening of facial skin and underlying tissues. Variations include SMAS lift, deep plane facelift, mini facelift; each has different recovery and risk.
+
+**GLP-1 agonists** — Semaglutide (Ozempic, Wegovy), tirzepatide (Mounjaro, Zepbound), liraglutide. The American Society of Anesthesiologists recommends holding weekly GLP-1 agonists at least one week before elective surgery due to delayed gastric emptying and aspiration risk.
+
+**Hair restoration / hair transplant** — Surgical transfer of hair follicles from a donor area (typically scalp posterior) to a recipient area. FUE (follicular unit extraction) and FUT (follicular unit transplantation) are the major techniques. Multiple sessions are often required.
+
+**Implant patient card** — Manufacturer-issued documentation listing implant manufacturer, model, size, lot, UDI, and anatomic location. Required under EU MDR Article 18 for implants placed in the EU; manufacturer warranty programs in the US issue equivalent documentation.
+
+**Informed consent** — A process, not merely a signature, in which a patient receives understandable information about the proposed procedure, material risks, benefits, alternatives, costs, and the option to decline or delay.
+
+**ISAPS** — International Society of Aesthetic Plastic Surgery. Membership is an indicator (not a guarantee) of board-certified plastic surgeon status; verify in the surgeon's country of registration.
+
+**IPRAS** — International Confederation for Plastic, Reconstructive, and Aesthetic Surgery. A federation of national plastic surgery societies. National-society membership through IPRAS is one credential indicator.
+
+**JCI** — Joint Commission International. Accreditation body for hospitals and surgical centers outside the US; recognized by the International Society for Quality in Health Care.
+
+**Liposuction** — Surgical removal of subcutaneous fat. Risk scales with volume aspirated and combination with other procedures. Large-volume liposuction (typically >5 liters) carries higher risk.
+
+**Lymphatic drainage / lymphatic massage** — A manual technique commonly recommended after body contouring, BBL, and abdominoplasty to reduce swelling and improve healing. Local lymphatic therapists at home should follow the destination surgeon's protocol.
+
+**M. abscessus** — A rapidly growing non-tuberculous mycobacterium implicated in surgical site infections in cosmetic surgery, particularly when sterilization or water-quality controls are inadequate. The CDC has documented outbreaks in cosmetic-tourism facilities.
+
+**Malignant hyperthermia** — A rare but life-threatening reaction to certain anesthesia agents in genetically susceptible patients. Family history is a screening question; treatment requires dantrolene and supportive care, which the facility should have on hand if general anesthesia or relevant agents are used.
+
+**Mammary fold** — The crease beneath the breast; an anatomic landmark in breast surgery.
+
+**MMWR** — Morbidity and Mortality Weekly Report, a CDC publication. The CDC MMWR 73(3) on Dominican Republic cosmetic-surgery deaths (2009–2022, 93 US-citizen deaths, 92% involving BBL) is a primary source for this book.
+
+**MRI / ultrasound (breast implant surveillance)** — The FDA recommends MRI or ultrasound surveillance for breast implants beginning 5–6 years after placement and every 2–3 years thereafter, to monitor for silent rupture.
+
+**Panniculectomy** — Surgical removal of a redundant abdominal pannus (lower abdominal apron), often after massive weight loss. May be covered by insurance when documented skin breakdown or hygiene impairment is present (a coverage distinction from cosmetic abdominoplasty).
+
+**Pathology** — Microscopic examination of tissue. Required for any case involving breast tissue removal, suspicious lesions, or capsular tissue around a removed implant. The pathology report belongs in the records packet.
+
+**Plastic surgeon vs. cosmetic surgeon** — In several countries, "plastic surgeon" implies completion of a recognized plastic surgery residency and board certification (US: ABPS); "cosmetic surgeon" may not. Verify in the country of operation.
+
+**Pulmonary fat embolism** — Migration of fat globules into the pulmonary circulation, often associated with BBL where fat is injected intramuscularly into well-vascularized gluteal tissue. The dominant cause of death in BBL mortality series.
+
+**Rhinoplasty** — Surgical reshaping of the nose. May be cosmetic, functional (septoplasty), or both.
+
+**Seroma** — A pocket of fluid that can develop after surgery, often after liposuction, abdominoplasty, or breast surgery. Most resolve; some require drainage.
+
+**SSRI / SNRI** — Classes of antidepressants. May increase bleeding risk through platelet effects. Disclose to surgeon and anesthesia provider; do not stop without prescriber consultation.
+
+**UDI (Unique Device Identification)** — A standardized device identifier (GS1 framework) used internationally for medical devices, including implants. The UDI ties an implant to its manufacturer, model, lot, expiry, and serial number, supporting long-term traceability.
+
+**UCR (Usual, Customary, and Reasonable) rate** — A schedule used by US health insurers to calculate reimbursement for out-of-network or out-of-country services. A reimbursement that is "50% of UCR" is typically far below the foreign invoice amount.
+
+**Veneer** — A thin covering bonded to a tooth (cosmetic dentistry). Mentioned here only for clarity that the term is dental, not surgical — some readers come from the dental volume of this series and may search the glossary for it.
+
+**Warranty registration** — The act of registering an implant with the manufacturer, usually at the time of placement, to activate the manufacturer's warranty program (Mentor MentorPromise, Sientra Platinum20, Allergan ConfidencePlus, and others). Without registration, warranty terms may not apply.
+
+---
+
+## Source Notes and Further Reading
+
+These notes identify the types of sources that informed this guide and the authorities readers can consult for current information. Web addresses, regulations, agency pages, manufacturer warranty terms, and professional rules change. Use these notes as a starting point for verification, not as a substitute for current professional or official guidance. Companion resources and source-link updates are planned at [tabiji.ai/book/cosmetic-surgery](https://tabiji.ai/book/cosmetic-surgery).
+
+### 1. CDC and public-health surveillance data on cosmetic surgery deaths abroad
+
+The single most important public-health source for this guide is the U.S. Centers for Disease Control and Prevention *Morbidity and Mortality Weekly Report* 73(3), which documented 93 deaths of U.S. citizens undergoing cosmetic surgery in the Dominican Republic between 2009 and 2022. Ninety-two percent of those deaths involved gluteal fat transfer. The cause-of-death pattern was pulmonary fat embolism and venous thromboembolism, concentrated in non-accredited facilities, in combination procedures, on patients with comorbidities. The framing of Chapter 4, Chapter 18, and Chapter 28 of this guide rests on this dataset.
+
+### 2. American Society of Plastic Surgeons (ASPS) safety guidance
+
+ASPS BBL safety guidance (2018, 2019, and subsequent updates) is the basis for the technique distinction (strictly subcutaneous, ultrasound-guided, board-certified surgeon, accredited facility) and for the combination-procedure caution that appears throughout this volume. ASPS materials are publicly available and should be consulted for current updates.
+
+### 3. Anesthesia mortality and safety data
+
+The anesthesia mortality figures cited in Chapter 18 (roughly one death per million in all-settings US anesthesia; 0.01–0.016% in cosmetic surgery specifically) draw from published peer-reviewed reviews of perioperative anesthesia mortality, including studies of office-based facial plastic surgery using anesthesia time as a risk indicator. The provider-type research (no statistically significant mortality difference between physician anesthesiologists and CRNAs, controlled for patient and procedure factors) draws from the NIH/NCBI Bookshelf review of anesthesia care provided by nurses. The American Society of Anesthesiologists publishes basic monitoring standards and pre-anesthesia evaluation guidelines; the 2023 ASA guidance on GLP-1 agonists is cited in Chapter 17 and Chapter 18.
+
+### 4. Mental health and BDD screening
+
+Published prevalence of body dysmorphic disorder in cosmetic surgery patients (range of approximately 7 to 18 percent depending on population and instrument) is drawn from peer-reviewed mental-health and plastic surgery literature. The BDDQ screening instrument in Worksheet 12 is adapted from instruments developed and validated in clinical literature. The recommendation that BDD treatment is cognitive behavioral therapy (with or without SSRI), and that surgical outcomes for untreated BDD are poor, is supported by ASPS and ISAPS screening recommendations and by peer-reviewed outcome literature.
+
+### 5. Surgical credentialing and professional registers
+
+Credential-checking sections rely on national medical regulators, plastic surgery boards (ABPS, equivalents in other countries), the American Board of Cosmetic Surgery (ABCS, with the documented distinction from ABPS regarding ABMS recognition), professional societies including ISAPS and IPRAS, and country-specific plastic surgery societies. These bodies vary in what they publish. A clean register entry is one verification step, not a quality guarantee.
+
+### 6. Accreditation systems
+
+The accreditation framework draws from the Joint Commission International (JCI), AAAASF (American Association for Accreditation of Ambulatory Surgery Facilities), the Joint Commission domestic US, and country-specific national accreditation bodies. The ISQua (International Society for Quality in Health Care) maintains a list of recognized accreditation bodies internationally. Accreditation evaluates systems, documentation, infection prevention, emergency preparedness, and patient rights — it is not a substitute for clinician credential verification.
+
+### 7. Medical devices, implants, and traceability
+
+The implant passport, UDI, and warranty framework reflects EU Medical Device Regulation (EU MDR) Article 18, the GS1 UDI framework, FDA medical device tracking, and manufacturer warranty programs (Mentor MentorPromise, Sientra Platinum20, Allergan ConfidencePlus and equivalents). BIA-ALCL surveillance recommendations draw from FDA, ASPS, and ISAPS guidance.
+
+### 8. Informed consent and patient rights
+
+The scripts on consent, plan changes, and the no-non-emergency-additions consent paragraph reflect widely recognized principles of informed consent: patients should understand the proposed procedure, material risks, benefits, alternatives, costs, and the option to decline. The principle that consent cannot be given under sedation is established in medical ethics literature and in the regulatory framework of nearly every country.
+
+### 9. Consumer protection, advertising, and influencer disclosure
+
+The sections on deposits, demonstration-case waivers, influencer claims, reviews, discounts, and urgency are informed by consumer-protection principles in the US (FTC endorsement guidelines) and equivalent frameworks elsewhere. Final legal claims and disclosure requirements should be checked against current rules in likely reader jurisdictions.
+
+### 10. Insurance, complication insurance, and payment disputes
+
+Insurance and payment guidance is operational rather than legal. The discussion of US WHCRA (Women's Health and Cancer Rights Act, 1998) post-mastectomy reconstruction coverage is drawn from the public statute and CMS guidance. UCR, alternate-benefit, and out-of-network reimbursement gaps reflect long-standing insurance practice. The distinction between travel medical insurance and cosmetic-tourism complication insurance reflects the current product landscape; specific provider names are not endorsed.
+
+### 11. Cross-border malpractice and legal recourse
+
+The complaint-and-recourse framework in Chapter 30 reflects general principles of cross-border medical malpractice: jurisdiction generally lies with the destination country, local counsel is required, statutes of limitations vary, and damages awarded are typically smaller than in US cases. Specific legal action should be discussed with counsel licensed in the relevant jurisdiction.
+
+### 12. Limits of online reviews and social media evidence
+
+Online reviews, before-and-after photographs, and social media testimonials can reveal patterns and questions to ask. They are weak evidence for individual clinical decision-making. This guide treats social media as a signal to investigate, not proof.
+
+### 13. Language, culture, and destination respect
+
+This guide avoids framing destination countries as inherently risky or inferior. Cosmetic surgery quality varies within countries, cities, clinics, and clinicians. The CDC Dominican Republic dataset is a structural finding (non-accredited facilities, combination procedures, comorbid patients) rather than a destination-essentialist conclusion. The relevant comparison is not "home good, abroad bad"; it is verified credentials versus unverified, accredited facility versus unaccredited, informed consent versus pressure, and practical follow-up versus wishful thinking.
+
+### 14. How readers should use source notes
+
+Use source notes to identify the kind of authority worth checking: public-health agencies for outcome data, national regulators for licensing, plastic surgery societies for clinical guidance, FDA and manufacturer programs for device traceability, insurers and card issuers for payment rules, and legal professionals for jurisdiction-specific disputes. When a decision is expensive, irreversible, or surgical, current professional guidance matters more than any general book summary.
+
+---
+
+## About Tabiji
+
+Tabiji creates practical field guides for high-stakes decisions people often make under pressure. The Tabiji approach is not to tell readers what to choose. It is to help them slow the decision down, collect the right documents, ask better questions, recognize pressure tactics, verify credentials, and preserve leverage.
+
+For cosmetic surgery, Tabiji's editorial position is the same one that organized the dental volume of this series, extended to a higher-stakes category: care abroad can be appropriate for some people, but a low advertised price is not enough information; a clinic's marketing funnel is not informed consent; verifiable surgeon and anesthesia provider credentials are not optional; and records, follow-up, and the ability to pause are part of the real value of care. The cosmetic-surgery volume takes additional explicit editorial positions (Chapter 28) on a small number of documented harm patterns where "ask better questions" framing is, in our judgment, insufficient.
+
+Tabiji does not rank clinics, sell patient leads, accept referral fees from surgeons or facilities, or provide medical, surgical, anesthesia, mental-health, legal, insurance, or financial advice. Any commercial relationship, sponsorship, affiliate link, or reviewer compensation in a future edition or companion resource will be clearly disclosed.
+
+**Companion site:** [tabiji.ai/book/cosmetic-surgery](https://tabiji.ai/book/cosmetic-surgery)
+
+Planned companion resources include downloadable worksheets, errata, edition updates, source-link redirects, reviewer notes, and a curated reading list of primary sources.
+
+---
+
+## About the Editor
+
+This guide was developed and edited by **Bernard Huang** for Tabiji.
+
+The editorial perspective is that of a consumer journalist, not a clinician. Bernard does not diagnose, treat, perform surgery, administer anesthesia, prescribe medication, or recommend procedures, and this book does not establish a professional relationship with any reader. The role of an editor of a field guide is different: to listen carefully to patients who have made these decisions — well and badly — to read what the surgical, anesthesia, mental-health, regulatory, and consumer-protection literatures say in plain language, to ask qualified professionals where the patient-level questions actually break down, and to organize what survives that filtering into a form a non-specialist can use under pressure.
+
+A field guide written from the buyer's seat is necessarily incomplete on the clinical side. It is also, when done well, more useful to the patient than clinical writing alone — because the patient is the only person in the room with continuous responsibility for the decision, and most clinical writing is not addressed to the patient.
+
+Bernard works on Tabiji field guides full-time. *The Cosmetic Surgery Field Guide* is Volume 2 in the Tabiji Field Guides series, following *The Dental Tourism Field Guide* (Volume 1, 2026). Comments, corrections, and suggestions for future editions are welcome at editor@tabiji.ai.
+
+---
+
+## Acknowledgments
+
+This guide exists because cosmetic surgery decisions are often made in the gap between what care costs at home and what people can access — and because that gap, for some procedures, has become more dangerous to cross than the marketing of the industry acknowledges. Many readers arrive at cosmetic surgery abroad after years of consideration, careful saving, and persistent personal goals. Others arrive after impulsive funnels they did not recognize. The guide is written for both.
+
+Tabiji thanks the patients, companions, board-certified plastic surgeons, anesthesiologists, certified registered nurse anesthetists, dermatologists, wound-care nurses, mental-health professionals, lymphatic-drainage therapists, coordinators, interpreters, public health researchers, regulators, malpractice attorneys, and consumer advocates whose public materials and lived experience shaped the questions in this book. Specific named reviewer acknowledgments will be added in subsequent editions with each reviewer's consent.
+
+We also acknowledge that bad outcomes are not abstractions. Behind every documented BBL death, every BIA-ALCL surveillance case, every complication treated in an emergency room after a return flight, and every revision pursued by a patient whose original surgeon was unreachable, is a person who deserved better preparation than the marketing of the industry provided. We acknowledge in particular the 93 U.S. citizens whose deaths in the Dominican Republic between 2009 and 2022 the CDC documented, and the broader population of patients harmed in less-documented circumstances. The purpose of this guide is not to scare readers away from care abroad or promote it as a shortcut. The purpose is to make the decision more documented, more consent-based, less vulnerable to pressure, and — where the documented evidence supports it — to recommend against specific patterns of care.
+
+Errors, omissions, or outdated links in the published edition should be reported through the companion site for review.
+
+---
+
+## Appendix Disclaimer
+
+This book is general educational material. It is not medical advice, surgical advice, anesthesia advice, mental-health advice, legal advice, insurance advice, financial advice, travel-safety advice, or a substitute for professional evaluation.
+
+Reading this book does not create a doctor-patient, surgeon-patient, anesthesiologist-patient, mental-health-clinician-patient, attorney-client, insurance-adviser, or fiduciary relationship with Tabiji, the editor, reviewers, publisher, or any contributor. No book can determine whether a cosmetic procedure is appropriate for a particular person. Diagnosis, surgical planning, medication decisions, anesthesia decisions, mental-health assessment, emergency care, and follow-up instructions must come from qualified professionals who can evaluate the individual patient in person.
+
+Cosmetic surgery can involve pain, infection, bleeding, hematoma, seroma, nerve injury, scarring, sensation changes, allergic reactions, anesthesia complications including aspiration and malignant hyperthermia, fat embolism (particularly with BBL), venous thromboembolism and pulmonary embolism, capsular contracture (with breast implants), implant rupture or migration, asymmetric or unsatisfactory cosmetic results, need for revision, prolonged recovery, post-operative depression and other mental-health responses, and other harms. Cosmetic surgery abroad can add language barriers, distance from the treating clinic, different legal systems, documentation challenges, insurance exclusions, accreditation gaps, and difficulty obtaining follow-up care. Combination procedures, BBL, large-volume liposuction, and surgery in non-accredited facilities carry particular caution per the documented evidence cited in this volume.
+
+The worksheets and scripts in this book are planning aids. They are meant to help readers ask questions, organize documents, verify credentials, compare quotes, screen for mental-health considerations, prepare a companion for their role, and preserve records. They do not tell readers which procedure to choose, which surgeon to use, which facility to trust, whether to travel, whether to fly after surgery, whether symptoms are urgent, or how to treat any condition. The BDDQ in Worksheet 12 is a screening tool, not a diagnostic instrument; a positive screen suggests evaluation by a licensed mental-health professional, not a self-diagnosis.
+
+Concerning symptoms after surgery — chest pain, shortness of breath, calf swelling or pain (possible DVT/PE), fever ≥ 101°F / 38.3°C, expanding redness, severe pain disproportionate to expected recovery, significant active bleeding, signs of severe infection, severe medication reactions, significant changes in mental status, breathing difficulty, sudden vision change, sudden unilateral weakness or speech difficulty, severe headache, or any other urgent concern — warrant immediate evaluation by qualified local emergency professionals. When in doubt, contact local emergency services (the number varies by country; 911 is the US number and may not apply in your destination) and the treating clinic; for serious complications, an accredited hospital with emergency services is the right destination, not the original cosmetic surgery clinic.
+
+The editorial positions in Chapter 28 reflect Tabiji's reading of the published evidence as of this edition. They are not claims that any specific clinic, surgeon, country, or procedure is unsafe in every case; they identify patterns where the documented harm rate is, in our judgment, sufficient to recommend against the pattern. The plastic-surgeon, anesthesiologist, mental-health, and malpractice-attorney reviewers consulted for this edition reviewed Chapter 28 specifically; their consent to inclusion does not constitute their endorsement of any other content.
+
+Regulations, licensing systems, professional titles, specialty board recognition, accreditation standards, medical device rules, insurance terms, travel requirements, and consumer-protection laws vary by jurisdiction and change over time. Readers should verify current information with relevant regulators, professional bodies, insurers, clinicians, travel authorities, and legal professionals before relying on it.
+
+Tabiji does not endorse any clinic, surgeon, anesthesia provider, mental-health clinician, destination, facilitator, insurer, implant manufacturer, medication, procedure, or treatment plan. Mention of a regulator, public agency, professional body, accreditation standard, or manufacturer warranty program in source notes does not imply endorsement of any particular product or provider associated with that organization.
+
+Readers are responsible for decisions. When in doubt, slow down, get the plan in writing, verify the surgeon and anesthesia provider, seek qualified independent advice, complete the BDDQ screen, prepare your companion, and do not consent to surgery you do not understand. The body is yours. The decision is yours. The book is the second pair of eyes.
+
+---
+
+
+
+
 
 
 
