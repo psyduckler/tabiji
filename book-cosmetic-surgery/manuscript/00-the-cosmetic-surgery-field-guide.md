@@ -209,7 +209,7 @@ Set a timer. Open your quote, your messages with the clinic, and a blank note. A
    Deposit, flights, extractions, financing, nonrefundable hotel, consent forms, social media agreement, demonstration-case rights, photo/video marketing rights. Each is a leverage decision.
 
 8. **Have you received at least one independent opinion?**
-   Not a comment thread. Not a clinic sales call. A qualified surgical professional who is not financially dependent on your travel booking. For cosmetic surgery specifically, this also includes a self-administered mental-health screening (see Worksheet 10 in the back matter) — a positive screen is a reason to pause and seek a qualified mental health professional, not a reason to feel judged.
+   Not a comment thread. Not a clinic sales call. A qualified surgical professional who is not financially dependent on your travel booking. For cosmetic surgery specifically, this also includes a self-administered mental-health screening (see Worksheet 12 in the back matter) — a positive screen is a reason to pause and seek a qualified mental health professional, not a reason to feel judged.
 
 #### The Minimum Message to Send Before You Commit
 
@@ -240,7 +240,7 @@ Pause before paying or traveling if:
 - The plan depends on "we will decide when you arrive" but the deposit and travel are nonrefundable.
 - You feel rushed by the clinic AND by your own family or partner.
 - A pre-op mental health screening was not offered or recommended.
-- You have answered "often" or "yes" to three or more items on the BDD self-screen (Worksheet 10) and have not yet had a mental health consultation.
+- You have answered "often" or "yes" to three or more items on the BDD self-screen (Worksheet 12) and have not yet had a mental health consultation.
 
 Hope is important. It is not enough to sign consent.
 
@@ -322,13 +322,13 @@ The map below shows the ten stages of a cosmetic-surgery-tourism journey in chro
 
 | Stage | When | Your leverage | Worksheets that help | Where leverage usually drops |
 |---|---|---|---|---|
-| 1. Before the search | Cost shock or aspirational pull at home | **Highest** | The Five Rules; The 20-Minute Safety Pause; Worksheet 10 (Pre-Op Mental Health Screening) | Confusing the desire to change with the readiness to commit |
+| 1. Before the search | Cost shock or aspirational pull at home | **Highest** | The Five Rules; The 20-Minute Safety Pause; Worksheet 12 (Pre-Op Mental Health Screening) | Confusing the desire to change with the readiness to commit |
 | 2. The funnel | First contact with a clinic | **High** | Worksheet 8 (Coordinator Log) | Sending records, then a deposit, before a written plan |
 | 3. Social proof | Reading reviews and watching reels | **High** | Decision Gate at end of Ch 3 | Letting reels answer questions reels cannot answer |
 | 4. Destination fit | Choosing where to go | **High** | Destination Fit Scorecard (Ch 4) | Choosing on price or popularity rather than surgical fit |
 | 5. The quote | Comparing proposals | **High** | Worksheets 1, 2 (True Cost; Quote Comparison) | Comparing prices instead of complete surgical plans |
 | 6. The deposit | Reserving operating-room dates | **Begins to fall** | Worksheet 3 (Deposit Checklist) | Paying before written terms; nonrefundable hotels |
-| 7. Travel and arrival | Examination and revised plan | **Falling** | Worksheet 12 (Plan Change Script) | Approving more procedures under chair pressure |
+| 7. Travel and arrival | Examination and revised plan | **Falling** | Worksheet 11 (Plan Change Script) | Approving more procedures under chair pressure |
 | 8. The chair | Day of surgery | **Lowest** | Worksheets 9 (Surgical Record), 11 (Day-of-Procedure Checklist) | Consenting to changes while sedated |
 | 9. Departure | Last clinic visit, leaving the country | **Limited but real** | Worksheets 13, 14 (Before Leaving; Records Packet) | Leaving without complete records or implant cards |
 | 10. The return home | Recovery, follow-up, maintenance | **Recovering** | Worksheets 15, 16, 17 (Follow-Up Care Script; Companion Responsibility; Emergency Contact) | No home plastic surgeon arranged before complications appear |
@@ -420,7 +420,7 @@ Aisha had not yet had a phone call with a doctor when she paid her deposit. The 
 Cosmetic surgery decisions involve three different questions that emotional momentum tends to merge.
 
 1. **Should I have this procedure at all?**
-   This is a personal and clinical question. It involves your reasons, your expectations, your medical history, and a qualified clinician's in-person assessment. The book cannot answer it for you. A self-administered mental-health screen (Worksheet 10) is part of how to ask it well.
+   This is a personal and clinical question. It involves your reasons, your expectations, your medical history, and a qualified clinician's in-person assessment. The book cannot answer it for you. A self-administered mental-health screen (Worksheet 12) is part of how to ask it well.
 
 2. **If I have it, where should I have it?**
    This is the buyer-protection question this book is mostly about. It involves surgeon credentials, facility accreditation, recovery realities, follow-up access, and the documented harm patterns associated with specific procedure-destination combinations.
@@ -939,7 +939,7 @@ Ask:
 
 Some patients enjoy unfamiliar places. Others find them stressful. Some can advocate firmly in a clinical setting. Others freeze when authority figures speak quickly.
 
-Cosmetic surgery has an additional personal-fit dimension dental does not: body-image stability. Surgery is more likely to result in satisfaction when the patient enters the decision from a stable emotional baseline, with realistic expectations, and with adequate support. The book's mental-health pre-op screening worksheet (Worksheet 10) is part of how to assess this honestly.
+Cosmetic surgery has an additional personal-fit dimension dental does not: body-image stability. Surgery is more likely to result in satisfaction when the patient enters the decision from a stable emotional baseline, with realistic expectations, and with adequate support. The book's mental-health pre-op screening worksheet (Worksheet 12) is part of how to assess this honestly.
 
 Ask yourself:
 
@@ -2015,7 +2015,7 @@ This can feel intimidating. It is tempting either to ignore the subject complete
 
 The tone matters. You are not accusing the clinic of unsafe practice. You are saying, "Because I am traveling for surgery and will need follow-up elsewhere, I want to understand your safety and traceability process."
 
-The data behind why this matters is not abstract. The Centers for Disease Control and Prevention has documented outbreaks of *Mycobacterium abscessus* infections — a slow-growing nontuberculous mycobacterium that causes serious post-surgical wound infections — among patients who underwent cosmetic surgery in the Dominican Republic. The same CDC report documenting 93 U.S. citizen deaths from cosmetic surgery in that country between 2009 and 2022 also documents the infection patterns. The book is reporting documented public-health data, not making categorical claims about any country. The pattern matters because it is the kind of pattern good infection control prevents.
+The data behind why this matters is not abstract. The Centers for Disease Control and Prevention has documented outbreaks of *Mycobacterium abscessus* infections — a rapidly growing nontuberculous mycobacterium that causes serious post-surgical wound infections — among patients who underwent cosmetic surgery in the Dominican Republic. The same CDC reporting line that documented 93 U.S. citizen deaths from cosmetic surgery in that country between 2009 and 2022 also documents the infection patterns. The book is reporting documented public-health data, not making categorical claims about any country. The pattern matters because it is the kind of pattern good infection control prevents.
 
 ### Clean is not the same as sterile
 
