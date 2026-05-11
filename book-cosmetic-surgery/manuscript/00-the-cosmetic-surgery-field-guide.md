@@ -51,9 +51,9 @@ A practical buyer-protection guide for adults considering cosmetic surgery or ha
 - Chapter 15 — The Procedure Travel Complexity Ladder
 - Chapter 16 — The Body Transformation Package Pattern
 - Chapter 17 — Health History, Medications, Allergies
-- Chapter 18 — Anesthesia Is the Leading Cause of Cosmetic Surgery Deaths Abroad
-- Chapter 19 — Mental Health Pre-Op Screening
-- Chapter 20 — Before You're Wheeled In: Day-of-Procedure Leverage Checklist
+- Chapter 18 — Anesthesia Is the Single Highest-Stakes Variable
+- Chapter 19 — Mental-Health Pre-Op Screening
+- Chapter 20 — Before You're Wheeled In: The Day-of-Procedure Leverage Checklist
 - Chapter 21 — If the Plan Changes After You Arrive
 
 **Part VI — Recovery and Coming Home**
@@ -64,8 +64,8 @@ A practical buyer-protection guide for adults considering cosmetic surgery or ha
 - Chapter 26 — The Surgical Records Packet
 - Chapter 27 — Arranging Follow-Up Care at Home
 
-**Part VII — Procedure-Specific Cautions and What to Do When Things Go Wrong**
-- Chapter 28 — Procedures We Recommend Against Having Abroad in Low-Regulation Settings
+**Part VII — When the Pattern Is the Risk: What to Avoid, What to Refuse, How to Recover, and How to Help**
+- Chapter 28 — Procedures and Patterns We Recommend Against in Low-Regulation Settings
 - Chapter 29 — Warning Signs in the OR and Recovery — Non-Negotiable Rules
 - Chapter 30 — Complaints, Chargebacks, Legal Recourse, and Documentation
 - Chapter 31 — Helping a Parent, Spouse, or Friend
@@ -75,7 +75,7 @@ A practical buyer-protection guide for adults considering cosmetic surgery or ha
 - Final Note — What Prepared Looks Like
 
 **Back Matter**
-- Worksheets and Scripts (1–18)
+- Worksheets and Scripts (1–19)
 - Glossary
 - Source Notes and Further Reading
 - About Tabiji
@@ -105,7 +105,7 @@ Throughout the book, you will see composite scenarios. These are clearly labeled
 
 Cosmetic surgery abroad can work for some patients. It can also create problems that are expensive, painful, disfiguring, or — in documented cases — fatal. The data the book draws on, especially the Centers for Disease Control and Prevention's documentation of cosmetic surgery deaths in certain destinations, is sobering. Preparation cannot guarantee success, but poor preparation can make problems harder to prevent, explain, or resolve. Documentation, pacing, second opinions, mental-health honesty with yourself, and the willingness to walk away from a rushed deal matter more here than in almost any other consumer market.
 
-A through-line runs through the chapters. You will meet patients — Aisha, charmed by an Instagram transformation reel; Marcus, drawn into a friendly hair-transplant funnel; Robert, approved for combination procedures his medical history should have caused a surgeon to refuse; and others — who lost leverage in different ways. At the close of the book you will meet Iris, a composite who applied the framework at every stage and arrived home with a single well-chosen rhinoplasty, complete records, and an outcome she could live with. She is not luckier than the others. She did the work this book describes, in the order it describes it.
+A through-line runs through the chapters. You will meet patients — Aisha, charmed by an Instagram transformation reel; Marcus, drawn into a friendly hair-transplant funnel; Robert, approved for combination procedures his medical history should have caused a surgeon to refuse; and other composite patients introduced in later chapters — who lost leverage in different ways. At the close of the book you will meet Iris, a composite who applied the framework at every stage and arrived home with a single well-chosen rhinoplasty, complete records, and an outcome she could live with. She is not luckier than the others. She did the work this book describes, in the order it describes it.
 
 The worksheets, scripts, and frameworks Iris used are also available — free, printable, and updateable — at [tabiji.ai/book/cosmetic-surgery](https://tabiji.ai/book/cosmetic-surgery). If a deposit is due tomorrow and you would rather have them on your phone than write in this book, that is where to find them.
 
@@ -240,11 +240,13 @@ Pause before paying or traveling if:
 - The plan depends on "we will decide when you arrive" but the deposit and travel are nonrefundable.
 - You feel rushed by the clinic AND by your own family or partner.
 - A pre-op mental health screening was not offered or recommended.
-- You have answered "often" or "yes" to three or more items on the BDD self-screen (Worksheet 12) and have not yet had a mental health consultation.
+- You have scored positive on the BDD self-screen (Worksheet 12) and have not yet had a mental-health consultation.
 
 Hope is important. It is not enough to sign consent.
 
-<!-- PULL QUOTE — designer: extract the previous sentence as an oversized centered sidebar callout on this spread. -->
+::: {.pullquote}
+Hope is important. It is not enough to sign consent.
+:::
 
 ---
 
@@ -327,11 +329,11 @@ The map below shows the ten stages of a cosmetic-surgery-tourism journey in chro
 | 3. Social proof | Reading reviews and watching reels | **High** | Decision Gate at end of Ch 3 | Letting reels answer questions reels cannot answer |
 | 4. Destination fit | Choosing where to go | **High** | Destination Fit Scorecard (Ch 4) | Choosing on price or popularity rather than surgical fit |
 | 5. The quote | Comparing proposals | **High** | Worksheets 1, 2 (True Cost; Quote Comparison) | Comparing prices instead of complete surgical plans |
-| 6. The deposit | Reserving operating-room dates | **Begins to fall** | Worksheet 3 (Deposit Checklist) | Paying before written terms; nonrefundable hotels |
+| 6. The deposit | Reserving operating-room dates | **Begins to fall** | Worksheet 3 (Deposit Readiness Test) | Paying before written terms; nonrefundable hotels |
 | 7. Travel and arrival | Examination and revised plan | **Falling** | Worksheet 11 (Plan Change Script) | Approving more procedures under chair pressure |
-| 8. The chair | Day of surgery | **Lowest** | Worksheets 9 (Surgical Record), 11 (Day-of-Procedure Checklist) | Consenting to changes while sedated |
-| 9. Departure | Last clinic visit, leaving the country | **Limited but real** | Worksheets 13, 14 (Before Leaving; Records Packet) | Leaving without complete records or implant cards |
-| 10. The return home | Recovery, follow-up, maintenance | **Recovering** | Worksheets 15, 16, 17 (Follow-Up Care Script; Companion Responsibility; Emergency Contact) | No home plastic surgeon arranged before complications appear |
+| 8. The chair | Day of surgery | **Lowest** | Worksheets 9 (Implant Passport), 10 (Day-of-Procedure Checklist) | Consenting to changes while sedated |
+| 9. Departure | Last clinic visit, leaving the country | **Limited but real** | Worksheets 14, 15 (Before Leaving; Records Packet) | Leaving without complete records or implant cards |
+| 10. The return home | Recovery, follow-up, maintenance | **Recovering** | Worksheets 13, 17, 18 (Companion Responsibility; Follow-Up Care Script; Emergency Contact) | No home plastic surgeon arranged before complications appear |
 
 The chapters that follow walk through each stage in order. If you are deep in one already, you can read out of sequence — but the earlier chapters describe the leverage you may still have, even from a worse starting position.
 
@@ -457,7 +459,9 @@ Aisha's mistake was not searching abroad. Her mistake would have been confusing 
 
 The moment you feel rescued, or the moment you feel chosen by a transformation image, is the moment to ask better questions.
 
-<!-- PULL QUOTE — designer: extract the previous sentence as an oversized centered sidebar callout on this spread. -->
+::: {.pullquote}
+The moment you feel rescued, or the moment you feel chosen by a transformation image, is the moment to ask better questions.
+:::
 
 ---
 
@@ -819,7 +823,9 @@ Replace those thoughts with:
 
 Photos cannot show what your bone, skin, and underlying tissue will do.
 
-<!-- PULL QUOTE — designer: extract the previous sentence as an oversized centered sidebar callout on this spread. -->
+::: {.pullquote}
+Photos cannot show what your bone, skin, and underlying tissue will do.
+:::
 
 ---
 
@@ -1142,7 +1148,9 @@ The purpose of a walk-away number is not to be rigid in the face of new clinical
 
 The cheapest complication is the one avoided before boarding.
 
-<!-- PULL QUOTE — designer: extract the previous sentence as an oversized centered sidebar callout on this spread. -->
+::: {.pullquote}
+The cheapest complication is the one avoided before boarding.
+:::
 
 ---
 
@@ -1229,7 +1237,7 @@ For any cosmetic surgery involving an implant — breast, gluteal, chin, calf, p
 - **Specific model and product line**
 - **Size** (volume in cc for breast; profile or projection where applicable)
 - **Surface texture** (smooth, textured, microtextured — with specific note that some textured implants have been associated with rare BIA-ALCL lymphoma; some Allergan Biocell textured implants were recalled in 2019)
-- **Manufacturer warranty terms** (Mentor's Promise Protection Plan, Sientra's warranty, Allergan/Natrelle's Confidence Plus)
+- **Manufacturer warranty terms** (Mentor MentorPromise, Sientra Platinum20, Allergan ConfidencePlus)
 - **Whether the manufacturer's patient-identification card will be provided to you at surgery** (this is required by FDA for US-sold implants and by many international regulators for implants sold under their jurisdiction)
 
 A clinic that names "premium European implants" without specifying manufacturer is giving you marketing language, not a brand. A clinic that cannot tell you in advance which specific product will be used is asking you to consent to something they have not committed to.
@@ -1593,9 +1601,9 @@ Most countries with developed surgical systems publish a national plastic surger
 
 Two international organizations are worth knowing about, because membership is a meaningful (though not sufficient) credential signal:
 
-**ISAPS (International Society of Aesthetic Plastic Surgery)** is widely respected. ISAPS membership requires the surgeon to be certified by their country's national plastic surgery board AND to be endorsed by existing ISAPS members. ISAPS certification is a reasonable proxy for "this surgeon is recognized as legitimate by the international plastic surgery community."
+**ISAPS (International Society of Aesthetic Plastic Surgery)** is widely respected. ISAPS membership requires the surgeon to be certified by their country's national plastic surgery board AND to be endorsed by existing ISAPS members. ISAPS membership is a reasonable proxy for "this surgeon is recognized as legitimate by the international plastic surgery community."
 
-**IPRAS (International Confederation for Plastic, Reconstructive and Aesthetic Surgery)** is a federation of national societies. IPRAS membership through the surgeon's national society is also a credential signal.
+**IPRAS (International Confederation for Plastic, Reconstructive, and Aesthetic Surgery)** is a federation of national societies. IPRAS membership through the surgeon's national society is also a credential signal.
 
 A surgeon who is ISAPS-member or IPRAS-affiliated, AND board-certified in their country of practice, AND practicing in a JCI-accredited (or equivalent) facility is showing three independent quality signals. None of these guarantees a good outcome. Their absence is a meaningful warning.
 
@@ -2128,7 +2136,7 @@ This is why implant documentation deserves its own chapter. If you take only one
 
 ### Composite Scenario H: The Implant Without a Card
 
-Carmen, forty-eight, traveled abroad for breast augmentation. The clinic did the surgery. The recovery went well. Three years later, one breast began to feel different — slightly firmer, a small change in shape. Her dentist at home referred her to a local plastic surgeon. The surgeon asked what implant system had been used.
+Carmen, forty-eight, traveled abroad for breast augmentation. The clinic did the surgery. The recovery went well. Three years later, one breast began to feel different — slightly firmer, a small change in shape. Her primary care physician referred her to a local plastic surgeon. The surgeon asked what implant system had been used.
 
 Carmen searched her email. She found the original quote: "smooth round silicone implants, 350cc, premium quality." She found the invoice: "breast augmentation package, all-inclusive." She did not find a manufacturer name, a model, a serial number, or a manufacturer-issued patient identification card.
 
@@ -2166,9 +2174,9 @@ The cosmetic surgery implants you may encounter:
 
 For breast implants specifically, three manufacturer warranty programs are worth knowing about:
 
-- **Mentor Promise Protection Plan** — generally provides lifetime coverage for implant rupture or deflation, with up to two replacement implants at no charge to the patient
-- **Sientra warranty** — patient receives a Patient Device Identification card with serial number; warranty terms vary by product line
-- **Allergan/Natrelle Confidence Plus** — warranty program with specific terms; note that some Allergan Biocell textured implants were recalled in 2019 due to BIA-ALCL concerns
+- **Mentor MentorPromise** — generally provides lifetime coverage for implant rupture or deflation, with up to two replacement implants at no charge to the patient
+- **Sientra Platinum20** — patient receives a Patient Device Identification card with serial number; warranty terms vary by product line
+- **Allergan ConfidencePlus** — warranty program with specific terms; note that some Allergan Biocell textured implants were recalled in 2019 due to BIA-ALCL concerns
 
 These manufacturer warranties are honored regardless of where the implant was placed, as long as the patient has documentation of the specific implant. Without the documentation — manufacturer name, model, serial number, surgery date — the warranty becomes much harder to use.
 
@@ -2231,7 +2239,9 @@ Implant packages often advertise warranties. A warranty may sound comforting, bu
 
 A lifetime warranty with no written terms is not a warranty; it is a slogan.
 
-<!-- PULL QUOTE — designer: extract the previous sentence as an oversized centered sidebar callout on this spread. -->
+::: {.pullquote}
+A lifetime warranty with no written terms is not a warranty; it is a slogan.
+:::
 
 Ask:
 
@@ -2715,7 +2725,7 @@ Submit claims promptly. Keep copies of everything. If denied, ask for the reason
 
 ### The repair and revision fund
 
-Cosmetic surgery revisions are common. Reported revision rates vary by procedure and source, but published ranges include rhinoplasty roughly 5–15%, breast augmentation roughly 10–20% within ten years (often for capsular contracture or implant rupture), and BBL with meaningful rates of fat resorption requiring touch-up. Hair restoration commonly requires additional sessions to reach density goals. These are not failures of the original surgeon in every case; some revision is built into the long-term reality of these procedures.
+Cosmetic surgery revisions are common. Reported revision rates vary by procedure and source, but published ranges include rhinoplasty roughly 10–15% even in experienced hands, breast augmentation roughly 10–20% within ten years (often for capsular contracture or implant rupture), and BBL with meaningful rates of fat resorption requiring touch-up. Hair restoration commonly requires additional sessions to reach density goals. These are not failures of the original surgeon in every case; some revision is built into the long-term reality of these procedures.
 
 Build a repair fund after surgery. It does not need to be dramatic. Set aside money for follow-up imaging, local evaluations, garment replacements, scar treatments, possible revision, and at least one return trip if warranty work is genuinely worthwhile. For implant cases, ask the surgeon for a recommended surveillance schedule (MRI or ultrasound for breast implants per FDA guidance) and likely costs over five and ten years.
 
@@ -2970,7 +2980,7 @@ If you smoke or vape, disclose honestly at the consultation, not on the day of s
 
 ### BMI and surgical risk
 
-BMI is a blunt clinical tool, but in cosmetic surgery it correlates with several specific risks: longer operative time, higher blood loss, slower wound healing, higher infection rate, higher venous thromboembolism (VTE) risk, and — in BBL specifically — higher mortality. Many cosmetic surgeons have BMI cutoffs above which they decline certain procedures, particularly BBL and abdominoplasty. These cutoffs vary; ASPS guidance recommends caution above BMI 30 for BBL specifically.
+BMI is a blunt clinical tool, but in cosmetic surgery it correlates with several specific risks: longer operative time, higher blood loss, slower wound healing, higher infection rate, higher venous thromboembolism (VTE) risk, and — in BBL specifically — higher mortality. Many cosmetic surgeons have BMI cutoffs above which they decline certain procedures, particularly BBL and abdominoplasty. These cutoffs vary across practices; many surgeons publish BBL cutoffs in the BMI 30 range, citing the documented mortality data, but specific thresholds are practice-level decisions rather than a single published professional-society number.
 
 A clinic that does not weigh you, does not record height, or does not discuss BMI as part of candidacy is not following standard preoperative screening. A clinic that records BMI but accepts cases well above their published cutoff for the right deposit is choosing revenue over screening.
 
@@ -3306,7 +3316,7 @@ Your trip is not the sunk cost. Your body is the durable asset. The trip can be 
 
 Diane is 39. She came for a tummy tuck and a breast lift — two procedures, discussed at length in pre-trip consults, quoted at one price, with the same surgeon she has video-called twice. After the in-person exam on the morning of her arrival day, the surgeon tells her that "while we are in there," she should also have liposuction of her flanks and a fat transfer to the breast pocket. Same surgical date, same anesthesia session, an additional total of about $4,200, "and we can use the financing." The coordinator is already pulling up the consent form.
 
-Diane took notes in her phone before this trip. She knows her walk-away number from Chapter 5. She knows the plan-change five-step from Chapter 13. She knows that the moment a coordinator pulls up a consent form for an unsigned addition is the moment the leverage starts disappearing if she does not slow it down.
+Diane took notes in her phone before this trip. She knows her walk-away number from Chapter 5. She knows the plan-change framework from Chapter 13. She knows that the moment a coordinator pulls up a consent form for an unsigned addition is the moment the leverage starts disappearing if she does not slow it down.
 
 She says:
 
@@ -3318,9 +3328,9 @@ That evening, Diane reads the addendum twice. She calls her sister in the US. Sh
 
 That is the working version of a plan change. The surgeon makes a recommendation. The patient pauses. The patient decides. Both parties accept the patient's decision.
 
-### The same five-step framework, with cosmetic stakes
+### The same framework, with cosmetic stakes
 
-The five-step plan-change framework from Chapter 13 applies here. The cosmetic stakes change some of the language, but the structure is the same.
+The plan-change framework from Chapter 13 applies here. The cosmetic stakes change some of the language, but the structure is the same.
 
 1. **Ask for the new findings in writing.** What changed clinically? What imaging or examination finding supports the change?
 2. **Identify the type of change.** Is this a scope addition (new procedure), a volume change (more implant, more fat, more skin removal), a combination expansion (one procedure becoming several), a candidacy downgrade (BMI, blood work, anesthesia), an implant substitution (different brand or size than agreed), or a surgeon substitution (different operator than agreed)? Each has a different appropriate response.
@@ -4054,7 +4064,7 @@ Every entry on this list is grounded in published evidence cited in the Source N
 
 ### 1. BBL with intramuscular fat injection — anywhere
 
-The Brazilian Butt Lift — fat transfer from one part of the body to the buttock — is the highest-mortality cosmetic procedure documented in the published literature. Mortality estimates from studies of board-certified plastic surgeons range from approximately one in three thousand to one in six thousand BBL procedures, with the cause-of-death pattern dominated by pulmonary fat embolism from intramuscular fat injection. The American Society of Plastic Surgeons has issued repeated guidance on BBL safety. *(Sources: South Florida BBL Mortality data; ASPS BBL safety guidance 2018 and 2019; cited in Source Notes.)*
+The Brazilian Butt Lift — fat transfer from one part of the body to the buttock — is the highest-mortality cosmetic procedure documented in the published literature. Published mortality estimates range from approximately 1 in 3,000 to 1 in 6,241 BBL procedures, with the cause-of-death pattern dominated by pulmonary fat embolism from intramuscular fat injection. The American Society of Plastic Surgeons has issued repeated guidance on BBL safety. *(Sources: South Florida BBL Mortality data; ASPS BBL safety guidance 2018 and 2019; cited in Source Notes.)*
 
 The technique distinction matters. BBL performed with strict subcutaneous fat injection (no intramuscular placement), under ultrasound guidance, by a board-certified plastic surgeon with documented training in this technique, in an accredited facility, has substantially better safety data — published series of ultrasound-guided BBL by experienced practitioners report dramatically lower mortality, with some series reporting zero fatalities. The same procedure with blind intramuscular fat injection — the pattern most often associated with the documented deaths — is a different procedure clinically, even though the marketing label is the same.
 
@@ -4068,7 +4078,7 @@ Combination compounds risk in several ways: total anesthesia time is longer, tot
 
 **Our recommendation:** Do not combine BBL with abdominoplasty, breast surgery, or other major procedures in a single surgical session. If the goal is multiple procedures, stage them across separate trips with full recovery between. A clinic that pushes back on staging — particularly one that offers a combination discount — is recommending the riskier pattern for a commercial reason.
 
-### 3. BBL or large-volume liposuction in non-accredited facilities, particularly with the Dominican Republic pattern documented by CDC
+### 3. BBL or large-volume liposuction in non-accredited ambulatory facilities (the pattern documented by the CDC mortality data)
 
 The CDC Dominican Republic series is a geographic dataset, but the conclusion is not geographic. It is structural. The deaths concentrated in non-accredited ambulatory facilities, in combination procedures, on patients with comorbidities, performed by surgeons whose individual safety records were variable. Several of the documented deaths involved facilities that re-opened under new names after prior incidents.
 
@@ -4392,23 +4402,23 @@ Iris is 45. She has wanted a rhinoplasty for two decades — not the way she has
 
 She decides, on her forty-fifth birthday, to begin the process. She is in no hurry.
 
-She starts where Chapter 4 told her to start: with the procedure, not the destination. She identifies rhinoplasty specialists in three countries — Spain, South Korea, and Mexico — based on ISAPS membership, board certification verifiable in the destination country, and published case series in peer-reviewed journals. She is looking for surgeons whose published work is concentrated in rhinoplasty, not surgeons who advertise rhinoplasty alongside ten other procedures.
+She starts where Chapter 4 told her to start: with the procedure, not the destination. She identifies rhinoplasty specialists in three different countries based on ISAPS membership, board certification verifiable in the destination country's official register, and published case series in peer-reviewed journals. She is looking for surgeons whose published work is concentrated in rhinoplasty, not surgeons who advertise rhinoplasty alongside ten other procedures.
 
-She narrows to two surgeons after telehealth consults. Both review her photographs and her concerns; both quote a procedure consistent with what her US consults proposed; both have clean records in their countries' registries. She chooses the Spanish surgeon — Dr. R. — for reasons that include the surgeon's tone in the consult (specific, measured, willing to explain the limits of the technique), the facility's JCI accreditation, the surgeon's published series on dorsal-hump reduction techniques, and her sister's willingness to travel with her as companion.
+She narrows to two surgeons after telehealth consults. Both review her photographs and her concerns; both quote a procedure consistent with what her US consults proposed; both have clean records in their countries' registries. She chooses the surgeon — Dr. R. — for reasons that include the surgeon's tone in the consult (specific, measured, willing to explain the limits of the technique), the facility's JCI accreditation, the surgeon's published series on dorsal-hump reduction techniques, and her sister's willingness to travel with her as companion.
 
 She does not take the demonstration-case discount offered. She reads the waiver, finds it has no time cap, declines.
 
 She does the BDDQ screen (Chapter 19). She scores negative. She does the expectation-calibration questions and writes down her answers in her own words. She brings the answers with her to the in-person consult.
 
-She arrives in Madrid four days before the surgery. The buffer is not a vacation. It is time to meet Dr. R. in person, to do the labs, to meet the anesthesiologist by name, to walk the facility, and to sleep in a time zone she will be operating in. The in-person exam adjusts the plan slightly — Dr. R. recommends slightly less tip refinement than originally discussed, citing the supporting cartilage structure visible on examination. Iris reviews the revised plan that evening with her sister. She accepts the change. She signs consent the morning of surgery, not under pressure.
+She arrives four days before the surgery. The buffer is not a vacation. It is time to meet Dr. R. in person, to do the labs, to meet the anesthesiologist by name, to walk the facility, and to sleep in a time zone she will be operating in. The in-person exam adjusts the plan slightly — Dr. R. recommends slightly less tip refinement than originally discussed, citing the supporting cartilage structure visible on examination. Iris reviews the revised plan that evening with her sister. She accepts the change. She signs consent the morning of surgery, not under pressure.
 
-The anesthesiologist — Dr. M., named on her consent form, registered in Spain's official register, with twelve years of experience in office-based plastic surgery anesthesia — reviews her medication list one final time. Iris had stopped fish oil four weeks earlier on Dr. R.'s instruction. She had her last drink of alcohol nine days ago. Her blood pressure is well-controlled. The case is unremarkable. She is in the recovery room within ninety minutes.
+The anesthesiologist — Dr. M., named on her consent form, registered in the country's official register, with twelve years of experience in office-based plastic surgery anesthesia — reviews her medication list one final time. Iris had stopped fish oil four weeks earlier on Dr. R.'s instruction. She had her last drink of alcohol nine days ago. Her blood pressure is well-controlled. The case is unremarkable. She is in the recovery room within ninety minutes.
 
-She stays in Madrid for seven days before flying. Dr. R. sees her at day one, day three, and day six. She removes her external splint on day seven. She walks the city for an hour each afternoon — gentle, unforced. She journals. Her sister handles dinner reservations.
+She stays for seven days before flying. Dr. R. sees her at day one, day three, and day six. She removes her external splint on day seven. She walks the city for an hour each afternoon — gentle, unforced. She journals. Her sister handles dinner reservations.
 
-She flies home on day eight with a written discharge clearance, compression stockings, her records packet (operative report, anesthesia record, photographs in matching poses, materials list, scar-care instructions), her implant cards — not applicable for rhinoplasty, but the equivalent surgical materials list is in the packet — Dr. R.'s WhatsApp number for the next ninety days, and a follow-up scheduled at home with a Boston-area reconstructive plastic surgeon who agreed to see her two days after her return.
+She flies home on day eight with a written discharge clearance, compression stockings, her records packet (operative report, anesthesia record, photographs in matching poses, materials list, scar-care instructions), her implant cards — not applicable for rhinoplasty, but the equivalent surgical materials list is in the packet — Dr. R.'s WhatsApp number for the next ninety days, and a follow-up scheduled in her home city with a reconstructive plastic surgeon who agreed to see her two days after her return.
 
-The Boston surgeon evaluates her at day ten, reviews the records, notes the swelling pattern, and clears her to return to office work the following week. At three weeks she is back to running. At three months, her sister tells her that the change is hard to see when looking at her face-on. The profile is what Iris wanted. The dorsal line is straight. The tip is subtly refined. The result is unobtrusive — which is what she wanted.
+The home surgeon evaluates her at day ten, reviews the records, notes the swelling pattern, and clears her to return to office work the following week. At three weeks she is back to running. At three months, her sister tells her that the change is hard to see when looking at her face-on. The profile is what Iris wanted. The dorsal line is straight. The tip is subtly refined. The result is unobtrusive — which is what she wanted.
 
 At twelve months, Iris pulls up her departure-day photographs and her one-year photographs side by side. The change is exactly what she set out to do, and no more. She does not consider further procedures. She returns to her life.
 
@@ -4430,7 +4440,7 @@ A prepared patient, before the deposit, has:
 
 - a clear procedure in mind, separated from the destination;
 - a walk-away number;
-- a verified surgeon, an verified anesthesia provider, and a verified facility;
+- a verified surgeon, a verified anesthesia provider, and a verified facility;
 - an independent second opinion;
 - a written, surgeon-signed plan;
 - a deposit policy and refund terms in writing;
@@ -4572,7 +4582,7 @@ The advertised procedure price is not the trip cost. Use this worksheet to estim
 
 **Repair and revision fund**
 
-Even excellent cosmetic surgery may require revision. Reported revision rates: rhinoplasty 5–15%, breast augmentation 10–20% within ten years, BBL with variable fat resorption, hair restoration commonly multi-session. Budget separately.
+Even excellent cosmetic surgery may require revision. Reported revision rates: rhinoplasty 10–15% even in experienced hands, breast augmentation 10–20% within ten years, BBL with variable fat resorption, hair restoration commonly multi-session. Budget separately.
 
 - Repair/revision reserve considered: ______________________________
 - Personal reserve chosen: ______________________________
@@ -4942,8 +4952,8 @@ If you receive implants — breast, gluteal, cheek, chin, calf, pectoral, or oth
 - ☐ Implant labels, manufacturer barcode stickers, and original packaging photograph
 - ☐ Pre-operative and post-operative imaging
 - ☐ Pathology report (if any tissue was sent — required for any case involving breast tissue removal or capsular tissue)
-- ☐ Long-term surveillance schedule (FDA recommends breast implant MRI or ultrasound at 5–6 years and every 2–3 years thereafter)
-- ☐ Signs of complication to watch for (BIA-ALCL surveillance signs for textured breast implants)
+- ☐ Silent-rupture surveillance schedule for silicone breast implants (FDA recommends MRI or ultrasound at 5–6 years and every 2–3 years thereafter)
+- ☐ BIA-ALCL symptom-based surveillance for textured breast implants (separate from rupture surveillance; signs include late seroma, fluid collection, breast asymmetry, palpable mass)
 
 **Script:**
 
@@ -5266,10 +5276,10 @@ Create one folder named: `Cosmetic Surgery Records — [Your Name] — [Destinat
 
 Examples:
 
-- `2026-03-14 — Madrid Clinic — Quote — Rhinoplasty Plan.pdf`
-- `2026-03-22 — Madrid Clinic — Invoice — Deposit Receipt.pdf`
-- `2026-04-02 — Madrid Clinic — Operative Report — Surgeon Signed.pdf`
-- `2026-04-02 — Madrid Clinic — Implant Cards — Bilateral Augmentation.pdf`
+- `2026-03-14 — [Clinic Name] — Quote — Rhinoplasty Plan.pdf`
+- `2026-03-22 — [Clinic Name] — Invoice — Deposit Receipt.pdf`
+- `2026-04-02 — [Clinic Name] — Operative Report — Surgeon Signed.pdf`
+- `2026-04-02 — [Clinic Name] — Implant Cards — Bilateral Augmentation.pdf`
 
 **Storage:** physical binder at home (ideally fireproof), personal cloud with two-factor, and one copy with a trusted family member or attorney. Implant card photographs also in your phone's photo library, labeled clearly.
 
@@ -5556,7 +5566,7 @@ Use this page at four moments: before deposit, before travel, before treatment b
 
 **GLP-1 agonists** — Semaglutide (Ozempic, Wegovy), tirzepatide (Mounjaro, Zepbound), liraglutide. The American Society of Anesthesiologists recommends holding weekly GLP-1 agonists at least one week before elective surgery due to delayed gastric emptying and aspiration risk.
 
-**Hair restoration / hair transplant** — Surgical transfer of hair follicles from a donor area (typically scalp posterior) to a recipient area. FUE (follicular unit extraction) and FUT (follicular unit transplantation) are the major techniques. Multiple sessions are often required.
+**Hair restoration / hair transplant** — Surgical transfer of hair follicles from a donor area (typically posterior scalp) to a recipient area. FUE (follicular unit extraction) and DHI (Direct Hair Implantation) are the dominant techniques in the international cosmetic-tourism market; FUT (follicular unit transplantation, the older strip-based method) is still used in some practices. Multiple sessions are often required.
 
 **Implant patient card** — Manufacturer-issued documentation listing implant manufacturer, model, size, lot, UDI, and anatomic location. Required under EU MDR Article 18 for implants placed in the EU; manufacturer warranty programs in the US issue equivalent documentation.
 
@@ -5600,7 +5610,7 @@ Use this page at four moments: before deposit, before travel, before treatment b
 
 **UCR (Usual, Customary, and Reasonable) rate** — A schedule used by US health insurers to calculate reimbursement for out-of-network or out-of-country services. A reimbursement that is "50% of UCR" is typically far below the foreign invoice amount.
 
-**Veneer** — A thin covering bonded to a tooth (cosmetic dentistry). Mentioned here only for clarity that the term is dental, not surgical — some readers come from the dental volume of this series and may search the glossary for it.
+**Veneer** — A dental term (a thin covering bonded to a tooth), not used in cosmetic surgery. Included here only because some readers may arrive from Volume 1 of this series and search the glossary for it.
 
 **Warranty registration** — The act of registering an implant with the manufacturer, usually at the time of placement, to activate the manufacturer's warranty program (Mentor MentorPromise, Sientra Platinum20, Allergan ConfidencePlus, and others). Without registration, warranty terms may not apply.
 
