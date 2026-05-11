@@ -65,7 +65,7 @@ First Edition — Data current as of 2026
 - Chapter 24 — Bariatric Surgery
 - Chapter 25 — Cosmetic Surgery and Hair Restoration
 - Chapter 26 — Reproductive Medicine (IVF)
-- Chapter 27 — Orthopedic Surgery
+- Chapter 27 — Orthopedic Surgery (Joint Replacement and Spine)
 - Chapter 28 — Cardiac Surgery
 - Chapter 29 — Oncology
 - Chapter 30 — Patterns We Recommend Against
@@ -108,7 +108,7 @@ If any of those is true, the book in your hand is the one we wrote for you.
 
 This is not a destination directory. It does not rank clinics, surgeons, countries, or facilitators. It does not tell you where to go or whom to see. It does not promise that medical tourism will solve your problem, and it does not warn you off it either. What it does is something narrower and more useful: it teaches you how to *think* about a healthcare decision that crosses an international border, before you commit money or time or a body to it.
 
-The book has a through-line. You will meet Marcus, a fifty-eight-year-old project manager from Denver who has been quoted twenty-two thousand dollars out of pocket for bilateral knee replacement and who is sitting at his kitchen table at eleven o'clock at night, on Reddit, trying to figure out what to do. You will meet Priya, a forty-seven-year-old engineer with a mother in Mumbai who needs a cardiac procedure that costs a fifth of the US price at a hospital her family has trusted for decades. You will meet Eleanor, sixty-four and recently retired, balancing four procedures against an HSA and a fixed income. You will meet Daniel, researching cataract surgery for his father with early dementia. You will meet Karen, whose mother just heard the words *stage three breast cancer*. At the close of the book, you will meet Maria, fifty-two, five years out from a bariatric surgery in Mexico that worked — and the framework that made it work for her.
+The book has a through-line. You will meet Marcus, a fifty-eight-year-old project manager from Denver who has been quoted twenty-two thousand dollars out of pocket for bilateral knee replacement and who is sitting at his kitchen table at eleven o'clock at night, on Reddit, trying to figure out what to do. You will meet Priya, a forty-seven-year-old engineer with a mother in Mumbai who needs a cardiac procedure that costs a fifth of the US price at a hospital her family has trusted for decades. You will meet Eleanor, sixty-five and recently retired, balancing four procedures against an HSA and a fixed income. You will meet Daniel, researching cataract surgery for his father with early dementia. You will meet Karen, whose mother just heard the words *stage three breast cancer*. At the close of the book, you will meet Maria, fifty-two, five years out from a bariatric surgery in Mexico that worked — and the framework that made it work for her.
 
 None of these people are real. All of these people are composites, drawn from documented patterns in CDC data, peer-reviewed surgical outcome studies, professional society guidance, and the experience of patients who have made these decisions well and badly. None of the scenarios show a patient dying or being permanently disabled. The book is a buyer-protection field guide; the scenarios are near-misses and successful trips, not horror stories.
 
@@ -126,15 +126,15 @@ The work the book asks of you is real but finite. The work it saves you, on the 
 
 This book is general educational material. It is not medical advice, surgical advice, anesthesia advice, mental-health advice, legal advice, insurance advice, financial advice, travel-safety advice, or a substitute for professional evaluation. Reading this book does not create a doctor-patient, attorney-client, insurance-adviser, or fiduciary relationship with Tabiji, the editor, reviewers, publisher, or any contributor.
 
-The book covers medical tourism across many procedure categories — dental, cosmetic surgery, hair restoration, orthopedic surgery, bariatric surgery, cardiac surgery, ophthalmology, reproductive medicine, oncology, diagnostic and preventive care. Each category has its own risk profile. Cosmetic surgery can involve fat embolism (particularly associated with gluteal fat transfer / Brazilian Butt Lift), capsular contracture, BIA-ALCL surveillance considerations, anesthesia complications including aspiration and malignant hyperthermia, and post-operative mental health responses. Cardiac surgery can involve perioperative mortality, valve-prosthesis failure, anticoagulation management issues, and rare but real intraoperative complications. Bariatric surgery can involve leaks, strictures, nutritional deficiencies, weight regain, and revision surgery. Orthopedic surgery can involve implant failure, DVT and pulmonary embolism, infection, and the need for revision. Oncology decisions made abroad can include continuity-of-care complications that meaningfully affect outcomes. The full risk picture of any procedure you are considering must come from a qualified clinician who has examined you in person.
+The book covers medical tourism across many procedure categories — dental, cosmetic surgery, hair restoration, orthopedic surgery, bariatric surgery, cardiac surgery, ophthalmology, reproductive medicine, oncology, diagnostic and preventive care. Each category has its own risk profile. Cosmetic surgery can involve fat embolism (particularly associated with gluteal fat transfer / Brazilian Butt Lift, or BBL), capsular contracture, BIA-ALCL (breast implant-associated anaplastic large cell lymphoma) surveillance considerations, anesthesia complications including aspiration and malignant hyperthermia, and post-operative mental health responses. Cardiac surgery can involve perioperative mortality, valve-prosthesis failure, anticoagulation management issues, and rare but real intraoperative complications. Bariatric surgery can involve leaks, strictures, nutritional deficiencies, weight regain, and revision surgery. Orthopedic surgery can involve implant failure, DVT and pulmonary embolism, infection, and the need for revision. Oncology decisions made abroad can include continuity-of-care complications that meaningfully affect outcomes. The full risk picture of any procedure you are considering must come from a qualified clinician who has examined you in person.
 
-The Centers for Disease Control and Prevention has documented patterns of harm in international medical care. Among these: 93 U.S. citizen deaths in the Dominican Republic between 2009 and 2022, with 92 percent involving gluteal fat transfer, primarily in non-accredited facilities (CDC MMWR 73(3)). The American Society of Plastic Surgeons has issued ongoing safety warnings about BBL mortality rates, which are estimated between 1 in 3,000 and 1 in 6,241 — the highest of any cosmetic procedure. The U.S. Food and Drug Administration has issued repeated warnings about unapproved stem-cell products marketed for cosmetic and chronic-disease indications. The U.S. State Department's annual Trafficking in Persons reports have documented organ-trafficking corridors. The U.S. National Cancer Institute has documented harm patterns from unapproved alternative cancer therapies. This book takes editorial positions on patterns where this documented evidence is sufficient that "ask better questions" framing is, in our judgment, insufficient. Those positions appear in Chapter 30. The book is unambiguous about them.
+The Centers for Disease Control and Prevention has documented patterns of harm in international medical care. Among these: 93 US-citizen deaths in the Dominican Republic between 2009 and 2022, with 92 percent involving gluteal fat transfer, primarily in non-accredited facilities (CDC MMWR 73(3)). The American Society of Plastic Surgeons (ASPS) has issued ongoing safety warnings about Brazilian Butt Lift (BBL) mortality rates, which are estimated between 1 in 3,000 and 1 in 6,241 — the highest of any cosmetic procedure. The US Food and Drug Administration has issued repeated warnings about unapproved stem-cell products marketed for cosmetic and chronic-disease indications. The US State Department's annual Trafficking in Persons reports have documented organ-trafficking corridors. The US National Cancer Institute has documented harm patterns from unapproved alternative cancer therapies. This book takes editorial positions on patterns where this documented evidence is sufficient that "ask better questions" framing is, in our judgment, insufficient. Those positions appear in Chapter 30. The book is unambiguous about them.
 
 Medical tourism can add language barriers, distance from the treating clinic, different legal systems, documentation challenges, insurance exclusions, accreditation gaps, and difficulty obtaining follow-up care. Cross-border malpractice recovery is materially more difficult than domestic recovery. Some procedures require continuity-of-care arrangements that medical tourism cannot deliver. The book repeatedly redirects clinical questions to qualified professionals; it does so because those redirections are the substance of the framework, not its caveats.
 
 The worksheets and scripts in this book are planning aids. They are meant to help readers ask questions, organize documents, verify credentials, compare quotes, prepare a companion, and preserve records. They do not tell readers which procedure to choose, which clinic to use, which facility to trust, whether to travel, whether to fly after surgery, whether symptoms are urgent, or how to treat any condition.
 
-Concerning symptoms after any procedure — chest pain, shortness of breath, calf swelling or pain, fever at or above 101°F / 38.3°C, expanding redness, severe pain disproportionate to expected recovery, significant active bleeding, signs of severe infection, severe medication reactions, significant changes in mental status, breathing difficulty, sudden vision change, sudden unilateral weakness or speech difficulty, severe headache, or any other urgent concern — warrant immediate evaluation by qualified local emergency professionals. The local emergency number varies by country; 911 is the U.S. number and does not work in many destinations.
+Concerning symptoms after any procedure — chest pain, shortness of breath, calf swelling or pain, fever at or above 101°F / 38.3°C, expanding redness, severe pain disproportionate to expected recovery, significant active bleeding, signs of severe infection, severe medication reactions, significant changes in mental status, breathing difficulty, sudden vision change, sudden unilateral weakness or speech difficulty, severe headache, or any other urgent concern — warrant immediate evaluation by qualified local emergency professionals. The local emergency number varies by country; 911 is the US number and does not work in many destinations.
 
 Regulations, licensing systems, professional titles, specialty board recognition, accreditation standards, medical device rules, insurance terms, travel requirements, and consumer-protection laws vary by jurisdiction and change over time. Readers should verify current information with relevant regulators, professional bodies, insurers, clinicians, travel authorities, and legal professionals before relying on it. The book's data is current as of 2026; future editions may revise.
 
@@ -202,7 +202,7 @@ The clinic told you they are accredited. Did you search the accreditation body's
 
 **Question 5 — Have I obtained an independent second opinion?**
 
-In-person at home, in-person at a destination second clinic, or via a formal telemedicine second-opinion program from a US academic medical center (Cleveland Clinic Connect, Mayo Clinic Connect, MD Anderson, MSK International, Mass General Brigham International, Johns Hopkins International). The book's Chapter 15 covers the telemedicine options in detail. If your only opinion on the proposed procedure is from the clinic that will perform it, this question is no.
+In-person at home, in-person at a destination second clinic, or via a formal telemedicine second-opinion program from a US academic medical center (Cleveland Clinic Online Medical Second Opinion, Mayo Clinic Online Second Opinion, MD Anderson, MSK International, Mass General Brigham International, Johns Hopkins International). The book's Chapter 15 covers the telemedicine options in detail. If your only opinion on the proposed procedure is from the clinic that will perform it, this question is no.
 
 **Question 6 — Have I read the deposit refund policy?**
 
@@ -251,7 +251,7 @@ Nine composite scenarios run through this book. Each is a fictional combination 
 - **Composite D — Daniel** (adult-child researcher; father's cataract surgery; Mexico). Chs 23, 36.
 - **Composite E — Karen** (exploratory reader; mother's cancer diagnosis; MSK International second opinion). Ch 29.
 - **Composite F — Marcus revisited** (framework-works closing). Ch 31.
-- **Composite G — Daniel revisited** (companion role). Ch 36.
+- **Composite G — Daniel revisited** (companion role; father's hip-replacement recovery). Ch 34.
 - **Composite H — Eleanor revisited** (multi-procedure year-1 follow-up). Ch 35.
 - **Composite L — Maria** (closing positive; bariatric surgery; year-5 outcome).
 
@@ -326,7 +326,7 @@ Part I begins where most medical-tourism journeys begin: at the moment a quote, 
 
 ## Chapter 1 — Two Million Decisions
 
-Marcus is fifty-eight, a project manager at a Denver engineering firm, married twenty-six years, two grown sons, a knee that has hurt since 2011 and another that has hurt since 2019. The orthopedic appointment was this morning. The MRI confirmed what the surgeon had told him at the imaging-review visit two weeks ago: bilateral end-stage osteoarthritis. The surgeon recommended total knee arthroplasty, both knees, ideally staged six to eight weeks apart. The US estimate, after his employer's PPO insurance and the deductible cliff he has already cleared this year, is twenty-two thousand dollars out of pocket. Some of the cost is the implant. Some is the surgical fee. Some is the hospital. Some is the physical therapy that follows. The estimate includes none of the time off work, the home-care help, the medications, or the second knee.
+Marcus is fifty-eight, a project manager at a Denver engineering firm, married twenty-six years, two grown sons, a knee that has hurt since 2011 and another that has hurt since 2019. The orthopedic appointment was this morning. The MRI confirmed what the surgeon had told him at the imaging-review visit two weeks ago: bilateral end-stage osteoarthritis. The surgeon recommended total knee arthroplasty in both knees, with the timing — staged six to eight weeks apart, or simultaneous in selected patients at high-volume centers — to be discussed once a surgical plan was finalized. The US estimate, after his employer's PPO insurance and the deductible cliff he has already cleared this year, is twenty-two thousand dollars out of pocket per knee. Some of the cost is the implant. Some is the surgical fee. Some is the hospital. Some is the physical therapy that follows. The estimate includes none of the time off work, the home-care help, the medications, or the second knee.
 
 He is sitting at his kitchen table at eleven o'clock at night. His wife is asleep upstairs. The laptop is open. He has had three browser tabs running for two hours.
 
@@ -380,7 +380,7 @@ Marcus is at leverage point 2 in our opening scene — the funnel — and at the
 
 If you have read this chapter, you have already done one of the most important things you can do at leverage point 2: you have slowed down enough to read fifteen pages. The chapters that follow build the framework systematically. Chapter 2 is a fuller answer to the question of what medical tourism actually is, and why it exists in the four categories it does. Chapter 3 explains why prices differ across borders — because if you do not understand the price differential, you cannot evaluate whether the price you have been quoted is the price you will pay. Chapter 10 is the self-test that helps you answer Marcus's question: should you even be considering this? Chapter 11 is the 60-day preparation plan that, if you have 60 days, is the path through to a defensible decision.
 
-Marcus will be back. We meet him again in Chapter 11, at week 2 of his 60-day plan. We meet him for the third time in Chapter 31, at eight months post-procedure. Whether his story ends the way it does — bilateral knee replacement at a JCI-accredited Costa Rican facility, $14,800 all-in including travel and physical therapy, return to work at week eight, softball at eight months — depends on the framework he applies between the kitchen table on Tuesday night and the morning he flies.
+Marcus will be back. We meet him again in Chapter 11, at week 2 of his 60-day plan. We meet him for the third time in Chapter 31, at eight months post-procedure. Whether his story ends the way it does — bilateral knee replacement at a JCI-accredited Costa Rican facility, $14,800 paid to the clinic and $26,400 all-in once travel, lost income, and US-based physical therapy are counted, return to work at week eight, softball at eight months — depends on the framework he applies between the kitchen table on Tuesday night and the morning he flies.
 
 The framework is what the book teaches. Slow down. Decode the quote. Verify the provider. Protect the deposit. Document everything. The chapters expand each rule into operational discipline.
 
@@ -426,7 +426,7 @@ The access-driven reader is often less panicked than the cost-driven reader. The
 
 ### Expertise-driven
 
-A specific surgeon or technique is concentrated abroad. The classic example: Brazilian plastic surgeons concentrated certain body contouring techniques in São Paulo and Rio that US-trained surgeons later adopted. The Indian cardiac surgery corridor — Apollo Hospitals, Narayana Health, Fortis Healthcare — has high-volume centers performing CABG and valve procedures at outcomes comparable to top US tertiary centers, at fractional cost. Belgian hip resurfacing technique was concentrated in a few European centers for years. Spanish refractive surgery has been an established subspecialty corridor.
+A specific surgeon or technique is concentrated abroad. The classic example: Brazilian plastic surgeons concentrated certain body contouring techniques in São Paulo and Rio that US-trained surgeons later adopted. The Indian cardiac surgery corridor — Apollo Hospitals, Narayana Health, Fortis Healthcare — has high-volume centers performing CABG (coronary artery bypass grafting) and valve procedures at outcomes comparable to top US tertiary centers, at fractional cost. Belgian hip resurfacing technique was concentrated in a few European centers for years. Spanish refractive surgery has been an established subspecialty corridor.
 
 For expertise-driven medical tourism, the patient is often well-informed before they begin and the framework adapts accordingly. The verification step is critical: the *named* surgeon must be the one performing the procedure, not a colleague at the same facility. Hospital privileges and society membership matter more than for cost-driven medical tourism. The independent second opinion is often best obtained from a US specialist who knows the international corridor and can speak to the specific technique's evidence base.
 
@@ -587,6 +587,8 @@ For any facility you are considering:
 5. If the facility advertises accreditation but does not appear in the relevant directory, the accreditation is not verifiable. The next question is whether the facility's other credentials (surgeon credentialing, regulator licensing, peer-reviewed outcome publications) make up for the gap. Often they do not.
 
 This is not a difficult exercise. It is a ten-minute task per facility. It is also one of the strongest single signals the book recommends.
+
+*A reusable copy of the clinic-name, address, accreditation, and verification fields used during this exercise is Worksheet 4 (Clinic Verification) in the back matter.*
 
 ---
 
@@ -785,7 +787,7 @@ The verification path:
 1. **Identify the official register.** Each country has a medical regulator that maintains a register of licensed physicians. The names vary — the Medical Council of India, the Cédula Profesional registry in Mexico, the Royal Australian and New Zealand College of Surgeons, the General Medical Council in the UK, the Medical Council of Thailand. Chapter 16 names them by country.
 2. **Search the register by name.** Confirm the surgeon by full legal name. Note the specialty, the board certifications, and the registration number.
 3. **Verify the specialty matches the procedure.** A surgeon registered in general surgery is not a board-certified plastic surgeon. A surgeon registered as a cardiologist is not a cardiothoracic surgeon.
-4. **Note the international society memberships.** ISAPS membership for plastic surgeons, AAOS for orthopedic surgeons, STS for cardiothoracic surgeons, ASMBS for bariatric surgeons, and so on. The international societies are not regulators, but their membership requirements often include the country-equivalent of board certification.
+4. **Note the international society memberships.** ISAPS (International Society of Aesthetic Plastic Surgery) for plastic surgeons, AAOS (American Academy of Orthopaedic Surgeons) for orthopedic surgeons, STS (Society of Thoracic Surgeons) for cardiothoracic surgeons, ASMBS (American Society for Metabolic and Bariatric Surgery) for bariatric surgeons, and so on. The international societies are not regulators, but their membership requirements often include the country-equivalent of board certification.
 5. **Search for the facility in the accreditation body's directory.** JCI, AAAASF, NABH, HAI, etc. Confirm the facility name, the accreditation date, the scope of accreditation.
 6. **Document what you find.** Worksheet 5 (Specialist Credential Worksheet) records this. The documentation matters in any future complaint, claim, or revision conversation.
 
@@ -805,7 +807,7 @@ The discipline is to send a deposit only when:
 
 The Worksheet 3 (Deposit Readiness Test) in the back matter is the operational form — 15 questions you must answer yes to before deposit. If you cannot answer yes to all 15, the deposit is premature.
 
-The book is unambiguous on this rule because the documented pattern is unambiguous. Cost-driven medical-tourism failures concentrate at the deposit stage. Once the money is sent, the patient's incentive to defend the choice — to dismiss concerns, to discount second-opinion findings, to override the framework — increases sharply. The discipline of not sending the deposit until verification is complete is the cheapest insurance the book offers.
+The documented pattern here is unambiguous. Cost-driven medical-tourism failures concentrate at the deposit stage. Once the money is sent, the patient's incentive to defend the choice — to dismiss concerns, to discount second-opinion findings, to override the framework — increases sharply. The discipline of not sending the deposit until verification is complete is the cheapest insurance the book offers.
 
 ### Rule 5 — Document Everything
 
@@ -853,7 +855,7 @@ The single most important action at LP1: take eight weeks if you have them. Most
 
 ### Leverage Point 2 — The funnel
 
-Once you have made first contact with a clinic, the funnel begins. The funnel has predictable moves — friendly responsiveness, photo requests, discount deadlines, social proof. Volume Two documents the cosmetic surgery funnel chapter and chapter. The patterns generalize.
+Once you have made first contact with a clinic, the funnel begins. The funnel has predictable moves — friendly responsiveness, photo requests, discount deadlines, social proof. Volume Two documents the cosmetic surgery funnel chapter by chapter. The patterns generalize.
 
 Your leverage at LP2 is still substantial. You can:
 - Refuse to send records to multiple clinics simultaneously without a written plan from any.
@@ -979,7 +981,7 @@ For any procedure you are considering, identify which step it sits on. If you ar
 
 The placement determines the verification work. Step 1 and 2 require basic verification. Step 3 requires the framework with additional attention to the combination question. Step 4 requires the full framework. Step 5 requires the full framework plus tertiary-hospital verification and transfer-protocol documentation.
 
-*A reusable copy is Worksheet 17 (Procedure Complexity Self-Rating) in the back matter.*
+*A reusable copy is Worksheet 17 (Procedure Complexity Self-Rating) in the back matter. For readers planning more than one procedure across a multi-year window, Worksheet 16 (Multi-Procedure Sequencing) in the back matter helps sequence the procedures by complexity step, recovery requirements, and reserve budget.*
 
 ::: {.pull-quote}
 The higher the step, the more written specificity, named providers, and documented safety processes you should require — and the less willing you should be to accept "we will handle it" as an answer.
@@ -1027,7 +1029,7 @@ If you find yourself wanting to hide the plan from your home physician, the fram
 
 ### Telemedicine second opinion as the path forward
 
-For many readers, the right answer at this stage is a formal telemedicine second opinion from a US academic medical center. Chapter 15 covers Cleveland Clinic Connect, Mayo Clinic Connect, MD Anderson, MSK International, Mass General Brigham International, and Johns Hopkins International. The cost is $900 to $2,500 per case. The turnaround is 7 to 14 days. The opinion is independent of any medical-tourism economic interest.
+For many readers, the right answer at this stage is a formal telemedicine second opinion from a US academic medical center. Chapter 15 covers Cleveland Clinic Online Medical Second Opinion, Mayo Clinic Online Second Opinion, MD Anderson, MSK International, Mass General Brigham International, and Johns Hopkins International. The cost is $900 to $2,500 per case. The turnaround is 7 to 14 days. The opinion is independent of any medical-tourism economic interest.
 
 A telemedicine second opinion is particularly useful for readers who:
 - Have a procedure recommendation but want to verify the recommendation is sound.
@@ -1090,7 +1092,7 @@ Arrange an independent second opinion. Three options:
 
 1. **In-person second opinion at a US specialist.** Best for procedure recommendations that have not yet been finalized. The US specialist evaluates your situation independently and gives a written opinion.
 2. **In-person second opinion at a destination facility different from the one you are considering.** Useful if your situation has already been worked up and you want a second perspective from a clinician in the destination market.
-3. **Formal telemedicine second opinion** from Cleveland Clinic Connect, Mayo Clinic Connect, MD Anderson, MSK International, Mass General Brigham International, or Johns Hopkins International. Cost $900–$2,500; turnaround 7–14 days. See Chapter 15.
+3. **Formal telemedicine second opinion** from Cleveland Clinic Online Medical Second Opinion, Mayo Clinic Online Second Opinion, MD Anderson, MSK International, Mass General Brigham International, or Johns Hopkins International. Cost $900–$2,500; turnaround 7–14 days. See Chapter 15.
 
 For most cost-crisis readers, the telemedicine option is the right balance of cost, speed, and credibility. For complex Step 5 procedures (cardiac, oncology), the telemedicine path is especially valuable.
 
@@ -1112,7 +1114,7 @@ End of Week 6 deliverable: either a deposit sent with all 15 readiness questions
 
 ### Week 7 — Logistics
 
-Book travel. Reserve accommodation. Confirm companion arrangements (or substitute systems for solo travel). Arrange in-destination ground transportation. Notify your home physician of the planned procedure and confirm post-return follow-up arrangement. Begin pre-op compliance — smoking cessation if relevant, GLP-1 medication hold per ASA guidance if relevant (V2 Chapter 17 has the full medication framework), nutrition optimization, supplement holds.
+Book travel. Reserve accommodation. Confirm companion arrangements (or substitute systems for solo travel). Arrange in-destination ground transportation. Notify your home physician of the planned procedure and confirm post-return follow-up arrangement. Begin pre-op compliance — smoking cessation if relevant, GLP-1 (glucagon-like peptide-1) medication hold per ASA (American Society of Anesthesiologists) guidance if relevant (V2 Chapter 17 has the full medication framework), nutrition optimization, supplement holds.
 
 End of Week 7 deliverable: travel and logistics confirmed. Pre-op compliance underway.
 
@@ -1141,7 +1143,7 @@ Marcus, in our opening scene, was at Week 0 of this plan. The framework's discip
 
 Marcus is two weeks into the plan. The self-test result said proceed with research, with attention to the complexity-ladder step (his bilateral TKA is Step 4 — inpatient, implants, general anesthesia). He has identified three candidate facilities — a JCI-accredited tertiary hospital in San José in Costa Rica, Apollo Hospitals in Chennai, and Anadolu Medical Center near Istanbul. Two are JCI-accredited; one is in the accreditation directory but the accreditation date is from 2022 and he is checking whether reaccreditation has occurred.
 
-He has not yet contacted any of the three clinics. He has reviewed the surgeon credentialing patterns in each country (Chapter 16 has the patterns). He has scheduled a telemedicine second opinion through Cleveland Clinic Connect for Week 4 — the cost is $1,800 and the turnaround is 10 days.
+He has not yet contacted any of the three clinics. He has reviewed the surgeon credentialing patterns in each country (Chapter 16 has the patterns). He has scheduled a telemedicine second opinion through Cleveland Clinic Online Medical Second Opinion for Week 4 — the cost is $1,800 and the turnaround is 10 days.
 
 He is having dinner with his brother for the first time since the orthopedic appointment. His brother does not have strong opinions about medical tourism but does have strong opinions about Marcus not telling him for two weeks. The conversation is harder than the research. By the end of the dinner, his brother has agreed to be the home contact during the trip — to know the dates, to have the records, to be the person Marcus's wife calls if she needs a second opinion in the family.
 
@@ -1181,7 +1183,7 @@ A surprising amount of useful clinical evidence about medical-tourism procedures
 
 **Cochrane Library** (*cochranelibrary.com*) publishes systematic reviews — the highest-quality form of clinical evidence summary. If a Cochrane review exists on your procedure, read it first.
 
-**Specialty society websites** (ASPS, AAOS, ASMBS, STS, ASRM, ASCO, AAO) publish position statements, clinical practice guidelines, and patient education materials. These are not as rigorous as peer-reviewed primary literature but are useful for clinical context.
+**Specialty society websites** (ASPS, AAOS, ASMBS, STS plus ASRM — American Society for Reproductive Medicine, ASCO — American Society of Clinical Oncology, AAO — American Academy of Ophthalmology) publish position statements, clinical practice guidelines, and patient education materials. These are not as rigorous as peer-reviewed primary literature but are useful for clinical context.
 
 **The CDC's Yellow Book** (*wwwnc.cdc.gov/travel/yellowbook*) has a chapter on medical tourism that is updated annually and provides federal-government context on the field.
 
@@ -1376,9 +1378,9 @@ Several US academic medical centers operate formal international second-opinion 
 
 ### The major programs
 
-**Cleveland Clinic Connect** (*clevelandcliniclabs.com/online-medical-second-opinion*). One of the longest-established programs. Covers nearly all specialties. The process: the patient submits medical records, the Cleveland Clinic specialist reviews them, a written opinion is delivered in 7–14 days, with optional video consultation. Cost: $1,800–$2,500 per case depending on specialty.
+**Cleveland Clinic Online Medical Second Opinion** (*my.clevelandclinic.org/online-services/online-medical-second-opinion*). One of the longest-established programs. Covers nearly all specialties. The process: the patient submits medical records, the Cleveland Clinic specialist reviews them, a written opinion is delivered in 7–14 days, with optional video consultation. Cost: $1,800–$2,500 per case depending on specialty.
 
-**Mayo Clinic Connect** (*mayoclinic.org/online-services/online-second-opinion*). Similar to Cleveland Clinic; covers most specialties. Cost: $1,500–$2,500.
+**Mayo Clinic Online Second Opinion** (*mayoclinic.org/online-services/online-second-opinion*). Similar to Cleveland Clinic; covers most specialties. Cost: $1,500–$2,500.
 
 **MD Anderson Online Second Opinion** (*mdanderson.org/online-second-opinion*). Specifically oncology. Comprehensive cancer-specific review with treatment plan recommendation. Cost: $900–$1,800.
 
@@ -1434,17 +1436,11 @@ The process:
 3. **Week 4:** Receive the written opinion. Schedule the optional video consultation if available.
 4. **Week 4, end:** Integrate the opinion into the destination/procedure decision. If the opinion changes the plan, work through what changes.
 
-### What this looks like for the exploratory reader (Composite E — Karen)
+### How the telemedicine path resolves an oncology decision — forward to Chapter 29
 
-Karen, fifty-one, school administrator. Her mother (74) is recently diagnosed with stage III breast cancer. The US oncologist's recommended treatment plan is standard — neoadjuvant chemotherapy, then surgery, then radiation, then endocrine therapy. The estimated US out-of-pocket cost is meaningful but not catastrophic (the family has good insurance).
+The clearest illustration of how the formal telemedicine second opinion operates for a high-stakes oncology decision is Composite Scenario E (Karen and her mother), developed in full in Chapter 29. In brief: Karen's mother is recently diagnosed with stage III breast cancer; the US oncologist's plan is standard; Karen submits the records to MSK International Second Opinion ($1,800, twelve-day turnaround); the MSK breast oncology specialist confirms the US plan and refines one element (a genomic test informing endocrine therapy). The family stays home for the treatment. The full scene — with the regimen specifics, the genomic-test detail, and the year-2 follow-up — is in Chapter 29.
 
-Karen has read about cancer treatment abroad. She has been told that India offers some of the same regimens at one-fifth the price. She is not yet sure whether medical tourism is the right answer. She is also worried she is missing something — whether the US treatment plan is the best available.
-
-Karen submits her mother's records to MSK International Second Opinion. The cost is $1,800; the turnaround is 12 days. The MSK breast oncology specialist reviews the records, the imaging, the pathology, and the US treatment plan. The MSK opinion confirms the US plan as appropriate — neoadjuvant chemotherapy is the right starting point, the regimen is standard, the surgical plan is consistent with current guidelines. The MSK opinion notes one consideration: a specific genomic test that might inform endocrine therapy duration.
-
-Karen has now spent $1,800 and learned that her mother's US plan is sound. The decision is no longer about whether the plan is right; it is now only about whether to do the procedure at home or abroad. For this family, the answer is to stay home — the financial differential is not large enough relative to the continuity-of-care benefits.
-
-The telemedicine second opinion did its job. The mother is not traveling for chemotherapy. The framework's discipline produced the right answer for this family.
+Two general points the scene illustrates:
 
 Not every second opinion confirms the home plan. Sometimes the second opinion surfaces considerations that change the plan. Sometimes it identifies a destination option the family had not considered. Both outcomes are useful. The point is the independent assessment.
 
@@ -1514,7 +1510,7 @@ For any procedure you are considering, the framework's discipline is:
 2. **Look up each in the destination country's official register.** Confirm licensure, specialty certification, registration number.
 3. **Look up the international society memberships** if claimed (ISAPS, AAOS, STS, ASCO, etc.).
 4. **Verify the hospital accreditation** in the relevant directory (JCI, NABH, HAI, AAAASF).
-5. **Document the verification** in Worksheet 5 (Specialist Credential Worksheet). Save screenshots of the registry searches.
+5. **Document the verification** in Worksheet 5 (Specialist Credential Worksheet). Save screenshots of the registry searches. For procedures requiring sedation, regional, or general anesthesia, Worksheet 6 (Anesthesia Provider Verification) in the back matter captures the parallel verification for the anesthesia provider.
 
 The verification is not a guarantee of a good outcome. The verification is the baseline; the absence of verifiable credentials is the strongest predictor of failure modes documented in the published evidence.
 
@@ -1819,7 +1815,7 @@ Worksheet 3 in the back matter is the operational form. The 15 questions:
 14. For high-step procedures: have I confirmed the transfer protocol if a complication requires higher-level care?
 15. Am I making this decision on my own calendar, not the clinic's deposit deadline?
 
-If you cannot answer yes to all 15 questions, the deposit is premature. The book is unambiguous on this. The discipline is to delay the deposit until the questions are answered.
+If you cannot answer yes to all 15 questions, the deposit is premature. The discipline is to delay the deposit until the questions are answered.
 
 ### Refund policies in plain English
 
@@ -1939,7 +1935,7 @@ For procedures with limited complication insurance availability, the framework's
 
 ### Composite Scenario C — Eleanor on hold
 
-Eleanor is 64, recently retired, with four procedures in front of her — bilateral knee replacement, cataract surgery, full-mouth dental rehabilitation, and an inguinal hernia repair. She has a Medicare Advantage plan and an HSA. She is on hold with her insurer.
+Eleanor is 65, recently retired, with four procedures in front of her — bilateral knee replacement, cataract surgery, full-mouth dental rehabilitation, and an inguinal hernia repair. She has a Medicare Advantage plan and an HSA built up from her pre-Medicare working years. She is on hold with her insurer.
 
 Forty-eight minutes in, she has a notebook open. The notes so far:
 
@@ -2054,7 +2050,7 @@ Part V applies the framework to ten procedure categories. The surveys are ordere
 
 Each survey is brief by design. The book is a foundation volume, not a specialist deep dive. For depth on dental tourism, see Volume One. For depth on cosmetic surgery and hair restoration, see Volume Two. For the procedure categories not yet covered in specialist volumes, the surveys here provide the foundation; future volumes may go deeper.
 
-The composite scenarios continue through Part V — Daniel and his father (Chs 23 and 36), Karen and her mother (Ch 29), Marcus revisited (Ch 31).
+The composite scenarios continue through Parts V and VI — Daniel and his father (Chs 23, 27, and 34), Karen and her mother (Ch 29), Marcus revisited (Ch 31).
 
 ## Chapter 23 — Step 1–2 Procedures: Ophthalmology, Diagnostic, and Dental
 
@@ -2108,7 +2104,7 @@ Daniel is 42. His father is 78, recently diagnosed with mild dementia, lives alo
 
 The father refuses to spend $4,500. He is willing to travel to Mexico, where he was born and where his sister still lives. The Mexican estimate, at a JCI-accredited eye clinic in Mexicali, is $1,200 including the premium toric IOL.
 
-Daniel does not know what to do. He calls his sister in Boston. She is opposed — their father is too old, his memory too fragile, the trip too complicated. Daniel is more open — his father is still mostly independent, the procedure is low-stakes, the sister in Mexicali can host.
+Daniel does not know what to do. He calls his sister in Boston. She is opposed — their father is too old, his memory too fragile, the trip too complicated. Daniel is more open — his father is still mostly independent, the procedure is low-stakes, the father's sister in Mexicali (Daniel's aunt) can host.
 
 Daniel reads this chapter. The framework's discipline for Step 2 ophthalmology applies: verify the surgeon, verify the equipment platform, verify the IOL brand. The Mexicali clinic responds to his email with the surgeon's full name, the cédula profesional registration number, the AAO membership, and the IOL brand (Alcon AcrySof IQ Toric). The accreditation is current. The published outcomes for the clinic, in a Mexican ophthalmology journal Daniel cannot read but can have translated, show comparable results to US tertiary centers.
 
@@ -2197,7 +2193,7 @@ US-outbound cosmetic surgery and hair restoration: 300,000–500,000 patients an
 
 Volume Two of this series, *The Cosmetic Surgery Field Guide*, established several editorial positions that this volume carries forward and applies more broadly. The most consequential:
 
-**The CDC MMWR DR data.** The CDC's *Morbidity and Mortality Weekly Report* volume 73, number 3 documented 93 US-citizen deaths in the Dominican Republic from cosmetic surgery, 2009–2022, with 92% involving gluteal fat transfer (BBL). The pattern is concentrated in non-accredited facilities performing combination procedures on patients with comorbidities. This dataset informs Chapter 30's recommend-against editorial position on BBL with intramuscular fat injection in non-accredited facilities.
+**The CDC MMWR DR data.** The CDC's *Morbidity and Mortality Weekly Report* volume 73, number 3 documented 93 US-citizen deaths in the Dominican Republic from cosmetic surgery, 2009–2022, with 92 percent involving gluteal fat transfer (BBL). The pattern is concentrated in non-accredited facilities performing combination procedures on patients with comorbidities. This dataset informs Chapter 30's recommend-against editorial position on BBL with intramuscular fat injection in non-accredited facilities.
 
 **The BBL mortality rate.** Peer-reviewed estimates: 1 in 3,000 to 1 in 6,241 — the highest of any cosmetic procedure. The mortality concentrates in patients with the documented risk-factor combination: BMI above the ASPS-recommended caution threshold, combination procedures (BBL plus another procedure in the same session), intramuscular fat injection technique, non-accredited ambulatory facility.
 
@@ -2397,7 +2393,7 @@ Daniel's father (78, mild dementia) has had successful cataract surgery in Mexic
 
 The framework's discipline applies again, with the additional consideration of the father's mild dementia. Daniel works through Worksheet 17 (Procedure Complexity Self-Rating). The hip replacement is Step 4 — inpatient, implant, general anesthesia. The verification work is more substantial than for the cataract surgery.
 
-Daniel arranges a telemedicine second opinion through Cleveland Clinic Connect ($2,400; the family is paying it). The Cleveland Clinic orthopedic specialist reviews the father's case. The opinion: total hip replacement is appropriate; the surgical risk is elevated given the father's age and mild dementia but not prohibitive; the procedure should be performed at a hospital with full medical-surgical capability (not an ambulatory surgical center), with explicit attention to post-operative delirium prevention.
+Daniel arranges a telemedicine second opinion through Cleveland Clinic Online Medical Second Opinion ($2,400; the family is paying it). The Cleveland Clinic orthopedic specialist reviews the father's case. The opinion: total hip replacement is appropriate; the surgical risk is elevated given the father's age and mild dementia but not prohibitive; the procedure should be performed at a hospital with full medical-surgical capability (not an ambulatory surgical center), with explicit attention to post-operative delirium prevention.
 
 The Mexicali eye clinic had been a good match for the cataract surgery. For the hip replacement, the framework says: a higher-tier facility with inpatient capability and geriatric anesthesia expertise. Daniel and his sister consider a JCI-accredited tertiary hospital in San José in Costa Rica (JCI-accredited, established orthopedic program, geriatric-anesthesia expertise documented). The cost is higher than the Mexicali option would have been but well below the US price.
 
@@ -2498,6 +2494,8 @@ The categories where it is wrong:
 
 STS National Database; ACC/AHA guidelines (American College of Cardiology / American Heart Association); *NEJM*, *Lancet*, *JACC*, *JAMA Cardiology*, *Annals of Thoracic Surgery*. Narayana Health and Apollo Hospitals published outcomes.
 
+*A reusable copy of the cardiac-specific anesthesia provider checklist (named provider, cardiac anesthesia experience, ICU coverage, perfusion staffing) is Worksheet 6 (Anesthesia Provider Verification) in the back matter.*
+
 ---
 
 ## Chapter 29 — Oncology
@@ -2587,7 +2585,7 @@ The book takes the strongest editorial position on transplant tourism. The patie
 - *Canadian Medical Association Journal* (CMAJ): multiple peer-reviewed articles documenting Chinese organ-trafficking from prisoners of conscience.
 - *The Lancet*: commentary and position pieces on transplant tourism.
 - *China Tribunal Final Report* (2020): independent tribunal chaired by Sir Geoffrey Nice QC concluded that forced organ harvesting from prisoners of conscience continues in China.
-- U.S. State Department Trafficking in Persons (TIP) reports (annual): organ-trafficking sections.
+- US State Department Trafficking in Persons (TIP) reports (annual): organ-trafficking sections.
 - The Transplantation Society position statement on transplant tourism.
 - WHO Guiding Principles on Human Cell, Tissue, and Organ Transplantation (2010 update).
 
@@ -2640,7 +2638,7 @@ Carried forward from Volume Two of this series. The pattern: facilities that mar
 
 ### 5. BBL with intramuscular fat injection
 
-Carried from Volume Two. The CDC MMWR series on 93 US-citizen deaths in the Dominican Republic, 2009–2022, with 92% involving gluteal fat transfer, anchors the editorial position. The pattern is intramuscular fat injection technique in non-accredited facilities.
+Carried from Volume Two. The CDC MMWR series on 93 US-citizen deaths in the Dominican Republic, 2009–2022, with 92 percent involving gluteal fat transfer, anchors the editorial position. The pattern is intramuscular fat injection technique in non-accredited facilities.
 
 **The book's position:** BBL with intramuscular fat injection in non-accredited facilities should be avoided. The procedure has the highest mortality of any cosmetic procedure documented in published literature. Volume Two covers the technique-specific framework and the safer-pattern alternatives.
 
@@ -2707,7 +2705,7 @@ The success is not the procedure alone. It is the procedure plus the framework. 
 
 ### Composite Scenario A continued — Marcus at 8 months
 
-Marcus is now eight months post-procedure. The bilateral total knee arthroplasty was performed at a JCI-accredited tertiary hospital in San José in Costa Rica by a JCI-credentialed orthopedic surgeon. The surgeon's full name and Costa Rican cédula are in Marcus's records. The implant — Stryker Triathlon, both knees — is documented with manufacturer lot numbers and warranty registration. The anesthesia record is signed by a named cardiac anesthesia provider. The operative report is two pages, signed.
+Marcus is now eight months post-procedure. The bilateral total knee arthroplasty was performed at a JCI-accredited tertiary hospital in San José in Costa Rica by a JCI-credentialed orthopedic surgeon. The surgeon's full name and Costa Rican cédula are in Marcus's records. The implant — Stryker Triathlon, both knees — is documented with manufacturer lot numbers and warranty registration. The anesthesia record is signed by a named board-certified anesthesiologist with documented orthopedic anesthesia experience. The operative report is two pages, signed.
 
 The all-in cost was $14,800 for both knees, including a 14-day stay in San José for surgery, recovery, and the first post-operative follow-up. The True Cost Calculator that Marcus completed at week 5 of the 60-day plan estimated $27,000 all-in including the travel, the lost income, the complication reserve, and the US-based PT. The actual all-in cost ended up at $26,400 — within a few percent of the estimate.
 
@@ -2813,7 +2811,7 @@ For the flight home:
 
 The framework's discipline: at least three copies of the records, in at least two physical formats, in at least two locations.
 
-*A reusable copy is Worksheet 10 (Records Packet Cover Sheet) in the back matter.*
+*A reusable copy is Worksheet 10 (Records Packet Cover Sheet) in the back matter. The day-of-procedure verification (operating surgeon identity, anesthesia provider identity, no-non-emergency-additions waiver, financial settlement clarity) is captured separately in Worksheet 9 (Day-of-Procedure Checklist) in the back matter.*
 
 ---
 
@@ -2962,6 +2960,22 @@ The framework's discipline still applies. Family members can be reluctant to esc
 
 The framework's recommendation for diaspora companion arrangements: the patient and the family companion should explicitly discuss the framework, the consent rules, and the escalation criteria before traveling. The clarity reduces friction in the moments when friction would otherwise be expensive.
 
+### Composite Scenario G — Daniel as companion
+
+Daniel is at the destination hospital in San José, day three of his father's hip-replacement recovery. The procedure was uneventful; the surgeon's discharge note projected a routine course. Daniel's father is in a private room with intermittent compression devices on his calves, a low-molecular-weight heparin injection on the medication chart, and a physical therapist scheduled to begin ambulation later that afternoon.
+
+Daniel is doing the companion's work as specified in the pre-trip briefing he and his sister built together. He has the records-packet checklist on his phone. He has the destination clinic's international-patient-department contact and the alternate higher-level hospital's contact saved alongside the local emergency number. He has the father's medication list, allergies, and baseline cognitive function in a one-page note he can hand to any clinician within thirty seconds.
+
+The morning's observation: his father is more confused than yesterday. Not dramatically — answers questions, recognizes Daniel, oriented to place. But slower. The companion's discipline (Chapter 34) is to flag changes from baseline, not to diagnose. Daniel calls the international patient department. The nurse arrives within ten minutes. The internist on call evaluates the father, orders a brief workup (electrolytes, urinalysis), and confirms what Daniel had suspected: mild post-operative delirium in an older patient, common, usually transient, watch for worsening.
+
+The note in Daniel's phone now says: *Day 3 morning. Mild confusion noted, slower responses. Internist evaluated 10:40. Workup ordered. Plan: hydration, minimize sedating medications, reassess at 14:00.* Daniel sends a copy to his sister in Boston and to his father's US PCP, who has been receiving daily updates.
+
+By the afternoon physical therapy session, his father's orientation has improved. He stands, with the walker, for the first time. The physical therapist documents the milestone. Daniel takes a photograph for the records folder.
+
+The companion did the companion's work. He observed, documented, escalated promptly, deferred clinical judgment to clinicians, and kept the home network informed. He did not consent to anything on his father's behalf. He did not minimize what he was seeing. He did not assume the destination clinic would notice what he had noticed. The framework operated because Daniel operated it.
+
+The hip-replacement recovery continued without further events. The flight home was at day fourteen, with the surgeon's flight-clearance criteria met. The first US-based PT session was the morning after arrival.
+
 *A reusable copy of the companion responsibility checklist is Worksheet 12 (Follow-Up Care Script) and Worksheet 18 (Family Decision Worksheet) in the back matter.*
 
 ---
@@ -3050,6 +3064,8 @@ The PCP also confirms what was already clear from the framework: Eleanor's HSA b
 She mentions to the PCP that her brother in Phoenix is considering hip replacement, and is asking her about the framework. The PCP nods. The patient who applies the framework becomes a resource for the next patient who needs it.
 
 The procedure abroad is not the end of medical tourism. The continuity at home is the framework's longer arc.
+
+*For readers (like Eleanor) sequencing multiple procedures across months or years, Worksheet 16 (Multi-Procedure Sequencing) in the back matter is the operational tool. It captures complexity step per procedure, timing, destination, reserve, and recovery interaction so the cumulative pathway can be planned rather than improvised.*
 
 ---
 
@@ -3297,7 +3313,7 @@ Her sister-in-law, who had a sleeve gastrectomy in Tijuana three years earlier a
 
 Maria found this book. Volumes One and Two were not yet written; this is the foundation volume Maria needed. She worked through the 60-day plan. The first three weeks were spent on the framework itself — reading the Five Rules, doing the Procedure Complexity Self-Rating (Worksheet 17), completing the Is Medical Tourism Right for Me Self-Test (Worksheet 13). The Step 4 placement of bariatric surgery told her the verification work would be substantial.
 
-Week 4 was the independent second opinion. Maria submitted her records to MSK International — at the time, MSK's program included bariatric review through their internal medicine consultation service. The opinion confirmed bariatric surgery was appropriate; the specific recommendation was sleeve gastrectomy over gastric bypass given her diabetes profile and the lower complication rate for sleeve in her demographic. The MSK opinion also noted the importance of multi-year follow-up — the recommendation was that she identify a US-based bariatric surgeon willing to manage the long-term continuity before booking the destination procedure.
+Week 4 was the independent second opinion. Maria submitted her records to Cleveland Clinic Online Medical Second Opinion — Cleveland Clinic's bariatric and metabolic institute is one of the most established bariatric programs in the United States and covers second opinions across the specialty. The opinion confirmed bariatric surgery was appropriate; the specific recommendation was sleeve gastrectomy over gastric bypass given her diabetes profile and the lower complication rate for sleeve in her demographic. The Cleveland Clinic opinion also noted the importance of multi-year follow-up — the recommendation was that she identify a US-based bariatric surgeon willing to manage the long-term continuity before booking the destination procedure.
 
 Maria spent week 5 finding the US-based bariatric follow-up surgeon. She called four practices. Three declined to manage a Mexico-performed procedure. The fourth — a bariatric surgeon in San Diego who had been working with the Mexico patient population for years — agreed, with a clear arrangement: the surgeon would provide the post-operative follow-up at his standard fee schedule, would manage any complications that fell within his scope, and would refer to specialists for anything outside his scope.
 
@@ -3569,7 +3585,7 @@ A surgeon whose credentials cannot be verified in a public registry should not b
 For procedures requiring sedation, regional, or general anesthesia:
 
 - Anesthesia provider full legal name: ______
-- Credential (anesthesiologist, CRNA, country-equivalent): ______
+- Credential (anesthesiologist, CRNA — certified registered nurse anesthetist — or country-equivalent): ______
 - Registration in destination's official register: ______
 - Verification date: ______
 - Specific anesthesia experience for the procedure type: ______
@@ -3989,7 +4005,7 @@ This book is general educational material. It is not medical advice, surgical ad
 
 The book covers medical tourism across many procedure categories — dental, cosmetic surgery, hair restoration, orthopedic surgery, bariatric surgery, cardiac surgery, ophthalmology, reproductive medicine, oncology, diagnostic and preventive care. Each category has its own risk profile that no general guide can adequately summarize. The full risk picture of any procedure you are considering must come from a qualified clinician who has examined you in person.
 
-The Centers for Disease Control and Prevention has documented patterns of harm in international medical care: 93 US-citizen deaths in the Dominican Republic 2009–2022 with 92% involving gluteal fat transfer (CDC MMWR 73(3)); *Mycobacterium abscessus* surgical-site infection outbreaks in destination cosmetic surgery facilities; cancer-treatment fraud patterns in unapproved-alternative-therapy clinics. The Food and Drug Administration has issued repeated warnings about unapproved stem-cell products. The State Department's annual Trafficking in Persons reports document organ-trafficking corridors. The National Cancer Institute has documented harm patterns from unapproved alternative cancer therapies. This book takes editorial positions on patterns where the documented evidence is sufficient that "ask better questions" framing is, in our judgment, insufficient. Those positions appear in Chapter 30.
+The Centers for Disease Control and Prevention has documented patterns of harm in international medical care: 93 US-citizen deaths in the Dominican Republic 2009–2022 with 92 percent involving gluteal fat transfer (CDC MMWR 73(3)); *Mycobacterium abscessus* surgical-site infection outbreaks in destination cosmetic surgery facilities; cancer-treatment fraud patterns in unapproved-alternative-therapy clinics. The Food and Drug Administration has issued repeated warnings about unapproved stem-cell products. The State Department's annual Trafficking in Persons reports document organ-trafficking corridors. The National Cancer Institute has documented harm patterns from unapproved alternative cancer therapies. This book takes editorial positions on patterns where the documented evidence is sufficient that "ask better questions" framing is, in our judgment, insufficient. Those positions appear in Chapter 30.
 
 Medical tourism can involve pain, infection, bleeding, hematoma, seroma, nerve injury, scarring, sensation changes, allergic reactions, anesthesia complications including aspiration and malignant hyperthermia, fat embolism (particularly with BBL), venous thromboembolism and pulmonary embolism, capsular contracture (with breast implants), implant rupture or migration, asymmetric or unsatisfactory outcomes, need for revision, prolonged recovery, post-operative depression and other mental-health responses, surgical-site infection, sepsis, cardiac arrhythmia, cardiac arrest, stroke, and death. Medical tourism can add language barriers, distance from the treating clinic, different legal systems, documentation challenges, insurance exclusions, accreditation gaps, and difficulty obtaining follow-up care.
 
