@@ -3388,5 +3388,661 @@ The body is the durable asset. The trip can be rebooked.
 
 ---
 
+# Part VI — Recovery and Coming Home
+
+## Chapter 22 — Recovery Is Not a Vacation
+
+The marketing language of cosmetic surgery tourism often pairs the procedure with the destination as if they were a single product: "Get a tummy tuck and recover at a Caribbean resort." That framing is a mistake — not because resorts are bad places, but because surgical recovery and vacation behavior are largely incompatible. A patient who built the trip around the resort will struggle. A patient who built the trip around recovery, with the destination as a logistical backdrop, will do better.
+
+Cosmetic surgery recovery is materially different from dental recovery. The body is doing internal work that requires energy, sleep, and reduced demand. Pain medications cloud judgment. Swelling peaks at predictable but inconvenient times. Drains, if present, need monitoring. Compression garments need to stay on. Sun exposure is contraindicated for weeks to months on many incisions. Alcohol is contraindicated while on pain medication and slows healing more broadly. Pool and ocean water are off-limits until incisions close. Physical activity is restricted, often for longer than patients expect.
+
+This chapter is about building the trip around the recovery rather than around the destination — and about preparing for the cognitive, physical, and emotional load of the first two weeks.
+
+### The body has the deciding vote
+
+The single most useful recovery mindset to adopt before you travel is this: your body has the deciding vote on what you do each day, not your itinerary, not your companion, not your sense of how the trip should look. A "good day" in surgical recovery may look like sleeping fourteen hours, eating one small meal, walking around the room three times, and watching one episode of something undemanding. A "bad day" may look like nausea, swelling, low mood, and frustration. Both are normal. Building a trip around the assumption that every day will be a "good day" is the most common recovery planning error.
+
+Recovery markers worth tracking: pain level on a 0–10 scale at consistent times, swelling, sleep quality, appetite, mood, drain output (if applicable), wound appearance, urine color (for hydration), bowel movement timing (constipation is common on opioids), and any new symptom. Write them down. Pain medication and post-anesthesia cognitive load make memory unreliable; written records are the bridge between days.
+
+### Build the trip around the recovery
+
+The recovery-first trip structure for most cosmetic procedures looks roughly like this:
+
+- **Days 1–3 (immediately post-op):** bed and bathroom, with short, frequent walks to prevent DVT. No meaningful sightseeing. Companion does most logistics. Eat and hydrate on schedule even if not hungry.
+- **Days 4–7:** still mostly in the recovery space, with one short outing per day. First follow-up with the surgeon. Drain checks if applicable. Pain medication usually tapering.
+- **Days 8–14:** more mobility, gentle walks, careful eating, no swimming, no alcohol, no heavy lifting. Most patients are flight-cleared in this window for non-complex cases, later for complex ones.
+- **Weeks 3–6:** at home, restricted activity, scar care, garment compliance, gradual return to light work for desk roles.
+- **Weeks 6–12:** progressive return to exercise on the surgeon's schedule, not yours.
+- **Months 3–12:** final result emerges. Swelling resolves. Scars mature. The procedure that looked finished at six weeks usually looks different at six months, and different again at twelve.
+
+The destination's tourism map is largely irrelevant to most of this. If you wanted to see the city, plan a separate trip after you have healed. If you must combine, plan the recovery first and treat any sightseeing as a bonus rather than a planned activity.
+
+### Plan low-demand days
+
+Most cosmetic surgery patients underestimate the cognitive impact of post-anesthesia recovery and pain medications. Decisions made in this window are unreliable. Avoid scheduling: financial transactions beyond routine, employment conversations, relationship conversations of consequence, social media posting that you may later regret, signing legal documents, and driving (most surgeons require a 24-hour wait after general anesthesia minimum, longer while on opioid medication).
+
+This is not a suggestion to disconnect from life entirely. It is a recommendation to protect future-you from decisions made by present-you in a state present-you is not fully recognizing.
+
+### Food, water, and the small stuff
+
+The clinic should provide post-operative dietary guidance specific to your procedure. General principles apply across procedures:
+
+- **Hydration is harder than it looks.** Anesthesia, swelling, medication, and reduced appetite combine to dry you out faster than usual. Track intake. Most surgeons recommend 2–3 liters of water daily in the first week (more in hot climates), often with electrolyte supplementation.
+- **Protein supports healing.** Wound healing requires protein. Most surgeons recommend 1.2–2.0 grams per kilogram of body weight per day in the first two to four weeks. Protein shakes are useful when appetite is low; whole-food sources are preferred when tolerated.
+- **Constipation is common.** Opioid pain medications constipate. Stool softeners (docusate) and laxatives (senna or polyethylene glycol) are often recommended prophylactically while on opioids. Plan ahead.
+- **Alcohol, cannabis, and recreational drugs are off-limits.** Most surgeons recommend no alcohol for at least two weeks (longer for some procedures), no cannabis while wound healing is active, and no recreational drugs at all during the recovery window. The interactions with prescription pain medications can be dangerous.
+- **Smoking and nicotine remain off-limits** for the period the surgeon specified pre-operatively. Healing is the time when nicotine does the most damage.
+
+### Work is not recovery
+
+A common recovery planning error is to assume "I'll just answer emails from the hotel." This rarely works in the first week of cosmetic surgery recovery. Opioids and post-anesthesia cognition do not mix well with judgment-heavy work. Swelling and discomfort make sustained attention difficult. The body needs the energy it would otherwise spend on cognitive load for tissue repair.
+
+If you cannot take the recovery week off work, you should reconsider the timing of the surgery, not the recovery plan. The work cannot expand to make room for the recovery; the recovery has to be made room for in advance.
+
+### The recovery command center
+
+Set up a single physical and digital space where you keep:
+
+- the post-operative instruction sheet, taped to a wall or table where you can see it;
+- the medication schedule, ideally with a written log of doses taken and times (essential if you are on multiple medications);
+- the clinic's emergency phone number and the local hospital's address and number;
+- the surgeon's direct contact (if provided) for clinical questions;
+- your travel-insurance hotline and policy number;
+- your companion's contact information for whoever is at home;
+- a notebook for symptoms, drain output (if applicable), and questions to ask at follow-up;
+- the records packet you started in Chapter 12 (or its successor in Chapter 26), where new records get filed as they come in.
+
+The command center reduces the cognitive load of remembering. In recovery, cognitive load is itself a tax on healing.
+
+::: {.pullquote}
+A "good day" in surgical recovery may look like sleeping fourteen hours, eating one small meal, walking around the room three times. The body has the deciding vote — not your itinerary.
+:::
+
+---
+
+## Chapter 23 — The Companion's Role
+
+The dental field guide treated the companion as a useful presence: someone to handle logistics, to listen to instructions when the patient is groggy, to drive home. Cosmetic surgery is different. For most procedures in the middle and upper ladder of Chapter 15, a competent, briefed companion is not optional decoration — they are a meaningful safety system. They are the person most likely to notice the warning sign that prompts a phone call to the clinic at hour eighteen post-op. They are the person who will keep your medication schedule honest. They are the person who can drive you to the ER if something happens at 2 a.m.
+
+This chapter is for the companion. The patient should read it too, and ideally read it together before travel. If you are traveling alone, the chapter still matters — the end of the chapter covers how to substitute for a companion role with paid or telehealth alternatives.
+
+### The companion is not a nurse
+
+Let us establish this first because it underpins everything else. A companion is not a medically trained professional. Their job is not to make clinical decisions, to administer injectable medications, to manage drains or wounds beyond what the discharge instructions specify, or to substitute for a nurse or physician. Their job is to observe, to log, to communicate, and to escalate. The companion's most valuable skill is the willingness to pick up the phone and call the clinic when something seems off, even when the patient is telling them not to bother.
+
+That skill is a posture, not a credential. The companion should be the person in the patient's life most willing to be inconvenient on the patient's behalf. That is the right person.
+
+### Pre-trip companion preparation
+
+Before travel, the companion should know:
+
+- the planned procedures and what they involve at a basic, non-clinical level;
+- the expected recovery timeline including which days are highest-risk for complications;
+- the surgeon's name, contact, and the clinic's 24-hour emergency number;
+- the local hospital's address and how to get there (location pinned in the companion's phone, not just the patient's);
+- the patient's full health history including allergies, medications, mental-health status, and emergency contacts at home;
+- the medications the patient will be taking post-operatively, with timing and known side effects;
+- the warning signs that warrant a clinic call versus an emergency-room visit (the clinic should provide a written discharge instruction sheet with these; the companion should read it before surgery);
+- the travel-insurance and complication-insurance policy details and claim hotlines;
+- the patient's wishes regarding decision-making if the patient is incapacitated (medical power of attorney, do-not-resuscitate status if applicable, who to contact at home).
+
+A pre-trip companion briefing of one to two hours is appropriate. The clinic should be willing to include the companion in pre-trip video calls and in the in-person consultation on arrival.
+
+### Day of surgery: the companion's role
+
+The companion's day-of role is to be the patient's witness and timekeeper before sedation, and the patient's first point of contact during the post-operative window. Specifically:
+
+- **Before sedation:** present during the consent process, observing whether the patient appears to understand and consent freely. Verifying the marking on the body. Holding the patient's belongings and phone. Reading along on the consent form to catch discrepancies.
+- **During surgery:** waiting in the designated area. Available by phone for emergency contact. Tracking time (most surgeries run within a window the surgeon predicts; significantly longer surgery may indicate a complication and warrants a polite inquiry at the front desk).
+- **Immediately post-operative:** present at the bedside as soon as the clinic permits. Listening to the discharge instructions (the patient is in no condition to retain them). Asking clarifying questions. Photographing or accepting written copies of the instructions. Confirming the medication plan, the wound-care plan, the drain plan if applicable, and the follow-up schedule.
+
+### The non-emergency consent rule
+
+This rule was introduced in Chapter 20 and is repeated here because it is central to the companion's role: **the companion does not sign post-operative consent for non-emergency changes to the surgical plan.** If a clinic approaches the companion mid-procedure or shortly after to propose adding a procedure, expanding the operation, or changing implants, the answer is no. The patient is the consent-giver. The companion's role is to refuse the request and to demand that any non-emergency proposal be deferred until the patient is sufficiently alert and unsedated to consent themselves.
+
+A true medical emergency — uncontrolled bleeding requiring an unplanned blood transfusion, an airway crisis, a cardiac event — operates under different rules. The team will treat the emergency under their own protocols, and the companion's role is to be available and informed. The non-emergency consent rule applies to *additions to the cosmetic plan*, not to emergency interventions to keep the patient alive.
+
+A clinic that pressures the companion to sign for non-emergency cosmetic additions is engaging in a documented pattern of harm. The right answer is to refuse, in writing if necessary, and to document the request in the medical record.
+
+### Recovery week 1: medical observation duties
+
+The companion is the person most likely to be present continuously during the first week of recovery. The observation duties are not nursing duties — they are observation, logging, and escalation duties.
+
+**Drain monitoring (for procedures with drains, often tummy tucks and body contouring):**
+
+- Empty drains on the schedule the clinic specifies (often every 8–12 hours).
+- Log the volume and the color/character of the fluid each time (the clinic should provide a drain log).
+- Watch for changes: a sudden increase in volume, a change in color from serous to bloody after it had cleared, or unusual clotting — these warrant a clinic call.
+- Note when the drain volume drops below the threshold the surgeon set for removal (often 25–30 mL per 24 hours).
+
+**Swelling and bruising patterns:**
+
+- Take daily photographs in consistent lighting and angles.
+- Note asymmetry that is new (one side significantly more swollen than the other, particularly with associated pain).
+- Note bruising patterns that extend beyond the operated area in unexpected directions.
+
+**Signs of infection (the most important set of observations in week 1):**
+
+- Temperature above 101°F / 38.3°C — call the clinic.
+- Redness spreading beyond the immediate incision area.
+- Increasing pain in the incision area after pain had been improving.
+- Discharge that is yellow, green, or foul-smelling (clear-to-pink in early days is generally normal).
+- Warmth around the incision out of proportion to the rest of the body.
+- The patient feeling systemically unwell beyond expected recovery (chills, malaise, confusion).
+
+**Signs of DVT or pulmonary embolism (the most dangerous complication):**
+
+- Calf swelling, tenderness, warmth, or pain (DVT signs).
+- Sudden chest pain, shortness of breath, racing pulse, or coughing up blood (pulmonary embolism — this is an emergency, call ambulance immediately).
+- The companion should know the local emergency number (not always 911 internationally) and the nearest hospital before travel.
+
+**Medication management:**
+
+- Maintain the written medication log. Multiple medications with overlapping side effects (opioid + benzodiazepine + sleep aid + antiemetic) are dangerous without timing discipline.
+- Watch for over-sedation: unresponsiveness, very slow breathing, blue or gray skin color. This is a medication emergency.
+- Watch for under-medication: pain crisis. Call the clinic for guidance before increasing doses.
+- Never combine prescribed medications with alcohol, cannabis, or recreational drugs.
+
+**Mental state monitoring:**
+
+- Post-anesthesia confusion (usually clears within 24–48 hours).
+- Post-operative blues: a temporary mood drop in the days after surgery is common and usually resolves. A persistent low mood beyond two weeks warrants attention.
+- Acute distress or regret about the procedure: not uncommon at 48–72 hours, often softening. Sustained distress at two weeks warrants mental-health follow-up.
+- New or worsening anxiety, particularly if there was prior history.
+- Rare: surgical PTSD or acute distress that interferes with self-care. Take seriously; involve the patient's mental-health support at home if available.
+
+### When to call the clinic, when to go to the ER, when to demand transfer
+
+A general escalation framework for the companion to internalize before recovery begins:
+
+- **Routine question (not urgent):** wait until business hours or next follow-up.
+- **Concerning observation requiring guidance:** call the clinic's after-hours line.
+- **Significant warning sign (fever, expanding redness, new asymmetric swelling, increasing pain):** call the clinic immediately and consider proceeding to ER if no response within thirty minutes.
+- **Medical emergency (DVT/PE signs, severe bleeding, respiratory distress, signs of severe infection, cardiac symptoms, severe medication reaction):** call local emergency services first, then call the clinic.
+- **Clinic is not responsive to a serious concern:** go to the nearest accredited hospital, not back to the clinic, particularly if the clinic is a non-accredited ambulatory facility. The hospital will manage the acute issue; the clinic dispute can be resolved later.
+
+The companion's threshold for escalation should be lower than the patient's. The patient is medicated, in pain, and often defensive of their own decisions about the surgery. The companion is the corrective for that.
+
+### Travel home
+
+The companion's role on the return flight is logistical and observational:
+
+- airport navigation (wheelchairs are appropriate and available; ask in advance);
+- compression-stocking compliance for DVT prevention (most surgeons recommend wearing for flights of any length in the first two weeks post-op);
+- hydration and bathroom breaks (cabin air dries patients out; mobilization to the bathroom helps);
+- in-flight monitoring for new symptoms (chest pain, breathing difficulty, calf swelling — these are emergencies on a plane and warrant flight-crew notification);
+- managing the patient's emotional state on a long flight when they are uncomfortable, anxious, and ready to be home.
+
+If a complication appears mid-flight, the flight crew can radio for medical advice, and most international flights have a relationship with a ground-based aviation medical service. The companion's job is to escalate to the flight crew rather than to manage the situation alone.
+
+### The awkward weeks
+
+Weeks two through six are often emotionally harder than week one for cosmetic surgery patients. The acute pain is gone, the initial swelling is changing in confusing ways, the social isolation of restricted activity is wearing in, and the result is not yet what the patient expected because it is still healing. Patients in this window often experience low mood, anxiety about the final result, frustration with restrictions, and second-guessing of their decision.
+
+The companion's role in this window is supportive presence, not optimism or reassurance about the final result. "It will look great when the swelling goes down" is not a useful sentence when the patient is staring at week-three asymmetric swelling. "I'm sorry you're uncomfortable. Your surgeon said this stage was normal. We will know more at the six-week follow-up" is more honest and more useful.
+
+If the patient's distress is sustained beyond two weeks, the companion should encourage mental-health follow-up. The post-operative blues that do not lift are a treatment-responsive condition, not a personality failure.
+
+### The companion's own self-care
+
+A companion who is depleted is a less reliable observer. Sleep, food, time off the clock, and time outside the recovery space are not optional for the companion. The companion who insists on being awake every two hours for the entire first week burns out by day three and misses the warning sign on day five.
+
+If the patient is having a major procedure, consider a two-companion rotation: one primary, one backup, with a clear handoff. The backup can be a family member who arrives mid-week or a paid post-operative caregiver if budget allows.
+
+### When the patient travels alone
+
+Some patients travel for cosmetic surgery without a companion. This is workable for some procedures and some patients; it is materially riskier for others. If you are traveling alone, you should substitute the companion role with paid or technology-based alternatives:
+
+- **A paid post-operative caregiver** at the destination, arranged by the clinic or by an independent service. Verify their credentials, agree on duties in writing, and budget appropriately ($50–$200 per day depending on country and skill level).
+- **A clinic-provided overnight nursing presence** for the first one to three nights, if offered.
+- **An accommodation with 24-hour reception** so help is reachable without a phone call you may not be able to make.
+- **A daily telehealth check-in** with a clinician at home who has agreed to be on call (some concierge medicine practices provide this).
+- **A trusted contact at home** who you check in with at scheduled times daily. Missed check-ins trigger an escalation protocol you have agreed to in advance.
+- **A medical alert device** for the recovery space, particularly if the procedure carries higher fall risk during early recovery (any procedure with significant fluid shifts, blood loss, or extended bed rest).
+
+The single-traveler version of cosmetic surgery is riskier than the companion version. It is not categorically unsafe, but the substitutes for the companion role need to be deliberate and budgeted, not improvised on arrival.
+
+::: {.pullquote}
+The companion should be the person in the patient's life most willing to be inconvenient on the patient's behalf. That is the right person.
+:::
+
+---
+
+## Chapter 24 — Hotel, Border, and Transportation Logistics
+
+The least-discussed source of recovery trouble is the part of the trip the clinic does not own: the accommodation, the airport, the border, the rideshare, and the return flight. A patient who has done excellent due diligence on the surgeon can still have a difficult recovery because the apartment had three flights of stairs, the airport return required a long walk to immigration, or the flight home triggered a DVT scare at thirty thousand feet. This chapter is about those logistics.
+
+### The recovery accommodation
+
+Book your accommodation around recovery requirements, not around tourism appeal. Specifications that matter:
+
+- **Single-floor access from the entrance** — no stairs from the curb to the bed, or an elevator that is reliably operational. Stairs are dangerous in the first week post-op for most procedures, both because of fall risk and because of strain on healing incisions.
+- **A bed at standard height** with the ability to get in and out without significant abdominal or core engagement. Some patients with abdominoplasty or BBL need recliner or elevated-pillow setups for the first one to two weeks; book accordingly.
+- **A bathroom that is reachable from the bed without stairs**, with a grab bar if possible, or a portable grab bar you brought.
+- **Air conditioning or climate control** — heat and humidity make swelling worse and dehydration faster.
+- **A refrigerator** for medications, ice packs, food storage, and hydration drinks.
+- **Reliable wifi and cell service** — for clinic communication, telehealth check-ins, and emergencies.
+- **24-hour reception or building staff** — for assistance the companion cannot provide alone.
+- **Close proximity to the clinic** (under 20 minutes by car) and to a fully accredited hospital with emergency services.
+- **No shared bathroom or kitchen** if avoidable — infection risk and convenience.
+- **Quiet enough for sleep** — recovery requires rest; nightlife districts are a mismatch.
+- **Cleanliness** — hotel-grade cleaning between guests is preferable to short-term-rental hosts of variable standard, particularly for immune-compromised or higher-risk patients.
+
+Some clinics offer in-house recovery housing or partnered hotels with medical-tourism accommodations. These can be genuinely useful (closer to the clinic, more familiar with surgical patients, sometimes with on-site nursing). They can also be a way to extract additional revenue without much added value. Visit photographs, read recent reviews from medical-tourism patients specifically, and confirm what is actually provided.
+
+### Transportation after surgery
+
+Discharge-day transportation should be arranged before surgery, not on the day. Most patients are not in a condition to negotiate a rideshare immediately post-op. Options ranked by reliability:
+
+- **Clinic-provided medical transport** with a clinical staff member — the most expensive option, often the most appropriate for higher-step procedures or longer surgeries.
+- **A car arranged by the clinic** for direct discharge-to-accommodation transport, with the companion present.
+- **A pre-arranged private driver** the companion can call when discharge is imminent.
+- **Rideshare** — workable for shorter, lower-complexity procedures with a companion managing the logistics, but the car arrives when called rather than on demand.
+
+Public transit is not an option in the first week of cosmetic surgery recovery for any procedure of meaningful scope.
+
+### Border and airport realities
+
+Some operational notes that travel guides typically miss:
+
+- **Medications in original packaging** with the prescribing physician's name and a copy of the prescription. Customs officers in some countries scrutinize prescription medications, particularly opioids and controlled substances. A short letter from the prescriber explaining the post-operative purpose is helpful.
+- **Compression garments through security** — these are typically passed through fine but can prompt secondary screening; have them in carry-on rather than checked baggage so you have them if luggage is delayed.
+- **Drains and bandages through security** — if you are flying with drains in place (some surgeons clear flying with drains, others remove them first), have a clinic letter describing the situation. Body scanners typically do not interfere with drains, but the agent may not have seen one before.
+- **Implant cards in carry-on** — never check the implant card to baggage. If lost luggage delays the implant card by a week, the consequence is years of difficulty tracking the device. Keep them in your carry-on, your phone (photographed), and emailed to yourself.
+- **A wheelchair request at both airports** — request through the airline at booking; reconfirm at check-in. Wheelchair assistance is free and dramatically reduces stress on a recovering body. Pride is not worth a recovery setback.
+- **Priority boarding** — request for medical reasons; most airlines accommodate.
+- **Aisle seat near the lavatory** — easier mobility for bathroom breaks during the flight.
+- **A printed copy of your discharge summary, operative report, and medication list** in carry-on, with a digital copy on your phone. If a complication appears mid-flight or at an unfamiliar airport, the responding clinician will need these.
+
+### Flying with surgical incisions
+
+The general guidance for cabin-pressure considerations and surgical recovery is set by the surgeon's clearance, not the patient's preference. For most cosmetic procedures, the surgeon will clear flying somewhere between five and fourteen days post-operatively, depending on procedure and recovery course. Earlier flights elevate DVT/PE risk and can also create discomfort for swollen tissues exposed to pressure changes.
+
+DVT prevention during the return flight (in addition to surgeon-prescribed measures):
+
+- **Compression stockings** — at minimum, knee-high graduated compression stockings (15–20 mmHg or as prescribed) worn for the entire flight and the period before and after the flight as advised. Higher compression (20–30 or 30–40 mmHg) may be prescribed for higher-risk patients.
+- **Hydration** — aim for water every hour the flight is awake. Skip alcohol. Skip caffeine to excess.
+- **Cabin mobilization** — stand and walk the cabin every one to two hours when seatbelt sign allows. Ankle pumps and calf flexion in the seat between walks.
+- **Aspirin or other anticoagulants** — only on the surgeon's specific instruction. Do not self-medicate; bleeding risk vs. clotting risk is a clinical judgment.
+
+### What to do if a complication appears mid-flight
+
+The companion's framework from Chapter 23 applies in the air, with one difference: the flight crew is your local emergency response. Notify a flight attendant immediately if:
+
+- new chest pain or shortness of breath develops (potential PE);
+- new severe headache, vision changes, or unilateral weakness (potential stroke);
+- significant bleeding from any incision soaks through dressings;
+- the patient becomes confused, unresponsive, or significantly more pain than expected;
+- breathing becomes labored or skin color changes.
+
+The crew has access to a medical kit beyond what is in the consumer first-aid kit, including AED, oxygen, and limited medications. They can also radio for ground-based aviation medical advice and, if needed, request a flight diversion to the nearest suitable airport. The cost of diversion is significant but not the patient's to manage; the cost of delay is potentially worse.
+
+### Arrival home
+
+The trip is not over when the plane lands. Arrange:
+
+- transportation from the airport to home (not driving yourself);
+- a 24-hour rest period before any meaningful activity;
+- a check-in with a local provider in the next 48–72 hours (Chapter 27 covers arranging this);
+- a written record of any new symptoms or complications from the flight to discuss at the next follow-up;
+- continued compression-garment use and DVT-prevention measures as instructed.
+
+Coming home is part of the recovery, not the end of it.
+
+::: {.pullquote}
+Pride is not worth a recovery setback. Request the wheelchair.
+:::
+
+---
+
+## Chapter 25 — Before You Leave the Clinic
+
+The final clinic visit before departure is the closing conference of the surgical trip. It is the last opportunity to confirm in person what was done, to collect records, to verify implant details, to receive scar-care and drain-management instructions, and to settle any outstanding finances. A patient who treats it as a formality to rush through on the way to the airport often discovers, weeks later, that a critical piece of information is missing and the clinic has stopped responding to messages.
+
+This chapter is a checklist for that final visit.
+
+### Confirm what was actually done
+
+The operative report — the formal surgical record signed by the operating surgeon — is the most important document of your trip. It describes what the surgeon did, in clinical language, with specific anatomic detail. It is what every future provider will need to read to understand your case.
+
+Before leaving the clinic, you should have:
+
+- the operative report, surgeon-signed, in writing, in English (or with a certified translation);
+- confirmation that the procedures described in the operative report match the consent form you signed;
+- a verbal walk-through with the surgeon of what was found intraoperatively, what was done, and any deviation from the planned procedure;
+- before-and-after photographs in the same poses, lighting, and lens as the pre-operative photographs;
+- the anesthesia record, signed by the anesthesia provider, including drugs administered, doses, and any intraoperative events.
+
+If the operative report is not ready before departure, the surgeon should give you a written estimate of when it will be sent and the means of delivery (encrypted email is preferred). Get this in writing.
+
+### Implant details verification
+
+For any procedure involving implants — breast implants, gluteal implants, cheek or chin implants, calf implants, pec implants — you should leave with the implant card or its equivalent in hand. The card includes:
+
+- manufacturer name;
+- product name and model;
+- serial number or UDI (Unique Device Identification);
+- lot number;
+- size and volume;
+- the date of placement;
+- the surgeon's signature and the facility's seal or stamp.
+
+If the implant is a brand with a manufacturer warranty program (Mentor MentorPromise, Sientra Platinum20, Allergan ConfidencePlus, and others), register the implant with the manufacturer during the final clinic visit if not already done. The warranty registration window is typically short.
+
+If you discover at the final visit that no implant card is available, do not leave without resolving it. The clinic can usually provide a written attestation with the same information until the formal card is mailed. The right time to insist is now; in three weeks, the leverage is much lower.
+
+### Symmetry, fit, and finish checks
+
+For procedures where final fit or symmetry is observable in clinic, conduct the check before departure:
+
+- **Breast surgery:** symmetry, position, scar location, sensation;
+- **Rhinoplasty:** breathing, profile, alignment, swelling pattern;
+- **Facelift / blepharoplasty:** symmetry, animation, eye closure, suture location;
+- **Body contouring:** scar location, contour at standing position;
+- **Hair restoration:** graft placement, hairline shape, donor area condition.
+
+Anything that seems wrong should be raised in person. Many issues are explained by swelling or temporary post-operative appearance and will resolve. A few are not. The surgeon needs to see them in person to make the call. After you leave the country, the only options are photographs and asynchronous communication.
+
+### Scar care, drain management, and ongoing wound care
+
+Before departure, you should have written instructions for:
+
+- **Scar care:** what topicals to use (silicone gel, silicone sheets, sunscreen), when to start them, how long to use them. Most scar care begins two to four weeks post-op and continues for six to twelve months. Get specifics.
+- **Drain management** (if drains remain): how to empty, log, and recognize trouble. The criteria for drain removal and the plan if drains need to come out at home (most surgeons can guide a home provider through removal by phone or video).
+- **Suture or staple removal:** when, where, who. Many surgeons place dissolvable sutures; some require removal at 7–14 days. If removal happens at home, the surgeon should provide a written instruction the local provider can follow.
+- **Wound cleaning and dressing changes:** how often, what materials, what products to avoid.
+- **Lymphatic massage:** commonly recommended for body procedures (BBL, abdominoplasty, body contouring). The surgeon should specify start date, frequency, and duration. Local lymphatic-drainage therapists in your home city should follow the same protocol.
+- **Activity restrictions:** detailed week-by-week return-to-activity schedule.
+- **Garment compliance:** which garments, how to wear, when to remove for washing, how long to continue. Compression garments are typically worn 23 hours a day for the first 2–4 weeks and 12 hours a day for an additional 4–8 weeks; the exact protocol varies.
+- **Sun protection:** incisions are highly sensitive to sun exposure for 6–12 months. SPF 50+ on all incision areas, ideally with physical sun protection.
+- **Travel restrictions:** flight clearance, driving clearance, swimming and bathing clearance.
+
+### Settle finances with documentation
+
+The final clinic visit is also the financial closing:
+
+- a final itemized invoice showing all charges, payments, and balance due (often zero by departure);
+- receipts for every payment, in your name, with method and date;
+- documentation of any package inclusions used (revisions covered, garments, lymphatic massage sessions);
+- the refund or revision warranty terms in writing;
+- the procedure for invoking the warranty if needed (whom to contact, what records to send, what response time to expect).
+
+If anything is unclear, this is the time to resolve it. The leverage to ask drops sharply once you have left the country.
+
+### Departure-day photographs
+
+Before leaving, photograph yourself in good lighting, in the same poses as your pre-operative photographs. These are for your records, not for the clinic. The clinic's photographs are taken under controlled conditions designed to make the result look as good as possible. Your own photographs are the honest baseline against which you will measure healing over the next year.
+
+### The departure appointment checklist
+
+A condensed list to carry with you:
+
+- ☐ Operative report received and reviewed
+- ☐ Anesthesia record received
+- ☐ Pathology report (if any tissue was sent) received or arrival date confirmed
+- ☐ Before-and-after photographs received
+- ☐ Implant cards in hand and registered with manufacturer
+- ☐ Written scar-care, drain, suture, garment, activity instructions
+- ☐ Medication list and prescriptions for any continuing medications
+- ☐ Discharge summary with red-flag symptoms and emergency contacts
+- ☐ Follow-up appointment schedule (if returning) or telehealth-follow-up dates
+- ☐ Warranty terms in writing
+- ☐ Final itemized invoice and receipts
+- ☐ Translation of any non-English records, or arrangement for translation
+- ☐ Surgeon's direct contact for the next 30 days
+- ☐ Your own departure-day photographs taken
+- ☐ Records uploaded to your cloud or USB drive
+
+If any item is missing at the closing conference, raise it. A clinic operating at standard will fill the gaps before you leave. A clinic that pushes you out the door with gaps is signaling the customer-service posture you will encounter when you contact them from home with a problem.
+
+::: {.pullquote}
+The final clinic visit is the closing conference of the surgical trip. The leverage to ask drops sharply once you have left the country.
+:::
+
+---
+
+## Chapter 26 — The Surgical Records Packet
+
+The records packet is the bridge between the clinic abroad and every provider who may treat you for the next several decades — for routine follow-up, for revision, for unrelated surgery, for breast cancer screening (when implants are present), for emergency care. A complete packet, organized and accessible, may be the single most important deliverable of the trip. A missing packet — or one that the clinic refuses to release after a billing dispute — is the most common failure mode that makes ordinary follow-up care expensive and complicated years later.
+
+This chapter is the complete records inventory for cosmetic surgery, with notes on format, translation, and storage.
+
+### What to request, in priority order
+
+The list below is more comprehensive than what most clinics volunteer. Request it explicitly before surgery, follow up at the final clinic visit, and follow up by email after departure for any missing items.
+
+**Clinical records:**
+
+1. **Operative report** — the surgeon's narrative of what was done, signed and dated. The single most important document. Should include indications, procedures performed, intraoperative findings, materials used, estimated blood loss, complications if any, and post-operative plan.
+2. **Anesthesia record** — drugs administered (names, doses, timing), monitoring data, fluids given, intraoperative events.
+3. **Pathology report** — if any tissue was sent for analysis. Required for any case involving breast tissue removal, suspicious lesions, or capsular tissue.
+4. **Pre-operative imaging** — photographs in standardized poses, mammograms or ultrasound (if relevant), CT or MRI (if relevant), and any other imaging used in surgical planning.
+5. **Post-operative imaging** — photographs in the same poses as pre-operative, any post-op imaging.
+6. **Discharge summary** — written by the surgeon or designee, describing the planned recovery course, medications, warning signs, and follow-up.
+7. **Implant patient cards** — manufacturer, model, serial number/UDI, lot, size, anatomic location, and date of placement.
+8. **Materials list** — for non-implant materials used (sutures, mesh, fillers, biologics).
+9. **Pre-operative labs** — CBC, basic metabolic, coagulation, infectious-disease screen if relevant, hCG (pregnancy test) if relevant.
+10. **Medication list at discharge** — names, doses, durations, prescribing physician.
+11. **Suture removal schedule and instructions** for any sutures that require removal.
+12. **Drain log** (if drains were placed) — output recorded by date, criteria for removal.
+13. **Follow-up timeline** — visits scheduled or recommended at one week, two weeks, six weeks, three months, six months, twelve months.
+
+**Administrative records:**
+
+14. **Final itemized invoice** with all charges, payments, currency, payment methods.
+15. **Receipts** for all payments.
+16. **Warranty terms** in writing.
+17. **Consent forms** signed by patient and witnessed.
+18. **Pre-operative agreements** including any plan-change addenda.
+19. **Photograph release terms** if the clinic photographed you for marketing or portfolio use.
+
+**Communications:**
+
+20. **Surgeon's direct contact** for the next 30–90 days for clinical questions.
+21. **Clinic's after-hours emergency line** with international dialing instructions.
+22. **The named anesthesia provider's contact** in case of delayed anesthesia-related concerns.
+
+### File formats and access
+
+The format matters more than patients usually realize. Some considerations:
+
+- **Photographs:** request original high-resolution files (typically JPEG at 4000+ pixels on the long edge), not thumbnails or compressed copies. Get them on a USB drive or via a secure cloud transfer service.
+- **Imaging (CT, MRI, ultrasound, mammography):** request DICOM files, not just printed JPEGs or PDFs. DICOM is the standard medical imaging format and can be opened by any qualified provider's PACS system. The clinic should provide a USB drive with the DICOM files and the associated viewer software if the format is unusual.
+- **Reports and records:** PDF or high-resolution scans, not phone photographs of paper documents (low resolution, awkward to share). Insist on proper PDFs.
+- **Cloud storage of your own:** upload everything to a personal cloud (Google Drive, iCloud, Dropbox, or a HIPAA-compliant service like Hushmail or Microsoft 365 with the relevant compliance tier). Do not rely on the clinic's portal to remain accessible — clinics close, change ownership, or lose data.
+
+### Translation considerations
+
+If your records are in a language other than your primary language and your future providers' primary language:
+
+- **Certified translation** is preferable for the operative report, pathology report, and anesthesia record. Some destination countries have certified medical translators; if not, services like Stepes, Gengo, or specialized medical translation firms can do this.
+- **Machine translation** (Google Translate, DeepL) is useful for personal reading and rough first-pass but should not be the only translation of clinical records.
+- **A bilingual summary** prepared by the surgeon or a senior clinical staff member can be a useful supplement, particularly for the operative report.
+
+Budget $200–$500 for translation of the key records if you anticipate needing them.
+
+### The records packet cover sheet
+
+A one-page cover sheet for your records packet, kept at the top of the binder or as the first PDF in your cloud folder, dramatically improves usability years later. Worksheet 16 in the back matter provides a template. It should include:
+
+- patient name, date of birth, medical record number;
+- surgery date, surgeon name, clinic name, facility name;
+- procedures performed (clinical names, not marketing names);
+- implants placed (manufacturer, model, size, location);
+- significant intraoperative findings or events;
+- significant post-operative course;
+- warranty terms and key contact information;
+- index of documents included.
+
+The cover sheet is what a new provider will read first. It saves them twenty minutes and helps them ask the right questions.
+
+### Storage and accessibility
+
+Keep records in at least three places:
+
+1. **A physical binder or folder at home**, ideally fireproof or in a safe.
+2. **A personal cloud storage account** you control, with two-factor authentication.
+3. **A copy with a trusted family member or attorney** in case of an event that makes your primary copies inaccessible.
+
+For implant cards specifically, add a fourth location: a photograph in your phone's photo library, labeled clearly, so you can produce the information quickly in an emergency or at a new provider's first visit.
+
+### When the clinic will not release records
+
+This is rare but happens. The most common scenarios are an unresolved billing dispute, a complaint or threatened claim, or a clinic that has closed or changed ownership. Your options:
+
+- **The clinic's local regulator.** Most countries have a national medical regulator or council that requires clinics to release patient records on request, regardless of billing disputes. File a written complaint.
+- **Your country's embassy or consulate.** They will not litigate for you, but they can facilitate communication with local authorities.
+- **A local patient-rights organization** if one exists in the destination country.
+- **A formal written demand** through your home-country attorney, in the destination country's language, citing the relevant patient-rights statute.
+
+Document the request, the refusal (with date and the name of the responding staff member), and your escalation in writing. A clinic that resists release is also building evidence for any future claim against them.
+
+::: {.pullquote}
+A complete records packet may be the single most important deliverable of the trip. Without it, ordinary follow-up care becomes expensive and complicated.
+:::
+
+---
+
+## Chapter 27 — Arranging Follow-Up Care at Home
+
+The end of the surgical trip is not the end of the surgical care. Most cosmetic procedures require some combination of suture removal, drain removal, scar care, garment adjustments, lymphatic massage, dermatologic care, breast imaging (for implant cases), and at least one in-person evaluation in the first month after return. A patient who arranges that care in advance has continuity. A patient who tries to arrange it after a complication appears at 2 a.m. has a crisis.
+
+This chapter is about arranging the care before you need it.
+
+### Start before you travel
+
+The single best time to arrange home follow-up care is *before* you travel. The reasons are practical: you have time to research providers, you have the energy to make calls, and you can build a relationship with a local clinician who will be more likely to see you on short notice if a problem arises. After surgery, in pain and possibly with a complication, is the worst time to begin the search.
+
+Before travel:
+
+- **Identify a primary care physician** in your home city who knows you are traveling for cosmetic surgery. They do not need to approve or disapprove; they need to know so they can support recovery and triage complications.
+- **Identify a local plastic surgeon, dermatologist, or wound-care nurse** willing to see you for post-operative follow-up. The willingness varies; see "Reluctant local providers" below.
+- **Identify a lymphatic-drainage therapist** if your procedure typically requires lymphatic massage (BBL, abdominoplasty, body contouring).
+- **Identify the nearest accredited hospital with an emergency department** in case of acute complications. Save the address in your phone before you leave.
+
+### The willingness gradient
+
+Local plastic surgeons vary in their willingness to take on a patient who had surgery elsewhere. Some are happy to provide post-operative evaluation and routine follow-up; some are reluctant for liability or business-positioning reasons; some refuse entirely. The willingness gradient roughly follows these patterns, in order of typically higher to lower receptivity:
+
+1. **Reconstructive plastic surgeons** affiliated with breast cancer programs or trauma centers — often willing because their practice is already structured around complex post-operative care and they are less price-sensitive than aesthetic-only practices.
+2. **University-affiliated plastic surgery departments** — academic centers are often willing to evaluate and document complications for teaching and research reasons. They typically charge a consultation fee but do not require taking over the case.
+3. **Multi-location corporate plastic surgery practices** — willing for follow-up evaluation in exchange for a consult fee; willing to take over care in exchange for fees that reflect the additional liability.
+4. **Solo aesthetic-only practices** — most variable; some are very willing, some refuse.
+5. **Solo practices in direct competition with cosmetic tourism** — least willing; sometimes hostile.
+
+### Framing the request
+
+The framing of your initial call to a potential local provider matters. A request that lowers the local provider's perceived liability is more likely to succeed. Try this framing:
+
+> Hello, I had cosmetic surgery abroad on [date] and I am looking for a local provider to evaluate my recovery and document my progress over the next several months. I am not asking anyone to take over my surgical care or to revise my surgery. I have complete records from the surgeon abroad, including the operative report and implant cards. I am looking for evaluation, scar-care guidance, and a local point of contact if questions arise. I am happy to pay out of pocket for the consultation. Is your office able to see patients in this situation?
+
+The key elements: an explicit statement that you are not asking the provider to revise or take over the case, an offer of your records (which lowers diagnostic uncertainty), and a willingness to pay out of pocket (which removes the insurance friction). Many practices that decline "I had surgery abroad and need follow-up" will accept this more carefully framed request.
+
+If the office is willing, ask what records they would like to receive in advance and what the consultation fee is. Send the records ahead of the appointment so the provider can review them rather than starting from scratch in the room.
+
+### If local plastic surgeons are unwilling
+
+If aesthetic plastic surgeons in your area decline, try in roughly this order:
+
+- **Reconstructive plastic surgeons** affiliated with hospitals or cancer centers.
+- **General surgeons** who are comfortable with wound care and post-surgical follow-up.
+- **Dermatologists** for scar care, dermatologic procedures, and superficial complications.
+- **Wound-care nurses** at hospital wound-care centers — particularly useful for drain management, suture removal, and dressing changes.
+- **Primary care physicians** for medication management, lab follow-up, and triage.
+- **Concierge medicine practices** that explicitly include post-surgical evaluation in their service.
+- **Telehealth services** from the original surgeon for clinical guidance, supplemented by local in-person care for the hands-on components.
+
+For most cosmetic procedures, a combination of these can replicate the care a local plastic surgeon would provide if no plastic surgeon is willing.
+
+### Send records ahead
+
+Whichever provider agrees to see you, send your records packet ahead of the appointment. Include:
+
+- the operative report and anesthesia record;
+- pre-operative and post-operative photographs;
+- implant cards if applicable;
+- discharge summary and post-operative instructions;
+- the records cover sheet from Chapter 26;
+- a one-page summary in your own words: what was done, what you are concerned about, what specifically you would like the local provider to assess.
+
+A provider who walks into the consultation already informed gives a better consultation. A provider who has to gather the information from scratch in the room gives a more expensive and less complete consultation.
+
+### What to ask at the home follow-up
+
+The first home follow-up appointment is typically focused on:
+
+- **Wound assessment:** are incisions healing normally? Any signs of infection, dehiscence, or impaired healing?
+- **Implant assessment** (if applicable): are implants positioned correctly? Any signs of capsular contracture, malposition, or rotation?
+- **Scar care plan:** which products, what frequency, how long? Sun protection guidance.
+- **Activity progression:** when to resume exercise, lifting, sexual activity, intensive activity.
+- **Garment guidance:** continued compression, eventual transition out of garments.
+- **Lymphatic massage scheduling** if relevant.
+- **Imaging plan:** for breast implants, the FDA recommends MRI or ultrasound screening at 5–6 years and every 2–3 years thereafter. Establish the schedule.
+- **Long-term complication surveillance:** for implants, signs of BIA-ALCL (breast implant–associated anaplastic large-cell lymphoma) including late seromas, fluid collections, breast asymmetry, or palpable masses. Patients should know what to watch for.
+- **Mental-health check-in:** how are you feeling about the result at this stage? What did you expect, what did you get, where is the gap?
+
+The home follow-up is not a substitute for the surgeon abroad. It is a complement. The surgeon abroad knows your case best; the home provider sees the recovery in person.
+
+### The follow-up timeline
+
+A reasonable cadence for the first year post-cosmetic-surgery, combining the surgeon abroad and home providers:
+
+- **Week 1:** in-person follow-up with the original surgeon (typically still in the destination country).
+- **Week 2:** in-person follow-up before flying home if possible; otherwise telehealth with the original surgeon.
+- **Week 3–4:** first home in-person follow-up. Wound assessment, scar care plan, garment progression.
+- **Week 6:** second home follow-up if needed; telehealth with the original surgeon for the formal six-week review.
+- **Month 3:** in-person check, photographs for comparison, mental-health check-in.
+- **Month 6:** in-person check, photographs, scar maturation assessment.
+- **Month 12:** in-person check, photographs, final-result documentation. For implants: confirm long-term surveillance plan.
+- **Annually thereafter:** as appropriate for the specific case.
+
+This is a general framework; your surgeon and home provider will adjust based on your specific procedure and course.
+
+### Insurance and payment for home follow-up
+
+Home follow-up for surgery performed abroad is generally not covered by health insurance. Plan for out-of-pocket payment for evaluation consultations ($150–$400 per visit for plastic surgery consultation; $100–$250 for dermatology or wound care; $50–$200 for lymphatic massage sessions). Set this budget in your repair fund from Chapter 14.
+
+The exception, as noted in Chapter 14, is treatment of a *complication* — particularly one requiring hospital admission — which may be covered as a medical issue separate from the cosmetic procedure. Document the complication clearly to support a claim.
+
+### When the original surgeon is no longer responsive
+
+This happens. The clinic may close, the surgeon may move, or your relationship may sour after a complication. If you cannot reach the original surgeon for clinical guidance:
+
+- escalate within the clinic if it remains open (clinical director, ownership);
+- contact the destination country's medical regulator if the issue is clinical and unresolved;
+- rely on your local providers and the records packet for ongoing care;
+- if a revision is needed, the case becomes a revision case for a new surgeon — typically more expensive than the original, often justifiably so.
+
+The records packet is what makes you a manageable case for a new surgeon rather than a guessing exercise. This is why Chapter 26 matters.
+
+::: {.pullquote}
+The end of the surgical trip is not the end of the surgical care. A patient who arranges home follow-up before traveling has continuity. A patient who arranges it after a complication has a crisis.
+:::
+
+---
+
+## Part VI Closing Decision Gate — From Trip to Trajectory
+
+Part VI is about converting a successful surgical trip into a successful surgical year. Most of what determines whether a cosmetic surgery patient is satisfied at twelve months — with the result, with the recovery, with the decision — was set in the first six weeks at home. The hotel that was actually walkable from bed to bathroom. The companion who called the clinic at hour eighteen instead of waiting until morning. The records packet that the home dermatologist could actually use. The local plastic surgeon who said yes to evaluation because the framing of the request lowered their perceived liability. The follow-up schedule that caught the early capsular contracture before it became a revision.
+
+None of these happen by accident. They happen because the patient and the companion built the recovery year before they boarded the flight.
+
+Before you board the return flight, you should have, in writing or in your records:
+
+- the operative report and anesthesia record;
+- implant cards in hand, registered with the manufacturer;
+- a complete records packet, organized with a cover sheet;
+- scar-care, drain, suture, and garment instructions for the next six to twelve months;
+- the surgeon's direct contact for the next thirty to ninety days;
+- the home primary-care, plastic-surgery, dermatology, and lymphatic-massage contacts already established;
+- the warranty terms and the procedure for invoking them;
+- your departure-day photographs as your honest baseline.
+
+The trip is the loud part of cosmetic surgery. The year that follows is the part that determines whether the trip was worth it.
+
+---
+
+
+
 
 
