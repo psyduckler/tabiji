@@ -57,6 +57,12 @@ def _eligible(path: Path) -> bool:
         return False
     if path.is_relative_to(INCLUDES):
         return False
+    # Skip cover-prototype review pages under any book-*/assets/...
+    # These are internal direction-selection HTML pages (used during cover-art
+    # prototype review) and are never served as site pages — they intentionally
+    # have their own minimal layout with no nav/footer.
+    if "cover-prototypes" in path.parts:
+        return False
     return True
 
 
