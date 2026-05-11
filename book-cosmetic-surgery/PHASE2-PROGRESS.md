@@ -1,9 +1,9 @@
 # Phase 2 Progress — Where We Are and What's Next
 
-**Last updated:** 2026-05-11
-**Manuscript word count:** 17,588 / ~76,000 target (~23% complete)
-**Sections complete:** Front matter, Part I (Chs 1-4), Part II (Chs 5-6)
-**Sections remaining:** Parts III-VII (Chs 7-31), Closing scenarios L + Final Note, Back Matter
+**Last updated:** 2026-05-11 (Part IV commit)
+**Manuscript word count:** 36,419 / ~76,000 target (~48% complete)
+**Sections complete:** Front matter, Part I (Chs 1-4), Part II (Chs 5-6), Part III (Chs 7-12 + closing gate), Part IV (Chs 13-14)
+**Sections remaining:** Parts V-VII (Chs 15-31), Closing scenario L + Final Note, Back Matter
 
 ---
 
@@ -36,28 +36,28 @@
 | 5. The True Cost of Cheaper Surgery | ✅ ~3,000 words | E — Lena (34, rhinoplasty bargain that wasn't) |
 | 6. The Cosmetic Surgery Quote Decoder | ✅ ~2,500 words | (no scenario; reference chapter) |
 
+### Part III — Clinic and Surgeon Due Diligence (~11,600 words) ✅
+
+| Chapter | Status | Composite scenario |
+|---|---|---|
+| 7. Verify the Clinic, Not the Website | ✅ ~2,000 words | F — Mara (46, three-business clinic identity) |
+| 8. Verify the Surgeon | ✅ ~2,300 words | (none — heavy net-new chapter) |
+| 9. The Independent Second Opinion | ✅ ~2,100 words | G — Jon (50, facelift question list) |
+| 10. Facilitators, Coordinators, and Conflicts of Interest | ✅ ~1,600 words | (none) |
+| 11. Safety, Infection Control, and Materials | ✅ ~1,600 words | (none; CDC M. abscessus anchor) |
+| 12. Implants, UDIs, Lot Numbers, and the Surgical Record | ✅ ~1,800 words | H — Carmen (48, implant without a card) |
+| Part III Closing Decision Gate | ✅ ~200 words | — |
+
+### Part IV — Deposits, Payment, and Commitment (~6,800 words) ✅
+
+| Chapter | Status | Notes |
+|---|---|---|
+| 13. Before You Send a Deposit | ✅ ~4,200 words | Includes demonstration-case waiver trap, 15-question readiness test, 6 plan-change-after-arrival patterns |
+| 14. Insurance, Payment, and Financial Problems | ✅ ~2,600 words | UCR/alternate-benefit gap, travel-medical vs. cosmetic-tourism-complication insurance distinction, revision fund (rhinoplasty 5-15%, breast aug 10-20%, BBL resorption, hair restoration multi-session) |
+
 ---
 
 ## What's still to write
-
-### Part III — Clinic and Surgeon Due Diligence (~10,500 words target, 6 chapters)
-
-| Chapter | Approx words | Composite scenario | Notes |
-|---|---:|---|---|
-| 7. Verify the Clinic, Not the Website | 1,800 | F — Mara (46, three-business clinic identity) | Adapt dental Ch 7; add JCI accreditation specifics |
-| 8. Verify the Surgeon | 2,200 | (none) | Net new — much heavier than dental's dentist verification; ABPS vs ABCS distinction; ISAPS, IPRAS, country-specific societies |
-| 9. The Independent Second Opinion | 2,000 | G — Jon (50, facelift question list) | Adapt dental Ch 9; add reconstructive-vs-aesthetic surgeon willingness note |
-| 10. Facilitators, Coordinators, and Conflicts of Interest | 1,500 | (none) | Adapt dental Ch 10; add influencer-ambassador and concierge-trap patterns |
-| 11. Safety, Infection Control, and Materials | 1,500 | (none) | Adapt dental Ch 11; CDC M. abscessus DR outbreak as anchor |
-| 12. Implants, UDIs, Lot Numbers, and the Surgical Record | 1,500 | H — Carmen (48, implant without a card) | Replace dental implant passport; add Mentor/Sientra/Allergan warranty programs; BIA-ALCL note |
-| Part III Closing Decision Gate | 200 | — | Mirror dental |
-
-### Part IV — Deposits, Payment, and Commitment (~5,000 words target, 2 chapters)
-
-| Chapter | Approx words | Notes |
-|---|---:|---|
-| 13. Before You Send a Deposit | 3,000 | Adapt dental Ch 13; cosmetic-surgery-specific (larger deposit %, demonstration-case-rights waiver risk) |
-| 14. Insurance, Payment, and Financial Problems | 2,000 | Adapt dental Ch 14; add cosmetic-tourism complication insurance product category |
 
 ### Part V — Before You're Wheeled In (~12,000 words target, 7 chapters)
 
@@ -65,7 +65,7 @@
 |---|---:|---|---|
 | 15. The Procedure Travel Complexity Ladder | 1,500 | (none) | Adapt dental Ch 15 with cosmetic 5-step ladder |
 | 16. The Body Transformation Package Pattern | 1,800 | I — Aisha revisit OR new (32, "snatched" body package) | Adapt dental Ch 16 (Turkey teeth chapter) — names a marketing pattern, not a country |
-| 17. Health History, Medications, Allergies | 1,800 | J — Tomás (45, missed medication near-miss anesthesia) | Adapt dental Ch 17; add GLP-1 anesthesia delayed-gastric-emptying issue (current 2025/2026 surgical-anesthesia consideration); BMI clinical/respectful framing |
+| 17. Health History, Medications, Allergies | 1,800 | J — Tomás (45, missed medication near-miss anesthesia) | Adapt dental Ch 17; add GLP-1 anesthesia delayed-gastric-emptying issue; BMI clinical/respectful framing |
 | **18. Anesthesia Is the Leading Cause of Cosmetic Surgery Deaths Abroad** | **2,500** | (none) | **★ NET-NEW CHAPTER.** Highest-priority for clinical reviewer (anesthesiologist). Cite anesthesia-related mortality 1.1/million baseline; cosmetic 0.01–0.016% complication rate; CDC DR data 92% BBL fat embolism related to combination + intramuscular technique. Editorial position: identify the named provider, verify credentials, do not accept "our team will manage it" |
 | **19. Mental Health Pre-Op Screening** | **1,800** | (none) | **★ NET-NEW CHAPTER.** BDD prevalence 7-18.6% in cosmetic surgery patients; surgery contraindicated for BDD; BDDQ self-screen as appendix worksheet. Editorial framing: "your body, your decision; the book's job is protection not gatekeeping" |
 | 20. Before You're Wheeled In: Day-of-Procedure Leverage Checklist | 1,300 | (none) | Adapt dental Ch 18 with cosmetic specifics (implant verification at OR, photo consent boundaries) |
@@ -119,58 +119,66 @@ The next session should:
 
 1. **Read these documents in order:**
    - `BRIEF.md` (strategic brief — locks all decisions)
-   - `PHASE1-RESEARCH-NOTES.md` (sourced foundation for clinical claims)
+   - `PHASE1-RESEARCH-NOTES.md` (sourced foundation for clinical claims, especially for Ch 18 anesthesia and Ch 19 BDD)
    - `PHASE1-OUTLINE.md` (chapter-level structure)
    - `PHASE1-FRAMEWORK-ADAPTATION.md` (dental → cosmetic mapping)
    - `PHASE2-PROGRESS.md` (this file — current state)
-   - The drafted manuscript at `manuscript/00-the-cosmetic-surgery-field-guide.md` (front matter + Parts I-II already drafted)
+   - The drafted manuscript at `manuscript/00-the-cosmetic-surgery-field-guide.md` (front matter + Parts I-IV already drafted)
 
-2. **Continue at Chapter 7** of the manuscript. The structure is locked. The voice is established. Pick up where the file ends (after Chapter 6's closing line: *"The cheapest line item on a quote is rarely the cheapest line item in the completed-case cost."*) and write Part III.
+2. **Continue at Chapter 15** of the manuscript. The structure is locked. The voice is established. Part IV closes with "Cheaper surgery is only cheaper when you can finish it well — and when the body you carry home is one you can live with at five years, not just at five weeks." Pick up after that line and begin Part V.
 
-3. **Suggested chunk size:** Part III (~10,500 words) is roughly the same scope as Parts I+II combined — could be a single session focused on it, or split into two if context tight.
+3. **Suggested chunk size:** Part V (~12,000 words across 7 chapters, including two heavy net-new chapters) is the biggest single part remaining. Consider splitting it:
+   - Session A: Chs 15-17 (~5,100 words; adaptations of dental material with cosmetic-specific additions)
+   - Session B: Chs 18-19 (~4,300 words; the two highest-stakes net-new chapters — anesthesia and mental health pre-op screening)
+   - Session C: Chs 20-21 (~2,600 words; day-of leverage + plan-change-on-table)
 
-4. **Maintain editorial discipline:**
+   Or write all of Part V in a single session if context allows.
+
+4. **Heavy chapters require extra care:**
+   - **Ch 18 (Anesthesia):** This is the chapter most likely to be cited in any legal claim. Every clinical claim must trace to PHASE1-RESEARCH-NOTES.md sources (CDC MMWR, ASA, peer-reviewed). The editorial line is "identify the named provider, verify credentials, do not accept 'our team will manage it'" — not "anesthesia abroad is unsafe."
+   - **Ch 19 (Mental Health Pre-Op):** BDDQ screen language must be exact (it is published in the literature). Editorial framing must be respectful — surgery is not the problem; surgery for the wrong reasons is. Avoid pathologizing patients.
+   - **Ch 28 (Procedures We Recommend Against):** Hold off on writing this until BRIEF.md §15 sign-off is obtained from user. This is the chapter the plastic-surgeon reviewer has right of refusal on language. Until sign-off, draft as outline only.
+
+5. **Maintain editorial discipline:**
    - Composite scenarios show near-misses, not deaths (per BRIEF.md §10)
    - All clinical claims cite the sources in PHASE1-RESEARCH-NOTES.md
    - Body-image language stays clinical without weight-shaming
    - "Do not recommend specific clinics" position holds throughout
    - Carry forward the pull quotes already established
 
-5. **Commit incrementally** as the dental book and current commits do — one commit per part, with thorough commit messages so future sessions can navigate.
+6. **Commit incrementally** as Parts I-IV have done — one commit per part, with thorough commit messages so future sessions can navigate.
 
 ---
 
 ## What this session deliberately did NOT do
 
-- Did not start Chapter 7 (Part III). Better to finish a complete coherent unit (Parts I-II = the "before you book" arc) than start an incomplete one.
+- Did not begin Chapter 15 (Part V). Better to finish a complete coherent unit (Parts III + IV = the due-diligence + commitment arc) than start an incomplete one when context is constrained.
+- Did not draft Ch 28 (Procedures We Recommend Against). Per BRIEF.md, this requires §15 sign-off first.
 - Did not write back-matter worksheets. Those happen after the manuscript text is complete; they reference chapter content.
 - Did not finalize the cover SVG for cosmetic surgery. That happens in production phase (Phase 4), after the manuscript is complete and final page count is known.
-- Did not begin reviewer outreach. Per BRIEF.md §17, that begins on Phase 0 sign-off and runs in parallel — but it requires user action (reaching out to specific surgeons, anesthesiologists, attorneys), not writing.
-- Did not write the Composite Scenario L (closing positive scenario). Best written after the rest of the manuscript is complete, so it can call back to specific framework elements introduced earlier.
+- Did not begin reviewer outreach. Per BRIEF.md §17, that begins on Phase 0 sign-off and runs in parallel — but it requires user action.
 
 ---
 
 ## Realistic timeline if continued
 
-If a next session writes Parts III-IV (~15,500 words): manuscript would reach ~33,000 words, ~43% complete.
+- Two more sessions cover Parts V-VI (~24,500 words combined): manuscript would reach ~61,000 words, ~80% complete.
+- A final writing session covers Part VII + Closing + Back Matter (~17,800 words combined): manuscript reaches ~79,000 words, ~100% complete.
 
-If two more sessions cover Parts V-VI (~24,500 words combined): manuscript would reach ~57,500 words, ~75% complete.
-
-If a final writing session covers Part VII + Closing + Back Matter (~17,800 words combined): manuscript reaches ~75,300 words, ~99% complete.
-
-So roughly **3-4 more focused writing sessions** to complete Phase 2. Then Phase 3 editorial passes (1-2 sessions). Then Phase 4 production (1 session). Then Phase 5 human reviewers (parallel, external — see BRIEF.md §11 for budget and timeline).
+So roughly **2-3 more focused writing sessions** to complete Phase 2 drafting. Then Phase 3 editorial passes (1-2 sessions). Then Phase 4 production (1 session). Then Phase 5 human reviewers (parallel, external — see BRIEF.md §11 for budget and timeline).
 
 ---
 
 ## Honest progress assessment
 
-The session delivered substantially more than I initially scoped:
+Manuscript is now at the halfway mark with the most structurally challenging parts (the framework introduction, the funnel anatomy, the surgeon-verification net-new chapter, the deposit-commitment psychology) already on the page. The remaining writing is largely:
 
-- 3 Phase 1 documents (research notes, outline, framework adaptation) — ~17,500 words
-- Phase 2 manuscript draft for front matter + Parts I-II — ~17,500 words
-- Total new content this session: ~35,000 words
+1. Two heavy net-new clinical chapters (Ch 18 anesthesia, Ch 19 mental health) — high research demand, moderate writing demand
+2. One heavy editorial chapter (Ch 28 procedures we recommend against) — blocked on user sign-off
+3. Several adaptations of dental material with cosmetic-specific overlays — lower research demand, faster writing
+4. Back matter (worksheets, glossary, sources) — mechanical, can be done last
 
-The manuscript content drafted is publication-quality work that establishes the voice, structural conventions, editorial positions, and composite-scenario cast for the rest of the book. Future sessions can extend the manuscript with confidence that they're writing into an established framework, not starting from scratch.
+The voice, structural conventions, editorial positions, and composite-scenario cast are now locked across Parts I-IV. Future sessions can extend with confidence rather than re-litigating tone or structure.
 
 **What still requires human action regardless of how much I write:**
 
@@ -179,4 +187,4 @@ The manuscript content drafted is publication-quality work that establishes the 
 3. Final About-the-Editor expansion with Bernard's bio details
 4. Cover production (Phase 4)
 
-The book is on a credible path to launch in the BRIEF's stated 11-13 week realistic window if the human-action items above start now in parallel with continued manuscript writing.
+The book remains on a credible path to launch in the BRIEF's stated 11-13 week realistic window if the human-action items above start now in parallel with continued manuscript writing.
