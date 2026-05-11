@@ -2048,5 +2048,1971 @@ For procedures over $15,000, the comparison is more nuanced. Financing products 
 
 ---
 
+# Part V — Across the Procedure Map
+
+Part V applies the framework to ten procedure categories. The surveys are ordered roughly by complexity-ladder step — lower-stakes procedures first, higher-stakes procedures next, the recommend-against editorial chapter at the end, and a closing chapter on what success looks like when the framework holds.
+
+Each survey is brief by design. The book is a foundation volume, not a specialist deep dive. For depth on dental tourism, see Volume One. For depth on cosmetic surgery and hair restoration, see Volume Two. For the procedure categories not yet covered in specialist volumes, the surveys here provide the foundation; future volumes may go deeper.
+
+The composite scenarios continue through Part V — Daniel and his father (Chs 23 and 36), Karen and her mother (Ch 29), Marcus revisited (Ch 31).
+
+## Chapter 23 — Step 1–2 Procedures: Ophthalmology, Diagnostic, and Dental
+
+This chapter combines three procedure categories that share a complexity-ladder profile: low-surprise procedures with standardized technique, mature outcome data, and limited follow-up requirements. Most medical-tourism patients in these categories have straightforward, manageable experiences when the framework is applied.
+
+### Ophthalmology
+
+US LASIK volume: approximately 600,000 procedures per year. US cataract surgery volume: approximately 4 million procedures per year — the most common surgical procedure in the world. International medical tourism in ophthalmology: 100,000–200,000 US-outbound annually.
+
+The procedures: LASIK, PRK, SMILE (refractive surgery); cataract surgery with intraocular lens (IOL) implantation; refractive lens exchange (RLE); some retinal procedures (vitrectomy, retinal detachment repair) at lower volume.
+
+**Equipment platforms are globally standardized.** LASIK is performed with excimer laser systems — Allegretto Wave (now WaveLight EX500), Visx Star S4 IR, Schwind Amaris. The same platforms are in US clinics, Mexican clinics, Turkish clinics, South Korean clinics. The platform itself is not a differentiator between US and international care.
+
+**IOLs for cataract surgery are globally standardized.** Alcon AcrySof, Johnson & Johnson Tecnis, Bausch + Lomb Crystalens. Premium IOL options (multifocal, accommodating, toric) are available everywhere.
+
+**Cost differential:** US LASIK $2,000–$4,000 per eye → Mexico $700–$1,500, Turkey $1,000–$2,000, South Korea $1,500–$2,500. US cataract $3,000–$6,000 per eye → India $500–$1,500, Mexico $1,000–$3,000.
+
+**The "premium IOL" upsell pattern.** Standard monofocal IOLs are typically covered by US insurance for cataract surgery; premium IOLs are out-of-pocket. International marketing emphasizes premium IOL options because the cost-savings story is most compelling there. Read the specifications: which IOL brand, which model, monofocal or premium, the specific optical performance trade-offs.
+
+**Verification framework:** AAO (American Academy of Ophthalmology) credentialing standards; ASCRS (American Society of Cataract and Refractive Surgery) membership; for international destinations, the local ophthalmology board certification. Equipment platform verification (which Excimer laser, which IOL brand) matters as a marker of clinic investment in standardized international equipment.
+
+**The framework's discipline for Step 1–2 ophthalmology:** verify the surgeon, verify the equipment platform, verify the IOL brand for cataract surgery. The verification is lighter than for higher-step procedures because the procedure itself is more standardized.
+
+### Diagnostic and preventive
+
+Executive physicals (multi-day comprehensive workups), whole-body MRI (Prenuvo-style preventive imaging), advanced biomarker panels, genomic testing, specialty imaging (PET-CT, advanced cardiac imaging). The category is growing fast — 50,000–100,000 US-outbound annually with younger demographic skew (40s–60s).
+
+**Cost differential:** US executive physical (top-tier programs) $3,000–$10,000 → Thailand (Bumrungrad executive program) $500–$2,000, India $300–$1,500. US whole-body MRI (Prenuvo) $1,000–$2,500 → India $300–$600, Mexico $600–$1,200.
+
+**Known concerns:** Whole-body MRI has documented false-positive overdiagnosis risk. The American College of Radiology (ACR) cautions about routine use in asymptomatic populations. Executive-physical content varies widely; some include comprehensive workups, others are essentially marketing.
+
+**Framework discipline:** check the imaging center accreditation (ACR international equivalent), verify the radiologist credentials, understand the screening rationale before scheduling. For whole-body MRI specifically, ask: what is the plan if an incidental finding requires additional workup? The destination clinic is unlikely to manage that workup at home.
+
+### Dental tourism
+
+For dental tourism, Volume One of this series is the specialist volume. This survey is brief by design — the framework's discipline applies; the chapter's job is to point readers toward Volume One for depth.
+
+**Volume:** 600,000–900,000 US-outbound dental tourists annually — the single largest medical-tourism category by volume.
+
+**Cost differential:** US average implant + crown $4,500–$6,500 per tooth → Mexico $1,200–$2,500; Hungary/Turkey $700–$2,000. A full-mouth rehabilitation savings can be $30,000–$60,000.
+
+**Top destinations:** Mexico (Los Algodones, Tijuana, Cancún), Costa Rica, Hungary, Turkey, Thailand, Croatia.
+
+**Framework discipline (carries from Volume One):** the dental tourism survey-level reminders — verify the dentist's credentials (DDS/DMD US-equivalent in major destinations), verify specialty certifications where claimed (prosthodontics, oral surgery, periodontics), verify the lab's location and process for prosthetics, get the implant brand and model documented, understand the multi-trip pattern for All-on-X and similar procedures.
+
+The dental survey is the lowest-stakes single-procedure category in medical tourism. The framework applies fully but the consequences of system failure are lower than for higher-stakes categories. Volume One covers the details.
+
+### Composite Scenario D — Daniel scrolling at midnight
+
+Daniel is 42. His father is 78, recently diagnosed with mild dementia, lives alone in the same suburban Phoenix neighborhood Daniel grew up in. The father's ophthalmologist confirmed cataract surgery is needed in the left eye, recommended within the next year. The US estimate, with the father's Medicare Advantage plan, is $4,500 out of pocket — the cataract surgery itself is covered, but the father wants a premium toric IOL that the plan does not cover.
+
+The father refuses to spend $4,500. He is willing to travel to Mexico, where he was born and where his sister still lives. The Mexican estimate, at a JCI-accredited eye clinic in Mexicali, is $1,200 including the premium toric IOL.
+
+Daniel does not know what to do. He calls his sister in Boston. She is opposed — their father is too old, his memory too fragile, the trip too complicated. Daniel is more open — his father is still mostly independent, the procedure is low-stakes, the sister in Mexicali can host.
+
+Daniel reads this chapter. The framework's discipline for Step 2 ophthalmology applies: verify the surgeon, verify the equipment platform, verify the IOL brand. The Mexicali clinic responds to his email with the surgeon's full name, the cédula profesional registration number, the AAO membership, and the IOL brand (Alcon AcrySof IQ Toric). The accreditation is current. The published outcomes for the clinic, in a Mexican ophthalmology journal Daniel cannot read but can have translated, show comparable results to US tertiary centers.
+
+The decision is not yet final. Daniel will return to the framework in Chapter 36 (companion role) once the trip is booked. The composite continues there.
+
+The Step 1–2 procedure category is where medical tourism most often "just works" — when the framework is applied. The framework is lighter at lower steps; the discipline is the same.
+
+---
+
+## Chapter 24 — Bariatric Surgery
+
+Bariatric surgery — the surgical treatment of severe obesity and its complications — is one of the most consequential medical-tourism categories. The procedures are inpatient (Step 4 on the complexity ladder). The follow-up requirements are multi-year. The outcomes correlate strongly with patient selection, surgical technique, and post-operative support. The framework's full discipline applies.
+
+### Procedure types
+
+**Laparoscopic sleeve gastrectomy** (most common globally; approximately 70% of bariatric volume). The surgeon removes the lateral two-thirds of the stomach, leaving a banana-shaped narrow gastric sleeve. Standardized technique; mature outcome data; meaningful long-term revision rate (15–20% within 10 years).
+
+**Roux-en-Y gastric bypass** (older, more complex, declining share). The surgeon creates a small gastric pouch and bypasses much of the stomach and the proximal small intestine. Higher early-complication risk than sleeve; better weight-loss outcomes for some patient profiles; revision rate 10–15% within 10 years.
+
+**Duodenal switch (BPD-DS).** Highest weight-loss outcomes; highest complication rate; most demanding surgical technique. Lower volume; concentrated at high-volume specialty centers.
+
+**Adjustable gastric banding** (LAP-BAND). Largely abandoned in US practice due to poor long-term outcomes and high removal rates. Some Mexico clinics still offer; the framework recommends against in most cases.
+
+**Revision bariatric.** Conversion procedures (sleeve to bypass, bypass to BPD-DS) or revision of failed previous procedures. Higher complexity than primary; specialty surgical expertise required.
+
+### The US context
+
+US bariatric surgery volume: approximately 280,000 procedures annually (ASMBS — American Society for Metabolic and Bariatric Surgery). Insurance coverage varies dramatically by employer, state, and plan. Many patients qualify clinically but cannot obtain covered procedures within reasonable timelines. This is the primary driver of bariatric medical tourism.
+
+US bariatric COE (Center of Excellence) designation through ASMBS requires specific volume, multidisciplinary support, and outcome reporting. COE centers have published 30-day mortality of approximately 0.1–0.3% for sleeve gastrectomy, complication rates of 5–10%.
+
+### The Mexico bariatric corridor
+
+Approximately 25,000–40,000 US patients travel abroad annually for bariatric surgery; the Mexico bariatric corridor (Tijuana, Mexicali, less commonly Cancún) is the dominant destination for US patients. The corridor has matured over fifteen years. Several Tijuana centers carry ASMBS-COE-equivalent recognition and publish outcomes in peer-reviewed bariatric journals.
+
+**Cost differential:** US sleeve gastrectomy cash price $15,000–$25,000 → Mexico $4,000–$8,000; Turkey $3,000–$6,000.
+
+### The pre-operative evaluation problem
+
+US bariatric programs require, before surgery: psychological assessment, nutrition consultation, smoking cessation documentation, sometimes a 6-month medically supervised weight-loss program, occasionally cardiac clearance, blood work and imaging. This pre-operative pathway is required by US insurance for coverage and by US bariatric surgeons as a standard of practice.
+
+Mexico bariatric clinics often do not require this full pre-operative pathway. Some require minimal pre-op evaluation; some accept patients on the basis of self-reported history.
+
+The framework's discipline: complete the US-standard pre-operative evaluation regardless of where the procedure is performed. The cost of US-based pre-op psychology, nutrition, smoking cessation, and clearance is modest ($500–$2,000); the value in terms of procedure outcome and revision risk is substantial.
+
+Pre-op psychological evaluation in particular matters. Bariatric outcomes correlate with pre-existing mental health (binge eating disorder, depression, anxiety, body dysmorphic disorder). A patient who skips the psych eval because the destination clinic does not require it is foregoing one of the strongest predictors of long-term success.
+
+### The follow-up problem
+
+ASMBS protocol requires multi-year follow-up after bariatric surgery — 1-year, 2-year, then annual indefinitely. The follow-up monitors nutritional status (deficiencies are common), weight trajectory, comorbidity resolution, and revision indicators.
+
+Mexico destination clinics, by geography, cannot deliver multi-year follow-up. The framework's discipline: identify a US-based bariatric surgeon willing to manage long-term follow-up before booking. Many US bariatric surgeons will manage the follow-up of a patient operated abroad if the records are complete, the operation was standard, and the patient is compliant. Some will not. Identify which category your local options are in before traveling.
+
+The framework recommendation: a US-based bariatric surgeon agreement in writing, prior to traveling, that they will provide the post-operative follow-up. The agreement may include a per-visit fee schedule; budget it into the True Cost Calculator.
+
+### The long-term revision rate
+
+Revision rates at 10 years post-bariatric: sleeve gastrectomy 15–20%, gastric bypass 10–15%, BPD-DS 10–15%. The revision is often a conversion procedure to address weight regain, complications, or refractory comorbidities.
+
+The framework's discipline: budget the revision possibility into the financial decision. A revision procedure 5–10 years post-primary may cost $15,000–$25,000 abroad or $25,000–$45,000 at home. The patient who could not survive losing the primary deposit is unlikely to absorb a revision cost five years later.
+
+### Sources
+
+ASMBS guidelines and Center of Excellence framework; IFSO (International Federation for the Surgery of Obesity); *Obesity Surgery*; *Surgery for Obesity and Related Diseases* (SOARD); peer-reviewed long-term bariatric outcome literature.
+
+### Framework summary for bariatric medical tourism
+
+- Complete US-standard pre-op evaluation (psychological, nutritional, medical clearance) regardless of destination.
+- Verify the surgeon, the anesthesia provider, and the facility (Chs 16, 4).
+- Establish US-based post-operative follow-up arrangement before booking.
+- Verify the destination clinic's ASMBS-COE-equivalent recognition and published outcomes.
+- Budget for revision possibility (10–20% within 10 years).
+- For Mexico corridor specifically: the framework's discipline plus an honest assessment of the destination clinic against the published outcome data.
+
+---
+
+## Chapter 25 — Cosmetic Surgery and Hair Restoration
+
+For cosmetic surgery and hair restoration, Volume Two of this series is the specialist volume. This survey is brief — its job is to convey the framework's positions at survey depth and point readers to Volume Two for the full treatment.
+
+### The volume and the cost differential
+
+US-outbound cosmetic surgery and hair restoration: 300,000–500,000 patients annually — the second-largest category after dental. Cost differentials are large: US BBL $8,000–$15,000 → Dominican Republic/Colombia $3,000–$6,000; US rhinoplasty $8,000–$15,000 → Mexico $3,000–$5,000; US hair restoration $8,000–$15,000 → Turkey $2,000–$4,000.
+
+### The carried positions from Volume Two
+
+Volume Two of this series, *The Cosmetic Surgery Field Guide*, established several editorial positions that this volume carries forward and applies more broadly. The most consequential:
+
+**The CDC MMWR DR data.** The CDC's *Morbidity and Mortality Weekly Report* volume 73, number 3 documented 93 US-citizen deaths in the Dominican Republic from cosmetic surgery, 2009–2022, with 92% involving gluteal fat transfer (BBL). The pattern is concentrated in non-accredited facilities performing combination procedures on patients with comorbidities. This dataset informs Chapter 30's recommend-against editorial position on BBL with intramuscular fat injection in non-accredited facilities.
+
+**The BBL mortality rate.** Peer-reviewed estimates: 1 in 3,000 to 1 in 6,241 — the highest of any cosmetic procedure. The mortality concentrates in patients with the documented risk-factor combination: BMI above the ASPS-recommended caution threshold, combination procedures (BBL plus another procedure in the same session), intramuscular fat injection technique, non-accredited ambulatory facility.
+
+**The demonstration-case waiver pattern.** Some clinics offer reduced procedure costs in exchange for the patient signing a waiver allowing the clinic to use the patient's pre- and post-procedure photographs in marketing. The waiver is often a single-page document with significant rights given up. Volume Two covers the pattern in detail.
+
+**BIA-ALCL surveillance.** For patients with textured breast implants, the FDA recommends symptom-based surveillance for breast implant-associated anaplastic large cell lymphoma. Volume Two covers the surveillance framework.
+
+### Hair restoration techniques
+
+Two dominant techniques in the international cosmetic-tourism market:
+
+**FUE (Follicular Unit Extraction).** Individual follicular units are extracted from the donor area (typically the back of the scalp) and transplanted to the recipient area. Minimal scarring; widely available; the standard technique in the Turkey-dominated international hair-restoration market.
+
+**DHI (Direct Hair Implantation).** Similar to FUE but with a direct implanter pen that places follicles into the recipient site without first creating recipient sites separately. Slightly faster; equivalent outcomes; widely available.
+
+**FUT (Follicular Unit Transplantation).** Older strip-based technique. A strip of donor scalp is removed, follicular units harvested under microscope, and transplanted. More scarring; less common abroad; still performed at some US clinics.
+
+For Turkey-corridor hair restoration specifically: FUE and DHI dominate. Volume of procedures is high; outcomes are generally good when the framework is applied; cost differential is large.
+
+### Framework summary for cosmetic medical tourism
+
+- The CDC MMWR DR data informs the recommend-against position (Chapter 30). For BBL specifically: intramuscular fat injection in non-accredited facilities should be avoided.
+- BIA-ALCL surveillance for textured breast implants is a long-term issue; Volume Two covers it.
+- The demonstration-case waiver pattern is widespread; read it carefully.
+- For hair restoration: FUE and DHI techniques are widely standardized; the framework's discipline of verifying the surgeon, the technique, and the clinic applies.
+- Volume Two's specialist coverage is the right next read for any reader seriously considering cosmetic surgery or hair restoration abroad.
+
+::: {.bernard-note}
+
+**A note from the editor — What Volume Two taught us**
+
+Volume Two of this series was the hardest book I have worked on, because the documented harm patterns in cosmetic surgery are not abstract. The CDC's MMWR series on 93 US-citizen deaths in the Dominican Republic — 92 percent involving gluteal fat transfer — is the single most consequential dataset in medical tourism. Each death is a person whose family is still living with the consequences.
+
+The framework that V2 developed — verify the surgeon, verify the anesthesia provider, verify the facility, document everything, read the demonstration-case waiver, get an independent second opinion — is the framework that, when applied, prevents the patterns of harm the CDC documents. The framework is not unique to cosmetic surgery; this volume generalizes it. But cosmetic surgery is where the documented harm is most concentrated and where the editorial position on recommended-against patterns is most established.
+
+If you are considering cosmetic surgery or hair restoration abroad, read Volume Two. The procedures are not categorically dangerous; many trips are good trips. The patterns of harm, however, are documented and avoidable.
+
+Volume Two is the right next read. This survey chapter is the orientation; Volume Two is the depth.
+
+— *Bernard Huang, Editor*
+
+:::
+
+---
+
+## Chapter 26 — Reproductive Medicine (IVF)
+
+In vitro fertilization and related reproductive procedures (IVF, ICSI, egg/sperm freezing, fertility preservation, preimplantation genetic testing, donor cycles) are a substantial and growing medical-tourism category. US IVF cycle costs ($15,000–$25,000 including medications) and patchy insurance coverage drive the outbound.
+
+### The procedures
+
+**IVF (in vitro fertilization).** Eggs retrieved, fertilized in vitro, embryos transferred. The foundational procedure.
+
+**ICSI (intracytoplasmic sperm injection).** A single sperm is injected directly into a single egg. Used for male-factor infertility or when conventional IVF has failed.
+
+**Egg/sperm freezing (cryopreservation).** Eggs or sperm preserved for later use. Egg freezing has become substantially more common in the past decade.
+
+**Preimplantation genetic testing (PGT).** PGT-A screens for aneuploidy (chromosomal abnormalities); PGT-M tests for specific gene mutations; PGT-SR tests for structural rearrangements. Different tests have different evidence bases for clinical benefit.
+
+**Donor cycles.** Donor eggs or donor sperm. Legal framework varies dramatically by destination.
+
+### Volume and demographics
+
+US IVF cycle volume: approximately 330,000 cycles annually (SART). Estimated 30,000–60,000 US patients travel abroad annually for fertility treatment. Demographics: predominantly women 35–44; some male-factor cases; donor cycles for same-sex male couples or single intended parents.
+
+### Cost differential
+
+- US IVF cycle (including medications): $15,000–$25,000.
+- Czech Republic IVF: $4,000–$7,000.
+- Spain IVF: $5,000–$8,000.
+- Greece IVF: $4,000–$6,000.
+- Mexico IVF: $5,000–$10,000.
+- India IVF: $3,000–$6,000.
+
+### Cycle success rates — the publishable advantage
+
+Reproductive medicine has unusually transparent outcome data. SART (Society for Assisted Reproductive Technology) publishes US clinic-level success rates by maternal age band. ESHRE publishes European data. Top international centers typically publish equivalent data in peer-reviewed literature.
+
+US average live birth rate per cycle:
+- Under 35: 30–35%.
+- 35–37: 25–30%.
+- 38–40: 15–20%.
+- 41+: 5–10%.
+
+Top international centers report comparable bands. The verification framework includes checking the clinic's published success rates against the SART/ESHRE baseline for your age and indication.
+
+### The legal landscape (must address carefully)
+
+Reproductive medicine has dramatic legal variation by destination:
+
+**Donor anonymity.** UK, Sweden, Netherlands, Germany have removed donor anonymity in recent years. Spain, Greece, Czech Republic still allow anonymous donors. The choice affects long-term family considerations.
+
+**Sex selection.** Legal in US, Mexico, parts of Thailand, India. Banned in UK, most of EU.
+
+**Commercial surrogacy.** Legal in some US states (varies state by state); Ukraine had been a major destination pre-2022; Mexico's legal status varies by state; India banned commercial surrogacy for foreigners in 2015; many European countries ban commercial surrogacy. The legal complexity is substantial.
+
+**Preimplantation genetic testing.** PGT-M for specific mutations widely available globally; PGT-A for aneuploidy screening has variable acceptance. UK regulations restrict embryo selection more than US.
+
+For any IVF medical tourism, understand the legal framework at the destination before committing. The legal framework affects donor selection, surrogacy options, parental rights, and citizenship of children. Consult with both a reproductive endocrinologist and a family-law attorney with international experience for any procedure involving donor gametes or surrogacy.
+
+### Specific destinations
+
+- **Czech Republic (Prague, Brno):** mature IVF tourism corridor; high volume; well-regarded outcomes; affordable; some donor anonymity considerations.
+- **Spain (Barcelona, Madrid, Valencia):** another mature European corridor; legal framework favorable for donor anonymity.
+- **Greece (Athens, Crete):** lower volume than CZ/ES but growing; cost-competitive.
+- **Mexico (Guadalajara, Tijuana):** strong for US patients; legal landscape varies by state.
+- **India (Mumbai, Delhi):** lowest cost; some legal complexity for foreign patients with donor cycles.
+- **Cyprus, Greece, and several other Mediterranean destinations:** various specializations.
+
+### Framework summary for reproductive medical tourism
+
+- Verify the reproductive endocrinologist's credentials (REI fellowship-equivalent) and the clinic's published success rates against SART/ESHRE for your age band.
+- Understand the legal framework at the destination — donor anonymity, sex selection, surrogacy, PGT regulations.
+- For donor cycles or surrogacy: consult with family-law attorneys with international experience before booking.
+- Budget realistically — IVF requires multiple cycles for some patients; the cost differential expands with cycle count.
+- Logistics: IVF requires the patient to be in destination for approximately 2–3 weeks per cycle (stimulation, retrieval, embryo development, transfer).
+- US-based follow-up arrangement is straightforward for IVF (any US OB-GYN can manage pregnancy follow-up); for donor cycles, a US REI is often involved in the follow-up.
+
+### Sources
+
+SART data; ESHRE Annual Reports; ASRM (American Society for Reproductive Medicine) guidelines; *Human Reproduction*; *Fertility and Sterility*; reproductive endocrinology peer-reviewed literature.
+
+---
+
+## Chapter 27 — Orthopedic Surgery (Joint Replacement and Spine)
+
+Orthopedic surgery — joint replacement and spinal procedures — is one of the highest-volume medical-tourism categories for inpatient surgical procedures. The combination of large cost differentials, mature outcome data, globally standardized implants, and recoverable post-operative requirements makes it a procedure category where the framework applies particularly well.
+
+### Procedures covered
+
+**Joint replacement:**
+- Total hip arthroplasty (THA).
+- Total knee arthroplasty (TKA).
+- Partial knee arthroplasty (UKA).
+- Hip resurfacing (less common).
+- Shoulder arthroplasty (lower volume in medical tourism).
+
+**Spine:**
+- Lumbar fusion (open or minimally invasive).
+- Cervical fusion.
+- Anterior cervical discectomy and fusion (ACDF).
+- Lumbar disc replacement.
+- Cervical disc replacement.
+
+### Volume and demographics
+
+US joint replacement volume: approximately 700,000 TKAs and 350,000 THAs annually (AAOS). US lumbar fusion: approximately 500,000 annually. Estimated 50,000–80,000 US patients travel abroad annually for orthopedic procedures.
+
+### Cost differential
+
+- US THA: $30,000–$50,000 cash; $15,000–$25,000 out-of-pocket on PPO insurance after deductible.
+- India THA at top tertiary centers: $7,000–$12,000.
+- Mexico THA: $13,000–$20,000.
+- Costa Rica THA: $14,000–$20,000.
+- Thailand THA: $12,000–$18,000.
+- Turkey THA: $11,000–$16,000.
+- US lumbar fusion: $80,000–$150,000.
+- India lumbar fusion: $10,000–$15,000.
+
+### Outcomes data — the registry advantage
+
+Orthopedic surgery has the best outcome registry data of any medical-tourism procedure category. AJRR (American Joint Replacement Registry) covers more than 2.5 million procedures across more than 1,300 US institutions. NJR (UK), AOANJRR (Australia), SHAR (Sweden) provide international registry data.
+
+10-year implant survivorship for THA/TKA at top US and international centers: 90–95%. The variance between centers is meaningful — top centers in the 95% range, lower-volume centers in the 85–90% range. Volume and surgeon experience correlate with outcome.
+
+### Implant manufacturer dominance
+
+The orthopedic implant market is dominated by four manufacturers: Stryker, Zimmer Biomet, Johnson & Johnson DePuy Synthes, Smith + Nephew. The same implant brands (and often the same specific models — Stryker Triathlon knee, Zimmer Persona, DePuy Attune) are available in US tertiary centers, Costa Rican JCI-accredited hospitals, Indian Apollo facilities, Turkish Anadolu hospitals.
+
+This is one of the operational advantages of orthopedic medical tourism: the implant the patient receives abroad is often identical to the implant the patient would have received at home. The verification: ask for the implant manufacturer, model, size range, and warranty terms in writing before deposit. Worksheet 5 captures this.
+
+### The "robotic-assisted" marketing pattern
+
+Several robotic surgical platforms (Stryker Mako, Zimmer ROSA, Johnson & Johnson Velys) are now widely available globally. International clinics often market robotic-assisted procedures heavily.
+
+The peer-reviewed outcome data on robotic-assisted joint replacement, compared to non-robotic at experienced surgeon hands, does not show statistically significant differences in long-term outcomes. The robotic platform may improve component positioning precision in some hands; the impact on patient-reported outcomes and long-term survivorship is not differentiated in published studies.
+
+The framework's discipline: do not pay a premium for robotic-assisted technology assuming it produces better outcomes. The peer-reviewed data does not support that assumption. If a destination clinic uses a robotic platform and the cost is comparable, that is fine. If the robotic platform comes with a substantial price premium, the premium is for marketing, not for differentiated outcomes.
+
+### Rehabilitation requirements
+
+The dominant logistical issue for orthopedic medical tourism is post-operative physical therapy. Standard protocol for TKA: 6 weeks of formal PT, often 3 sessions per week, in the recovery and early rehabilitation phase. Lumbar fusion: similar PT requirements over 8–12 weeks.
+
+The patient who travels abroad for joint replacement returns home with a long PT trajectory ahead. The framework's discipline: identify a US-based PT provider before traveling. Confirm the PT provider will accept records from the destination procedure and develop a rehabilitation plan. Budget the PT cost (typically $80–$150 per session in the US; insurance may cover) in the True Cost Calculator.
+
+### DVT/PE prophylaxis and return flight
+
+Major joint replacement carries elevated risk of deep vein thrombosis and pulmonary embolism in the post-operative period. Standard prophylaxis: anticoagulation (often a low-molecular-weight heparin or direct oral anticoagulant) for 14–28 days post-procedure; compression stockings; early ambulation.
+
+The return flight from the destination requires specific timing consideration. Most orthopedic surgeons recommend minimum 10–14 days post-procedure before flying for major joint cases. The risk of DVT/PE on long-haul flights is elevated during the post-operative window.
+
+The framework's discipline: book the return flight conservatively. A 14-day post-procedure return is the minimum; 21 days is often better. Travel medical insurance should cover any in-destination extension if complications arise.
+
+### Composite Scenario D continued — Daniel's father, the hip replacement
+
+Daniel's father (78, mild dementia) has had successful cataract surgery in Mexicali three months earlier (Chapter 23). The father's left hip has progressed; the US orthopedic surgeon now recommends total hip replacement.
+
+The framework's discipline applies again, with the additional consideration of the father's mild dementia. Daniel works through Worksheet 17 (Procedure Complexity Self-Rating). The hip replacement is Step 4 — inpatient, implant, general anesthesia. The verification work is more substantial than for the cataract surgery.
+
+Daniel arranges a telemedicine second opinion through Cleveland Clinic Connect ($2,400; the family is paying it). The Cleveland Clinic orthopedic specialist reviews the father's case. The opinion: total hip replacement is appropriate; the surgical risk is elevated given the father's age and mild dementia but not prohibitive; the procedure should be performed at a hospital with full medical-surgical capability (not an ambulatory surgical center), with explicit attention to post-operative delirium prevention.
+
+The Mexicali eye clinic had been a good match for the cataract surgery. For the hip replacement, the framework says: a higher-tier facility with inpatient capability and geriatric anesthesia expertise. Daniel and his sister consider Hospital CIMA San José in Costa Rica (JCI-accredited, established orthopedic program, geriatric-anesthesia expertise documented). The cost is higher than the Mexicali option would have been but well below the US price.
+
+The family proceeds with the planning. Daniel is the companion (Chapter 34). The sister will visit at days 5 and 10. The father's US PCP has agreed to coordinate post-return follow-up. The PT will be at a US facility within 24 hours of return.
+
+The framework expands with the procedure's complexity. The Step 4 procedure requires more verification than the Step 2 procedure. The discipline scales appropriately.
+
+### Sources
+
+AAOS clinical practice guidelines; *Journal of Bone and Joint Surgery* (JBJS); *Journal of Arthroplasty*; AJRR Annual Report; NJR Annual Report; peer-reviewed orthopedic surgical outcome literature.
+
+---
+
+## Chapter 28 — Cardiac Surgery
+
+Cardiac surgery is the highest-clinical-stakes survey in this book. The procedures (coronary artery bypass grafting, valve replacement, valve repair, structural cardiac intervention) carry meaningful perioperative mortality even at top US tertiary centers. The procedures require ICU capability, immediate cath lab access, and full medical-surgical hospital infrastructure. The patient's underlying cardiac status often constrains medical-tourism options.
+
+For most patients with stable cardiac disease, cardiac surgery abroad at a top tertiary center is a possible option but requires the framework's full discipline. For patients with acute or unstable cardiac status, cardiac surgery should not be a medical-tourism decision.
+
+### Procedures
+
+**Coronary artery bypass grafting (CABG).** Multi-vessel coronary artery disease. The most common cardiac surgery globally.
+
+**Valve replacement.** Aortic, mitral. Mechanical prostheses require lifelong anticoagulation; biological prostheses have shorter durability but no anticoagulation requirement.
+
+**Valve repair.** Mitral valve repair particularly; preserves the native valve when feasible.
+
+**Septal defect repair.** Atrial septal defect (ASD), ventricular septal defect (VSD).
+
+**Structural intervention:**
+- TAVR (transcatheter aortic valve replacement).
+- MitraClip (transcatheter mitral repair).
+- Other structural interventions.
+
+### Volume and mortality
+
+US CABG volume: approximately 340,000 annually (STS National Database). US TAVR volume: growing rapidly, now exceeding surgical aortic valve replacement at many centers. Estimated 10,000–20,000 US patients travel abroad annually for cardiac procedures — concentrated at top tertiary centers, particularly the Indian cardiac corridor.
+
+STS National Database 30-day mortality for isolated CABG at US centers: 1.5–2.5% (risk-adjusted; varies by center and patient profile). India top tertiary center mortality at Narayana Health, Apollo Hospitals Chennai, and similar reported in peer-reviewed literature: 1.0–2.0% — comparable to US median, sometimes better than US median.
+
+The variance is the key. Top international tertiary centers can match US outcomes. Lower-volume international centers can have substantially worse outcomes. The variance within international care is wider than the variance within US care.
+
+### The India tertiary corridor
+
+The Indian cardiac surgery market is concentrated at a small number of high-volume tertiary centers:
+
+- **Apollo Hospitals** (multiple locations; Chennai is the cardiac flagship).
+- **Narayana Health** (Bangalore, Kolkata, Mysuru, others). Founded by Dr. Devi Shetty as a high-volume cardiac surgery program.
+- **Fortis Healthcare** (multiple locations).
+- **AIIMS** (All India Institute of Medical Sciences) and several teaching hospitals.
+
+These centers operate at volumes that exceed many US programs (Narayana's Bangalore Health City performs over 30 CABGs per day at peak). The published outcomes in peer-reviewed Indian and international cardiology journals are well-regarded. The cost differential is large.
+
+**Cost differential:** US CABG $80,000–$200,000 (depending on complexity, comorbidities, length of stay) → India top tertiary $5,000–$10,000; Thailand $15,000–$30,000; Turkey $20,000–$35,000; Mexico $25,000–$45,000.
+
+### The structural-not-essentialist framing
+
+This survey, like Volume Two's framing of the Dominican Republic data, is careful to distinguish destination from clinic. The recommendation is not "do not travel to India for cardiac surgery"; it is "do not travel to a non-tertiary center for cardiac surgery." India happens to have several of the world's top high-volume cardiac centers. India also has many lower-volume centers that do not match those outcomes. The destination is not the variable; the specific center is.
+
+### The framework's discipline for cardiac medical tourism
+
+Step 5 procedure. The framework's full discipline applies, with additional cardiac-specific requirements:
+
+**Tertiary hospital verification.** The facility must have full medical-surgical hospital capability — ICU, immediate cath lab access, 24/7 cardiologist coverage, full anesthesia and perfusion staffing. Ambulatory surgical centers cannot host cardiac surgery; if a clinic markets cardiac procedures at an ambulatory facility, the framework says no.
+
+**Surgeon verification.** Cardiothoracic surgery board certification (STS membership for US-credentialed; country-equivalent board for international). Procedure-specific volume — the surgeon should perform the specific procedure (CABG, aortic valve replacement, etc.) at meaningful volume.
+
+**Anesthesia provider verification.** Cardiac anesthesia is a sub-specialty. Verify the anesthesia provider's cardiac anesthesia experience.
+
+**Outcomes data.** The destination center should be able to provide its STS-like outcomes data (volume, 30-day mortality, complication rates) in writing. If the center cannot, the verification is incomplete.
+
+**ICU capability.** Verify ICU bed availability, ICU staffing ratios, ICU-specific cardiology coverage.
+
+**Transfer protocol.** What happens if a complication exceeds the facility's capability? Where is the nearest higher-level facility? What is the transfer time?
+
+**Anticoagulation management for return flight.** Patients with mechanical valves require lifelong anticoagulation; the return-flight management of anticoagulation is a specific medical question. Patients with biological valves have shorter post-operative anticoagulation; the timing of return flight should be discussed explicitly.
+
+### When cardiac medical tourism is reasonable
+
+The categories where it can be reasonable:
+- Stable cardiac patient.
+- Mature surgical recommendation from US cardiology (not made under acute pressure).
+- Robust pre-operative evaluation.
+- Top-tier international tertiary center with documented outcomes.
+- US-based cardiology continuity arrangement for post-return follow-up.
+- Anticoagulation management plan for return flight worked out in advance.
+
+### When cardiac medical tourism is wrong
+
+The categories where it is wrong:
+- Acute or unstable cardiac status (acute MI, decompensated heart failure, acute valve dysfunction).
+- Significant comorbidities requiring rapid US follow-up.
+- Patient unable to manage post-operative anticoagulation independently.
+- Lack of US-based cardiology continuity arrangement.
+- Lower-volume international centers without verifiable outcome data.
+
+### Sources
+
+STS National Database; ACC/AHA guidelines (American College of Cardiology / American Heart Association); *NEJM*, *Lancet*, *JACC*, *JAMA Cardiology*, *Annals of Thoracic Surgery*. Narayana Health and Apollo Hospitals published outcomes.
+
+---
+
+## Chapter 29 — Oncology
+
+Oncology is the most editorially-sensitive survey in the book. The category includes two very different things: evidence-based cancer care that happens to be available abroad (sometimes at much lower cost than at home), and unapproved alternative cancer therapies marketed to desperate patients. The framework treats them very differently. This chapter is about the evidence-based category; Chapter 30 covers the recommend-against pattern for alternative therapies.
+
+### Scope of evidence-based oncology medical tourism
+
+The legitimate cases:
+
+**Surgical oncology** at top international tertiary centers with full tumor board capability. India's Apollo cancer centers, Singapore's National Cancer Centre, Mexico's INCan (Instituto Nacional de Cancerología), Israel's Tel Aviv Sourasky Medical Center, Germany's Heidelberg University Hospital. These centers perform standard-of-care surgical oncology at international tertiary tier.
+
+**Specific chemotherapy regimens** that are not FDA-approved but are evidence-based in other regulatory jurisdictions. Some immunotherapy combinations, some cancer vaccines, some targeted-therapy combinations. The legitimate cases require careful navigation — the FDA's expanded access program (clinicaltrials.gov) is the right starting point for US patients seeking access to investigational drugs.
+
+**Radiation oncology specialties.** Proton beam therapy has limited US availability; some patients travel to Mexico (Centro Oncologico Internacional), Czech Republic (Proton Therapy Center Czech), or Asia for proton beam treatment of specific cancer indications.
+
+**Second-opinion treatment planning** at top international centers. India Apollo, Singapore NCCS, MSK International for US patients (Ch 15) — second-opinion review of US treatment plans, sometimes with adjustments.
+
+### What is not in scope for the evidence-based survey
+
+- Replacement of standard cancer care with unapproved alternative therapies.
+- "Cure for cancer" marketing from clinics offering laetrile, Gerson protocol, high-dose vitamin C, oxygen therapy, hyperthermia, or other unapproved interventions.
+- Treatment delay to seek alternative therapies when standard treatment would be effective.
+
+These are covered in Chapter 30 (Patterns We Recommend Against), not here.
+
+### Volume
+
+Cancer treatment tourism volume is hardest to estimate of any category. Tens of thousands of US patients travel annually across multiple modalities. The volume for unapproved alternative therapies is harder to estimate but has been documented in investigative journalism on Mexican alternative cancer clinics, German biological cancer clinics, and other destinations.
+
+### Cost considerations
+
+Cancer surgery costs are often comparable or modestly less abroad at top tertiary centers. Chemotherapy drug costs in India are 10–30% of US prices (different drug supply chains, manufacturing, regulatory environments). Proton beam radiation: limited US centers and higher US costs make destination care meaningfully more affordable.
+
+### Continuity-of-care reality
+
+Cancer treatment is rarely a single episode. Most cancer care involves:
+- Diagnosis and staging.
+- Initial treatment (surgery, chemotherapy, radiation, immunotherapy — often a combination).
+- Follow-up imaging and monitoring for several years.
+- Surveillance for recurrence indefinitely.
+- Adjustment of long-term hormonal therapy or maintenance regimens.
+
+Medical tourism for the initial treatment phase requires US-based oncology continuity arrangement before traveling. The cancer patient who travels abroad for surgery without arranging US-based surveillance has a continuity-of-care gap that meaningfully affects long-term outcome.
+
+### Framework discipline for oncology medical tourism
+
+- The destination center must be a recognized cancer center (NCI-CCC-equivalent international designation). Apollo Cancer Centers, Singapore NCCS, Tel Aviv Sourasky, Heidelberg, etc.
+- The center must have tumor board capability — multidisciplinary case review involving surgical, medical, and radiation oncology.
+- US-based oncology continuity must be arranged in writing before traveling.
+- A telemedicine second opinion from a US academic cancer center (MD Anderson, MSK, Mass General) is strongly recommended for any oncology medical-tourism decision.
+- For clinical-trial access abroad: the FDA's expanded access program is the right first step before considering travel.
+
+### Composite Scenario E — Karen and her mother
+
+Karen, 51, school administrator. Her mother (74) is diagnosed with stage III breast cancer. The US oncologist's recommended treatment plan is standard: neoadjuvant chemotherapy (four cycles), then surgery (mastectomy with sentinel node biopsy), then radiation, then five years of endocrine therapy (aromatase inhibitor given the mother is postmenopausal). The estimated US out-of-pocket cost, with the mother's good insurance, is meaningful but not catastrophic.
+
+Karen has read about cancer treatment abroad. She has been told India offers some of the same chemotherapy regimens at one-fifth the cost. She is not yet sure whether medical tourism is the right answer. She is also worried she is missing something — whether the US treatment plan is actually the best available.
+
+Karen submits her mother's records to MSK International Second Opinion ($1,800; 12-day turnaround). The MSK breast oncology specialist reviews the records, the imaging, the pathology, and the proposed US treatment plan.
+
+The MSK opinion confirms the US plan as appropriate: neoadjuvant chemotherapy is the right starting point; the regimen is standard (AC followed by taxane); the surgical plan is consistent with current guidelines; the radiation indication is clear; the endocrine therapy is appropriate. The MSK specialist notes one consideration: a specific genomic test (OncotypeDX or MammaPrint) might inform endocrine therapy duration and the question of whether chemotherapy is necessary given the tumor's molecular profile.
+
+Karen brings the MSK opinion to her mother's US oncologist. The oncologist orders the genomic test. The result: the tumor is in the intermediate-risk band; chemotherapy benefit is borderline; the oncologist and Karen's mother decide together to proceed with chemotherapy given the patient's preference for the more aggressive approach.
+
+The treatment proceeds in the US. The framework did its job: the second opinion confirmed the plan, refined one element, and gave the family confidence in the decision. Medical tourism was considered and rejected for this case — the financial differential did not justify the continuity-of-care complexity for a multi-year oncology treatment course.
+
+The mother is at year 2 of follow-up at the time the book is written. She is doing well. The MSK opinion is in her records. The decision was the right decision for this family. The framework helped them see why.
+
+### Sources
+
+NCI publications and clinicaltrials.gov; ASCO position statements; FDA expanded access program documentation; *Journal of Clinical Oncology*; *JAMA Oncology*; *NEJM*; peer-reviewed oncology outcome literature.
+
+---
+
+## Chapter 30 — Patterns We Recommend Against
+
+This is the editorial-position chapter. It identifies a small number of patterns in medical tourism where the documented evidence is sufficient that "ask better questions" framing is, in the book's judgment, insufficient. The book takes positions. It sources them. The reader who disagrees with the positions has access to the same sources and can reach their own conclusion.
+
+The framing matters. The chapter does not recommend against the procedures these patterns describe. It recommends against the *patterns* — specific combinations of procedure, technique, facility, credentialing, or timing where the documented evidence supports the recommendation.
+
+### 1. Transplant tourism in documented organ-trafficking corridors
+
+The book takes the strongest editorial position on transplant tourism. The patient who travels abroad for organ transplant in specific documented corridors participates in a market that international professional societies, federal agencies, and human-rights tribunals have explicitly condemned.
+
+**Sources:**
+- *Canadian Medical Association Journal* (CMAJ): multiple peer-reviewed articles documenting Chinese organ-trafficking from prisoners of conscience.
+- *The Lancet*: commentary and position pieces on transplant tourism.
+- *China Tribunal Final Report* (2020): independent tribunal chaired by Sir Geoffrey Nice QC concluded that forced organ harvesting from prisoners of conscience continues in China.
+- U.S. State Department Trafficking in Persons (TIP) reports (annual): organ-trafficking sections.
+- The Transplantation Society position statement on transplant tourism.
+- WHO Guiding Principles on Human Cell, Tissue, and Organ Transplantation (2010 update).
+
+**Documented corridors** in peer-reviewed literature:
+- **China.** Kidney, liver, heart, lung — sourced from prisoners including political prisoners. The China Tribunal's findings on forced organ harvesting are detailed and sourced.
+- **Pakistan.** Kidney — economically coerced donors documented in *Lancet* and *Transplantation* series.
+- **Egypt.** Kidney — documented donor coercion.
+- **Philippines.** Kidney — until 2008 ban; some illegal market persists.
+- **Bangladesh.** Kidney — documented poverty-driven donor markets.
+
+**The book's position:** do not travel to these corridors for organ transplant. The pattern is not consumer protection; it is participation in a market international professional societies and federal agencies have explicitly condemned.
+
+**Distinguishing legitimate cross-border transplant programs:** kidney exchange consortia, paired exchange across friendly jurisdictions, living-related donor transplant performed at properly regulated international centers — these exist and are distinct from the trafficking corridors. The framework's discipline is to verify the specific program and its regulatory framework, not to assume all international transplant equals trafficking.
+
+### 2. Stem-cell, regenerative, exosome, peptide, and longevity tourism
+
+**Sources:**
+- FDA Public Health Advisory letters on unapproved stem-cell products (2017, 2019, 2023).
+- International Society for Stem Cell Research (ISSCR) Consumer Guide to Stem Cell Therapies.
+- Peer-reviewed harm case series in *Nature*, *Cell Stem Cell*, and ophthalmology literature (documented vision loss from intravitreal stem-cell injection).
+
+**The pattern:** clinics market "stem cell therapy," "regenerative medicine," "exosome therapy," "peptide therapy," or "longevity treatments" for indications ranging from cosmetic to chronic-disease to anti-aging. Most products are not FDA-approved. Most clinics have no published clinical trials at the marketed indication. Most marketing claims are not supported by peer-reviewed evidence.
+
+**The book's position:** treat the entire category as a warning, not a buyer's guide. The category is structured in a way that buyer-protection framing cannot improve outcomes — the products themselves are not regulated as medicine, the supply chain is opaque, and the outcome data is absent.
+
+**Distinguishing FDA-approved cellular therapies:** CAR-T for specific cancers (approved indications only), FDA-approved cord-blood for specific hematologic conditions, FDA-approved bone marrow transplant. These are legitimate cellular therapies with regulatory oversight. The marketing umbrella of "stem cell" and "regenerative" includes these and many others; the framework distinguishes.
+
+### 3. Unapproved alternative cancer therapies abroad
+
+**Sources:**
+- NCI factsheets on complementary and alternative medicine for cancer (cancer.gov).
+- Peer-reviewed harm case series in *Journal of Clinical Oncology* and *JAMA Oncology* on patients who chose alternative therapies over evidence-based treatment.
+- Investigative journalism (ProPublica, BBC, NYT, *Washington Post*) of specific clinics: Mexican alternative cancer clinics (Hoxsey, Gerson, others); German biological cancer clinics in Frankfurt and elsewhere; specific Texas-Mexico border clinics.
+- FDA warnings on specific unapproved cancer treatments.
+
+**The pattern:** clinics market unapproved cancer therapies — laetrile, high-dose vitamin C, oxygen therapy, hyperthermia, German biological cancer clinics, Mexican alternative cancer clinics, "natural" cancer treatments. The marketing targets patients with serious cancer diagnoses, often those who have been told their prognosis is poor with standard treatment. The documented harm pattern is patients dying of treatable cancers after spending savings on regimens with no clinical evidence.
+
+**The book's position:** unambiguous. Do not delay or replace evidence-based cancer care with unapproved alternative therapies abroad. This is distinct from Chapter 29's coverage of evidence-based oncology medical tourism (clinical trial access, top tertiary center care at international cancer centers, specific approved-elsewhere chemotherapy regimens). The recommend-against pattern is the marketing of unapproved alternative therapies, often to vulnerable patients.
+
+### 4. Surgery in non-accredited facilities
+
+Carried forward from Volume Two of this series. The pattern: facilities that market surgical procedures without verifiable accreditation by a recognized body (JCI, AAAASF, ISO 9001 in combination with healthcare-specific accreditation, ISQua-recognized national bodies).
+
+**Sources:**
+- JCI, AAAASF, ISQua accreditation documentation and public directories.
+- CDC outbreak investigations of surgical-site infection clusters at specific non-accredited facilities.
+- Investigative journalism on facility-deficiency patterns.
+
+**The book's position:** for any surgical procedure (Step 3 and above on the complexity ladder), the facility must hold verifiable accreditation by a recognized body. Facilities advertising "international standards" or "internationally accredited" without naming a specific body are not verifiable. The verification path: search the relevant body's public directory.
+
+### 5. BBL with intramuscular fat injection
+
+Carried from Volume Two. The CDC MMWR series on 93 US-citizen deaths in the Dominican Republic, 2009–2022, with 92% involving gluteal fat transfer, anchors the editorial position. The pattern is intramuscular fat injection technique in non-accredited facilities.
+
+**The book's position:** BBL with intramuscular fat injection in non-accredited facilities should be avoided. The procedure has the highest mortality of any cosmetic procedure documented in published literature. Volume Two covers the technique-specific framework and the safer-pattern alternatives.
+
+### 6. Unverifiable surgeon credentials
+
+Carried from Volume Two. The pattern: clinics that cannot or will not provide the surgeon's verifiable credentials (board certification, registration number in the destination country's official register, country of certification).
+
+**The book's position:** do not deposit, do not travel, do not consent for any procedure where the surgeon's credentials are not verifiable in a public registry before deposit. This is the single strongest predictor of documented patterns of harm.
+
+### 7. Unverifiable anesthesia provider credentials
+
+Carried from Volume Two. The pattern: clinics that cannot or will not provide the named anesthesia provider's credentials for procedures requiring sedation, regional, or general anesthesia.
+
+**The book's position:** the anesthesia provider's credentials matter as much as the surgeon's. The CDC MMWR data on US-citizen cosmetic surgery deaths in the DR includes anesthesia-related deaths. The verification path is the same as for surgeons.
+
+### 8. Surgery in the 12 months after major adverse life events
+
+The pattern: cosmetic surgery, bariatric surgery, or other elective procedures undertaken within 12 months of major adverse life events (death of partner or parent, divorce, job loss, major diagnosis). Peer-reviewed outcome literature in cosmetic and bariatric surgery shows higher rates of dissatisfaction and regret in this window.
+
+**The book's position:** not a categorical prohibition. The timing question. The framework's discipline is to delay elective procedures by 12 months from major adverse events when feasible. Some readers will choose to proceed; the framework is to make the choice with awareness of the published outcome literature.
+
+### Framing summary
+
+The book takes editorial positions on the eight patterns above because the documented evidence is sufficient that "ask better questions" framing is, in our judgment, insufficient. The positions are sourced. The reader can verify the sources independently.
+
+The book does not take editorial positions on:
+- Any specific destination country.
+- Any specific facility (the framework provides verification tools; specific facility recommendations are not made).
+- Any specific surgeon (same).
+- Any specific implant brand or manufacturer.
+- The patient's individual decision to proceed with a procedure once the framework has been applied.
+
+The reader who applies the framework and reaches a decision the book would not have made is exercising the patient autonomy the framework is designed to protect. The patterns the book recommends against are the patterns where the framework, when applied, would itself recommend against the procedure.
+
+::: {.bernard-note}
+
+**A note from the editor — Why this chapter exists**
+
+This chapter is the most difficult chapter I have written across the three volumes of this series. It takes editorial positions that some readers, some industry actors, and some patient communities will not like.
+
+The reasons it exists are simple. First, the patterns above are documented in peer-reviewed literature, federal-agency reporting, and human-rights documentation that the book cannot in good conscience ignore. Second, a buyer-protection book that will not name patterns of documented harm is not actually a buyer-protection book; it is a destination directory with caveats. Third, the cost of the book being wrong about these positions is meaningfully lower than the cost of the book being right and silent.
+
+The framing matters. The book is not telling readers what to do. It is sharing the patterns where the documented evidence is sufficient that buyer-protection framing alone is, in our judgment, insufficient. Readers retain autonomy. The framework is what allows informed autonomy.
+
+The malpractice attorney who reviewed this chapter in Phase 5 will pressure-test the language. Specific claims may be softened where the evidence is less definitive. Other claims will stay where the evidence supports them. The chapter is the editorial spine of the book; it is held to a higher sourcing standard than any other chapter.
+
+If a reader takes nothing else from this book, the framework's discipline is enough. If a reader takes the framework plus an awareness of these patterns, the book has done its job.
+
+— *Bernard Huang, Editor*
+
+:::
+
+---
+
+## Chapter 31 — When the Framework Says Yes
+
+The book has spent thirty chapters on the framework and the patterns to avoid. This chapter is the constructive complement: what success looks like when the framework holds. The composite scenarios that have been built across the previous chapters resolve here.
+
+### What success looks like
+
+A medical-tourism procedure that has gone well — the framework applied, the verification complete, the procedure performed at a verified facility by a verified surgeon, the records intact, the recovery on plan, the follow-up arranged — has a specific shape. It is undramatic. The patient is at year 1, year 5, year 10 with the procedure they sought, the cost savings they planned for, and the continuity of care they arranged.
+
+The success is not the procedure alone. It is the procedure plus the framework. The patient who treats medical tourism as a project — with phases, deliverables, verification checkpoints, and contingency plans — has access to outcomes the patient who treats it as a transaction does not.
+
+### Composite Scenario A continued — Marcus at 8 months
+
+Marcus is now eight months post-procedure. The bilateral total knee arthroplasty was performed at Hospital CIMA San José in Costa Rica by a JCI-credentialed orthopedic surgeon. The surgeon's full name and Costa Rican cédula are in Marcus's records. The implant — Stryker Triathlon, both knees — is documented with manufacturer lot numbers and warranty registration. The anesthesia record is signed by a named cardiac anesthesia provider. The operative report is two pages, signed.
+
+The all-in cost was $14,800 for both knees, including a 14-day stay in San José for surgery, recovery, and the first post-operative follow-up. The True Cost Calculator that Marcus completed at week 5 of the 60-day plan estimated $27,000 all-in including the travel, the lost income, the complication reserve, and the US-based PT. The actual all-in cost ended up at $26,400 — within a few percent of the estimate.
+
+Marcus returned to desk work at week 8. The PT was at a clinic 15 minutes from his house in Denver; the PT provider had agreed to accept records from the Costa Rican procedure before Marcus traveled. The PT lasted 8 weeks for the left knee and 6 weeks for the right knee. His US PCP saw him at week 4 and week 12 post-procedure; both visits were routine.
+
+At month 8, Marcus is back to softball. The knee on the right side is fully recovered. The knee on the left side is at about 95% of expected function; one more month of focused PT will close the gap.
+
+He has not yet decided what to do with the framework moving forward. His brother — the one who agreed to be the home contact during the trip — has told him he is considering hip replacement for his own arthritis in three years. The framework Marcus learned, and the records he has from his procedure, are now resources for someone in his family.
+
+The procedure was successful. The framework was the reason it was successful. The two are not separable in Marcus's account of what happened. He says, at year 1 follow-up, that he wishes he had read the book six years ago — when the right knee first started hurting and he started ignoring it because the US prices were impossible. The framework, he says, is not what made the procedure good; it is what made the decision good. The decision is what made the procedure possible.
+
+### What the framework produces over time
+
+The success patterns share specific features:
+
+- The patient has complete records. The operative report, the anesthesia record, the implant documentation, the discharge instructions, the post-operative photographs. The records survive the transition home; they continue to serve the patient at year 5, year 10.
+- The patient has US-based clinical continuity. A primary care physician who knows the procedure was performed abroad and has the records. A specialist who can manage post-procedure follow-up when needed. The continuity is the difference between a closed-loop procedure and one that becomes the foundation for further care.
+- The patient has financial closure. The True Cost Calculator was honest; the actual cost was within range; the patient did not need to take on undisclosed debt or compromise other financial goals.
+- The patient has emotional closure. The decision was made on the patient's calendar, with the patient's framework, with the patient's chosen support. The patient does not feel that medical tourism happened *to* them; they feel they did medical tourism — actively, deliberately, with discipline.
+
+The framework, applied, produces all four of these. The framework, not applied, often produces none.
+
+### What this chapter is and is not
+
+This chapter is not a celebration of medical tourism. It is an accurate description of what the framework can produce when it is applied seriously. The book is not promoting medical tourism; it is preparing readers who choose medical tourism to do it well.
+
+Many readers, after applying the framework, will conclude medical tourism is not the right answer for their situation. That conclusion is also a success of the framework. The framework's job is to make the decision defensible. Both the decision to proceed and the decision not to proceed can be defensible.
+
+### Forward to Part VI
+
+The chapter that follows starts Part VI — Recovery, Records, Coming Home. The framework that brought Marcus to a successful Costa Rican procedure now becomes the framework for the recovery, the records management, the US-based follow-up, and the year-1, year-5, year-10 continuity. The work is not over at the procedure. It transitions; it continues.
+
+::: {.pull-quote}
+The framework, applied, produces complete records, US-based continuity, financial closure, and emotional closure. The framework, not applied, often produces none.
+:::
+
+---
+
+# Part VI — Recovery, Records, Coming Home
+
+## Chapter 32 — Before You Leave the Destination
+
+The most important hours of medical tourism are the hours between the procedure and the flight home. The records you secure during this window are the records that serve you for the next decade. The procedure is over; the work is not.
+
+This chapter is the operational discipline for the final hours in destination.
+
+### The closing-clinic checklist
+
+Before you leave the clinic for the last time — typically the discharge appointment or the final follow-up — you should have:
+
+**Operative report.** Signed by the operating surgeon. Includes the procedure performed, the surgical findings, the implants placed (with manufacturer and model), any intra-operative complications, and the post-operative orders. In English or with certified translation. This is the most important single document.
+
+**Anesthesia record.** Signed by the anesthesia provider. Includes the anesthetic agents used, the doses, the duration, any intra-operative anesthetic events.
+
+**Discharge summary.** Includes the post-operative course in the destination, the current medications and dosing, the expected recovery trajectory, the flight-clearance criteria, the warning signs that warrant immediate medical attention.
+
+**Implant documentation.** For any procedure involving implants (orthopedic, breast, cardiac, dental): the implant patient cards. Each card identifies the manufacturer, model, size, lot number, UDI (Unique Device Identifier), and the anatomic site of placement. The cards are physical documents the patient carries; they are also the basis for any future warranty claim or implant-specific tracking.
+
+**Pathology report.** If tissue was removed and sent for pathology, the pathology report and the supporting microscopy slides if applicable.
+
+**Pre-operative and post-operative imaging.** X-rays, CT scans, MRI, ultrasound. Both the images themselves (on USB drive or DICOM media) and the radiologist reports.
+
+**Itemized invoice.** With all charges, all payments, and any outstanding balance. The currency, the exchange rate, the payment method.
+
+**Warranty terms.** For implants and other procedure-relevant warranties. In writing.
+
+**Photographs.** For cosmetic, reconstructive, and certain other procedures: pre-operative photos from the destination clinic's standardized views; post-operative photos at the discharge visit.
+
+**Follow-up appointment schedule.** What in-destination follow-up was performed; what post-return follow-up the destination clinic recommends.
+
+**Contact information.** The surgeon's direct contact (or the international patient department's senior coordinator) for at least 30–90 days post-procedure. The arrangement for handling clinical questions after return.
+
+### Records format
+
+The format of the records matters operationally:
+
+**Operative report, anesthesia record, discharge summary, pathology report, radiologist reports:** PDF documents in English or with certified translation. Digital copies on USB drive plus printed copies for the carry-on.
+
+**Imaging:** DICOM format on USB drive. DICOM is the medical imaging standard; any qualified US radiologist or specialist can open DICOM. Avoid clinics that provide imaging in proprietary formats or only in JPG/PNG image previews.
+
+**Implant cards:** Physical patient cards from the manufacturer. The destination clinic should provide these; some manufacturers also have online registration portals that allow the patient to register the implant for warranty purposes.
+
+### Translation considerations
+
+For records in languages other than English, certified translation is the framework's discipline. Some destinations provide records in English by default; some provide bilingual records; some provide records in the destination language only.
+
+For records in Spanish (Mexico, Costa Rica, Colombia, etc.), translation services are widely available at modest cost ($30–$80 per document for certified translation). For Hindi, Mandarin, Turkish, Korean, or other destination languages, certified medical translation services exist but at higher cost ($50–$150 per document).
+
+Budget the translation cost into the True Cost Calculator. The records are not useful at home if they are not in a language the US clinician can read.
+
+### The departure-day photograph
+
+For cosmetic, reconstructive, and certain orthopedic procedures: take a final standardized photograph at the discharge visit. This becomes the baseline against which post-return recovery and final outcome are measured.
+
+The photograph should be in the same lighting, angle, and pose as the pre-operative reference photograph. The destination clinic's photographer typically handles this; verify before the visit that the photographs will be provided in digital format.
+
+### Records to carry vs. records to ship
+
+For the flight home:
+- **Carry-on:** physical implant cards; printed copies of operative report, discharge summary, and current medication list; USB drive with all digital records; any imaging media. The carry-on records are the records that matter if luggage is delayed.
+- **Checked or shipped:** copies of the same; the originals if applicable.
+- **Cloud backup:** before leaving destination, upload all digital records to a personal cloud (Google Drive, Dropbox, iCloud) accessible from home. Two-factor authentication.
+
+The framework's discipline: at least three copies of the records, in at least two physical formats, in at least two locations.
+
+*A reusable copy is Worksheet 10 (Records Packet Cover Sheet) in the back matter.*
+
+---
+
+## Chapter 33 — The Records Packet Across Procedures
+
+The 22-item records inventory is the universal records packet template. It applies to any medical-tourism procedure with minor variation. Each item should be in the patient's records packet before they leave the destination.
+
+### The 22-item inventory
+
+**Procedure documentation:**
+1. Operative report (surgeon-signed).
+2. Anesthesia record (anesthesia provider-signed).
+3. Surgical pathology report (if tissue was removed).
+4. Discharge summary.
+5. Procedure-specific consent forms (signed by patient).
+6. Pre-operative consultation notes.
+7. Post-operative orders.
+
+**Imaging and lab:**
+8. Pre-operative imaging (DICOM format).
+9. Post-operative imaging.
+10. Lab results from in-destination workup.
+11. Specialist consultation reports (cardiology, anesthesiology pre-op).
+
+**Implants and devices:**
+12. Implant patient cards (manufacturer, model, size, lot, UDI, site).
+13. Device warranty documentation.
+14. Manufacturer registration confirmation.
+
+**Medications:**
+15. Discharge medication list with doses and durations.
+16. Prescription documents for any post-return medications.
+
+**Follow-up:**
+17. In-destination follow-up appointment notes.
+18. Post-return follow-up recommendations from destination surgeon.
+19. Long-term surveillance recommendations (FDA implant surveillance schedule for breast implants; AJRR-equivalent for joint replacements; etc.).
+
+**Financial:**
+20. Itemized invoice with all payments.
+21. Currency conversion documentation if relevant.
+
+**Photographic:**
+22. Pre-operative and post-operative photographs in standardized views.
+
+### The records-packet cover sheet
+
+Worksheet 10 in the back matter is the cover sheet. It summarizes the procedure, the providers, the implants, and the location of each record in the packet. The cover sheet is what a US clinician sees first; it should be readable in 60 seconds and direct the reader to the supporting documents.
+
+### File formats and storage
+
+**Physical binder:** the gold-standard storage. Three-ring binder with section dividers, printed copies of all paper documents, sleeves for the implant cards, a CD/DVD/USB envelope for imaging media. The binder lives at home and is the master copy.
+
+**Personal cloud storage:** Google Drive, Dropbox, iCloud, OneDrive. All digital documents uploaded; folder structure that mirrors the binder. Accessible from anywhere with two-factor authentication.
+
+**Trusted family member or attorney:** a duplicate copy of the cover sheet plus the most important documents (operative report, implant cards, current medication list) with a trusted family member or attorney. This is the contingency copy if the primary copies are lost or destroyed.
+
+### What to do when the clinic will not release records
+
+Some destination clinics resist releasing records — through inaction, language barriers, demand for additional fees, or genuine bureaucratic difficulty. The framework's discipline:
+
+- Request the records in writing before the procedure (in the pre-deposit communication, in the consent forms).
+- Request again during the in-destination stay (at the operative day, at the discharge visit).
+- Request a final time at the discharge appointment, with the request and the response documented.
+- If the clinic refuses or delays, escalate to the international patient department's senior staff, the medical regulator in the destination country, and the patient's home-country embassy as appropriate.
+
+For US patients with credit-card payment of the procedure, persistent records refusal is grounds for chargeback initiation under the Fair Credit Billing Act. The threat of chargeback often produces records release.
+
+### The companion site as a reference resource
+
+Tabiji's companion site (tabiji.ai/book/medical-tourism) maintains a current reference for records-management questions: format examples, cover-sheet templates, translation-service recommendations, and case-specific guidance for procedure categories not covered in detail in the book.
+
+*A reusable copy is Worksheet 11 (Records Packet Inventory) in the back matter.*
+
+---
+
+## Chapter 34 — The Companion's Role
+
+For medical tourism involving Step 3 or higher procedures (inpatient, general anesthesia, multi-day recovery), a companion is one of the highest-leverage decisions the patient makes. The companion is not the substitute for the patient's framework; they are the support that allows the framework to operate when the patient is not in a position to operate it themselves.
+
+This chapter is the companion's role for medical tourism generally. Volume Two of this series covers the companion role for cosmetic surgery specifically.
+
+### The pre-trip companion briefing
+
+Before traveling, the companion should know:
+
+- The procedure: what it is, what to expect, what could go wrong.
+- The location: the destination, the clinic, the hotel, the alternate hospital if escalation is required.
+- The framework: the patient has been working a framework; the companion should know what it requires.
+- The medical history: the patient's current medications, allergies, baseline cognitive function, any specific concerns.
+- The records plan: where the records will be stored, how to access them in an emergency.
+- The escalation criteria: when to call the clinic, when to call emergency services, when to consider transfer to a higher-level facility.
+
+The briefing is best done a week or more before travel, with the procedure documents in hand. A written briefing (one or two pages) summarizing the above is appropriate.
+
+### Day-of role
+
+On the day of the procedure:
+
+- The companion accompanies the patient to the clinic.
+- The companion may be present at the pre-operative consultation if the destination clinic permits.
+- The companion is NOT a substitute for the patient's consent. Non-emergency consent decisions remain with the patient. (See Volume Two, Chapter 23, for the non-emergency consent rule.)
+- The companion waits during the procedure (typically in a waiting area provided by the clinic).
+- The companion is present in the recovery room when the patient regains consciousness.
+- The companion notes anything unusual: medication errors, communication problems, post-operative findings the destination clinic does not adequately explain.
+
+### Recovery-week medical observation duties
+
+In the days following the procedure, the companion's role expands. The companion is the patient's eyes and ears when the patient is medicated, fatigued, or otherwise impaired. Specific observations matter:
+
+- Vital signs trajectory (fever especially — fever above 101°F / 38.3°C warrants clinic contact).
+- Wound appearance (changes in drainage, redness expansion, increasing pain).
+- Mental status (confusion, particularly in older patients post-anesthesia).
+- Signs of DVT/PE (calf swelling or pain; chest pain, shortness of breath, unilateral leg edema).
+- Signs of infection.
+- Medication adherence (the patient may forget doses or take incorrect doses while recovering).
+
+The companion is not the clinician; the companion is the observer. The observation that matters most: changes from baseline. The companion who knew the patient before the procedure can recognize changes the clinic staff may miss.
+
+### The non-emergency consent rule
+
+Carried from Volume Two: the companion does NOT consent on behalf of the patient for non-emergency procedure changes or additions. If the destination clinic recommends a change to the procedure plan after the patient is sedated or otherwise unable to consent, the companion's role is to defer the decision until the patient can consent.
+
+This rule applies particularly to:
+- Procedure expansions ("while we have you under, we recommend also doing X").
+- Additional procedures discovered intraoperatively.
+- Equipment or implant substitutions.
+
+Emergency surgical decisions (uncontrolled bleeding, organ injury, true life-threatening complications) are different — these are clinician decisions, not consent decisions, and the framework defers to clinical judgment in true emergencies.
+
+### Escalation framework
+
+The companion's escalation framework:
+
+- **Routine concerns:** observe, document, mention at next clinic contact.
+- **Concerning symptoms:** call the destination clinic. The international patient department typically has 24/7 contact.
+- **Emergency symptoms** (chest pain, shortness of breath, confusion, severe pain, uncontrolled bleeding): call emergency services in the destination AND notify the destination clinic. If emergency services cannot respond in time or to appropriate level, transport to the higher-level hospital identified during pre-trip planning.
+
+The framework's discipline: the companion has the destination's emergency number, the alternate hospital's contact, and the patient's records accessible at all times. The contingency plan was made before it was needed.
+
+### The diaspora companion
+
+For diaspora medical tourism, the companion is often a family member. The family member has language fluency, local knowledge, and personal investment in the patient's care. These are advantages.
+
+The framework's discipline still applies. Family members can be reluctant to escalate. Family members can be invested in protecting the destination clinician's relationship (the "doctor we always go to" pattern). Family members can have different views on the appropriate trade-off between patient autonomy and family decision-making.
+
+The framework's recommendation for diaspora companion arrangements: the patient and the family companion should explicitly discuss the framework, the consent rules, and the escalation criteria before traveling. The clarity reduces friction in the moments when friction would otherwise be expensive.
+
+*A reusable copy of the companion responsibility checklist is Worksheet 12 (Follow-Up Care Script) and Worksheet 18 (Family Decision Worksheet) in the back matter.*
+
+---
+
+## Chapter 35 — Arranging Follow-Up Care at Home
+
+The post-return follow-up is not optional. Every medical-tourism procedure benefits from US-based clinical continuity. For some procedures (bariatric surgery, joint replacement, breast implants, cardiac surgery, oncology), the continuity is essential.
+
+This chapter is how to arrange the follow-up before traveling — the framework's discipline that prevents post-return clinical gaps.
+
+### Start before you travel
+
+The framework's discipline: identify the US-based follow-up provider before booking the destination procedure. The arrangement is in writing, in advance. The patient who arrives home with destination records and no US-based clinician to receive them faces a delay at the worst time.
+
+The arrangement varies by procedure:
+
+- **Bariatric surgery:** US-based bariatric surgeon agreement for multi-year follow-up. Identified during the 60-day plan, confirmed in writing before booking.
+- **Joint replacement:** US-based orthopedic surgeon or primary care physician with arthroplasty experience for the routine follow-up; PT provider arranged for the rehabilitation.
+- **Breast implants:** US-based plastic surgeon or breast surgeon for the FDA-recommended surveillance schedule.
+- **Cardiac surgery:** US-based cardiologist for the routine follow-up; cardiac surgeon contact for any concerns specific to the procedure.
+- **Oncology:** US-based oncologist for the surveillance and any recurrence concerns.
+- **IVF:** US-based OB-GYN or REI for pregnancy follow-up or future cycle planning.
+
+### The willingness gradient of US-based providers
+
+US-based providers have a range of willingness to accept patients from international procedures. The general gradient:
+
+**Highest willingness:**
+- Primary care physicians (most are willing to coordinate follow-up regardless of where the procedure was performed).
+- US-based providers in the same network or hospital system as the patient's prior care.
+- Providers who have professional relationships with the destination clinic or its US-based partners.
+
+**Moderate willingness:**
+- Specialists who do not perform the procedure themselves but follow patients (e.g., an internist following a post-bariatric patient).
+- Providers in markets with substantial medical tourism patient populations (Phoenix, Miami, Houston, Los Angeles).
+
+**Lower willingness:**
+- US-based surgeons who specialize in the procedure performed abroad. The dynamic is partly economic (the surgeon did not perform the procedure; the surgeon is now asked to follow a case they would have charged for at home) and partly liability-related (the surgeon may be uncomfortable assuming clinical responsibility for a procedure they did not perform).
+- Solo practitioners with limited capacity.
+- Providers in tightly-managed care networks (some Kaiser, some Geisinger arrangements).
+
+The framework's discipline: identify the willing providers before traveling. The conversation with a potential US-based follow-up provider should be transparent: "I am planning a procedure abroad. The records will be available before I see you. I am asking for [routine follow-up / surveillance / continuity of care]. What is your willingness and what is the cost?"
+
+### The framing-the-request script
+
+Carried from Volume One and Two. The framing that produces the best response:
+
+"I am planning a [procedure] in [destination]. The records will be available to me before I see you. I am NOT asking you to substitute for the destination clinician or to take clinical responsibility for the procedure itself. I am asking for [specific follow-up service]: post-procedure check-in at 6 weeks, surveillance at 1 year, or coordination of any complications that may arise. Would you be willing to schedule that, and what is the cost?"
+
+This framing does three things: it respects the US-based provider's professional independence; it limits the scope of the request to the manageable part; it makes the financial arrangement explicit. Most US-based providers respond positively to this framing.
+
+### When local specialists are unwilling
+
+If the specific specialist a procedure requires is unwilling to provide follow-up, the framework's options:
+
+- **Primary care physician as coordinator.** The PCP can manage routine follow-up and coordinate referrals when specialist input is needed. Most PCPs are willing.
+- **Different specialist in the same area.** Some markets have multiple specialists; one may be willing where another is not.
+- **Telemedicine specialist from the destination.** The destination surgeon may offer post-return follow-up via telemedicine. Acceptable for some procedure categories; less suitable for procedures requiring physical examination.
+- **Concierge medicine practices.** Some concierge medicine practices specifically accept medical-tourism patients. Higher cost; more flexibility.
+- **Specialist relationships through patient advocacy organizations.** Some medical-tourism patient communities (online and in-person) have informal networks of US-based providers willing to follow medical-tourism patients.
+
+The framework's discipline: do not abandon the follow-up because the first US-based specialist is unwilling. The continuity matters too much.
+
+### Insurance and payment for home follow-up
+
+Most US insurance covers US-based follow-up care that is medically necessary, regardless of where the original procedure was performed. The framework's discipline:
+
+- For the follow-up appointment itself: verify in-network status and likely out-of-pocket cost before scheduling.
+- For specific tests ordered by the follow-up provider (lab work, imaging): same verification.
+- For ongoing surveillance (annual visits, periodic imaging): the cumulative cost matters; document expectations.
+
+For procedures where the US insurance does not cover any portion of the procedure-related care (some elective cosmetic), the follow-up cost is out-of-pocket. Budget it into the True Cost Calculator.
+
+### Composite Scenario C continued — Eleanor at year 1 follow-up
+
+Eleanor is 14 months post-bilateral knee replacement, 9 months post-cataract surgery, 6 months post-dental rehabilitation. She has a thick records folder. The bilateral knee replacement was at Hospital CIMA San José; the cataract surgery was at the Mexicali clinic Daniel had used for his father (a connection Eleanor made through the medical-tourism patient community); the dental rehabilitation was in Los Algodones.
+
+Her US PCP has reviewed all four sets of records — the three medical-tourism procedures plus the in-network hernia repair that happened at home. The PCP knows the implant brand and serial for both knees, knows the IOL brand for the cataract, knows the dental specifications. The records are filed in the patient's chart at the PCP's clinic.
+
+At her year-1 follow-up appointment with the PCP, Eleanor discusses how she is doing. The knees are working as expected. Vision is better than it has been in fifteen years. Dental rehabilitation has held; one minor adjustment was made at a US-based dentist's office in month 8. The hernia repair was uneventful.
+
+The PCP notes the follow-up surveillance recommendations from each destination clinician: annual joint replacement surveillance until further notice; the FDA-recommended breast-implant surveillance does not apply (no implants); routine dental follow-up every 6 months; no surveillance required for the hernia repair beyond the post-operative period.
+
+The PCP also confirms what was already clear from the framework: Eleanor's HSA balance is now $4,200 after the procedures. She has time before the next major medical decision. The framework, applied across four procedures over 18 months, has delivered the result Eleanor planned for.
+
+She mentions to the PCP that her brother in Phoenix is considering hip replacement, and is asking her about the framework. The PCP nods. The patient who applies the framework becomes a resource for the next patient who needs it.
+
+The procedure abroad is not the end of medical tourism. The continuity at home is the framework's longer arc.
+
+---
+
+# Part VII — When Things Go Wrong
+
+## Chapter 36 — Complications: Recognizing, Escalating, Transferring
+
+Some procedures will have complications. Most are minor and manageable. Some are serious. A small number are emergencies that require immediate intervention. The framework's discipline is to recognize early, escalate promptly, and transfer to a higher level of care when warranted.
+
+This chapter is the procedure-agnostic version of the complication framework. Procedure-specific considerations (BBL fat embolism, cardiac post-op anticoagulation, joint replacement DVT, etc.) appear in the procedure surveys and in the specialist volumes.
+
+### Warning signs across procedure types
+
+Recognize the patterns that warrant immediate attention:
+
+**Fever above 101°F / 38.3°C.** Particularly with chills, malaise, or signs of localized infection. The destination clinic should be notified. For procedures with implants or surgical wounds, a fever is potentially a surgical-site infection that may require IV antibiotics and possibly readmission.
+
+**Expanding redness at a surgical site or wound.** A small zone of erythema (redness) at a fresh incision is normal. Spreading redness, particularly if accompanied by increased warmth or pain, suggests cellulitis or surgical-site infection.
+
+**Increasing pain after initial post-operative improvement.** The standard recovery trajectory is gradually decreasing pain. Pain that worsens after a period of improvement is concerning.
+
+**Signs of DVT/PE.** Calf swelling, calf pain, calf warmth (DVT). Chest pain, shortness of breath, racing pulse, unilateral leg edema (PE). DVT and PE are particularly concerning post-orthopedic, post-cardiac, post-bariatric, and post-cosmetic procedures.
+
+**Significant changes in mental status.** Confusion in an older patient post-anesthesia. Persistent confusion is post-operative delirium, which may require evaluation and intervention.
+
+**Significant active bleeding.** Bleeding that does not stop with pressure, soaking through dressings, or hemorrhage from a surgical site requires emergency evaluation.
+
+**Severe medication reactions.** Hives, swelling, difficulty breathing — anaphylaxis or severe allergic reactions. Immediate medical attention.
+
+**Sudden vision change, sudden unilateral weakness or speech difficulty.** Stroke symptoms. Immediate emergency response.
+
+**Severe headache, particularly with nausea/vomiting.** Could be intracranial bleeding or post-spinal-anesthesia headache. Immediate evaluation.
+
+### The escalation framework
+
+The framework's escalation is procedure-agnostic:
+
+**Level 1 — Self-management with destination-clinic awareness.** Minor symptoms that the destination clinic's discharge instructions specifically address. Pain managed with prescribed medications. Slight wound oozing within normal range. The companion observes; the destination clinic is notified at the next routine contact.
+
+**Level 2 — Destination clinic contact.** Symptoms that warrant clinical evaluation but are not emergencies. Fever above the threshold; expanding redness; increasing pain. The destination clinic's international patient department is contacted; the clinic determines whether in-person evaluation is needed.
+
+**Level 3 — Clinic visit or emergency room.** Symptoms that require timely evaluation. The destination clinic is contacted; if the clinic recommends emergency evaluation, the patient and companion go to the destination clinic's emergency department or the alternate higher-level hospital identified during pre-trip planning.
+
+**Level 4 — Emergency services.** Acute, life-threatening symptoms. Chest pain, severe respiratory distress, uncontrolled bleeding, stroke symptoms, anaphylaxis. Call emergency services in the destination first; notify the destination clinic second.
+
+### When to demand transfer to a higher-level facility
+
+For procedures performed at ambulatory surgery centers or smaller hospitals, the patient may need transfer to a higher-level facility (tertiary hospital with ICU) if a complication exceeds the original facility's capability. The framework's discipline:
+
+- The destination clinic should have a transfer protocol documented and accessible. Verify before the procedure (this is one of the questions in Chapter 9 for Step 5 procedures).
+- The companion has the alternate hospital's name and contact accessible.
+- The decision to transfer is generally a clinical decision made by the destination clinician, but the patient and companion have the right to request transfer if they believe the situation warrants it.
+- The financial responsibility for transfer and higher-level care varies; verify in advance whether the destination clinic's package includes complication management and what the cost would be if transfer to an unaffiliated facility becomes necessary.
+
+### The "do not fly home" decision tree
+
+For some complications, the patient should not fly home until cleared by the destination clinician. The framework's discipline:
+
+- DVT or PE: do not fly until cleared.
+- Active infection requiring IV antibiotics: do not fly until oral antibiotic conversion is complete.
+- Recent abdominal surgery with possible postoperative ileus: do not fly until bowel function is restored.
+- Post-anesthesia respiratory compromise: do not fly until pulmonary function is normalized.
+- Open wounds or unhealed surgical sites in specific procedures: per the surgeon's flight-clearance criteria.
+
+The "do not fly home" decision is the destination clinician's. The framework's discipline is to defer to that judgment, even when it is inconvenient. The cost of a delayed flight is modest; the cost of a complication mid-flight or worsening due to flight conditions can be severe.
+
+### In-flight medical emergency protocol
+
+If a medical emergency develops mid-flight:
+
+- Notify the flight attendant immediately.
+- The flight crew can request a medical professional aboard (announcement to passengers) and can connect to ground-based medical consultation.
+- For severe emergencies, the flight may divert to the nearest suitable airport.
+- The patient's records (carried in carry-on per Chapter 32) become critical for any ground-based clinical evaluation.
+
+The framework's discipline: do not minimize symptoms mid-flight. The flight attendant and ground-based medical consultation are resources designed for exactly this situation.
+
+---
+
+## Chapter 37 — Complaints, Chargebacks, Legal Recourse Across Borders
+
+When a medical-tourism procedure goes badly — either through clinical failure, contractual breach, or unexpected outcome — the patient has options. The options are different from US-domestic care; cross-border complaints, chargebacks, and legal recourse have specific frameworks.
+
+### Document first, decide second
+
+The single most important post-procedure rule: document before deciding. Even when emotional response is strong, the documentation determines what options are available later.
+
+What to document:
+- The procedure as performed (operative report, records, photos).
+- The procedure as agreed (original quote, consent forms, pre-operative communication).
+- Any discrepancies (procedure changes not consented to, billing surprises, undisclosed adverse events).
+- Communications with the destination clinic, in chronological order.
+- The patient's clinical course post-return.
+
+Documentation in writing, time-stamped, with copies in multiple locations. The framework's discipline.
+
+### Result dissatisfaction vs. clinical error
+
+Two very different categories with very different response frameworks:
+
+**Result dissatisfaction.** The procedure was performed competently; the patient is dissatisfied with the outcome. Examples: cosmetic result that the patient finds unaesthetic; functional result that fell short of patient expectations (knee that does not flex as well as hoped); recovery that was harder than anticipated.
+
+Result dissatisfaction is real but is generally not grounds for a malpractice claim or chargeback. The framework's response: document the dissatisfaction, communicate with the destination clinician about possible revision or adjustment, evaluate whether revision is warranted clinically.
+
+**Clinical error.** The procedure was performed in a way that fell below the standard of care; the patient experienced harm as a result. Examples: surgical-site infection from sterile-technique failure; implant substitution without consent; wrong-side surgery; foreseeable complication not adequately managed.
+
+Clinical error is grounds for formal complaint, possible chargeback, and possible legal recourse. The framework's response is more aggressive.
+
+### The 11 escalation channels
+
+The full set of channels available for medical-tourism complaints:
+
+1. **Direct communication with the destination clinic.** First step. The clinic's international patient department often resolves the simplest issues here.
+2. **Escalation to clinic senior management.** If the international patient department does not respond adequately, escalate to medical director or hospital administration.
+3. **Implant or device manufacturer.** If the issue involves a specific device that may have failed, the manufacturer has formal reporting and recall mechanisms.
+4. **Destination country's medical regulator.** Each country has a medical regulator that accepts complaints from patients, including international patients. The complaint is documented; investigation may follow.
+5. **Destination country's accreditation body.** If the facility is accredited (JCI, NABH, HAI), the accreditation body has a formal complaint process that can affect the facility's accreditation status.
+6. **Destination country's specialty society** (where applicable).
+7. **US credit-card chargeback.** Under the Fair Credit Billing Act, US patients can dispute charges for "services not rendered" or "services materially different from what was agreed." This is the most accessible remedy for many situations.
+8. **Travel insurance or complication insurance claim.** If the patient carries either, file according to policy terms.
+9. **US-based legal counsel.** For potential malpractice or fraud claims. US attorneys with cross-border medical-tourism experience are a small but growing specialty.
+10. **Destination-country legal counsel.** For claims that will be filed in destination jurisdiction.
+11. **Patient advocacy organizations and public communications.** Online reviews, patient communities, journalism. Last resort but sometimes the most effective.
+
+The escalation is sequential. Start with direct communication; escalate when direct communication fails.
+
+### Cross-border malpractice realities
+
+Cross-border malpractice claims are substantially more difficult than US-domestic claims:
+
+- **Jurisdiction.** Where does the lawsuit get filed? Usually in the destination country, under the destination country's tort law, with destination-country procedural rules.
+- **Counsel.** Cross-border malpractice attorneys are rare. Most US malpractice attorneys do not handle cross-border cases. Many destination countries have limited bar capacity for medical malpractice.
+- **Statute of limitations.** Varies by jurisdiction. Some destinations have statutes of limitations as short as one year for medical malpractice claims.
+- **Damages.** Damage awards in medical malpractice vary enormously across jurisdictions. US-style damage awards are rare in most destinations.
+- **Enforcement.** Even with a successful judgment in destination jurisdiction, collecting on the judgment may be difficult.
+
+The realistic framing: cross-border malpractice recovery is rare. The framework's discipline is to prevent the situation that requires it. When prevention fails, the framework's response is documentation, formal complaints, chargebacks, and patient-advocacy communications — not assuming a malpractice claim will provide recovery.
+
+### The patient-facing complaint script
+
+For formal complaints to the destination clinic or to regulators, the framework's recommendation is a structured complaint letter:
+
+- Patient identification (name, date of birth, dates of procedure).
+- Procedure as performed (factual description).
+- Procedure as agreed (per pre-operative communication and consent).
+- Specific discrepancy or issue.
+- Documentation attached.
+- Specific remedy requested (refund, revision, compensation, formal response).
+- Timeline expectation for response.
+
+The script keeps the complaint factual, specific, and resolvable. Emotional language reduces the complaint's effectiveness; factual specificity increases it.
+
+### Public reviews and online communications
+
+Online reviews — Google, Yelp, RealSelf for cosmetic, specific medical-tourism review sites — are public communications. They reach future patients and reach the clinic.
+
+The framework's discipline: direct communication and formal complaints first, public communications second. A patient who has not given the destination clinic an opportunity to resolve has not exhausted the framework. A patient who has exhausted the framework without resolution has the right to communicate publicly.
+
+For public communications: factual, specific, dated, with documentation references where possible. Avoid speculation, accusation, or emotional language. The factual review reaches future patients; the emotional review reaches an audience.
+
+*A reusable copy is Worksheet 20 (Cross-Border Claim Worksheet) in the back matter.*
+
+---
+
+## Chapter 38 — When the Outcome Disappoints: The Year After
+
+Some medical-tourism procedures will not deliver the outcome the patient hoped for. The framework's discipline does not eliminate this possibility; it improves the odds and prepares the patient for the response.
+
+This chapter is about year 1 — what to do when the outcome disappoints. It is also about year 5, year 10, the longer view that buyer-protection requires.
+
+### The reader's seat at year 1
+
+Year 1 is the first major reflection point. The healing is complete or near-complete. The functional or aesthetic outcome is visible. The financial cost is processed. The patient has a year of perspective.
+
+Some year-1 outcomes are clearly good. Marcus at month 8 (Chapter 31) is on his way to a clear year-1 success. Eleanor at month 14 (Chapter 35) is similarly on track.
+
+Some year-1 outcomes are clearly disappointing. A joint replacement that has not delivered the function expected. A cosmetic procedure with a result the patient does not love. A bariatric procedure with weight regain that exceeded expectation. A cardiac procedure with persistent symptoms.
+
+Most year-1 outcomes are in between. Mostly working, with elements that exceeded expectation and elements that fell short.
+
+The framework's year-1 discipline: assess honestly. Document. Communicate with both the destination clinician (where the procedure happened) and the US-based follow-up clinician (where the continuity lives). Identify what aspects of the outcome are clearly disappointing, what aspects are within normal variation, and what aspects require additional intervention.
+
+### The 5-year question
+
+Year 5 is when buyer-protection extends beyond procedure week. The questions:
+
+- Has the result held? The implant, the cosmetic outcome, the weight loss, the cardiac function.
+- Has the patient maintained the lifestyle, surveillance, or maintenance the procedure required? Bariatric patients with multi-year nutritional follow-up. Joint replacement patients with periodic imaging. Breast implant patients with FDA-recommended surveillance.
+- Has the patient required revision or additional intervention? At what cost? With what continuity?
+- Would the patient make the same decision again?
+
+The year-5 reflection is the test of whether the framework's discipline produced a durable decision. The patient who is satisfied with the procedure but who has lost the records, who has no continuity arrangement, who cannot track the implant or maintain the surveillance — that patient has been ill-served by their own decision, even when the procedure went well.
+
+The framework asks more of the patient than the procedure does. The reward is durability.
+
+### Reversibility and revisability
+
+Some procedures are highly revisable. Cosmetic procedures often can be adjusted. Hair restoration can be supplemented. Dental work can be modified.
+
+Some procedures are partially reversible. Joint replacement can be revised but the revision is more complex than the primary. Bariatric surgery can be revised but with diminishing returns.
+
+Some procedures are essentially irreversible. Hysterectomy. Major cardiac surgery. Significant body contouring.
+
+The framework's discipline at year 1: understand where the procedure sits on the reversibility spectrum. Plan accordingly. The procedure with high revision potential (cosmetic) and the procedure with low revision potential (major cardiac) require different year-1 disciplines.
+
+### The "what would I do differently" reflection
+
+A teaching device, not a critique. The patient at year 1, looking back at the framework, can identify what worked and what they would change.
+
+Things that often emerge:
+- The verification work was useful. Patients rarely regret verifying credentials and accreditation.
+- The independent second opinion was useful. The structured opinion shaped the decision in ways the patient now appreciates.
+- The records discipline was useful. The patient who has the records is grateful at year 1, year 5, year 10.
+- The continuity arrangement was useful. The US-based follow-up provider is the relationship that matters at year 5.
+
+Things that some patients regret:
+- Time compression. The 60-day plan compressed to 30 days or less; the framework was applied but with less margin.
+- The decision to forgo telemedicine second opinion. The $1,500–$2,500 for a formal US-academic-center opinion is modest in retrospect for many patients.
+- Excessive focus on cost. Patients sometimes report that the cost-focused decision overrode considerations that mattered more in the long run.
+
+These are not universal regrets. The framework, applied, delivers good outcomes for most patients. The "what would I do differently" reflection is the patient's own honesty about where the framework could have been applied more rigorously.
+
+### The Composite F, G, H, I trajectory
+
+The composite scenarios have shown the framework applied across reader segments:
+- Marcus (Composite A/F): cost-crisis, framework-works closing at month 8.
+- Priya (Composite B): diaspora, framework applied to family-doctor relationship.
+- Eleanor (Composite C/H): chronic-condition portfolio, multi-procedure year-1.
+- Daniel (Composite D/G): adult-child researcher, two-procedure father's care.
+- Karen (Composite E): exploratory, telemedicine second opinion that confirmed US plan.
+
+Maria (Composite I), the closing scenario, is at year 5 — the bariatric patient who applied the framework fully and is doing well at 5 years post-procedure.
+
+The framework's arc is from year 0 (before the search) to year 5 (durable outcome). The book ends with year 5 because that is where buyer-protection has done its work.
+
+---
+
+# Closing
+
+## Composite Scenario L — What It Looks Like When It Works
+
+Maria is fifty-two. School principal. Married, two adult children, lives in San Diego. Five years ago, her BMI was 41. She had type 2 diabetes, sleep apnea, and the early signs of cardiovascular risk her US primary care physician had been monitoring for three years. The US bariatric surgery options were available to her — her insurance covered the procedure — but the program at the major academic medical center had a 14-month waiting list and required a 6-month medically supervised weight-loss program before scheduling. Maria had been on the equivalent of 14 different weight-management approaches in the previous decade. She did not believe a 15th would change the trajectory.
+
+Her sister-in-law, who had a sleeve gastrectomy in Tijuana three years earlier and was doing well, suggested Maria consider Mexico. Maria's first response was the same as most readers' — skepticism, mixed with the recognition that she did not have a clearly better alternative.
+
+Maria found this book. Volumes One and Two were not yet written; this is the foundation volume Maria needed. She worked through the 60-day plan. The first three weeks were spent on the framework itself — reading the Five Rules, doing the Procedure Complexity Self-Rating (Worksheet 17), completing the Is Medical Tourism Right for Me Self-Test (Worksheet 13). The Step 4 placement of bariatric surgery told her the verification work would be substantial.
+
+Week 4 was the independent second opinion. Maria submitted her records to MSK International — at the time, MSK's program included bariatric review through their internal medicine consultation service. The opinion confirmed bariatric surgery was appropriate; the specific recommendation was sleeve gastrectomy over gastric bypass given her diabetes profile and the lower complication rate for sleeve in her demographic. The MSK opinion also noted the importance of multi-year follow-up — the recommendation was that she identify a US-based bariatric surgeon willing to manage the long-term continuity before booking the destination procedure.
+
+Maria spent week 5 finding the US-based bariatric follow-up surgeon. She called four practices. Three declined to manage a Mexico-performed procedure. The fourth — a bariatric surgeon in San Diego who had been working with the Mexico patient population for years — agreed, with a clear arrangement: the surgeon would provide the post-operative follow-up at his standard fee schedule, would manage any complications that fell within his scope, and would refer to specialists for anything outside his scope.
+
+Weeks 6 and 7 were the destination clinic selection. Maria identified three Tijuana centers with ASMBS-COE-equivalent recognition and published outcomes. She had calls with the surgeons at each. She verified the cédula profesional registrations. She verified the JCI accreditation status of the affiliated facilities. She compared the True Cost Calculator outputs. She chose a center that was not the cheapest but had the most established outcomes record and the surgeon she trusted most after the consultation calls.
+
+Week 8 was confirmation and pre-operative completion. The pre-operative psychological evaluation (in San Diego, with a psychologist who works with bariatric patients) confirmed Maria was ready. The pre-operative nutritional consultation prepared her for the post-operative dietary requirements. The smoking cessation question was moot — Maria had not smoked in twenty years. The pre-operative liver-shrinking diet (standard for two weeks before sleeve gastrectomy) was completed.
+
+Maria flew to Tijuana with her husband as companion. The procedure was performed at the Tijuana center as planned. The operative report was signed; the anesthesia record was complete; the discharge summary specified post-operative nutrition, medication, and follow-up schedule. The stay was four days post-procedure. The flight home was at day five, with the bariatric surgeon's flight-clearance criteria met.
+
+The first year post-procedure was the work. Maria followed the nutrition protocol her US-based surgeon prescribed. She attended every follow-up appointment in San Diego. She tracked her weight, her diabetes labs, her vitamin levels (deficiencies are common post-sleeve; supplementation is the standard).
+
+At year 1: BMI 32. Diabetes in remission off all medications. Sleep apnea resolved. The cardiovascular risk markers normalizing.
+
+At year 5 — where the book finds her now — Maria's BMI is 28. The diabetes remission has held. She has gained back a small amount of weight (about 8 pounds) over the past two years, a pattern her US-based surgeon describes as common and not requiring revision. The annual surveillance imaging is normal. The nutritional supplementation continues.
+
+She is at her surgeon's office for the annual visit. She has the original Mexico operative report in her records folder, along with the four subsequent annual follow-up notes. She knows the procedure's specifications: laparoscopic sleeve gastrectomy, performed with the surgeon she chose, at the facility she verified, at the cost she budgeted. The all-in cost five years ago was $9,800 — about a third of the US cash price and well within her HSA balance at the time.
+
+She is thinking about her brother, who is also overweight and has been talking about bariatric surgery for two years. She has sent him the framework. She has told him, the year 5 reflection: the procedure was the easy part. The framework was the hard part. The framework was also the reason the procedure worked.
+
+She tells her surgeon, at the year 5 visit, that she did not realize at the time how much of the success depended on the work she did before the procedure. The surgeon nods. He says he sees this pattern across his medical-tourism patient population. The patients who applied a framework do well; the patients who did not often do not. The procedure is a procedure; the framework is the decision.
+
+Maria leaves the appointment. The framework, applied, has produced the year-5 outcome the book is for. The body is hers. The decision was hers. The book was the second pair of eyes.
+
+---
+
+## Final Note — What Prepared Looks Like at Year 5
+
+The book has spent thirty-eight chapters on a framework. The framework's purpose is durable outcomes. The Final Note is what those outcomes look like across the timeline the framework operates on.
+
+### The four-stage prepared-patient checklist
+
+Carried forward from Volumes One and Two, with year-5 extension:
+
+**Before deposit, the prepared patient has:**
+- A written, surgeon-signed plan.
+- Verified surgeon, anesthesia provider, and facility credentials.
+- An independent second opinion (in-person or telemedicine).
+- A deposit policy understood in writing.
+- A walk-away financial reserve.
+- A pre-op mental-health screen completed (where the procedure category warrants).
+- A pre-op physical evaluation completed.
+- A US-based post-return follow-up provider arranged.
+
+**Before OR, the prepared patient has:**
+- A companion briefed (or substitute systems for solo travel).
+- A records-packet template ready.
+- An in-destination contact for any concerns.
+- A no-non-emergency-additions consent paragraph signed (Volume Two framing carried forward).
+- A pause sentence ready.
+- An exit option understood.
+
+**After OR, the prepared patient has:**
+- The complete records packet — operative report, anesthesia record, implant cards, discharge summary, photographs.
+- A flight-clearance criteria checklist met.
+- A first follow-up appointment with the US-based provider scheduled.
+- Cloud and physical storage of records.
+
+**At 12 months, the prepared patient has:**
+- The result they negotiated for, recognizable in their photographs and clinical metrics.
+- A complete records packet preserved in three locations.
+- A local follow-up provider relationship for the years ahead.
+- No surprise discoveries about implants, lot numbers, or operative details.
+- A decision they can defend to themselves at year 5.
+
+### Year 5 — the extended checklist
+
+The new addition for Volume Three. The framework extends past procedure week to year 5.
+
+**At year 5, the prepared patient has:**
+- Records still complete and accessible.
+- The home physician relationship has continuity. The records have been reviewed by current US-based clinicians. The procedure-specific surveillance has been followed.
+- The implant surveillance schedule has been followed (where relevant). Breast implants per FDA recommendations. Joint replacements per AJRR-equivalent surveillance. Cardiac implants per cardiologist's protocol.
+- The patient knows what surveillance for late complications looks like. BIA-ALCL for textured breast implants. Late prosthetic joint infection. Cardiac valve degeneration. The patient is not surprised by what year 5 requires.
+- The patient has not stopped being a buyer-protector. For themselves. For family members. For the next procedure decision.
+
+### What the framework asks for, and what it returns
+
+The framework asks for: 60 days of preparation, eight weeks of structured work, several hundred dollars in second-opinion costs, the discipline to verify before depositing, the records discipline at the destination, the continuity arrangement before traveling, the year-1 and year-5 follow-through.
+
+The framework returns: a decision the patient can defend to themselves at year 5; complete records; US-based clinical continuity; financial closure; emotional closure; a relationship with their own decision-making process that compounds across future medical decisions.
+
+The trade is steep. The trade is worth it. The book has been a long argument for that trade.
+
+### Closing words
+
+The body is yours. The decision is yours. The book is the second pair of eyes.
+
+If you have read this far, you have already done one of the most important things in medical-tourism preparation: you have taken the time to learn the framework before you needed to apply it. The framework operates whether you ever travel for medical care or not. The same discipline — slow down, verify, document, protect — is the foundation of any consequential consumer decision.
+
+We hope the book serves you. We hope it serves the people you love. We hope it serves the next patient who asks, in the kitchen at eleven o'clock at night, *should I even be considering this?*
+
+The framework is what we have to offer. The framework is what we offer.
+
+::: {.bernard-note}
+
+**A note from the editor — What this book is for**
+
+I am finishing this book a year after I started writing it, four years after I started the Tabiji Field Guides series, several years after the first patients whose stories shaped this work spoke with me about their procedures and their decisions.
+
+The book is for them. It is for the next patient like them. It is for Marcus at the kitchen table, Priya at the Mumbai cardiology office, Eleanor on hold with her insurer, Daniel scrolling at midnight, Karen reviewing the MSK opinion, Maria at year 5. None of them are real. All of them are real.
+
+The Tabiji Field Guides series began because the patients I talked with kept saying the same thing: I wish I had had the framework before I needed it. The series exists to offer the framework before it is needed. Volume One was dental. Volume Two was cosmetic surgery. Volume Three — this volume — is the foundation. The volumes that follow will be others.
+
+The series does not accept payment from clinics, surgeons, facilitators, manufacturers, or insurers. The royalties from the books are what pays for the next book. The companion site is free. The framework is, in the end, free — the book costs $19.99 and the work costs the patient's time.
+
+If the framework prevents one Marcus from sending the deposit too soon, prevents one Priya from skipping the verification because the family doctor is family, prevents one Eleanor from spending money she does not have on a procedure she does not need, prevents one Daniel from rushing his father into a procedure the father is not ready for, prevents one Karen from confusing alternative-cancer-clinic marketing for evidence-based oncology — the book has done what it was for.
+
+The body is yours. The decision is yours. The book is the second pair of eyes.
+
+— *Bernard Huang, Editor*
+
+— *Tabiji, 2026*
+
+:::
+
+---
+
+# Back Matter
+
+*The Medical Tourism Field Guide*
+
+*A Tabiji Field Guide — Volume Three*
+
+First Edition
+
+---
+
+## How to Use This Back Matter
+
+The pages that follow are the operational complement to the chapters. The framework's discipline is in the worksheets. The terminology is in the glossary. The sources are in the source notes. The legal and editorial standards are in the appendix disclaimer.
+
+Use the back matter in three passes:
+
+**First pass — before commitment.** True Cost Calculator (1), Cross-Procedure Quote Comparison (2), Is Medical Tourism Right for Me Self-Test (13), Accreditation Verification (14), Cross-Border Insurance (15), Procedure Complexity Self-Rating (17).
+
+**Second pass — pre-trip.** Deposit Readiness Test (3), Clinic Verification (4), Specialist Credential (5), Anesthesia Provider Verification (6), Second Opinion Request (7), Coordinator Log (8), Day-of-Procedure Checklist (9), Multi-Procedure Sequencing (16), Family Decision (18), Diaspora-Specific (19).
+
+**Third pass — at and after the destination.** Records Packet Cover Sheet (10), Records Packet Inventory (11), Follow-Up Care Script (12), Cross-Border Claim (20).
+
+Print these pages, copy them into a notebook, save them to your cloud. Update them as your decision develops. They are not paperwork; they are the framework in operational form.
+
+---
+
+## Worksheets and Scripts
+
+### 1. True Cost Calculator
+
+Use this worksheet to calculate the true all-in cost for any medical-tourism procedure.
+
+**Direct procedure costs:**
+- Surgeon fee: ______
+- Facility fee (OR, recovery, inpatient stay): ______
+- Anesthesia fee: ______
+- Implant or device cost: ______
+- Lab work, imaging, pathology: ______
+- Medications dispensed at destination: ______
+- Consumables (garments, drains, supplies): ______
+- Pre-operative consultations: ______
+- Post-operative follow-up at destination: ______
+
+**Travel and lodging:**
+- International airfare (patient): ______
+- International airfare (companion): ______
+- Local ground transportation: ______
+- Accommodation: ______
+- Meals and incidentals: ______
+- Visa, passport, entry documents: ______
+
+**Indirect costs:**
+- Lost income (patient): ______
+- Lost income (companion): ______
+- Child/elder/pet care: ______
+- Pre-procedure US-based time: ______
+
+**Risk and reserve:**
+- Travel medical insurance: ______
+- Complication insurance (if applicable): ______
+- Complication reserve (10–20% of procedure cost): ______
+- Revision reserve (procedure-category specific): ______
+- US-based post-return follow-up: ______
+
+**Total true cost: ______**
+
+**Comparison: US all-in cost (insurance-covered out-of-pocket + indirect + follow-up): ______**
+
+**Net differential: ______**
+
+If net differential is less than 30% of US cost, the operational complexity may not justify the financial savings. If 30–50%, the trade may make sense depending on procedure category. If above 50%, the financial differential is meaningful.
+
+### 2. Cross-Procedure Quote Comparison
+
+For each clinic providing a quote, complete the following:
+
+| Element | Clinic A | Clinic B | Clinic C |
+|---|---|---|---|
+| Clinic name | | | |
+| Procedures named (clinical names, not marketing) | | | |
+| Surgeon (full legal name, credential, registry verification) | | | |
+| Anesthesia provider (name, credential) | | | |
+| Facility (legal name, accreditation, date) | | | |
+| Implants/materials (manufacturer, model) | | | |
+| Operative time estimate | | | |
+| Inclusions (list) | | | |
+| Exclusions (list) | | | |
+| Currency | | | |
+| Deposit amount | | | |
+| Refund policy (summarized) | | | |
+| Records to receive | | | |
+| Post-return follow-up arrangement | | | |
+| Total quote | | | |
+
+Compare on equivalent terms. The clinic with the most complete, written-down quote is generally the most reliable, regardless of price.
+
+### 3. Deposit Readiness Test
+
+Answer yes to all 15 before sending a deposit:
+
+1. I have a complete written quote (per Worksheet 2). Yes / No
+2. I have verified the surgeon in the destination's official register. Yes / No
+3. I have verified the anesthesia provider's credential (for procedures requiring anesthesia). Yes / No
+4. I have verified the facility's accreditation in the relevant directory. Yes / No
+5. I have obtained an independent second opinion. Yes / No
+6. I have read the deposit refund policy in writing. Yes / No
+7. I understand the refund policy's specific conditions. Yes / No
+8. I have read the revision and complication policy. Yes / No
+9. I have enough financial reserve to walk away from the deposit. Yes / No
+10. I have arranged a US-based post-return follow-up provider. Yes / No
+11. I have arranged my companion (or substitute systems). Yes / No
+12. I have notified my home physician of the planned procedure. Yes / No
+13. For implant procedures: I have confirmed the implant brand, model, and size range. Yes / No
+14. For high-step procedures: I have confirmed the transfer protocol. Yes / No
+15. I am making this decision on my own calendar, not the clinic's deposit deadline. Yes / No
+
+If any answer is no, the deposit is premature. Address the no answer before sending the deposit.
+
+### 4. Clinic Verification
+
+For any clinic you are considering:
+
+- Clinic legal name: ______
+- Clinic address: ______
+- Accreditation claimed: ______
+- Accreditation body's public directory URL: ______
+- Date of verification: ______
+- Accreditation date in directory: ______
+- Accreditation scope: ______
+- Marketing language used: ______
+- Discrepancy between marketing and directory: ______
+
+If the clinic is not in the accreditation body's directory with current accreditation, the marketing claim is not verifiable.
+
+### 5. Specialist Credential Worksheet
+
+For each named surgeon or specialist:
+
+- Full legal name: ______
+- Specialty: ______
+- Board certification (issuing board, country, year): ______
+- Registration number in destination's official register: ______
+- Verification date: ______
+- International society memberships claimed: ______
+- Memberships verified: ______
+- Documentation source (screenshot, registry link): ______
+
+A surgeon whose credentials cannot be verified in a public registry should not be the operating surgeon. This is the single strongest predictor of documented patterns of harm.
+
+### 6. Anesthesia Provider Verification
+
+For procedures requiring sedation, regional, or general anesthesia:
+
+- Anesthesia provider full legal name: ______
+- Credential (anesthesiologist, CRNA, country-equivalent): ______
+- Registration in destination's official register: ______
+- Verification date: ______
+- Specific anesthesia experience for the procedure type: ______
+- Available on procedure day (verified): Yes / No
+
+For cardiac, complex orthopedic, or other high-stakes procedures: verify cardiac anesthesia or specialty-specific experience.
+
+### 7. Second Opinion Request
+
+To request an independent second opinion, send a structured message that includes:
+
+- The procedure recommended (with operative-time estimate if known).
+- The clinical history relevant to the decision.
+- The records available for review (imaging, prior consultations, lab work).
+- The specific questions you want the second opinion to address:
+  1. Is the proposed procedure appropriate for my clinical situation?
+  2. Are there alternatives I should consider?
+  3. What is the realistic outcome range?
+  4. What factors would make this procedure higher-risk in my case?
+  5. What records should I bring back from the destination procedure?
+  6. What is the appropriate home-care pathway if I have a complication?
+
+Send to: in-person US specialist (best for complex cases); telemedicine second-opinion program (Chapter 15); destination second clinic (where appropriate).
+
+### 8. Coordinator Log
+
+Track every communication with the destination clinic's coordinator:
+
+| Date | Coordinator name | Topic | Information requested | Information provided | Follow-up needed |
+|---|---|---|---|---|---|
+| | | | | | |
+| | | | | | |
+
+A clinic whose coordinator is responsive on logistics but evasive on credentials is a clinic where the framework's verification work is incomplete.
+
+### 9. Day-of-Procedure Checklist
+
+Before consenting to any procedure at the destination:
+
+- I have met the operating surgeon in person. Yes / No
+- I have met the anesthesia provider in person (for procedures requiring anesthesia). Yes / No
+- The surgeon I am meeting is the surgeon named on the consent form. Yes / No
+- I have signed the procedure consent form. Yes / No
+- I have NOT signed any "no-non-emergency-additions" waiver to my consent. Yes / No
+- I know the in-destination emergency contact. Yes / No
+- My companion has the records access plan and the escalation contacts. Yes / No
+- I have made the financial settlement arrangements clear. Yes / No
+- I am proceeding on my own informed consent, not under time pressure. Yes / No
+
+### 10. Records Packet Cover Sheet
+
+Summary document at the front of the records packet:
+
+- Patient name: ______
+- Date of birth: ______
+- Procedure performed: ______
+- Date of procedure: ______
+- Operating surgeon (full name, credential): ______
+- Anesthesia provider: ______
+- Destination clinic (legal name, address): ______
+- Facility accreditation: ______
+- Implants placed (manufacturer, model, lot, site): ______
+- Pre-operative imaging location: ______
+- Post-operative imaging location: ______
+- Discharge medication summary: ______
+- US-based follow-up provider: ______
+- Next follow-up appointment: ______
+- Surgeon's direct contact (90 days): ______
+- International patient department contact: ______
+
+### 11. Records Packet Inventory
+
+Verify before leaving the destination:
+
+1. Operative report (surgeon-signed) ☐
+2. Anesthesia record (provider-signed) ☐
+3. Surgical pathology report (if applicable) ☐
+4. Discharge summary ☐
+5. Consent forms (signed by patient) ☐
+6. Pre-operative consultation notes ☐
+7. Post-operative orders ☐
+8. Pre-operative imaging (DICOM) ☐
+9. Post-operative imaging ☐
+10. Lab results from in-destination workup ☐
+11. Specialist consultation reports ☐
+12. Implant patient cards ☐
+13. Device warranty documentation ☐
+14. Manufacturer registration confirmation ☐
+15. Discharge medication list ☐
+16. Prescription documents for post-return medications ☐
+17. In-destination follow-up notes ☐
+18. Post-return follow-up recommendations ☐
+19. Long-term surveillance recommendations ☐
+20. Itemized invoice with payments ☐
+21. Currency conversion documentation ☐
+22. Pre-op and post-op photographs ☐
+
+If any item is missing, address it before leaving the destination.
+
+### 12. Follow-Up Care Script
+
+For the US-based follow-up appointment:
+
+Greeting: "Thank you for accepting me as a post-procedure follow-up patient. I had a [procedure] performed at [clinic name, destination, date]. The records are available; the operative report and discharge summary are in the file I brought."
+
+Specific questions:
+- What aspects of the procedure outcome would you like to assess today?
+- What surveillance schedule do you recommend going forward?
+- What warning signs should I be watching for?
+- If a complication arises, what is the right escalation pathway?
+- What is the next scheduled visit?
+- How should I contact you between visits?
+
+Documentation: ask for the follow-up appointment note in writing for your records.
+
+### 13. Is Medical Tourism Right for Me? Self-Test
+
+Answer each question:
+
+1. Do I have a specific procedure recommendation from a US-based clinician? Yes / No
+2. Is the procedure category one where international centers have published comparable outcomes? Yes / No
+3. Do I have at least 60 days to prepare? Yes / No
+4. Do I have financial reserve beyond the procedure cost? Yes / No
+5. Am I currently managing acute medical issues that require US-based specialty care? Yes / No
+6. Do I have a US-based follow-up provider relationship I can extend? Yes / No
+7. Is the cost differential at least 30% after the True Cost Calculator? Yes / No
+8. Do I have language fluency or trusted local connections at the destination? Yes / No
+9. Do I have a companion (or substitute systems for solo travel)? Yes / No
+10. Am I making this decision under time pressure that prevents framework application? Yes / No
+11. Have I been told by a US clinician this procedure should not be done? Yes / No
+12. Is the procedure category one the book recommends against (Chapter 30)? Yes / No
+13. Do I have a documented BDD screen result or recent major adverse life event (12 months)? Yes / No
+14. Have I read Volumes One or Two of this series if applicable? Yes / No
+15. Am I able to make this decision independent of family pressure? Yes / No
+16. Do I have a written treatment plan, not just a marketing quote? Yes / No
+17. Have I identified at least three accreditation-verified facilities to compare? Yes / No
+18. Have I scheduled or completed an independent second opinion? Yes / No
+19. Am I comfortable losing the deposit if the in-person exam surfaces concerns? Yes / No
+20. Am I making this decision on my own calendar? Yes / No
+
+Score: count the favorable answers (yes for 1, 2, 3, 4, 6, 7, 8, 9, 14, 15, 16, 17, 18, 19, 20; no for 5, 10, 11, 12, 13). If 17 or more favorable, proceed with the framework. If 14–16, address the unfavorable answers before proceeding. If fewer than 14, medical tourism may not be the right answer for your current situation.
+
+### 14. Accreditation Verification Checklist
+
+For any facility you are considering:
+
+- Accreditation body claimed (JCI, AAAASF, NABH, HAI, ACHSI, etc.): ______
+- Public directory URL: ______
+- Search performed for facility name: Yes / No
+- Facility found in directory: Yes / No
+- Accreditation date: ______
+- Accreditation scope: ______
+- Reaccreditation due date: ______
+- Discrepancy between marketing and directory: ______
+- Verification screenshot saved: Yes / No
+
+### 15. Cross-Border Insurance Worksheet
+
+Call your insurer with the procedure CPT code (look up if needed) and ask:
+
+- Is this procedure covered out-of-network? Yes / No / Notes: ______
+- Is this procedure covered out-of-country? Yes / No / Notes: ______
+- What is the reimbursement rate (UCR percentage, alternate-benefit, or fixed)? ______
+- Is pre-authorization required? Yes / No
+- What documentation is required for reimbursement? ______
+- What is the appeal process for denial? ______
+- Representative name, date, reference number: ______
+
+For complications of out-of-country care:
+- Coverage if complication requires US treatment: ______
+- Network requirements: ______
+
+For travel medical insurance:
+- Carrier and policy purchased: ______
+- Coverage limits: ______
+- Pre-existing condition exclusions: ______
+- Complications-of-elective-procedure exclusion: ______
+
+For cosmetic-tourism complication insurance (if applicable):
+- Carrier and policy purchased: ______
+- Coverage scope: ______
+- Coverage window post-procedure: ______
+- Pre-existing condition exclusions: ______
+
+### 16. Multi-Procedure Sequencing Worksheet
+
+For readers with multiple procedures to plan over 6–24 months:
+
+Procedure 1:
+- Procedure: ______
+- Complexity step: ______
+- Best timing: ______
+- Destination consideration: ______
+- Reserve required: ______
+- Recovery time: ______
+
+Procedure 2: (repeat structure)
+
+Procedure 3: (repeat structure)
+
+Optimal sequence rationale: ______
+Total timeline: ______
+Total cumulative cost: ______
+HSA/insurance/financing strategy: ______
+
+### 17. Procedure Complexity Self-Rating
+
+Identify your procedure category:
+
+Step 1 — Low-surprise visits ☐ (diagnostic, consultation, single-area minor)
+Step 2 — Outpatient single-procedure ☐ (LASIK, single tooth implant, cataract, single-area dermatology)
+Step 3 — Outpatient multi-procedure ☐ (full-mouth dental, hair restoration, combination cosmetic)
+Step 4 — Inpatient with implants/general anesthesia ☐ (joint replacement, bariatric, breast augmentation, abdominoplasty)
+Step 5 — Major combination/complex inpatient ☐ (cardiac, transplant, complex oncology surgery)
+
+The complexity step determines the verification depth required. Step 1–2 procedures: framework discipline is light. Step 3 procedures: full framework including independent second opinion. Step 4: full framework plus US-based follow-up arrangement. Step 5: full framework plus tertiary-hospital verification and transfer protocol.
+
+### 18. Family Decision Worksheet
+
+For procedures involving family decision-makers (adult-child researcher, elder care):
+
+- Primary patient: ______
+- Primary decision-maker: ______
+- Family members involved in the decision: ______
+- Conflicts of view documented: ______
+- Information shared with each family member: ______
+- Final decision pathway (consensus, primary decision-maker, etc.): ______
+- Companion arrangement: ______
+- Post-procedure family support plan: ______
+
+The family-decision framework is not a substitute for the patient's framework; it is the social context in which the framework operates.
+
+### 19. Diaspora-Specific Worksheet
+
+For readers considering care in their country of origin:
+
+- Country of care: ______
+- Relationship to local clinician (family physician, referral, new): ______
+- Family pressure considerations: ______
+- "Doctor we always go to" pattern operational here? Yes / No
+- Verification of clinician credentials independent of family relationship: ______
+- Verification of facility accreditation: ______
+- Language fluency considerations: ______
+- Cultural considerations affecting decision: ______
+- Local pricing vs. international patient pricing identified: ______
+- US-based follow-up arrangement: ______
+
+The diaspora frame is different from the cost-savings frame. The framework applies; the social dynamics around applying it are different.
+
+### 20. Cross-Border Claim Worksheet
+
+For complaints, chargebacks, or legal recourse:
+
+- Issue type: result dissatisfaction / clinical error / contractual breach
+- Documentation available: ______
+- Timeline of events: ______
+- Specific remedy requested: ______
+- Channels attempted (1-11 from Chapter 37): ______
+- Outcomes: ______
+- Next steps: ______
+
+For credit-card chargeback:
+- Card issuer: ______
+- Dispute amount: ______
+- Documentation submitted: ______
+- Response received: ______
+
+For destination-country regulator complaint:
+- Regulator: ______
+- Complaint submitted (date): ______
+- Reference number: ______
+- Response received: ______
+
+For legal counsel consultation:
+- Attorney name: ______
+- Jurisdiction: ______
+- Initial consultation date: ______
+- Recommendations: ______
+
+---
+
+## Glossary
+
+**Accreditation** — A process by which an outside organization evaluates a clinic, hospital, surgical center, or system against stated standards (JCI, AAAASF, ISO 9001, ISQua-recognized country bodies). Necessary, not sufficient.
+
+**AJRR** — American Joint Replacement Registry. The US joint replacement outcome registry operated by AAOS.
+
+**ASMBS** — American Society for Metabolic and Bariatric Surgery. The US bariatric surgery professional society.
+
+**Bariatric surgery** — Surgical treatment of severe obesity (sleeve gastrectomy, gastric bypass, duodenal switch).
+
+**BBL** — Brazilian Butt Lift. Gluteal fat transfer. The highest-mortality cosmetic procedure in published literature. Recommend-against pattern in non-accredited facilities with intramuscular fat injection.
+
+**BIA-ALCL** — Breast Implant-Associated Anaplastic Large Cell Lymphoma. A rare lymphoma associated with textured breast implants. FDA recommends symptom-based surveillance.
+
+**CABG** — Coronary Artery Bypass Grafting. Surgical treatment of multi-vessel coronary artery disease.
+
+**Cardiac surgery** — Surgical treatment of cardiac conditions (CABG, valve replacement, valve repair, structural intervention).
+
+**CDC MMWR** — Centers for Disease Control and Prevention Morbidity and Mortality Weekly Report. Federal-government primary source for public health data.
+
+**CPT** — Current Procedural Terminology. US-standard procedure coding.
+
+**DICOM** — Digital Imaging and Communications in Medicine. The standard medical imaging file format.
+
+**DVT/PE** — Deep Vein Thrombosis / Pulmonary Embolism. Clotting complications particularly relevant post-orthopedic, post-cardiac, post-bariatric.
+
+**ESHRE** — European Society of Human Reproduction and Embryology. International reproductive medicine society.
+
+**FUE** — Follicular Unit Extraction. Hair restoration technique using individual follicle extraction.
+
+**Facilitator** — A coordinator, agency, or concierge service arranging medical tourism. Four business models: commission, retainer, hospital-employed, transparent fee.
+
+**HSA** — Health Savings Account. US tax-advantaged medical savings account.
+
+**ICSI** — Intracytoplasmic Sperm Injection. IVF variant for male-factor infertility.
+
+**IOL** — Intraocular Lens. Implanted during cataract surgery.
+
+**ISO 9001** — General quality-management system standard. Insufficient alone as healthcare accreditation.
+
+**ISQua** — International Society for Quality in Health Care. Accredits accreditation bodies.
+
+**IVF** — In Vitro Fertilization. Reproductive medicine procedure.
+
+**JCI** — Joint Commission International. Major international hospital accreditation body.
+
+**LASIK** — Laser-Assisted in Situ Keratomileusis. Refractive surgery for myopia, hyperopia, astigmatism.
+
+**MAUDE** — Manufacturer and User Facility Device Experience. FDA medical device adverse event database.
+
+**NABH** — National Accreditation Board for Hospitals and Healthcare Providers (India). ISQua-recognized.
+
+**NSQIP** — National Surgical Quality Improvement Program. US surgical quality registry.
+
+**PGT** — Preimplantation Genetic Testing. PGT-A (aneuploidy), PGT-M (specific mutation), PGT-SR (structural rearrangement).
+
+**SART** — Society for Assisted Reproductive Technology. US IVF outcome registry.
+
+**Sleeve gastrectomy** — Most common bariatric procedure. Removal of lateral two-thirds of stomach.
+
+**STS** — Society of Thoracic Surgeons. US cardiac surgery professional society and outcome registry.
+
+**TAVR** — Transcatheter Aortic Valve Replacement. Structural cardiac intervention.
+
+**TKA** — Total Knee Arthroplasty.
+
+**THA** — Total Hip Arthroplasty.
+
+**UCR** — Usual, Customary, and Reasonable. US insurance reimbursement rate schedule.
+
+**WHCRA** — Women's Health and Cancer Rights Act (1998). US federal law requiring insurance coverage of reconstruction after mastectomy.
+
+---
+
+## Source Notes and Further Reading
+
+The following source categories anchor the book's claims. Complete citation information for primary sources is on the companion site at tabiji.ai/book/medical-tourism.
+
+**Federal-agency primary documents.** CDC Yellow Book Chapter on Medical Tourism (annual); CDC MMWR 73(3) on US-citizen deaths in Dominican Republic 2009–2022; FDA Public Health Advisory letters on unapproved stem-cell products (2017, 2019, 2023); FDA medical device tracking (MAUDE); HHS reports on cross-border healthcare; State Department Trafficking in Persons reports (annual); CMS guidance on Medicare/Medicaid international coverage; GAO reports on cross-border healthcare.
+
+**Peer-reviewed clinical literature.** Specialty journals across orthopedic (JBJS, Journal of Arthroplasty), bariatric (Obesity Surgery, SOARD), cardiac (NEJM, Lancet, JACC, JAMA Cardiology, Annals of Thoracic Surgery), reproductive (Human Reproduction, Fertility and Sterility), oncology (JCO, JAMA Oncology), ophthalmology (JCRS, AJO), cosmetic (PRS, ASJ), anesthesia (Anesthesiology, BJA). Cochrane reviews where available.
+
+**Professional society guidelines.** ASPS BBL safety guidance (2018, 2019); ASMBS practice guidelines; AAOS clinical practice guidelines; STS National Database; ASRM and ESHRE position statements; ASCO position statements; AAO and ASCRS practice patterns; ABMS specialty board recognition standards.
+
+**International public-health bodies.** WHO publications on cross-border healthcare, antimicrobial resistance, surgical safety; OECD health statistics; ISQua accreditation-body meta-standard.
+
+**Accreditation body documentation.** Joint Commission International (JCI) accreditation standards and public directory; AAAASF accreditation standards; ISO 9001:2015 standards; NABH directory and standards.
+
+**Outcome registries.** AJRR (joint replacement); STS National Database (cardiac); NCDR (cardiovascular); NSQIP (surgical); SART (IVF); NJR, AOANJRR, SHAR (international joint replacement).
+
+**Industry analyst sources.** Patients Beyond Borders annual reports; IMTJ data; Deloitte and McKinsey healthcare reports on medical tourism.
+
+**Investigative journalism.** ProPublica healthcare; BBC, Guardian, NYT, Washington Post investigations on specific harm patterns; cited where used in Chapter 30 source documentation.
+
+**Legal frameworks.** US Fair Credit Billing Act; Women's Health and Cancer Rights Act (1998); HIPAA cross-border provisions; EU Medical Device Regulation; EU General Data Protection Regulation; GS1 UDI framework for medical device identification.
+
+For complete citations and live URLs, see the companion site.
+
+---
+
+## About Tabiji
+
+Tabiji is a publisher of buyer-protection field guides for high-stakes consumer decisions made under pressure. The Tabiji Field Guides series began with *The Dental Tourism Field Guide* (2026) and continued with *The Cosmetic Surgery Field Guide* (2026). This volume — *The Medical Tourism Field Guide* — is the foundation volume that addresses medical tourism as a category. Future volumes will address additional consumer-protection domains.
+
+The Tabiji series does not accept payment from clinics, surgeons, anesthesia providers, mental-health clinicians, facilitators, insurers, implant manufacturers, pharmaceutical companies, or any other commercial entity in the medical-tourism economy. The series is independent buyer-protection writing.
+
+The companion site at tabiji.ai/book/medical-tourism maintains updated source links, downloadable worksheet PDFs, edition errata, and resources for readers.
+
+---
+
+## About the Editor
+
+Bernard Huang is the editor of the Tabiji Field Guides series. He works full-time on the series. He is a consumer journalist, not a clinician. The Tabiji editorial perspective is that of a careful adult helping another careful adult make a complex consumer decision; it is not medical advice and does not establish a clinician-patient relationship.
+
+This is the third volume of the series. Previous volumes are *The Dental Tourism Field Guide* (Volume One) and *The Cosmetic Surgery Field Guide* (Volume Two). The framework developed across the three volumes generalizes; the foundation volume — this volume — is the framework's broadest expression.
+
+The Tabiji series exists because patients told us, repeatedly, that they wished they had had the framework before they needed it. The series is the framework.
+
+This volume reflects data current as of 2026. Future editions will revise as the industry data evolves.
+
+---
+
+## Acknowledgments
+
+The book exists because of the patients who shared their experiences over the past four years. Their names are not included to protect their privacy, but the framework reflects their patterns, their decisions, and their reflections at year 1, year 3, and year 5 post-procedure.
+
+The reviewer panel for this volume includes a general internist, a medical-tourism industry consultant, a public-health researcher, a malpractice attorney with cross-border experience, a patient advocate, a sensitivity reader, a copyeditor, and seven specialty surveyors covering orthopedic, bariatric, cardiac, ophthalmology, reproductive medicine, oncology, and preventive medicine. The reviewers are acknowledged by name in the companion site listing.
+
+The Tabiji series is independent buyer-protection writing. The book does not accept industry payments. Errors and omissions are the editor's responsibility.
+
+---
+
+## Appendix Disclaimer
+
+This book is general educational material. It is not medical advice, surgical advice, anesthesia advice, mental-health advice, legal advice, insurance advice, financial advice, travel-safety advice, or a substitute for professional evaluation. Reading this book does not create a doctor-patient, surgeon-patient, anesthesiologist-patient, mental-health-clinician-patient, attorney-client, insurance-adviser, or fiduciary relationship with Tabiji, the editor, reviewers, publisher, or any contributor.
+
+The book covers medical tourism across many procedure categories — dental, cosmetic surgery, hair restoration, orthopedic surgery, bariatric surgery, cardiac surgery, ophthalmology, reproductive medicine, oncology, diagnostic and preventive care. Each category has its own risk profile that no general guide can adequately summarize. The full risk picture of any procedure you are considering must come from a qualified clinician who has examined you in person.
+
+The Centers for Disease Control and Prevention has documented patterns of harm in international medical care: 93 US-citizen deaths in the Dominican Republic 2009–2022 with 92% involving gluteal fat transfer (CDC MMWR 73(3)); *Mycobacterium abscessus* surgical-site infection outbreaks in destination cosmetic surgery facilities; cancer-treatment fraud patterns in unapproved-alternative-therapy clinics. The Food and Drug Administration has issued repeated warnings about unapproved stem-cell products. The State Department's annual Trafficking in Persons reports document organ-trafficking corridors. The National Cancer Institute has documented harm patterns from unapproved alternative cancer therapies. This book takes editorial positions on patterns where the documented evidence is sufficient that "ask better questions" framing is, in our judgment, insufficient. Those positions appear in Chapter 30.
+
+Medical tourism can involve pain, infection, bleeding, hematoma, seroma, nerve injury, scarring, sensation changes, allergic reactions, anesthesia complications including aspiration and malignant hyperthermia, fat embolism (particularly with BBL), venous thromboembolism and pulmonary embolism, capsular contracture (with breast implants), implant rupture or migration, asymmetric or unsatisfactory outcomes, need for revision, prolonged recovery, post-operative depression and other mental-health responses, surgical-site infection, sepsis, cardiac arrhythmia, cardiac arrest, stroke, and death. Medical tourism can add language barriers, distance from the treating clinic, different legal systems, documentation challenges, insurance exclusions, accreditation gaps, and difficulty obtaining follow-up care.
+
+Cross-border malpractice recovery is materially more difficult than domestic recovery. Some procedures require continuity-of-care arrangements that medical tourism cannot deliver. The book redirects clinical questions to qualified professionals throughout because those redirections are the substance of the framework.
+
+The worksheets and scripts in this book are planning aids. They are meant to help readers ask questions, organize documents, verify credentials, compare quotes, prepare a companion, and preserve records. They do not tell readers which procedure to choose, which clinic to use, which facility to trust, whether to travel, whether to fly after surgery, whether symptoms are urgent, or how to treat any condition.
+
+Concerning symptoms after any procedure — chest pain, shortness of breath, calf swelling or pain, fever at or above 101°F / 38.3°C, expanding redness, severe pain disproportionate to expected recovery, significant active bleeding, signs of severe infection, severe medication reactions, significant changes in mental status, breathing difficulty, sudden vision change, sudden unilateral weakness or speech difficulty, severe headache, or any other urgent concern — warrant immediate evaluation by qualified local emergency professionals. The local emergency number varies by country; 911 is the US number and does not work in many destinations.
+
+The editorial positions in Chapter 30 reflect Tabiji's reading of the published evidence as of this edition. They are not claims that any specific clinic, surgeon, country, or procedure is unsafe in every case; they identify patterns where the documented harm rate is, in our judgment, sufficient to recommend against the pattern. The malpractice attorney who reviewed this chapter pressure-tested the language; specific claims may be softened where the evidence is less definitive. Other claims will stay where the evidence supports them.
+
+Regulations, licensing systems, professional titles, specialty board recognition, accreditation standards, medical device rules, insurance terms, travel requirements, and consumer-protection laws vary by jurisdiction and change over time. Readers should verify current information with relevant regulators, professional bodies, insurers, clinicians, travel authorities, and legal professionals before relying on it. The book's data is current as of 2026; future editions will revise.
+
+Tabiji does not endorse any clinic, surgeon, anesthesia provider, mental-health clinician, destination, facilitator, insurer, implant manufacturer, medication, procedure, or treatment plan. Mention of a regulator, public agency, professional body, accreditation standard, manufacturer warranty program, or specific telemedicine second-opinion service in source notes does not imply endorsement of any particular product or provider associated with that organization.
+
+Readers are responsible for decisions. When in doubt, slow down, get the plan in writing, verify the provider, seek qualified independent advice, complete the appropriate self-screens, prepare your companion, and do not consent to care you do not understand. The body is yours. The decision is yours. The book is the second pair of eyes.
+
+---
+
+*End of The Medical Tourism Field Guide*
+
+
+
+
 
 
