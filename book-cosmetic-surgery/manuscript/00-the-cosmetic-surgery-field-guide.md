@@ -997,3 +997,324 @@ Part II will move from the terrain around the decision to the documents inside i
 
 ---
 
+# Part II — Money and Quotes
+
+## Chapter 5 — The True Cost of Cheaper Surgery
+
+The first number that tempts people across a border is almost never the number they actually pay.
+
+A package advertised at a fraction of a hometown quote can be real. A surgeon's fee that looks impossible compared with a domestic specialist's estimate can also be real. Surgical labor, facility costs, anesthesia provider rates, lab costs, and administrative overhead vary sharply from place to place. A clinic in another country may own its building, employ its own anesthesia team at lower wages, perform high volume of a specific procedure, and operate in a market where patients pay directly rather than through layers of insurance. The advertised savings may be real for some patients and some procedures.
+
+But the savings are not the same thing as the total cost.
+
+A cosmetic surgery traveler has to price the whole project: in-person consultation, lab work, imaging where required, the surgery itself, anesthesia, the operating-room or facility fee, implants, garments, medication, follow-up visits, return travel for revision try-ins where applicable, complication management at home, and the cost of the time you spend recovering instead of working. The cheapest line item on a quote can become expensive if it requires three trips, two unpaid weeks, a hospital admission for a complication, or a tense argument over what the word "included" meant.
+
+This chapter is about money in the practical sense: how to read a cosmetic surgery quote, how to compare proposals that do not use the same vocabulary, and how to plan for payment and complication exposure without turning a cosmetic trip into a financial cliff. It is not a warning against traveling for surgery. It is a warning against traveling for a fantasy price.
+
+### Composite Scenario E: The Bargain That Was Not
+
+Lena had wanted a rhinoplasty since she was nineteen. She was thirty-four when she finally started looking seriously.
+
+The local quote, after consultations with two surgeons, came in at $11,500. She found a clinic abroad with a polished website, English-speaking coordinators, and an attractive package: $4,500 all-inclusive, four nights at a partner hotel, airport transfers, post-op medication, and "all follow-up" included. She cried when she saw the price. She booked flights.
+
+When she arrived, the in-person exam revealed two things. First, her septum was significantly deviated — a structural issue that would need to be addressed if she wanted both the aesthetic improvement and improved breathing. Second, her tip cartilage was thin in a way that the photos had not shown, which meant the surgeon recommended a small cartilage graft from her ear during the same operation.
+
+The new quote was $7,200, plus an additional $1,400 if she wanted the rhinoplasty to address her breathing issue (functional septoplasty), and another $200 in lab fees for the additional cartilage graft work-up. She had already booked a four-night hotel stay; the surgeon now recommended seven nights minimum. Three additional hotel nights were $390. The compression and post-op care kit was $185, which the original package had said was included but which the clinic's intake desk explained was a different, "premium" kit. She had not budgeted for the medications she was now being prescribed, which came to $230. Her partner's flight to accompany her had been $640.
+
+The total had moved from $4,500 to roughly $9,800, plus her own flight and partner's flight, plus four extra unpaid days off work. Still less than the home quote, but no longer in the comfortable range she had emotionally committed to.
+
+She was furious for half a day. Then she did something useful. She asked the coordinator to print three things: the original quote, the in-person clinical findings, and a revised line-item quote with each added item listed separately. She emailed her domestic surgeon's office to ask whether the new findings sounded plausible. They did. The bargain had shrunk, but it had not disappeared. Compared with her home quote, she still saved several thousand dollars. More important, she now understood what she was buying.
+
+The lesson is not "expect bait and switch." Cosmetic surgery quotes are provisional until there is in-person examination and a signed surgical plan. The ethical surgeon and the sloppy surgeon may both begin with a remote estimate that changes after exam. Your job is to make sure the change is explained, documented, justified by the clinical findings, and financially survivable.
+
+### Four prices, not one
+
+When someone says, "My BBL cost $4,500," they may be naming only one of four prices.
+
+**The advertised price** is the public hook: "BBL from $3,499," "rhinoplasty from $2,500," "hair transplant from $2,200." This number is not useless, but it is incomplete by design. It may refer to surgeon fee only, a specific (small) graft count, cash payment, a limited case type, or a promotion that excludes anesthesia, facility fees, garments, medications, lab work, hotel, transport, and follow-up.
+
+**The remote estimate** is what the clinic sends after seeing your photos, brief medical history, and any imaging you have provided. It is more meaningful than the advertised price, but it still rests on incomplete information. Photos alone cannot show structural anatomy, internal nasal architecture, breast tissue quality, donor-site fat distribution, scar quality from prior procedures, or the medical history details that affect candidacy. A remote estimate should be treated as a planning tool, not a final bill.
+
+**The chairside plan** is what emerges after in-person examination. This is the first plan that should feel concrete. If it changes from the remote estimate, the surgeon should explain why in plain language, show you the finding if possible, and provide an updated written quote before beginning non-emergency surgical work.
+
+**The completed-case cost** is the amount you have actually spent when the final follow-up is done, the warranty documents are in your folder, and you are home and back to your normal life. This includes the surgical bill plus travel, lodging, transportation, meals, payment fees, insurance paperwork, lost wages, garments, lymphatic massage, medications, and any local follow-up or revision care.
+
+A disciplined cosmetic surgery traveler compares completed-case costs. That is where the truth lives.
+
+### The "all-inclusive" trap
+
+"All-inclusive" is a phrase that needs translation. In cosmetic surgery package deals, "all-inclusive" almost always means the items the clinic chose to include — not the items you might assume are included.
+
+Specific line items that are commonly *excluded* from packages advertised as "all-inclusive":
+
+- **Anesthesia fees.** Sometimes bundled with the facility fee, sometimes separate. Can range from a few hundred dollars to $2,000+ for longer procedures.
+- **Implant fees.** Especially for breast augmentation: the implant itself is a separately quoted item, often $1,500–$4,000 depending on manufacturer and style.
+- **Compression garments.** Required for many body procedures and for several weeks post-op. Cost $150–$400. Some packages include a "basic" garment but recommend or require an upgraded one.
+- **Lab work and pre-op clearance.** Blood work, EKG (where applicable), pregnancy test, other clearance requirements. Typically $100–$400.
+- **Drain management supplies.** For procedures that involve drains.
+- **Lymphatic massage.** Commonly recommended for body procedures; clinics sometimes offer it as a paid add-on.
+- **Hotel beyond the package nights.** If your surgeon recommends a longer stay or a complication delays your return, additional nights are usually at your cost.
+- **Companion travel.** Almost never included.
+- **Medications beyond the immediate post-op kit.** Particularly for combination procedures.
+- **Follow-up visits beyond the package window.** "All follow-up included" usually means follow-up during the in-destination stay, not telehealth six weeks later or revision try-ins six months later.
+- **Revision-surgery cost.** Almost never genuinely "included" — most "revision policies" are conditional on specific findings, time windows, and patient compliance with post-op instructions.
+
+A clinic that uses "all-inclusive" without itemizing what is included is not necessarily dishonest. They are using the term the way the cosmetic-tourism industry uses it. Your job is to translate.
+
+### The combination-procedure cost trap
+
+A particular pattern in cosmetic surgery cost discussions deserves a name. It is the "while you're there" upsell, and it almost always presents as a savings.
+
+"You're already coming for a tummy tuck — would you like to add a BBL? It would only be $2,000 more, and you'd save the cost of a separate trip."
+
+The math, framed that way, is appealing. A standalone BBL might be $5,500. Adding it to a tummy tuck for $2,000 saves $3,500 plus the hotel and travel of a second trip.
+
+Three things the framing leaves out:
+
+1. **Combining surgical procedures multiplies risk in non-linear ways.** A tummy tuck alone has its complications. A BBL alone has its complications. Combining them in a single anesthesia session is not the sum of two independent risk profiles — it is a higher combined risk, particularly for fat embolism, DVT, and anesthesia complications. The CDC mortality data on cosmetic surgery deaths in some destinations heavily concentrates in combination procedures. Combination should be a clinical decision based on your specific case, not a financial decision based on the inconvenience of a second trip.
+
+2. **The "savings" assume the combined procedure goes well.** If the combination produces a complication that requires hospitalization, the cost picture inverts immediately.
+
+3. **Revision exposure increases.** If one part of the combination needs revision, the revision plan is now more complicated.
+
+The book's editorial position is not "never combine procedures." Some combinations are clinically appropriate. The position is: combination procedures should be a surgical decision discussed in person with the surgeon, after the surgeon has examined you, with explicit discussion of the combined risk profile. They should not be a financial decision discussed with a coordinator over WhatsApp.
+
+### Why biology is not negotiable by airfare
+
+The reason a one-trip-fits-all promise often does not fit complex cosmetic surgery is not commercial. It is biological. This book does not give clinical timing rules — only a qualified surgeon who has examined you can do that — but a few general patterns are worth understanding so you can ask informed questions:
+
+- **Tissue healing** for any incision-based surgery extends well beyond the immediate post-op period. Scars mature for twelve to eighteen months. Deep healing of soft tissue continues for weeks after surface healing appears complete.
+- **Implant settling** (for breast augmentation, for example) takes weeks to months. The shape at week two is not the final shape. Final aesthetic evaluation and revision decisions are typically months out.
+- **Swelling resolution** is procedure-specific but often longer than patients expect. Rhinoplasty swelling can take twelve to eighteen months to fully resolve. Body procedure swelling can persist for several months.
+- **Fat retention for BBL** typically loses 30–50% of transferred fat over the first six months. The shape at one week is not the shape at six months.
+- **Combination procedures** add anesthesia time and recovery complexity in ways that affect both immediate safety and longer-term healing.
+
+These are illustrations, not prescriptions. Your case may follow a different timeline. The point is that when a clinic promises full results in a five-day trip, the physical body is being asked to cooperate with a flight schedule. Sometimes that works. Sometimes it produces complications, unsatisfying results, or revision needs that cost more in the long run. Ask the surgeon to write down which parts of the timeline are *fixed by biology* and which are *scheduling preferences*. That single sentence in writing prevents most of the calendar arguments later.
+
+### A note on dynamic currency conversion (DCC) at the card terminal
+
+When you tap or insert a card abroad, many terminals will ask whether you want to pay in the local currency or in your home currency. The screen often makes the home-currency option look helpful — sometimes it even shows a "locked" conversion rate next to it. Choose the *local currency* every time. The home-currency option is called dynamic currency conversion, and the exchange rate built into it is set by the merchant's payment processor, with a markup that typically runs from about three to seven percent over the rate your own card network would have used (and can run higher). On a $5,000 cosmetic surgery payment, that markup can quietly add $150–$350 — sometimes more — with a single tap.
+
+The same applies to ATM withdrawals: if the screen offers "convert to USD" (or your home currency), decline and let your bank do the conversion. Your card may still charge a foreign-transaction fee, but it will almost always be cheaper than DCC.
+
+### The demonstration-case discount
+
+This pattern is specific to cosmetic surgery and hair restoration. The clinic offers a discount in exchange for marketing rights to your photos, video testimonial, and story.
+
+A typical offer: "If you agree to allow us to use your before-and-after photos and a brief video testimonial for our marketing, we can offer ten to fifteen percent off the package price."
+
+The discount is real. The marketing rights are also real. Three things to know:
+
+1. **You are signing the agreement before you know the outcome.** If your result disappoints you, the marketing rights have already been granted.
+
+2. **The marketing use is often broader than patients realize.** "Marketing use" can include the clinic's website, Instagram, YouTube, paid ads on multiple platforms, before-and-after galleries shown to other prospective patients, and physical printed materials. It can include facial photographs, surgical-area photographs, and identifying details.
+
+3. **Revoking marketing rights after the fact is much harder than declining them up front.** Some agreements include perpetual licenses. Some include rights to re-use in compilation reels years later.
+
+A protective response:
+
+> I am not comfortable making the marketing decision before I know the outcome. If I am pleased with my result, I may consider granting marketing rights afterwards, with specific terms about how and where the materials may be used. I am not willing to grant them in exchange for a discount before the procedure.
+
+A clinic that withdraws the discount entirely if you decline the marketing rights is showing you something about how they value your photos. That is information.
+
+### The cost of time
+
+Many cosmetic surgery travelers underprice their own time because no one sends them an invoice for it. If you use paid vacation, the cost may feel invisible. If you are self-employed, hourly, a caregiver, or juggling school schedules, the cost may be severe.
+
+A single hair-transplant trip might require six to eight days. Rhinoplasty typically requires seven to ten days in destination plus weeks of restricted activity at home. Body procedures with combination components may require ten to fourteen days in destination plus six to eight weeks of restricted activity, including no heavy lifting, no exercise, and modified sleeping positions. Recovery from combination body procedures plus BBL can require avoiding sitting on the buttocks for two to three weeks.
+
+Time also affects surgical outcomes. A return flight scheduled too tightly after the last appointment can create complications mid-flight (especially DVT risk for body procedures) or force you to make the flight while healing has not progressed enough.
+
+### Worksheet: Your Maximum Walk-Away Number
+
+Before you travel, choose a maximum number that includes surgical and trip costs. Write it down. Share it with your companion if you have one.
+
+| Decision point | Your number |
+|---|---:|
+| Original quoted surgical procedure | |
+| Total trip budget, including travel and companion | |
+| Contingency buffer (recommend 20–30%) | |
+| Absolute maximum you can approve without going into harmful debt | |
+| Amount that requires sleeping on the decision | |
+| Amount that requires a second opinion before proceeding | |
+
+The purpose of a walk-away number is not to be rigid in the face of new clinical findings. It is to prevent fear, embarrassment, jet lag, and a coordinator's calendar from making a decision your bank account cannot survive.
+
+The cheapest complication is the one avoided before boarding.
+
+<!-- PULL QUOTE — designer: extract the previous sentence as an oversized centered sidebar callout on this spread. -->
+
+---
+
+## Chapter 6 — The Cosmetic Surgery Quote Decoder
+
+Cosmetic surgery quotes look official even when they are vague. A logo, a patient number, and a neat column of prices can create the feeling of precision. But a quote is only as useful as its definitions.
+
+Two clinics can quote the same case in different languages of billing. One may bundle the surgeon's fee, anesthesia, and facility into one package number. Another may separate every component. One may include a basic compression garment. Another may charge for it separately. One may quote "rhinoplasty" without specifying whether functional septoplasty is included if needed. Another may quote "BBL" when their actual technique involves intramuscular fat injection — exactly the technique associated with the highest mortality risk. A third may use "warranty" in a way that covers only implant replacement, not the surgical revision required to install the replacement.
+
+The decoder's job is to slow the quote down until every word has a price and every price has a word.
+
+### Start with the surgical plan, not the quote
+
+Before comparing line items, ask each clinic for a written, procedure-specific surgical plan. This is not a quote. It is a description of what the surgeon proposes to do. It should answer:
+
+- What anatomical structures are being altered, removed, or moved?
+- What surgical approach is proposed (open vs. closed for rhinoplasty; specific muscle vs. fat plane for BBL; pedicle technique for breast lift; etc.)?
+- What is being preserved?
+- What materials, devices, or implants are being used?
+- What is the expected operative time?
+- What is the expected recovery timeline?
+- What is the revision rate the surgeon sees in their own practice for this procedure (a question many surgeons will answer if asked specifically)?
+- What conditions found on in-person exam might change the plan?
+- What conditions in your medical history might disqualify you from the procedure?
+
+Without a surgical plan, you cannot compare quotes meaningfully. You can only compare prices for category names that may mean different things at different clinics.
+
+### The universal cosmetic-surgery quote checklist
+
+*A reusable side-by-side version for comparing multiple clinics is Worksheet 2 in the back matter.*
+
+Use this table for every clinic. Mark each item included, excluded, conditional, or unclear.
+
+| Line item | Included? | Price if separate | Questions to ask |
+|---|---|---:|---|
+| In-person consultation/exam (on arrival) | | | Free if you proceed? Charged if you decline? |
+| Pre-op imaging (where applicable: CT for rhinoplasty septum, mammogram for breast cases, etc.) | | | Required? Performed at the clinic or referred out? |
+| Pre-op lab work and clearance (CBC, EKG where applicable, pregnancy test, other) | | | Performed at the clinic, or referred to outside lab at additional cost? |
+| Photographs (medical, not marketing) | | | Yours to keep? In what format? |
+| Surgeon's fee | | | Separated from facility fee? |
+| Anesthesia fee | | | Type of anesthesia? Anesthesiologist or CRNA? Hourly billing? Cap on operative time before additional charges? |
+| Operating room / facility fee | | | What facility specifically (clinic OR vs. ambulatory surgery center vs. hospital)? Accreditation status? |
+| Implants (breast, gluteal, chin, calf, pec) | | | Brand, model, size, surface texture specified? Included or separate fee? |
+| Allograft or autograft material (cartilage for rhinoplasty, fat for BBL, etc.) | | | Source? Additional fee for cartilage graft from ear or rib? |
+| Compression and post-op garments | | | Basic vs. premium? How many included? Replacement if first one tears? |
+| Drains and drain management supplies | | | If applicable to your procedure |
+| Medication prescribed at discharge | | | Specifically what (antibiotics, pain control, anti-nausea)? Filled at clinic pharmacy? |
+| Lymphatic massage (if recommended) | | | Number of sessions included? Performed in-destination only or also recommended at home? |
+| Follow-up visits in destination | | | How many included? What does each include? |
+| Telehealth follow-up after return | | | Included for how long? At what frequency? |
+| Suture removal | | | At the clinic or arranged at home? Included in package or separate? |
+| Revision policy | | | What specifically is covered? Time window? Conditions? Travel costs included? |
+| Complication policy | | | Hospitalization coverage? Out-of-clinic care coverage? |
+| Hotel | | | How many nights included? Additional nights if surgeon recommends extended stay? |
+| Airport transfers | | | One-way or round-trip? Companion included? |
+| Companion accommodation | | | Required? Discounted? |
+| Records package | | | Operative note, anesthesia record, photos, implant cards — confirmed in writing? |
+
+Do not treat "unclear" as "included." In cosmetic surgery, unclear should be priced as excluded until proven otherwise.
+
+### The surgeon, the anesthesia, and the facility — three separable fees
+
+In US cosmetic surgery, these three components are almost always billed separately. In international package quotes, they are often bundled. The bundling makes price comparison easy and clinical comparison hard.
+
+Ask the clinic to break out:
+
+- **Surgeon's fee** as a discrete number
+- **Anesthesia fee** as a discrete number, with the named anesthesia provider
+- **Facility/operating-room fee** as a discrete number, with the facility name and accreditation status
+
+This breakout is the single most useful piece of information you can extract from a clinic before deposit. It tells you what the actual surgical service is being priced at, what the operating environment is being priced at, and what the anesthesia provider is being priced at — three independent dimensions of safety.
+
+If the clinic refuses to break it out:
+
+> I understand the package includes everything. For my own records and to compare across clinics, I would like the breakdown of the surgeon's fee, anesthesia fee, and facility fee as separate line items. Please send these as separate numbers even if the package price stays the same.
+
+A clinic that cannot or will not break this out is asking you to take a single number on faith. That is its own kind of information.
+
+### Implants: brand, size, model, lot, manufacturer warranty
+
+For any cosmetic surgery involving an implant — breast, gluteal, chin, calf, pec — ask in advance for:
+
+- **Manufacturer name** (Mentor, Sientra, Allergan/Natrelle, and others for breast; specific manufacturers for other implant types)
+- **Specific model and product line**
+- **Size** (volume in cc for breast; profile or projection where applicable)
+- **Surface texture** (smooth, textured, microtextured — with specific note that some textured implants have been associated with rare BIA-ALCL lymphoma; some Allergan Biocell textured implants were recalled in 2019)
+- **Manufacturer warranty terms** (Mentor's Promise Protection Plan, Sientra's warranty, Allergan/Natrelle's Confidence Plus)
+- **Whether the manufacturer's patient-identification card will be provided to you at surgery** (this is required by FDA for US-sold implants and by many international regulators for implants sold under their jurisdiction)
+
+A clinic that names "premium European implants" without specifying manufacturer is giving you marketing language, not a brand. A clinic that cannot tell you in advance which specific product will be used is asking you to consent to something they have not committed to.
+
+### Anesthesia line items
+
+Anesthesia fees vary widely based on type, provider, and operative time.
+
+Ask:
+
+- **Type of anesthesia proposed** (local with sedation, monitored anesthesia care, regional, general)
+- **Who administers it** (anesthesiologist, CRNA, dentist with sedation training, surgeon with anesthesia training — these are different)
+- **Their credentials in the destination country**, verifiable in the country's professional register
+- **Monitoring used** (pulse oximetry, capnography, blood pressure, ECG)
+- **Pre-op fasting and clearance requirements**
+- **Whether the fee is per hour, per procedure, or as a flat fee, and what happens if the operation runs longer than expected**
+- **Emergency protocol** (rescue cart, malignant hyperthermia kit, transfer plan to higher-level facility)
+
+(Chapter 18 covers anesthesia in much more depth; this section is the quote-decoder version of those questions.)
+
+### Lab work and pre-op clearance
+
+Pre-op lab work is often listed as "included" in international packages. Verify what is included, what is performed at the clinic vs. an outside lab, and what additional clearance might be required for your specific case.
+
+Common pre-op lab work for cosmetic surgery:
+
+- **Complete blood count (CBC)** to check for anemia and infection markers
+- **Basic metabolic panel** to check kidney function and electrolytes
+- **Coagulation studies** (PT/INR, PTT) particularly for patients on blood-thinners
+- **Pregnancy test** for women of reproductive age
+- **EKG** for older patients or those with cardiac history
+- **Chest X-ray** if indicated
+- **Pulmonary function tests** for patients with respiratory conditions or planning combination procedures with general anesthesia
+
+If your medical history requires additional clearance — cardiac, pulmonary, hematology — confirm whether the destination clinic will arrange it locally or whether you should obtain it before travel.
+
+### Revision and complication policies
+
+This is the section of the quote where the language is often most theatrical and the actual coverage often most limited.
+
+A revision policy should specify:
+
+- **What triggers covered revision** (a defined complication, a specific aesthetic deviation, asymmetry beyond a stated threshold)
+- **Time window** (some policies cover revision for one year, some for six months, some indefinitely with specific conditions)
+- **Conditions** (compliance with post-op instructions, no smoking, no significant weight change, no other surgeons modifying the work)
+- **What is included** (surgeon's fee, anesthesia, facility — or only one of these)
+- **Travel costs** (almost always not included; you pay your own flights and hotel for revision)
+- **Who decides whether the revision is covered** (the surgeon, an internal review, an outside arbiter)
+
+A complication policy should specify:
+
+- **What constitutes a complication** (specific medical conditions, not "anything that bothers you")
+- **What kind of care is covered** (clinic visits, hospitalization, emergency care)
+- **Where the care is provided** (in destination only, or remote management included)
+- **Time window** for coverage
+- **Exclusions** (smoking, non-compliance, pre-existing conditions, complications from concurrent unrelated illness)
+
+Most international clinic complication policies do not cover hospitalization in the destination country. Most do not cover any care provided outside the clinic itself. This is critical to understand before you fly. (Chapter 14 covers cosmetic-tourism complication insurance products that exist to fill this gap.)
+
+### Comparing quotes fairly
+
+Create a comparison table with one row per meaningful component, not one row per clinic package.
+
+| Component | Clinic A | Clinic B | Clinic C | Notes |
+|---|---:|---:|---:|---|
+| In-person consultation | | | | Charged if I decline? |
+| Pre-op imaging and lab work | | | | What's included |
+| Surgeon's fee | | | | Specifically itemized |
+| Anesthesia (with named provider) | | | | Type, hours, cap |
+| Facility (with accreditation) | | | | JCI / national equivalent |
+| Implants (with brand and model) | | | | Manufacturer, model, warranty |
+| Garments and supplies | | | | Number, type |
+| Medication kit | | | | Antibiotics, pain control, anti-nausea |
+| Follow-up in destination | | | | Number of visits, what's included |
+| Telehealth post-return follow-up | | | | Duration, frequency |
+| Revision policy practical value | | | | Time, conditions, travel costs |
+| Complication policy practical value | | | | Hospitalization included? |
+| Hotel and transfers | | | | Nights included, extension cost |
+| Companion costs | | | | If applicable |
+| Total likely completed-case cost | | | | Use same assumptions |
+
+If one clinic is far cheaper, find the missing row. If you cannot find it, ask. If no missing row exists and the clinic checks out on surgeon credentials, facility accreditation, anesthesia provider credentials, communication, and personal fit, then you may have found genuine savings.
+
+The cheapest line item on a quote is rarely the cheapest line item in the completed-case cost.
+
+---
+
+
