@@ -941,15 +941,15 @@
       </button>
 
       <div class="nav-section-label">Legal</div>
-      <a class="nav-item" href="/terms/" target="_blank" style="text-decoration:none">
+      <a class="nav-item" href="/terms/" target="_blank" style="text-decoration:none" rel="noopener">
         <span class="nav-icon">📋</span> Terms of Service
       </a>
-      <a class="nav-item" href="/privacy/" target="_blank" style="text-decoration:none">
+      <a class="nav-item" href="/privacy/" target="_blank" style="text-decoration:none" rel="noopener">
         <span class="nav-icon">🔒</span> Privacy Policy
       </a>
     </nav>
     <div class="sidebar-footer">
-      Powered by <a href="https://tabiji.ai/media/" target="_blank">tabiji.ai</a>
+      Powered by <a href="https://tabiji.ai/media/" target="_blank" rel="noopener">tabiji.ai</a>
     </div>
   </aside>
 
@@ -1426,7 +1426,7 @@
         <!-- Point 3: Commercial Content Disclosure -->
         <div class="tt-section">
           <div class="tt-consent-line">
-            By posting, you agree to TikTok's <a href="https://www.tiktok.com/legal/music-usage-confirmation" target="_blank">Music Usage Confirmation</a>.
+            By posting, you agree to TikTok's <a href="https://www.tiktok.com/legal/music-usage-confirmation" target="_blank" rel="noopener">Music Usage Confirmation</a>.
           </div>
 
           <label class="form-label" style="margin-top:0.75rem">Commercial Content</label>
@@ -1910,8 +1910,7 @@ async function confirmPublish() {
     const title = document.getElementById('modalTitle').value || currentVideo.title;
     const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
     tiktokResult = await publishToTikTokReal(videoUrl, title);
-    console.log('TikTok publish result:', tiktokResult);
-  }
+    }
 
   // Hide confirm, show status tracker
   document.getElementById('publishConfirm').style.display = 'none';
@@ -1978,8 +1977,7 @@ async function quickPublish(id, btn) {
   if (sessionStorage.getItem('tiktok_access_token') && v) {
     const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
     const result = await publishToTikTokReal(videoUrl, v.title + ' ' + v.tags.join(' '));
-    console.log('Quick publish TikTok result:', result);
-  }
+    }
 
   setTimeout(() => {
     btn.textContent = '✅ Published!';
@@ -2158,8 +2156,7 @@ async function checkTikTokConnection() {
       sessionStorage.setItem('tiktok_creator_info', JSON.stringify(data.data));
     }
   } catch (e) {
-    console.log('Could not fetch TikTok creator info:', e);
-  }
+    }
 
   if (actions) {
     actions.innerHTML = `<button class="btn-disconnect" onclick="disconnectTikTokReal()">Disconnect</button>`;
@@ -2279,8 +2276,7 @@ async function doSaveAsDraft() {
   if (sessionStorage.getItem('tiktok_access_token')) {
     const videoUrl = 'https://img.tabiji.ai/media/hero-bg.mp4';
     result = await uploadToTikTokDraft(videoUrl);
-    console.log('TikTok draft upload result:', result);
-  }
+    }
 
   setTimeout(() => {
     if (result && result.success) {
@@ -2441,10 +2437,10 @@ function updateCommercialConsent() {
 
   if (branded && organic) {
     detail.style.display = '';
-    detail.innerHTML = 'By posting, you agree to TikTok\'s <a href="https://www.tiktok.com/legal/branded-content-policy" target="_blank" style="color:var(--terracotta)">Branded Content Policy</a> and <a href="https://www.tiktok.com/legal/music-usage-confirmation" target="_blank" style="color:var(--terracotta)">Music Usage Confirmation</a>.';
+    detail.innerHTML = 'By posting, you agree to TikTok\'s <a href="https://www.tiktok.com/legal/branded-content-policy" target="_blank" style="color:var(--terracotta)" rel="noopener">Branded Content Policy</a> and <a href="https://www.tiktok.com/legal/music-usage-confirmation" target="_blank" style="color:var(--terracotta)" rel="noopener">Music Usage Confirmation</a>.';
   } else if (branded) {
     detail.style.display = '';
-    detail.innerHTML = 'By posting, you agree to TikTok\'s <a href="https://www.tiktok.com/legal/branded-content-policy" target="_blank" style="color:var(--terracotta)">Branded Content Policy</a> and <a href="https://www.tiktok.com/legal/music-usage-confirmation" target="_blank" style="color:var(--terracotta)">Music Usage Confirmation</a>.';
+    detail.innerHTML = 'By posting, you agree to TikTok\'s <a href="https://www.tiktok.com/legal/branded-content-policy" target="_blank" style="color:var(--terracotta)" rel="noopener">Branded Content Policy</a> and <a href="https://www.tiktok.com/legal/music-usage-confirmation" target="_blank" style="color:var(--terracotta)" rel="noopener">Music Usage Confirmation</a>.';
   } else {
     detail.style.display = 'none';
   }
@@ -2504,8 +2500,7 @@ function pollPublishStatus(publishId) {
       }
       // Otherwise keep polling (PROCESSING_UPLOAD, PROCESSING_DOWNLOAD, etc.)
     } catch (e) {
-      console.log('Status poll error:', e);
-    }
+      }
   }, 5000);
 }
 
