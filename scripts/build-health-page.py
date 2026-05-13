@@ -18,7 +18,7 @@ from html import escape
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 TABIJI_ROOT = SCRIPT_DIR.parent
-TEMPLATE_PATH = TABIJI_ROOT / "docs" / "health-template.html"
+TEMPLATE_PATH = SCRIPT_DIR / "templates" / "health-template.html"
 DATA_DIR = TABIJI_ROOT / "health-data"
 SAMPLE_DIR = TABIJI_ROOT  # for health-sample-japan.json fallback
 OUTPUT_ROOT = TABIJI_ROOT / "health"
