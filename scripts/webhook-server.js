@@ -54,51 +54,8 @@ function wakeOpenClaw(order) {
 if (!fs.existsSync(ORDERS_DIR)) fs.mkdirSync(ORDERS_DIR, { recursive: true });
 
 const server = http.createServer((req, res) => {
-  // Stripe webhook
-  if (req.method === 'POST' && req.url === '/webhook') {
-    let body = '';
-    req.on('data', chunk => body += chunk);
-    req.on('end', () => {
-      try {
-        const event = JSON.parse(body);
-        if (event.type !== 'checkout.session.completed') {
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ received: true }));
-          return;
-        }
-
-        const session = event.data.object;
-        const order = {
-          id: session.id,
-          email: session.customer_details?.email || session.metadata?.email || 'unknown',
-          destination: session.metadata?.destination || 'Not specified',
-          start_date: session.metadata?.start_date || '',
-          end_date: session.metadata?.end_date || '',
-          group_size: session.metadata?.group_size || '',
-          travel_style: session.metadata?.travel_style || '',
-          dining: session.metadata?.dining || '',
-          budget: session.metadata?.budget || '',
-          requests: session.metadata?.requests || '',
-          amount: (session.amount_total / 100).toFixed(2),
-          timestamp: new Date().toISOString(),
-          status: 'pending'
-        };
-
-        saveOrder(order);
-        console.log(`🎌 NEW ORDER: ${order.destination} for ${order.email} ($${order.amount})`);
-        wakeOpenClaw(order);
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ received: true, order_id: session.id }));
-      } catch (err) {
-        console.error('Webhook error:', err.message);
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: err.message }));
-      }
-    });
-
   // Direct form submission (free)
-  } else if (req.method === 'POST' && req.url === '/order') {
+  if (req.method === 'POST' && req.url === '/order') {
     let body = '';
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
@@ -187,7 +144,7 @@ let retries = 0;
 
 function startServer() {
   server.listen(PORT, '127.0.0.1', () => {
-    console.log(`🎌 Tabiji webhook server running on http://127.0.0.1:${PORT}`);
+    console.log(`🎌 Tabiji order server running on http://127.0.0.1:${PORT}`);
   });
 }
 

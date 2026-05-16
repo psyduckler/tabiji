@@ -865,31 +865,6 @@ function handleSubmit(e) {
     btn.disabled = true;
     }
 
-async function startCheckout(e) {
-    e.preventDefault();
-    const btn = e.target;
-    btn.textContent = 'Redirecting to checkout...';
-    btn.style.pointerEvents = 'none';
-    try {
-        const res = await fetch('/api/checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ destination: '' })
-        });
-        const data = await res.json();
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            alert('Something went wrong. Please try again.');
-            btn.textContent = 'Get Your Free Custom Itinerary';
-            btn.style.pointerEvents = 'auto';
-        }
-    } catch (err) {
-        alert('Something went wrong. Please try again.');
-        btn.textContent = 'Get Your Free Custom Itinerary';
-        btn.style.pointerEvents = 'auto';
-    }
-}
 // Close Explore dropdown when clicking outside
 document.addEventListener('click', function(e) {
     var dd = document.querySelector('.nav-dropdown');
