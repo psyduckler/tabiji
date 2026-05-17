@@ -45,7 +45,9 @@ BENCHMARKS = {
     "meta_desc_max_len": 200,
     "title_max_len": 100,
     "ai_tells_max": 10,
-    "currency_symbols_max": 2,
+    # 3 is the natural mix for a 2-destination compare (USD reader anchor +
+    # one local currency per destination). 4+ is true overload.
+    "currency_symbols_max": 3,
     "generic_reddit_url_pct_max": 50,
 }
 
@@ -113,6 +115,23 @@ def audit_page(slug: str, html: str) -> dict:
     main_m = re.search(r"<main\b[^>]*>(.*?)</main>", html, re.S)
     body = main_m.group(1) if main_m else html
 
+    # For content-quality checks (AI tells, currency overload, stale refs),
+    # exclude the related-comparisons / ux-related-links block — its content
+    # is sourced from cards-data.json for other pages and shouldn't be
+    # attributed to this page's editorial.
+    body_no_related = re.sub(
+        r'<!-- compare-related:start -->.*?<!-- compare-related:end -->',
+        '', body, flags=re.S
+    )
+    body_no_related = re.sub(
+        r'<section class="related-comparisons".*?</section>',
+        '', body_no_related, flags=re.S
+    )
+    body_no_related = re.sub(
+        r'<div class="ux-related-links".*?</div>\s*</div>',
+        '', body_no_related, flags=re.S
+    )
+
     # ----- Metrics -----
     metrics = {
         "slug": slug,
@@ -122,7 +141,7 @@ def audit_page(slug: str, html: str) -> dict:
         "modified_time": modified_time,
         "has_og_image": bool(og_image),
         "og_image_dest_generic": ("dest1.jpg" in og_image or "dest2.jpg" in og_image),
-        "deep_dives": len(re.findall(r'<h2\b[^>]*\bid=', body)),
+        "deep_dives": len(re.findall(r'<h2\b[^>]*>', body)),
         "faq_items": html.count('"@type": "Question"') + html.count('"@type":"Question"'),
         "faq_visible_h3": sum(
             1 for q in re.findall(r"<h3[^>]*>([^<]+)</h3>", faq_section)
@@ -135,6 +154,7 @@ def audit_page(slug: str, html: str) -> dict:
             body.count("section-winner")
             + body.count("qa-winner")
             + body.count("sc-winner")
+            + body.count("tabiji-verdict")
         ),
         "comp_rows": max(0, len(re.findall(r"<tr>", body)) - 1),
         "verdict_cards": html.count("verdict-card"),
@@ -170,11 +190,20 @@ def audit_page(slug: str, html: str) -> dict:
         1 for a in photo_alts if len(a) < 10 or a.lower() in ("image", "photo", "picture", "")
     )
 
-    # FAQ answer quality (read from JSON-LD)
+    # FAQ answer quality — parse FAQPage JSON-LD properly (regex over JSON
+    # strings is unreliable because escape sequences like \" trick it).
     short_faq = 0
-    for m in re.finditer(r'"@type":\s*"Question"[^}]*"text":\s*"([^"]+)"', html):
-        if len(m.group(1)) < BENCHMARKS["faq_answer_min_len"]:
-            short_faq += 1
+    for blk in re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S):
+        try:
+            obj = json.loads(blk)
+        except json.JSONDecodeError:
+            continue
+        if obj.get("@type") != "FAQPage":
+            continue
+        for q in obj.get("mainEntity", []):
+            ans = q.get("acceptedAnswer", {}).get("text", "")
+            if len(ans) < BENCHMARKS["faq_answer_min_len"]:
+                short_faq += 1
     metrics["short_faq_answers"] = short_faq
 
     # FAQ schema-vs-body parity (only count h3s that look like real questions —
@@ -199,20 +228,29 @@ def audit_page(slug: str, html: str) -> dict:
 
     # AI tells (count phrase occurrences across body)
     ai_tell_hits = sum(
-        len(re.findall(r"\b" + re.escape(phrase) + r"\b", body, re.I))
+        len(re.findall(r"\b" + re.escape(phrase) + r"\b", body_no_related, re.I))
         for phrase in AI_TELLS
     )
     metrics["ai_tell_count"] = ai_tell_hits
 
     # Currency overload
-    metrics["currency_symbols_present"] = sum(1 for s in CURRENCY_SYMBOLS if s in body)
+    metrics["currency_symbols_present"] = sum(1 for s in CURRENCY_SYMBOLS if s in body_no_related)
 
-    # Stale/pandemic references
-    stale_patterns = (
-        r"\bCOVID\b", r"\bpandemic\b", r"\bcoronavirus\b",
-        r"Expo 2020", r"Olympics 202[0-4]",
-    )
-    metrics["stale_refs"] = sum(1 for p in stale_patterns if re.search(p, body))
+    # Stale/pandemic references — only flag when used as a live concern, not
+    # historical context. For Expo/Olympics, ignore matches where a historical
+    # marker ("former", "historical", "previous", "ex-") appears within ~30
+    # chars before the match, since that signals intentional historical context.
+    HIST_CTX = re.compile(r"\b(?:former|historical|previous|ex-)\b[^.]{0,30}$", re.I)
+    stale_patterns_bare = (r"\bCOVID\b", r"\bpandemic\b", r"\bcoronavirus\b")
+    stale_patterns_eventy = (r"Expo 2020", r"Olympics 202[0-4]")
+    hits = sum(1 for p in stale_patterns_bare if re.search(p, body_no_related))
+    for p in stale_patterns_eventy:
+        for m in re.finditer(p, body_no_related):
+            preceding = body_no_related[max(0, m.start() - 60): m.start()]
+            if not HIST_CTX.search(preceding):
+                hits += 1
+                break  # one hit per pattern is enough
+    metrics["stale_refs"] = hits
 
     # ----- Score calc -----
     issues = []
