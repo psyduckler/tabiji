@@ -6,7 +6,6 @@ Fix #1: Add <meta name="robots" content="max-image-preview:large"> to ALL pages
 Fix #2: Add og:image + og:image:width + og:image:height to itinerary pages (if hero-bg exists)
 Fix #3: Add "image" field to Article JSON-LD schema on itinerary pages (if hero-bg exists)
 
-Also: Add og:image:width + og:image:height to popular-picks pages that already have og:image
 
 Run: python3 scripts/discover-optimize.py [--dry-run]
 """
@@ -27,7 +26,6 @@ stats = {
     'fix2_og_image_added': 0,
     'fix2_og_dimensions_added': 0,
     'fix3_schema_image_added': 0,
-    'popular_picks_dimensions_added': 0,
     'skipped_no_hero': 0,
     'files_modified': 0,
     'files_scanned': 0,
@@ -102,13 +100,6 @@ def fix_og_image_itinerary(html, slug):
     
     return html, changed
 
-
-def fix_og_dimensions_popular_picks(html):
-    """Add og:image:width and og:image:height to popular-picks pages that have og:image but no dimensions."""
-    changed = False
-
-    if 'og:image"' not in html:
-        return html, changed
     if 'og:image:width' in html:
         return html, changed  # already has dimensions
 
@@ -122,7 +113,7 @@ def fix_og_dimensions_popular_picks(html):
         )
         html = html[:insert_pos] + dim_tags + html[insert_pos:]
         changed = True
-        stats['popular_picks_dimensions_added'] += 1
+        stats['og_image_dimensions_added'] += 1
 
     return html, changed
 
@@ -209,9 +200,6 @@ def process_file(filepath):
             html, _ = fix_og_image_itinerary(html, slug)
             html, _ = fix_schema_image_itinerary(html, slug)
 
-    # Popular-picks: add dimensions to existing og:image
-    if rel_path.startswith('popular-picks/'):
-        html, _ = fix_og_dimensions_popular_picks(html)
 
     # Write if changed
     if html != original:
@@ -256,9 +244,6 @@ def main():
     print(f"Fix #3 — schema image on itineraries:")
     print(f"  Added image to Article JSON-LD: {stats['fix3_schema_image_added']}")
     print(f"")
-    print(f"Bonus — popular-picks dimensions:")
-    print(f"  Added og:image dimensions:     {stats['popular_picks_dimensions_added']}")
-
     if stats['errors']:
         print(f"\nErrors ({len(stats['errors'])}):")
         for e in stats['errors']:

@@ -2,12 +2,13 @@
 """
 Tabiji API v1 — Static JSON API Builder
 
-Reads all tabiji data sources (destinations, popular-picks, itineraries, compare)
+Reads tabiji data sources (destinations, itineraries, compare)
 and generates static JSON files for a free REST API hosted on Cloudflare Pages.
 
 Usage: python3 api/build-api.py
 """
 
+import hashlib
 import json
 import os
 import re
@@ -38,7 +39,6 @@ COUNTRY_FACTS_PATH = BASE_DIR / "api" / "data" / "country-facts.json"
 DESTINATION_COUNTRY_MAP_PATH = BASE_DIR / "api" / "data" / "destination-country-map.json"
 
 CONFIDENCE_EDITORIAL = 0.9
-CONFIDENCE_PICK_SUMMARY = 0.78
 
 # Canonical in-memory store for destination details.
 # Populated by build_destinations() from destinations-full.json; read by
@@ -442,7 +442,7 @@ CATALOG_KEEP_FIELDS = {
     # Editorial preview
     "pitch", "photo",
     # Cross-references (populated by build_relationships)
-    "relatedPicks", "relatedItineraries", "relatedComparisons", "relatedDestinations",
+    "relatedItineraries", "relatedComparisons", "relatedDestinations",
 }
 
 
@@ -480,7 +480,7 @@ def build_destinations():
     — build-api.py no longer writes per-slug JSONs.
 
     Populates _DEST_DETAILS (module global) for downstream readers:
-    detail enrichment (relatedPicks/Itins/Compares, safetyRef), build_filter(),
+    detail enrichment (relatedItineraries/Comparisons, safetyRef), build_filter(),
     and knowledge-chunk builders. Returns a slim-projected summaries list
     that build_relationships() mutates in place with related* fields.
     The on-disk slim destinations.json is written later by the main build
@@ -514,463 +514,10 @@ def write_slim_destinations(summaries):
         json.dump({"count": len(catalog), "destinations": catalog}, f, indent=2, ensure_ascii=False)
 
 
-# ============================================================
-# POPULAR PICKS
-# ============================================================
-
-def normalize_price_range(text):
-    text = clean_text(text)
-    text = re.sub(r'^[💰💶💴🪙]+\s*', '', text)
-    return text.strip()
-
-
-def extract_pick_places(soup, slug):
-    places = []
-    sections = soup.find_all('section', class_='restaurant-section')
-
-    for section in sections:
-        place = {}
-        h2 = section.find('h2')
-        if h2:
-            num_span = h2.find('span', class_='restaurant-number')
-            number = clean_text(num_span.get_text()) if num_span else ""
-            name_text = clean_text(h2.get_text())
-            if number and name_text.startswith(number):
-                name_text = name_text[len(number):].strip()
-            place["name"] = name_text
-            place["position"] = int(number) if number.isdigit() else None
-
-        tags = section.find_all('span', class_=lambda x: x and 'cuisine-tag' in x)
-        if tags:
-            place["tags"] = [clean_text(t.get_text()) for t in tags]
-
-        rating_span = section.find('span', class_='google-rating')
-        if rating_span:
-            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_span.get_text(strip=True))
-            if match:
-                place["googleRating"] = float(match.group(1))
-                place["reviewCount"] = int(match.group(2).replace(',', ''))
-
-        details = section.find('div', class_='restaurant-details')
-        if details:
-            for span in details.find_all('span'):
-                text = clean_text(span.get_text())
-                if any(c in text for c in ['💰', '💶', '💴', '¥', '€', '$', '£', '🪙']):
-                    place["priceRange"] = normalize_price_range(text)
-                elif '📍' in text:
-                    place["address"] = text.replace('📍', '').strip()
-            maps_link = details.find('a', href=re.compile(r'maps\.google|google.*maps|goo\.gl/maps'))
-            if maps_link:
-                place["googleMapsUrl"] = maps_link.get('href', '')
-
-        hours_div = section.find('div', class_='shop-hours')
-        if hours_div:
-            hours_grid = hours_div.find('div', class_='hours-grid')
-            if hours_grid:
-                spans = hours_grid.find_all('span')
-                hours = {}
-                for i in range(0, len(spans) - 1, 2):
-                    hours[clean_text(spans[i].get_text())] = clean_text(spans[i + 1].get_text())
-                if hours:
-                    place["openingHours"] = hours
-            summary = hours_div.find('summary')
-            if summary:
-                status_text = clean_text(summary.get_text())
-                if 'Open' in status_text:
-                    place["openNow"] = True
-                elif 'Closed' in status_text:
-                    place["openNow"] = False
-
-        contact = section.find('div', class_='shop-contact')
-        if contact:
-            phone_link = contact.find('a', href=re.compile(r'tel:'))
-            if phone_link:
-                place["phone"] = phone_link.get('href', '').replace('tel:', '')
-            website_link = contact.find('a', href=re.compile(r'^https?://'))
-            if website_link and 'maps.google' not in website_link.get('href', ''):
-                place["website"] = website_link.get('href', '')
-
-        img = section.find('img')
-        if img and img.get('src'):
-            place["photo"] = img.get('src', '')
-
-        order_div = section.find('div', class_='what-to-order')
-        if order_div:
-            order_text = clean_text(order_div.get_text())
-            order_text = re.sub(r'^What to order:\s*', '', order_text, flags=re.IGNORECASE)
-            place["whatToOrder"] = order_text
-
-        quotes = section.find_all('div', class_='reddit-quote')
-        if quotes:
-            place["redditQuotes"] = [split_quote_and_source(q) for q in quotes]
-
-        verdict_box = section.find('div', class_='pick-quick-take')
-        if verdict_box:
-            place["verdict"] = clean_text(verdict_box.get_text()).replace('Verdict:', '').strip()
-
-        comparison_card = section.find('div', class_='comparison-card')
-        if comparison_card:
-            comparison = {}
-            for row in comparison_card.find_all('div', class_='comparison-row'):
-                dt = row.find('dt')
-                dd = row.find('dd')
-                if not dt or not dd:
-                    continue
-                key = clean_text(dt.get_text()).lower()
-                value = clean_text(dd.get_text())
-                comparison[key] = value
-            if comparison:
-                place["comparison"] = comparison
-                if not place.get("whatToOrder") and comparison.get("what to order"):
-                    place["whatToOrder"] = comparison.get("what to order")
-                if not place.get("insiderTip") and comparison.get("why it made the list"):
-                    place["insiderTip"] = comparison.get("why it made the list")
-
-        if place.get("name"):
-            places.append(place)
-
-    return places
-
-
-def extract_pick_places_generic(soup, slug):
-    """Extract places from pages with non-standard section classes (bath-section, lodge-section, pick-item, etc.)."""
-    places = []
-    items = (
-        soup.find_all('section', class_=re.compile(r'bath-section|lodge-section|hammam-section|club-section|bar-section|view-section|stay-section|spot-section'))
-        or soup.find_all('div', class_=re.compile(r'pick-item'))
-    )
-
-    if not items:
-        return places
-
-    for i, item in enumerate(items):
-        place = {"position": i + 1}
-
-        heading = item.find(['h2', 'h3'])
-        if heading:
-            num_span = heading.find('span', class_=re.compile(r'number|pick-number|bath-number'))
-            name_text = clean_text(heading.get_text())
-            if num_span:
-                num_text = clean_text(num_span.get_text())
-                if name_text.startswith(num_text):
-                    name_text = name_text[len(num_text):].strip()
-            name_text = re.sub(r'^\d+\.\s*', '', name_text)
-            place["name"] = name_text
-
-        tags = item.find_all('span', class_=re.compile(r'tag(?!-)|bath-tag|cuisine-tag'))
-        if tags:
-            tag_texts = [clean_text(t.get_text()) for t in tags if not any(skip in clean_text(t.get_text()) for skip in ['📍', '💰', '🪙', '🕐'])]
-            if tag_texts:
-                place["tags"] = tag_texts
-
-        details = item.find(class_=re.compile(r'details|meta|bath-details|pick-details|spot-details'))
-        if details:
-            spans = details.find_all('span')
-            for span in spans:
-                text = clean_text(span.get_text())
-                if any(c in text for c in ['💰', '💶', '💴', '¥', '€', '$', '£', '🪙']):
-                    place["priceRange"] = normalize_price_range(text)
-                elif '📍' in text:
-                    place["address"] = text.replace('📍', '').strip()
-            maps_link = details.find('a', href=re.compile(r'maps\.google|google.*maps'))
-            if maps_link:
-                place["googleMapsUrl"] = maps_link.get('href', '')
-
-        subtitle = item.find(class_='subtitle')
-        if subtitle and not place.get("address"):
-            parts = [clean_text(p) for p in subtitle.get_text(strip=True).split('•')]
-            if len(parts) >= 1:
-                place["address"] = parts[0].strip()
-            if len(parts) >= 3:
-                place["priceRange"] = normalize_price_range(parts[-1])
-
-        rating_el = item.find(class_='google-rating')
-        if rating_el:
-            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_el.get_text())
-            if match:
-                place["googleRating"] = float(match.group(1))
-                place["reviewCount"] = int(match.group(2).replace(',', ''))
-
-        img = item.find('img')
-        if img and img.get('src'):
-            place["photo"] = img.get('src', '')
-
-        order = item.find(class_=re.compile(r'what-to-order|what-to-know'))
-        if order:
-            text = clean_text(order.get_text())
-            text = re.sub(r'^(What to order|What to know):\s*', '', text, flags=re.IGNORECASE)
-            place["whatToOrder"] = text
-
-        desc_p = item.find('p', class_='description')
-        if desc_p and not place.get("whatToOrder"):
-            place["whatToOrder"] = clean_text(desc_p.get_text())
-
-        quotes = item.find_all('div', class_='reddit-quote')
-        if quotes:
-            place["redditQuotes"] = [split_quote_and_source(q) for q in quotes]
-
-        verdict = item.find(class_=re.compile(r'verdict|tabiji-verdict'))
-        if verdict:
-            text = clean_text(verdict.get_text())
-            text = re.sub(r'^tabiji verdict:\s*', '', text, flags=re.IGNORECASE)
-            place["insiderTip"] = text
-
-        hours_div = item.find(class_=re.compile(r'hours'))
-        if hours_div:
-            grid = hours_div.find(class_='hours-grid')
-            if grid:
-                spans = grid.find_all('span')
-                hours = {}
-                for j in range(0, len(spans) - 1, 2):
-                    hours[clean_text(spans[j].get_text())] = clean_text(spans[j + 1].get_text())
-                if hours:
-                    place["openingHours"] = hours
-
-        if place.get("name"):
-            places.append(place)
-
-    return places
-
-
-def extract_pick_places_alt(soup, slug):
-    """Extract places from older-template popular-picks pages using entry-body structure."""
-    places = []
-    entries = soup.find_all('div', class_='entry-body')
-
-    for i, entry in enumerate(entries):
-        place = {"position": i + 1}
-
-        name_el = entry.find(class_='entry-name')
-        if name_el:
-            place["name"] = clean_text(name_el.get_text())
-
-        local_name = entry.find(class_='entry-local-name')
-        if local_name:
-            place["localName"] = clean_text(local_name.get_text())
-
-        tags = entry.find_all('span', class_=lambda x: x and 'tag' in x and x != 'entry-tags')
-        if tags:
-            place["tags"] = [clean_text(t.get_text()) for t in tags]
-
-        meta = entry.find(class_='entry-meta')
-        if meta:
-            spans = meta.find_all('span')
-            for span in spans:
-                text = clean_text(span.get_text())
-                if any(c in text for c in ['💶', '💰', '💴', '¥', '€', '$', '£', '🪙']):
-                    place["priceRange"] = normalize_price_range(text)
-                elif '📍' in text:
-                    place["address"] = text.replace('📍', '').strip()
-                    maps_link = span.find('a', href=re.compile(r'maps\.google|google.*maps'))
-                    if maps_link:
-                        place["googleMapsUrl"] = maps_link.get('href', '')
-                        place["address"] = clean_text(maps_link.get_text())
-                elif '🕐' in text or '🕑' in text:
-                    place["hoursText"] = re.sub(r'^[🕐🕑]\s*', '', text).strip()
-
-        rating_el = entry.find(class_='google-rating')
-        if rating_el:
-            rating_text = clean_text(rating_el.get_text())
-            match = re.search(r'([\d.]+)\s*[·•]\s*([\d,]+)', rating_text)
-            if match:
-                place["googleRating"] = float(match.group(1))
-                place["reviewCount"] = int(match.group(2).replace(',', ''))
-
-        img = entry.find('img')
-        if img and img.get('src'):
-            place["photo"] = img.get('src', '')
-
-        order_div = entry.find(class_='what-to-order')
-        if order_div:
-            p = order_div.find('p')
-            if p:
-                place["whatToOrder"] = clean_text(p.get_text())
-            else:
-                place["whatToOrder"] = clean_text(order_div.get_text())
-
-        quotes_div = entry.find(class_='quotes')
-        if quotes_div:
-            quote_blocks = quotes_div.find_all(class_='quote-block')
-            if quote_blocks:
-                place["redditQuotes"] = []
-                for qb in quote_blocks:
-                    cite = qb.find('cite')
-                    source = clean_text(cite.get_text()) if cite else ""
-                    quote_clone = BeautifulSoup(str(qb), 'html.parser')
-                    cite_clone = quote_clone.find('cite')
-                    if cite_clone:
-                        cite_clone.decompose()
-                    text = clean_text(quote_clone.get_text()).strip('""“”')
-                    place["redditQuotes"].append({"text": text, "source": source, "sourceUrl": ""})
-
-        verdict = entry.find(class_='verdict-box')
-        if verdict:
-            p = verdict.find('p')
-            if p:
-                place["insiderTip"] = clean_text(p.get_text())
-
-        contact = entry.find(class_='entry-contact') or entry.find(class_='shop-contact')
-        if contact:
-            phone_link = contact.find('a', href=re.compile(r'tel:'))
-            if phone_link:
-                place["phone"] = phone_link.get('href', '').replace('tel:', '')
-            website_link = contact.find('a', href=re.compile(r'^https?://'))
-            if website_link and 'maps.google' not in website_link.get('href', ''):
-                place["website"] = website_link.get('href', '')
-
-        hours_div = entry.find(class_='shop-hours') or entry.find(class_='hours-section')
-        if hours_div:
-            hours_grid = hours_div.find(class_='hours-grid')
-            if hours_grid:
-                spans = hours_grid.find_all('span')
-                hours = {}
-                for j in range(0, len(spans) - 1, 2):
-                    hours[clean_text(spans[j].get_text())] = clean_text(spans[j + 1].get_text())
-                if hours:
-                    place["openingHours"] = hours
-
-        if place.get("name"):
-            places.append(place)
-
-    return places
-
 
 def extract_meta_content(soup, attr_name, attr_value):
     tag = soup.find('meta', attrs={attr_name: attr_value})
     return tag.get('content', '').strip() if tag and tag.get('content') else ''
-
-
-def extract_pick_hub_cards(soup):
-    cards = []
-    for link in soup.find_all('a', class_='pick-card'):
-        href = link.get('href', '').strip()
-        if not href:
-            continue
-        title_el = link.find(['h2', 'h3'])
-        desc_el = link.find('p')
-        badge_el = link.find(class_='card-badge')
-        img_el = link.find('img')
-        slug = href.strip('/').split('/')[-1] if href else ''
-        cards.append({
-            "name": clean_text(title_el.get_text()) if title_el else slug,
-            "slug": slug,
-            "url": f"{SITE_URL}{href}" if href.startswith('/') else href,
-            "description": clean_text(desc_el.get_text()) if desc_el else '',
-            "badge": clean_text(badge_el.get_text()) if badge_el else '',
-            "photo": img_el.get('src', '').strip() if img_el else '',
-        })
-    return cards
-
-
-def build_picks():
-    picks_dir = BASE_DIR / "popular-picks"
-    if not picks_dir.exists():
-        print("  ⚠️  popular-picks/ not found")
-        return [], 0
-
-    # Per-file /api/v1/picks/<slug>.json endpoints removed (2026-04-20) to stay
-    # under Cloudflare Pages 20,000-file deployment cap. Canonical pick detail
-    # lives at HTML /popular-picks/<slug>/ and is also included in the aggregate
-    # /api/v1/picks.json index below.
-    output_picks_dir = None
-
-    summaries = []
-    total_places = 0
-    slugs = sorted([d for d in os.listdir(picks_dir) if (picks_dir / d / "index.html").exists()])
-
-    for slug in slugs:
-        html_path = picks_dir / slug / "index.html"
-        try:
-            html = html_path.read_text(encoding='utf-8')
-        except Exception as e:
-            print(f"  ⚠️  Error reading {slug}: {e}")
-            continue
-
-        soup = BeautifulSoup(html, 'html.parser')
-        json_ld = extract_json_ld(soup)
-        article = find_json_ld_by_type(json_ld, 'Article')
-
-        title = article.get('headline', '') if article else ""
-        desc = article.get('description', '') if article else ""
-        if not title:
-            title_tag = soup.find('title')
-            title = title_tag.text.strip().split('|')[0].strip() if title_tag else slug
-
-        city = ""
-        city_match = re.search(r'(?:in|of)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)', title)
-        if city_match:
-            city = city_match.group(1)
-
-        category = ""
-        cat_match = re.search(r'Best\s+(.+?)\s+(?:in|of|for)', title, re.IGNORECASE)
-        if cat_match:
-            category = cat_match.group(1).strip()
-
-        places = extract_pick_places(soup, slug)
-        if not places:
-            places = extract_pick_places_alt(soup, slug)
-        if not places:
-            places = extract_pick_places_generic(soup, slug)
-        is_hub_page = False
-        if not places:
-            places = extract_pick_hub_cards(soup)
-            is_hub_page = len(places) > 0
-        total_places += len(places)
-
-        hero_img = article.get('image', '') if article else ''
-        if isinstance(hero_img, list):
-            hero_img = hero_img[0] if hero_img else ''
-        if not hero_img:
-            hero_img = extract_meta_content(soup, 'property', 'og:image') or extract_meta_content(soup, 'name', 'twitter:image')
-        if not desc:
-            desc = extract_meta_content(soup, 'name', 'description')
-        if not city and is_hub_page:
-            h1 = soup.find('h1')
-            if h1:
-                city = clean_text(h1.get_text())
-
-        detail = attach_record_meta({
-            "slug": slug,
-            "title": title,
-            "description": desc,
-            "city": city,
-            "category": category,
-            "heroImage": hero_img,
-            "placeCount": len(places),
-            "url": f"{SITE_URL}/popular-picks/{slug}/",
-            "places": places
-        }, record_type="pick", slug=slug, source_path=html_path, source_url=f"{SITE_URL}/popular-picks/{slug}/", tags=[city, category])
-
-        # Per-file picks JSON removed — see note at top of build_picks().
-        # if output_picks_dir is not None:
-        #     with open(output_picks_dir / f"{slug}.json", 'w') as f:
-        #         json.dump(detail, f, indent=2, ensure_ascii=False)
-
-        updated_at = isoformat_mtime(html_path)
-        summaries.append({
-            "slug": slug,
-            "title": title,
-            "description": desc,
-            "city": city,
-            "category": category,
-            "placeCount": len(places),
-            "url": f"{SITE_URL}/popular-picks/{slug}/"
-        } | make_summary_meta(
-            record_type="pick",
-            slug=slug,
-            updated_at=updated_at,
-            source_url=f"{SITE_URL}/popular-picks/{slug}/",
-            source_path=str(html_path.relative_to(BASE_DIR)) if html_path.is_relative_to(BASE_DIR) else str(html_path),
-            tags=[city, category],
-            confidence="mixed",
-            confidence_score=CONFIDENCE_PICK_SUMMARY,
-            operational_fields_may_change=True,
-        ))
-
-    with open(OUTPUT_DIR / "picks.json", 'w') as f:
-        json.dump({"count": len(summaries), "totalPlaces": total_places, "picks": summaries}, f, indent=2, ensure_ascii=False)
-
-    return summaries, total_places
 
 
 # ============================================================
@@ -1410,7 +957,7 @@ def build_compare():
     return summaries, len(summaries)
 
 
-def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_summaries):
+def build_relationships(dest_summaries, itin_summaries, compare_summaries):
     destination_lookup = {}
     destination_slug_by_name = {}
     for dest in dest_summaries:
@@ -1419,11 +966,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
 
     # Build cross-ref lookups for safety/alerts/scams
     safety_data_dir = BASE_DIR / "app" / "data" / "safety"
-    # Scam JSONs live at api/v1/scams/<slug>.json since the migration off
-    # app/data/scams/ (which no longer exists). Reading the now-empty old path
-    # left _scams_by_country empty, which meant scamsRef was never refreshed —
-    # destinations kept stale URLs pointing to slugs that had been renamed
-    # (e.g. cordoba → cordoba-spain in #999), producing 103 dead links.
     scam_data_dir = OUTPUT_DIR / "scams"
     _safety_iso2s = set()
     if safety_data_dir.exists():
@@ -1443,7 +985,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
             except (json.JSONDecodeError, OSError):
                 continue
 
-    picks_by_destination = {}
     itins_by_destination = {}
     compares_by_destination = {}
     compare_pairs = {}
@@ -1473,16 +1014,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
                 return slug
         return ''
 
-    for pick in pick_summaries:
-        destination_slug = (
-            destination_slug_for_name(pick.get("city", ""))
-            or destination_slug_for_text(pick.get("title", ""), pick.get("description", ""), pick.get("city", ""), pick.get("slug", "").replace('-', ' '))
-        )
-        pick["destinationSlug"] = destination_slug
-        pick["destinationName"] = destination_lookup.get(destination_slug, {}).get("name", pick.get("city", "")) if destination_slug else pick.get("city", "")
-        if destination_slug:
-            picks_by_destination.setdefault(destination_slug, []).append(pick)
-
     itin_detail_updates = {}
     for itin in itin_summaries:
         destination_slug = (
@@ -1507,10 +1038,6 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
 
     for dest in dest_summaries:
         slug = dest["slug"]
-        related_picks = [
-            make_related_summary(item_type="pick", slug=pick["slug"], title=pick["title"], url=pick["url"], extra={"category": pick.get("category", "")})
-            for pick in picks_by_destination.get(slug, [])
-        ]
         related_itins = [
             make_related_summary(item_type="itinerary", slug=itin["slug"], title=itin["title"], url=itin["url"], extra={"duration": itin.get("duration", "")})
             for itin in itins_by_destination.get(slug, [])
@@ -1533,16 +1060,10 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
         if detail:
             detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("pitch", "")
             detail["bestFor"] = detail.get("bestFor") or unique_list([*(detail.get("vibes", []) or []), *(detail.get("travelStyles", []) or [])])[:6]
-            detail["relatedPicks"] = truncate_list(related_picks)
             detail["relatedItineraries"] = truncate_list(related_itins)
             detail["relatedComparisons"] = truncate_list(related_compares)
             detail["relatedDestinations"] = truncate_list(nearby_destinations)
 
-            # Cross-references to safety, alerts, and scams endpoints. We
-            # set-or-remove on every build so a country whose data was renamed
-            # or removed can't leave a stale ref behind. Earlier the code was
-            # set-only, which is how scamsRef froze with the pre-migration
-            # cordoba slug for 103 destinations.
             _dest_cc = detail.get("countryCode", "")
             if _dest_cc:
                 _dest_cc_upper = _dest_cc.upper()
@@ -1561,21 +1082,9 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
                 elif "scamsRef" in detail:
                     del detail["scamsRef"]
 
-        dest["relatedPicks"] = truncate_list(related_picks)
         dest["relatedItineraries"] = truncate_list(related_itins)
         dest["relatedComparisons"] = truncate_list(related_compares)
         dest["relatedDestinations"] = truncate_list(nearby_destinations)
-
-    for pick in pick_summaries:
-        slug = pick["slug"]
-        destination_slug = pick.get("destinationSlug", "")
-        sibling_picks = []
-        if destination_slug:
-            sibling_picks = [
-                make_related_summary(item_type="pick", slug=other["slug"], title=other["title"], url=other["url"], extra={"category": other.get("category", "")})
-                for other in picks_by_destination.get(destination_slug, []) if other["slug"] != slug
-            ]
-        pick["relatedPicks"] = truncate_list(sibling_picks)
 
     for itin in itin_summaries:
         slug = itin["slug"]
@@ -1585,37 +1094,20 @@ def build_relationships(dest_summaries, pick_summaries, itin_summaries, compare_
         if detail:
             detail.update(itin_detail_updates.get(slug, {}))
             detail["editorialSummary"] = detail.get("editorialSummary") or detail.get("description", "")
-            detail["relatedPicks"] = truncate_list([
-                make_related_summary(item_type="pick", slug=pick["slug"], title=pick["title"], url=pick["url"], extra={"category": pick.get("category", "")})
-                for pick in picks_by_destination.get(destination_slug, [])
-            ])
             detail["relatedComparisons"] = truncate_list([
                 make_related_summary(item_type="comparison", slug=compare["slug"], title=compare["title"], url=compare["url"])
                 for compare in compares_by_destination.get(destination_slug, [])
             ]) if destination_slug else []
             write_json(detail_path, detail)
 
-    # Persist the enriched slim summary — build_relationships has mutated
-    # each summary dict above with relatedPicks/Itineraries/Compares/
-    # Destinations + editorialSummary, so re-project from _DEST_DETAILS
-    # (which reflects the same mutations) to capture the enriched state.
     write_slim_destinations(_slim_projection(_DEST_DETAILS))
-
-    # Persist the enriched bundle (minified, matching #289 convention — the
-    # file is 17 MB pretty but ~11 MB minified, and it's consumed programmatically
-    # by the CF Pages Function at functions/api/v1/destinations/[slug].js).
     with open(OUTPUT_DIR / "destinations-full.json", "w") as _full_f:
         json.dump(_DEST_DETAILS, _full_f, separators=(",", ":"), ensure_ascii=False)
-    write_json(OUTPUT_DIR / "picks.json", {
-        "count": len(pick_summaries),
-        "totalPlaces": sum(int(pick.get("placeCount") or 0) for pick in pick_summaries),
-        "picks": pick_summaries,
-    })
     write_json(OUTPUT_DIR / "itineraries.json", {"count": len(itin_summaries), "itineraries": itin_summaries})
     write_json(OUTPUT_DIR / "compare.json", {"count": len(compare_summaries), "comparisons": compare_summaries})
 
 
-def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
+def build_search(dest_summaries, itin_summaries, compare_summaries,
                  country_items=None, safety_items=None, alert_items=None,
                  scam_items=None):
     records = []
@@ -1624,12 +1116,6 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
             item_type="destination", slug=d["slug"], title=d["name"], subtitle=d.get("pitch", ""),
             url=f"{API_BASE_URL}/destinations/{d['slug']}.json", site_url=d.get("sourceUrl", ""),
             tags=d.get("tags", []), extra={"region": d.get("region", ""), "continent": d.get("continent", "")}
-        ))
-    for p in pick_summaries:
-        records.append(build_search_item(
-            # url points to HTML canonical page (per-file /api/v1/picks/<slug>.json endpoints removed 2026-04-20)
-            item_type="pick", slug=p["slug"], title=p["title"], subtitle=p.get("category", ""),
-            url=p["url"], site_url=p["url"], tags=p.get("tags", []), extra={"city": p.get("city", "")}
         ))
     for i in itin_summaries:
         records.append(build_search_item(
@@ -1682,7 +1168,6 @@ def build_search(dest_summaries, pick_summaries, itin_summaries, compare_summari
 
     type_counts = {
         "destination": len(dest_summaries),
-        "pick": len(pick_summaries),
         "itinerary": len(itin_summaries),
         "compare": len(compare_summaries),
         "country": len(country_items or []),
@@ -1717,8 +1202,6 @@ def _write_catalog_chunks(items, generated_at):
     shard_names = []
     type_to_shard = {
         "destination": "destinations",
-        "pick": "picks",
-        "place": "places",
         "itinerary": "itineraries",
         "compare": "comparisons",
         "country": "countries",
@@ -1773,7 +1256,7 @@ def _write_catalog_chunks(items, generated_at):
     return total_chunks, shard_names
 
 
-def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summaries,
+def build_catalog(dest_summaries, itin_summaries, compare_summaries,
                   country_items=None, safety_items=None, alert_items=None,
                   scam_items=None):
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -1807,27 +1290,6 @@ def build_catalog(dest_summaries, pick_summaries, itin_summaries, compare_summar
             "provenance": dest.get("provenance", {}),
         })
 
-    for pick in pick_summaries:
-        pick_url = pick.get("url") or f"{SITE_URL}/popular-picks/{pick['slug']}/"
-        items.append({
-            "id": pick["id"],
-            "entityType": "pick",
-            "schemaVersion": pick.get("schemaVersion", API_SCHEMA_VERSION),
-            "source": "picks",
-            "slug": pick["slug"],
-            "title": pick.get("title", ""),
-            "description": pick.get("description", ""),
-            "city": pick.get("city", ""),
-            "destinationSlug": pick.get("destinationSlug", ""),
-            "locationLabel": pick.get("city", ""),
-            "category": pick.get("category", ""),
-            "tags": pick.get("tags", []),
-            "highlights": unique_list([pick.get("city", ""), pick.get("category", "")]),
-            "itemCount": pick.get("placeCount", 0),
-            "url": pick_url,
-            "freshness": pick.get("freshness", make_freshness(pick.get("updatedAt", generated_at), confidence="mixed", confidence_score=CONFIDENCE_PICK_SUMMARY, operational_fields_may_change=True)),
-            "provenance": pick.get("provenance", {}),
-        })
 
     for itin in itin_summaries:
         items.append({
@@ -2217,20 +1679,18 @@ def build_alerts():
 # INDEX
 # ============================================================
 
-def build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_count,
+def build_index(dest_count, itin_count, compare_count, search_count,
                 safety_count=0, alerts_count=0, country_count=0, scam_count=0):
     index = {
         "name": "tabiji.ai API",
         "version": API_VERSION,
-        "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
+        "description": "Free REST API for AI-curated travel data — destinations, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
         "baseUrl": API_BASE_URL,
         "documentation": f"{SITE_URL}/api/",
         "openapi": f"{SITE_URL}/api/openapi.json",
         "lastUpdated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "stats": {
             "destinations": dest_count,
-            "picksGuides": picks_count,
-            "totalPlaces": places_count,
             "itineraries": itin_count,
             "comparisons": compare_count,
             "searchDocuments": search_count,
@@ -2242,30 +1702,27 @@ def build_index(dest_count, picks_count, places_count, itin_count, compare_count
         "endpoints": [
             {"path": "/destinations.json", "description": f"All {dest_count} destinations with budget, season, vibes, and travel styles", "method": "GET"},
             {"path": "/destinations/{slug}.json", "description": "Single destination detail", "method": "GET"},
-            {"path": "/picks.json", "description": f"All {picks_count} curated 'best of' guides (each record links to its canonical HTML page via the `url` field)", "method": "GET"},
             {"path": "/itineraries.json", "description": f"All {itin_count} day-by-day travel itineraries", "method": "GET"},
             {"path": "/itineraries/{slug}.json", "description": "Full itinerary with day-by-day activities", "method": "GET"},
-            {"path": "/compare.json", "description": f"All {compare_count} head-to-head destination comparisons (each record links to its canonical HTML page via the `url` field)", "method": "GET"},
-            {"path": "/catalog.json", "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons", "method": "GET"},
-            {"path": "/search.json?q={query}", "description": f"Cross-collection search across {search_count} documents", "method": "GET"},
-            {"path": "/safety.json", "description": f"All {safety_count} country safety profiles (emergency numbers, advisories, healthcare, scams)", "method": "GET"},
-            {"path": "/safety/{iso2}.json", "description": "Full safety profile for one country (e.g., jp.json, th.json)", "method": "GET"},
-            {"path": "/alerts.json", "description": f"Travel advisory index for {alerts_count} countries (US State Dept + UK FCDO)", "method": "GET"},
-            {"path": "/alerts/{iso2}.json", "description": "Combined US + UK travel advisory for one country", "method": "GET"},
+            {"path": "/compare.json", "description": f"All {compare_count} head-to-head destination comparisons", "method": "GET"},
+            {"path": "/countries.json", "description": f"All {country_count} country facts", "method": "GET"},
+            {"path": "/safety.json", "description": f"All {safety_count} country safety profiles", "method": "GET"},
+            {"path": "/alerts.json", "description": f"All {alerts_count} country travel alerts", "method": "GET"},
+            {"path": "/scams.json", "description": f"All {scam_count} scam city guides", "method": "GET"},
+            {"path": "/search.json", "description": f"Unified search across {search_count} documents", "method": "GET"},
+            {"path": "/catalog.json", "description": "Normalized catalog chunk index", "method": "GET"},
+            {"path": "/manifest.json", "description": "Machine-readable file manifest", "method": "GET"},
         ],
-        "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
-        "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
-        "contact": "hello@tabiji.ai"
+        "license": "CC BY 4.0",
+        "attribution": "Data provided by tabiji.ai — include link to https://tabiji.ai when using.",
     }
-    with open(OUTPUT_DIR / "index.json", 'w') as f:
-        json.dump(index, f, indent=2, ensure_ascii=False)
+    write_json(OUTPUT_DIR / "index.json", index)
 
 
-
-def build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_count):
+def build_llms_txt(dest_count, itin_count, compare_count):
     content = f'''# tabiji.ai
 
-> Free AI-curated travel data API — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, and trending travel data for {dest_count} destinations. No API key required.
+> Free AI-curated travel data API — destination guides, day-by-day itineraries, comparisons, country facts, alerts, scam guides, and unified search for {dest_count} destinations. No API key required.
 
 ## API Documentation
 - [API Docs](https://tabiji.ai/api/): Full endpoint documentation with examples
@@ -2278,47 +1735,35 @@ def build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_co
 - [All Destinations](https://tabiji.ai/api/v1/destinations.json): {dest_count} destinations with budget, season, vibes, travel styles, and pitch
 - [Single Destination](https://tabiji.ai/api/v1/destinations/{{slug}}.json): Full details for one destination (e.g., `tokyo.json`, `paris.json`)
 
-### Popular Picks (Restaurant & Attraction Guides)
-- [All Picks](https://tabiji.ai/api/v1/picks.json): {picks_count} curated "best of" guides covering {places_count:,} places, each linking to its canonical HTML page
-- Single Picks Guide (HTML canonical): `https://tabiji.ai/popular-picks/{{slug}}/` — full guide with all places, editorial summaries, Reddit quotes, and insider tips (e.g., `amsterdam-brunch`, `tokyo-ramen`). Per-slug JSON was retired on 2026-04-20.
-
 ### Itineraries
 - [All Itineraries](https://tabiji.ai/api/v1/itineraries.json): {itin_count} day-by-day travel itineraries
 - [Single Itinerary](https://tabiji.ai/api/v1/itineraries/{{slug}}.json): Full itinerary with day-by-day activities, times, tips, and logistics
 
 ### Comparisons
 - [All Comparisons](https://tabiji.ai/api/v1/compare.json): {compare_count} head-to-head destination comparisons, each linking to its canonical HTML page
-- Single Comparison (HTML canonical): `https://tabiji.ai/compare/{{slug}}/` — full comparison with categories, Reddit quotes, verdict, and FAQs (e.g., `tokyo-vs-kyoto`). Per-slug JSON was retired on 2026-04-20.
+- Single Comparison (HTML canonical): `https://tabiji.ai/compare/{{slug}}/` — full comparison with categories, verdict, and FAQs.
 
-### Cross-Collection Search
-- [Unified Search](https://tabiji.ai/api/v1/search.json?q=tokyo): Search destinations, picks, itineraries, and comparisons from one endpoint (`q`, optional `type`, optional `limit`)
-
-## Data Fields
-
-### Place Object (in Picks)
-Each place includes: name, position, tags, googleRating, reviewCount, priceRange, address, area, googleMapsUrl, mapsLinks, openingHours (weekly grid), phone, website, photo, verdict, editorialSummary, bestFor, comparison, whatToOrder, redditQuotes (with source + sourceUrl), insiderTip, sourceMeta
-
-### Itinerary Day Object
-Each day includes: dayLabel, neighborhoods, title, description, activities (with time, name, description, details, tips)
-
-### Destination Object
-Each destination includes: slug, name, region, continent, budget ($–$$$$), season, vibes (array), travelStyles (array), photo, pitch, editorialSummary, bestFor, relatedPicks, relatedItineraries, relatedComparisons, relatedDestinations, sourceMeta
-
-## What Makes This Data Unique
-Unlike generic travel APIs, tabiji data is curated from real traveler discussions plus Tabiji editorial judgment, then cross-linked across destinations, picks, itineraries, and comparisons. Records now expose provenance/freshness metadata and lighter-weight enrichment fields so agents can traverse the graph instead of scraping pages.
+### Search & Catalog
+- [Search](https://tabiji.ai/api/v1/search.json?q=tokyo): Unified search across all public API data
+- [Catalog](https://tabiji.ai/api/v1/catalog.json): Normalized catalog chunk index for agents
+- [Manifest](https://tabiji.ai/api/v1/manifest.json): Machine-readable file manifest
 
 ## Usage
-No authentication required. All endpoints return static JSON files served via Cloudflare CDN. CORS is permissive — call from any origin. Free for non-commercial use.
+All endpoints are public JSON. No API key required. Please attribute tabiji.ai when using the data.
+
+## Contact
+- Website: https://tabiji.ai
+- Email: hello@tabiji.ai
 '''
     (BASE_DIR / 'llms.txt').write_text(content, encoding='utf-8')
 
 
-def build_agents_json(dest_count, picks_count, itin_count, compare_count):
+def build_agents_json(dest_count, itin_count, compare_count):
     payload = {
         "$schema": "https://specs.openagents.com/agents-json/0.1/schema.json",
         "version": "0.1",
         "name": "tabiji.ai Travel API",
-        "description": f"Free AI-curated travel data — Reddit-sourced restaurant picks, day-by-day itineraries, destination guides, destination comparisons, and unified search for {dest_count}+ destinations worldwide. No API key required.",
+        "description": f"Free AI-curated travel data — day-by-day itineraries, destination guides, destination comparisons, country facts, alerts, scam guides, and unified search for {dest_count}+ destinations worldwide. No API key required.",
         "url": "https://tabiji.ai",
         "logo": "https://img.tabiji.ai/owl-logo.png",
         "contactEmail": "hello@tabiji.ai",
@@ -2328,117 +1773,59 @@ def build_agents_json(dest_count, picks_count, itin_count, compare_count):
         "defaultOutputModes": ["text"],
         "skills": [
             {
-                "id": "find-restaurants",
-                "name": "Find Restaurants & Places",
-                "description": f"Find the best restaurants, cafes, bars, or attractions in any city. Returns curated picks with editorial summaries, source metadata, 'what to order' tips, and traveler quotes across {picks_count} guides.",
-                "tags": ["restaurants", "food", "travel", "bars", "cafes", "attractions"],
-                "examples": [
-                    "Find the best ramen in Tokyo",
-                    "Best brunch spots in Amsterdam",
-                    "Where should I eat in Mexico City tonight?",
-                    "Best rooftop bars in Bangkok"
-                ],
+                "id": "research-destination",
+                "name": "Research a Destination",
+                "description": f"Get structured destination intelligence across {dest_count} destinations: budget, best season, travel styles, safety refs, alerts, scams, and related comparisons.",
+                "tags": ["destinations", "travel", "budget", "season", "safety"],
+                "examples": ["What should I know before visiting Tokyo?", "Find safe beach destinations for June"],
                 "inputModes": ["text"],
                 "outputModes": ["text"],
                 "steps": [
-                    {"id": "search", "description": "Search all public travel data for relevant matches", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=pick"}},
-                    {"id": "get-guide", "description": "Open the canonical HTML guide page with all places, Reddit quotes, and editorial details (per-slug JSON retired 2026-04-20).", "endpoint": {"method": "GET", "url": "https://tabiji.ai/popular-picks/{slug}/"}}
-                ]
-            },
-            {
-                "id": "plan-trip",
-                "name": "Plan a Trip",
-                "description": f"Get a detailed day-by-day travel itinerary with activities, logistics, and timing across {itin_count} itineraries.",
-                "tags": ["itinerary", "travel", "planning", "trip"],
-                "examples": [
-                    "Plan a 5-day trip to Tokyo",
-                    "Weekend trip to Barcelona",
-                    "Build me a 10-day Portugal itinerary",
-                    "I need a honeymoon itinerary for Bali"
-                ],
-                "inputModes": ["text"],
-                "outputModes": ["text"],
-                "steps": [
-                    {"id": "search", "description": "Search itinerary records by destination or trip style", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=itinerary"}},
-                    {"id": "get-itinerary", "description": "Fetch the full itinerary", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/itineraries/{slug}.json"}}
+                    {"id": "search", "description": "Search all public travel data for relevant matches", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=destination"}},
+                    {"id": "get-destination", "description": "Fetch a destination detail JSON", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/destinations/{slug}.json"}}
                 ]
             },
             {
                 "id": "compare-destinations",
                 "name": "Compare Destinations",
-                "description": f"Compare two destinations head-to-head across food, culture, cost, transport, seasonality, and fit across {compare_count} published comparisons.",
-                "tags": ["compare", "travel", "destinations", "decision"],
-                "examples": [
-                    "Bali vs Thailand",
-                    "Tokyo vs Kyoto",
-                    "Portugal or Croatia for summer?",
-                    "Mexico City vs Buenos Aires"
-                ],
+                "description": f"Compare destinations using {compare_count} head-to-head comparison pages and normalized catalog/search data.",
+                "tags": ["compare", "destinations", "travel-planning"],
+                "examples": ["Tokyo vs Kyoto", "Bali vs Thailand"],
                 "inputModes": ["text"],
                 "outputModes": ["text"],
                 "steps": [
-                    {"id": "search", "description": "Search comparisons by either destination", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=compare"}},
-                    {"id": "get-comparison", "description": "Open the canonical HTML comparison page with category breakdowns, Reddit quotes, verdict, and FAQs (per-slug JSON retired 2026-04-20).", "endpoint": {"method": "GET", "url": "https://tabiji.ai/compare/{slug}/"}}
+                    {"id": "search", "description": "Search comparison data", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=compare"}},
+                    {"id": "list-comparisons", "description": "List all comparison summaries", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/compare.json"}}
                 ]
             },
             {
-                "id": "discover-destinations",
-                "name": "Discover Destinations",
-                "description": f"Browse and filter {dest_count} travel destinations by region, budget, season, vibes, and travel style.",
-                "tags": ["destinations", "travel", "discover", "explore"],
-                "examples": [
-                    "Budget-friendly destinations in Asia",
-                    "Romantic destinations in Europe",
-                    "Warm places for a March trip",
-                    "Adventure destinations with good food"
-                ],
+                "id": "plan-itinerary",
+                "name": "Find Itineraries",
+                "description": f"Find structured day-by-day itinerary examples from {itin_count} public itineraries.",
+                "tags": ["itinerary", "travel-planning", "days"],
+                "examples": ["Find a 5 day Japan itinerary", "Show me family-friendly Italy itineraries"],
                 "inputModes": ["text"],
                 "outputModes": ["text"],
                 "steps": [
-                    {"id": "search", "description": "Search destinations by query", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=destination"}},
-                    {"id": "get-destination", "description": "Get destination details", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/destinations/{slug}.json"}}
+                    {"id": "search", "description": "Search itinerary data", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/search.json?q={query}&type=itinerary"}},
+                    {"id": "list-itineraries", "description": "List public itinerary summaries", "endpoint": {"method": "GET", "url": "https://tabiji.ai/api/v1/itineraries.json"}}
                 ]
             }
         ],
-        "provider": {"organization": "tabiji.ai", "url": "https://tabiji.ai"}
     }
-    out = BASE_DIR / '.well-known' / 'agents.json'
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding='utf-8')
+    out_path = BASE_DIR / '.well-known' / 'agents.json'
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    write_json(out_path, payload)
 
 
-def build_country_facts():
-    """Build country facts API from restcountries.com data. Idempotent."""
-    import subprocess
-    script = BASE_DIR / "api" / "build-country-facts.py"
-    result = subprocess.run(
-        [sys.executable, str(script)],
-        capture_output=True, text=True
-    )
-    if result.returncode != 0:
-        print(f"  ⚠️  Country facts build failed:\n{result.stderr}")
-        return 0
-    # Count generated files
-    countries_dir = OUTPUT_DIR / "countries"
-    if countries_dir.exists():
-        return len(list(countries_dir.glob("*.json")))
-    return 0
-
-
-def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count=0):
-    """Render api/index.html from api/index.html.template with live counts.
-
-    The template uses {{TOKEN}} placeholders (e.g. {{DEST_COUNT}}).
-    Formatted tokens get comma-separated numbers; _RAW tokens get plain ints.
-    """
+def build_docs_page(dest_count, itin_count, compare_count, country_count=0):
+    """Render api/index.html from api/index.html.template with live counts."""
     template_path = BASE_DIR / 'api' / 'index.html.template'
     html_path = BASE_DIR / 'api' / 'index.html'
     content = template_path.read_text(encoding='utf-8')
 
     tokens = {
         'DEST_COUNT':     (f'{dest_count:,}', str(dest_count)),
-        'PLACES_COUNT':   (f'{places_count:,}', str(places_count)),
-        'PICKS_COUNT':    (f'{picks_count:,}', str(picks_count)),
         'ITIN_COUNT':     (f'{itin_count:,}', str(itin_count)),
         'COMPARE_COUNT':  (f'{compare_count:,}', str(compare_count)),
         'COUNTRY_COUNT':  (f'{country_count:,}', str(country_count)),
@@ -2449,11 +1836,6 @@ def build_docs_page(dest_count, picks_count, places_count, itin_count, compare_c
         content = content.replace('{{' + name + '_RAW}}', raw)
 
     html_path.write_text(content, encoding='utf-8')
-
-    # Keep the managed shared-head / nav / footer blocks in api/index.html in sync
-    # with _includes/. Without this, every rebuild re-emits stale partials from
-    # api/index.html.template (the template lives outside scripts/build-partials.py's
-    # *.html scan), and CI's check-partials job fails downstream.
     _sync_partials_in_place(html_path)
 
 
@@ -2473,25 +1855,24 @@ def _sync_partials_in_place(html_path):
     mod.process_file(Path(html_path), write=True)
 
 
-def build_openapi(dest_count, picks_count, places_count, itin_count, compare_count):
+def build_openapi(dest_count, itin_count, compare_count):
     openapi_path = BASE_DIR / 'api' / 'openapi.json'
     spec = json.loads(open(openapi_path, encoding='utf-8').read())
 
     spec['info']['version'] = API_VERSION
     spec['info']['description'] = (
         f"Free REST API for AI-curated travel data — {dest_count} destinations, "
-        f"{picks_count} curated picks guides ({places_count:,} place records), "
         f"{itin_count} day-by-day itineraries, {compare_count} destination comparisons, "
-        f"and unified search. No API key required."
+        f"country facts, alerts, scam guides, and unified search. No API key required."
     )
 
     paths = spec.setdefault('paths', {})
+    for path_key in list(paths.keys()):
+        if 'pick' in path_key.lower():
+            del paths[path_key]
 
-    # Keep per-endpoint description counts in sync with ground truth.
-    # Earlier revisions let these drift — only info.description was regenerated.
     endpoint_desc_updates = {
         '/destinations.json': f"Returns all {dest_count} destinations with budget level, best season, vibes, travel styles, and a one-line pitch.",
-        '/picks.json': f"Returns all {picks_count} curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
         '/itineraries.json': f"Returns all {itin_count} day-by-day travel itineraries with summary metadata.",
         '/compare.json': f"Returns all {compare_count} head-to-head destination comparisons with summary metadata.",
     }
@@ -2499,386 +1880,35 @@ def build_openapi(dest_count, picks_count, places_count, itin_count, compare_cou
         if path_key in paths and 'get' in paths[path_key]:
             paths[path_key]['get']['description'] = desc
 
-    error_response = {
-        'description': 'JSON API error envelope',
-        'content': {
-            'application/json': {
-                'schema': {'$ref': '#/components/schemas/ErrorResponse'}
-            }
-        }
-    }
+    components = spec.setdefault('components', {})
+    schemas = components.setdefault('schemas', {})
+    for schema_key in list(schemas.keys()):
+        if 'pick' in schema_key.lower():
+            del schemas[schema_key]
 
-    if '/search.json' in paths:
-        search_get = paths['/search.json'].setdefault('get', {})
-        search_get['description'] = (
-            'Search the normalized Tabiji catalog. `q` is required and must be non-empty. '
-            '`limit` must be an integer from 1 to 100. Canonical comparison type is `compare`; '
-            'the runtime accepts legacy `comparison` as an alias and normalizes hyphenated queries.'
-        )
-        responses = search_get.setdefault('responses', {})
-        responses.setdefault('400', error_response)
-        for param in search_get.get('parameters', []):
-            if param.get('name') == 'q':
-                param.setdefault('schema', {})['minLength'] = 1
-                param['required'] = True
-                param['description'] = 'Required search query. Hyphens and underscores are normalized to spaces.'
-            if param.get('name') == 'limit':
-                param['description'] = 'Maximum results to return. Integer from 1 to 100.'
-                param['schema'] = {'type': 'integer', 'minimum': 1, 'maximum': 100, 'default': 20}
-            if param.get('name') == 'type':
-                param['description'] = 'Optional canonical type filter. Legacy alias `comparison` is accepted as `compare`.'
-                param['schema'] = {
-                    'type': 'string',
-                    'enum': ['destination', 'pick', 'itinerary', 'compare', 'country', 'safety', 'alert', 'scam']
-                }
-                param['x-tabiji-aliases'] = {'comparison': 'compare'}
+    if 'tags' in spec:
+        spec['tags'] = [tag for tag in spec['tags'] if 'pick' not in json.dumps(tag).lower()]
 
-    paths['/catalog.json'] = {
-        'get': {
-            'summary': 'Catalog index for chunked and sharded normalized entities',
-            'description': 'Returns the catalog manifest, not the entity array. Follow `chunkUrls` for chunks or `shards` for per-type shard files.',
-            'responses': {
-                '200': {
-                    'description': 'Catalog index response',
-                    'content': {
-                        'application/json': {
-                            'schema': {'$ref': '#/components/schemas/CatalogIndex'}
-                        }
-                    }
-                },
-                '404': error_response,
-                '405': error_response,
-            }
-        }
-    }
-    paths['/catalog/{chunk}.json'] = {
-        'get': {
-            'summary': 'Catalog chunk by number',
-            'parameters': [{
-                'name': 'chunk', 'in': 'path', 'required': True,
-                'schema': {'type': 'integer', 'minimum': 1},
-                'description': 'Numeric chunk id from the `chunkUrls` array in /catalog.json.'
-            }],
-            'responses': {
-                '200': {'description': 'Catalog chunk', 'content': {'application/json': {'schema': {'$ref': '#/components/schemas/CatalogChunk'}}}},
-                '404': error_response,
-                '405': error_response,
-            }
-        }
-    }
-    paths['/catalog/{shard}.json'] = {
-        'get': {
-            'summary': 'Catalog shard by entity collection',
-            'parameters': [{
-                'name': 'shard', 'in': 'path', 'required': True,
-                'schema': {'type': 'string', 'enum': ['destinations', 'picks', 'itineraries', 'comparisons', 'countries', 'safety', 'alerts', 'scams']},
-                'description': 'Shard key from the `shards` object in /catalog.json.'
-            }],
-            'responses': {
-                '200': {'description': 'Catalog shard', 'content': {'application/json': {'schema': {'$ref': '#/components/schemas/CatalogShard'}}}},
-                '404': error_response,
-                '405': error_response,
-            }
-        }
-    }
+    write_json(openapi_path, spec)
 
-    # Generic JSON response — used for endpoints that exist on the live API but
-    # don't have a dedicated schema yet. Better to advertise the path with an
-    # opaque response than to hide it from generated clients entirely.
-    generic_object_response = {
-        'description': 'JSON response',
-        'content': {
-            'application/json': {
-                'schema': {'type': 'object', 'additionalProperties': True}
-            }
-        },
-    }
 
-    # Endpoints that exist on the live API but were missing from the OpenAPI
-    # spec entirely. Found during the 2026-05 audit. Each entry advertises the
-    # path with a generic JSON shape; tightening the schemas is a follow-up.
-    additional_paths = [
-        ('/alerts.json', 'Travel advisory index across 200+ countries (US State Department + UK FCDO).'),
-        ('/alerts/{iso2}.json', 'Combined US + UK travel advisory for a single country (lowercase ISO 3166-1 alpha-2 code).'),
-        ('/scams.json', 'Catalog index of all scam-city pages with slug and canonical URL.'),
-        ('/scams/{slug}.json', 'Per-city scam record with city, country, severity, scams[], and avoidance notes.'),
-        ('/packs.json', 'Catalog of offline travel packs (country, region, and theme bundles).'),
-        ('/packs/{slug}.json', 'Single offline pack with embedded destinations, safety, picks, itineraries, and scam data.'),
-        ('/filter.json', 'Filterable destination index for hard-constraint queries (city, budget, safety, vibes, open-now).'),
-        ('/facets.json', 'Available facet values for filtering destinations.'),
-        ('/health.json', 'Travel-health index: per-country healthcare quality, water safety, insurance carriers, tier-1 medications.'),
-        ('/offline-maps.json', 'Coordinate-format reference and tile-estimate metadata for offline-map renderers.'),
-        ('/manifest.json', 'Top-level manifest: per-collection counts, sizes, checksums, and update timestamps.'),
-        ('/destinations-full.json', 'Bulk bundle of all destination detail records keyed by slug. Backs the /destinations/{slug}.json Worker.'),
-        ('/search-index.json', 'Pre-built search index that backs /search.json. Public for offline / static-search consumers.'),
-        ('/knowledge/chunks.json', 'Aggregated knowledge chunks (one chunk per safety summary, alert, scam list, destination summary).'),
-        ('/knowledge/chunks/{name}.json', 'Per-pack knowledge chunks (e.g. japan, italy, se-asia, solo-female-safe).'),
-    ]
-    for path_, summary in additional_paths:
-        if path_ in paths:
-            continue
-        path_params = []
-        for token in re.findall(r'\{([^}]+)\}', path_):
-            schema = {'type': 'string'}
-            if token == 'iso2':
-                schema = {'type': 'string', 'pattern': '^[a-z]{2}$', 'example': 'jp'}
-            path_params.append({'name': token, 'in': 'path', 'required': True, 'schema': schema})
-        op = {
-            'summary': summary,
-            'description': summary,
-            'responses': {
-                '200': generic_object_response,
-                '404': error_response,
-                '405': error_response,
-            },
-        }
-        if path_params:
-            op['parameters'] = path_params
-        paths[path_] = {'get': op}
+def build_country_facts():
+    """Build country facts API from restcountries.com data. Idempotent."""
+    import subprocess
+    script = BASE_DIR / "api" / "build-country-facts.py"
+    result = subprocess.run(
+        [sys.executable, str(script)],
+        capture_output=True, text=True
+    )
+    if result.returncode != 0:
+        print(f"  ⚠️  Country facts build failed:\n{result.stderr}")
+        return 0
+    # Count generated files
+    countries_dir = OUTPUT_DIR / "countries"
+    if countries_dir.exists():
+        return len(list(countries_dir.glob("*.json")))
+    return 0
 
-    schemas = spec.setdefault('components', {}).setdefault('schemas', {})
-
-    schemas['RelatedRecordSummary'] = {
-        'type': 'object',
-        'properties': {
-            'id': {'type': 'string', 'example': 'pick:tokyo-ramen'},
-            'type': {'type': 'string', 'enum': ['destination', 'pick', 'itinerary', 'compare']},
-            'slug': {'type': 'string', 'example': 'tokyo-ramen'},
-            'title': {'type': 'string', 'example': '12 Best Ramen in Tokyo'},
-            'url': {'type': 'string', 'format': 'uri'},
-        },
-        'additionalProperties': True,
-    }
-    schemas['RecordSourceMeta'] = {
-        'type': 'object',
-        'properties': {
-            'sourceType': {'type': 'string', 'example': 'tabiji-static-page'},
-            'sourcePath': {'type': 'string', 'example': 'popular-picks/tokyo-ramen/index.html'},
-            'sourceUrl': {'type': 'string', 'format': 'uri'},
-            'lastVerified': {'type': 'string', 'format': 'date-time'},
-        },
-    }
-    schemas['PlaceSourceMeta'] = {
-        'type': 'object',
-        'properties': {
-            'guideSlug': {'type': 'string'},
-            'guideTitle': {'type': 'string'},
-            'guideUrl': {'type': 'string', 'format': 'uri'},
-            'collectionCity': {'type': 'string'},
-            'collectionCategory': {'type': 'string'},
-            'fieldSources': {
-                'type': 'object',
-                'additionalProperties': {
-                    'type': 'array',
-                    'items': {'type': 'string'}
-                }
-            },
-        },
-    }
-    schemas['FreshnessMeta'] = {
-        'type': 'object',
-        'properties': {
-            'updatedAt': {'type': 'string', 'format': 'date-time'},
-            'lastVerifiedAt': {'type': 'string', 'format': 'date-time'},
-            'confidence': {'type': 'string'},
-            'confidenceScore': {'type': 'number'},
-            'operationalFieldsMayChange': {'type': 'boolean'},
-        },
-    }
-    schemas['ProvenanceMeta'] = {
-        'type': 'object',
-        'properties': {
-            'sources': {'type': 'array', 'items': {'type': 'string'}},
-            'sourcePath': {'type': 'string'},
-            'sourceUrl': {'type': 'string', 'format': 'uri'},
-            'lastVerifiedAt': {'type': 'string', 'format': 'date-time'},
-            'parentId': {'type': 'string'},
-        },
-        'additionalProperties': True,
-    }
-    schemas['CatalogEntity'] = {
-        'type': 'object',
-        'required': ['id', 'entityType', 'schemaVersion', 'source', 'slug', 'tags', 'freshness', 'provenance'],
-        'properties': {
-            'id': {'type': 'string'},
-            'entityType': {'type': 'string', 'enum': ['destination', 'pick', 'place', 'itinerary', 'compare']},
-            'schemaVersion': {'type': 'string'},
-            'source': {'type': 'string'},
-            'slug': {'type': 'string'},
-            'title': {'type': 'string'},
-            'name': {'type': 'string'},
-            'description': {'type': 'string'},
-            'tags': {'type': 'array', 'items': {'type': 'string'}},
-            'freshness': {'$ref': '#/components/schemas/FreshnessMeta'},
-            'provenance': {'$ref': '#/components/schemas/ProvenanceMeta'},
-        },
-        'additionalProperties': True,
-    }
-    schemas['CatalogIndex'] = {
-        'type': 'object',
-        'properties': {
-            'version': {'type': 'string'},
-            'schemaVersion': {'type': 'string'},
-            'generatedAt': {'type': 'string', 'format': 'date-time'},
-            'itemCount': {'type': 'integer'},
-            'chunks': {'type': 'integer'},
-            'chunkUrls': {'type': 'array', 'items': {'type': 'string'}, 'example': ['/api/v1/catalog/1.json']},
-            'shards': {
-                'type': 'object',
-                'additionalProperties': {'type': 'string'},
-                'example': {'destinations': '/api/v1/catalog/destinations.json'}
-            },
-        },
-        'required': ['version', 'schemaVersion', 'generatedAt', 'itemCount', 'chunks', 'chunkUrls', 'shards'],
-    }
-    schemas['CatalogChunk'] = {
-        'type': 'object',
-        'properties': {
-            'version': {'type': 'string'},
-            'schemaVersion': {'type': 'string'},
-            'generatedAt': {'type': 'string', 'format': 'date-time'},
-            'chunk': {'type': 'integer'},
-            'itemCount': {'type': 'integer'},
-            'items': {'type': 'array', 'items': {'$ref': '#/components/schemas/CatalogEntity'}},
-        },
-        'required': ['version', 'schemaVersion', 'generatedAt', 'chunk', 'itemCount', 'items'],
-    }
-    schemas['CatalogShard'] = {
-        'type': 'object',
-        'properties': {
-            'version': {'type': 'string'},
-            'schemaVersion': {'type': 'string'},
-            'generatedAt': {'type': 'string', 'format': 'date-time'},
-            'entityType': {'type': 'string'},
-            'itemCount': {'type': 'integer'},
-            'items': {'type': 'array', 'items': {'$ref': '#/components/schemas/CatalogEntity'}},
-        },
-        'required': ['version', 'schemaVersion', 'generatedAt', 'entityType', 'itemCount', 'items'],
-    }
-    schemas['CatalogResponse'] = {
-        'deprecated': True,
-        'description': 'Deprecated legacy name retained for generated clients; use CatalogChunk for responses that contain items and CatalogIndex for /catalog.json.',
-        **schemas['CatalogChunk'],
-    }
-    schemas['ErrorResponse'] = {
-        'type': 'object',
-        'required': ['error'],
-        'properties': {
-            'error': {
-                'type': 'object',
-                'required': ['code', 'message', 'status'],
-                'properties': {
-                    'code': {'type': 'string', 'example': 'not_found'},
-                    'message': {'type': 'string', 'example': 'Resource not found'},
-                    'status': {'type': 'integer', 'example': 404},
-                    'resource': {'type': 'string', 'example': 'itinerary'},
-                    'id': {'type': 'string', 'example': 'tokyo-4-days'},
-                },
-                'additionalProperties': True,
-            }
-        },
-    }
-
-    destination_summary = schemas.setdefault('DestinationSummary', {}).setdefault('properties', {})
-    destination_summary['id'] = {'type': 'string', 'example': 'destination:tokyo'}
-    destination_summary['url'] = {'type': 'string', 'format': 'uri'}
-    destination_summary['tags'] = {'type': 'array', 'items': {'type': 'string'}}
-    destination_summary['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    destination_summary['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    destination_summary['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    destination_summary['relatedDestinations'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    # Fields the audit found present on every record but undocumented in the schema.
-    destination_summary['country'] = {'type': 'string', 'example': 'Japan', 'description': 'Country name (resolved via destination-country-map.json).'}
-    destination_summary['countryCode'] = {'type': 'string', 'example': 'JP', 'description': 'ISO 3166-1 alpha-2 country code.'}
-    destination_summary['currency'] = {
-        'type': 'object',
-        'properties': {
-            'code': {'type': 'string', 'example': 'JPY'},
-            'name': {'type': 'string', 'example': 'yen'},
-            'symbol': {'type': 'string', 'example': '¥'},
-        },
-    }
-    destination_summary['language'] = {'type': 'string', 'example': 'Japanese'}
-    destination_summary['flag'] = {'type': 'object', 'additionalProperties': True, 'description': 'Flag image URLs and emoji.'}
-    destination_summary['coordinates'] = {
-        'type': 'object',
-        'properties': {
-            'lat': {'type': 'number', 'example': 35.6762},
-            'lng': {'type': 'number', 'example': 139.6503},
-            'source': {'type': 'string', 'example': 'geonames-city'},
-        },
-    }
-    destination_summary['travelStyles'] = {'type': 'array', 'items': {'type': 'string'}, 'example': ['solo', 'food', 'city']}
-
-    place_props = schemas.setdefault('Place', {}).setdefault('properties', {})
-    place_props['area'] = {'type': 'string', 'example': 'De Pijp'}
-    place_props['verdict'] = {'type': 'string'}
-    place_props['editorialSummary'] = {'type': 'string'}
-    place_props['bestFor'] = {'type': 'string'}
-    place_props['comparison'] = {'type': 'object', 'additionalProperties': True}
-    place_props['mapsLinks'] = {
-        'type': 'object',
-        'properties': {'google': {'type': 'string', 'format': 'uri'}}
-    }
-    place_props['sourceMeta'] = {'$ref': '#/components/schemas/PlaceSourceMeta'}
-
-    picks_summary = schemas.setdefault('PicksSummary', {}).setdefault('properties', {})
-    picks_summary['description'] = {'type': 'string'}
-    picks_summary['destinationSlug'] = {'type': 'string'}
-    picks_summary['destinationName'] = {'type': 'string'}
-    picks_summary['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-
-    picks_detail = schemas.setdefault('PicksDetail', {}).setdefault('properties', {})
-    picks_detail['id'] = {'type': 'string', 'example': 'pick:tokyo-ramen'}
-    picks_detail['type'] = {'type': 'string', 'enum': ['pick']}
-    picks_detail['updatedAt'] = {'type': 'string', 'format': 'date-time'}
-    picks_detail['sourceUrl'] = {'type': 'string', 'format': 'uri'}
-    picks_detail['tags'] = {'type': 'array', 'items': {'type': 'string'}}
-    picks_detail['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
-    picks_detail['destinationSlug'] = {'type': 'string'}
-    picks_detail['destinationName'] = {'type': 'string'}
-    picks_detail['editorialSummary'] = {'type': 'string'}
-    picks_detail['bestFor'] = {'type': 'array', 'items': {'type': 'string'}}
-    picks_detail['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    picks_detail['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    picks_detail['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-
-    itin_summary = schemas.setdefault('ItinerarySummary', {}).setdefault('properties', {})
-    itin_summary['destinationSlug'] = {'type': 'string'}
-
-    itin_detail = schemas.setdefault('ItineraryDetail', {}).setdefault('properties', {})
-    itin_detail['id'] = {'type': 'string', 'example': 'itinerary:tokyo-4-days'}
-    itin_detail['type'] = {'type': 'string', 'enum': ['itinerary']}
-    itin_detail['updatedAt'] = {'type': 'string', 'format': 'date-time'}
-    itin_detail['sourceUrl'] = {'type': 'string', 'format': 'uri'}
-    itin_detail['tags'] = {'type': 'array', 'items': {'type': 'string'}}
-    itin_detail['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
-    itin_detail['destinationSlug'] = {'type': 'string'}
-    itin_detail['editorialSummary'] = {'type': 'string'}
-    itin_detail['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    itin_detail['relatedComparisons'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-
-    compare_summary = schemas.setdefault('ComparisonSummary', {}).setdefault('properties', {})
-    compare_summary['destination1Slug'] = {'type': 'string'}
-    compare_summary['destination2Slug'] = {'type': 'string'}
-    compare_summary['destinationSlugs'] = {'type': 'array', 'items': {'type': 'string'}}
-
-    compare_detail = schemas.setdefault('ComparisonDetail', {}).setdefault('properties', {})
-    compare_detail['id'] = {'type': 'string', 'example': 'compare:kyoto-vs-osaka'}
-    compare_detail['type'] = {'type': 'string', 'enum': ['compare']}
-    compare_detail['updatedAt'] = {'type': 'string', 'format': 'date-time'}
-    compare_detail['sourceUrl'] = {'type': 'string', 'format': 'uri'}
-    compare_detail['tags'] = {'type': 'array', 'items': {'type': 'string'}}
-    compare_detail['sourceMeta'] = {'$ref': '#/components/schemas/RecordSourceMeta'}
-    compare_detail['destination1Slug'] = {'type': 'string'}
-    compare_detail['destination2Slug'] = {'type': 'string'}
-    compare_detail['destinationSlugs'] = {'type': 'array', 'items': {'type': 'string'}}
-    compare_detail['editorialSummary'] = {'type': 'string'}
-    compare_detail['relatedDestinations'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    compare_detail['relatedItineraries'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-    compare_detail['relatedPicks'] = {'type': 'array', 'items': {'$ref': '#/components/schemas/RelatedRecordSummary'}}
-
-    openapi_path.write_text(json.dumps(spec, indent=2, ensure_ascii=False), encoding='utf-8')
 
 
 # ============================================================
@@ -2921,6 +1951,8 @@ def _parse_season(raw):
                 months.append(m)
     seen = set()
     return [m for m in months if not (m in seen or seen.add(m))]
+
+
 
 
 def build_filter():
@@ -3069,190 +2101,7 @@ def build_facets(filter_items):
     write_json(OUTPUT_DIR / "facets.json", payload)
 
 
-def main():
-    print("🦉 Building Tabiji API v1...")
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("📍 Building destinations...")
-    dest_summaries, dest_count = build_destinations()
-    print(f"   ✅ {dest_count} destinations")
-
-    print("🍜 Building popular picks...")
-    picks_summaries, places_count = build_picks()
-    picks_count = len(picks_summaries)
-    print(f"   ✅ {picks_count} guides, {places_count} total places")
-
-    print("🗺️  Building itineraries...")
-    itin_summaries, itin_count = build_itineraries()
-    print(f"   ✅ {itin_count} itineraries")
-
-    print("⚔️  Building comparisons...")
-    compare_summaries, compare_count = build_compare()
-    print(f"   ✅ {compare_count} comparisons")
-
-    print("🕸️  Building cross-links and editorial enrichment...")
-    build_relationships(dest_summaries, picks_summaries, itin_summaries, compare_summaries)
-    print("   ✅ related records, provenance, freshness")
-
-    # Load new entity type indexes for catalog/search
-    country_items = _load_index_items("countries.json", "countries")
-    safety_items = _load_index_items("safety.json", "profiles")
-    alert_items = _load_index_items("alerts.json", "alerts")
-
-    # Always rebuild scams.json[items] from on-disk api/v1/scams/*.json so the catalog
-    # cannot drift behind the per-slug detail JSONs that PRs add directly.
-    scam_items = _reindex_scams_index_from_disk()
-    print(f"   ✅ scams.json reindexed: {len(scam_items)} items from {OUTPUT_DIR / 'scams'}")
-
-    print("🧭 Building normalized catalog...")
-    catalog_payload = build_catalog(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
-                                    country_items=country_items, safety_items=safety_items,
-                                    alert_items=alert_items, scam_items=scam_items)
-    print(f"   ✅ {catalog_payload['itemCount']} entities in {catalog_payload['chunks']} chunks")
-
-    print("🔎 Building search index...")
-    search_payload = build_search(dest_summaries, picks_summaries, itin_summaries, compare_summaries,
-                                  country_items=country_items, safety_items=safety_items,
-                                  alert_items=alert_items, scam_items=scam_items)
-    print(f"   ✅ {search_payload['count']} documents")
-
-    print("🛡️  Building safety profiles...")
-    safety_count = build_safety()
-    print(f"   ✅ {safety_count} safety profiles")
-
-    print("🚨 Building travel alerts...")
-    alerts_count = build_alerts()
-    print(f"   ✅ {alerts_count} countries with alerts")
-
-    print("📋 Building index...")
-    build_index(dest_count, picks_count, places_count, itin_count, compare_count, search_payload['count'],
-                safety_count=safety_count, alerts_count=alerts_count,
-                country_count=len(country_items), scam_count=len(scam_items))
-    print("   ✅ index.json")
-
-    print("🧭 Regenerating agent/discovery docs...")
-    build_openapi(dest_count, picks_count, places_count, itin_count, compare_count)
-    build_llms_txt(dest_count, picks_count, places_count, itin_count, compare_count)
-    build_agents_json(dest_count, picks_count, itin_count, compare_count)
-    print("   ✅ openapi.json, llms.txt, agents.json")
-
-    print("🌍 Building country facts...")
-    country_count = build_country_facts()
-    print(f"   ✅ {country_count} countries")
-
-    print("🔍 Building filterable index...")
-    filter_items, filter_count = build_filter()
-    print(f"   ✅ {filter_count} destinations in filter index")
-
-    print("📊 Building facets...")
-    build_facets(filter_items)
-    print("   ✅ facets.json")
-
-    print("📄 Updating API docs page...")
-    build_docs_page(dest_count, picks_count, places_count, itin_count, compare_count, country_count)
-    print("   ✅ api/index.html")
-
-    print("📦 Building manifest...")
-    build_manifest()
-    print("   ✅ manifest.json")
-
-    print("🗃️  Building offline packs...")
-    packs_count = build_packs()
-    print(f"   ✅ {packs_count} packs")
-
-    print("🧠 Building knowledge chunks...")
-    knowledge_chunks = build_knowledge_chunks()
-    print(f"   ✅ {len(knowledge_chunks)} chunks")
-
-    print("🔗 Building per-pack knowledge chunks...")
-    pack_chunk_count = build_knowledge_pack_chunks()
-    print(f"   ✅ {pack_chunk_count} pack chunk files")
-
-    print("🔍 Verifying catalog ↔ disk reconciliation...")
-    issues = verify_catalog_disk()
-    if issues:
-        print("   ❌ Reconciliation failed:")
-        for line in issues:
-            print(f"     {line}")
-        raise SystemExit(1)
-    print("   ✅ all catalogs match on-disk files")
-
-
-# ---------------------------------------------------------------------------
-# Catalog ↔ disk reconciliation
-# ---------------------------------------------------------------------------
-
-
-def _slug_set_from_catalog(path, list_key, slug_key="slug"):
-    """Read a catalog JSON and return the set of slugs/ISO codes referenced."""
-    if not path.exists():
-        return set()
-    data = json.load(open(path))
-    items = data.get(list_key, [])
-    out = set()
-    for item in items:
-        key = item.get(slug_key) or item.get("iso2")
-        if key:
-            out.add(key.lower())
-    return out
-
-
-def _slug_set_from_dir(directory, suffix=".json"):
-    """Return the set of file stems in a directory (lowercase)."""
-    if not directory.is_dir():
-        return set()
-    return {p.stem.lower() for p in directory.glob(f"*{suffix}")}
-
-
-def verify_catalog_disk():
-    """Assert each catalog index matches the per-slug files on disk.
-
-    Returns a list of human-readable issue strings; empty list means OK.
-    Collections checked (catalog file, list-key, detail-dir):
-      - alerts.json[alerts]    → alerts/<iso>.json
-      - safety.json[profiles]  → safety/<iso>.json
-      - countries.json[countries] → countries/<iso>.json
-      - scams.json[items]      → scams/<slug>.json
-      - itineraries.json[itineraries] → itineraries/<slug>.json
-    Skipped: compare (per-slug retired), picks (per-slug retired),
-             destinations (per-slug served by Worker, no static dir).
-    """
-    issues = []
-    checks = [
-        ("alerts.json",     "alerts",     "iso2", "alerts"),
-        ("safety.json",     "profiles",   "iso2", "safety"),
-        ("countries.json",  "countries",  "iso2", "countries"),
-        ("scams.json",      "items",      "slug", "scams"),
-        ("itineraries.json","itineraries","slug", "itineraries"),
-    ]
-    for catalog_file, list_key, slug_key, detail_dir in checks:
-        catalog_path = OUTPUT_DIR / catalog_file
-        detail_path = OUTPUT_DIR / detail_dir
-        listed = _slug_set_from_catalog(catalog_path, list_key, slug_key)
-        on_disk = _slug_set_from_dir(detail_path)
-        missing = sorted(listed - on_disk)
-        extras = sorted(on_disk - listed)
-        if missing:
-            issues.append(f"{detail_dir}: {len(missing)} catalog entries with no JSON file: {missing[:5]}{'...' if len(missing) > 5 else ''}")
-        if extras:
-            # Previously this silently unlink()'d the on-disk files so the audit would
-            # pass. That hid drift — Cloudflare Pages serves the repo state directly,
-            # so the deleted-from-CI files were still deployed but missing from the
-            # catalog index. Now we surface drift as an error and let the upstream
-            # build/reindex step decide how to fix it (build-api.py reindexes
-            # scams.json from disk; other catalogs require explicit handling).
-            issues.append(
-                f"{detail_dir}: {len(extras)} on-disk JSON files not listed in {catalog_file}: "
-                f"{extras[:5]}{'...' if len(extras) > 5 else ''}"
-            )
-    return issues
-
-
-# ---------------------------------------------------------------------------
-# Sprint 4 — Manifest, Offline Packs & Knowledge Chunks
-# ---------------------------------------------------------------------------
-
-import hashlib
 
 
 def _sha256_file(path):
@@ -3281,8 +2130,7 @@ def build_manifest():
     collections_def = [
         ("destinations",  "/api/v1/destinations.json",   "/api/v1/destinations/{slug}.json"),
         ("countries",     "/api/v1/countries.json",       "/api/v1/countries/{iso2}.json"),
-        # picks + compare per-slug JSON retired 2026-04-20 (Cloudflare Pages 20k file cap). Canonical detail lives at HTML URLs; see htmlPattern.
-        ("picks",         "/api/v1/picks.json",           None),
+        # compare per-slug JSON retired 2026-04-20 (Cloudflare Pages 20k file cap). Canonical detail lives at HTML URLs; see htmlPattern.
         ("itineraries",   "/api/v1/itineraries.json",     "/api/v1/itineraries/{slug}.json"),
         ("compare",       "/api/v1/compare.json",         None),
         ("safety",        "/api/v1/safety.json",          "/api/v1/safety/{iso2}.json"),
@@ -3333,7 +2181,6 @@ def build_manifest():
             entry["detailPattern"] = detail_pattern
 
         html_patterns = {
-            "picks":   "/popular-picks/{slug}/",
             "compare": "/compare/{slug}/",
         }
         if col_name in html_patterns:
@@ -3435,8 +2282,9 @@ def _pack_checksum(data_bytes):
 
 def _build_single_pack(pack_id, name, description, pack_type, countries,
                        dest_slug_to_country, all_dest_summaries,
-                       all_picks_summaries, all_itin_summaries,
+                       all_itin_summaries,
                        scam_slugs_by_country, tags, primary_language="", emergency_number=""):
+
     """Build a single pack file and return its catalog entry."""
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     country_set = set(c.upper() for c in countries)
@@ -3465,11 +2313,6 @@ def _build_single_pack(pack_id, name, description, pack_type, countries,
     # destinations — filter summaries by countryCode
     dest_summaries = [d for d in all_dest_summaries if d.get("countryCode", "").upper() in country_set]
 
-    # picks — filter by destination country
-    picks_summaries = [
-        p for p in all_picks_summaries
-        if dest_slug_to_country.get(p.get("destinationSlug", ""), "").upper() in country_set
-    ]
 
     # itineraries — filter by destination country
     itin_summaries = [
@@ -3496,7 +2339,6 @@ def _build_single_pack(pack_id, name, description, pack_type, countries,
         "coverage": {
             "countries": list(countries),
             "destinationCount": len(dest_summaries),
-            "picksCount": len(picks_summaries),
             "itineraryCount": len(itin_summaries),
             "scamCities": scam_cities,
         },
@@ -3506,7 +2348,6 @@ def _build_single_pack(pack_id, name, description, pack_type, countries,
             "alerts": alerts_data,
             "destinations": dest_summaries,
             "scams": scams_data,
-            "picks": picks_summaries,
             "itineraries": itin_summaries,
         },
         "metadata": {
@@ -3552,7 +2393,6 @@ def build_packs():
 
     # Load shared indexes once
     all_dest_summaries = _load_index_items("destinations.json", "destinations")
-    all_picks_summaries = _load_index_items("picks.json", "picks")
     all_itin_summaries = _load_index_items("itineraries.json", "itineraries")
     all_filter_items = _load_index_items("filter.json", "items")
 
@@ -3596,7 +2436,7 @@ def build_packs():
 
     # --- Country packs ---
     for pack_id, pack_name, iso2, tags, lang, emergency in COUNTRY_PACKS:
-        desc = f"Complete offline guide: destinations, safety, scams, picks, and itineraries for {pack_name.replace(' Travel Pack', '')}."
+        desc = f"Complete offline guide: destinations, safety, scams, and itineraries for {pack_name.replace(' Travel Pack', '')}."
         entry = _build_single_pack(
             pack_id=pack_id,
             name=pack_name,
@@ -3605,7 +2445,6 @@ def build_packs():
             countries=[iso2],
             dest_slug_to_country=dest_slug_to_country,
             all_dest_summaries=all_dest_summaries,
-            all_picks_summaries=all_picks_summaries,
             all_itin_summaries=all_itin_summaries,
             scam_slugs_by_country=scam_slugs_by_country,
             tags=tags,
@@ -3616,7 +2455,7 @@ def build_packs():
 
     # --- Region packs ---
     for pack_id, pack_name, countries, tags in REGION_PACKS:
-        desc = f"Offline travel bundle covering {len(countries)} countries in {pack_name.replace(' Pack', '')}: destinations, safety, scams, picks, and itineraries."
+        desc = f"Offline travel bundle covering {len(countries)} countries in {pack_name.replace(' Pack', '')}: destinations, safety, scams, and itineraries."
         entry = _build_single_pack(
             pack_id=pack_id,
             name=pack_name,
@@ -3625,7 +2464,6 @@ def build_packs():
             countries=countries,
             dest_slug_to_country=dest_slug_to_country,
             all_dest_summaries=all_dest_summaries,
-            all_picks_summaries=all_picks_summaries,
             all_itin_summaries=all_itin_summaries,
             scam_slugs_by_country=scam_slugs_by_country,
             tags=tags,
@@ -3636,7 +2474,6 @@ def build_packs():
     # solo-female-safe
     solo_countries = sorted({dest_slug_to_country.get(s, "") for s in solo_female_slugs if dest_slug_to_country.get(s)})
     solo_dest_summaries = [d for d in all_dest_summaries if d.get("slug") in solo_female_slugs]
-    solo_picks = [p for p in all_picks_summaries if dest_slug_to_country.get(p.get("destinationSlug", ""), "") in set(solo_countries)]
     solo_itin = [i for i in all_itin_summaries if dest_slug_to_country.get(i.get("destinationSlug", ""), "") in set(solo_countries)]
 
     solo_payload = {
@@ -3648,7 +2485,6 @@ def build_packs():
         "coverage": {
             "countries": solo_countries,
             "destinationCount": len(solo_dest_summaries),
-            "picksCount": len(solo_picks),
             "itineraryCount": len(solo_itin),
             "scamCities": [],
         },
@@ -3658,7 +2494,6 @@ def build_packs():
             "alerts": [],
             "destinations": solo_dest_summaries,
             "scams": [],
-            "picks": solo_picks,
             "itineraries": solo_itin,
         },
         "metadata": {"packType": "theme", "tags": ["solo-female", "safe", "recommended"]},
@@ -3684,7 +2519,6 @@ def build_packs():
     # budget-backpacker
     budget_dest_summaries = [d for d in all_dest_summaries if d.get("slug") in budget_slugs]
     budget_countries_list = sorted(budget_countries)
-    budget_picks = [p for p in all_picks_summaries if dest_slug_to_country.get(p.get("destinationSlug", ""), "").upper() in budget_countries]
     budget_itin = [i for i in all_itin_summaries if dest_slug_to_country.get(i.get("destinationSlug", ""), "").upper() in budget_countries]
 
     budget_payload = {
@@ -3696,7 +2530,6 @@ def build_packs():
         "coverage": {
             "countries": budget_countries_list,
             "destinationCount": len(budget_dest_summaries),
-            "picksCount": len(budget_picks),
             "itineraryCount": len(budget_itin),
             "scamCities": [],
         },
@@ -3706,7 +2539,6 @@ def build_packs():
             "alerts": [],
             "destinations": budget_dest_summaries,
             "scams": [],
-            "picks": budget_picks,
             "itineraries": budget_itin,
         },
         "metadata": {"packType": "theme", "tags": ["budget", "backpacker", "cheap"]},
@@ -4149,6 +2981,171 @@ def build_knowledge_pack_chunks():
         count += 1
 
     return count
+
+
+def main():
+    print("🦉 Building Tabiji API v1...")
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    print("📍 Building destinations...")
+    dest_summaries, dest_count = build_destinations()
+    print(f"   ✅ {dest_count} destinations")
+
+    print("🗺️  Building itineraries...")
+    itin_summaries, itin_count = build_itineraries()
+    print(f"   ✅ {itin_count} itineraries")
+
+    print("⚔️  Building comparisons...")
+    compare_summaries, compare_count = build_compare()
+    print(f"   ✅ {compare_count} comparisons")
+
+    print("🕸️  Building cross-links and editorial enrichment...")
+    build_relationships(dest_summaries, itin_summaries, compare_summaries)
+    print("   ✅ related records, provenance, freshness")
+
+    # Load additional entity type indexes for catalog/search.
+    country_items = _load_index_items("countries.json", "countries")
+    safety_items = _load_index_items("safety.json", "profiles")
+    alert_items = _load_index_items("alerts.json", "alerts")
+
+    # Always rebuild scams.json[items] from on-disk api/v1/scams/*.json so the catalog
+    # cannot drift behind the per-slug detail JSONs that PRs add directly.
+    scam_items = _reindex_scams_index_from_disk()
+    print(f"   ✅ scams.json reindexed: {len(scam_items)} items from {OUTPUT_DIR / 'scams'}")
+
+    print("🧭 Building normalized catalog...")
+    catalog_payload = build_catalog(dest_summaries, itin_summaries, compare_summaries,
+                                    country_items=country_items, safety_items=safety_items,
+                                    alert_items=alert_items, scam_items=scam_items)
+    print(f"   ✅ {catalog_payload['itemCount']} entities in {catalog_payload['chunks']} chunks")
+
+    print("🔎 Building search index...")
+    search_payload = build_search(dest_summaries, itin_summaries, compare_summaries,
+                                  country_items=country_items, safety_items=safety_items,
+                                  alert_items=alert_items, scam_items=scam_items)
+    print(f"   ✅ {search_payload['count']} documents")
+
+    print("🛡️  Building safety profiles...")
+    safety_count = build_safety()
+    print(f"   ✅ {safety_count} safety profiles")
+
+    print("🚨 Building travel alerts...")
+    alerts_count = build_alerts()
+    print(f"   ✅ {alerts_count} countries with alerts")
+
+    print("📋 Building index...")
+    build_index(dest_count, itin_count, compare_count, search_payload['count'],
+                safety_count=safety_count, alerts_count=alerts_count,
+                country_count=len(country_items), scam_count=len(scam_items))
+    print("   ✅ index.json")
+
+    print("🧭 Regenerating agent/discovery docs...")
+    build_openapi(dest_count, itin_count, compare_count)
+    build_llms_txt(dest_count, itin_count, compare_count)
+    build_agents_json(dest_count, itin_count, compare_count)
+    print("   ✅ openapi.json, llms.txt, agents.json")
+
+    print("🌍 Building country facts...")
+    country_count = build_country_facts()
+    print(f"   ✅ {country_count} countries")
+
+    print("🔍 Building filterable index...")
+    filter_items, filter_count = build_filter()
+    print(f"   ✅ {filter_count} destinations in filter index")
+
+    print("📊 Building facets...")
+    build_facets(filter_items)
+    print("   ✅ facets.json")
+
+    print("📄 Updating API docs page...")
+    build_docs_page(dest_count, itin_count, compare_count, country_count)
+    print("   ✅ api/index.html")
+
+    print("📦 Building manifest...")
+    build_manifest()
+    print("   ✅ manifest.json")
+
+    print("🗃️  Building offline packs...")
+    packs_count = build_packs()
+    print(f"   ✅ {packs_count} packs")
+
+    print("🧠 Building knowledge chunks...")
+    knowledge_chunks = build_knowledge_chunks()
+    print(f"   ✅ {len(knowledge_chunks)} chunks")
+
+    print("🔗 Building per-pack knowledge chunks...")
+    pack_chunk_count = build_knowledge_pack_chunks()
+    print(f"   ✅ {pack_chunk_count} pack chunk files")
+
+    print("🔍 Verifying catalog ↔ disk reconciliation...")
+    issues = verify_catalog_disk()
+    if issues:
+        print("   ❌ Reconciliation failed:")
+        for line in issues:
+            print(f"     {line}")
+        raise SystemExit(1)
+    print("   ✅ all catalogs match on-disk files")
+
+
+# ---------------------------------------------------------------------------
+# Catalog ↔ disk reconciliation
+# ---------------------------------------------------------------------------
+
+
+def _slug_set_from_catalog(path, list_key, slug_key="slug"):
+    """Read a catalog JSON and return the set of slugs/ISO codes referenced."""
+    if not path.exists():
+        return set()
+    data = json.load(open(path))
+    items = data.get(list_key, [])
+    out = set()
+    for item in items:
+        key = item.get(slug_key) or item.get("iso2")
+        if key:
+            out.add(key.lower())
+    return out
+
+
+def _slug_set_from_dir(directory, suffix=".json"):
+    """Return the set of file stems in a directory (lowercase)."""
+    if not directory.is_dir():
+        return set()
+    return {p.stem.lower() for p in directory.glob(f"*{suffix}")}
+
+
+def verify_catalog_disk():
+    """Assert each catalog index matches the per-slug files on disk.
+
+    Returns a list of human-readable issue strings; empty list means OK.
+    Collections checked (catalog file, list-key, detail-dir):
+      - alerts.json[alerts]    → alerts/<iso>.json
+      - safety.json[profiles]  → safety/<iso>.json
+      - countries.json[countries] → countries/<iso>.json
+      - scams.json[items]      → scams/<slug>.json
+      - itineraries.json[itineraries] → itineraries/<slug>.json
+    Skipped: compare (per-slug retired),
+             destinations (per-slug served by Worker, no static dir).
+    """
+    issues = []
+    checks = [
+        ("alerts.json",     "alerts",     "iso2", "alerts"),
+        ("safety.json",     "profiles",   "iso2", "safety"),
+        ("countries.json",  "countries",  "iso2", "countries"),
+        ("scams.json",      "items",      "slug", "scams"),
+        ("itineraries.json","itineraries","slug", "itineraries"),
+    ]
+    for catalog_file, list_key, slug_key, detail_dir in checks:
+        catalog_path = OUTPUT_DIR / catalog_file
+        detail_path = OUTPUT_DIR / detail_dir
+        listed = _slug_set_from_catalog(catalog_path, list_key, slug_key)
+        on_disk = _slug_set_from_dir(detail_path)
+        missing = listed - on_disk
+        orphan = on_disk - listed
+        if missing:
+            issues.append(f"{catalog_file}: {len(missing)} listed but missing on disk: {sorted(list(missing))[:5]}")
+        if orphan:
+            issues.append(f"{catalog_file}: {len(orphan)} files on disk not listed: {sorted(list(orphan))[:5]}")
+    return issues
 
 
 if __name__ == "__main__":

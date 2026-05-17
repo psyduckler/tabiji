@@ -17,7 +17,7 @@ The infrastructure already supports this — the data layer exists, only the sur
 1. **`/api/v1/scams/{slug}.json`** — 446 per-city files, **2,836 scams already indexed** with structured fields: `id, name, category, severity, frequency, description, avoidance, location, tags[], sources[], tldr`.
 2. **60 categories already tagged on scams** but messy — `tourist-trap` (1,481 entries) is a useless catch-all; long tail of typo'd duplicates (`rental_scam` vs `rental-fraud`, `taxi_scam` vs `taxi`).
 3. **955 tags** but most are city/country names polluting the tag space, not type taxonomy.
-4. **Build patterns to copy:** `generators/popular-picks/` (extract → build → render → validate → update-indexes) and `generators/compare/` already exist.
+4. **Build patterns to copy:** `generators/guides/` (extract → build → render → validate → update-indexes) and `generators/compare/` already exist.
 5. **Shared partials** via `_includes/` + `scripts/build-partials.py` + pre-commit + CI drift check enables safe rail injection across 517 city pages.
 6. **`/api/build-api.py`** is the canonical place to expose new entity types as static JSON.
 7. **AEO pattern is documented** (`ARCHITECTURE.md` §2.0): answer-first paragraph + JSON-LD with `additionalProperty`, `lastVerified`, `sourcesAnalyzed`.
@@ -135,7 +135,6 @@ The atlas is wired into the rest of the site through **four layers**: top-level 
 
 ```html
 <div class="nav-dropdown-menu">
-    <a href="/popular-picks/">⭐ Popular Picks</a>
     <a href="/countries/">🗺 Country Guides</a>
     <a href="/compare/">🆚 Compare Destinations</a>
     <a href="/scams/atlas/">📋 Scam Atlas</a>   <!-- NEW -->
@@ -325,7 +324,7 @@ generators/scam-atlas/
 - **Step 0b:** Update scam-authoring schema to require `atlasEntry` field. Update `.githooks/pre-commit` to reject scam JSONs without canonical atlas-entry
 - Rail injection uses managed-include pattern via `scripts/build-partials.py`
 - **V0 gate:** 3 pilot pages, 4-week measurement window, only proceed to Phase 1 if CTR to `/books/*` from atlas pages ≥ CTR from `/scams/{city}/`
-- Generator script flags: `--slug`, `--all`, `--validate-only`, `--dry-run` (mirror compare/ + popular-picks/)
+- Generator script flags: `--slug`, `--all`, `--validate-only`, `--dry-run` (mirror compare/ + guides/)
 
 ### Audit 3 — Content quality
 
@@ -431,7 +430,7 @@ generators/scam-atlas/
 ## 11. References
 
 - `ARCHITECTURE.md` — site architecture, AEO pattern §2.0
-- `generators/popular-picks/` — generator pattern to follow
+- `generators/guides/` — generator pattern to follow
 - `generators/compare/` — alternative generator pattern
 - `_includes/README.md` — partials/build-partials.py pattern
 - `_includes/nav-main.html` — nav partial (will receive Atlas dropdown entry)

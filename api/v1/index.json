@@ -1,22 +1,20 @@
 {
   "name": "tabiji.ai API",
   "version": "1.5.0",
-  "description": "Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
+  "description": "Free REST API for AI-curated travel data — destinations, itineraries, comparisons, a normalized catalog, and unified search. No API key required.",
   "baseUrl": "https://tabiji.ai/api/v1",
   "documentation": "https://tabiji.ai/api/",
   "openapi": "https://tabiji.ai/api/openapi.json",
-  "lastUpdated": "2026-05-09T16:13:21Z",
+  "lastUpdated": "2026-05-17T15:21:15Z",
   "stats": {
     "destinations": 6498,
-    "picksGuides": 876,
-    "totalPlaces": 9407,
     "itineraries": 399,
     "comparisons": 867,
-    "searchDocuments": 9691,
+    "searchDocuments": 8817,
     "safetyProfiles": 55,
     "alertCountries": 208,
     "countries": 250,
-    "scamCities": 538
+    "scamCities": 540
   },
   "endpoints": [
     {
@@ -27,11 +25,6 @@
     {
       "path": "/destinations/{slug}.json",
       "description": "Single destination detail",
-      "method": "GET"
-    },
-    {
-      "path": "/picks.json",
-      "description": "All 876 curated 'best of' guides (each record links to its canonical HTML page via the `url` field)",
       "method": "GET"
     },
     {
@@ -46,41 +39,45 @@
     },
     {
       "path": "/compare.json",
-      "description": "All 867 head-to-head destination comparisons (each record links to its canonical HTML page via the `url` field)",
+      "description": "All 867 head-to-head destination comparisons",
       "method": "GET"
     },
     {
-      "path": "/catalog.json",
-      "description": "Normalized entity catalog spanning destinations, picks, places, itineraries, and comparisons",
-      "method": "GET"
-    },
-    {
-      "path": "/search.json?q={query}",
-      "description": "Cross-collection search across 9691 documents",
+      "path": "/countries.json",
+      "description": "All 250 country facts",
       "method": "GET"
     },
     {
       "path": "/safety.json",
-      "description": "All 55 country safety profiles (emergency numbers, advisories, healthcare, scams)",
-      "method": "GET"
-    },
-    {
-      "path": "/safety/{iso2}.json",
-      "description": "Full safety profile for one country (e.g., jp.json, th.json)",
+      "description": "All 55 country safety profiles",
       "method": "GET"
     },
     {
       "path": "/alerts.json",
-      "description": "Travel advisory index for 208 countries (US State Dept + UK FCDO)",
+      "description": "All 208 country travel alerts",
       "method": "GET"
     },
     {
-      "path": "/alerts/{iso2}.json",
-      "description": "Combined US + UK travel advisory for one country",
+      "path": "/scams.json",
+      "description": "All 540 scam city guides",
+      "method": "GET"
+    },
+    {
+      "path": "/search.json",
+      "description": "Unified search across 8817 documents",
+      "method": "GET"
+    },
+    {
+      "path": "/catalog.json",
+      "description": "Normalized catalog chunk index",
+      "method": "GET"
+    },
+    {
+      "path": "/manifest.json",
+      "description": "Machine-readable file manifest",
       "method": "GET"
     }
   ],
-  "dataSource": "Curated from Tabiji editorial pages, traveler discussions, and selective place enrichment. Records include cross-links plus provenance/freshness metadata.",
-  "license": "Free for non-commercial use. Attribution appreciated: tabiji.ai",
-  "contact": "hello@tabiji.ai"
+  "license": "CC BY 4.0",
+  "attribution": "Data provided by tabiji.ai — include link to https://tabiji.ai when using."
 }

@@ -63,7 +63,7 @@ Not every section applies to every comparison. A `bali-vs-fiji` page needs Beach
 
 6. **7+ FAQ questions with real answers.** FAQ section with `FAQPage` schema in `<head>`. Answers should be 2–4 sentences, specific, citing numbers where possible.
 
-7. **Internal links to tabiji pages.** Link to relevant `/popular-picks/`, `/i/` (itinerary), and other `/compare/` pages where natural. This is critical for SEO interlinking.
+7. **Internal links to tabiji pages.** Link to relevant `/guides/`, `/i/` (itinerary), and other `/compare/` pages where natural. This is critical for SEO interlinking.
 
 8. **4 images minimum.** 2 in the hero photo grid, 2+ as `section-img` in deep-dive sections. All hosted on R2 at `img.tabiji.ai/compare/{slug}/`.
 
@@ -124,7 +124,7 @@ Match the current production CSS from `tokyo-vs-kyoto` (the design system is inl
 
 Standard tabiji nav with:
 - Logo (owl + "tabiji")
-- Explore dropdown (Itineraries, Compare, Popular Picks, Destinations, Travel Alerts, Resources)
+- Explore dropdown (Itineraries, Compare, Travel Guides, Destinations, Travel Alerts, Resources)
 - "Plan Your Trip" CTA button
 - Hamburger menu for mobile
 
@@ -166,10 +166,10 @@ For each new compare page:
 
 ### Step 5: Internal Linking
 - Link to existing tabiji pages wherever relevant:
-  - `/popular-picks/{city}-{topic}/` pages
+  - `/guides/{slug}/` pages
   - `/i/{slug}/` itinerary pages
   - Other `/compare/` pages
-- Check what exists first: `ls popular-picks/ | grep {city}` and `ls i/ | grep {city}`
+- Check what exists first: `ls guides/ | grep {city}` and `ls i/ | grep {city}`
 
 ---
 
@@ -185,7 +185,7 @@ Before opening a PR, verify ALL of the following:
 - [ ] 7+ FAQ questions with specific answers
 - [ ] Decision framework with concrete bullet points
 - [ ] All costs include local currency + USD equivalent
-- [ ] Internal links to existing tabiji pages (popular-picks, other compare)
+- [ ] Internal links to existing tabiji pages (travel guides, other compare)
 - [ ] No leftover template text or wrong destination names
 
 ### Technical

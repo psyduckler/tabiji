@@ -16,7 +16,7 @@ _Status: Proposal — awaiting review_
 ├── countries/{iso2}.json   # country detail (incl. healthInfo on some)
 ├── destinations.json       # 6,905 destinations
 ├── destinations/{slug}.json
-├── picks.json              # 527 curated guides → 1,202 detail files
+├── guides.json              # 527 curated guides → 1,202 detail files
 ├── picks/{slug}.json
 ├── itineraries.json        # 374 itineraries
 ├── itineraries/{slug}.json
@@ -559,7 +559,7 @@ _Static recommendations pre-computed for common query patterns. Client sends que
     },
     "picks": {
       "count": 527,
-      "indexUrl": "/api/v1/picks.json",
+      "indexUrl": "/api/v1/guides.json",
       "detailPattern": "/api/v1/picks/{slug}.json",
       "updatedAt": "2026-03-30T00:00:00Z",
       "checksum": "sha256:pqr678..."
@@ -903,7 +903,7 @@ Every record in the API already exposes or will expose:
 1. **Freshness** — `lastUpdated` / `updatedAt` on every entity
 2. **Provenance** — `provenance` field: `"official-sources"`, `"reddit-research"`, `"editorial"`, `"llm-generated"`
 3. **Confidence** — `confidence` float (0-1) on catalog entities and knowledge chunks
-4. **Relation IDs** — `relatedPicks`, `relatedItineraries`, `safetyRef`, `alertsRef`, `scamsRef`
+4. **Relation IDs** — `relatedGuides`, `relatedItineraries`, `safetyRef`, `alertsRef`, `scamsRef`
 5. **Normalized enums** — risk levels (`very-low`→`extreme`), budget tiers (`budget`/`moderate`/`luxury`), safety ratings
 
 This means a local model consuming `knowledge/chunks.json` can:

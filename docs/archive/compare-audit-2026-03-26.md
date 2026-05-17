@@ -86,14 +86,14 @@ This means social previews (Twitter/X cards, Facebook/LinkedIn link shares, Slac
 **Affected pages:** 1 (vietnam-vs-indonesia)  
 **Live check:** `https://tabiji.ai/compare/vietnam-vs-indonesia/` → HTTP 404
 
-The files exist locally and are tracked in git (committed in commit `c25b88436` alongside popular-picks: muscat-restaurants). All supporting files present:
+The files exist locally and are tracked in git (committed in commit `c25b88436` alongside guides: muscat-restaurants). All supporting files present:
 - `compare/vietnam-vs-indonesia/index.html` ✅
 - `api/v1/compare/vietnam-vs-indonesia.json` ✅  
 - `compare-data/vietnam-vs-indonesia.json` ✅
 
 The other 4 individual builds (portugal-vs-spain, colombia-vs-mexico, japan-vs-thailand, greece-vs-italy) are all live and return 200.
 
-**Likely cause:** Deployment didn't include this page, possibly because it was committed in a mixed commit (popular-picks + compare) and the deploy may have had an issue, or Cloudflare Pages cache hasn't propagated.
+**Likely cause:** Deployment didn't include this page, possibly because it was committed in a mixed commit (travel guides + compare) and the deploy may have had an issue, or Cloudflare Pages cache hasn't propagated.
 
 **Fix:** Redeploy or force a cache purge for this specific page. If it still 404s, re-commit the file with a dedicated compare commit.
 

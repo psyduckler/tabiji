@@ -1370,7 +1370,6 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
         <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">Explore</button>
             <div class="nav-dropdown-menu">
-                <a href="/popular-picks/">⭐ Popular Picks</a>
                 <a href="/countries/">🗺 Country Guides</a>
                 <a href="/compare/">🆚 Compare Destinations</a>
                 <a href="/find/">🔍 Destination Finder</a>
@@ -1608,7 +1607,6 @@ __EMERGENCY_FAB__
           <li><a href="/books/">Travel Safety Books</a></li>
           <li><a href="/scams/">Tourist Scams</a></li>
           <li><a href="/countries/">Country Guides</a></li>
-          <li><a href="/popular-picks/">Popular Picks</a></li>
           <li><a href="/trip-planner/">Trip Planner</a></li>
         </ul>
       </div>

@@ -19,7 +19,7 @@ from pathlib import Path
 
 TABIJI_ROOT = Path(__file__).resolve().parent.parent
 ALERTS_DIR = TABIJI_ROOT / "alerts"
-POPULAR_PICKS_DIR = TABIJI_ROOT / "popular-picks"
+COUNTRIES_DIR = TABIJI_ROOT / "countries"
 ITINERARIES_DIR = TABIJI_ROOT / "i"
 
 import sys as _sys
@@ -350,28 +350,15 @@ def fetch_gdacs():
 
 
 def find_tabiji_links(country_slug):
-    """Find existing tabiji content for a country."""
+    """Find existing tabiji planning content for a country."""
     links = []
-
-    # Check popular-picks (country-level directory)
-    pp_dir = POPULAR_PICKS_DIR / country_slug
-    if pp_dir.is_dir():
+    country_dir = COUNTRIES_DIR / country_slug
+    if country_dir.is_dir():
         links.append({
-            'url': f'/popular-picks/{country_slug}/',
-            'label': 'Popular Picks Guide',
-            'icon': '🧡',
+            'url': f'/countries/{country_slug}/',
+            'label': 'Country Travel Guide',
+            'icon': '🗺️',
         })
-
-    # Check for popular-picks with country prefix
-    if POPULAR_PICKS_DIR.exists():
-        for d in POPULAR_PICKS_DIR.iterdir():
-            if d.is_dir() and d.name.startswith(country_slug + '-') and d.name != country_slug:
-                nice_name = d.name.replace(country_slug + '-', '').replace('-', ' ').title()
-                links.append({
-                    'url': f'/popular-picks/{d.name}/',
-                    'label': f'{nice_name}',
-                    'icon': '📍',
-                })
 
     return links[:5]  # Cap at 5 links
 
@@ -635,7 +622,6 @@ def build_footer():
     <p><strong>tabiji.ai</strong> — AI-powered travel planning, backed by real traveler wisdom.</p>
     <p style="margin-top: 0.5rem;">Data from US State Dept, UK FCDO, CDC, and GDACS. Auto-updated every 6 hours.</p>
     <p style="margin-top: 1rem;">
-        <a href="/popular-picks/">Popular Picks</a> &nbsp;·&nbsp;
         <a href="/plan">Plan Your Trip →</a>
         &nbsp;·&nbsp; <a href="/terms/">Terms</a> · <a href="/privacy/">Privacy</a> · <a href="/delete-data/">Delete My Data</a> · <a href="https://www.instagram.com/tabiji.ai/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@tabijiai" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.pinterest.com/tabijiai/" target="_blank" rel="noopener">Pinterest</a> · <a href="https://x.com/tabijiai" target="_blank" rel="noopener">X</a> · <a href="/api/">API</a>
     </p>

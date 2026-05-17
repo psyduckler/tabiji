@@ -97,7 +97,7 @@ Replace nav block in every HTML with a placeholder div + `<script>fetch('/partia
 
 1. **Local dry run:** Run `build-partials.py` with output to a scratch dir (not in-place), diff against current state, confirm output is byte-identical to what's currently on disk.
 2. **CF Pages config:** Set Build command to `python3 scripts/build-partials.py` in the Cloudflare dashboard. Set Python version if needed. Test with a PR deploy first (CF Pages supports preview deployments per branch).
-3. **Verify preview:** Pick 5–10 representative URLs (home, a scam page, a compare page, a popular-picks page, an itinerary under `/i/`). Confirm nav/footer/head render identically to production.
+3. **Verify preview:** Pick 5–10 representative URLs (home, a scam page, a compare page, a travel guides page, an itinerary under `/i/`). Confirm nav/footer/head render identically to production.
 4. **Migration commit:** Run a "skeletonize" script that replaces all managed blocks in-tree with marker-only placeholders. This is one big commit (probably 5,610 files), but it's the LAST sync-shaped commit.
 5. **Ship Phase 2:** Merge to main. CF Pages auto-builds → partials inject at build time → deployed site matches pre-migration.
 6. **Add local dev story:** `scripts/dev-build.sh` syncs partials into working tree for local HTML preview. `.gitignore` does not need changes because `build-partials.py` writes back to the same files.
