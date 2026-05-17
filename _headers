@@ -1,6 +1,17 @@
 # Cloudflare Pages headers config
 # Docs: https://developers.cloudflare.com/pages/platform/headers/
 
+# Site-wide security headers. CSP is intentionally permissive on script-src
+# because gtag (G-D7QHNRXLHJ) loads inline and from googletagmanager.com, and
+# several pages have inline event handlers. Tighten over time.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; img-src 'self' https://img.tabiji.ai https://www.googletagmanager.com data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
 # Public JSON API endpoints — intentionally readable per llms.txt, but should
 # never appear in search-engine indexes (they exist to feed agents/clients,
 # not human SERPs). robots.txt already disallows /api/v1/, but many crawlers

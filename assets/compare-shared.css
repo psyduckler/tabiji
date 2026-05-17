@@ -11,7 +11,7 @@
             --sand: #E8DFD0;
             --earth: #7A6343;
             --earth-light: #A6906F;
-            --terracotta: #A85A37;
+            --terracotta: #9E4D2A;
             --deep-brown: #3E2F23;
             --sage: #7A8B6F;
             --white: #FEFCF9;
@@ -168,11 +168,11 @@
         .verdict-card { background: rgba(254, 252, 249, 0.78); border: 1px solid var(--sand); border-radius: 12px; padding: 1rem; }
         .verdict-card h3 { font-size: 0.95rem; color: var(--terracotta); margin-bottom: 0.35rem; }
         .verdict-card p { font-size: 0.98rem; line-height: 1.6; }
-        .methodology-box { background: rgba(122, 139, 111, 0.08); border: 1px solid var(--sand); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; }
-        .methodology-box h2 { font-size: 1rem; font-weight: 700; color: var(--sage); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
-        .methodology-box p { margin-bottom: 0.85rem; color: var(--text); }
-        .methodology-points { margin: 0 0 0 1.2rem; display: grid; gap: 0.5rem; }
-        .methodology-points li { color: var(--text); }
+        .methodology-box { background: var(--warm-cream); border-left: 3px solid var(--sage); border-radius: 0 12px 12px 0; padding: 1rem 1.25rem; margin: 2rem 0 1.5rem; font-size: 0.92rem; color: var(--text-muted); }
+        .methodology-box h2 { font-size: 0.85rem; font-weight: 700; color: var(--sage); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .methodology-box p { margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.92rem; line-height: 1.55; }
+        .methodology-points { margin: 0 0 0 1.2rem; display: grid; gap: 0.4rem; }
+        .methodology-points li { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
         .section-winner { background: rgba(45, 58, 92, 0.05); border: 1px solid var(--sand); border-radius: 14px; padding: 1rem 1.1rem; margin-top: 1.25rem; }
         .section-winner h3 { font-size: 0.98rem; color: var(--indigo); margin-bottom: 0.55rem; }
         .section-winner ul { margin: 0 0 0 1.1rem; display: grid; gap: 0.4rem; }
@@ -637,7 +637,8 @@
 
 /* ── Related-comparisons alias (used by some newer pages) ── */
 .related-comparisons { margin-bottom:2rem; }
-.related-comparisons h2 { font-size:1.2rem; margin-bottom:1rem; color:var(--indigo); }
+.related-comparisons h2 { font-size:1.2rem; margin-bottom:0.5rem; color:var(--indigo); }
+.related-comparisons > p { font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem; font-style:italic; }
 .related-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
 .related-card { border:1.5px solid var(--sand); border-radius:12px; overflow:hidden; text-decoration:none; color:inherit; transition:all 0.2s; display:block; padding:0.85rem; }
 .related-card:hover { border-color:var(--terracotta); box-shadow:0 2px 12px rgba(168,90,55,0.1); }
@@ -674,3 +675,76 @@
   .scorecard-city .city-score { font-size:1.6rem; }
 }
 
+
+/* ──────────────────────────────────────────────────────────
+   Breadcrumb (rendered HTML, mirrors BreadcrumbList JSON-LD)
+   ────────────────────────────────────────────────────────── */
+.breadcrumb {
+    margin: 1rem 0 0;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+}
+.breadcrumb ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+}
+.breadcrumb li + li::before {
+    content: "›";
+    margin-right: 0.4rem;
+    color: var(--sand);
+}
+.breadcrumb a {
+    color: var(--terracotta);
+    text-decoration: none;
+}
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+    text-decoration: underline;
+}
+.breadcrumb [aria-current="page"] {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Methodology aside (the boilerplate "If you're still deciding…"
+   + "Verified costs and logistics…" sentences belong here, not
+   inline in the body).
+   ────────────────────────────────────────────────────────── */
+.page-methodology {
+    margin: 2.5rem 0 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--warm-cream);
+    border-left: 3px solid var(--sand);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+.page-methodology p {
+    margin: 0 0 0.5rem;
+}
+.page-methodology p:last-child {
+    margin-bottom: 0;
+}
+
+/* Screen-reader-only helper used by form labels */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
