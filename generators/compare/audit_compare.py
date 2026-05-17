@@ -2,15 +2,12 @@
 """
 Audit all compare pages against the gold-standard quality benchmark.
 
+Reads HTML files directly from compare/*-vs-*/index.html (the `compare-data/`
+JSON source was retired during the post-2026-04 catalog rebuild). The
+audit covers structural, SEO, schema, accessibility, and content-quality
+dimensions.
+
 Gold standard: tokyo-vs-kyoto
-- Verdict box with 2+ cards
-- Reddit quotes in deep-dive sections
-- Images in deep-dive sections
-- Section winners in all deep-dives
-- Photo grid with 2+ images + descriptive alt text
-- 7+ FAQ items with substantial answers
-- 10+ comparison table rows
-- 9+ deep-dive sections
 
 Usage:
     python3 audit_compare.py              # Full audit report
@@ -29,7 +26,7 @@ from collections import Counter
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DATA_DIR = REPO_ROOT / "compare-data"
+COMPARE_DIR = REPO_ROOT / "compare"
 
 # ---------------------------------------------------------------------------
 # Gold-standard benchmarks (from tokyo-vs-kyoto)
@@ -41,112 +38,226 @@ BENCHMARKS = {
     "photo_grid_min": 2,
     "comp_rows_min": 8,
     "verdict_cards_min": 2,
-    "reddit_quotes_min": 1,       # at least some
-    "dd_images_min": 1,           # at least some
-    "section_winners_min": 5,     # at least half of deep-dives
+    "reddit_quotes_min": 3,
+    "dd_images_min": 1,
+    "section_winners_min": 5,
     "faq_answer_min_len": 30,
-    "meta_desc_max_len": 160,
+    "meta_desc_max_len": 200,
     "title_max_len": 100,
+    "ai_tells_max": 10,
+    "currency_symbols_max": 2,
+    "generic_reddit_url_pct_max": 50,
 }
 
+AI_TELLS = (
+    "vibrant", "bustling", "perfect for", "world-class", "delve into",
+    "must-see", "hidden gem", "magical", "breathtaking", "treasure trove",
+    "nestled", "boasts", "you'll love",
+)
 
-def audit_page(data: dict) -> dict:
-    """Audit a single compare page, return metrics + issues."""
-    slug = data.get("slug", "unknown")
-    content = data.get("content", {})
-    seo = data.get("seo", {})
+CURRENCY_SYMBOLS = ("$", "¥", "£", "€", "₩", "₹", "฿", "₱", "₽", "CHF", "CAD")
 
-    # --- Extract metrics ---
-    deep_dives = content.get("deepDiveHtml", [])
-    dd_html = "".join(deep_dives)
 
-    photo_html = content.get("photoGridHtml", "")
-    verdict_html = content.get("verdictHtml", "")
-    comp_html = content.get("comparisonHtml", "")
-    faq_items = content.get("faqItems", [])
-    toc_items = content.get("tocItems", [])
+def _extract_block(text: str, start_re: str, end_re: str = r"</section>") -> str:
+    m = re.search(start_re + r".*?" + end_re, text, re.S)
+    return m.group(0) if m else ""
 
+
+def audit_page(slug: str, html: str) -> dict:
+    """Audit one compare-page HTML string, return metrics + issues."""
+    # ----- Extract meta -----
+    title_m = re.search(r"<title>([^<]+)</title>", html)
+    title = title_m.group(1).strip() if title_m else ""
+    meta_desc_m = (
+        re.search(r'<meta\s+content="([^"]+)"\s+name="description"', html)
+        or re.search(r'<meta\s+name="description"\s+content="([^"]+)"', html)
+    )
+    meta_desc = meta_desc_m.group(1) if meta_desc_m else ""
+    og_image_m = (
+        re.search(r'property="og:image"[^>]*content="([^"]+)"', html)
+        or re.search(r'<meta\s+content="([^"]+)"\s+property="og:image"', html)
+    )
+    og_image = og_image_m.group(1) if og_image_m else ""
+    mod_m = re.search(r'article:modified_time"[^>]*content="(\d{4}-\d{2}-\d{2})', html)
+    modified_time = mod_m.group(1) if mod_m else ""
+
+    # ----- Section detection -----
+    # FAQ section has two markup patterns across the corpus:
+    #   gold standard:  <section id="frequently-asked-questions">
+    #   older pages:    <div class="faq-section" id="faq">
+    # End pattern stops at related-comparisons blocks (which use h3 too).
+    faq_section = _extract_block(
+        html,
+        (
+            r'(?:'
+            r'<section[^>]*id="frequently-asked-questions"|'
+            r'id="frequently-asked-questions"[^>]*>|'
+            r'<div[^>]*class="faq-section"|'
+            r'<section[^>]*id="faq"\b|'
+            r'class="faq-section"[^>]*>'
+            r')'
+        ),
+        (
+            r'(?:'
+            r'<section\b|<footer\b|</main>|'
+            r'<!-- compare-related|'
+            r'<div[^>]*class="(?:ux-)?related|'
+            r'<div[^>]*class="related-comparisons|'
+            r'<h2[^>]*>(?:[^<]*Related|🔗|↩)'
+            r')'
+        ),
+    )
+    photo_html = _extract_block(html, r'<div class="photo-grid"', r"</div>\s*</section>|</div>\s*<div class=")
+
+    # Body = everything between <main ...> and </main>
+    main_m = re.search(r"<main\b[^>]*>(.*?)</main>", html, re.S)
+    body = main_m.group(1) if main_m else html
+
+    # ----- Metrics -----
     metrics = {
         "slug": slug,
-        "dest1": data.get("destinations", {}).get("destination1", ""),
-        "dest2": data.get("destinations", {}).get("destination2", ""),
-        "deep_dives": len(deep_dives),
-        "faq_items": len(faq_items),
-        "toc_items": len(toc_items),
-        "photo_count": len(re.findall(r"<img ", photo_html)),
-        "dd_images": len(re.findall(r"<img ", dd_html)),
-        "reddit_quotes": len(re.findall(r"reddit-quote", dd_html)),
-        "section_winners": len(re.findall(r"section-winner", dd_html)),
-        "comp_rows": max(0, len(re.findall(r"<tr>", comp_html)) - 1),
-        "verdict_cards": len(re.findall(r"verdict-card", verdict_html)),
-        "has_year_in_title": bool(re.search(r"202[4-9]", seo.get("title", ""))),
-        "title_len": len(seo.get("title", "")),
-        "meta_desc_len": len(seo.get("metaDescription", "")),
-        "modified_time": seo.get("modifiedTime", "")[:10],
-        "has_og_image": bool(seo.get("ogImage", "").strip()),
+        "title": title,
+        "title_len": len(title),
+        "meta_desc_len": len(meta_desc),
+        "modified_time": modified_time,
+        "has_og_image": bool(og_image),
+        "og_image_dest_generic": ("dest1.jpg" in og_image or "dest2.jpg" in og_image),
+        "deep_dives": len(re.findall(r'<h2\b[^>]*\bid=', body)),
+        "faq_items": html.count('"@type": "Question"') + html.count('"@type":"Question"'),
+        "faq_visible_h3": sum(
+            1 for q in re.findall(r"<h3[^>]*>([^<]+)</h3>", faq_section)
+            if q.strip().endswith('?')
+        ),
+        "photo_count": len(re.findall(r"<img\b", photo_html)),
+        "dd_images": body.count("<img"),
+        "reddit_quote_blocks": body.count("reddit-quote"),
+        "section_winners": (
+            body.count("section-winner")
+            + body.count("qa-winner")
+            + body.count("sc-winner")
+        ),
+        "comp_rows": max(0, len(re.findall(r"<tr>", body)) - 1),
+        "verdict_cards": html.count("verdict-card"),
+        "has_year_in_title": bool(re.search(r"202[4-9]", title)),
+        "has_verdict_takeaways": "verdict-takeaways" in html,
+        "has_visible_breadcrumb": 'aria-label="Breadcrumb"' in html,
+        "has_byline": 'class="page-byline"' in html,
+        "has_person_author": ('"@type": "Person"' in html or '"@type":"Person"' in html),
+        "has_scorecard": "scorecard" in html,
+        "has_related_block": (
+            "related-comparisons" in html
+            or "compare-related:start" in html
+            or "ux-related-links" in html
+        ),
+        "has_methodology_box": "methodology-box" in html,
     }
 
-    # --- Photo alt text quality ---
+    # Reddit URL hygiene
+    all_reddit = re.findall(r'href="(https?://(?:www\.)?reddit\.com/[^"]+)"', body)
+    specific_thread = sum(1 for u in all_reddit if "/comments/" in u)
+    metrics["reddit_urls_total"] = len(all_reddit)
+    metrics["reddit_urls_specific"] = specific_thread
+    metrics["reddit_urls_generic_pct"] = (
+        round(100 * (len(all_reddit) - specific_thread) / len(all_reddit), 1)
+        if all_reddit else 0
+    )
+    metrics["reddit_links_have_rel_ugc"] = body.count('rel="noopener nofollow ugc"')
+
+    # Alt text quality
     photo_alts = re.findall(r'alt="([^"]*)"', photo_html)
-    generic_alt = sum(1 for a in photo_alts if len(a) < 10 or a.lower() in ("image", "photo", "picture", ""))
-    metrics["generic_photo_alts"] = generic_alt
+    metrics["photo_count_alts"] = len(photo_alts)
+    metrics["generic_photo_alts"] = sum(
+        1 for a in photo_alts if len(a) < 10 or a.lower() in ("image", "photo", "picture", "")
+    )
 
-    # --- Deep-dive image alt quality ---
-    dd_alts = re.findall(r'alt="([^"]*)"', dd_html)
-    dd_generic_alt = sum(1 for a in dd_alts if len(a) < 10 or a.lower() in ("image", "photo", "picture", ""))
-    metrics["generic_dd_alts"] = dd_generic_alt
+    # FAQ answer quality (read from JSON-LD)
+    short_faq = 0
+    for m in re.finditer(r'"@type":\s*"Question"[^}]*"text":\s*"([^"]+)"', html):
+        if len(m.group(1)) < BENCHMARKS["faq_answer_min_len"]:
+            short_faq += 1
+    metrics["short_faq_answers"] = short_faq
 
-    # --- FAQ answer quality ---
-    short_faq_answers = sum(1 for faq in faq_items if len(faq.get("answer", "")) < BENCHMARKS["faq_answer_min_len"])
-    metrics["short_faq_answers"] = short_faq_answers
+    # FAQ schema-vs-body parity (only count h3s that look like real questions —
+    # end with '?' — to avoid related-link headings being misclassified)
+    ld_qs = re.findall(r'"@type":\s*"Question"[^"]*"name":\s*"([^"]+)"', html)
+    visible_qs = re.findall(r"<h3[^>]*>([^<]+)</h3>", faq_section)
+    real_visible_qs = [q for q in visible_qs if q.strip().endswith('?')]
+    metrics["faq_schema_body_count_mismatch"] = (len(ld_qs) != len(real_visible_qs))
 
-    # --- Verdict text quality ---
-    verdict_text = re.sub(r"<[^>]+>", " ", verdict_html)
-    verdict_text = re.sub(r"\s+", " ", verdict_text).strip()
-    metrics["verdict_text_len"] = len(verdict_text)
-    metrics["has_verdict_takeaways"] = bool(re.search(r"verdict-takeaways", verdict_html))
+    # Placeholders / template debris
+    placeholder_patterns = (
+        r"\[TODO\]", r"\[INSERT\]", r"\[PLACEHOLDER\]",
+        r"\{\{[a-z_]+\}\}", r"\bundefined\b\s*(?:vs|of)",
+    )
+    metrics["placeholder_count"] = sum(
+        1 for p in placeholder_patterns if re.search(p, body)
+    )
 
-    # --- Check for placeholder/template text ---
-    placeholder_patterns = [
-        r"better if you want\s*\.",
-        r"<li><strong>Choose [^:]+:</strong>\s*</li>",
-        r'<div class="verdict-card">\s*<h3>[^<]+</h3>\s*<p>\s*</p>\s*</div>',
-        r"Who this matters for:</strong>[^<]* between\s+and\s+\.",
-        r"\[TODO\]",
-        r"\[INSERT\]",
-        r"\[PLACEHOLDER\]",
-    ]
-    placeholders = []
-    all_html = verdict_html + dd_html + comp_html
-    for pat in placeholder_patterns:
-        if re.search(pat, all_html, re.I):
-            placeholders.append(pat)
-    metrics["placeholder_count"] = len(placeholders)
+    # Empty rendered sections
+    metrics["empty_p"] = len(re.findall(r"<p>\s*</p>", body))
+    metrics["empty_reddit_quote"] = len(re.findall(r'<div class="reddit-quote">\s*</div>', body))
 
-    # --- Score calculation ---
+    # AI tells (count phrase occurrences across body)
+    ai_tell_hits = sum(
+        len(re.findall(r"\b" + re.escape(phrase) + r"\b", body, re.I))
+        for phrase in AI_TELLS
+    )
+    metrics["ai_tell_count"] = ai_tell_hits
+
+    # Currency overload
+    metrics["currency_symbols_present"] = sum(1 for s in CURRENCY_SYMBOLS if s in body)
+
+    # Stale/pandemic references
+    stale_patterns = (
+        r"\bCOVID\b", r"\bpandemic\b", r"\bcoronavirus\b",
+        r"Expo 2020", r"Olympics 202[0-4]",
+    )
+    metrics["stale_refs"] = sum(1 for p in stale_patterns if re.search(p, body))
+
+    # ----- Score calc -----
     issues = []
-    score = 100  # Start at 100, deduct for issues
+    score = 100
 
-    # Critical issues (10 points each)
+    # CRITICAL (-25)
     if metrics["verdict_cards"] == 0:
         issues.append("NO_VERDICT_CARDS")
+        score -= 25
+    if metrics["section_winners"] < BENCHMARKS["section_winners_min"]:
+        issues.append(f"LOW_SECTION_WINNERS({metrics['section_winners']})")
+        score -= 25
+    if not metrics["has_visible_breadcrumb"]:
+        issues.append("NO_BREADCRUMB_HTML")
         score -= 10
-    if metrics["reddit_quotes"] == 0:
+    if metrics["reddit_quote_blocks"] == 0:
         issues.append("NO_REDDIT_QUOTES")
-        score -= 10
+        score -= 15
     if metrics["dd_images"] == 0:
         issues.append("NO_DD_IMAGES")
         score -= 10
+    if not metrics["has_byline"]:
+        issues.append("NO_BYLINE")
+        score -= 10
+    if not metrics["has_person_author"]:
+        issues.append("NO_PERSON_AUTHOR")
+        score -= 5
     if metrics["placeholder_count"] > 0:
         issues.append(f"PLACEHOLDERS({metrics['placeholder_count']})")
-        score -= 15
+        score -= 20
 
-    # Medium issues (5 points each)
+    # HIGH (-10)
+    if metrics["reddit_urls_total"] > 0 and metrics["reddit_urls_generic_pct"] > BENCHMARKS["generic_reddit_url_pct_max"]:
+        issues.append(f"GENERIC_REDDIT_URLS({metrics['reddit_urls_generic_pct']}%)")
+        score -= 10
+    if not metrics["has_related_block"]:
+        issues.append("NO_RELATED_BLOCK")
+        score -= 5
+    if metrics["faq_schema_body_count_mismatch"]:
+        issues.append("FAQ_COUNT_MISMATCH")
+        score -= 10
+
+    # MEDIUM (-5)
     if metrics["deep_dives"] < BENCHMARKS["deep_dives_min"]:
         issues.append(f"LOW_DEEP_DIVES({metrics['deep_dives']})")
-        score -= 5
-    if metrics["section_winners"] < BENCHMARKS["section_winners_min"]:
-        issues.append(f"LOW_SECTION_WINNERS({metrics['section_winners']})")
         score -= 5
     if metrics["comp_rows"] < BENCHMARKS["comp_rows_min"]:
         issues.append(f"LOW_COMP_ROWS({metrics['comp_rows']})")
@@ -157,13 +268,25 @@ def audit_page(data: dict) -> dict:
     if metrics["short_faq_answers"] > 0:
         issues.append(f"SHORT_FAQ_ANSWERS({metrics['short_faq_answers']})")
         score -= 5
+    if metrics["ai_tell_count"] > BENCHMARKS["ai_tells_max"]:
+        issues.append(f"AI_TELLS_HIGH({metrics['ai_tell_count']})")
+        score -= 5
+    if metrics["currency_symbols_present"] > BENCHMARKS["currency_symbols_max"]:
+        issues.append(f"CURRENCY_OVERLOAD({metrics['currency_symbols_present']})")
+        score -= 3
+    if metrics["stale_refs"] > 0:
+        issues.append(f"STALE_REFS({metrics['stale_refs']})")
+        score -= 3
+    if (
+        metrics["reddit_urls_total"] > 0
+        and metrics["reddit_links_have_rel_ugc"] == 0
+    ):
+        issues.append("NO_REL_UGC")
+        score -= 3
 
-    # Minor issues (2 points each)
-    if metrics["generic_photo_alts"] > 0:
-        issues.append(f"GENERIC_PHOTO_ALTS({metrics['generic_photo_alts']})")
-        score -= 2
-    if metrics["generic_dd_alts"] > 0:
-        issues.append(f"GENERIC_DD_ALTS({metrics['generic_dd_alts']})")
+    # MINOR (-2)
+    if metrics["empty_p"] > 0 or metrics["empty_reddit_quote"] > 0:
+        issues.append("EMPTY_TAGS")
         score -= 2
     if not metrics["has_verdict_takeaways"]:
         issues.append("NO_VERDICT_TAKEAWAYS")
@@ -174,13 +297,16 @@ def audit_page(data: dict) -> dict:
     if metrics["meta_desc_len"] > BENCHMARKS["meta_desc_max_len"]:
         issues.append(f"LONG_META_DESC({metrics['meta_desc_len']})")
         score -= 2
+    if metrics["og_image_dest_generic"]:
+        issues.append("GENERIC_OG_IMAGE")
+        score -= 2
 
     metrics["score"] = max(0, score)
     metrics["issues"] = issues
     metrics["tier"] = (
-        "A" if score >= 90 else
-        "B" if score >= 70 else
-        "C" if score >= 50 else
+        "A" if score >= 95 else
+        "B" if score >= 80 else
+        "C" if score >= 60 else
         "D"
     )
 
@@ -189,14 +315,22 @@ def audit_page(data: dict) -> dict:
 
 def load_all() -> list[dict]:
     results = []
-    for f in sorted(DATA_DIR.glob("*.json")):
-        data = json.loads(f.read_text(encoding="utf-8"))
-        results.append(audit_page(data))
+    for d in sorted(os.listdir(COMPARE_DIR)):
+        if "-vs-" not in d:
+            continue
+        p = COMPARE_DIR / d / "index.html"
+        if not p.exists():
+            continue
+        html = p.read_text(encoding="utf-8")
+        results.append(audit_page(d, html))
     return results
 
 
 def print_summary(results: list[dict]) -> None:
     total = len(results)
+    if not total:
+        print("No compare pages found.")
+        return
     tiers = Counter(r["tier"] for r in results)
     scores = [r["score"] for r in results]
 
@@ -214,14 +348,12 @@ def print_summary(results: list[dict]) -> None:
     print(f"\nSCORE STATS:")
     print(f"  Mean:   {sum(scores)/len(scores):.1f}")
     print(f"  Median: {sorted(scores)[len(scores)//2]}")
-    print(f"  Min:    {min(scores)}  ({[r['slug'] for r in results if r['score'] == min(scores)][0]})")
-    print(f"  Max:    {max(scores)}  ({[r['slug'] for r in results if r['score'] == max(scores)][0]})")
+    print(f"  Min:    {min(scores)}")
+    print(f"  Max:    {max(scores)}")
 
-    # Issue frequency
     issue_counts = Counter()
     for r in results:
         for issue in r["issues"]:
-            # Strip the parenthetical detail
             base = re.sub(r"\(.*\)", "", issue)
             issue_counts[base] += 1
 
@@ -230,50 +362,33 @@ def print_summary(results: list[dict]) -> None:
         pct = count / total * 100
         print(f"  {issue:<25} {count:>5} ({pct:5.1f}%)")
 
-    # Biggest wins (what to fix to move the most pages up)
-    print(f"\nIMPACT ANALYSIS (fixing these moves the most pages to Tier A):")
-    # Calculate how many pages would jump to A if each issue were fixed
-    for issue_base in ["NO_VERDICT_CARDS", "NO_REDDIT_QUOTES", "NO_DD_IMAGES"]:
-        would_fix = sum(1 for r in results if r["tier"] != "A" and issue_base in r["issues"]
-                        and r["score"] + 10 >= 90)
-        print(f"  Fix {issue_base}: {would_fix} pages would reach Tier A")
-
 
 def print_full_report(results: list[dict]) -> None:
     print_summary(results)
-
-    # Bottom 20 pages
     worst = sorted(results, key=lambda r: r["score"])[:20]
     print(f"\n{'='*60}")
     print("BOTTOM 20 PAGES:")
     print(f"{'='*60}")
     for r in worst:
         print(f"\n  {r['slug']} (score: {r['score']}, tier: {r['tier']})")
-        print(f"    {r['dest1']} vs {r['dest2']}")
         print(f"    Issues: {', '.join(r['issues'])}")
-        print(f"    Deep-dives: {r['deep_dives']}  FAQ: {r['faq_items']}  "
-              f"Reddit quotes: {r['reddit_quotes']}  DD images: {r['dd_images']}  "
-              f"Verdict cards: {r['verdict_cards']}")
-
-    # Tier A pages (the ones to aspire to)
-    tier_a = [r for r in results if r["tier"] == "A"]
-    if tier_a:
-        print(f"\n{'='*60}")
-        print(f"TIER A PAGES ({len(tier_a)} total):")
-        print(f"{'='*60}")
-        for r in sorted(tier_a, key=lambda r: r["score"], reverse=True)[:20]:
-            print(f"  {r['slug']} (score: {r['score']}) — "
-                  f"quotes:{r['reddit_quotes']} imgs:{r['dd_images']} vcards:{r['verdict_cards']}")
 
 
 def print_csv(results: list[dict]) -> None:
     fields = [
-        "slug", "dest1", "dest2", "score", "tier",
-        "deep_dives", "faq_items", "toc_items", "photo_count",
-        "dd_images", "reddit_quotes", "section_winners", "comp_rows",
-        "verdict_cards", "has_verdict_takeaways", "placeholder_count",
-        "short_faq_answers", "generic_photo_alts", "generic_dd_alts",
-        "title_len", "meta_desc_len", "modified_time", "issues",
+        "slug", "score", "tier",
+        "deep_dives", "faq_items", "faq_visible_h3", "faq_schema_body_count_mismatch",
+        "photo_count", "dd_images", "reddit_quote_blocks", "section_winners",
+        "comp_rows", "verdict_cards", "has_verdict_takeaways", "placeholder_count",
+        "short_faq_answers", "generic_photo_alts",
+        "title_len", "meta_desc_len", "modified_time", "has_og_image",
+        "og_image_dest_generic", "reddit_urls_total", "reddit_urls_specific",
+        "reddit_urls_generic_pct", "reddit_links_have_rel_ugc",
+        "has_visible_breadcrumb", "has_byline", "has_person_author",
+        "has_related_block", "has_methodology_box",
+        "empty_p", "empty_reddit_quote", "ai_tell_count",
+        "currency_symbols_present", "stale_refs",
+        "issues",
     ]
     writer = csv.DictWriter(sys.stdout, fieldnames=fields, extrasaction="ignore")
     writer.writeheader()
