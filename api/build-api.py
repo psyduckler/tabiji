@@ -212,69 +212,6 @@ def collect_field_source_labels(field_sources):
     return unique_list(labels)
 
 
-def infer_area_from_address(address):
-    address = clean_text(address)
-    if not address:
-        return ""
-    parts = [part.strip() for part in re.split(r'[·•,|]', address) if part.strip()]
-    if not parts:
-        return ""
-    candidate = parts[0]
-    if re.search(r'\d', candidate) and len(parts) > 1:
-        candidate = parts[1]
-    candidate = re.sub(r'^(near|in|at|behind)\s+', '', candidate, flags=re.IGNORECASE).strip()
-    return candidate if len(candidate) <= 60 else ""
-
-
-def enrich_place(place, *, guide_slug, guide_title, guide_url, city, category):
-    place = dict(place)
-    if place.get("googleMapsUrl"):
-        place["mapsLinks"] = {"google": place["googleMapsUrl"]}
-    if place.get("address") and not place.get("area"):
-        area = infer_area_from_address(place.get("address", ""))
-        if area:
-            place["area"] = area
-    if place.get("verdict") and not place.get("editorialSummary"):
-        place["editorialSummary"] = place["verdict"]
-    if place.get("comparison", {}).get("best for") and not place.get("bestFor"):
-        place["bestFor"] = place["comparison"].get("best for")
-    if not place.get("sourceMeta"):
-        field_sources = {
-            "name": ["editorial"],
-            "position": ["editorial"],
-            "tags": ["editorial"],
-            "whatToOrder": ["editorial"],
-            "insiderTip": ["editorial"],
-            "verdict": ["editorial"],
-            "editorialSummary": ["editorial"],
-            "bestFor": ["editorial"],
-            "address": ["editorial", "maps"],
-            "area": ["editorial", "derived"],
-            "website": ["maps"],
-            "phone": ["maps"],
-            "googleRating": ["maps"],
-            "reviewCount": ["maps"],
-            "priceRange": ["maps", "editorial"],
-            "openingHours": ["maps"],
-            "googleMapsUrl": ["maps"],
-            "mapsLinks": ["derived"],
-            "photo": ["editorial"],
-            "redditQuotes": ["reddit"],
-        }
-        present_field_sources = {
-            key: value for key, value in field_sources.items() if key in place and place.get(key) not in (None, "", [])
-        }
-        place["sourceMeta"] = {
-            "guideSlug": guide_slug,
-            "guideTitle": guide_title,
-            "guideUrl": guide_url,
-            "collectionCity": city,
-            "collectionCategory": category,
-            "fieldSources": present_field_sources,
-        }
-    return place
-
-
 def write_json(path, payload):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w') as f:
