@@ -77,12 +77,12 @@ Footer includes: Terms, Privacy, Delete Data, social links (IG, YT, Pinterest, X
 - The git repo has **no content images** — only HTML/CSS/JS
 - R2 key structure mirrors repo: `i/{slug}/hero-bg.jpg`, `popular-picks/{slug}/{photo}.jpg`, etc.
 - Exception: `img/` dir has some Instagram Reel videos (legacy, ~52MB — should probably be cleaned)
-- Google Maps embeds use API key `AIzaSyBP0yidMjJEECgkIiZz2lw1NLsQ7jdASYc`
+- Google Maps embeds use API key `AIzaSy...ASYc`
 
 ### 3.4 Order Fulfillment Pipeline
 
 ```
-Stripe webhook → orders/pending.json → Psy claims order →
+Free itinerary request → orders/pending.json → Psy claims order →
   fulfill-order.js runs:
     1. generate-slug.js (unique slug)
     2. generate-itinerary-html.js (full HTML page)
@@ -113,7 +113,7 @@ Static JSON API at `/api/v1/` — 1,428 pre-built JSON files, ~18MB. Built by `a
 
 | File | Purpose |
 |---|---|
-| `orders/pending.json` | Active order queue |
+| `orders/pending.json` | Active itinerary request queue |
 | `orders/fulfilled.json` | Completed orders archive |
 | `scripts/queues/popular-picks-master-queue.json` | Popular-picks batch queue |
 | `scripts/queues/compare-queue.json` | Compare page batch queue |
@@ -124,12 +124,12 @@ Static JSON API at `/api/v1/` — 1,428 pre-built JSON files, ~18MB. Built by `a
 
 These paths are **critical production infrastructure**. Do not modify, move, rename, or refactor:
 
-### 4.1 Fulfillment Pipeline (REVENUE PATH)
-- **`functions/fulfill-order.js`** — The single entry point for all paid order fulfillment. Any change risks breaking customer delivery.
-- **`functions/generate-itinerary-html.js`** — HTML generator for paid itineraries. 285 live pages depend on this template's output format.
+### 4.1 Fulfillment Pipeline
+- **`functions/fulfill-order.js`** — The single entry point for custom itinerary fulfillment. Any change risks breaking customer delivery.
+- **`functions/generate-itinerary-html.js`** — HTML generator for custom itineraries. Existing live pages depend on this template's output format.
 - **`functions/generate-slug.js`** — Slug generation. Changing slug format breaks URL permanence.
 - **`functions/day-photos.js`** — Hero image generation. Skipping this = blank hero on customer pages.
-- **`functions/send-email.sh`** — Email delivery to customers. Misconfigured = lost revenue.
+- **`functions/send-email.sh`** — Email delivery to customers. Misconfigured = customers do not receive itineraries.
 - **`functions/wait-for-deploy.sh`** — Deploy verification. Removing this = customer gets 404 link.
 - **`functions/email-template.js`** — Email formatting.
 - **`orders/pending.json`** — Live order queue. Corruption = lost orders.
@@ -138,12 +138,12 @@ These paths are **critical production infrastructure**. Do not modify, move, ren
 - **`.fulfillment.lockdir/`** — Runtime lock, never commit or delete manually.
 
 ### 4.2 Live Content Pages (1,049 HTML pages)
-- **`/i/*/index.html`** — 285 paid customer itineraries. These are delivered products.
+- **`/i/*/index.html`** — Custom customer itineraries. These are delivered products.
 - **`/popular-picks/*/index.html`** — 381 SEO pages driving organic traffic.
 - **ALL existing `index.html` files** — Every page is a live URL. Renaming/moving = broken links + lost SEO.
 - **`index.html`** (root) — Landing page. Live, converting customers.
-- **`plan.html`** — Order form page. Revenue-critical.
-- **`success.html`** — Post-payment page.
+- **`plan.html`** — Itinerary request form page.
+- **`success.html`** — Post-request confirmation page.
 
 ### 4.3 API
 - **`api/`** — Static JSON API. External consumers may depend on these URLs.
@@ -162,7 +162,7 @@ These paths are **critical production infrastructure**. Do not modify, move, ren
 
 ```
                     ┌─────────────────┐
-                    │  Stripe Webhook  │
+                    │ Itinerary Request │
                     └────────┬────────┘
                              │
                              ▼
