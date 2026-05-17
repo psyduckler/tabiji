@@ -400,7 +400,6 @@ def build_entry(seed: dict, photo_url: str) -> dict:
         },
         "editorialSummary": seed["pitch"],
         "bestFor": ["Cultural", "offbeat"],
-        "relatedPicks": [],
         "relatedItineraries": [],
         "relatedComparisons": [],
         "relatedDestinations": [],

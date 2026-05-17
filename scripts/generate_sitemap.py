@@ -40,20 +40,18 @@ def is_excluded_path(rel_path):
 def get_priority(path):
     if path == '/': return '1.0'
     if path == '/plan/': return '0.9'
-    if path in ('/destinations/', '/compare/', '/popular-picks/', '/scams/', '/countries/', '/health/'): return '0.8'
+    if path in ('/destinations/', '/compare/', '/scams/', '/countries/', '/health/'): return '0.8'
     if path.startswith('/destinations/') and path.count('/') == 3: return '0.7'
     if path.startswith('/countries/'): return '0.7'
     if path.startswith('/health/'): return '0.7'
     if path.startswith('/compare/') and '-vs-' in path: return '0.6'
-    if path.startswith('/popular-picks/'): return '0.6'
     if path.startswith('/scams/'): return '0.7'
     return '0.5'
 
 
 def get_changefreq(path):
     if path == '/': return 'daily'
-    if path in ('/compare/', '/popular-picks/', '/destinations/', '/scams/', '/countries/', '/health/'): return 'weekly'
-    if path.startswith('/popular-picks/'): return 'weekly'
+    if path in ('/compare/', '/destinations/', '/scams/', '/countries/', '/health/'): return 'weekly'
     if path.startswith('/scams/'): return 'weekly'
     return 'monthly'
 

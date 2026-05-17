@@ -29,7 +29,7 @@ SITE = "https://tabiji.ai"
 NON_PAGE_DIRS = {
     ".git", ".claude", "node_modules",
     "scripts", "api", "functions", ".well-known",
-    "compare-data", "scam-data", "popular-picks-data",
+    "compare-data", "scam-data",
     "itinerary-data", "book-costa-rica",
 }
 

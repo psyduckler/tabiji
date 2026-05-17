@@ -187,7 +187,7 @@ Currently each page links to:
 
 **Missing:**
 - `/credit-cards/` — most premium travel cards include emergency medical / evacuation. Big monetization miss.
-- `/popular-picks/` — link to top-3 popular things to do in that country.
+- `/guides/` — link to top-3 popular things to do in that country.
 - Cross-link to *neighboring countries* health guides (Schengen travelers especially need this).
 - Link to compare pages: `/compare/japan-vs-thailand-health/` style URLs.
 

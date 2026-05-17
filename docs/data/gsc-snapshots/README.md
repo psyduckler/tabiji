@@ -6,7 +6,7 @@ Durable archive of Google Search Console Pages exports used for baseline + post-
 
 `{section}-pages-{YYYY-MM-DD}.csv`
 
-- `{section}` — `compare`, `scams`, `popular-picks`, or `all` depending on what GSC filter was applied at export time.
+- `{section}` — `compare`, `scams`, `travel guides`, or `all` depending on what GSC filter was applied at export time.
 - `{YYYY-MM-DD}` — date the CSV was exported, not the date range it covers.
 
 GSC Pages exports default to the last 28 days at the rolled-up Page level. Snapshots are taken at experiment milestones (rollout, mid-test, decision). Always confirm the actual date range from the exporting user — the filename is an export-date stamp, not a coverage window.

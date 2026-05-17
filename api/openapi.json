@@ -3,7 +3,7 @@
   "info": {
     "title": "tabiji.ai API",
     "version": "1.5.0",
-    "description": "Free REST API for AI-curated travel data — 6498 destinations, 876 curated picks guides (9,407 place records), 399 day-by-day itineraries, 867 destination comparisons, and unified search. No API key required.",
+    "description": "Free REST API for AI-curated travel data — 6498 destinations, 399 day-by-day itineraries, 867 destination comparisons, country facts, alerts, scam guides, and unified search. No API key required.",
     "contact": {
       "name": "tabiji.ai",
       "url": "https://tabiji.ai",
@@ -98,28 +98,6 @@
           },
           "404": {
             "description": "Destination not found"
-          }
-        }
-      }
-    },
-    "/picks.json": {
-      "get": {
-        "operationId": "listPicks",
-        "summary": "List all picks guides",
-        "description": "Returns all 876 curated 'best of' guides — restaurants, cafes, bars, attractions — with summary metadata.",
-        "tags": [
-          "Picks"
-        ],
-        "responses": {
-          "200": {
-            "description": "List of picks guides",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PicksList"
-                }
-              }
-            }
           }
         }
       }
@@ -234,7 +212,6 @@
               "type": "string",
               "enum": [
                 "destination",
-                "pick",
                 "itinerary",
                 "compare",
                 "country",
@@ -499,7 +476,6 @@
               "type": "string",
               "enum": [
                 "destinations",
-                "picks",
                 "itineraries",
                 "comparisons",
                 "countries",
@@ -1205,12 +1181,6 @@
               "destinations": {
                 "type": "integer"
               },
-              "picksGuides": {
-                "type": "integer"
-              },
-              "totalPlaces": {
-                "type": "integer"
-              },
               "itineraries": {
                 "type": "integer"
               },
@@ -1318,12 +1288,6 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
-          },
-          "relatedPicks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
             }
           },
           "relatedItineraries": {
@@ -1455,67 +1419,6 @@
           }
         ]
       },
-      "PicksSummary": {
-        "type": "object",
-        "properties": {
-          "slug": {
-            "type": "string",
-            "example": "amsterdam-brunch"
-          },
-          "title": {
-            "type": "string",
-            "example": "12 Best Brunch Spots in Amsterdam 2026"
-          },
-          "city": {
-            "type": "string",
-            "example": "Amsterdam"
-          },
-          "category": {
-            "type": "string",
-            "example": "Brunch Spots"
-          },
-          "placeCount": {
-            "type": "integer",
-            "example": 12
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "description": {
-            "type": "string"
-          },
-          "destinationSlug": {
-            "type": "string"
-          },
-          "destinationName": {
-            "type": "string"
-          },
-          "relatedPicks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
-            }
-          }
-        }
-      },
-      "PicksList": {
-        "type": "object",
-        "properties": {
-          "count": {
-            "type": "integer"
-          },
-          "totalPlaces": {
-            "type": "integer"
-          },
-          "picks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PicksSummary"
-            }
-          }
-        }
-      },
       "Place": {
         "type": "object",
         "properties": {
@@ -1626,103 +1529,6 @@
           },
           "sourceMeta": {
             "$ref": "#/components/schemas/PlaceSourceMeta"
-          }
-        }
-      },
-      "PicksDetail": {
-        "type": "object",
-        "properties": {
-          "slug": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "heroImage": {
-            "type": "string",
-            "format": "uri"
-          },
-          "placeCount": {
-            "type": "integer"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          },
-          "places": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Place"
-            }
-          },
-          "id": {
-            "type": "string",
-            "example": "pick:tokyo-ramen"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "pick"
-            ]
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "sourceUrl": {
-            "type": "string",
-            "format": "uri"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "sourceMeta": {
-            "$ref": "#/components/schemas/RecordSourceMeta"
-          },
-          "destinationSlug": {
-            "type": "string"
-          },
-          "destinationName": {
-            "type": "string"
-          },
-          "editorialSummary": {
-            "type": "string"
-          },
-          "bestFor": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "relatedPicks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
-            }
-          },
-          "relatedItineraries": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
-            }
-          },
-          "relatedComparisons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
-            }
           }
         }
       },
@@ -1900,12 +1706,6 @@
           },
           "editorialSummary": {
             "type": "string"
-          },
-          "relatedPicks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
-            }
           },
           "relatedComparisons": {
             "type": "array",
@@ -2107,12 +1907,6 @@
             "items": {
               "$ref": "#/components/schemas/RelatedRecordSummary"
             }
-          },
-          "relatedPicks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RelatedRecordSummary"
-            }
           }
         }
       },
@@ -2218,7 +2012,6 @@
             "type": "string",
             "enum": [
               "destination",
-              "pick",
               "itinerary",
               "compare"
             ]
@@ -2247,7 +2040,7 @@
           },
           "sourcePath": {
             "type": "string",
-            "example": "popular-picks/tokyo-ramen/index.html"
+            "example": "destinations/tokyo/index.html"
           },
           "sourceUrl": {
             "type": "string",
@@ -2541,7 +2334,6 @@
             "type": "string",
             "enum": [
               "destination",
-              "pick",
               "place",
               "itinerary",
               "compare"
@@ -3067,10 +2859,6 @@
     {
       "name": "Destinations",
       "description": "6488 travel destinations worldwide"
-    },
-    {
-      "name": "Picks",
-      "description": "Curated 'best of' guides — restaurants, cafes, bars, attractions"
     },
     {
       "name": "Itineraries",

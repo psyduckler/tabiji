@@ -5,7 +5,7 @@ Audit, fix, and enrich Tier 1 compare pages with:
 2. Fix empty og:url
 3. Remove sports quotes
 4. Add sample itineraries (generated from destination knowledge)
-5. Add internal links (compare pages + popular picks)
+5. Add internal links to related compare pages
 
 Usage:
     python3 scripts/enrich-tier1-pages.py
@@ -20,17 +20,12 @@ COMPARE_DIR = REPO / "compare"
 with open('/tmp/tier1_remaining.json') as f:
     TARGET_SLUGS = json.load(f)
 
-# ─── Build index of all compare + popular-picks pages ───
+# ─── Build index of all compare pages ───
 ALL_COMPARES = sorted([
     d for d in os.listdir(COMPARE_DIR)
     if '-vs-' in d and (COMPARE_DIR / d / "index.html").is_file()
 ])
 
-PP_DIR = REPO / "popular-picks"
-ALL_PICKS = sorted([
-    d for d in os.listdir(PP_DIR)
-    if (PP_DIR / d / "index.html").is_file()
-]) if PP_DIR.is_dir() else []
 
 
 def extract_dests(html):
@@ -54,21 +49,6 @@ def find_related_compares(slug, dest1, dest2, limit=6):
     return related[:limit]
 
 
-def find_related_picks(slug, dest1, dest2, limit=8):
-    d1_words = [w for w in dest1.lower().split() if len(w) > 3]
-    d2_words = [w for w in dest2.lower().split() if len(w) > 3]
-    # Also use slug parts
-    d1_slug_words = [w for w in slug.split('-vs-')[0].split('-') if len(w) > 3]
-    d2_slug_words = [w for w in slug.split('-vs-')[1].split('-') if len(w) > 3]
-    all_words = set(d1_words + d2_words + d1_slug_words + d2_slug_words)
-
-    related = []
-    for p in ALL_PICKS:
-        pl = p.lower()
-        if any(w in pl for w in all_words):
-            related.append(p)
-    return related[:limit]
-
 
 def slug_to_title(slug):
     return slug.replace('-', ' ').title().replace(' Vs ', ' vs ')
@@ -84,16 +64,6 @@ def build_itinerary_html(dest1, dest2, slug, deep_dive_headings):
     has_culture = any('culture' in h.lower() or 'history' in h.lower() or 'art' in h.lower() or 'architecture' in h.lower() for h in deep_dive_headings)
     has_nightlife = any('nightlife' in h.lower() or 'entertainment' in h.lower() for h in deep_dive_headings)
 
-    # Find related picks for inline links
-    picks = find_related_picks(slug, dest1, dest2, 4)
-    d1_picks = [p for p in picks if any(w in p for w in dest1.lower().split() if len(w) > 3)]
-    d2_picks = [p for p in picks if any(w in p for w in dest2.lower().split() if len(w) > 3)]
-
-    def pick_link(picks_list, idx=0):
-        if idx < len(picks_list):
-            title = slug_to_title(picks_list[idx])
-            return f' Check out our <a href="/popular-picks/{picks_list[idx]}/">{title}</a> guide.'
-        return ''
 
     # Build activity descriptions based on page content
     d1_activities = []
@@ -103,8 +73,8 @@ def build_itinerary_html(dest1, dest2, slug, deep_dive_headings):
         d1_activities.append(f"Explore the top cultural attractions and historic landmarks of {dest1}.")
         d2_activities.append(f"Visit the key museums, monuments, and cultural sites of {dest2}.")
     if has_food:
-        d1_activities.append(f"Sample local cuisine and signature dishes.{pick_link(d1_picks, 0)}")
-        d2_activities.append(f"Dive into the local food scene and must-try specialties.{pick_link(d2_picks, 0)}")
+        d1_activities.append(f"Sample local cuisine and signature dishes.")
+        d2_activities.append(f"Dive into the local food scene and must-try specialties.")
     if has_beach:
         d1_activities.append(f"Enjoy the best beaches and waterfront areas.")
         d2_activities.append(f"Hit the top beaches and coastal spots.")
@@ -150,14 +120,14 @@ def build_itinerary_html(dest1, dest2, slug, deep_dive_headings):
 <div class="ux-itin-panel" id="itin-2"><div class="ux-itin-card"><h3>Week in {dest1} (7 Days)</h3>
 <div class="ux-itin-day"><span class="day-num">Days 1&ndash;2</span><span class="day-desc">{d1_activities[0]} {d1_activities[1]}</span></div>
 <div class="ux-itin-day"><span class="day-num">Days 3&ndash;4</span><span class="day-desc">{d1_activities[2]} Take a day trip to explore nearby destinations.{both_link}</span></div>
-<div class="ux-itin-day"><span class="day-num">Days 5&ndash;6</span><span class="day-desc">Go deeper into the neighborhoods and local life. Revisit favorite spots and discover areas off the tourist trail.{pick_link(d1_picks, 1)}</span></div>
+<div class="ux-itin-day"><span class="day-num">Days 5&ndash;6</span><span class="day-desc">Go deeper into the neighborhoods and local life. Revisit favorite spots and discover areas off the tourist trail.</span></div>
 <div class="ux-itin-day"><span class="day-num">Day 7</span><span class="day-desc">Final explorations and departure. Pick up any souvenirs and enjoy one last local meal.</span></div>
 <p class="ux-itin-tip">&#128161; A full week lets you move at a relaxed pace and truly get to know {dest1} beyond the highlights.</p>
 </div></div>
 <div class="ux-itin-panel" id="itin-3"><div class="ux-itin-card"><h3>Week in {dest2} (7 Days)</h3>
 <div class="ux-itin-day"><span class="day-num">Days 1&ndash;2</span><span class="day-desc">{d2_activities[0]} {d2_activities[1]}</span></div>
 <div class="ux-itin-day"><span class="day-num">Days 3&ndash;4</span><span class="day-desc">{d2_activities[2]} Venture out on a day trip to a nearby town or natural attraction.</span></div>
-<div class="ux-itin-day"><span class="day-num">Days 5&ndash;6</span><span class="day-desc">Slow down and live like a local. Explore the residential neighborhoods, visit local markets, and find your favorite caf&eacute; or restaurant.{pick_link(d2_picks, 1)}</span></div>
+<div class="ux-itin-day"><span class="day-num">Days 5&ndash;6</span><span class="day-desc">Slow down and live like a local. Explore the residential neighborhoods, visit local markets, and find your favorite caf&eacute; or restaurant.</span></div>
 <div class="ux-itin-day"><span class="day-num">Day 7</span><span class="day-desc">Last-day highlights and departure. Revisit your favorite spot one more time.</span></div>
 <p class="ux-itin-tip">&#128161; With 7 days you can combine {dest2} with nearby destinations for the ultimate trip.</p>
 </div></div>
@@ -179,9 +149,7 @@ document.querySelectorAll('.ux-itin-tab').forEach(function(tab){{
 
 def build_links_html(slug, dest1, dest2):
     related_compares = find_related_compares(slug, dest1, dest2, 6)
-    related_picks = find_related_picks(slug, dest1, dest2, 8)
-
-    if not related_compares and not related_picks:
+    if not related_compares:
         return ''
 
     groups = []
@@ -200,15 +168,12 @@ def build_links_html(slug, dest1, dest2):
         items = ''.join(f'<li><a href="/compare/{c}/">&rarr; {slug_to_title(c)}</a></li>' for c in d2_compares)
         groups.append(f'<h3 style="font-size:0.92rem;margin:0.5rem 0 0.3rem;color:var(--indigo,#2D3A5C)">More {dest2} Comparisons</h3><ul>{items}</ul>')
 
-    if related_picks:
-        items = ''.join(f'<li><a href="/popular-picks/{p}/">&rarr; {slug_to_title(p)}</a></li>' for p in related_picks)
-        groups.append(f'<h3 style="font-size:0.92rem;margin:0.5rem 0 0.3rem;color:var(--indigo,#2D3A5C)">Destination Guides</h3><ul>{items}</ul>')
 
     if not groups:
         return ''
 
     return f'''<div class="ux-related-links">
-<h2>&#128279; Related Guides &amp; Comparisons</h2>
+<h2>&#128279; Related Comparisons</h2>
 {''.join(groups)}
 </div>'''
 

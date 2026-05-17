@@ -12,7 +12,6 @@ Generates:
 All content is auto-discovered by scanning the filesystem:
   - Destinations from api/v1/destinations/*.json
   - Scam guides from scams/research/batch*.json
-  - Popular picks from api/v1/picks/*.json
   - Compare pages from compare/*/index.html
   - Alerts from alerts/{slug}/index.html & api/v1/alerts/*.json
   - Health from health/{slug}/index.html
@@ -385,7 +384,6 @@ _DESTINATIONS_BY_COUNTRY = None
 _DEST_DETAILS_CACHE = None
 _SCAMS_BY_COUNTRY = None
 _SCAM_DIRS_SET = None
-_PICKS_BY_COUNTRY = None
 _COMPARE_DIRS_SET = None
 _DEST_PAGES_SET = None
 
@@ -508,74 +506,6 @@ def _load_scams():
             _SCAMS_BY_COUNTRY.setdefault(canonical, []).extend(_SCAMS_BY_COUNTRY.pop(alias))
 
 
-def _load_picks():
-    """Load picks from api/v1/picks/*.json, grouped by country."""
-    global _PICKS_BY_COUNTRY
-    if _PICKS_BY_COUNTRY is not None:
-        return
-
-    _PICKS_BY_COUNTRY = {}
-    picks_api_dir = os.path.join(BASE_DIR, "api", "v1", "picks")
-    picks_html_dir = os.path.join(BASE_DIR, "popular-picks")
-
-    if not os.path.isdir(picks_api_dir):
-        return
-
-    # Build set of country slugs to filter out hub/index picks
-    _country_slugs = set(slugify(n) for n in COUNTRY_REGISTRY)
-
-    for fn in sorted(os.listdir(picks_api_dir)):
-        if not fn.endswith(".json"):
-            continue
-        slug = fn[:-5]
-        # Skip hub/index picks (e.g., "japan.json" is a country hub, not a city pick)
-        if slug in _country_slugs:
-            continue
-        # Verify the HTML page exists
-        if not os.path.isdir(os.path.join(picks_html_dir, slug)):
-            continue
-
-        fp = os.path.join(picks_api_dir, fn)
-        try:
-            with open(fp) as f:
-                data = json.load(f)
-        except Exception:
-            continue
-
-        city = data.get("city", "").strip()
-        title = data.get("title", "").strip()
-        if not title:
-            title = slug.replace("-", " ").title()
-
-        # Determine country from places
-        country = ""
-        places = data.get("places", [])
-        if isinstance(places, list):
-            for p in places:
-                if isinstance(p, dict) and p.get("country"):
-                    country = p["country"]
-                    break
-
-        if not country and city:
-            # Fallback: look up destination
-            _load_destinations()
-            city_slug = slugify(city)
-            detail = _DEST_DETAILS_CACHE.get(city_slug)
-            if detail:
-                country = detail.get("country", "")
-            else:
-                # Try loading individual
-                dd = _load_dest_details(city_slug)
-                if dd:
-                    country = dd.get("country", "")
-
-        if country:
-            _PICKS_BY_COUNTRY.setdefault(country, []).append({
-                "slug": slug,
-                "title": title,
-            })
-
-
 def _load_compare_dirs():
     """Get the set of all compare directory slugs."""
     global _COMPARE_DIRS_SET
@@ -623,7 +553,6 @@ def get_top_destinations(country_name, limit=12):
     _load_destinations()
     _load_dest_pages()
     _load_scams()
-    _load_picks()
     _load_compare_dirs()
 
     # Build a set of "popular" city slugs — cities that appear in other content
@@ -632,13 +561,6 @@ def get_top_destinations(country_name, limit=12):
     for scams in (_SCAMS_BY_COUNTRY or {}).values():
         for sc in scams:
             popular_slugs.add(sc.get("slug", ""))
-    # Cities with popular picks (extract city slug from pick slug)
-    for picks in (_PICKS_BY_COUNTRY or {}).values():
-        for pk in picks:
-            # Pick slugs often start with city name, e.g. "fukuoka-ramen"
-            parts = pk.get("slug", "").split("-")
-            if parts:
-                popular_slugs.add(parts[0])
     # Cities in comparison slugs
     for entry in (_COMPARE_DIRS_SET or set()):
         for part in entry.split("-vs-"):
@@ -696,12 +618,6 @@ def get_scam_guides(country_name):
     """Get scam guides for a country."""
     _load_scams()
     return _SCAMS_BY_COUNTRY.get(country_name, [])
-
-
-def get_popular_picks(country_name):
-    """Get popular picks for a country."""
-    _load_picks()
-    return _PICKS_BY_COUNTRY.get(country_name, [])
 
 
 def get_comparisons(country_name, country_slug):
@@ -807,9 +723,7 @@ def _get_country_hero_image(country_name, country_slug):
     """Best-effort hero image for a country card.
 
     Prefers destinations that have their own page (major cities) over random
-    alphabetical ones. The popular-picks-hub-data heroImage field is
-    intentionally NOT used — those point at zoomed-in food/venue photos
-    that look awful as country thumbnails.
+    alphabetical ones.
     Returns None if no good source — caller renders a gradient placeholder.
     """
     _load_dest_pages()
@@ -921,7 +835,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
     # Gather all data
     dest_count = get_destination_count(name)
     scams = get_scam_guides(name)
-    picks = get_popular_picks(name)
     comparisons = get_comparisons(name, slug)
     top_dests = get_top_destinations(name, limit=12)
     advisory = get_advisory(name)
@@ -931,7 +844,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
 
     scam_count = len(scams)
     compare_count = len(comparisons)
-    picks_count = len(picks)
 
     # Build subtitle
     subtitle_parts = []
@@ -941,8 +853,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         subtitle_parts.append(pl(scam_count, "scam guide"))
     if compare_count:
         subtitle_parts.append(pl(compare_count, "comparison"))
-    if picks_count:
-        subtitle_parts.append(pl(picks_count, "popular pick"))
     subtitle = " &middot; ".join(subtitle_parts)
     if not subtitle:
         subtitle = continent
@@ -955,8 +865,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         meta_parts.append("scam alerts")
     if health_slug:
         meta_parts.append("health tips")
-    if picks_count:
-        meta_parts.append("curated local picks")
     if advisory:
         meta_parts.append("travel advisory")
     if meta_parts:
@@ -1103,32 +1011,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         </div>
     </section>"""
 
-    # --- Popular Picks ---
-    picks_html = ""
-    if picks:
-        picks_top = picks[:12]
-        picks_cards = ""
-        for pk in picks_top:
-            picks_cards += f"""
-            <a href="/popular-picks/{pk['slug']}/" class="card">
-                <div class="card-body">
-                    <h3 class="card-title">{h(pk['title'])}</h3>
-                </div>
-            </a>"""
-        picks_view_all = ""
-        if picks_count > 12:
-            # Link to country-specific picks hub if it exists, otherwise global
-            picks_hub = f"/popular-picks/{slug}/"
-            if not os.path.isdir(os.path.join(BASE_DIR, "popular-picks", slug)):
-                picks_hub = "/popular-picks/"
-            picks_view_all = f'\n        <div class="view-all-wrap"><a href="{picks_hub}" class="view-all-link">View all {picks_count} popular picks &rarr;</a></div>'
-        picks_html = f"""
-    <section class="section">
-        <h2 class="section-title">Popular Picks</h2>
-        <p class="section-desc">Curated lists of the best restaurants, bars, and experiences \u2014 backed by real reviews.</p>
-        <div class="card-grid">{picks_cards}
-        </div>{picks_view_all}
-    </section>"""
 
     # --- Compare ---
     compare_html = ""
@@ -1190,7 +1072,7 @@ def generate_country_page(name, slug, iso2, flag, continent):
     </section>"""
 
     # --- Robots: noindex thin pages to protect crawl budget ---
-    content_score = scam_count + picks_count + compare_count
+    content_score = scam_count + compare_count
     robots_content = "index, follow"
     if content_score < 3 and dest_count < 20:
         robots_content = "noindex, follow"
@@ -1258,7 +1140,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
 {advisory_html}
 {health_html}
 {scam_html}
-{picks_html}
 {compare_html}
 {dest_html}
 {cta_html}
@@ -1273,7 +1154,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
         "dest_count": dest_count,
         "scam_count": scam_count,
         "compare_count": compare_count,
-        "picks_count": picks_count,
     }
 
 
@@ -1287,11 +1167,10 @@ def generate_index_page(all_countries_data):
     total_dests = sum(c["dest_count"] for c in all_countries_data)
     total_scams = sum(c["scam_count"] for c in all_countries_data)
     total_compares = sum(c["compare_count"] for c in all_countries_data)
-    total_picks = sum(c["picks_count"] for c in all_countries_data)
 
     meta_desc = (
         f"Browse {count} country travel guides — {total_dests:,} destinations, "
-        f"{total_picks:,} popular picks, {total_compares:,} comparisons, and "
+        f"{total_compares:,} comparisons, and "
         f"{total_scams:,} scam alerts. Backed by real Reddit reviews and traveler intel."
     )
 
@@ -1309,7 +1188,6 @@ def generate_index_page(all_countries_data):
     def total_content(c):
         return (
             c["dest_count"] + c["scam_count"] + c["compare_count"]
-            + c["picks_count"]
         )
 
     sorted_countries = sorted(
@@ -1335,10 +1213,6 @@ def generate_index_page(all_countries_data):
             stat_pills.append(
                 f'<span class="stat-pill" title="{pl(c["dest_count"], "destination guide")}">🏙️ {c["dest_count"]}</span>'
             )
-        if c["picks_count"]:
-            stat_pills.append(
-                f'<span class="stat-pill" title="{pl(c["picks_count"], "popular pick")}">📍 {c["picks_count"]}</span>'
-            )
         if c["compare_count"]:
             stat_pills.append(
                 f'<span class="stat-pill" title="{pl(c["compare_count"], "side-by-side comparison")}">🆚 {c["compare_count"]}</span>'
@@ -1363,7 +1237,6 @@ def generate_index_page(all_countries_data):
             f'data-name="{h(c["name"]).lower()}"'
             f' data-total="{total}"'
             f' data-empty="{"1" if is_empty else "0"}"'
-            f' data-has-picks="{"1" if c["picks_count"] else "0"}"'
             f' data-has-scams="{"1" if c["scam_count"] else "0"}"'
             f' data-has-compares="{"1" if c["compare_count"] else "0"}"'
             f' data-advisory="{level}"'
@@ -1566,7 +1439,6 @@ def generate_index_page(all_countries_data):
             <div class="hero-stats">
                 <span>🌍 {count} countries</span>
                 <span>🏙️ {total_dests:,} destinations</span>
-                <span>📍 {total_picks:,} popular picks</span>
                 <span>🆚 {total_compares:,} comparisons</span>
                 <span>🛡️ {total_scams:,} scam guides</span>
             </div>
@@ -1596,7 +1468,6 @@ def generate_index_page(all_countries_data):
             </select>
         </div>
         <div class="filter-chips" id="filterChips">
-            <button type="button" class="filter-chip" data-filter="picks">📍 Has popular picks</button>
             <button type="button" class="filter-chip" data-filter="compares">🆚 Has comparisons</button>
             <button type="button" class="filter-chip" data-filter="scams">🛡️ Has scam guides</button>
             <button type="button" class="filter-chip" data-filter="hide-empty">Hide empty</button>
@@ -1728,7 +1599,7 @@ fetch('https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geo
 // ---------- filter / sort / group state ----------
 const state = {{
     query: '',
-    filters: new Set(),         // 'picks' | 'compares' | 'scams' | 'hide-empty'
+    filters: new Set(),         // 'compares' | 'scams' | 'hide-empty'
     levelFilter: null,          // null | 0..4
     sort: 'content-desc',       // 'content-desc' | 'name-asc' | 'name-desc' | 'advisory-asc' | 'region'
 }};
@@ -1748,7 +1619,6 @@ function applyFilters() {{
         const adv = parseInt(card.dataset.advisory, 10) || 0;
         const matches = (
             (!state.query || name.includes(state.query))
-            && (!state.filters.has('picks') || card.dataset.hasPicks === '1')
             && (!state.filters.has('compares') || card.dataset.hasCompares === '1')
             && (!state.filters.has('scams') || card.dataset.hasScams === '1')
             && (!state.filters.has('hide-empty') || !empty)
@@ -1894,8 +1764,6 @@ def main():
     _load_destinations()
     print("  Loading scams...")
     _load_scams()
-    print("  Loading picks...")
-    _load_picks()
     print("  Loading compare dirs...")
     _load_compare_dirs()
     print("  Loading destination pages...")
@@ -1932,8 +1800,7 @@ def main():
         print(
             f"  {name:25s} -> countries/{slug}/"
             f"  ({stats['dest_count']} dests, {stats['scam_count']} scams, "
-            f"{stats['compare_count']} compares, "
-            f"{stats['picks_count']} picks)"
+            f"{stats['compare_count']} compares)"
         )
 
     # Sort countries for the index by name

@@ -10,7 +10,6 @@ def load_json(rel):
 
 
 def test_public_counts_are_self_consistent():
-    picks = load_json("api/v1/picks.json")
     compare = load_json("api/v1/compare.json")
     search = load_json("api/v1/search-index.json")
     catalog = load_json("api/v1/catalog.json")
@@ -18,19 +17,17 @@ def test_public_counts_are_self_consistent():
     openapi = load_json("api/openapi.json")
     agents = load_json(".well-known/agents.json")
 
-    assert picks["count"] == len(picks["picks"])
-    assert picks["totalPlaces"] == sum(p.get("placeCount", 0) for p in picks["picks"])
     assert compare["count"] == len(compare["comparisons"])
     assert search["count"] == len(search["items"])
     assert catalog["itemCount"] == sum(load_json(f"api/v1/catalog/{i}.json")["itemCount"] for i in range(1, catalog["chunks"] + 1))
 
     stats = index["stats"]
-    assert stats["picksGuides"] == picks["count"]
-    assert stats["totalPlaces"] == picks["totalPlaces"]
+    retired_stats = {"picks" + "Guides", "total" + "Places"}
+    assert stats.keys().isdisjoint(retired_stats)
     assert stats["comparisons"] == compare["count"]
     assert stats["searchDocuments"] == search["count"]
-    assert f'{picks["count"]} curated picks guides' in openapi["info"]["description"]
-    assert f'across {picks["count"]} guides' in agents["skills"][0]["description"]
+    assert "picks" not in openapi["info"]["description"].lower()
+    assert all("picks" not in skill.get("description", "").lower() for skill in agents["skills"])
 
 
 def test_catalog_schema_matches_catalog_index_and_chunks():

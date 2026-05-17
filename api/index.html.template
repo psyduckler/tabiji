@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabiji API — Free Travel Data API | tabiji.ai</title>
-    <meta name="description" content="Free REST API for AI-curated travel data — {{DEST_COUNT}} destinations, {{PLACES_COUNT}} place records across {{PICKS_COUNT}} picks guides, {{ITIN_COUNT}} itineraries, and {{COMPARE_COUNT}} destination comparisons. No API key required.">
+    <meta name="description" content="Free REST API for AI-curated travel data — {{DEST_COUNT}} destinations, {{ITIN_COUNT}} itineraries, and {{COMPARE_COUNT}} destination comparisons. No API key required.">
     <meta property="og:title" content="Tabiji API — Free Travel Data API">
     <meta property="og:description" content="Free REST API for AI-curated travel data. No API key required.">
     <meta property="og:type" content="website">
@@ -359,7 +359,6 @@
                 <a href="/api/">🔌 API</a>
             </div>
         </div>
-        <a href="/popular-picks/">Popular Picks</a>
         <a href="/about/">About</a>
         <a href="/plan" class="cta-nav">Get a Free Itinerary</a>
     </div>
@@ -371,20 +370,12 @@
         <img src="https://img.tabiji.ai/tabiji-owl-logo.png" alt="tabiji owl" class="logo">
         <div class="badge">🆓 No API Key Required</div>
         <h1>tabiji <span>API</span></h1>
-        <p class="tagline">Free REST API for AI-curated travel data — destinations, restaurant picks, itineraries, and more. Built from real traveler discussions on Reddit.</p>
+        <p class="tagline">Free REST API for AI-curated travel data — destinations, itineraries, comparisons, country facts, alerts, scam guides, and more. No API key required.</p>
 
         <div class="stats">
             <div class="stat">
                 <div class="stat-value">{{DEST_COUNT}}</div>
                 <div class="stat-label">Destinations</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">{{PLACES_COUNT}}</div>
-                <div class="stat-label">Places</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">{{PICKS_COUNT}}</div>
-                <div class="stat-label">Picks Guides</div>
             </div>
             <div class="stat">
                 <div class="stat-value">{{ITIN_COUNT}}</div>
@@ -466,47 +457,6 @@
   "travelStyles": ["solo", "photography"],
   "pitch": "Controlled chaos that somehow works perfectly..."
 }</pre>
-            </div>
-        </section>
-
-        <!-- Popular Picks -->
-        <section>
-            <h2>Popular Picks</h2>
-            <p>1,616 curated "best of" guides — restaurants, cafés, bars, attractions — with Google ratings, hours, maps links, "what to order" tips, and real Reddit quotes.</p>
-
-            <div class="endpoint">
-                <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/api/v1/picks.json</span>
-                </div>
-                <p class="endpoint-desc">List all picks guides with summary metadata.</p>
-                <div class="example-label">Try it</div>
-                <a class="example-link" href="https://tabiji.ai/api/v1/picks.json">https://tabiji.ai/api/v1/picks.json</a>
-<pre>{
-  "count": {{PICKS_COUNT_RAW}},
-  "totalPlaces": {{PLACES_COUNT_RAW}},
-  "picks": [
-    {
-      "slug": "amsterdam-brunch",
-      "title": "12 Best Brunch Spots in Amsterdam 2026",
-      "city": "Amsterdam",
-      "category": "Brunch Spots",
-      "placeCount": 12,
-      "url": "https://tabiji.ai/popular-picks/amsterdam-brunch/"
-    },
-    ...
-  ]
-}</pre>
-            </div>
-
-            <div class="endpoint">
-                <div class="endpoint-header">
-                    <span class="method">GET</span>
-                    <span class="endpoint-url">/popular-picks/{slug}/</span>
-                </div>
-                <p class="endpoint-desc">Full picks guide — all places with ratings, hours, contact info, "what to order," Reddit quotes, and insider tips — served as the canonical HTML page. Per-slug JSON endpoints were retired on 2026-04-20; the summary at <code>/api/v1/picks.json</code> links to each HTML page via its <code>url</code> field.</p>
-                <div class="example-label">Try it</div>
-                <a class="example-link" href="https://tabiji.ai/popular-picks/amsterdam-brunch/">https://tabiji.ai/popular-picks/amsterdam-brunch/</a>
             </div>
         </section>
 
@@ -617,7 +567,7 @@
                     <span class="method">GET</span>
                     <span class="endpoint-url">/api/v1/search.json?q={query}</span>
                 </div>
-                <p class="endpoint-desc">Cross-collection search across destinations, picks, itineraries, and comparisons. Optional <code>type</code> filter and <code>limit</code>.</p>
+                <p class="endpoint-desc">Cross-collection search across destinations, itineraries, comparisons, countries, safety profiles, alerts, and scam guides. Optional <code>type</code> filter and <code>limit</code>.</p>
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/search.json?q=tokyo">https://tabiji.ai/api/v1/search.json?q=tokyo</a>
 <pre>{
@@ -721,31 +671,23 @@
                     <span class="method">GET</span>
                     <span class="endpoint-url">/api/v1/catalog.json</span>
                 </div>
-                <p class="endpoint-desc">Unified catalog spanning destinations and picks with normalized tags, good-for signals, freshness, and provenance.</p>
+                <p class="endpoint-desc">Unified catalog metadata for destinations, itineraries, comparisons, countries, safety profiles, alerts, and scam guides.</p>
                 <div class="example-label">Try it</div>
                 <a class="example-link" href="https://tabiji.ai/api/v1/catalog.json">https://tabiji.ai/api/v1/catalog.json</a>
 <pre>{
-  "version": "1.1.0",
-  "generatedAt": "2026-03-19T16:00:00Z",
-  "itemCount": 4000,
-  "items": [
-    {
-      "id": "place:tokyo-cheap-eats:1",
-      "entityType": "place",
-      "name": "Matsuya (松屋)",
-      "city": "Tokyo",
-      "category": "Cheap Eats",
-      "tags": ["food", "late_night"],
-      "priceLevel": "$",
-      "freshness": {
-        "confidence": "mixed",
-        "operationalFieldsMayChange": true
-      },
-      "provenance": {
-        "sources": ["tabiji_editorial", "reddit", "google_places"]
-      }
-    }
-  ]
+  "version": "1.5.0",
+  "schemaVersion": "1.0",
+  "itemCount": 8817,
+  "chunkUrls": ["/api/v1/catalog/1.json"],
+  "shards": {
+    "destinations": "/api/v1/catalog/destinations.json",
+    "itineraries": "/api/v1/catalog/itineraries.json",
+    "comparisons": "/api/v1/catalog/comparisons.json",
+    "countries": "/api/v1/catalog/countries.json",
+    "safety": "/api/v1/catalog/safety.json",
+    "alerts": "/api/v1/catalog/alerts.json",
+    "scams": "/api/v1/catalog/scams.json"
+  }
 }</pre>
             </div>
 
@@ -758,10 +700,9 @@
 <pre>curl -X POST https://tabiji.ai/api/v1/search \
   -H 'Content-Type: application/json' \
   -d '{
-    "query": "quiet coffee shop with good wifi in tokyo",
-    "location": "Tokyo",
-    "entity_types": ["place"],
-    "tags": ["remote_work"],
+    "query": "warm beach destination with easy transit",
+    "entity_types": ["destination"],
+    "tags": ["beach", "easy_transit"],
     "limit": 5
   }'</pre>
             </div>
@@ -771,14 +712,14 @@
                     <span class="method">GET/POST</span>
                     <span class="endpoint-url">/api/v1/filter</span>
                 </div>
-                <p class="endpoint-desc">Deterministic hard constraints for city, entity type, budget band, tags, and open-now state.</p>
+                <p class="endpoint-desc">Deterministic hard constraints for entity type, budget band, region, tags, and travel style.</p>
 <pre>curl -X POST https://tabiji.ai/api/v1/filter \
   -H 'Content-Type: application/json' \
   -d '{
-    "location": "Tokyo",
-    "entity_types": ["place"],
+    "entity_types": ["destination"],
     "budget": ["$", "$$"],
-    "open_now": true,
+    "region": "Asia",
+    "travel_styles": ["solo", "food"],
     "limit": 10
   }'</pre>
             </div>
@@ -792,13 +733,12 @@
 <pre>curl -X POST https://tabiji.ai/api/v1/recommend \
   -H 'Content-Type: application/json' \
   -d '{
-    "intent": "first_night_dinner",
-    "location": "Tokyo",
-    "entity_types": ["place"],
+    "intent": "choose_a_winter_trip",
+    "entity_types": ["destination"],
     "party": { "traveler_type": "couple" },
     "preferences": {
-      "atmosphere": ["local_feeling", "romantic"],
-      "avoid": ["touristy"]
+      "season": ["winter"],
+      "vibes": ["food", "culture"]
     },
     "limit": 5
   }'</pre>
@@ -808,7 +748,7 @@
         <!-- Photo showcase -->
         <section>
             <h2>📸 Photos Included</h2>
-            <p>Every destination and restaurant comes with photos — hosted on our CDN, free to use. No Unsplash API, no attribution headaches.</p>
+            <p>Destination records include photos — hosted on our CDN, free to use. No Unsplash API, no attribution headaches.</p>
 
             <h3 style="margin-top: 24px; color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Destination Photos ({{DEST_COUNT}} destinations)</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0 32px 0;">
@@ -847,38 +787,6 @@
             </div>
             <p style="color: var(--text-muted); font-size: 0.85rem;">Each destination JSON includes a <code style="background:var(--dark);padding:2px 6px;border-radius:4px;">photo</code> field with a direct CDN URL. Use it in your app — no hotlinking restrictions.</p>
 
-            <h3 style="margin-top: 32px; color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">Restaurant & Food Photos (3,600+ places)</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0 24px 0;">
-                <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/paris-croissants/du-pain-et-des-id-es.jpg" alt="Du Pain et des Idées, Paris" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                    <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Du Pain et des Idées — Paris Croissants</span>
-                </div>
-                <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/osaka-takoyaki/wanaka.jpg" alt="Takoyaki Wanaka, Osaka" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                    <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Wanaka — Osaka Takoyaki</span>
-                </div>
-                <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/rome-gelato/torce.jpg" alt="Torcé Gelato, Rome" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                    <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Torcé — Rome Gelato</span>
-                </div>
-                <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/bangkok-rooftop-bars/octave.jpg" alt="Octave Rooftop Bar, Bangkok" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                    <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Octave — Bangkok Rooftop Bars</span>
-                </div>
-                <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/lisbon-pastel-de-nata/pasteis-de-belem.jpg" alt="Pastéis de Belém, Lisbon" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                    <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Pastéis de Belém — Lisbon Pastel de Nata</span>
-                </div>
-                <div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3;">
-                    <img src="https://img.tabiji.ai/popular-picks/kyoto-matcha-desserts/nakamura-tokichi-honten.jpg" alt="Nakamura Tokichi, Kyoto" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
-                    <span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.65);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;">Nakamura Tokichi — Kyoto Matcha</span>
-                </div>
-            </div>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">Every place in a picks guide includes a <code style="background:var(--dark);padding:2px 6px;border-radius:4px;">photo</code> URL — real photos of the actual restaurant or dish, hosted on our CDN.</p>
-
-            <div style="margin-top: 20px; padding: 16px 20px; background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;">
-                <p style="margin: 0; font-size: 0.9rem;"><strong>🆓 Free to use</strong> — all photos are served from <code style="background:var(--dark);padding:2px 6px;border-radius:4px;">img.tabiji.ai</code> with no hotlinking restrictions, no API key, and no attribution required. Use them directly in your app.</p>
-            </div>
         </section>
 
         <!-- Data source info -->
@@ -888,12 +796,8 @@
 
             <div class="data-source">
                 <h3>🗣️ Reddit-Sourced, AI-Curated</h3>
-                <p>Every recommendation in tabiji is sourced from real traveler discussions on Reddit, travel forums, and food blogs. We don't scrape hotel booking sites or regurgitate Tripadvisor — we find what <em>actual travelers</em> recommend to each other.</p>
+                <p>tabiji data is structured for travel planning agents: destinations, day-by-day itineraries, comparisons, country facts, alerts, scam guides, and safety profiles are normalized into stable JSON endpoints.</p>
                 <ul>
-                    <li><strong>Real quotes:</strong> Every pick includes actual Reddit quotes from travelers who've been there</li>
-                    <li><strong>"What to order":</strong> Not just "go here" — we tell you exactly what to eat when you arrive</li>
-                    <li><strong>Google Places enrichment:</strong> Ratings, review counts, opening hours, phone numbers, and direct Google Maps links</li>
-                    <li><strong>Insider tips:</strong> The tabiji verdict — our honest take on each place, including when to skip it</li>
                     <li><strong>Day-by-day itineraries:</strong> Not just lists of places — time-blocked daily plans with transport tips and real logistics</li>
                 </ul>
             </div>

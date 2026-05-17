@@ -95,8 +95,8 @@ document.addEventListener('click', function (event) {
     nav.appendChild(ol);
 
     // Place breadcrumbs immediately before the hero so they sit between the
-    // fixed site nav and the hero on every layout (compare, popular-picks
-    // hub/leaf, scams leaf). Fall back to the top of <main> when no hero
+    // fixed site nav and the hero on every layout (compare pages, book pages,
+    // etc.).
     // is present.
     var hero = document.querySelector('section.hero, header.hero, .hero');
     if (hero && hero.parentNode) {

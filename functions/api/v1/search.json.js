@@ -6,7 +6,7 @@ const JSON_HEADERS = {
   'X-Content-Type-Options': 'nosniff',
 };
 
-const SEARCH_TYPES = new Set(['destination', 'pick', 'itinerary', 'compare', 'country', 'safety', 'alert', 'scam']);
+const SEARCH_TYPES = new Set(['destination', 'itinerary', 'compare', 'country', 'safety', 'alert', 'scam']);
 const TYPE_ALIASES = new Map([['comparison', 'compare'], ['comparisons', 'compare']]);
 
 function jsonResponse(payload, status = 200, cacheControl = 'public, max-age=300') {

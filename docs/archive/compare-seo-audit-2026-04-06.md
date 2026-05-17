@@ -33,7 +33,7 @@ Total addressable search volume: ~1.57M/mo across all pages.
 
 **Fix for all 128 top pages:**
 - Add 2-3 cross-links to related compare pages (e.g., chile-vs-argentina links to peru-vs-argentina, colombia-vs-peru)
-- Add 2-4 links to relevant popular-picks pages (food, activities)
+- Add 2-4 links to relevant travel guides pages (food, activities)
 - Add a "Related Comparisons" section at page bottom with 4-6 links
 - Link from verdict/decision sections to destination guide pages
 
