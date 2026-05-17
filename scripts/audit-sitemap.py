@@ -26,11 +26,15 @@ SITEMAP = REPO / "sitemap.xml"
 SITE = "https://tabiji.ai"
 
 # Directories we never treat as public pages.
+# Kept aligned with EXCLUDE_DIRS in scripts/generate_sitemap.py — drift between
+# the two leaked /media/ and book-*/assets/cover-prototypes/ URLs into the
+# sitemap. Any addition here should be mirrored there (and vice versa).
 NON_PAGE_DIRS = {
     ".git", ".claude", "node_modules",
     "scripts", "api", "functions", ".well-known",
     "compare-data", "scam-data",
-    "itinerary-data", "book-costa-rica",
+    "itinerary-data",
+    "media",
 }
 
 
@@ -47,7 +51,13 @@ def find_live_pages() -> tuple[set[str], set[str]]:
     live: set[str] = set()
     noindex: set[str] = set()
     for root, dirs, files in os.walk(REPO):
-        dirs[:] = [d for d in dirs if d not in NON_PAGE_DIRS and not d.startswith(".")]
+        dirs[:] = [
+            d for d in dirs
+            if d not in NON_PAGE_DIRS
+            and not d.startswith(".")
+            and not d.startswith("book-")
+            and d != "book"
+        ]
         if "index.html" not in files:
             continue
         rel = os.path.relpath(root, REPO)

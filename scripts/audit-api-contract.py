@@ -7,6 +7,7 @@ retired collection fields from coming back during regeneration.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -101,10 +102,39 @@ def assert_retired_tokens_absent() -> None:
         fail("retired token sweep failed:\n" + "\n".join(matches[:50]))
 
 
+# Plain word "picks" should not appear in any openapi description, summary, or
+# example — the previous sweep only caught compound tokens like picks.json /
+# picksGuides and missed prose leaks (e.g. /packs/{slug}.json description) and
+# stale example values (e.g. "pick:tokyo-ramen") during regeneration.
+PICKS_WORD = re.compile(r"\bpicks?\b", re.IGNORECASE)
+PICKS_FIELDS = ("description", "summary", "example")
+
+
+def _scan_for_picks(node: Any, path: str, hits: list[str]) -> None:
+    if isinstance(node, dict):
+        for key, value in node.items():
+            child_path = f"{path}.{key}" if path else key
+            if key in PICKS_FIELDS and isinstance(value, str) and PICKS_WORD.search(value):
+                hits.append(f"{child_path}: {value!r}")
+            _scan_for_picks(value, child_path, hits)
+    elif isinstance(node, list):
+        for i, item in enumerate(node):
+            _scan_for_picks(item, f"{path}[{i}]", hits)
+
+
+def assert_openapi_free_of_picks_prose() -> None:
+    spec = load_json("api/openapi.json")
+    hits: list[str] = []
+    _scan_for_picks(spec, "", hits)
+    if hits:
+        fail("openapi 'picks' word in description/summary/example:\n" + "\n".join(hits[:50]))
+
+
 def main() -> None:
     assert_counts()
     assert_json_loads()
     assert_retired_tokens_absent()
+    assert_openapi_free_of_picks_prose()
     print("api contract audit ok")
 
 
