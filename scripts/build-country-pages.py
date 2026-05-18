@@ -1385,10 +1385,6 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
 </nav>
 <!-- @include:nav:end -->
 
-<div class="breadcrumb">
-    <a href="/">Home</a><span>›</span><a href="/health/">Travel Health</a><span>›</span>__NAME__
-</div>
-
 <main>
 
   <div class="hero">

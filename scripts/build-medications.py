@@ -906,10 +906,6 @@ HUB_TEMPLATE = r"""<!DOCTYPE html>
 </nav>
 <!-- @include:nav:end -->
 
-<div class="breadcrumb">
-    <a href="/">Home</a><span>›</span><a href="/health/">Travel Health</a><span>›</span>Medications
-</div>
-
 <main>
 
   <div class="hero">
@@ -1251,10 +1247,6 @@ TIER1_TEMPLATE = r"""<!DOCTYPE html>
     </div>
 </nav>
 <!-- @include:nav:end -->
-
-<div class="breadcrumb">
-    <a href="/">Home</a><span>›</span><a href="/health/">Travel Health</a><span>›</span><a href="/health/medications/">Medications</a><span>›</span>__NAME__
-</div>
 
 <main>
 

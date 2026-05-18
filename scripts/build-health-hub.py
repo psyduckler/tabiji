@@ -1240,8 +1240,6 @@ HUB_TEMPLATE = r"""<!DOCTYPE html>
 </nav>
 <!-- @include:nav:end -->
 
-<div class="breadcrumb"><a href="/">Home</a><span>›</span>Travel Health</div>
-
 <main>
 
   <div class="hero">

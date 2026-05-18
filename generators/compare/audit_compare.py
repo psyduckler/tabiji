@@ -160,7 +160,10 @@ def audit_page(slug: str, html: str) -> dict:
         "verdict_cards": html.count("verdict-card"),
         "has_year_in_title": bool(re.search(r"202[4-9]", title)),
         "has_verdict_takeaways": "verdict-takeaways" in html,
-        "has_visible_breadcrumb": 'aria-label="Breadcrumb"' in html,
+        # Breadcrumb is rendered client-side by assets/shared-shell.js from the
+        # BreadcrumbList JSON-LD. The schema is the source of truth — if it's
+        # present and well-formed, the visible breadcrumb will render.
+        "has_breadcrumb_schema": '"BreadcrumbList"' in html,
         "has_byline": 'class="page-byline"' in html,
         "has_person_author": ('"@type": "Person"' in html or '"@type":"Person"' in html),
         "has_scorecard": "scorecard" in html,
@@ -263,8 +266,8 @@ def audit_page(slug: str, html: str) -> dict:
     if metrics["section_winners"] < BENCHMARKS["section_winners_min"]:
         issues.append(f"LOW_SECTION_WINNERS({metrics['section_winners']})")
         score -= 25
-    if not metrics["has_visible_breadcrumb"]:
-        issues.append("NO_BREADCRUMB_HTML")
+    if not metrics["has_breadcrumb_schema"]:
+        issues.append("NO_BREADCRUMB_SCHEMA")
         score -= 10
     if metrics["reddit_quote_blocks"] == 0:
         issues.append("NO_REDDIT_QUOTES")
@@ -422,7 +425,7 @@ def print_csv(results: list[dict]) -> None:
         "title_len", "meta_desc_len", "modified_time", "has_og_image",
         "og_image_dest_generic", "reddit_urls_total", "reddit_urls_specific",
         "reddit_urls_generic_pct", "reddit_links_have_rel_ugc",
-        "has_visible_breadcrumb", "has_byline", "has_person_author",
+        "has_breadcrumb_schema", "has_byline", "has_person_author",
         "has_related_block", "has_methodology_box",
         "empty_p", "empty_reddit_quote", "ai_tell_count",
         "currency_symbols_present", "stale_refs",
