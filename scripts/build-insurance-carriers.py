@@ -779,10 +779,6 @@ CARRIER_TEMPLATE = r"""<!DOCTYPE html>
 </nav>
 <!-- @include:nav:end -->
 
-<div class="breadcrumb">
-    <a href="/">Home</a><span>›</span><a href="/health/">Travel Health</a><span>›</span><a href="/health/insurance/">Insurance</a><span>›</span>__NAME__
-</div>
-
 <main>
 
   <div class="hero">

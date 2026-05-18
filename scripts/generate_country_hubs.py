@@ -1123,12 +1123,6 @@ def generate_country_page(name, slug, iso2, flag, continent):
 {nav_html()}
 
 <main>
-    <div class="breadcrumb">
-        <a href="/">Home</a> <span class="sep">/</span>
-        <a href="/countries/">Countries</a> <span class="sep">/</span>
-        <span>{h(name)}</span>
-    </div>
-
     <section class="hero">
         <div class="hero-inner">
             <span class="hero-flag">{flag}</span>

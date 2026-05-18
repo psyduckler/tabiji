@@ -56,13 +56,25 @@ document.addEventListener('click', function (event) {
     if (!main) return;
     var scripts = document.querySelectorAll('script[type="application/ld+json"]');
     var crumbs = null;
+    // Flatten any JSON-LD shape: top-level object, top-level array, or
+    // single object with an @graph array (used by scams/, health/, countries/).
+    function flatten(data) {
+      var out = [];
+      var queue = Array.isArray(data) ? data.slice() : [data];
+      while (queue.length) {
+        var n = queue.shift();
+        if (!n || typeof n !== 'object') continue;
+        out.push(n);
+        if (Array.isArray(n['@graph'])) queue.push.apply(queue, n['@graph']);
+      }
+      return out;
+    }
     for (var i = 0; i < scripts.length; i++) {
       try {
-        var data = JSON.parse(scripts[i].textContent);
-        var blocks = Array.isArray(data) ? data : [data];
-        for (var j = 0; j < blocks.length; j++) {
-          var b = blocks[j];
-          if (b && b['@type'] === 'BreadcrumbList' && Array.isArray(b.itemListElement)) {
+        var nodes = flatten(JSON.parse(scripts[i].textContent));
+        for (var j = 0; j < nodes.length; j++) {
+          var b = nodes[j];
+          if (b['@type'] === 'BreadcrumbList' && Array.isArray(b.itemListElement)) {
             crumbs = b.itemListElement.slice().sort(function (a, c) {
               return (a.position || 0) - (c.position || 0);
             });

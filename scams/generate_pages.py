@@ -8561,10 +8561,6 @@ def generate_page(city_data, related_cities_map):
 <body class="editorial-v2">
 {NAV_HTML}
 
-<div class="breadcrumb">
-    <a href="/">Home</a><span>›</span><a href="/scams/">Scams</a><span>›</span>{city}
-</div>
-
 <main>
 <div class="hero">
     <div class="hero-badge">🚨 Scam Guide · 2026</div>
@@ -9215,10 +9211,6 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
 </head>
 <body class="editorial-v2">
 {NAV_HTML}
-
-<div class="breadcrumb" role="navigation" aria-label="Breadcrumb">
-    <a href="/">Home</a><span>&rsaquo;</span><a href="/scams/">Scams</a><span>&rsaquo;</span>{country}
-</div>
 
 <header class="page-hero">
     <div class="page-hero-inner">
