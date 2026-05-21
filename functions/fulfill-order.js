@@ -298,7 +298,7 @@ function _doFulfill(order, itineraryData, _orderId) {
     execSync(`sleep ${POLL_INTERVAL_MS / 1000}`);
   }
   if (!urlLive) {
-    throw new Error(`URL ${url} did not return 200 after ${MAX_POLL_SECONDS}s. Itinerary deployed but NOT emailed — verify manually and resend.`);
+    throw new Error(`URL ${url} did not return 200 after ${MAX_POLL_SECONDS}s. Itinerary deployed but NOT emailed — verify manually and send.`);
   }
 
   // Generate deploy token — this is the ONLY way send-email.sh will allow sending
@@ -315,7 +315,7 @@ function _doFulfill(order, itineraryData, _orderId) {
   }, null, 2));
   console.log(`🔑 Deploy token written: ${tokenFile}`);
 
-  // Send email via Resend (hello@tabiji.ai) — NEVER use gog gmail send
+  // Send itinerary email via Gmail (psyduckler@gmail.com) after live-page verification.
   let emailSent = false;
   if (order.email) {
     const generateEmailText = require('./email-template');

@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = 8787;
-const ORDERS_DIR = path.join(__dirname, 'orders');
+const REPO_ROOT = path.resolve(__dirname, '..');
+const ORDERS_DIR = path.join(REPO_ROOT, 'orders');
 const PENDING_FILE = path.join(ORDERS_DIR, 'pending.json');
 
 // Save order to pending.json
