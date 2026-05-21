@@ -317,6 +317,7 @@ function _doFulfill(order, itineraryData, _orderId) {
 
   // Send itinerary email via Gmail (psyduckler@gmail.com) after live-page verification.
   let emailSent = false;
+  let emailError = '';
   if (order.email) {
     const generateEmailText = require('./email-template');
     const emailBody = generateEmailText({
@@ -341,6 +342,7 @@ function _doFulfill(order, itineraryData, _orderId) {
       console.log('Email sent:', result.toString());
       emailSent = true;
     } catch (err) {
+      emailError = err.stderr ? err.stderr.toString() : err.message;
       console.error('❌ EMAIL SEND FAILED:', err.message);
       if (err.stderr) console.error('stderr:', err.stderr.toString());
       console.error('⚠️ Itinerary is live at', url, '— send email manually via send-email.sh');
@@ -360,6 +362,10 @@ function _doFulfill(order, itineraryData, _orderId) {
       match.slug = slug;
       match.itinerary_url = url;
       match.url = url;
+      match.emailSent = emailSent;
+      match.emailStatus = emailSent ? 'sent' : 'failed';
+      if (emailSent) match.emailSentAt = new Date().toISOString();
+      if (!emailSent && emailError) match.emailError = emailError.slice(0, 1000);
 
       // Remove from pending array
       const remaining = pending.filter((_, i) => i !== matchIdx);
