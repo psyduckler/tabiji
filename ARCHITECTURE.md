@@ -78,7 +78,7 @@ Free itinerary request → orders/pending.json → Psy claims order →
     3. day-photos.js (hero image via AI)
     4. git add + commit + push
     5. Poll Cloudflare until page returns 200 (wait-for-deploy.sh)
-    6. send-email.sh (Resend, from hello@tabiji.ai)
+    6. send-email.sh (Gmail, from psyduckler@gmail.com)
     7. Move order from pending.json → fulfilled.json
 ```
 
@@ -116,7 +116,7 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | **Frontend** | Static HTML (no framework) | Self-contained `index.html` pages with inline CSS/JS |
 | **Hosting** | Cloudflare Pages | Auto-deploys from `main` branch, edge-served globally |
 | **Media Storage** | Cloudflare R2 | All images at `https://img.tabiji.ai/`, no images in git |
-| **Email (outbound)** | Resend (hello@tabiji.ai) | Via `functions/send-email.sh` |
+| **Email (outbound)** | Gmail (psyduckler@gmail.com) | Via `functions/send-email.sh` |
 | **AI Agent** | Psy (OpenClaw) | Generates content, fulfills orders, manages SEO |
 | **Maps** | Google Maps Embed API | Key: `AIzaSy...ASYc` |
 | **API** | Static JSON (`/api/v1/`) | Pre-built by `api/build-api.py`, zero runtime cost |
@@ -214,7 +214,7 @@ tabiji/
 | `generate-itinerary-html.js` | Generates HTML for paid itineraries |
 | `generate-slug.js` | Creates unique URL slugs |
 | `day-photos.js` | Generates hero images via AI |
-| `send-email.sh` | Sends delivery email via Resend |
+| `send-email.sh` | Sends delivery email via Gmail |
 | `wait-for-deploy.sh` | Polls Cloudflare until page is live |
 | `email-template.js` | Email formatting |
 
