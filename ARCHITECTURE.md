@@ -116,7 +116,7 @@ On Feb 18, 2026, a sub-agent fulfilled the Lima Peru order by manually pushing +
 | **Frontend** | Static HTML (no framework) | Self-contained `index.html` pages with inline CSS/JS |
 | **Hosting** | Cloudflare Pages | Auto-deploys from `main` branch, edge-served globally |
 | **Media Storage** | Cloudflare R2 | All images at `https://img.tabiji.ai/`, no images in git |
-| **Email (outbound)** | Gmail (psyduckler@gmail.com) | Via `functions/send-email.sh` |
+| **Email (outbound)** | Gmail + Resend | Itinerary delivery: Gmail (`psyduckler@gmail.com`) via `functions/send-email.sh`. Media-inquiry forwarding: Resend (`hello@tabiji.ai`) via `functions/api/media-inquiry.js` (Cloudflare Function — can't reach host `gws`). |
 | **AI Agent** | Psy (OpenClaw) | Generates content, fulfills orders, manages SEO |
 | **Maps** | Google Maps Embed API | Key: `AIzaSy...ASYc` |
 | **API** | Static JSON (`/api/v1/`) | Pre-built by `api/build-api.py`, zero runtime cost |
@@ -338,7 +338,8 @@ Compare pages are generated in batches via queue files and generator scripts in 
 
 ### Environment & Secrets
 ```
-RESEND_API_KEY           → macOS Keychain
+gws auth                 → host login for psyduckler@gmail.com (itinerary delivery via functions/send-email.sh)
+RESEND_API_KEY           → macOS Keychain (used by functions/api/media-inquiry.js only; not the itinerary path)
 CLOUDFLARE_PAGES_TOKEN   → macOS Keychain (cloudflare-pages-token)
 R2_BUCKET                → tabiji-media (account: 9ce95ed3e1df4a7e1d2a401e116c3c6f)
 ```
