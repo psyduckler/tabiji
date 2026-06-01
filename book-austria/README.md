@@ -41,6 +41,18 @@ Paste into the KDP **Description** field. 3,815 characters (KDP limit 4,000). KD
 
 <!-- END KDP DESCRIPTION -->
 
+## Amazon KDP keywords (7 slots, ≤50 chars each)
+
+Paste one per slot. Don't repeat title/subtitle/category words — Amazon penalizes redundancy.
+
+1. `vienna salzburg first time visitor safety`  _(41 chars)_
+2. `avoid getting ripped off in austria`  _(35 chars)_
+3. `dynamic currency conversion atm warning`  _(39 chars)_
+4. `austria emergency phrases phone numbers 2026`  _(44 chars)_
+5. `solo female traveler austria safety guide`  _(41 chars)_
+6. `airport taxi black taxi overcharge prevention`  _(45 chars)_
+7. `hallstatt wachau danube cruise day trip trap`  _(44 chars)_
+
 ---
 
 # Book generator — Tabiji Travel Safety Series
