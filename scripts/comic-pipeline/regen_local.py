@@ -33,7 +33,7 @@ from generate import (  # noqa: E402
 from synthesize import synthesize_prompt  # noqa: E402
 
 
-def regen_one(country: str, city: str, n: int, out_path: Path) -> dict:
+def regen_one(country: str, city: str, n: int, out_path: Path, avoid: str = "") -> dict:
     scams = {s["n"]: s for s in extract_scams(city)}
     if n not in scams:
         return {"city": city, "n": n, "status": "error",
@@ -45,6 +45,13 @@ def regen_one(country: str, city: str, n: int, out_path: Path) -> dict:
     except Exception as e:
         return {"city": city, "n": n, "status": "error", "note": f"synthesize: {e}",
                 "title": scam["title"]}
+    # Per-comic override: explicitly neutralize the specific defect that made
+    # earlier attempts fail (a garbled prop, a trademark the scam is about, etc.).
+    if avoid:
+        body["prompt"] += (
+            "\n\nCRITICAL — FIX THESE SPECIFIC DEFECTS that ruined previous versions of this "
+            f"exact comic (highest priority, overrides scene detail): {avoid}"
+        )
     char = body.get("_character", "?")
 
     # Pass 1: /edit (style-locked via country pilot). Pass 2: /text-to-image.
@@ -78,10 +85,11 @@ def main() -> None:
     ap.add_argument("city", help="city slug, e.g. atlanta")
     ap.add_argument("n", type=int, help="scam number")
     ap.add_argument("--out", default=None, help="output path (default /tmp/us-regen/<city>_scam-<n>.jpg)")
+    ap.add_argument("--avoid", default="", help="per-comic defect to neutralize (appended to the NBP prompt)")
     a = ap.parse_args()
     out = Path(a.out) if a.out else Path(f"/tmp/us-regen/{a.city}_scam-{a.n}.jpg")
     out.parent.mkdir(parents=True, exist_ok=True)
-    res = regen_one(a.country, a.city, a.n, out)
+    res = regen_one(a.country, a.city, a.n, out, a.avoid)
     print(json.dumps(res))
     sys.exit(0 if res.get("status") == "ok" else 1)
 

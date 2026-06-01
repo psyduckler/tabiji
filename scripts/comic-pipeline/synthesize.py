@@ -235,7 +235,12 @@ def build_full_prompt(country: str, scene: dict) -> str:
         "line as a plain horizontal rule or blank surface — never fine print, never multi-line "
         "word lists. Every number must be a concrete value, never a placeholder ('X', '$3X.00', "
         "'HUGE PRICE', '[name]'). Never duplicate or repeat a word, line, or speech balloon, and "
-        "do not add time-transition captions like 'Later' or 'Hours later'."
+        "do not add time-transition captions like 'Later' or 'Hours later'. "
+        "Strongly prefer TEXT-FREE props: draw receipts, menus, phone screens, ID badges, "
+        "clothing, and background signs blank or with at most ONE short, large, cleanly-lettered "
+        "key value (a single price or domain) — never list rows, never fine print. If you cannot "
+        "render a word cleanly and correctly, omit it entirely; the scam's details belong in the "
+        "white speech balloons, not on props."
     )
     # Intellectual-property contract — keeps real trademarks/characters out of a
     # commercial print product (the Disney castle + Goofy, Warner Bros, Gucci,
