@@ -72,20 +72,18 @@ and `desc.body` free of all of that (China/Japan are already clean).
 ## Art
 
 Comics and the owl are **not committed** (repo policy: binary media lives on Cloudflare
-R2 / img.tabiji.ai). `stage-art.mjs` fetches them into `templates/assets/source/` on
-build — `generate.mjs <slug>` calls it automatically, or run `node stage-art.mjs <slug>`
-yourself. To add a book, add its comic URLs to the `ART` map in `stage-art.mjs`.
+R2 / img.tabiji.ai). `build_all.py` fetches each book's art into `templates/assets/source/`
+from the comic URLs in its spec — nothing to maintain separately.
 
 ## Files
 
 ```
 build_all.py              batch: spec → stage art → render → Desktop folder (needs Pillow)
-generate.mjs              exact-size exporter (Playwright + sharp); low-level renderer
-stage-art.mjs             fetches comics + owl from img.tabiji.ai (CDN); ART map per book
+generate.mjs              low-level renderer (Playwright + sharp); renders templates/data.jsx
 books/specs/<slug>.json   ★ the spec — source of truth (copy + comic URLs + accent + stats)
 templates/
   export.html export.jsx  the 5 modules as exact-size export tiles
-  data.<slug>.jsx         GENERATED from the spec by build_all.py (gitignored)
+  data.jsx                GENERATED per book by build_all.py (gitignored)
   assets/source/*         staged from the CDN on build (gitignored)
-out/<slug>/*.png          rendered assets (gitignored)
+out/*.png                 rendered assets (gitignored)
 ```

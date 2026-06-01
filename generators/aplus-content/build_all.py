@@ -54,10 +54,6 @@ def fetch(url, dest):
     dest.write_bytes(urllib.request.urlopen(req, timeout=30).read())
 
 
-def filename_for(url):
-    return re.sub(r"[?].*$", "", url).rsplit("/", 2)  # not used directly; kept simple below
-
-
 def stage(spec):
     SRC.mkdir(parents=True, exist_ok=True)
     s = spec["slug"]
@@ -186,18 +182,52 @@ def assemble(spec):
     return dest
 
 
-def compliance_ok(spec):
-    blob = " ".join(spec["desc"]["body"]) + " " + " ".join(spec["desc"]["badges"]) + " " + \
-        spec["desc"]["price"] + " " + spec["headerBody"] + " " + " ".join(q["tl"] for q in spec["quad"])
-    hits = {k: re.findall(p, blob, re.I) for k, p in FORBIDDEN.items()}
-    return {k: v for k, v in hits.items() if v}
+def _strings(o):
+    if isinstance(o, str):
+        yield o
+    elif isinstance(o, dict):
+        for k, v in o.items():
+            if not k.startswith("_"):  # skip meta fields (e.g. _comment) — never rendered
+                yield from _strings(v)
+    elif isinstance(o, list):
+        for v in o:
+            yield from _strings(v)
+
+
+def validate(spec):
+    """Structural + A+-compliance gate. Returns a list of problems ([] == ok)."""
+    p = []
+    for k in ("slug", "country", "scams", "cities", "accent", "stamp3", "sourcesLine",
+              "hero", "headerBody", "quadHead", "quad", "inside", "desc"):
+        if k not in spec:
+            p.append(f"missing '{k}'")
+    if not all(k in spec.get("accent", {}) for k in ("terra", "terraDeep", "wash")):
+        p.append("accent needs terra/terraDeep/wash")
+    if len(spec.get("quad", [])) != 4:
+        p.append("quad must have 4 tiles")
+    ins = spec.get("inside", {})
+    if len(ins.get("items", [])) != 6:
+        p.append("inside.items must have 6")
+    if len(ins.get("phrases", [])) != 3:
+        p.append("inside.phrases must have 3")
+    if any(len(it) != 2 for it in ins.get("items", [])):
+        p.append("each item must be [title, sub]")
+    if any(len(ph) != 3 for ph in ins.get("phrases", [])):
+        p.append("each phrase must be [phrase, script, gloss]")
+    # A+ compliance: scan EVERY string — anything baked into an image must be clean
+    blob = " ".join(_strings(spec))
+    for k, pat in FORBIDDEN.items():
+        hit = re.findall(pat, blob, re.I)
+        if hit:
+            p.append(f"A+ forbidden [{k}]: {hit[:3]}")
+    return p
 
 
 def build(slug):
     spec = json.loads((SPECS / f"{slug}.json").read_text(encoding="utf-8"))
-    bad = compliance_ok(spec)
-    if bad:
-        print(f"  ⚠ {slug}: A+ compliance flags {bad} — skipping (fix the spec)")
+    problems = validate(spec)
+    if problems:
+        print(f"  ⚠ {slug}: skipped — {'; '.join(problems)}")
         return None
     files = stage(spec)
     (TPL / f"data.{slug}.jsx").write_text(data_jsx(spec, files), encoding="utf-8")
