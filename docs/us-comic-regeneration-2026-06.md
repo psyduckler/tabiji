@@ -47,7 +47,11 @@ anaheim/5, asheville/3, atlanta/2, austin/7, branson/1, charleston/6, chicago/4,
 
 Recommendation for the deferred set: hand-edit (paint out the logo/character/banner) or use region inpainting — full-image regeneration won't reliably avoid IP the scam is intrinsically about, nor settle dense prop text.
 
-## Follow-ups (not in this PR)
+## Deployed
 
-- **R2 push + cachebust** of the 27 staged comics — **blocked on the `cloudflare-r2-secret-access-key`** (S3 PutObject returns `SignatureDoesNotMatch`; access-key-id is recognized, secret is stale/mismatched). Once fixed: `r2_push_comic.py` each, then `cachebust.py` the pages.
+- **R2 push + cachebust — DONE.** All 27 fixed comics pushed to R2 (2048px `.jpg` + 1024px `.webp`); the 22 pages cache-busted (`?v=` bump) in this PR; verified live from `img.tabiji.ai`. The stale `cloudflare-r2-secret-access-key` was bypassed by deriving S3 creds from a Cloudflare API token (access-key-id = token id via `/user/tokens/verify`; secret = `sha256(token value)`). The token is R2-scoped (no cache-purge), so the bare `.jpg` masters used by the book build refresh on CDN TTL; the live site is fresh now via `?v=`.
+
+## Remaining follow-ups (not in this PR)
+
+- **15 deferred comics** still serve their original defective versions live (garbled prop-text; a few copyrighted characters/logos) — need hand-edit/inpainting per the table above.
 - **savannah + st-louis content desync** — page HTML and `api/v1` JSON disagree on the scam list (different scams; HTML shows fewer). 6 "wrong-scam" audit findings stem from this, and savannah/5–6 + st-louis/5 are orphan comics not referenced on the live pages. Needs a content reconciliation decision, not a comic fix — **excluded from this regeneration.**
