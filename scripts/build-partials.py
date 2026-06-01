@@ -63,6 +63,11 @@ def _eligible(path: Path) -> bool:
     # have their own minimal layout with no nav/footer.
     if "cover-prototypes" in path.parts:
         return False
+    # Amazon A+ content export templates are internal export scaffolding, not
+    # served site pages — they ship their own minimal layout with no nav/footer
+    # and must not receive the shared site chrome.
+    if "aplus-content" in path.parts:
+        return False
     return True
 
 
