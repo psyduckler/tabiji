@@ -41,10 +41,10 @@ function XHeader() {
         </div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, margin: '18px 0 9px' }}>
           <span style={{ fontFamily: t.serif, fontSize: 32, color: t.terra, lineHeight: 1 }}>{C.stat.scams}</span>
-          <span style={{ fontSize: 13, color: t.sub }}>documented scams</span>
+          <span style={{ fontSize: 13, color: t.sub }}>{C.stat.scamsLabel || 'documented scams'}</span>
           <span style={{ color: t.line }}>·</span>
           <span style={{ fontFamily: t.serif, fontSize: 32, color: t.terra, lineHeight: 1 }}>{C.stat.cities}</span>
-          <span style={{ fontSize: 13, color: t.sub }}>cities</span>
+          <span style={{ fontSize: 13, color: t.sub }}>{C.stat.unit || 'cities'}</span>
         </div>
         <div style={{ fontFamily: t.mono, fontSize: 9.5, letterSpacing: '.05em', color: t.onPageSub }}>{C.stat.sourcesLine}</div>
       </div>
@@ -114,7 +114,7 @@ function XDesc() {
     <div style={{ width: 970, height: 300, background: t.surface, border: `1px solid ${t.line}`, padding: '20px 30px', boxSizing: 'border-box', fontFamily: t.sans, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 11 }}>
         <div style={{ width: 42, height: 42, flex: '0 0 auto' }}><XImg src={IMG.owl} fit="contain" alt="tabiji owl" /></div>
-        <div style={{ fontFamily: t.serif, fontSize: 26, color: t.ink, lineHeight: 1, letterSpacing: '-.015em' }}>Read it on the flight over.</div>
+        <div style={{ fontFamily: t.serif, fontSize: 26, color: t.ink, lineHeight: 1, letterSpacing: '-.015em' }}>{d.headline || 'Read it on the flight over.'}</div>
         <div style={{ flex: 1 }} />
         <div style={{ fontFamily: t.mono, fontSize: 10, letterSpacing: '.08em', color: t.terra, whiteSpace: 'nowrap' }}>{d.price}</div>
       </div>
@@ -134,15 +134,126 @@ function XDesc() {
   );
 }
 
+/* ===== FIELD-GUIDE layout (comic-less; medical books) ===== */
+/* ② hero — title + hook + stat row, with a "safety pause" panel where the comic would be */
+function XHeroFG() {
+  const h = C.hero;
+  return (
+    <div style={{ width: 970, height: 300, display: 'flex', background: t.surface, border: `1px solid ${t.line}`, boxSizing: 'border-box' }}>
+      <div style={{ flex: 1, padding: '28px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ fontFamily: t.mono, fontSize: 11, letterSpacing: '.18em', color: t.terra, marginBottom: 13 }}>{h.eyebrow}</div>
+        <div style={{ fontFamily: t.serif, fontSize: 39, lineHeight: 1.05, color: t.ink, letterSpacing: '-.015em' }}>
+          {h.title.map((l, i) => <div key={i}>{l}</div>)}
+        </div>
+        <div style={{ fontFamily: t.sans, fontSize: 14, lineHeight: 1.4, color: t.sub, margin: '13px 0', maxWidth: 540 }}>{h.hook}</div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 9 }}>
+          <span style={{ fontFamily: t.serif, fontSize: 30, color: t.terra, lineHeight: 1 }}>{h.statA}</span>
+          <span style={{ fontSize: 12.5, color: t.sub }}>{h.statALabel}</span>
+          <span style={{ color: t.line }}>·</span>
+          <span style={{ fontFamily: t.serif, fontSize: 30, color: t.terra, lineHeight: 1 }}>{h.statB}</span>
+          <span style={{ fontSize: 12.5, color: t.sub }}>{h.statBLabel}</span>
+        </div>
+      </div>
+      <div style={{ flex: '0 0 312px', borderLeft: `1px solid ${t.line}`, background: t.wash, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, boxSizing: 'border-box' }}>
+        <div style={{ textAlign: 'center', border: `2px solid ${t.terra}`, borderRadius: 10, padding: '22px 18px', background: t.surface }}>
+          <div style={{ fontFamily: t.mono, fontSize: 11, letterSpacing: '.2em', color: t.sub }}>{h.pauseTitle}</div>
+          <div style={{ fontFamily: t.serif, fontSize: 29, color: t.terra, lineHeight: 1.05, margin: '4px 0 8px' }}>{h.pauseSub}</div>
+          <div style={{ width: 36, height: 2, background: t.terra, margin: '0 auto 10px' }} />
+          <div style={{ fontFamily: t.sans, fontSize: 11.5, lineHeight: 1.4, color: t.sub, maxWidth: 200 }}>{h.pauseLine}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+/* ③ tile — a buyer-protection move (number + verb + line) on the deep accent */
+function XTileFG({ m }) {
+  return (
+    <div style={{ width: 300, height: 300, background: t.terraDeep, boxSizing: 'border-box', padding: '26px 24px', display: 'flex', flexDirection: 'column', color: '#fff', fontFamily: t.sans }}>
+      <div style={{ fontFamily: t.serif, fontSize: 46, lineHeight: 1, color: t.wash }}>{m.n}</div>
+      <div style={{ fontFamily: t.mono, fontSize: 15, letterSpacing: '.18em', marginTop: 14 }}>{m.verb}</div>
+      <div style={{ width: 30, height: 2, background: 'rgba(255,255,255,.45)', margin: '12px 0' }} />
+      <div style={{ fontSize: 13.5, lineHeight: 1.5, color: 'rgba(255,255,255,.92)' }}>{m.line}</div>
+    </div>
+  );
+}
+/* ④ native (300²) — the framework card */
+function XFrameworkCard() {
+  const ins = C.inside;
+  return (
+    <div style={{ width: 300, height: 300, background: t.terraDeep, boxSizing: 'border-box', padding: '24px 22px', color: '#fff', fontFamily: t.sans }}>
+      <div style={{ fontFamily: t.mono, fontSize: 11, letterSpacing: '.2em', color: t.wash }}>{ins.frameworkTitle}</div>
+      <div style={{ width: 30, height: 2, background: 'rgba(255,255,255,.45)', margin: '12px 0 14px' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+        {ins.framework.map((f, i) => (
+          <div key={i} style={{ display: 'flex', gap: 9, alignItems: 'baseline' }}>
+            <span style={{ fontFamily: t.serif, fontSize: 15, color: t.wash }}>{i + 1}</span>
+            <span style={{ fontSize: 13, lineHeight: 1.25 }}>{f}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+/* ④ full (970×300) — framework panel + value items + green/yellow/red flag chips */
+function XInsideFG() {
+  const ins = C.inside;
+  return (
+    <div style={{ width: 970, height: 300, background: t.surface, border: `1px solid ${t.line}`, padding: '18px 26px', display: 'flex', gap: 24, boxSizing: 'border-box', fontFamily: t.sans, overflow: 'hidden' }}>
+      <div style={{ flex: '0 0 230px', background: t.terraDeep, color: '#fff', padding: '18px', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ fontFamily: t.mono, fontSize: 10.5, letterSpacing: '.18em', color: t.wash }}>{ins.frameworkTitle}</div>
+        <div style={{ width: 28, height: 2, background: 'rgba(255,255,255,.45)', margin: '10px 0 12px' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {ins.framework.map((f, i) => (
+            <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
+              <span style={{ fontFamily: t.serif, fontSize: 14, color: t.wash }}>{i + 1}</span>
+              <span style={{ fontSize: 12, lineHeight: 1.25 }}>{f}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: t.mono, fontSize: 10, letterSpacing: '.2em', color: t.terra, marginBottom: 7 }}>INSIDE THE FIELD GUIDE</div>
+        <div style={{ fontFamily: t.serif, fontSize: 20, lineHeight: 1.12, color: t.ink, letterSpacing: '-.01em' }}>{ins.head}</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 20px', marginTop: 10 }}>
+          {ins.items.map(([title, sub], i) => (
+            <div key={i} style={{ display: 'flex', gap: 8 }}>
+              <span style={{ flex: '0 0 auto', marginTop: 1, width: 15, height: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', background: t.terra, fontSize: 10, borderRadius: 3 }}>✓</span>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 11.5, color: t.ink, lineHeight: 1.15, whiteSpace: 'nowrap' }}>{title}</div>
+                <div style={{ fontSize: 10, color: t.sub, marginTop: 1, lineHeight: 1.3 }}>{sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 7, marginTop: 11 }}>
+          {ins.flags.map((fl, i) => {
+            const col = ['#3F7D4E', '#C8902A', '#B23A2E'][i];
+            return (
+              <div key={i} style={{ flex: 1, padding: '6px 9px', border: `1px solid ${t.line}`, background: t.surfaceAlt, display: 'flex', alignItems: 'center', gap: 7 }}>
+                <span style={{ flex: '0 0 auto', width: 9, height: 9, borderRadius: '50%', background: col }} />
+                <div>
+                  <div style={{ fontFamily: t.mono, fontSize: 9, letterSpacing: '.08em', color: col, fontWeight: 700 }}>{fl[0]}</div>
+                  <div style={{ fontSize: 10.5, color: t.sub, lineHeight: 1.2 }}>{fl[1]}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const FG = C.layout === 'field-guide';
 const ASSETS = {
   logo:   { w: 600, h: 180, el: <XLogo /> },
-  header: { w: 970, h: 300, el: <XHeader /> },
-  q0:     { w: 300, h: 300, el: <XTile src={C.quad[0].img} alt={C.quad[0].title} /> },
-  q1:     { w: 300, h: 300, el: <XTile src={C.quad[1].img} alt={C.quad[1].title} /> },
-  q2:     { w: 300, h: 300, el: <XTile src={C.quad[2].img} alt={C.quad[2].title} /> },
-  q3:     { w: 300, h: 300, el: <XTile src={C.quad[3].img} alt={C.quad[3].title} /> },
-  ma:     { w: 300, h: 300, el: <XTile src={IMG.shanghai1} alt="inside scam comic" /> },
-  inside: { w: 970, h: 300, el: <XInside /> },
+  header: { w: 970, h: 300, el: FG ? <XHeroFG /> : <XHeader /> },
+  q0:     { w: 300, h: 300, el: FG ? <XTileFG m={C.moves[0]} /> : <XTile src={C.quad[0].img} alt={C.quad[0].title} /> },
+  q1:     { w: 300, h: 300, el: FG ? <XTileFG m={C.moves[1]} /> : <XTile src={C.quad[1].img} alt={C.quad[1].title} /> },
+  q2:     { w: 300, h: 300, el: FG ? <XTileFG m={C.moves[2]} /> : <XTile src={C.quad[2].img} alt={C.quad[2].title} /> },
+  q3:     { w: 300, h: 300, el: FG ? <XTileFG m={C.moves[3]} /> : <XTile src={C.quad[3].img} alt={C.quad[3].title} /> },
+  ma:     { w: 300, h: 300, el: FG ? <XFrameworkCard /> : <XTile src={IMG.shanghai1} alt="inside scam comic" /> },
+  inside: { w: 970, h: 300, el: FG ? <XInsideFG /> : <XInside /> },
   desc:   { w: 970, h: 300, el: <XDesc /> },
 };
 
@@ -158,7 +269,7 @@ function ExportApp() {
     let stop = false;
     const iv = setInterval(async () => {
       const imgs = [...document.querySelectorAll('img')];
-      if (imgs.length && imgs.every((i) => i.complete && i.naturalWidth > 0)) {
+      if (imgs.every((i) => i.complete && i.naturalWidth > 0)) {  // [].every() === true → zero-image (field-guide) modules pass after fonts
         clearInterval(iv);
         try { await document.fonts.ready; } catch (e) {}
         if (!stop) setTimeout(() => { document.title = 'READY'; window.__ready = true; }, 400);

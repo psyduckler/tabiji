@@ -58,6 +58,8 @@ def stage(spec):
     SRC.mkdir(parents=True, exist_ok=True)
     s = spec["slug"]
     fetch("https://img.tabiji.ai/tabiji-owl-logo.png", SRC / "owl.png")
+    if spec.get("layout") == "field-guide":
+        return {}  # comic-less layout — only the owl is needed
     files = {}  # role → local filename
     def grab(role, url):
         fn = f"{s}-{role}.webp"
@@ -71,6 +73,24 @@ def stage(spec):
 
 
 def data_jsx(spec, files):
+    THEMES = {"A": {**BASE_THEME, **{k: spec["accent"][k] for k in ("terra", "terraDeep", "wash")}}}
+    j = lambda o: json.dumps(o, ensure_ascii=False, indent=2)
+    wrap = lambda IMG, C: (f"/* GENERATED for {spec['country']} by build_all.py — edit the spec, not this file. */\n"
+                           f"const IMG = {j(IMG)};\nconst C = {j(C)};\nconst THEMES = {j(THEMES)};\n"
+                           f"window.TABIJI = {{ IMG, C, THEMES }};\n")
+    if spec.get("layout") == "field-guide":
+        IMG = {"owl": "assets/source/owl.png", "owlFly": "assets/source/owl.png"}
+        h = dict(spec["hero"]); h["statA"] = str(h["statA"]); h["statB"] = str(h["statB"])
+        C = {"layout": "field-guide",
+             "brand": {"series": "TABIJI FIELD GUIDES", "country": spec["country"], "dom": "tabiji.ai",
+                       "stamp3": spec["stamp3"], "vol": ""},
+             "hero": h, "moves": spec["moves"],
+             "inside": {"head": spec["inside"]["head"], "frameworkTitle": spec["inside"]["frameworkTitle"],
+                        "framework": spec["inside"]["framework"], "items": spec["inside"]["items"],
+                        "flags": spec["inside"]["flags"]},
+             "desc": {"headline": spec["desc"]["headline"], "price": spec["desc"]["price"],
+                      "body": spec["desc"]["body"], "badges": spec["desc"]["badges"]}}
+        return wrap(IMG, C)
     IMG = {
         "owl": "assets/source/owl.png", "owlFly": "assets/source/owl.png",
         "beijing2": files["hero"], "shanghai1": files["inside"],
@@ -81,36 +101,30 @@ def data_jsx(spec, files):
         "brand": {"series": "TRAVEL SAFETY SERIES", "country": spec["country"], "dom": "tabiji.ai",
                   "stamp3": spec["stamp3"], "vol": ""},
         "stat": {"scams": str(spec["scams"]), "cities": str(spec["cities"]),
+                 "scamsLabel": spec.get("scamsLabel", "documented scams"), "unit": spec.get("unit", "cities"),
                  "sources": spec.get("sources", []), "sourcesLine": spec["sourcesLine"]},
-        "hero": {"authority": {"kicker": spec["hero"]["kicker"], "head": spec["hero"]["head"],
-                               "sub": spec["hero"]["sub"]}},
+        "hero": {"authority": {"kicker": spec["hero"]["kicker"], "head": spec["hero"]["head"], "sub": spec["hero"]["sub"]}},
         "quadHead": {"A": spec["quadHead"]},
         "quad": [{"n": f"{i+1:02d}", "tag": q["tag"], "city": q["city"], "title": q["title"],
-                  "tl": q["tl"], "loss": q.get("loss", ""), "img": IMG[f"t{i+1}"]}
-                 for i, q in enumerate(spec["quad"])],
-        "inside": {"head": spec["inside"]["head"], "img": IMG["shanghai1"],
-                   "caption": spec["inside"]["caption"], "items": spec["inside"]["items"],
-                   "phrases": spec["inside"]["phrases"]},
-        "desc": {"head": {"A": "Read it on the flight over."}, "price": spec["desc"]["price"],
-                 "body": spec["desc"]["body"], "badges": spec["desc"]["badges"]},
+                  "tl": q["tl"], "loss": q.get("loss", ""), "img": IMG[f"t{i+1}"]} for i, q in enumerate(spec["quad"])],
+        "inside": {"head": spec["inside"]["head"], "img": IMG["shanghai1"], "caption": spec["inside"]["caption"],
+                   "items": spec["inside"]["items"], "phrases": spec["inside"]["phrases"]},
+        "desc": {"price": spec["desc"]["price"], "body": spec["desc"]["body"], "badges": spec["desc"]["badges"]},
     }
-    THEMES = {"A": {**BASE_THEME, **{k: spec["accent"][k] for k in ("terra", "terraDeep", "wash")}}}
-    j = lambda o: json.dumps(o, ensure_ascii=False, indent=2)
-    return (f"/* GENERATED for {spec['country']} by build_all.py — edit the spec, not this file. */\n"
-            f"const IMG = {j(IMG)};\nconst C = {j(C)};\nconst THEMES = {j(THEMES)};\n"
-            f"window.TABIJI = {{ IMG, C, THEMES }};\n")
+    return wrap(IMG, C)
 
 
-def kdp_md(spec):
-    q = spec["quad"]
-    rows = "\n".join(
-        f"| {i+1} | images/03{TILE_NAMES[i]}-{spec['slug']}-tile-300x300.png | {x['tag'].title()} · {x['city'].title()} {x['title']} | {x['tl']} |"
-        for i, x in enumerate(q))
-    items = "\n".join(f"  - {t} — {s2.rstrip('.')}." for t, s2 in spec["inside"]["items"])
-    phr = " · ".join(f"“{p}” ({sc} — {g.rstrip('.')})" for p, sc, g in spec["inside"]["phrases"])
+def _kdp_md_fg(spec):
+    h, ins = spec["hero"], spec["inside"]
+    title = spec.get("folderName", spec["country"].title())
+    moves = "\n".join(f"| {i+1} | images/03{TILE_NAMES[i]}-{spec['slug']}-tile-300x300.png | {m['verb']} | {m['line']} |"
+                      for i, m in enumerate(spec["moves"]))
+    items = "\n".join(f"  - {tt} — {ss.rstrip('.')}." for tt, ss in ins["items"])
+    flags = " · ".join(f"{fl[0]} — {fl[1]}" for fl in ins["flags"])
+    fw = " · ".join(ins["framework"])
     body = "\n\n".join(spec["desc"]["body"])
     badges = " · ".join(spec["desc"]["badges"])
-    return f"""# {spec['country'].title()}: Tourist Scams — Kindle A+ Content · SET A (Field Guide)
+    return f"""# {title} — Kindle A+ Content · Field Guide (comic-less)
 
 In Amazon A+, upload the image for each module and type the heading/body. Images are in images/.
 Clean for A+ review: no price, ratings, or refund/promo wording.
@@ -121,7 +135,55 @@ Clean for A+ review: no price, ratings, or refund/promo wording.
 
 ## ② Standard Image Header With Text
 - Image: images/02-image-header-970x300.png (970×300)
-- Headline: {spec['scams']} documented scams. {spec['cities']} cities.
+- Headline: {h['statA']} {h['statALabel']}. {h['statB']} {h['statBLabel']}.
+- Body: {spec['headerBody']}
+
+## ③ Standard Four Image & Text — the buyer-protection moves
+| # | Image | Heading | Body |
+|---|-------|---------|------|
+{moves}
+
+## ④ Standard Multiple Image Module A
+- Image: images/04-multiple-image-A-FULL-970.png (970×300, full baked) — or the 300×300 framework card
+- Headline: {ins['head']}
+- Body:
+{items}
+
+  Framework ({ins['frameworkTitle']}): {fw}
+  Flags: {flags}
+
+## ⑤ Standard Product Description Text
+- Image: images/05-product-description-970.png (970×300) — or paste the text below
+
+{body}
+
+{badges}
+"""
+
+
+def kdp_md(spec):
+    if spec.get("layout") == "field-guide":
+        return _kdp_md_fg(spec)
+    q = spec["quad"]
+    rows = "\n".join(
+        f"| {i+1} | images/03{TILE_NAMES[i]}-{spec['slug']}-tile-300x300.png | {x['tag'].title()} · {x['city'].title()} {x['title']} | {x['tl']} |"
+        for i, x in enumerate(q))
+    items = "\n".join(f"  - {t} — {s2.rstrip('.')}." for t, s2 in spec["inside"]["items"])
+    phr = " · ".join(f"“{p}” ({sc} — {g.rstrip('.')})" for p, sc, g in spec["inside"]["phrases"])
+    body = "\n\n".join(spec["desc"]["body"])
+    badges = " · ".join(spec["desc"]["badges"])
+    return f"""# {spec.get('folderName', spec['country'].title() + ': Tourist Scams')} — Kindle A+ Content · SET A (Field Guide)
+
+In Amazon A+, upload the image for each module and type the heading/body. Images are in images/.
+Clean for A+ review: no price, ratings, or refund/promo wording.
+
+---
+## ① Standard Company Logo
+- Image: images/01-company-logo-600x180.png (600×180) · no text
+
+## ② Standard Image Header With Text
+- Image: images/02-image-header-970x300.png (970×300)
+- Headline: {spec['scams']} {spec.get('scamsLabel', 'documented scams')}. {spec['cities']} {spec.get('unit', 'cities')}.
 - Body: {spec['headerBody']}
 
 ## ③ Standard Four Image & Text
@@ -154,7 +216,8 @@ def render(slug):
 
 
 def assemble(spec):
-    slug, country = spec["slug"], spec["country"].title()
+    slug = spec["slug"]
+    country = spec.get("folderName", spec["country"].title())  # special books override the folder/title
     dest = DESK / f"{country} A+ Content - Ready to Upload"
     if dest.exists():
         shutil.rmtree(dest)
@@ -197,23 +260,34 @@ def _strings(o):
 def validate(spec):
     """Structural + A+-compliance gate. Returns a list of problems ([] == ok)."""
     p = []
-    for k in ("slug", "country", "scams", "cities", "accent", "stamp3", "sourcesLine",
-              "hero", "headerBody", "quadHead", "quad", "inside", "desc"):
+    fg = spec.get("layout") == "field-guide"
+    for k in ("slug", "country", "accent", "stamp3", "hero", "headerBody", "inside", "desc"):
         if k not in spec:
             p.append(f"missing '{k}'")
     if not all(k in spec.get("accent", {}) for k in ("terra", "terraDeep", "wash")):
         p.append("accent needs terra/terraDeep/wash")
-    if len(spec.get("quad", [])) != 4:
-        p.append("quad must have 4 tiles")
     ins = spec.get("inside", {})
     if len(ins.get("items", [])) != 6:
         p.append("inside.items must have 6")
-    if len(ins.get("phrases", [])) != 3:
-        p.append("inside.phrases must have 3")
     if any(len(it) != 2 for it in ins.get("items", [])):
         p.append("each item must be [title, sub]")
-    if any(len(ph) != 3 for ph in ins.get("phrases", [])):
-        p.append("each phrase must be [phrase, script, gloss]")
+    if fg:
+        if len(spec.get("moves", [])) != 4:
+            p.append("moves must have 4")
+        if len(ins.get("framework", [])) < 3:
+            p.append("inside.framework needs >= 3")
+        if len(ins.get("flags", [])) != 3:
+            p.append("inside.flags must have 3")
+    else:
+        for k in ("scams", "cities", "sourcesLine", "quadHead", "quad"):
+            if k not in spec:
+                p.append(f"missing '{k}'")
+        if len(spec.get("quad", [])) != 4:
+            p.append("quad must have 4 tiles")
+        if len(ins.get("phrases", [])) != 3:
+            p.append("inside.phrases must have 3")
+        if any(len(ph) != 3 for ph in ins.get("phrases", [])):
+            p.append("each phrase must be [phrase, script, gloss]")
     # A+ compliance: scan EVERY string — anything baked into an image must be clean
     blob = " ".join(_strings(spec))
     for k, pat in FORBIDDEN.items():
