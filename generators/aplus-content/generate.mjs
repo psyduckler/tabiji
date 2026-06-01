@@ -8,11 +8,9 @@
      npx playwright install chromium
 
    Run:
-     node generate.mjs                 # exports whatever templates/data.jsx holds
-   Output: ./out/*.png
-
-   Per book: stage that book's art in templates/assets/source/ and edit
-   templates/data.jsx (IMG paths + the C copy object). See README.md.
+     node generate.mjs china           # loads data.china.jsx, stages art → out/china/
+     node generate.mjs <slug>          # any book with a templates/data.<slug>.jsx
+   Output: ./out/<slug>/*.png. See README.md.
    ============================================================ */
 import http from 'http';
 import fs from 'fs';
@@ -34,6 +32,9 @@ if (slug) {
   if (!fs.existsSync(src)) { console.error(`No templates/data.${slug}.jsx found`); process.exit(1); }
   fs.copyFileSync(src, path.join(ROOT, 'data.jsx'));
   await stage(slug);  // fetch this book's comics + owl from the CDN if not already local
+} else if (!fs.existsSync(path.join(ROOT, 'data.jsx'))) {
+  console.error('No book selected. Run:  node generate.mjs <slug>   (e.g. china, japan)');
+  process.exit(1);
 }
 const OUT = path.join(__dirname, 'out', slug || '');
 fs.mkdirSync(OUT, { recursive: true });

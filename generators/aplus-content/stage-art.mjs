@@ -34,8 +34,8 @@ export const ART = {
 };
 
 async function fetchTo(url, dest) {
-  if (fs.existsSync(dest)) return false;
-  const r = await fetch(url, { headers: { 'User-Agent': 'tabiji-aplus' } });
+  if (fs.existsSync(dest) && fs.statSync(dest).size > 0) return false;  // re-fetch 0-byte/partial files
+  const r = await fetch(url, { headers: { 'User-Agent': 'tabiji-aplus' }, signal: AbortSignal.timeout(30000) });
   if (!r.ok) throw new Error(`${r.status} fetching ${url}`);
   fs.writeFileSync(dest, Buffer.from(await r.arrayBuffer()));
   return true;

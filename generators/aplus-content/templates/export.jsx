@@ -141,9 +141,9 @@ const ASSETS = {
   q1:     { w: 300, h: 300, el: <XTile src={C.quad[1].img} alt={C.quad[1].title} /> },
   q2:     { w: 300, h: 300, el: <XTile src={C.quad[2].img} alt={C.quad[2].title} /> },
   q3:     { w: 300, h: 300, el: <XTile src={C.quad[3].img} alt={C.quad[3].title} /> },
-  ma:     { w: 300, h: 300, el: <XTile src={IMG.shanghai1} alt="Nanjing Road tea-house comic" /> },
-  inside: { w: 970, h: 0, el: <XInside /> },
-  desc:   { w: 970, h: 0, el: <XDesc /> },
+  ma:     { w: 300, h: 300, el: <XTile src={IMG.shanghai1} alt="inside scam comic" /> },
+  inside: { w: 970, h: 300, el: <XInside /> },
+  desc:   { w: 970, h: 300, el: <XDesc /> },
 };
 
 function ExportApp() {
