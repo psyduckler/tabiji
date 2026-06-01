@@ -63,39 +63,39 @@ Paste the block below into the description field. KDP supports a narrow HTML
 subset: `<br>`, `<b>`, `<i>`, `<u>`, `<h4>`–`<h6>`, `<p>`, `<ol>`, `<ul>`, `<li>`.
 No links, no images, no tables.
 
-Character count below: **≈ 3,650** — safely under the 4,000 limit.
+Character count below: **3,815 chars** — verified under the 4,000 limit (was 4,055, over).
 
 ```html
-<h4>Austria is one of the safest countries you'll ever visit. That's exactly why its scams work — and this book shows you the exact phrase that ends each one.</h4>
+<h4>Austria is one of the safest countries you'll ever visit. That's exactly why its scams work — and this book gives you the exact phrase that ends each one.</h4>
 
-<p>You have been planning this trip for years. The flights are paid for. Your itinerary is a careful weave of Vienna coffee houses, Salzburg's old town, a Danube cruise through the Wachau, the postcard lake at Hallstatt, the Alps around Innsbruck and Zell am See. You are going to be tired, jet-lagged, and trying to navigate a language you do not speak. That is the moment a scam works.</p>
+<p>You've planned this trip for years. The flights are paid for. Your itinerary weaves together Vienna's coffee houses, Salzburg's old town, a Danube cruise through the Wachau, the postcard lake at Hallstatt, and the Alps around Innsbruck and Zell am See. You'll be tired, jet-lagged, and navigating a language you don't speak. That's the moment a scam works.</p>
 
-<p>Nobody is going to mug you in Salzburg. They will, however, hand you a card terminal pre-set to charge your euros in dollars at a markup, quote you a "fixed" airport fare that quietly doubles, seat you at a lakeview table where the water you didn't order costs nine euros, or sell you a grand-sounding "Mozart concert" that turns out to be three students in a rented room. Vienna alone logs roughly 5,300 pickpocket cases a year, concentrated on the U1 and the 1st-district tourist triangle, and its Federal Criminal Police put apartment-rental fraud at about 30 cases a week. Most of these interactions are quiet, legal-looking, and over in under two minutes. You do not have time to look anything up.</p>
+<p>Nobody is going to mug you in Salzburg. They will, however, hand you a card terminal pre-set to charge your euros in dollars at a markup, quote a "fixed" airport fare that quietly doubles, seat you at a lakeview table where the water you didn't order costs nine euros, or sell you a grand "Mozart concert" that turns out to be three students in a rented room. Vienna alone logs roughly 5,300 pickpocketing cases a year, and its Federal Criminal Police put apartment-rental fraud at about 30 cases a week. Most of these interactions are quiet, legal-looking, and over in under two minutes — you don't have time to look anything up.</p>
 
 <h4>What's inside this book</h4>
 
 <ul>
-<li><b>56 documented scams</b> across Vienna, the Wachau, Linz, Salzburg, Hallstatt, Bad Gastein, Zell am See, Innsbruck, and Graz — with the exact move, said calmly, that ends each one.</li>
+<li><b>56 documented scams</b> across Vienna, the Wachau, Linz, Salzburg, Hallstatt, Bad Gastein, Zell am See, Innsbruck and Graz — each with the exact move, said calmly, that ends it.</li>
 <li><b>6 universal scam patterns</b> so you can spot the dozens of variations still being invented.</li>
-<li><b>A print-ready German phrase card</b> — English, German, and simple phonetic pronunciation, including the one line ("Auf Euro, bitte") that defeats the single most common scam in the country.</li>
+<li><b>A print-ready German phrase card</b> — English, German and simple phonetics, including the one line ("Auf Euro, bitte") that defeats the single most common scam in the country.</li>
 <li><b>A post-scam recovery playbook</b> — who to call in the first hour, which embassy answers in English, which card issuer to reach first, and exactly how to file an Anzeige (crime report).</li>
-<li><b>Emergency contacts verified current for 2026</b> — 112/133 dispatch protocols, embassies in Vienna, English-speaking hospitals in each major city, and police posts at every major station.</li>
+<li><b>Emergency contacts verified current for 2026</b> — 112/133 dispatch, embassies in Vienna, English-speaking hospitals in each major city, and police posts at every major station.</li>
 <li><b>Original full-color illustrations</b> — nine mid-century travel-poster chapter openers plus a comic for every one of the 56 scams.</li>
 </ul>
 
 <h4>Who this book is for</h4>
 
-<p>First-time visitors to Austria. Repeat travelers who have been lucky so far. Solo female travelers who want specific scripts, not vague warnings. Parents traveling with kids. Anyone who has read a generic travel guide and noticed that the safety chapter was two pages of "watch your wallet" and nothing actionable.</p>
+<p>First-time visitors to Austria. Repeat travelers who've been lucky so far. Solo female travelers who want specific scripts, not vague warnings. Parents traveling with kids. Anyone who's read a generic travel guide and noticed the safety chapter was two pages of "watch your wallet" and nothing actionable.</p>
 
 <h4>Why this book is different</h4>
 
-<p>Most travel-safety content is generic. This book is specific. Every scam in this volume was drawn from Austrian press coverage — Der Standard, Die Presse, the Kronen Zeitung, the Kurier, Falter, the Salzburger Nachrichten, the Tiroler Tageszeitung, and the Kleine Zeitung — and cross-referenced against police and Federal Criminal Police warnings, VKI and Arbeiterkammer consumer-protection notices, and firsthand traveler accounts. Where we have named operators, documented case counts, or euro amounts, we cite them.</p>
+<p>Most travel-safety content is generic. This book is specific. Every scam was drawn from Austrian press coverage — Der Standard, Die Presse, the Kronen Zeitung, the Kurier and the Salzburger Nachrichten — and cross-referenced against police and Federal Criminal Police warnings, VKI and Arbeiterkammer consumer-protection notices, and firsthand traveler accounts. Where we name operators, case counts or euro amounts, we cite them.</p>
 
-<p>We do not tell you to "be aware of your surroundings." We tell you what to say when an ATM offers to charge you in dollars, what to do when a lakeview restaurant adds a cover charge and a bottled-water line you never agreed to, and how to tell a licensed taxi from an unlicensed "black taxi" at the station.</p>
+<p>We don't tell you to "be aware of your surroundings." We tell you what to say when an ATM offers to charge you in dollars, what to do when a lakeview restaurant adds a cover charge and a bottled-water line you never agreed to, and how to tell a licensed taxi from an unlicensed "black taxi" at the station.</p>
 
 <h4>About Tabiji</h4>
 
-<p>Tabiji is a travel-safety research organization tracking scams, health risks, and local advisories across more than fifty cities worldwide. Everything is published free at tabiji.ai and updated as new reports come in. This book is Volume 12 of the Tabiji Travel Safety Series; Volume 1 (Japan) is available on Kindle now.</p>
+<p>Tabiji is a travel-safety research organization tracking scams, health risks and local advisories across more than fifty cities worldwide, all published free at tabiji.ai and updated as new reports come in. This is Volume 12 of the Tabiji Travel Safety Series; Volume 1 (Japan) is available on Kindle now.</p>
 
 <p><b>Buy this book before you leave. Screenshot the phrase card onto your phone. Enjoy the Sachertorte.</b></p>
 ```
