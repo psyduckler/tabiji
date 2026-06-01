@@ -28,9 +28,9 @@ img.tabiji.ai, generates `templates/data.<slug>.jsx`, renders all modules via `g
 and assembles `~/Desktop/<Country> A+ Content - Ready to Upload/` (images + JPG fallbacks +
 `KDP-copy.md` + README). A per-book compliance gate skips anything not A+-clean.
 
-`generate.mjs <slug>` is the low-level renderer (Playwright + sharp, 2× supersampled →
-exact size); build_all calls it. China & Japan also ship as hand-authored
-`templates/data.{china,japan}.jsx` and render with `node generate.mjs china|japan`.
+`generate.mjs` is the low-level renderer (Playwright + sharp, 2× supersampled → exact
+size) that build_all calls; it renders whatever `templates/data.jsx` currently holds.
+All 24 books — including China & Japan — are spec-driven.
 
 ## The 5 modules (Set A "Field Guide")
 
@@ -60,8 +60,7 @@ Greece Aegean blue, Turkey Iznik turquoise, …). Comic URLs follow
 `https://img.tabiji.ai/scams/{city}/scam-{n}.webp`. `export.jsx` reads two legacy slot keys
 (`IMG.beijing2` = header hero, `IMG.shanghai1` = inside); build_all maps the spec onto them.
 
-(China & Japan shipped earlier as committed `templates/data.{china,japan}.jsx` — equivalent
-source. The 22 other books here are spec-driven.)
+All 24 country books are spec-driven — there are no hand-authored data modules to keep in sync.
 
 ## Compliance (important)
 
@@ -87,7 +86,6 @@ books/specs/<slug>.json   ★ the spec — source of truth (copy + comic URLs + 
 templates/
   export.html export.jsx  the 5 modules as exact-size export tiles
   data.<slug>.jsx         GENERATED from the spec by build_all.py (gitignored)
-  data.{china,japan}.jsx  hand-authored originals (committed)
   assets/source/*         staged from the CDN on build (gitignored)
 out/<slug>/*.png          rendered assets (gitignored)
 ```
