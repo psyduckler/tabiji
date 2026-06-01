@@ -7,10 +7,11 @@
      npm install
      npx playwright install chromium
 
-   Run:
-     node generate.mjs china           # loads data.china.jsx, stages art → out/china/
-     node generate.mjs <slug>          # any book with a templates/data.<slug>.jsx
-   Output: ./out/<slug>/*.png. See README.md.
+   Run via build_all.py (writes data.jsx per book from books/specs/, then calls this):
+     python3 build_all.py <slug>
+   Or standalone — renders whatever templates/data.jsx holds:
+     node generate.mjs                 # → out/*.png
+   See README.md.
    ============================================================ */
 import http from 'http';
 import fs from 'fs';
@@ -18,25 +19,17 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
-import { stage } from './stage-art.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, 'templates');
 
-// Optional per-book arg: `node generate.mjs <slug>` loads templates/data.<slug>.jsx
-// (e.g. china, japan) into data.jsx and renders to out/<slug>/.
-// No arg → render whatever data.jsx currently holds, to out/.
-const slug = process.argv[2];
-if (slug) {
-  const src = path.join(ROOT, `data.${slug}.jsx`);
-  if (!fs.existsSync(src)) { console.error(`No templates/data.${slug}.jsx found`); process.exit(1); }
-  fs.copyFileSync(src, path.join(ROOT, 'data.jsx'));
-  await stage(slug);  // fetch this book's comics + owl from the CDN if not already local
-} else if (!fs.existsSync(path.join(ROOT, 'data.jsx'))) {
-  console.error('No book selected. Run:  node generate.mjs <slug>   (e.g. china, japan)');
+// Low-level renderer: renders whatever templates/data.jsx holds → out/.
+// build_all.py writes data.jsx per book (from books/specs/<slug>.json) and calls this.
+if (!fs.existsSync(path.join(ROOT, 'data.jsx'))) {
+  console.error('No templates/data.jsx — run `python3 build_all.py <slug>` (it generates it).');
   process.exit(1);
 }
-const OUT = path.join(__dirname, 'out', slug || '');
+const OUT = path.join(__dirname, 'out');
 fs.mkdirSync(OUT, { recursive: true });
 
 const MIME = { '.html': 'text/html', '.jsx': 'text/babel', '.js': 'text/javascript',
