@@ -22,15 +22,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 import tempfile
-import urllib.request
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from generate import upload_r2  # noqa: E402  (boto3 S3 uploader + content-type)
+from generate import download_verify, upload_r2  # noqa: E402  (boto3 S3 helpers)
 
 WEBP_EDGE = 1024   # web variant long edge — matches existing convention
 WEBP_QUALITY = 82
@@ -45,39 +45,36 @@ def _make_webp(jpg_path: Path, webp_path: Path) -> None:
         im.save(webp_path, "WEBP", quality=WEBP_QUALITY, method=6)
 
 
-def _download(url: str, dest: Path) -> bool:
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=60) as r:
-            data = r.read()
-        if len(data) < 10_000 or data[:3] != b"\xff\xd8\xff":
-            return False
-        dest.write_bytes(data)
-        return True
-    except Exception:
-        return False
-
-
 def push(city: str, n: int, jpg: Path | None, webp_only: bool) -> dict:
     out = {"city": city, "n": n, "jpg": None, "webp": None}
-    tmp = Path(tempfile.mkdtemp(prefix="r2push-"))
     jpg_key = f"scams/{city}/scam-{n}.jpg"
     webp_key = f"scams/{city}/scam-{n}.webp"
+    tmp = Path(tempfile.mkdtemp(prefix="r2push-"))
+    try:
+        if webp_only:
+            # Reuse generate.download_verify (same UA + JPEG check + 120KB floor)
+            # rather than a weaker hand-rolled fetch, so a truncated master can't
+            # slip through into a broken webp.
+            src_jpg = tmp / "master.jpg"
+            ok_dl, note = download_verify(f"https://img.tabiji.ai/{jpg_key}", src_jpg)
+            if not ok_dl:
+                return {**out, "error": f"could not fetch existing R2 jpg master: {note}"}
+        else:
+            if not jpg or not jpg.exists():
+                return {**out, "error": "missing --jpg <path>"}
+            src_jpg = jpg
+            out["jpg"] = "ok" if upload_r2(src_jpg, jpg_key, "") else "FAILED"
+            if out["jpg"] == "FAILED":
+                # Never ship a fresh webp paired with a stale jpg master — that
+                # is the exact jpg/webp desync this script exists to prevent.
+                return {**out, "error": "jpg master upload failed — skipped webp to avoid desync"}
 
-    if webp_only:
-        src_jpg = tmp / "master.jpg"
-        if not _download(f"https://img.tabiji.ai/{jpg_key}", src_jpg):
-            return {**out, "error": "could not fetch existing R2 jpg master"}
-    else:
-        if not jpg or not jpg.exists():
-            return {**out, "error": "missing --jpg <path>"}
-        src_jpg = jpg
-        out["jpg"] = "ok" if upload_r2(src_jpg, jpg_key, "") else "FAILED"
-
-    webp_path = tmp / "variant.webp"
-    _make_webp(src_jpg, webp_path)
-    out["webp"] = "ok" if upload_r2(webp_path, webp_key, "") else "FAILED"
-    return out
+        webp_path = tmp / "variant.webp"
+        _make_webp(src_jpg, webp_path)
+        out["webp"] = "ok" if upload_r2(webp_path, webp_key, "") else "FAILED"
+        return out
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 def main() -> None:
