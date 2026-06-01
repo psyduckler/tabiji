@@ -212,7 +212,58 @@ def build_full_prompt(country: str, scene: dict) -> str:
         " Match the style palette, linework, and lettering of the reference image exactly; "
         "the protagonist must be the NEW character described in CHARACTER below."
     )
-    return f"{style}{style_anchor}\n\nCHARACTER: {char}\n\nSCENE:\n{panels_text}"
+    # Hard text-rendering contract. Nano Banana Pro will otherwise letter the
+    # art-direction itself INTO the image — character bios ("SOUTH ASIAN WOMAN,
+    # 34"), scene/location descriptions as caption bands, even style-reference
+    # names ("Jack Kirby") — which was the single biggest book-readiness defect.
+    # The CHARACTER/SCENE blocks below are drawing instructions, NOT copy to set.
+    text_contract = (
+        "\n\nTEXT IN THE IMAGE — STRICT RULES. The CHARACTER and SCENE sections below are "
+        "ART DIRECTION describing what to DRAW; they are NOT text to write into the picture. "
+        "The ONLY text permitted anywhere in the image is: (1) the exact words inside each "
+        "panel's speech balloon, quoted below; (2) at most one short comic sound-effect "
+        "(KAPOW!, NO!) where it fits; (3) brief, naturalistic in-world signage that genuinely "
+        "belongs in the scene. Letter every bit of that text in real, correctly-spelled "
+        "English — never invented, garbled, doubled, or nonsense letters; keep signage short. "
+        "Do NOT draw narration boxes, caption bands, title banners, location labels, or "
+        "character labels. Never write a character's name, age, ethnicity, gender, or physical "
+        "description, the word 'Panel', any panel/scene direction, or any artist or art-style "
+        "reference (e.g. 'Kirby', 'Ditko') as visible text. When in doubt, leave text out. "
+        "MINIMIZE in-image text — it is the most common failure. On receipts, bills, menus, "
+        "phone screens, tickets and background signs, letter ONLY the one or two items the scam "
+        "hinges on (a single price, a short domain) in large clear type, and draw every other "
+        "line as a plain horizontal rule or blank surface — never fine print, never multi-line "
+        "word lists. Every number must be a concrete value, never a placeholder ('X', '$3X.00', "
+        "'HUGE PRICE', '[name]'). Never duplicate or repeat a word, line, or speech balloon, and "
+        "do not add time-transition captions like 'Later' or 'Hours later'. "
+        "Strongly prefer TEXT-FREE props: draw receipts, menus, phone screens, ID badges, "
+        "clothing, and background signs blank or with at most ONE short, large, cleanly-lettered "
+        "key value (a single price or domain) — never list rows, never fine print. If you cannot "
+        "render a word cleanly and correctly, omit it entirely; the scam's details belong in the "
+        "white speech balloons, not on props."
+    )
+    # Intellectual-property contract — keeps real trademarks/characters out of a
+    # commercial print product (the Disney castle + Goofy, Warner Bros, Gucci,
+    # Uber, Airbnb etc. flagged in the audit).
+    ip_contract = (
+        "\n\nINTELLECTUAL PROPERTY (this overrides scene realism). Even when the scam centers on "
+        "a specific real brand, app, character, venue, or landmark, you MUST draw a clearly "
+        "generic, invented stand-in — never the real mark. No copyrighted characters or mascots "
+        "(no Mickey Mouse or other Disney/Universal characters); no real app logos, icons, or "
+        "brand colors (no Cash App, Venmo, Zelle, Uber, Lyft, Facebook/Messenger, Airbnb); no "
+        "real financial marks (no Visa, Mastercard, Bank of America); no trademarked architecture "
+        "or landmarks (no Disney castle, no Hollywood Sign lettering, no Caesars Palace or "
+        "Venetian facade); no third-party reseller brands (no Viator, Ticketmaster, Tripadvisor). "
+        "Use a plain unbranded payment app, a generic bank card, a nondescript castle or hillside, "
+        "an unbranded booking site. Naming a real venue ONCE in plain text is acceptable; drawing "
+        "its logo, mascot, or signature architecture is not."
+    )
+    return (
+        f"{style}{style_anchor}{text_contract}{ip_contract}"
+        f"\n\nCHARACTER (draw this person; do NOT write any of this as text): {char}"
+        f"\n\nSCENE (draw these four panels; the only words to letter are the quoted "
+        f"speech-balloon lines):\n{panels_text}"
+    )
 
 
 def synthesize_prompt(country: str, scam: dict) -> dict:
@@ -229,6 +280,10 @@ def synthesize_prompt(country: str, scam: dict) -> dict:
         "prompt": prompt_text,
         "images": [pilot],
         "aspect_ratio": "1:1",
+        # Force 2K on the /edit pass too. submit_nbp only set "2k" on the
+        # /text-to-image retry, so first-pass /edit renders defaulted to 1024px —
+        # the source of the 83 half-resolution masters the audit found.
+        "resolution": "2k",
         "output_format": "jpeg",
         "_scene": scene,
         "_character": scene["character"],

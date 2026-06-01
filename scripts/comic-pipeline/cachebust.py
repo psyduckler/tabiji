@@ -23,9 +23,11 @@ REPO = Path(__file__).resolve().parents[2]
 
 def bump_one(html: str, city: str, n: int) -> tuple[str, str | None]:
     """Bump (or add) ?v= for one scam img. Returns (new_html, action_taken)."""
-    # Match the src for scam-N.jpg, optionally with ?v=N
+    # Match the src for scam-N.webp or scam-N.jpg, optionally with ?v=N.
+    # US (and most) scam pages reference the .webp web variant in the <img> tag,
+    # so matching .jpg only was a silent no-op on those pages.
     pat = re.compile(
-        rf'(src="https://img\.tabiji\.ai/scams/{re.escape(city)}/scam-{n}\.jpg)(\?v=(\d+))?"'
+        rf'(src="https://img\.tabiji\.ai/scams/{re.escape(city)}/scam-{n}\.(?:webp|jpg))(\?v=(\d+))?"'
     )
     m = pat.search(html)
     if not m:
