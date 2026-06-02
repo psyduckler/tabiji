@@ -14,6 +14,6 @@ References to streets, neighborhoods, attractions, hotels, and business types de
 
 This edition documents **238 scams across 41 US cities**. Information is current as of the **2026 Edition**. For newly reported scams and live updates, scan the QR code on the back cover or visit **[tabiji.ai/scams](https://tabiji.ai/scams)**.
 
-If you are victimized, dial **911** for any emergency (police, ambulance, or fire — free from any phone, with or without an active SIM). For fraud and scam losses, report to the **Federal Trade Commission** at [reportfraud.ftc.gov](https://reportfraud.ftc.gov), to the **FBI's Internet Crime Complaint Center (IC3)** at [ic3.gov](https://www.ic3.gov) for any online or wire-transfer scam, and to the **attorney general** of the state where the scam occurred. Also contact your credit card issuer and your travel insurance provider. Do not rely on this book as your sole source of guidance.
+If you are victimized, dial **911** for any emergency (police, ambulance, or fire — free from any phone, with or without an active SIM). For fraud and scam losses, report to the **Federal Trade Commission** at [reportfraud.ftc.gov](https://reportfraud.ftc.gov), to the **FBI's Internet Crime Complaint Center (IC3)** at [ic3.gov](https://www.ic3.gov) for any online or wire-transfer scam, and to the **attorney general** of the state where the scam occurred. Also contact your credit-card issuer and your travel insurance provider. Do not rely on this book as your sole source of guidance.
 
 Published by Tabiji. First edition.

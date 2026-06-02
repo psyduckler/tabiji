@@ -1,6 +1,6 @@
 # Appendix B: Post-Scam Recovery Playbook {-}
 
-If something in this book has happened to you, this appendix is where you start. The actions below are ordered by urgency, not by severity. Even if you are not sure yet how serious the scam was — a padded restaurant check on a Vegas Strip, a fake "city pass" booth at Fisherman's Wharf, a surprise charge for damage on a rental car you did not cause, a timeshare "survey" in Orlando that turned into a deposit — working through the first hour in order will put you in the best possible position to recover your money, your evidence, and your peace of mind. The single most important rule in the United States is this: **the recovery path is completely different depending on how you paid.** A credit-card charge is highly recoverable. A debit-card charge is recoverable but slower. A Zelle, Venmo, or Cash App transfer you sent yourself is, in most cases, gone the moment it lands. Read the section that matches your payment method first.
+If something in this book has happened to you, this appendix is where you start. The actions below are ordered by urgency, not by severity. Even if you are not sure yet how serious the scam was — a padded restaurant check on the Vegas Strip, a fake "city pass" booth at Fisherman's Wharf, a surprise charge for damage on a rental car you did not cause, a timeshare "survey" in Orlando that turned into a deposit — working through the first hour in order will put you in the best possible position to recover your money, your evidence, and your peace of mind. The single most important rule in the United States is this: **the recovery path is completely different depending on how you paid.** A credit-card charge is highly recoverable. A debit-card charge is recoverable but slower. A Zelle, Venmo, or Cash App transfer you sent yourself is, in most cases, gone the moment it lands. Read the section that matches your payment method first.
 
 ## In the first fifteen minutes
 
@@ -70,7 +70,7 @@ The Federal Trade Commission's official reporting site is **[reportfraud.ftc.gov
 
 ### File with the FBI's IC3 at ic3.gov for online fraud
 
-If any part of the scam happened **online** — a fake booking site, a phishing text, a counterfeit-ticket listing, a "rental" advertised on a marketplace, a payment-app fraud, an email impersonating a hotel or a host — file with the **FBI Internet Crime Complaint Center at [ic3.gov](https://www.ic3.gov)**. IC3 is the FBI's central hub for cyber-enabled crime. For fraud involving a wire or an app transfer, filing at IC3 **quickly** matters: in some cases the FBI's recovery process can help intercept funds that have not yet been withdrawn, and a same-week filing has a far better chance than one weeks later. Include every detail — recipient handles, account numbers, the website URL, email headers, and the exact amounts and timestamps.
+If any part of the scam happened **online** — a fake booking site, a phishing text, a counterfeit-ticket listing, a "rental" advertised on a marketplace, a payment-app fraud, an email impersonating a hotel or a host — file with the **FBI Internet Crime Complaint Center at [ic3.gov](https://www.ic3.gov)**. IC3 is the FBI's central hub for cyber-enabled crime. For fraud involving a wire or an app transfer, filing at IC3 **quickly** matters: in some cases the FBI's recovery process can help intercept funds that have not yet been withdrawn, and a same-week filing has a far better chance than one filed weeks later. Include every detail — recipient handles, account numbers, the website URL, email headers, and the exact amounts and timestamps.
 
 ### Consider your state and local consumer-protection agencies
 
@@ -78,7 +78,7 @@ For a deceptive in-person business — a padded check, a phantom resort fee, a b
 
 ## Freeze your credit if your identity was exposed
 
-If the scam involved more than a single charge — if anyone obtained your **Social Security number, your date of birth, your driver's license, or your full card and billing details** (a fake "hotel registration" form, a phishing site that captured your data, a skimmer, a "rental application")— assume your identity is at risk and **place a credit freeze.** A freeze is free, it does not affect your existing accounts or your credit score, and it stops anyone from opening new credit in your name until you lift it.
+If the scam involved more than a single charge — if anyone obtained your **Social Security number, your date of birth, your driver's license, or your full card and billing details** (a fake "hotel registration" form, a phishing site that captured your data, a skimmer, a "rental application") — assume your identity is at risk and **place a credit freeze.** A freeze is free, it does not affect your existing accounts or your credit score, and it stops anyone from opening new credit in your name until you lift it.
 
 You must freeze your file at **all three** nationwide credit bureaus separately — a freeze at one does not carry to the others:
 
