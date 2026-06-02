@@ -10,13 +10,13 @@ Scam patterns change. A new costumed-character crew works the Times Square pedes
 
 **[tabiji.ai/scams](https://tabiji.ai/scams)**
 
-For the full United States guide on the web, with all two hundred and thirty-eight scams in a searchable format, visit:
+For the full United States guide on the web, with all two hundred thirty-eight scams in a searchable format, visit:
 
 **[tabiji.ai/scams/country/us](https://tabiji.ai/scams/country/us/)**
 
 ## What's next
 
-This is the United States volume of the **Tabiji Travel Safety Series**. Companion volumes cover Japan, Thailand, France, Italy, Canada, Portugal, Vietnam, Greece, Germany, China, Turkey, Spain, Indonesia, Brazil, Argentina, Costa Rica, and Australia, and more high-traffic destinations are in research. Every volume follows the same structure: real scams, real scripts, real recovery steps — nothing generic.
+This is the United States volume of the **Tabiji Travel Safety Series**. Companion volumes cover Japan, Thailand, France, Italy, Canada, Portugal, Vietnam, Greece, Germany, China, Turkey, Spain, Indonesia, Brazil, Argentina, Costa Rica, and Australia. More high-traffic destinations are in research. Every volume follows the same structure: real scams, real scripts, real recovery steps — nothing generic.
 
 To be notified when the next volume launches, visit **[tabiji.ai/books](https://tabiji.ai/books)**.
 
