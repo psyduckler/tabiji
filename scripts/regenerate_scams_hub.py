@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup
 REPO = Path(__file__).resolve().parents[1]
 SCAMS = REPO / "scams"
 HUB = SCAMS / "index.html"
-DEFAULT_OG_IMAGE = "https://img.tabiji.ai/tabiji-owl-logo.png"
+DEFAULT_OG_IMAGE = "https://img.tabiji.ai/brand-hero-og.png"
 NON_CITY_DIRS = {"country", "everywhere", "atlas"}
 
 _H1_RE = re.compile(r"^\d+\s+Tourist Scams in\s+(.+?)$")

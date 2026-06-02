@@ -258,7 +258,7 @@ CARRIER_TEMPLATE = r"""<!DOCTYPE html>
     <meta property="og:description" content="Carrier-specific international travel insurance guide for __NAME__ members.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/health/insurance/__SLUG__/">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta property="og:site_name" content="tabiji.ai">
 
     <script type="application/ld+json">__SCHEMA__</script>

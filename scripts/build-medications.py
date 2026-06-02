@@ -868,7 +868,7 @@ HUB_TEMPLATE = r"""<!DOCTYPE html>
     <meta property="og:description" content="Travel medication restrictions for __COUNTRIES_COUNT__ countries — Adderall, Sudafed, codeine, CBD, and more.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/health/medications/">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta property="og:site_name" content="tabiji.ai">
 
     <script type="application/ld+json">__SCHEMA__</script>
@@ -1210,7 +1210,7 @@ TIER1_TEMPLATE = r"""<!DOCTYPE html>
     <meta property="og:description" content="__META_DESCRIPTION__">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/health/medications/__SLUG__/">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta property="og:site_name" content="tabiji.ai">
 
     <script type="application/ld+json">__SCHEMA__</script>

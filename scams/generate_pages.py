@@ -36,7 +36,7 @@ from _scam_sweep_common import git_first_commit as _git_first_commit
 
 from _nav_util import get_nav_html
 NAV_HTML = get_nav_html()
-DEFAULT_OG_IMAGE = "https://img.tabiji.ai/tabiji-owl-logo.png"
+DEFAULT_OG_IMAGE = "https://img.tabiji.ai/brand-hero-og.png"
 
 
 
@@ -9000,12 +9000,12 @@ def generate_country_page(country, country_code, flag, cities_data, all_scams_co
     <meta property="og:description" content="{total_scams} scams documented across {n_cities} cities in {country}. Real Reddit traveler stories.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/scams/country/{cc_lower}/">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta property="og:site_name" content="tabiji.ai">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Tourist Scams in {country} (2026)">
     <meta name="twitter:description" content="{total_scams} scams across {n_cities} cities. Reddit-sourced.">
-    <meta name="twitter:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta name="twitter:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D7QHNRXLHJ"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','G-D7QHNRXLHJ');</script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
