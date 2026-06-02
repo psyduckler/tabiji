@@ -727,7 +727,7 @@ HUB_TEMPLATE = r"""<!DOCTYPE html>
     <meta property="og:description" content="Emergency numbers, pharmacy language, restricted medications, vaccinations, water safety, and US health-insurance reality-checks for __TOTAL_COUNTRIES__ countries.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/health/">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta property="og:site_name" content="tabiji.ai">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Travel Health, Country by Country — tabiji.ai">

@@ -810,7 +810,7 @@ PAGE_TEMPLATE = r"""<!DOCTYPE html>
     <meta property="og:description" content="__META_DESC__">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://tabiji.ai/health/__SLUG__/">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta property="og:site_name" content="tabiji.ai">
 
     <script type="application/ld+json">__SCHEMA__</script>

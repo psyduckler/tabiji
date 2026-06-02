@@ -882,7 +882,7 @@ def generate_country_page(name, slug, iso2, flag, continent):
     # og:image — use a country-specific destination photo for better social sharing
     _load_destinations()
     hero_photo = _get_country_hero_image(name, slug)
-    og_image = hero_photo or "https://img.tabiji.ai/tabiji-owl-logo.png"
+    og_image = hero_photo or "https://img.tabiji.ai/brand-hero-og.png"
     twitter_card = "summary_large_image" if hero_photo else "summary"
 
     # JSON-LD
@@ -1297,7 +1297,7 @@ def generate_index_page(all_countries_data):
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tabiji.ai/countries/">
     <meta property="og:site_name" content="tabiji.ai">
-    <meta property="og:image" content="https://img.tabiji.ai/tabiji-owl-logo.png">
+    <meta property="og:image" content="https://img.tabiji.ai/brand-hero-og.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Travel Guides by Country | tabiji.ai">
     <meta name="twitter:description" content="{h(meta_desc)}">
